@@ -23,3 +23,15 @@ services:
       - ./backend:/app
       - ./.certs:/nginx/certs/
       - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+      - frontend
+  
+  redis:
+    image: redis:5
+
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      - ./backend/.env
