@@ -1,0 +1,25 @@
+version: "3.1"
+
+services:
+  app:
+    build: ./.docker/php-fpm
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - ./.docker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+
+  frontend:
+    build:
+      dockerfile: ./.docker/frontend/Dockerfile
+      context: .
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+
+  webserver:
+    image: nginx:1.17.2-alpine
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - ./.certs:/nginx/certs/
+      - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf

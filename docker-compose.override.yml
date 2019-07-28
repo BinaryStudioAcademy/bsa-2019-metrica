@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  webserver:
+    ports:
+      - "8000:80"
+      - "8443:443"
+  frontend:
+    volumes:
+      - ./frontend/public:/app
+    command: [ 'hs', '-p', '3000' ]
+  

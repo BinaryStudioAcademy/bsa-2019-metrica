@@ -1,0 +1,16 @@
+{
+  "name": "bsa2019-php-project",
+  "version": "1.0.0",
+  "description": "BSA 2019 | PHP | Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "analytica",
+    "frontend",
+    "vue.js"
+  ],
+  "author": "BinaryStudioAcademy",
+  "license": "MIT"
+}
