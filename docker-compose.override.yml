@@ -14,3 +14,7 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  elasticsearch:
+    ports:
+      - 9200:9200
