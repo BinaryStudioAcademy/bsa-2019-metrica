@@ -14,6 +14,7 @@ services:
       context: .
     working_dir: /app
     volumes:
+      - /app/node_modules
       - ./frontend:/app
 
   webserver:
