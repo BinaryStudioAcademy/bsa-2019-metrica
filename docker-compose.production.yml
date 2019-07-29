@@ -1,0 +1,34 @@
+version: "3.1"
+
+services:
+  webserver:
+    ports:
+      - "80:80"
+      - "443:443"
+  frontend:
+    volumes:
+      - ./frontend/public:/app
+    command: [ 'hs', '-p', '3000' ]
+  redis:
+    volumes:
+      - .persist/.redis:/data
+  db:
+    volumes:
+      - .persist/.postgre:/var/lib/postgresql/data
+
+  elasticsearch:
+    volumes:
+      - .persist/.esdata:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.2.0
+
+volumes:
+  .persist/.esdata:
+    driver: local

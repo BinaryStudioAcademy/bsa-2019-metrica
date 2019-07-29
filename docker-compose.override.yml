@@ -1,0 +1,20 @@
+version: "3.1"
+
+services:
+  webserver:
+    ports:
+      - "8000:80"
+      - "8443:443"
+  frontend:
+    volumes:
+      - ./frontend:/app
+    command: [ 'npm', 'run', 'serve' ]
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  elasticsearch:
+    ports:
+      - 9200:9200

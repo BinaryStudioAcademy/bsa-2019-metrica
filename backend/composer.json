@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "bsa/php2019",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "BSA 2019 | PHP | Project",
     "keywords": [
         "framework",
         "laravel"
