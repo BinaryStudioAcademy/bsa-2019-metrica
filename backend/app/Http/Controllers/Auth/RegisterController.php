@@ -21,11 +21,7 @@ final class RegisterController extends Controller
 
     protected function create(RegisterHttpRequest $request): JsonResponse
     {
-        $request = new RegisterRequest(
-            $request->get('name'),
-            $request->get('email'),
-            $request->get('password')
-        );
+        $request = RegisterRequest::fromHttpRequest($request);
         $response = $this->registerUserAction->execute($request);
         $token = $response->getToken();
 

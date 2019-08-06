@@ -10,7 +10,7 @@ final class RegisterHttpRequest extends FormRequest
 {
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     public function getName(): string

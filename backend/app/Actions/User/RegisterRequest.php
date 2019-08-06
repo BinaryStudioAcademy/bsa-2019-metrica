@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace app\Actions\User;
 
+use App\Http\Requests\RegisterHttpRequest;
+
 final class RegisterRequest
 {
     private $name;
@@ -33,5 +35,14 @@ final class RegisterRequest
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    public static function fromHttpRequest(RegisterHttpRequest $request): RegisterRequest
+    {
+        return new static(
+            $request->get('name'),
+            $request->get('email'),
+            $request->get('password')
+        );
     }
 }
