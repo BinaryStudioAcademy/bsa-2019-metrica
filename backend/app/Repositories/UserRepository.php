@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\User;
-use App\Repositories\Contracts\UserRepository as IUserRepository;
+use App\Repositories\Contracts\UserRepository as EloquentUserRepository;
 
-final class UserRepository implements IUserRepository
+final class UserRepository implements EloquentUserRepository
 {
-    public function create(array $fields): User
+    public function save(User $user): User
     {
-        return User::create($fields);
+        $user->save();
+
+        return $user;
     }
 }

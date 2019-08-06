@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\Actions\User;
 
-use App\Repositories\UserRepository;
+use app\Repositories\Contracts\UserRepository;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterUserAction
@@ -16,7 +16,7 @@ class RegisterUserAction
         $this->userRepository = $userRepository;
     }
 
-    public function execute(RegisterRequest $request): AuthenticationResponse
+    public function execute(RegisterRequest $request): RegisterResponse
     {
         $user = $this->userRepository->create([
             'name' => $request->getName(),
@@ -25,6 +25,6 @@ class RegisterUserAction
         ]);
         $token = JWTAuth::fromUser($user);
 
-        return new AuthenticationResponse($token);
+        return new RegisterResponse($token);
     }
 }

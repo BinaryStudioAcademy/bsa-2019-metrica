@@ -13,6 +13,21 @@ final class RegisterHttpRequest extends FormRequest
         return false;
     }
 
+    public function getName(): string
+    {
+        return $this->get('name');
+    }
+
+    public function getEmail(): string
+    {
+        return $this->get('email');
+    }
+
+    public function getPassword(): string
+    {
+        return $this->get('password');
+    }
+
     public function rules(): array
     {
         return [

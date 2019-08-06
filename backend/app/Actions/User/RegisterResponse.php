@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\Actions\User;
 
-final class AuthenticationResponse
+final class RegisterResponse
 {
     private $token;
 

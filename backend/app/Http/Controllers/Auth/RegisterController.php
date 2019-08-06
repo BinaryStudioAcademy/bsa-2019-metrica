@@ -4,35 +4,32 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use app\Actions\User\RegisterRequest;
+use app\Actions\User\RegisterUserAction;
+use App\Http\Requests\RegisterHttpRequest;
 use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
 final class RegisterController extends Controller
 {
-    use RegistersUsers;
+    private $registerUserAction;
 
-    public function __construct()
+    public function __construct(RegisterUserAction $registerUserAction)
     {
-        $this->middleware('guest');
+        $this->registerUserAction = $registerUserAction;
     }
 
-    protected function validator(array $data)
+    protected function create(RegisterHttpRequest $request): JsonResponse
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-    }
+        $request = new RegisterRequest(
+            $request->get('name'),
+            $request->get('email'),
+            $request->get('password')
+        );
+        $response = $this->registerUserAction->execute($request);
 
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        return response()->json($response->getToken());
     }
 }
