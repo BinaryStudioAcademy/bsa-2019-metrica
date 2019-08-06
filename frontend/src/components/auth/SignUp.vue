@@ -1,96 +1,96 @@
 <template>
-    <v-container
+    <VContainer
             fluid
             fill-height
     >
-        <v-layout
+        <VLayout
                 align-center
                 justify-center
         >
-            <v-flex
+            <VFlex
                     xs12
                     sm8
                     md6
             >
-                <v-card class="elevation-12">
-                    <v-toolbar
+                <VCard class="elevation-12">
+                    <VToolbar
                             dark
                             color="primary"
                     >
-                        <v-toolbar-title>
+                        <VToolbarTitle>
                             Welcome to Metrica!
-                        </v-toolbar-title>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-form
-                                v-model="valid"
-                                ref="form"
+                        </VToolbarTitle>
+                    </VToolbar>
+                    <VCardText>
+                        <VForm
                                 lazy-validation
+                                ref="form"
+                                v-model="valid"
                         >
-                            <v-text-field
+                            <VTextField
                                     prepend-icon="person"
-                                    name="name"
                                     label="Full name"
                                     type="name"
                                     v-model="name"
+                                    name="name"
                                     :rules="nameRules"
-                            ></v-text-field>
-                            <v-text-field
+                            />
+                            <VTextField
                                     prepend-icon="email"
-                                    name="email"
                                     label="Email"
                                     type="email"
                                     v-model="email"
+                                    name="email"
                                     :rules="emailRules"
-                            ></v-text-field>
-                            <v-text-field
+                            />
+                            <VTextField
                                     prepend-icon="lock"
-                                    name="password"
                                     label="Password"
                                     type="password"
-                                    :counter="6"
                                     v-model="password"
+                                    name="password"
+                                    :counter="6"
                                     :rules="passwordRules"
-                            ></v-text-field>
-                            <v-text-field
+                            />
+                            <VTextField
                                     prepend-icon="lock"
-                                    name="confirm-password"
                                     label="Confirm password"
                                     type="password"
-                                    :counter="6"
                                     v-model="confirmPassword"
+                                    name="confirmPassword"
+                                    :counter="6"
                                     :rules="confirmPasswordRules"
-                            ></v-text-field>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
+                            />
+                        </VForm>
+                    </VCardText>
+                    <VCardActions>
+                        <VSpacer/>
+                        <VBtn
+                                large
                                 color="primary"
                                 @click="onSubmit"
                                 :disabled="!valid"
-                                large
                         >
                             SIGN UP
-                        </v-btn>
-                        <v-label large>
+                        </VBtn>
+                        <VLabel large>
                             &nbsp; or &nbsp;
-                        </v-label>
-                        <v-btn
+                        </VLabel>
+                        <VBtn
                                 outlined
+                                large
                                 color="primary"
                                 @click="onSignIn"
                                 :disabled=false
-                                large
                         >
                             SIGN IN
-                        </v-btn>
-                        <v-spacer></v-spacer>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
-        </v-layout>
-    </v-container>
+                        </VBtn>
+                        <VSpacer/>
+                    </VCardActions>
+                </VCard>
+            </VFlex>
+        </VLayout>
+    </VContainer>
 </template>
 
 <script>
