@@ -1,13 +1,32 @@
 <template>
-    <v-container fluid fill-height>
-        <v-layout align-center justify-center>
-            <v-flex xs12 sm8 md6>
+    <v-container
+            fluid
+            fill-height
+    >
+        <v-layout
+                align-center
+                justify-center
+        >
+            <v-flex
+                    xs12
+                    sm8
+                    md6
+            >
                 <v-card class="elevation-12">
-                    <v-toolbar dark color="primary">
-                        <v-toolbar-title>Welcome to Metrica!</v-toolbar-title>
+                    <v-toolbar
+                            dark
+                            color="primary"
+                    >
+                        <v-toolbar-title>
+                            Welcome to Metrica!
+                        </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                        <v-form v-model="valid" ref="form" lazy-validation>
+                        <v-form
+                                v-model="valid"
+                                ref="form"
+                                lazy-validation
+                        >
                             <v-text-field
                                     prepend-icon="person"
                                     name="name"
@@ -51,15 +70,21 @@
                                 @click="onSubmit"
                                 :disabled="!valid"
                                 large
-                        >SIGN UP</v-btn>
-                        <v-label large>&nbsp; or &nbsp;</v-label>
+                        >
+                            SIGN UP
+                        </v-btn>
+                        <v-label large>
+                            &nbsp; or &nbsp;
+                        </v-label>
                         <v-btn
                                 outlined
                                 color="primary"
                                 @click="onSignIn"
                                 :disabled=false
                                 large
-                        >SIGN IN</v-btn>
+                        >
+                            SIGN IN
+                        </v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -105,11 +130,9 @@
                         email: this.email,
                         password: this.password,
                     }
-
                     console.log(user)
                 }
             },
-
             onSignIn () {
 
             },
