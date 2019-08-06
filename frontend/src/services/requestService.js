@@ -49,7 +49,7 @@ const update = (url, data, headers = {}) => {
     });
 };
 
-const delete = (url, params = {}) => {
+const destroy = (url, params = {}) => {
     axios.delete(url, {
         headers: {
             ...authHeader
@@ -62,7 +62,7 @@ const requestService = {
     create,
     get,
     update,
-    delete
+    destroy
 };
 
 export default requestService;
