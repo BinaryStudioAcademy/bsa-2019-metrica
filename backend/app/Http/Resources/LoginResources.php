@@ -13,7 +13,6 @@ class LoginResources extends JsonResource
                 'access_token' => $request->getAccessToken(),
                 'token_type' => $request->getTokenType()
             ],
-            "meta" => []
         ];
     }
 }

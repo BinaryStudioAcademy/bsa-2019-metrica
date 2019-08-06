@@ -9,6 +9,7 @@ use App\Action\Auth\LoginRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Request\Api\Auth\LoginHttpRequest;
 use App\Http\Resources\LoginResources;
+use App\Http\Response\ApiResponse;
 
 final class AuthController extends Controller
 {
@@ -24,7 +25,7 @@ final class AuthController extends Controller
 
         $response = $action->execute($request);
 
-        return response()->json(new LoginResources($response), 200);
+        return ApiResponse::success(new LoginResources($response));
 
     }
 }
