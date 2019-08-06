@@ -16,10 +16,29 @@ final class UpdateUserHttpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer|min:1',
-            'name' => 'string|min:6',
+            'name' => 'string|min:3',
             'email' => 'email',
             'password' => 'string|min:8'
         ];
+    }
+
+    public function id(): int
+    {
+        return (int)$this->route('id');
+    }
+
+    public function name(): ?string
+    {
+        return $this->get('name');
+    }
+
+    public function email(): ?string
+    {
+        return $this->get('email');
+    }
+
+    public function password(): ?string
+    {
+        return $this->get('password');
     }
 }

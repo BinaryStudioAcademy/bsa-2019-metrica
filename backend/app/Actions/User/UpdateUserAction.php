@@ -20,14 +20,14 @@ final class UpdateUserAction
     public function execute(UpdateUserRequest $request): UpdateUserResponse
     {
         try {
-            $user = $this->userRepository->getById($request->id());
+            $user = $this->userRepository->getById($request->getId());
         } catch (ModelNotFoundException $exception) {
             throw new UserNotFoundException();
         }
 
-        $user->email = $request->email() ?: $user->email;
-        $user->name = $request->name() ?: $user->name;
-        $user->password = $request->password() ?: $user->password;
+        $user->email = $request->getEmail($user->email);
+        $user->name = $request->getName($user->name);
+        $user->password = $request->getPassword($user->password);
 
         $user = $this->userRepository->save($user);
 

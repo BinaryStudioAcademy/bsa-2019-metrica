@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\User;
 
+use App\Http\Requests\UpdateUserHttpRequest;
+
 final class UpdateUserRequest
 {
     private $id;
@@ -11,7 +13,7 @@ final class UpdateUserRequest
     private $email;
     private $password;
 
-    public function __construct(
+    private function __construct(
         int $id,
         ?string $name,
         ?string $email,
@@ -23,23 +25,33 @@ final class UpdateUserRequest
         $this->password = $password;
     }
 
-    public function id(): int
+    public static function fromRequest(UpdateUserHttpRequest $request): self
+    {
+        return new static(
+            $request->id(),
+            $request->name(),
+            $request->email(),
+            $request->password()
+        );
+    }
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function name(): ?string
+    public function getName(string $default): ?string
     {
-        return $this->name;
+        return $this->name ?? $default;
     }
 
-    public function email(): ?string
+    public function getEmail(string $default): ?string
     {
-        return $this->email;
+        return $this->email ?? $default;
     }
 
-    public function password(): ?string
+    public function getPassword(string $default): ?string
     {
-        return $this->password;
+        return $this->password ?? $default;
     }
 }

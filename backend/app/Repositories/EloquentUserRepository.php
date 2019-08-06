@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Entities\User;
-use App\Repositories\Contracts\UserRepository as IUserRepository;
+use App\Repositories\Contracts\UserRepository;
 
-final class UserRepository implements IUserRepository
+final class EloquentUserRepository implements UserRepository
 {
     public function getById(int $id): User
     {
