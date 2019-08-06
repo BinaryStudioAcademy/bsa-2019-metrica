@@ -3,16 +3,18 @@
 namespace App\Exceptions;
 
 use App\Contracts\ApiException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
-class ApiValidationException implements ApiException
+class ApiValidationException extends ValidationException implements ApiException
 {
-    private $exception;
+    private $validator;
 
-    public function __construct(ValidationException $exception)
+    public function __construct(Validator $validator, ?Response $response = null, string $errorBag = 'default')
     {
-        $this->exception = $exception;
+        $this->validator = $validator;
+        parent::__construct($validator, $response, $errorBag);
     }
 
     public function getStatus(): int
@@ -24,7 +26,7 @@ class ApiValidationException implements ApiException
     {
         return [
             'error' => [
-                'message' => $this->exception->validator->errors()->first()
+                'message' => $this->validator->errors()->first()
             ]
         ];
     }

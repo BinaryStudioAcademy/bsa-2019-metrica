@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof ValidationException) {
-            return ApiResponse::error(new ApiValidationException($exception));
+            return ApiResponse::error(new ApiValidationException($exception->validator));
         }
 
         return parent::render($request, $exception);
