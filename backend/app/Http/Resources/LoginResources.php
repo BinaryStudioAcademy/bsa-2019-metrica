@@ -11,8 +11,7 @@ class LoginResources extends JsonResource
         return [
             "data" => [
                 'access_token' => $request->getAccessToken(),
-                'token_type' => $request->getTokenType(),
-                'expires_in' => $request->getExpiresIn()
+                'token_type' => $request->getTokenType()
             ],
             "meta" => []
         ];

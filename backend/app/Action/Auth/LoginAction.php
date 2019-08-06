@@ -16,14 +16,9 @@ final class LoginAction
             'password' => $request->getPassword()
         ]);
 
-        if (!$token) {
-            throw new AuthenticationException();
-        }
-
         return new AuthenticationResponse(
             $token,
-            'bearer',
-            auth()->factory()->getTTL() * 60
+            'bearer'
         );
     }
 }
