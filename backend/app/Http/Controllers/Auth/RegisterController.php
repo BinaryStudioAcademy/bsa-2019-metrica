@@ -7,10 +7,8 @@ namespace App\Http\Controllers\Auth;
 use app\Actions\User\RegisterRequest;
 use app\Actions\User\RegisterUserAction;
 use App\Http\Requests\RegisterHttpRequest;
-use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
 
 final class RegisterController extends Controller
 {
@@ -29,7 +27,11 @@ final class RegisterController extends Controller
             $request->get('password')
         );
         $response = $this->registerUserAction->execute($request);
+        $token = $response->getToken();
 
-        return response()->json($response->getToken());
+        return response([
+            "data" => [ "token" => $token ],
+            "meta" => []
+        ]);
     }
 }
