@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    Route::group([
+        'namespace' => 'Api',
+        'middleware' => 'auth:jwt'
+    ], function () {
+        Route::group(['prefix' => 'users'], function () {
+            Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
+        });
+    });
 });
