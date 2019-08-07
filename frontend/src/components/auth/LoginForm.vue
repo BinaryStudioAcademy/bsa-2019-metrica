@@ -93,28 +93,30 @@
     }
 </script>
 
-<style scoped>
-    .login-form-input >>> .v-input__control {
-        min-height: 1px;
-    }
-
-    .login-form-input.v-input--is-focused {
-        border: 1px solid rgba(60, 87, 222, 0.52);
-        box-shadow: 0px 0px 14px rgba(194, 205, 223, 0.6);
-    }
-
+<style lang="scss" scoped>
     .login-form-input {
         height: 37px;
         border: 1px solid rgba(18, 39, 55, 0.11);
         border-radius: 3px;
-    }
 
-    .login-form-input >>> input {
-        min-height: 35px;
-    }
+        ::v-deep {
+            .v-input__control {
+                min-height: 1px;
+            }
 
-    .login-form-input >>> .v-input__prepend-outer {
-        margin-top: 4px;
+            input {
+                min-height: 35px;
+            }
+
+            .v-input__prepend-outer {
+                margin-top: 4px;
+            }
+        }
+
+        &.v-input--is-focused {
+            border: 1px solid rgba(60, 87, 222, 0.52);
+            box-shadow: 0px 0px 14px rgba(194, 205, 223, 0.6);
+        }
     }
 
     .login-form-label {
@@ -132,7 +134,6 @@
         font-weight: bold;
         color: #122737;
         padding: 0;
-
     }
 
     .login-container {
@@ -141,12 +142,14 @@
 
     .login-form-button {
         color: white;
-    }
 
-    .login-form-button >>> span {
-        font-size: 12px;
-        line-height: 15px;
-        padding: 7px 21px 7px 21px;
-        font-weight: bold;
+        ::v-deep {
+            span {
+                font-size: 12px;
+                line-height: 15px;
+                padding: 7px 21px 7px 21px;
+                font-weight: bold;
+            }
+        }
     }
 </style>
