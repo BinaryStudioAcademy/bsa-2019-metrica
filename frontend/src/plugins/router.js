@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Layout from '../pages/Layout.vue';
 import Login from '../pages/Login.vue';
 import LoginGuard from '../components/auth/LoginGuard.vue';
-
+import SignUp from "../pages/SignUp.vue";
 
 Vue.use(Router);
 
@@ -20,11 +20,15 @@ export default new Router({
                     name: 'login',
                     component: Login
                 },
-
                 {
                     path: '',
                     component: LoginGuard,
                     children: []
+                },              
+                {
+                    path: 'signup',
+                    name: 'signup',
+                    component: SignUp
                 }
             ]
         }
