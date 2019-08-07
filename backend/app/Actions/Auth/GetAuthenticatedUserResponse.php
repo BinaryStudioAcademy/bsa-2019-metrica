@@ -15,7 +15,7 @@ final class GetAuthenticatedUserResponse
         $this->user = $user;
     }
 
-    public function getUser(): User
+    public function user(): User
     {
         return $this->user;
     }
