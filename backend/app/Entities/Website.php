@@ -16,4 +16,9 @@ final class Website extends Model
     ];
 
     protected $with = ['tracking_info', 'users'];
+
+    public function getTrackingInfoIdAttribute($value)
+    {
+        return str_pad((string) $value, 8, '0', STR_PAD_LEFT);
+    }
 }

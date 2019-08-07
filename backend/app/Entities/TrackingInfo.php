@@ -8,6 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 final class TrackingInfo extends Model
 {
     protected $table = "tracking_info";
-
-    protected $fillable = ['tracking_id'];
 }

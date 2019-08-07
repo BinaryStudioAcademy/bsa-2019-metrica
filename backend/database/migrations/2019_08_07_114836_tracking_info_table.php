@@ -10,7 +10,6 @@ class TrackingInfoTable extends Migration
     {
         Schema::create('tracking_info', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tracking_id')->unique();
             $table->timestamps();
         });
     }
