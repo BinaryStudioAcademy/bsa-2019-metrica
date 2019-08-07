@@ -1,21 +1,21 @@
 <template>
     <VContainer
-            fluid
-            fill-height
+        fluid
+        fill-height
     >
         <VLayout
-                align-center
-                justify-center
+            align-center
+            justify-center
         >
             <VFlex
-                    xs12
-                    sm8
-                    md6
+                xs12
+                sm8
+                md6
             >
                 <VCard class="elevation-12">
                     <VToolbar
-                            dark
-                            color="primary"
+                        dark
+                        color="primary"
                     >
                         <VToolbarTitle>
                             Welcome to Metrica!
@@ -23,53 +23,53 @@
                     </VToolbar>
                     <VCardText>
                         <VForm
-                                lazy-validation
-                                ref="form"
-                                v-model="valid"
+                            lazy-validation
+                            ref="form"
+                            v-model="valid"
                         >
                             <VTextField
-                                    prepend-icon="person"
-                                    label="Full name"
-                                    type="name"
-                                    v-model="name"
-                                    name="name"
-                                    :rules="nameRules"
+                                prepend-icon="person"
+                                label="Full name"
+                                type="name"
+                                v-model="name"
+                                name="name"
+                                :rules="nameRules"
                             />
                             <VTextField
-                                    prepend-icon="email"
-                                    label="Email"
-                                    type="email"
-                                    v-model="email"
-                                    name="email"
-                                    :rules="emailRules"
+                                prepend-icon="email"
+                                label="Email"
+                                type="email"
+                                v-model="email"
+                                name="email"
+                                :rules="emailRules"
                             />
                             <VTextField
-                                    prepend-icon="lock"
-                                    label="Password"
-                                    type="password"
-                                    v-model="password"
-                                    name="password"
-                                    :counter="6"
-                                    :rules="passwordRules"
+                                prepend-icon="lock"
+                                label="Password"
+                                type="password"
+                                v-model="password"
+                                name="password"
+                                :counter="6"
+                                :rules="passwordRules"
                             />
                             <VTextField
-                                    prepend-icon="lock"
-                                    label="Confirm password"
-                                    type="password"
-                                    v-model="confirmPassword"
-                                    name="confirmPassword"
-                                    :counter="6"
-                                    :rules="confirmPasswordRules"
+                                prepend-icon="lock"
+                                label="Confirm password"
+                                type="password"
+                                v-model="confirmPassword"
+                                name="confirmPassword"
+                                :counter="6"
+                                :rules="confirmPasswordRules"
                             />
                         </VForm>
                     </VCardText>
                     <VCardActions>
                         <VSpacer/>
                         <VBtn
-                                large
-                                color="primary"
-                                @click="onSubmit"
-                                :disabled="!valid"
+                            large
+                            color="primary"
+                            @click="onSubmit"
+                            :disabled="!valid"
                         >
                             SIGN UP
                         </VBtn>
@@ -77,11 +77,11 @@
                             &nbsp; or &nbsp;
                         </VLabel>
                         <VBtn
-                                outlined
-                                large
-                                color="primary"
-                                @click="onSignIn"
-                                :disabled=false
+                            outlined
+                            large
+                            color="primary"
+                            @click="onSignIn"
+                            :disabled=false
                         >
                             SIGN IN
                         </VBtn>
