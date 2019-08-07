@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace app\Repositories\Contracts;
 
-use App\Entity\User;
+use App\Entities\User;
 
 interface UserRepository
 {
+    public function getById(int $id): User;
+
     public function save(User $user): User;
 }
