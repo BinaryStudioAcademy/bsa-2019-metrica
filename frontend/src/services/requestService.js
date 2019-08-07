@@ -1,17 +1,20 @@
-import axiosService from 'axios';
+import axios from 'axios';
 
-const axios = axiosService.create {
-    headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-type': 'application/json',
-        'Accept': 'application/json'
+axios.interceptors.request.use(function (config) {
+
+    config.headers.['X-Requested-With'] = 'XMLHttpRequest';
+    config.headers.['Content-type'] = 'application/json';
+    config.headers.['Accept'] = 'application/json';
+
+    let token = getToken();
+    if (token) {
+        config.headers.['Authorization'] = token;
     }
-};
+    return config;
+});
 
-const token = 'getTokenFromAuthService';
-
-const authHeader = {
-    'Authorization': 'Bearer ' + token
+const getToken = () => {
+    return 'Bearer ' + 'tokenFromSessionStore';
 };
 
 const get = (url, params = {}, headers = {}) => {
