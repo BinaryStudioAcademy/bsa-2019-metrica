@@ -36,7 +36,7 @@
                                         class="login-form-input"
                                         v-model="password"
                                         solo
-                                        type="text"
+                                        type="password"
                                         :rules="passwordRules"
                                         required
                                 >
@@ -79,7 +79,11 @@
                     this.login({
                         email: this.email,
                         password: this.password
-                    });
+                    }).then(res => {
+
+                    }, err => {
+                        console.log(err);
+                    })
                 }
             }
         }
