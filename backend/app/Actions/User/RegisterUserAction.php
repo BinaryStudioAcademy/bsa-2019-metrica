@@ -19,13 +19,11 @@ class RegisterUserAction
 
     public function execute(RegisterRequest $request): RegisterResponse
     {
-        $user = $this->userRepository->save(
-            User::create([
-            'name' => $request->getName(),
-            'email' => $request->getEmail(),
-            'password' => $request->getPassword()
-            ])
-        );
+        $user = new User();
+        $user->name = $request->getName();
+        $user->email = $request->getEmail();
+        $user->password = $request->getPassword();
+        $this->userRepository->save($user);
         $token = JWTAuth::fromUser($user);
 
         return new RegisterResponse($token);
