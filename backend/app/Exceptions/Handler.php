@@ -55,6 +55,10 @@ class Handler extends ExceptionHandler
             return ApiResponse::error(new ApiValidationException($exception->validator));
         }
 
+        if ($exception instanceof UserNotFoundException) {
+            return ApiResponse::error($exception);
+        }
+
         return parent::render($request, $exception);
     }
 }
