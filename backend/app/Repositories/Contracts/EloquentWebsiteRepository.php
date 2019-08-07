@@ -8,4 +8,5 @@ use App\Entities\Website;
 interface EloquentWebsiteRepository
 {
     public function save(Website $website): Website;
+    public function getById(int $id): Website;
 }

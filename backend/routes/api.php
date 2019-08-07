@@ -24,7 +24,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/login', 'Auth\\AuthController@login');
 
         Route::group(['prefix' => 'websites'], function () {
-            Route::post('/add', 'WebsiteController@add');
+            Route::post('/', 'WebsiteController@add');
+            Route::put('/{id}', 'WebsiteController@update');
         });
     });
 });
