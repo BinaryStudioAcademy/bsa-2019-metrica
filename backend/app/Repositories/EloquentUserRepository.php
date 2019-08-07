@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Contracts\UserRepository as IUserRepository;
+use App\Repositories\Contracts\UserRepository;
 use App\Entities\User;
 
-class UserRepository implements IUserRepository
+class EloquentUserRepository implements UserRepository
 {
     public function getByEmail(string $email): ?User
     {

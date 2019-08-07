@@ -21,20 +21,14 @@ class ResetPasswordController extends Controller
 
     public function sendPasswordResetLink(ResetPasswordHttpRequest $request)
     {
-        try {
-            $serviseResponse = $this->sendLinkAction->execute(
-                new ResetPasswordRequest(
-                    $request->get('email')
-                )
-            );
-        } catch (UserByEmailNotFoundException $exception) {
-            return response()->json([
-                "error" => $exception->getMessage()
-            ], 404);
-        }
 
-        return response()->json([
-            "status" => $serviseResponse->getStatus()
-        ], $serviseResponse->getCode());
+        $serviseResponse = $this->sendLinkAction->execute(
+            new ResetPasswordRequest(
+                $request->get('email')
+            )
+        );
+
+
+        return response()->json('', $serviseResponse->getCode());
     }
 }
