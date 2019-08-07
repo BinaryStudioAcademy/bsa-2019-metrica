@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
 use App\Contracts\ApiException;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
-class ApiValidationException extends ValidationException implements ApiException
+final class ApiValidationException extends ValidationException implements ApiException
 {
     private $validator;
 
