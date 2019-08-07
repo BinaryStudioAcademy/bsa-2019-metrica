@@ -6,7 +6,7 @@ export default {
         state.isLoggedIn = true;
     },
     [USER_LOGOUT]: (state) => {
-        state.token = '';
+        state.token = undefined;
         state.currentUser = {
             name: '',
             email: '',
