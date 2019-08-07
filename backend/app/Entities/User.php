@@ -34,6 +34,7 @@ final class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MailResetPasswordNotification($token));

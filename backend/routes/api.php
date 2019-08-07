@@ -29,6 +29,9 @@ Route::prefix('v1')->group(function () {
     });
 });
 
+Route::prefix('v1')->group(function () {
+    Route::group(['prefix' => 'auth', 'namespace' => 'Api\\Auth'], function () {
+        Route::post('/register', 'RegisterController@create');
 
 Route::prefix('v1')->group(function () {
     Route::group([
