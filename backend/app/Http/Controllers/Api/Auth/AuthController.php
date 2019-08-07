@@ -13,6 +13,7 @@ use App\Http\Request\Api\Auth\LoginHttpRequest;
 use App\Http\Requests\RegisterHttpRequest;
 use App\Http\Resources\LoginResources;
 use App\Http\Response\ApiResponse;
+use App\Http\Response\RegistrationResponse;
 use Illuminate\Http\JsonResponse;
 
 final class AuthController extends Controller
@@ -40,9 +41,6 @@ final class AuthController extends Controller
         $response = $this->registerUserAction->execute($request);
         $token = $response->getToken();
 
-        return response([
-            "data" => [ "token" => $token ],
-            "meta" => []
-        ]);
+        return ApiResponse::success(new RegistrationResponse(['token' => $token]));
     }
 }
