@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Action\Auth;
+namespace App\Actions\Auth;
 
 use App\Http\Request\Api\Auth\LoginHttpRequest;
 
