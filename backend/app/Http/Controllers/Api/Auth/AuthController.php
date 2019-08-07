@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Actions\Auth\GetAuthenticatedUserAction;
+use App\Actions\Auth\GetCurrentUserAction;
 use App\Actions\Auth\LoginAction;
 use App\Actions\Auth\LoginRequest;
 use App\Http\Controllers\Controller;
@@ -18,7 +18,7 @@ final class AuthController extends Controller
 {
     private $getAuthenticatedUserAction;
 
-    public function __construct(GetAuthenticatedUserAction $getAuthenticatedUserAction)
+    public function __construct(GetCurrentUserAction $getAuthenticatedUserAction)
     {
         $this->getAuthenticatedUserAction = $getAuthenticatedUserAction;
     }
