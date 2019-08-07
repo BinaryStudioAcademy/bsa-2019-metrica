@@ -17,7 +17,7 @@ final class LoginHttpRequest extends ApiFormRequest
     {
         return [
             $this->getEmail() => 'required|email',
-            $this->getPassword() => 'required|min:6|string',
+            $this->getPassword() => 'required|min:8|string',
         ];
     }
 

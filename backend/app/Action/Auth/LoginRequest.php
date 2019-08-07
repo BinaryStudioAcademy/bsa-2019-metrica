@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Action\Auth;
 
+use App\Http\Request\Api\Auth\LoginHttpRequest;
+
 final class LoginRequest
 {
     private $email;
@@ -15,6 +17,14 @@ final class LoginRequest
     ) {
         $this->email = $email;
         $this->password = $password;
+    }
+
+    public static function fromRequest(LoginHttpRequest $request): self
+    {
+        return new static(
+            $request->getEmail(),
+            $request->getPassword()
+        );
     }
 
     public function getEmail(): string

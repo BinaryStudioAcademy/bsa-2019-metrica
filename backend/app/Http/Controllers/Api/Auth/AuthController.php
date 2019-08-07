@@ -18,13 +18,7 @@ final class AuthController extends Controller
         LoginAction $action
     )
     {
-        $request = new LoginRequest(
-            $httpRequest->email,
-            $httpRequest->password
-        );
-
-        $response = $action->execute($request);
-
+        $response = $action->execute(LoginRequest::fromRequest($httpRequest));
         return ApiResponse::success(new LoginResources($response));
 
     }

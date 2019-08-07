@@ -2,25 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entites;
 
-use Carbon\Carbon;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-/**
- * Class User
- * @package App\Entity
- * @property int $id
- * @property string $name
- * @property string $nickname
- * @property string $email
- * @property string $password
- * @property string|null $profile_image
- * @property Carbon $created_at
- * @property Carbon|null $updated_at
- */
 final class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
