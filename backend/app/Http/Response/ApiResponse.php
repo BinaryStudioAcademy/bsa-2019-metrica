@@ -10,13 +10,18 @@ use Illuminate\Http\JsonResponse;
 
 abstract class ApiResponse extends JsonResponse
 {
-    public static function success(ApiResponseContract $response): self
+    public static function success(ApiResponseContract $response, array $meta = []): self
     {
-        return new static($response->toArray());
+        return new static([
+            'data' => $response->toArray(),
+            'meta' => $meta
+        ]);
     }
 
     public static function error(ApiExceptionContract $exception): self
     {
-        return new static($exception->toArray(), $exception->getStatus());
+        return new static([
+            'error' => $exception->toArray()
+        ], $exception->getStatus());
     }
 }

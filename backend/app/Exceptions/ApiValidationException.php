@@ -27,9 +27,7 @@ final class ApiValidationException extends ValidationException implements ApiExc
     public function toArray(): array
     {
         return [
-            'error' => [
-                'message' => $this->validator->errors()->first()
-            ]
+            'message' => $this->validator->errors()->first()
         ];
     }
 }

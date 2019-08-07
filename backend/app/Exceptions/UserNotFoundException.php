@@ -26,9 +26,7 @@ final class UserNotFoundException extends ModelNotFoundException implements ApiE
     public function toArray(): array
     {
         return [
-            'error' => [
-                'message' => $this->message
-            ]
+            'message' => $this->message
         ];
     }
 }
