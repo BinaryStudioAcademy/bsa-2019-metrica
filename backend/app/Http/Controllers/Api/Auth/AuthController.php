@@ -16,7 +16,7 @@ final class AuthController extends Controller
     public function login(
         AuthenticatedHttpRequest $request,
         AuthenticatedUserAction $action
-    )
+    ): ApiResponse
     {
         try {
             $response = $action->execute(AuthenticatedUserRequest::fromRequest($request));
