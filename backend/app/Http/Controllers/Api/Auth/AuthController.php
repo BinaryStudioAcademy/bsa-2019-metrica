@@ -12,6 +12,7 @@ use App\Http\Request\Api\Auth\LoginHttpRequest;
 use App\Http\Resources\LoginResources;
 use App\Http\Resources\UserResource;
 use App\Http\Response\ApiResponse;
+use App\Http\Response\GetCurrentUserResponse;
 use Illuminate\Http\JsonResponse;
 
 final class AuthController extends Controller
@@ -36,6 +37,10 @@ final class AuthController extends Controller
     public function getCurrentUser(): JsonResponse
     {
         $response = $this->getAuthenticatedUserAction->execute();
-        return response()->json(new UserResource($response->user()));
+        return ApiResponse::success(
+            new GetCurrentUserResponse([
+                new UserResource($response->user())
+            ])
+        );
     }
 }
