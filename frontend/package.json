@@ -12,6 +12,7 @@
     "core-js": "^2.6.5",
     "jwt-decode": "^2.2.0",
     "material-design-icons-iconfont": "^5.0.1",
+    "sass": "^1.22.9",
     "vue": "^2.6.10",
     "vue-router": "^3.1.0",
     "vuetify": "^2.0.4",
@@ -25,10 +26,11 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "sass": "^1.17.4",
-    "sass-loader": "^7.1.0",
     "vue-cli-plugin-vuetify": "^0.6.1",
-    "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.2.2"
+    "vuetify-loader": "^1.2.2",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,

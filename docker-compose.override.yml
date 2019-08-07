@@ -22,3 +22,7 @@ services:
   elasticsearch:
     ports:
       - 9200:9200
+
+  db:
+    env_file:
+      - .env
