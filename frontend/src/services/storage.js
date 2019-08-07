@@ -1,23 +1,18 @@
 const tokenKeyName = 'auth.access_token';
-class Storage
-{
-    constructor(type = 'localStorage')
-    {
+class Storage {
+    constructor(type = 'localStorage') {
         this.store = window[type];
     }
 
-    get(key)
-    {
+    get(key) {
         return this.store.getItem(key);
     }
 
-    set(key, value)
-    {
+    set(key, value) {
         return this.store.setItem(key, value);
     }
 
-    removeItem(key)
-    {
+    removeItem(key) {
         this.store.removeItem(key);
     }
 
@@ -36,17 +31,8 @@ class Storage
     removeToken() {
         return this.removeItem(tokenKeyName);
     }
-
-    static getLocalStorage() {
-        return new Storage();
-    }
-
-    static getSessionStorage() {
-        return new Storage('sessionStorage');
-    }
-
 }
-export const SessionStorage = Storage.getSessionStorage();
-export const LocalStorage = Storage.getLocalStorage();
+export const sessionStorage = new Storage('sessionStorage');
+export const localStorage = new Storage();
 
 export default new Storage();
