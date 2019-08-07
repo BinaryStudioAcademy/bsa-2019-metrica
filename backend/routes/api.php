@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,8 +12,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::prefix('v1')->group(function () {
-    Route::group(['middleware' => 'auth:api'], function() {
-        Route::post('/v1/login', 'Api\\Auth\\AuthController@login');
+    Route::group([
+        'namespace' => 'Api',
+        'middleware' => 'auth:jwt'
+    ], function () {
+        Route::group(['prefix' => 'users'], function () {
+            Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
+        });
+        Route::post('/login', 'Auth\\AuthController@login');
     });
 });
