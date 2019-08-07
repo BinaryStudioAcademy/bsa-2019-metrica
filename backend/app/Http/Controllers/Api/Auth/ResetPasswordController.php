@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\Auth;
 
 
 use App\Http\Requests\ResetPasswordHttpRequest;
 use App\Http\Controllers\Controller;
-use App\Action\Auth\SendResetPasswordLinkAction;
-use App\Action\Auth\ResetPasswordRequest;
-use App\Exceptions\UserByEmailNotFoundException;
+use App\Actions\Auth\SendResetPasswordLinkAction;
+use App\Actions\Auth\ResetPasswordRequest;
 
-class ResetPasswordController extends Controller
+final class ResetPasswordController extends Controller
 {
     private $sendLinkAction;
 
@@ -22,13 +23,13 @@ class ResetPasswordController extends Controller
     public function sendPasswordResetLink(ResetPasswordHttpRequest $request)
     {
 
-        $serviseResponse = $this->sendLinkAction->execute(
+        $serviceResponse = $this->sendLinkAction->execute(
             new ResetPasswordRequest(
                 $request->get('email')
             )
         );
 
 
-        return response()->json('', $serviseResponse->getCode());
+        return response()->json('', $serviceResponse->getCode());
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Action\Auth;
+namespace App\Actions\Auth;
 use App\Exceptions\UserByEmailNotFoundException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -14,7 +14,7 @@ final class SendResetPasswordLinkAction
     private $userRepository;
 
     private const FAIL_CODE = 500;
-    private const SUSSESS_CODE = 201;
+    private const SUCCESS_CODE = 201;
 
     public function __construct(UserRepository $userRepository)
     {
@@ -40,6 +40,6 @@ final class SendResetPasswordLinkAction
 
         $user->sendPasswordResetNotification($token);
 
-        return new ResetPasswordResponse(self::SUSSESS_CODE);
+        return new ResetPasswordResponse(self::SUCCESS_CODE);
     }
 }
