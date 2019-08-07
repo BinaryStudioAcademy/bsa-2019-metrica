@@ -134,7 +134,7 @@
                 }
             },
             onSignIn () {
-
+                this.$router.push({path: '/login'});
             },
         }
     }
