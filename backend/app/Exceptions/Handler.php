@@ -59,6 +59,12 @@ class Handler extends ExceptionHandler
             ], 404);
         }
 
+        if ($exception instanceof UserByEmailNotFoundException) {
+            return response()->json([
+                "error" => $exception->getMessage()
+            ], 404);
+        }
+
         return parent::render($request, $exception);
     }
 }
