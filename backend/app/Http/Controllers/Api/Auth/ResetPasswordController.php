@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Requests\ResetPasswordHttpRequest;
 use App\Http\Controllers\Controller;
-use App\Action\Auth\SendResetPasswordLinkAction;
-use App\Action\Auth\ResetPasswordRequest;
-use App\Exceptions\UserByEmailNotFoundException;
+use App\Actions\Auth\SendResetPasswordLinkAction;
+use App\Actions\Auth\ResetPasswordRequest;
 
 class ResetPasswordController extends Controller
 {
