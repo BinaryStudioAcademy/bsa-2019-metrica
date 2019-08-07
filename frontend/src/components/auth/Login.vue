@@ -1,61 +1,64 @@
 <template>
     <v-content>
-                <v-flex
-                       lg6
-                       md6
-                       sm12
-                       xs12
-                >
-                    <v-container>
-                        <v-card-text class="login-container">
-                            <v-subheader
-                                    class="login-form-header"
-                            >Welcome to Metrica!</v-subheader>
-                            <v-form
-                                    ref="form"
-                            >
-                                <v-subheader
-                                        class="login-form-label"
-                                >Email</v-subheader>
-                                <v-text-field
-                                        name="email"
-                                        class="login-form-input"
-                                        v-model="email"
-                                        solo
-                                        type="text"
-                                        :rules="emailRules"
-                                        required
-                                >
-                                </v-text-field>
+        <v-flex
+            lg6
+            md6
+            sm12
+            xs12
+        >
+            <v-container>
+                <v-card-text
+                    class="login-container">
+                    <v-subheader
+                        class="login-form-header"
+                    >Welcome to Metrica!
+                    </v-subheader>
+                    <v-form
+                        ref="form"
+                    >
+                        <v-subheader
+                            class="login-form-label"
+                        >Email
+                        </v-subheader>
+                        <v-text-field
+                            name="email"
+                            class="login-form-input"
+                            v-model="email"
+                            solo
+                            type="text"
+                            :rules="emailRules"
+                            required
+                        />
 
-                                <v-subheader
-                                        class="login-form-label"
-                                >Password</v-subheader>
-                                <v-text-field
-                                        name="password"
-                                        class="login-form-input"
-                                        v-model="password"
-                                        solo
-                                        type="password"
-                                        :rules="passwordRules"
-                                        required
-                                >
-                                </v-text-field>
-                            </v-form>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-btn @click="onLogin" class="login-form-button mt-3" color="#3C57DE">Login</v-btn>
-                        </v-card-actions>
-                    </v-container>
-                </v-flex>
+                        <v-subheader
+                            class="login-form-label"
+                        >Password
+                        </v-subheader>
+                        <v-text-field
+                            name="password"
+                            class="login-form-input"
+                            v-model="password"
+                            solo
+                            type="password"
+                            :rules="passwordRules"
+                            required
+                        />
+                    </v-form>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn @click="onLogin" class="login-form-button mt-3" color="#3C57DE">Login</v-btn>
+                </v-card-actions>
+            </v-container>
+        </v-flex>
     </v-content>
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import {mapActions} from 'vuex';
+    import {LOGIN} from "../../store/modules/auth/types/actions";
 
     export default {
-        data () {
+        data() {
             return {
                 email: '',
                 password: '',
@@ -71,10 +74,10 @@
             }
         },
         methods: {
-            ...mapActions({
-                login: 'auth/login'
+            ...mapActions('auth', {
+                login: LOGIN
             }),
-            onLogin () {
+            onLogin() {
                 if (this.$refs.form.validate()) {
                     this.login({
                         email: this.email,
@@ -100,7 +103,7 @@
         box-shadow: 0px 0px 14px rgba(194, 205, 223, 0.6);
     }
 
-    .login-form-input{
+    .login-form-input {
         height: 37px;
         border: 1px solid rgba(18, 39, 55, 0.11);
         border-radius: 3px;

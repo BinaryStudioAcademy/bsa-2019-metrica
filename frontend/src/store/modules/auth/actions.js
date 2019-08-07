@@ -1,5 +1,8 @@
+import {LOGIN, LOGOUT} from './types/actions';
+import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
+
 export default {
-    login: (context, user) => {
+    [LOGIN]: (context, user) => {
         return new Promise((resolve, reject) => {
             const fakeUser = {
                 email: 'test@gmail.com',
@@ -10,8 +13,8 @@ export default {
             };
 
             if(fakeUser.email === user.email && fakeUser.password === user.password) {
-                context.commit('USER_LOGIN', fakeUser);
-                context.commit('SET_AUTHENTICATED_USER', fakeUser);
+                context.commit(USER_LOGIN, fakeUser);
+                context.commit(SET_AUTHENTICATED_USER, fakeUser);
                 resolve(fakeUser);
             }
 
@@ -21,9 +24,9 @@ export default {
         });
     },
 
-    logout: (context) => {
+    [LOGOUT]: (context) => {
         return new Promise((resolve, reject) => {
-            context.commit('USER_LOGOUT');
+            context.commit(USER_LOGOUT);
             resolve();
         });
     },
