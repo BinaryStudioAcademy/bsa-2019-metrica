@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Action\Auth;
 
-use App\Entites\User;
+use App\Entities\User;
 
 final class GetAuthenticatedUserResponse
 {
