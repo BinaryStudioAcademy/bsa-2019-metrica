@@ -80,9 +80,9 @@
                         email: this.email,
                         password: this.password
                     }).then(res => {
-
+                        this.$router.push({path: '/'});
                     }, err => {
-                        console.log(err);
+                        alert(err.message);
                     })
                 }
             }
