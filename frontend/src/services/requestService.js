@@ -1,18 +1,12 @@
-import axios from 'axios';
+import axiosService from 'axios';
 
-axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest',
-    'Content-type': 'application/json',
-    'Accept': 'application/json'
-}
-
-const csrfToken = document.head.querySelector('meta[name="csrf-token"]');
-
-if (csrfToken) {
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+const axios = axiosService.create {
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
+    }
+};
 
 const token = 'getTokenFromAuthService';
 
@@ -41,7 +35,7 @@ const create = (url, data, headers = {}) => {
 
 const update = (url, data, headers = {}) => {
     axios.put(url, {
-    	data: data,
+        data: data,
         headers: {
             ...headers,
             ...authHeader
