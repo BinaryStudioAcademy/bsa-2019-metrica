@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '../pages/Layout.vue';
 import Login from '../pages/Login.vue'
-import SignUpForm from "../components/auth/SignUpForm";
+import LoginGuard from '../components/auth/LoginGuard.vue';
+import SignUpForm from "../components/auth/SignUpForm.vue";
 
 Vue.use(Router);
 
