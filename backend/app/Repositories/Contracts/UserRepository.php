@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\Repositories\Contracts;
 
-use App\User;
+use App\Entity\User;
 
 interface UserRepository
 {
