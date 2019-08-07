@@ -5,5 +5,5 @@ export default {
         id: null
     },
     isLoggedIn: false,
-    token: ''
+    token: undefined
 };
