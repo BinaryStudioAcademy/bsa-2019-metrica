@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '../pages/Layout.vue';
-import Login from '../pages/Login.vue'
-import guards from './guards';
-import store from '../store';
+import Login from '../pages/Login.vue';
+import LoginGuard from '../components/auth/LoginGuard.vue';
+
 
 Vue.use(Router);
 
@@ -19,15 +19,18 @@ export default new Router({
             path: '',
             component: Layout,
             children: [
-                ...guard(guards.guest(store))([
-                    {
-                        path: 'login',
-                        name: 'login',
-                        component: Login
-                    }
-                ]),
+                {
+                    path: 'login',
+                    name: 'login',
+                    component: Login
+                },
 
-                ...guard(guards.auth(store))([])
+                {
+                    path: "*",
+                    name: "guard",
+                    component: LoginGuard,
+                    children: []
+                }
             ]
         }
     ]
