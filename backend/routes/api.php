@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +22,15 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
         });
         Route::post('/login', 'Auth\\AuthController@login');
+    });
+});
+
+
+Route::prefix('v1')->group(function () {
+    Route::group([
+        'middleware' => 'guest',
+        'namespace' => 'Api\\Auth'
+    ], function () {
+        Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
     });
 });
