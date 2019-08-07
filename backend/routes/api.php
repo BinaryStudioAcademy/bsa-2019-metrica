@@ -15,27 +15,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::group([
+        'prefix' => 'auth',
+        'namespace' => 'Api\\Auth'
+    ], function () {
+        Route::post('/register', 'RegisterController@create');
+        Route::post('/login', 'AuthController@login');
+        Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
+    });
+
+    Route::group([
         'namespace' => 'Api',
         'middleware' => 'auth:jwt'
     ], function () {
-        Route::group(['prefix' => 'users'], function () {
+        Route::group([
+            'prefix' => 'users'
+        ], function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
-        });
-        Route::post('/login', 'Auth\\AuthController@login');
-    });
-});
-
-Route::prefix('v1')->group(function () {
-    Route::group(['prefix' => 'auth', 'namespace' => 'Api\\Auth'], function () {
-        Route::post('/register', 'RegisterController@create');
-
-        Route::prefix('v1')->group(function () {
-            Route::group([
-                'middleware' => 'guest',
-                'namespace' => 'Api\\Auth'
-            ], function () {
-                Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
-            });
         });
     });
 });
