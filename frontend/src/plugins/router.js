@@ -7,10 +7,6 @@ import LoginGuard from '../components/auth/LoginGuard.vue';
 
 Vue.use(Router);
 
-const guard = handler => (
-    routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
-);
-
 export default new Router({
     mode: 'history',
     base: '/',
@@ -26,8 +22,7 @@ export default new Router({
                 },
 
                 {
-                    path: "*",
-                    name: "guard",
+                    path: '',
                     component: LoginGuard,
                     children: []
                 }
