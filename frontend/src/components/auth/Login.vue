@@ -1,26 +1,26 @@
 <template>
-    <v-content>
-        <v-flex
+    <VContent>
+        <VFlex
             lg6
             md6
             sm12
             xs12
         >
-            <v-container>
-                <v-card-text
+            <VContainer>
+                <VCardText
                     class="login-container">
-                    <v-subheader
+                    <VSubheader
                         class="login-form-header"
                     >Welcome to Metrica!
-                    </v-subheader>
-                    <v-form
+                    </VSubheader>
+                    <VForm
                         ref="form"
                     >
-                        <v-subheader
+                        <VSubheader
                             class="login-form-label"
                         >Email
-                        </v-subheader>
-                        <v-text-field
+                        </VSubheader>
+                        <VTextField
                             name="email"
                             class="login-form-input"
                             v-model="email"
@@ -30,11 +30,11 @@
                             required
                         />
 
-                        <v-subheader
+                        <VSubheader
                             class="login-form-label"
                         >Password
-                        </v-subheader>
-                        <v-text-field
+                        </VSubheader>
+                        <VTextField
                             name="password"
                             class="login-form-input"
                             v-model="password"
@@ -43,19 +43,19 @@
                             :rules="passwordRules"
                             required
                         />
-                    </v-form>
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn @click="onLogin" class="login-form-button mt-3" color="#3C57DE">Login</v-btn>
-                </v-card-actions>
-            </v-container>
-        </v-flex>
-    </v-content>
+                    </VForm>
+                </VCardText>
+                <VCardActions>
+                    <VBtn @click="onLogin" class="login-form-button mt-3" color="#3C57DE">Login</VBtn>
+                </VCardActions>
+            </VContainer>
+        </VFlex>
+    </VContent>
 </template>
 
 <script>
     import {mapActions} from 'vuex';
-    import {LOGIN} from "../../store/modules/auth/types/actions";
+    import {LOGIN} from "@/store/modules/auth/types/actions";
 
     export default {
         data() {

@@ -7,7 +7,8 @@
 
 <script>
     import {mapActions, mapGetters} from "vuex";
-    import {GET_AUTHENTICATED_USER, IS_LOGGED_IN} from "../../../store/modules/auth/types/getters";
+    import {GET_AUTHENTICATED_USER, IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
+    import {LOGOUT} from "@/store/modules/auth/types/actions";
 
     export default {
         computed: {
@@ -17,7 +18,9 @@
             })
         },
         methods: {
-            ...mapActions('auth', ['logout'])
+            ...mapActions('auth', {
+                logout: LOGOUT
+            })
         }
     }
 </script>
