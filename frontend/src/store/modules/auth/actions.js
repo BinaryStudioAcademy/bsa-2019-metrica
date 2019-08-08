@@ -1,5 +1,5 @@
-import {LOGIN, LOGOUT} from './types/actions';
-import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
+import {LOGIN, LOGOUT, UPDATE} from './types/actions';
+import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT, USER_UPDATE} from "./types/mutations";
 
 export default {
     [LOGIN]: (context, user) => {
@@ -29,5 +29,17 @@ export default {
             context.commit(USER_LOGOUT);
             resolve();
         });
+    },
+
+    [UPDATE]: (context, data) => {
+        return new Promise((resolve, reject) => {
+            try {
+                context.commit(USER_UPDATE, data);
+                resolve();
+            }catch(error) {
+                reject(error);
+            }
+        });
+
     },
 }
