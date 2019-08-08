@@ -12,7 +12,7 @@ export default {
                 id: 1
             };
 
-            if(fakeUser.email === user.email && fakeUser.password === user.password) {
+            if (fakeUser.email === user.email && fakeUser.password === user.password) {
                 context.commit(USER_LOGIN, fakeUser);
                 context.commit(SET_AUTHENTICATED_USER, fakeUser);
                 resolve(fakeUser);
@@ -30,6 +30,20 @@ export default {
             resolve();
         });
     },
-    [RESET_PASSWORD]:(context,email)=>{
+
+    [RESET_PASSWORD]: (context, email) => {
+        return new Promise((resolve, reject) => {
+            const fakeResponse = 201;
+            switch (fakeResponse) {
+                case 201:
+                    resolve("Your reset password link was created. Check your email, please.");
+                    break;
+                case 500:
+                    reject("Sorry, something wrong happened. Please, try again.");
+                    break;
+                default:
+                    reject("User with this email does not exist. Please, check if the password is correct.");
+            }
+        })
     }
 }

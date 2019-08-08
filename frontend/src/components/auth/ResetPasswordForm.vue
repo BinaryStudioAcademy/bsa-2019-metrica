@@ -31,6 +31,12 @@
                         Send Password Reset Link
                     </VBtn>
                 </VCardActions>
+                <v-alert class="status-success" v-if="status==='success'" type="success">
+                    {{message}}
+                </v-alert>
+                <v-alert class="status-error" v-else-if="status==='error'" type="error">
+                    {{message}}
+                </v-alert>
             </VContainer>
         </VFlex>
     </VContent>
@@ -50,6 +56,8 @@
                     v => !!v || 'E-mail is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
                 ],
+                status: '',
+                message: ''
             }
         },
         methods: {
@@ -61,9 +69,11 @@
                     this.resetPassword({
                         email: this.email,
                     }).then(response => {
-                        alert(response.status)
+                        this.status = 'success';
+                        this.message = response;
                     }, err => {
-                        alert(err.message);
+                        this.status = 'error';
+                        this.message = err;
                     })
                 }
             }
@@ -80,7 +90,6 @@
         align-items: center;
         letter-spacing: 0.4px;
         font-weight: bold;
-
         color: #122737;
     }
 
@@ -92,7 +101,6 @@
         display: flex;
         align-items: center;
         letter-spacing: 0.4px;
-
         color: rgba(18, 39, 55, 0.5);
     }
 
@@ -111,6 +119,7 @@
 
             input {
                 min-height: 36px;
+                -webkit-box-shadow: inset 0 0 0 9999px white!important;
             }
         }
 
@@ -139,30 +148,6 @@
                 color: #FFFFFF;
             }
         }
-
-        /*background: #3C57DE!important;*/
-        /*border: 1px solid rgba(18, 39, 55, 0.11);*/
-        /*box-sizing: border-box;*/
-        /*border-radius: 3px;*/
-        /*:v-deep {*/
-        /*    span {*/
-        /*        color:#ffffff;*/
-        /*        font-size: 12px;*/
-        /*        line-height: 15px;*/
-        /*        padding: 7px 21px 7px 21px;*/
-        /*        font-weight: bold;*/
-        /*    }*/
-        /*}*/
-        /*span.v-btn__content {*/
-        /*    font-size: 12px;*/
-        /*    line-height: 15px;*/
-        /*    display: flex;*/
-        /*    align-items: center;*/
-        /*    text-align: center;*/
-        /*    letter-spacing: 0.4px;*/
-        /*    text-transform: uppercase;*/
-        /*    color: #FFFFFF!important;*/
-        /*}*/
     }
 
     .v-subheader {
@@ -172,5 +157,11 @@
     .v-card__actions {
         box-sizing: border-box;
         padding: 8px 16px;
+    }
+
+    .status-success, .status-error {
+        padding: 8px;
+        margin: 8px 0 0 12px;
+        max-width: 550px;
     }
 </style>
