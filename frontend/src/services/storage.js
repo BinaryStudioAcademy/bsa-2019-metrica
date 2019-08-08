@@ -32,18 +32,20 @@ class Storage {
         return this.removeItem(tokenKeyName);
     }
 }
-export const sessionStorage = new Storage('sessionStorage');
-export const localStorage = new Storage();
 
-isLocalStorageAccessible = () => try { 
-    localStorage.setItem('test-local-storage', 1); 
-    localStorage.removeItem('test-local-storage'); 
-    return true; 
-} catch(e) { return false; }
+let storage = new Storage();
+const isLocalStorageAccessible = () => {
+    try {
+        storage.setItem('test-local-storage', 1);
+        storage.removeItem('test-local-storage');
+        return true;
+    } catch(e) { return false; }
+};
 
-let storage = localStorage;
+
+
 if (!isLocalStorageAccessible()){
-    storage = sessionStorage;
+    storage = new Storage('sessionStorage');
 }
 
 export default storage;
