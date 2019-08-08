@@ -68,7 +68,7 @@
                         <VBtn
                             large
                             color="primary"
-                            @click="onSubmit"
+                            @click="onSignUp"
                             :disabled="!valid"
                         >
                             SIGN UP
@@ -123,7 +123,7 @@
             }
         },
         methods: {
-            onSubmit () {
+            onSignUp () {
                 if (this.$refs.form.validate()) {
                     let user = {
                         name: this.name,
