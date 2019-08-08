@@ -32,5 +32,11 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
         });
+
+        Route::group([
+            'prefix' => 'visitors'
+        ], function () {
+            Route::get('/', 'VisitorController@getAllVisitors');
+        });
     });
 });
