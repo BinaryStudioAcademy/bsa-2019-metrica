@@ -3,7 +3,7 @@
     <v-app-bar class="elevation-0 " clipped-left app>
         <v-layout flex align-center class="pl-4 pr-10">
         <v-icon class="mr-2 hidden-lg-and-up" @click="drawer = !drawer">menu</v-icon>
-        <v-toolbar-title><span class="logo pr-2">M</span>Metrica</v-toolbar-title>
+        <v-toolbar-title><span class="logo pr-3">M</span>Metrica</v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-badge class="message-indicator" right overlap>
@@ -154,6 +154,7 @@ export default {
     .icon {
         fill: rgba(0, 0, 0, 0.5);
     }
+
     .v-list-item__icon
     {
         fill: rgba(18, 39, 55, 0.5);
@@ -166,7 +167,7 @@ export default {
 
     svg path {
         fill: inherit;
-        /* fill-opacity: inherit; */
+        fill-opacity: inherit;
     }
 
     .v-list-item--active .v-list-item__title
