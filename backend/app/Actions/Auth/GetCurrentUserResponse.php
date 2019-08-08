@@ -6,7 +6,7 @@ namespace App\Actions\Auth;
 
 use App\Entities\User;
 
-final class GetAuthenticatedUserResponse
+final class GetCurrentUserResponse
 {
     private $user;
 
@@ -15,7 +15,7 @@ final class GetAuthenticatedUserResponse
         $this->user = $user;
     }
 
-    public function getUser(): User
+    public function user(): User
     {
         return $this->user;
     }
