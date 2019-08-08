@@ -9,10 +9,8 @@ class LoginResources extends JsonResource
     public function toArray($request)
     {
         return [
-            "data" => [
-                'access_token' => $request->getAccessToken(),
-                'token_type' => $request->getTokenType()
-            ],
+            'access_token' => $request->getAccessToken(),
+            'token_type' => $request->getTokenType()
         ];
     }
 }
