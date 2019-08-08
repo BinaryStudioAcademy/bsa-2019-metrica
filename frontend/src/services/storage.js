@@ -35,4 +35,15 @@ class Storage {
 export const sessionStorage = new Storage('sessionStorage');
 export const localStorage = new Storage();
 
-export default new Storage();
+isLocalStorageAccessible = () => try { 
+    localStorage.setItem('test-local-storage', 1); 
+    localStorage.removeItem('test-local-storage'); 
+    return true; 
+} catch(e) { return false; }
+
+let storage = localStorage;
+if (!isLocalStorageAccessible()){
+    storage = sessionStorage;
+}
+
+export default storage;
