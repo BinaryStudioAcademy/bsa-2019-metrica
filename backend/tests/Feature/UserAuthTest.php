@@ -8,11 +8,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserAuthTest extends TestCase
 {
+    use RefreshDatabase;
     protected function setUp(): void
     {
         parent::setUp();
-        User::where('email','test@gmail.com')->delete();
-        User::create([
+        factory(User::class)->create([
             'name' => 'test',
             'email'=>'test@gmail.com',
             'password' => bcrypt('secret1234')
