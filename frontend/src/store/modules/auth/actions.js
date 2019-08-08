@@ -1,4 +1,4 @@
-import {LOGIN, LOGOUT} from './types/actions';
+import {LOGIN, LOGOUT, RESET_PASSWORD} from './types/actions';
 import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
 
 export default {
@@ -30,4 +30,6 @@ export default {
             resolve();
         });
     },
+    [RESET_PASSWORD]:(context,email)=>{
+    }
 }
