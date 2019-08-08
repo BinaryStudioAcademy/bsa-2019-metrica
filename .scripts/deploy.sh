@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+# install AWS SDK
+pip install --user awscli
+export PATH=$PATH:$HOME/.local/bin
+
+# install necessary dependency for ecs-deploy
+add-apt-repository ppa:eugenesan/ppa
+apt-get update
+apt-get install jq -y
+
 set -e
 set -u
 set -o pipefail
