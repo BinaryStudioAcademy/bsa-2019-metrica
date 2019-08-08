@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/register', 'RegisterController@create');
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
+        Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:jwt');
     });
 
     Route::group([
