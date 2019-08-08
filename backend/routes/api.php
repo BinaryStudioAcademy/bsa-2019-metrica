@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/register', 'RegisterController@create');
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
+        Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:jwt');
     });
 
     Route::group([
@@ -31,6 +32,12 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'users'
         ], function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
+        });
+
+        Route::group([
+            'prefix' => 'visitors'
+        ], function () {
+            Route::get('/', 'VisitorController@getAllVisitors');
         });
     });
 });

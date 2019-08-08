@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Request\ApiFormRequest;
 
-final class RegisterHttpRequest extends FormRequest
+final class RegisterHttpRequest extends ApiFormRequest
 {
-    public function authorize()
-    {
-        return true;
-    }
-
     public function getName(): string
     {
         return $this->get('name');
