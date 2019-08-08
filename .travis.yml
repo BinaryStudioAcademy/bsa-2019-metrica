@@ -1,0 +1,35 @@
+sudo: required
+services:
+  - docker
+env:
+  matrix:
+    - DOCKER_COMPOSE_VERSION=1.22.0
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose -v
+script:
+  - cp backend/.env.travis backend/.env
+  - docker-compose -f docker-compose.test.yml run --rm app composer install --no-interaction
+  - docker-compose -f docker-compose.test.yml run --rm frontend npm install --production
+  - docker-compose -f docker-compose.test.yml run --rm frontend npm run build
+  - docker-compose -f docker-compose.test.yml run --rm app php artisan key:generate
+  - docker-compose -f docker-compose.test.yml up -d
+  - docker-compose -f docker-compose.test.yml run --rm app ./vendor/bin/phpunit
+branches:
+  only:
+    - master
+    - develop
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ".travis/deploy.sh"
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ".scripts/deploy.sh"
+    on:
+      branch: develop
