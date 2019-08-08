@@ -1,15 +1,20 @@
 import axios from 'axios';
 
-axios.interceptors.request.use(function (config) {
+const baseURL = process.env.VUE_APP_URL || '/';
+const axiosInstance = axios.create({ baseURL });
+
+axiosInstance.interceptors.request.use((config) => {
 
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
     config.headers['Content-type'] = 'application/json';
     config.headers['Accept'] = 'application/json';
 
-    let token = getToken();
+    const token = getToken();
+
     if (token) {
         config.headers.Authorization = token;
     }
+
     return config;
 });
 
@@ -18,26 +23,25 @@ const getToken = () => {
 };
 
 const get = (url, headers = {}, params = {}) => {
-    return axios.get(url, {
+    return axiosInstance.get(url, {
         params: params,
         headers: headers
     });
 };
 
 const create = (url, data, headers = {}) => {
-    return axios.post(url, data, {
+    return axiosInstance.post(url, data, {
         headers: headers
     });
 };
 
 const update = (url, data, headers = {}) => {
-    return axios.put(url, data, {
+    return axiosInstance.put(url, data, {
         headers: headers
     });
 };
 
-const destroy = url => axios.delete(url);
-
+const destroy = url => axiosInstance.delete(url);
 
 const requestService = {
     create,
