@@ -45,3 +45,7 @@ Route::prefix('v1')->group(function () {
         });
     });
 });
+
+Route::get('/v1/health', function () {
+    return "healthy";
+});

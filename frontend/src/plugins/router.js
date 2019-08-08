@@ -4,6 +4,7 @@ import Layout from '../pages/Layout.vue';
 import Login from '../pages/Login.vue';
 import LoginGuard from '../components/auth/LoginGuard.vue';
 import SignUp from "../pages/SignUp.vue";
+import Visitors from "../pages/Visitors.vue";
 
 Vue.use(Router);
 
@@ -23,8 +24,14 @@ export default new Router({
                 {
                     path: '',
                     component: LoginGuard,
-                    children: []
-                },              
+                    children: [
+                        {
+                            path: 'visitors',
+                            name: 'visitors',
+                            component: Visitors
+                        }
+                    ]
+                },
                 {
                     path: 'signup',
                     name: 'signup',
