@@ -2,8 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Http\Response\ApiResponse;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -40,12 +45,26 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @param  Exception $exception
+     * @return Response|JsonResponse
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ValidationException) {
+            return ApiResponse::error(new ApiValidationException($exception->validator));
+        }
+
+        if ($exception instanceof UserNotFoundException) {
+            return ApiResponse::error($exception);
+        }
+
+        if ($exception instanceof UserByEmailNotFoundException) {
+            return response()->json([
+                "error" => $exception->getMessage()
+            ], 404);
+        }
+
         return parent::render($request, $exception);
     }
 }
