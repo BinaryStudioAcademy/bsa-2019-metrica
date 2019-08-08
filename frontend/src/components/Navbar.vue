@@ -1,14 +1,22 @@
 <template>
 <nav>
-    <v-app-bar class="elevation-0 pl-4 pr-10" clipped-left app>
+    <v-app-bar class="elevation-0 " clipped-left app>
+        <v-layout flex align-center class="pl-4 pr-10">
         <v-icon class="mr-2 hidden-lg-and-up" @click="drawer = !drawer">menu</v-icon>
         <v-toolbar-title><span class="logo pr-2">M</span>Metrica</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
-            <svg class="icon">
-                <use href="/assets/icons/bell.svg#root"></use>
-            </svg>
-        </v-btn>
+
+        <v-badge class="message-indicator" right overlap>
+            <template v-slot:badge>
+                <v-icon ></v-icon>
+            </template>
+            <v-btn icon class="icon">
+                <svg>
+                    <use href="/assets/icons/bell.svg#root"></use>
+                </svg>
+            </v-btn>
+        </v-badge>
+
          <v-toolbar-title class="name mr-6 ml-4">Hello, <span>Sofi</span></v-toolbar-title>
         <v-avatar>
             <img src="/assets/images/lady.png" alt="">
@@ -25,6 +33,7 @@
                 </v-list-item>
             </v-list>
         </v-menu>
+                </v-layout>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app clipped>
 
@@ -33,7 +42,7 @@
             <v-layout flex>
 
                 <v-list-item-icon class="py-0 my-0 mr-7">
-                    <svg class="icon">
+                    <svg>
                         <use :href="`${link.icon}#root`"></use>
                     </svg>
                 </v-list-item-icon>
@@ -124,8 +133,13 @@ export default {
         border-left: 3px solid transparent;
     }
 
+    .v-list-item:hover {
+        text-decoration: none;
+    }
+
     .v-list-item__title {
-        color: rgba(18, 39, 55, 0.5);
+        color: rgba(18, 39, 55);
+        fill-opacity: 0.5;
     }
 
     .v-list-item--active {
@@ -136,21 +150,30 @@ export default {
         width: 25px;
         height: 25px;
     }
-    div.v-toolbar__content svg path {
-        fill: red;
+
+    .icon {
+        fill: rgba(0, 0, 0, 0.5);
     }
-    svg path{
+    .v-list-item__icon
+    {
         fill: rgba(18, 39, 55, 0.5);
     }
-    #root.active path
-    {
+
+    .v-list-item--active .v-list-item__icon {
         fill: #3C57DE;
+        fill-opacity: 100%;
+    }
+
+    svg path {
+        fill: inherit;
+        /* fill-opacity: inherit; */
     }
 
     .v-list-item--active .v-list-item__title
     {
         color: #3C57DE;
     }
+    
     .v-toolbar__content {
         border-bottom: 1px solid rgba(0, 0, 0, 0.034);
         height: 61px;
@@ -175,5 +198,12 @@ export default {
 
     i.v-icon.drop-down {
         color: #3C57DE;
+    }
+
+    .message-indicator .v-badge__badge.primary {
+        min-width: 8px;
+        height: 8px;
+        top: 13px;
+        right: 13px;
     }
 </style>
