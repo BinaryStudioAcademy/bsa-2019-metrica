@@ -1,63 +1,65 @@
 <template>
-<nav>
-    <v-app-bar class="elevation-0 " clipped-left app>
-        <v-layout flex align-center class="pl-4 pr-10">
-        <v-icon class="mr-2 hidden-lg-and-up" @click="drawer = !drawer">menu</v-icon>
-        <v-toolbar-title><span class="logo pr-3">M</span>Metrica</v-toolbar-title>
-        <v-spacer></v-spacer>
+    <nav>
+        <v-app-bar class="elevation-0 " clipped-left app>
+            <v-layout flex align-center class="pl-4 pr-10">
 
-        <v-badge class="message-indicator" right overlap>
-            <template v-slot:badge>
-                <v-icon ></v-icon>
-            </template>
-            <v-btn icon class="icon">
-                <svg>
-                    <use href="/assets/icons/bell.svg#root"></use>
-                </svg>
-            </v-btn>
-        </v-badge>
+                <v-icon class="mr-2 hidden-lg-and-up" @click="drawer = !drawer">menu</v-icon>
+                <v-toolbar-title><span class="logo pr-3">M</span>Metrica</v-toolbar-title>
+                <v-spacer></v-spacer>
 
-         <v-toolbar-title class="name mr-6 ml-4">Hello, <span>Sofi</span></v-toolbar-title>
-        <v-avatar>
-            <img src="/assets/images/lady.png" alt="">
-        </v-avatar>
-        <v-menu>
-            <template v-slot:activator="{ on }">
-                <v-icon class="drop-down" v-on="on">arrow_drop_down</v-icon>
-            </template>
-            <v-list>
-                <v-list-item :key="item" v-for="item in items">
-                    <v-list-item-title>
-                        {{item}}
-                    </v-list-item-title>
+                <v-badge class="message-indicator" right>
+                    <template v-slot:badge>
+                        <v-icon></v-icon>
+                    </template>
+                    <v-btn icon class="icon">
+                        <svg>
+                            <use href="/assets/icons/bell.svg#root"></use>
+                        </svg>
+                    </v-btn>
+                </v-badge>
+
+                <v-toolbar-title class="name mr-6 ml-4">Hello, <span>Sofi</span></v-toolbar-title>
+                <v-avatar>
+                    <img src="/assets/images/lady.png" alt="">
+                </v-avatar>
+
+                <v-menu>
+                    <template v-slot:activator="{ on }">
+                        <v-icon class="drop-down" v-on="on">arrow_drop_down</v-icon>
+                    </template>
+                    <v-list>
+                        <v-list-item :key="item" v-for="item in items">
+                            <v-list-item-title>
+                                {{item}}
+                            </v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </v-layout>
+        </v-app-bar>
+
+        <v-navigation-drawer v-model="drawer" app clipped>
+            <v-list class="mt-12" flat>
+                <v-list-item class="pl-8 my-3" v-for="link in links" :key="link.text" router :to="link.route">
+                    <v-layout flex>
+
+                        <v-list-item-icon class="py-0 my-0 mr-7">
+                            <svg>
+                                <use :href="`${link.icon}#root`"></use>
+                            </svg>
+                        </v-list-item-icon>
+
+                        <v-list-item-content class="py-0">
+                            <v-list-item-title>
+                                {{ link.text }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                    </v-layout>
                 </v-list-item>
             </v-list>
-        </v-menu>
-                </v-layout>
-    </v-app-bar>
-    <v-navigation-drawer v-model="drawer" app clipped>
-
-        <v-list class="mt-12" flat>
-            <v-list-item class="pl-8 my-3" v-for="link in links" :key="link.text" router :to="link.route">
-            <v-layout flex>
-
-                <v-list-item-icon class="py-0 my-0 mr-7">
-                    <svg>
-                        <use :href="`${link.icon}#root`"></use>
-                    </svg>
-                </v-list-item-icon>
-
-                <v-list-item-content class="py-0">
-                    <v-list-item-title>
-                        {{ link.text }}
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-layout>
-            </v-list-item>
-        </v-list>
-
-    </v-navigation-drawer>
-</nav>
+        </v-navigation-drawer>
+    </nav>
 </template>
 
 <script>
@@ -78,46 +80,48 @@ export default {
 </script>
 
 <style>
-@font-face {
-    font-family: 'Gilroy';
-    src: url('/assets/fonts/Gilroy-Bold.eot');
-    src: local('Gilroy Bold'), local('Gilroy-Bold'),
-        url('/assets/fonts/Gilroy-Bold.eot?#iefix') format('embedded-opentype'),
-        url('/assets/fonts/Gilroy-Bold.woff') format('woff'),
-        url('/assets/fonts/Gilroy-Bold.ttf') format('truetype');
-}
+    @font-face {
+        font-family: 'Gilroy';
+        src: url('/assets/fonts/Gilroy-Bold.eot');
+        src: local('Gilroy Bold'), local('Gilroy-Bold'),
+            url('/assets/fonts/Gilroy-Bold.eot?#iefix') format('embedded-opentype'),
+            url('/assets/fonts/Gilroy-Bold.woff') format('woff'),
+            url('/assets/fonts/Gilroy-Bold.ttf') format('truetype');
+    }
 
-@font-face {
-    font-family: 'GilroyLight';
-    src: url('/assets/fonts/Gilroy-Light.eot');
-    src: local('Gilroy Light'), local('Gilroy-Light'),
-        url('/assets/fonts/Gilroy-Light.eot?#iefix') format('embedded-opentype'),
-        url('/assets/fonts/Gilroy-Light.woff') format('woff'),
-        url('/assets/fonts/Gilroy-Light.ttf') format('truetype');
-}
+    @font-face {
+        font-family: 'GilroyLight';
+        src: url('/assets/fonts/Gilroy-Light.eot');
+        src: local('Gilroy Light'), local('Gilroy-Light'),
+            url('/assets/fonts/Gilroy-Light.eot?#iefix') format('embedded-opentype'),
+            url('/assets/fonts/Gilroy-Light.woff') format('woff'),
+            url('/assets/fonts/Gilroy-Light.ttf') format('truetype');
+    }
 
-@font-face {
-  font-family: 'Inter';
-  font-display: swap;
-  src: url("/assets/fonts/Inter-Regular.woff2") format("woff2"),
-       url("/assets/fonts/Inter-Regular.woff") format("woff");
-}
-
-@font-face {
-  font-family: 'InterBold';
-  font-display: swap;
-  src: url("/assets/fonts/Inter-Bold.woff2") format("woff2"),
-       url("/assets/fonts/Inter-Bold.woff") format("woff");
-}
-
-.v-toolbar__title.name {
+    @font-face {
     font-family: 'Inter';
-    font-size: 12px;
-    color: #122737;
-}
+    font-display: swap;
+    src: url("/assets/fonts/Inter-Regular.woff2") format("woff2"),
+        url("/assets/fonts/Inter-Regular.woff") format("woff");
+    }
+
+    @font-face {
+    font-family: 'InterBold';
+    font-display: swap;
+    src: url("/assets/fonts/Inter-Bold.woff2") format("woff2"),
+        url("/assets/fonts/Inter-Bold.woff") format("woff");
+    }
+
+    .v-toolbar__title.name {
+        font-family: 'Inter';
+        font-size: 12px;
+        color: #122737;
+    }
+
     .v-navigation-drawer__border {
         display: none;
     }
+
     .v-navigation-drawer {
         width: 239px;
     }
