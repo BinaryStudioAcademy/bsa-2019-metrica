@@ -36,13 +36,13 @@ class Storage {
 let storage = new Storage();
 const isLocalStorageAccessible = () => {
     try {
-        storage.setItem('test-local-storage', 1);
+        storage.set('test-local-storage', 1);
         storage.removeItem('test-local-storage');
         return true;
-    } catch(e) { return false; }
+    } catch(e) {
+        return false;
+    }
 };
-
-
 
 if (!isLocalStorageAccessible()){
     storage = new Storage('sessionStorage');
