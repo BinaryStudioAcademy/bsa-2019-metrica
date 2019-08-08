@@ -92,7 +92,7 @@
 <script>
     import { mapGetters, mapActions } from 'vuex';
     import {UPDATE} from "../../store/modules/auth/types/actions";
-    import {GET_USER} from "../../store/modules/auth/types/getters";
+    import {GET_AUTHENTICATED_USER} from "../../store/modules/auth/types/getters";
     import { EMPTY_USER } from '../../services/Normalizer';
 
     export default {
@@ -130,7 +130,7 @@
         },
         computed: {
             ...mapGetters('auth', {
-                getUser: 'GET_USER'
+                getUser: 'GET_AUTHENTICATED_USER'
             }),
         },
         methods: {
