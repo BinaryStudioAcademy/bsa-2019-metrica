@@ -8,7 +8,7 @@ use App\Contracts\ApiException as ApiExceptionContract;
 use App\Contracts\ApiResponse as ApiResponseContract;
 use Illuminate\Http\JsonResponse;
 
-abstract class ApiResponse extends JsonResponse
+final class ApiResponse extends JsonResponse
 {
     public static function success(ApiResponseContract $response, array $meta = []): self
     {
