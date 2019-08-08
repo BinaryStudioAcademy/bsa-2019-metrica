@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class UpdateUserHttpRequest extends FormRequest
+final class AuthenticatedHttpRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,20 +16,9 @@ final class UpdateUserHttpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|min:3',
             'email' => 'email',
             'password' => 'string|min:8'
         ];
-    }
-
-    public function id(): int
-    {
-        return (int)$this->route('id');
-    }
-
-    public function name(): ?string
-    {
-        return $this->get('name');
     }
 
     public function email(): ?string
