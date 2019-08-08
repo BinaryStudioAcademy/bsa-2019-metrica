@@ -34,7 +34,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group(['prefix' => 'websites'], function () {
-            Route::post('/add', 'WebsiteController@add');
+            Route::post('/', 'WebsiteController@add');
         });
     });
 });
