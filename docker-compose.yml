@@ -14,9 +14,6 @@ services:
     volumes:
       - ./backend:/app
       - ./.certs:/nginx/certs/
-    depends_on:
-      - app
-      - frontend
   
   redis:
     image: redis:5

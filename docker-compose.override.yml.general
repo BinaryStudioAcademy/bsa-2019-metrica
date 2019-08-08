@@ -7,6 +7,9 @@ services:
     ports:
       - "8000:80"
       - "8443:443"
+    depends_on:
+      - app
+      - frontend
     
   frontend:
     build:

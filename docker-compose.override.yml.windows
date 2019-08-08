@@ -7,10 +7,8 @@ services:
     ports:
       - "8000:80"
       - "8443:443"
-  frontend:
-    volumes:
-      - ./frontend:/app
-    command: [ 'npm', 'run', 'serve' ]
+    depends_on:
+      - app
 
   adminer:
     image: adminer
