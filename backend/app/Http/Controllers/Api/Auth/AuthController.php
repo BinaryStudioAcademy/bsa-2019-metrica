@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Actions\Auth\GetCurrentUserAction;
-use App\Actions\Auth\LoginAction;
-use App\Actions\Auth\LoginRequest;
 use app\Actions\User\RegisterRequest;
 use App\Actions\User\RegisterUserAction;
 use App\Http\Controllers\Controller;
-use App\Http\Request\Api\Auth\LoginHttpRequest;
 use App\Http\Requests\RegisterHttpRequest;
-use App\Http\Resources\LoginResources;
+use App\Actions\Auth\AuthenticatedUserAction;
+use App\Actions\Auth\AuthenticatedUserRequest;
+use App\Contracts\ApiException;
+use App\Http\Requests\AuthenticatedHttpRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Response\ApiResponse;
 use App\Http\Response\RegistrationResponse;
@@ -32,11 +32,16 @@ final class AuthController extends Controller
     }
 
     public function login(
-        LoginHttpRequest $httpRequest,
-        LoginAction $action
-    ) {
-        $response = $action->execute(LoginRequest::fromRequest($httpRequest));
-        return ApiResponse::success(new LoginResources($response));
+        AuthenticatedHttpRequest $request,
+        AuthenticatedUserAction $action
+    ): ApiResponse
+    {
+        try {
+            $response = $action->execute(AuthenticatedUserRequest::fromRequest($request));
+        } catch (ApiException $exception) {
+            return ApiResponse::error($exception);
+        }
+        return ApiResponse::success($response);
 
     }
 

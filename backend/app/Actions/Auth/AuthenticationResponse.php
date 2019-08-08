@@ -4,26 +4,26 @@ declare(strict_types = 1);
 
 namespace App\Actions\Auth;
 
-final class AuthenticationResponse
+use App\Contracts\ApiResponse as ApiResponseContract;
+
+final class AuthenticationResponse implements ApiResponseContract
 {
-    private $accessToken;
-    private $tokenType;
+    private $token;
 
     public function __construct(
-        string $accessToken,
-        string $tokenType
+        string $token
     ) {
-        $this->accessToken = $accessToken;
-        $this->tokenType = $tokenType;
+        $this->token = $token;
     }
 
-    public function getAccessToken(): string
+    public function getToken(): string
     {
-        return $this->accessToken;
+        return $this->token;
     }
-
-    public function getTokenType(): string
+    public function toArray(): array
     {
-        return $this->tokenType;
+        return [
+            'token' => $this->getToken()
+        ];
     }
 }
