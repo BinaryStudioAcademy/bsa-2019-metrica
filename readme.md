@@ -71,3 +71,15 @@ sysctl -w vm.max_map_count=262144
 
 docker-machine ssh
 sudo sysctl -w vm.max_map_count=262144
+
+or
+
+docker-machine ssh
+tce-load -w -i nano.tcz
+sudo sysctl -w vm.max_map_count=262144
+cat /proc/sys/vm/max_map_count
+sudo nano /mnt/sda1/var/lib/boot2docker/profile
+sudo sysctl -w vm.max_map_count=262144 // put this line in the end of file
+Ctrl+O // save it
+exit
+docker-machine restart default
