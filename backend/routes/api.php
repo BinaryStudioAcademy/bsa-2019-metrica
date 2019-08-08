@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +15,33 @@ use Illuminate\Http\Request;
 
 Route::prefix('v1')->group(function () {
     Route::group([
+        'prefix' => 'auth',
+        'namespace' => 'Api\\Auth'
+    ], function () {
+        Route::post('/register', 'RegisterController@create');
+        Route::post('/login', 'AuthController@login');
+        Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
+        Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:jwt');
+    });
+
+    Route::group([
         'namespace' => 'Api',
         'middleware' => 'auth:jwt'
     ], function () {
-        Route::group(['prefix' => 'users'], function () {
+        Route::group([
+            'prefix' => 'users'
+        ], function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
         });
+
+        Route::group([
+            'prefix' => 'visitors'
+        ], function () {
+            Route::get('/', 'VisitorController@getAllVisitors');
+        });
     });
+});
+
+Route::get('/v1/health', function () {
+    return "healthy";
 });

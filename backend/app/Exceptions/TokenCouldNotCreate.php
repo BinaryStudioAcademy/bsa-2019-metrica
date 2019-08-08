@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use App\Contracts\ApiException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
-final class UserNotFoundException extends ModelNotFoundException implements ApiException
+final class TokenCouldNotCreate extends JWTException implements ApiException
 {
-    private $message = "User not found.";
+    private $message = "Could not create token";
 
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
@@ -20,7 +20,7 @@ final class UserNotFoundException extends ModelNotFoundException implements ApiE
 
     public function getStatus(): int
     {
-        return Response::HTTP_NOT_FOUND;
+        return Response::HTTP_INTERNAL_SERVER_ERROR;
     }
 
     public function toArray(): array

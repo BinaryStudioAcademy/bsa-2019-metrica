@@ -20,4 +20,9 @@ final class EloquentUserRepository implements UserRepository
 
         return $user;
     }
+
+    public function getByEmail(string $email): ?User
+    {
+        return User::where('email', $email)->first();
+    }
 }
