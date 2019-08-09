@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use app\Actions\User\RegisterRequest;
@@ -10,5 +12,4 @@ use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
 {
-
 }
