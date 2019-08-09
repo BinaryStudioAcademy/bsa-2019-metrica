@@ -142,7 +142,7 @@
                         if (res.error) {
                             this.onError(res.error.message);
                         } else {
-                            this.onSuccess('Success!');
+                            this.onSuccess();
                             this.$router.push({name: 'login'});
                         }
                     }).catch(function (err) {
@@ -156,11 +156,11 @@
             },
 
             onError (error) {
-                alert(error.message);
+                return alert(error.message);
             },
 
-            onSuccess (success) {
-                alert(success.message);
+            onSuccess () {
+                return alert("Success!");
             },
         },
 
