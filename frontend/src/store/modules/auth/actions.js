@@ -33,16 +33,10 @@ export default {
     },
 
     [SIGNUP]: (context, newUser) => {
-        return requestService.create('/api/v1/register', {
+        return requestService.create('/api/v1/auth/register', {
                 name: newUser.name,
                 email: newUser.email,
                 password: newUser.password
-            })
-                .then(function (res) {
-                    resolve(res);
-                })
-                .catch(function (err) {
-                    reject(err);
-                });
+            });
     },
 }

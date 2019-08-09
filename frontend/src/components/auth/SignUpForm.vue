@@ -143,7 +143,7 @@
                             this.onError(res.error.message);
                         } else {
                             this.onSuccess('Success!');
-                            this.$router.push({path: '/login'});
+                            this.$router.push({name: 'login'});
                         }
                     }).catch(function (err) {
                         alert(err.message);
