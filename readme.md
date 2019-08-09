@@ -18,8 +18,8 @@ docker-compose exec app php artisan migrate --seed
 
 cp frontend/.env.example frontend/.env
 
-docker-compose exec frontend npm install
-docker-compose exec frontend npm run serve
+docker-compose run --rm frontend npm install
+docker-compose run --rm frontend npm run serve
 
 ```
 
