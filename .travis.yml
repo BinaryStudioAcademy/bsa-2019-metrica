@@ -22,10 +22,12 @@ before_install:
   - ./.scripts/build.sh nginx
 script:
   - cp backend/.env.travis backend/.env
-  - docker-compose run --user='root' --entrypoint chown -R www-data:www-data .
   - docker-compose -f docker-compose.test.yml up -d
   - docker-compose -f docker-compose.test.yml ps
   - docker-compose -f docker-compose.test.yml logs migration
+  - docker-compose -f docker-compose.test.yml ls vendor
+  - docker-compose -f docker-compose.test.yml ls -la vendor
+  - docker-compose -f docker-compose.test.yml ls -la vendor/storage
   - docker-compose -f docker-compose.test.yml exec app php artisan key:generate
   - docker-compose -f docker-compose.test.yml exec app php artisan migrate --seed --force
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
