@@ -4,6 +4,8 @@ services:
 env:
   matrix:
     - DOCKER_COMPOSE_VERSION=1.22.0
+  global:
+    - PATH=$HOME/.local/bin:$PATH
 cache:
   directories:
     - frontend/node_modules
@@ -14,8 +16,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
-  - sudo pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin
+  - pip install --user awscli
   - sudo groupadd -g 1000 metrica-group
   - sudo usermod -a -G 1000 travis
   - $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
