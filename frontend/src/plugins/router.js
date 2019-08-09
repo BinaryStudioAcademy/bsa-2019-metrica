@@ -4,6 +4,7 @@ import Layout from '../pages/Layout.vue';
 import Login from '../pages/Login.vue';
 import LoginGuard from '../components/auth/LoginGuard.vue';
 import SignUp from "../pages/SignUp.vue";
+import AddWebsitePage from '../pages/AddWebsitePage.vue';
 
 Vue.use(Router);
 
@@ -29,6 +30,11 @@ export default new Router({
                     path: 'signup',
                     name: 'signup',
                     component: SignUp
+                },
+                {
+                    path: 'websites/add',
+                    name: 'AddWebsitePage',
+                    component: AddWebsitePage
                 }
             ]
         }
