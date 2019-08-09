@@ -26,6 +26,7 @@ export default new Router({
                     path: 'reset-password',
                     name: 'reset-password',
                     component: ResetPassword
+                },
                 {
                     path: '',
                     component: LoginGuard,

@@ -27,16 +27,13 @@
                     </VForm>
                 </VCardText>
                 <VCardActions>
-                    <VBtn @click="onResetPassword" class="reset-password-form-button mt-3" color="#3C57DE">
+                    <VBtn class="reset-password-form-button mt-3" color="#3C57DE" @click="onResetPassword">
                         Send Password Reset Link
                     </VBtn>
                 </VCardActions>
-                <v-alert class="status-success" v-if="status==='success'" type="success">
+                <VAlert :class="className" v-if="showAlert" :type="type">
                     {{message}}
-                </v-alert>
-                <v-alert class="status-error" v-else-if="status==='error'" type="error">
-                    {{message}}
-                </v-alert>
+                </VAlert>
             </VContainer>
         </VFlex>
     </VContent>
@@ -60,6 +57,17 @@
                 message: ''
             }
         },
+        computed: {
+            showAlert: function () {
+                return this.status === 'success' || this.status === 'error';
+            },
+            type: function () {
+                return this.status === 'success' ? 'success' : 'error';
+            },
+            className: function () {
+                return this.status === 'success' ? 'status-success' : 'status-error';
+            }
+        },
         methods: {
             ...mapActions('auth', {
                 resetPassword: RESET_PASSWORD
@@ -71,10 +79,10 @@
                     }).then(response => {
                         this.status = 'success';
                         this.message = response;
-                    }, err => {
+                    }).catch(err => {
                         this.status = 'error';
                         this.message = err;
-                    })
+                    });
                 }
             }
         }
@@ -119,7 +127,7 @@
 
             input {
                 min-height: 36px;
-                -webkit-box-shadow: inset 0 0 0 9999px white!important;
+                -webkit-box-shadow: inset 0 0 0 9999px white !important;
             }
         }
 
