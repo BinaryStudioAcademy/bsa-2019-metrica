@@ -1,20 +1,7 @@
 FROM php:7.3-fpm-stretch
 
-WORKDIR /app
-
 # Fix debconf warnings upon build
 ARG DEBIAN_FRONTEND=noninteractive
-ARG UID=1000
-ARG GID=1000
-ENV USERNAME=www-data
-
-# Fix permissions
-RUN usermod -u $UID $USERNAME \
-    && groupmod -g $GID $USERNAME \
-    && mkdir -p /home/$USERNAME \
-    && chown $USERNAME:$USERNAME /home/$USERNAME \
-    && mkdir -p /app \
-    && chown $USERNAME:$USERNAME /app
 
 # Install selected extensions and other stuff
 RUN apt-get update \
@@ -39,7 +26,4 @@ RUN pecl channel-update pecl.php.net \
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# Copy xdebug configuration for remote debugging
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
-USER $USERNAME
+COPY ./.aws/app/php-ini-overrides.ini /etc/php/7.3/fpm/conf.d/99-overrides.ini
