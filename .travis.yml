@@ -16,6 +16,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
+  - pip install pyOpenSSL ndg-httpsclient pyasn1
   - pip install --user awscli
   - sudo groupadd -g 1000 metrica-group
   - sudo usermod -a -G 1000 travis
@@ -42,11 +43,11 @@ branches:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ".travis/deploy.sh"
+    script: "echo .travis/deploy.sh"
     on:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: ".scripts/deploy.sh"
+    script: "echo .scripts/deploy.sh"
     on:
       branch: develop
