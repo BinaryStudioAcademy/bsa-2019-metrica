@@ -33,8 +33,7 @@ export default {
     },
 
     [SIGNUP]: (context, newUser) => {
-        return new Promise((resolve, reject) => {
-            return requestService.create('auth/signup', {
+        return requestService.create('/api/v1/register', {
                 name: newUser.name,
                 email: newUser.email,
                 password: newUser.password
@@ -45,6 +44,5 @@ export default {
                 .catch(function (err) {
                     reject(err);
                 });
-        });
     },
 }
