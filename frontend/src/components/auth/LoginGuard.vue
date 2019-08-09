@@ -1,6 +1,6 @@
 <template>
-    <RouterView v-if="isLogged"/>
-    <LoginForm v-else/>
+    <RouterView v-if="isLogged" />
+    <LoginForm v-else />
 </template>
 
 <script>
