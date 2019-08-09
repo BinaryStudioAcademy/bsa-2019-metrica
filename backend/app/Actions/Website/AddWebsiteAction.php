@@ -25,15 +25,11 @@ class AddWebsiteAction
     public function execute(AddWebsiteRequest $request): AddWebsiteResponse
     {
         $website = new Website();
-        $trackingInfo = new TrackingInfo();
-
-        $this->trackingInfoRepository->save($trackingInfo);
 
         $website->name = $request->getName();
         $website->domain = $request->getDomain();
         $website->single_page = $request->getSinglePage();
         $website->user_id = Auth::id();
-        $website->tracking_info_id = $trackingInfo->id;
 
         $this->websiteRepository->save($website);
 

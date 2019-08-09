@@ -12,7 +12,7 @@ final class Website extends Model
         'domain',
         'single_page',
         'user_id',
-        'tracking_info_id',
+        'tracking_number',
     ];
 
     protected $with = ['tracking_info', 'users'];

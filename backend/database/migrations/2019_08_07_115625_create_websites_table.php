@@ -14,15 +14,12 @@ class CreateWebsitesTable extends Migration
             $table->string('domain')->unique();
             $table->boolean('single_page');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('tracking_info_id');
+            $table->unsignedBigInteger('tracking_number');
             $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
-            $table->foreign('tracking_info_id')
-                ->references('id')
-                ->on('tracking_info');
         });
     }
 

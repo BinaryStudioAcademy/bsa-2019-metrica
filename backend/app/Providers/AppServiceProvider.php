@@ -21,10 +21,6 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\EloquentWebsiteRepository::class,
             \App\Repositories\WebsiteRepository::class
         );
-        $this->app->bind(
-            \App\Repositories\Contracts\EloquentTrackingInfoRepository::class,
-            \App\Repositories\TrackingInfoRepository::class
-        );
     }
 
     /**

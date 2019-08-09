@@ -34,9 +34,6 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
         });
 
-        Route::group(['prefix' => 'websites'], function () {
-            Route::post('/', 'WebsiteController@add');
-        });
 
         Route::group([
             'prefix' => 'visitors'
@@ -44,6 +41,9 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'VisitorController@getAllVisitors');
         });
     });
+        Route::group(['prefix' => 'websites'], function () {
+            Route::post('/', 'WebsiteController@add');
+        });
 });
 
 Route::get('/v1/health', function () {
