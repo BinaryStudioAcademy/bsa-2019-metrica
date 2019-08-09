@@ -13,7 +13,7 @@ RUN usermod -u $UID $USERNAME \
     && groupmod -g $GID $USERNAME \
     && mkdir -p /home/$USERNAME \
     && chown $USERNAME:$USERNAME /home/$USERNAME
-    && mkdir -p /app
+    && mkdir -p /app \
     && chown $USERNAME:$USERNAME /app
 
 # Install selected extensions and other stuff
