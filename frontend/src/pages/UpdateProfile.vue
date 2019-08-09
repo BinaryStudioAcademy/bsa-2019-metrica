@@ -3,11 +3,11 @@
 </template>
 
 <script>
-    import UpdateProfileForm from '../components/auth/UpdateProfileForm.vue';
+import UpdateProfileForm from '../components/auth/UpdateProfileForm.vue';
 
-    export default {
-        components: {
-            UpdateProfileForm
-        }
+export default {
+    components: {
+        UpdateProfileForm
     }
+}
 </script>
