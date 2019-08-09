@@ -5,6 +5,7 @@ import Login from '../pages/Login.vue';
 import LoginGuard from '../components/auth/LoginGuard.vue';
 import SignUp from "../pages/SignUp.vue";
 import Visitors from "../pages/Visitors.vue";
+import Website from "../pages/Website";
 
 Vue.use(Router);
 
@@ -29,13 +30,19 @@ export default new Router({
                             path: 'visitors',
                             name: 'visitors',
                             component: Visitors
-                        }
+                        },
+
                     ]
                 },
                 {
                     path: 'signup',
                     name: 'signup',
                     component: SignUp
+                },
+                {
+                    path: 'website',
+                    name: 'website',
+                    component: Website
                 }
             ]
         }
