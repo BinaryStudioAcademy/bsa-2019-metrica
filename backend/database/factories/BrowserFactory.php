@@ -10,7 +10,9 @@ $factory->define(Browser::class, function (Faker $faker) {
     $now = Carbon::now();
 
     return [
-        'name' => $faker->name,
+        'name' => random_int(0, 1) ? $faker->chrome : random_int(0, 1)
+            ? $faker->safari : random_int(0, 1)
+                ? $faker->firefox : $faker->internetExplorer,
         'created_at' => $now->toDateTimeString(),
     ];
 });

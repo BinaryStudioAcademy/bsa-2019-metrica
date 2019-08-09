@@ -12,13 +12,18 @@ final class Website extends Model
         'domain',
         'single_page',
         'user_id',
-        'tracking_info_id',
+        'tracking_number',
     ];
 
-    protected $with = ['tracking_info', 'users'];
+    protected $with = ['user'];
 
-    public function getTrackingInfoIdAttribute($value)
+    public function getTrackingNumberAttribute($value)
     {
         return str_pad((string) $value, 8, '0', STR_PAD_LEFT);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

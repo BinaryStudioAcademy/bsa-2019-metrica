@@ -17,7 +17,7 @@ $factory->define(Website::class, function (Faker $faker) {
         'domain' => $faker->domainName,
         'single_page' => $faker->boolean(),
         'user_id' => User::query()->inRandomOrder()->first()->id,
-        'tracking_info_id' => TrackingInfo::query()->inRandomOrder()->first()->id,
+        'tracking_number' => $faker->numberBetween(1, 200),
         'created_at' => $now->toDateTimeString(),
     ];
 });

@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Demographic extends Model
 {
-    protected $fillable = [];
+    protected $fillable = [
+        'language',
+        'geo_position_id',
+    ];
 }
