@@ -1,0 +1,42 @@
+version: "3.1"
+
+services:
+  app:
+    image: metrica/app:latest
+    working_dir: /app
+    user: www-data
+    volumes:
+      - ./backend:/app
+  migration:
+    image: metrica/app:latest
+    working_dir: /app
+    depends_on:
+      - app
+      - db
+    command: "/bin/bash /home/www-data/migration.sh"
+  node:
+    image: node:12.7-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+
+  frontend:
+    image: metrica/frontend:latest
+    working_dir: /app
+
+  webserver:
+    image: metrica/nginx:latest
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:80"
+    depends_on:
+      - app
+  db:
+    image: postgres:11
+    restart: always
+    environment:
+      - POSTGRES_DB=metrica
+      - POSTGRES_USER=metrica
+      - POSTGRES_PASSWORD=metrica

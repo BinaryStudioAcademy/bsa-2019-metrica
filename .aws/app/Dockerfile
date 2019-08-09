@@ -12,9 +12,10 @@ ENV USERNAME=www-data
 RUN usermod -u $UID $USERNAME \
     && groupmod -g $GID $USERNAME \
     && mkdir -p /home/$USERNAME \
-    && chown $USERNAME:$USERNAME /home/$USERNAME \
-    && mkdir -p /app \
-    && chown $USERNAME:$USERNAME /app
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME \
+	&& mkdir -p /app \
+    && chown -R $USERNAME:$USERNAME /app \
+    && chown -R $USERNAME:$USERNAME /var/www
 
 # Install selected extensions and other stuff
 RUN apt-get update \
@@ -39,7 +40,10 @@ RUN pecl channel-update pecl.php.net \
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# Copy xdebug configuration for remote debugging
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY ./.aws/app/php-ini-overrides.ini /etc/php/7.3/fpm/conf.d/99-overrides.ini
+COPY --chown=www-data ./.aws/app/migration.sh /home/$USERNAME/migration.sh
+COPY --chown=www-data ./backend /app
 
 USER $USERNAME
+
+RUN composer install --no-interaction
