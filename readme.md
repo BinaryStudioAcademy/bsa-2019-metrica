@@ -1,5 +1,7 @@
 # BSA 2019 | PHP | Metrica
 
+[![Build Status](https://travis-ci.com/BinaryStudioAcademy/bsa-2019-metrica.svg?branch=master)](https://travis-ci.com/BinaryStudioAcademy/bsa-2019-metrica)
+
 ## Description
 
 Metrica is an analog of Google Analytics. The main purpose is to collect data from web pages, handle it and visualize.
