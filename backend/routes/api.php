@@ -39,6 +39,12 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
         });
+
+        Route::group([
+            'prefix' => 'sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getAllSessions');
+        });
     });
 });
 
