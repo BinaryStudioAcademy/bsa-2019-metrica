@@ -43,7 +43,7 @@ branches:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: "bash .travis/deploy.sh"
+    script: "bash .scripts/deploy.sh"
     on:
       branch: master
   - provider: script
