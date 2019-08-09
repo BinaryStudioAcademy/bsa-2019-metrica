@@ -15,34 +15,37 @@ use App\Contracts\ApiException;
 use App\Http\Requests\AuthenticatedHttpRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Response\ApiResponse;
-use App\Http\Response\RegistrationResponse;
-use App\Http\Response\GetCurrentUserResponse;
+use App\Http\Response\TokenResponse;
 
 final class AuthController extends Controller
 {
+    private $authenticatedUserAction;
     private $getCurrentUserAction;
     private $registerUserAction;
 
     public function __construct(
+        AuthenticatedUserAction $authenticatedUserAction,
         GetCurrentUserAction $getCurrentUserAction,
         RegisterUserAction $registerUserAction
     ) {
+        $this->authenticatedUserAction = $authenticatedUserAction;
         $this->getCurrentUserAction = $getCurrentUserAction;
         $this->registerUserAction = $registerUserAction;
     }
 
-    public function login(
-        AuthenticatedHttpRequest $request,
-        AuthenticatedUserAction $action
-    ): ApiResponse
+    public function login(AuthenticatedHttpRequest $request): ApiResponse
     {
         try {
-            $response = $action->execute(AuthenticatedUserRequest::fromRequest($request));
+            $response = $this->authenticatedUserAction->execute(
+                AuthenticatedUserRequest::fromRequest($request)
+            );
         } catch (ApiException $exception) {
             return ApiResponse::error($exception);
         }
-        return ApiResponse::success($response);
 
+        $token = $response->getToken();
+
+        return ApiResponse::success(new TokenResponse(['token' => $token]));
     }
 
     public function register(RegisterHttpRequest $request): ApiResponse
@@ -51,17 +54,12 @@ final class AuthController extends Controller
         $response = $this->registerUserAction->execute($request);
         $token = $response->getToken();
 
-        return ApiResponse::success(new RegistrationResponse(['token' => $token]));
+        return ApiResponse::success(new TokenResponse(['token' => $token]));
     }
 
     public function getCurrentUser(): ApiResponse
     {
         $response = $this->getCurrentUserAction->execute();
-        return ApiResponse::success(
-            new GetCurrentUserResponse([
-                new UserResource($response->user())
-            ])
-        );
-
+        return ApiResponse::success(new UserResource($response->user()));
     }
 }

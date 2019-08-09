@@ -6,7 +6,7 @@ namespace App\Http\Response;
 
 use App\Contracts\ApiResponse;
 
-final class RegistrationResponse implements ApiResponse
+final class TokenResponse implements ApiResponse
 {
     private $data;
 
