@@ -20,7 +20,7 @@ final class GetAllSessionsResponse implements ApiResponse
     public function toArray(): array
     {
         return [
-            'sessions' => SessionResource::collection($this->sessionCollection)->jsonSerialize()
+            'sessions' => SessionResource::collection($this->sessionCollection)
         ];
     }
 }
