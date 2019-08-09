@@ -16,7 +16,6 @@ use App\Http\Requests\AuthenticatedHttpRequest;
 use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
 use App\Http\Response\ApiResponse;
-use App\Http\Response\TokenResponse;
 
 final class AuthController extends Controller
 {
