@@ -1,5 +1,5 @@
 import axios from 'axios';
-import storage from '../services/storage';
+import storage from '@/services/storage';
 
 const baseURL = process.env.VUE_APP_URL || '/';
 const axiosInstance = axios.create({ baseURL });
@@ -17,7 +17,7 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-axiosInstance.interceptors.response.use(response => response.data.data);
+axiosInstance.interceptors.response.use(response => response.data);
 
 const get = (url, headers = {}, params = {}) => {
     return axiosInstance.get(url, {
