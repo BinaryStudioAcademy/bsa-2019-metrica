@@ -24,6 +24,7 @@ script:
   - sudo chown -R 1000:1000 .
   - docker-compose -f docker-compose.test.yml up -d
   - docker-compose -f docker-compose.test.yml ps
+  - docker-compose -f docker-compose.test.yml exec app ls -la
   - docker-compose -f docker-compose.test.yml exec app php artisan key:generate
   - docker-compose -f docker-compose.test.yml exec app php artisan migrate --seed --force
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
