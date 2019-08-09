@@ -14,7 +14,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
-  - sudo groupadd -g 1000 www-data
+  - sudo groupadd -g 1000 metrica-group
   - usermod -a -G 1000 travis
   - docker-compose -f docker-compose.test.yml run --rm node npm install
   - docker-compose -f docker-compose.test.yml run --rm node npm run build
