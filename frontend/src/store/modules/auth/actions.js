@@ -1,4 +1,4 @@
-import {LOGIN, LOGOUT} from './types/actions';
+import {LOGIN, LOGOUT, SIGNUP} from './types/actions';
 import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
 import requestService from "@/services/requestService";
 
@@ -32,12 +32,12 @@ export default {
         });
     },
 
-    [SIGNUP]: (context, user) => {
+    [SIGNUP]: (context, newUser) => {
         return new Promise((resolve, reject) => {
             requestService.create('auth/signup', {
-                name: user.name,
-                email: user.email,
-                password: user.password
+                name: newUser.name,
+                email: newUser.email,
+                password: newUser.password
             })
                 .then(function (res) {
                     resolve(res);

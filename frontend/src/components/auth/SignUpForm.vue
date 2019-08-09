@@ -31,7 +31,7 @@
                                 prepend-icon="person"
                                 label="Full name"
                                 type="name"
-                                v-model="name"
+                                v-model="newUser.name"
                                 name="name"
                                 :rules="nameRules"
                             />
@@ -39,7 +39,7 @@
                                 prepend-icon="email"
                                 label="Email"
                                 type="email"
-                                v-model="email"
+                                v-model="newUser.email"
                                 name="email"
                                 :rules="emailRules"
                             />
@@ -47,7 +47,7 @@
                                 prepend-icon="lock"
                                 label="Password"
                                 type="password"
-                                v-model="password"
+                                v-model="newUser.password"
                                 name="password"
                                 :counter="8"
                                 :rules="passwordRules"
@@ -56,7 +56,7 @@
                                 prepend-icon="lock"
                                 label="Confirm password"
                                 type="password"
-                                v-model="confirmPassword"
+                                v-model="newUser.confirmPassword"
                                 name="confirmPassword"
                                 :counter="8"
                                 :rules="confirmPasswordRules"
@@ -94,15 +94,21 @@
 </template>
 
 <script>
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    import {mapActions} from 'vuex';
+    import {SIGNUP} from "@/store/modules/auth/types/actions";
+
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
     export default {
         data () {
             return {
-                name: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
+                newUser: {
+                    name: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                },
+
                 valid: false,
                 nameRules: [
                     v => !!v || 'Field full name is required',
@@ -118,21 +124,29 @@
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
-                    v => v === this.password || 'Password should match'
+                    v => v === this.newUser.password || 'Password should match'
                 ]
             }
         },
         methods: {
+            ...mapActions('auth', {
+                signup: SIGNUP
+            }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
-                    let newUser = {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password,
-                    }
-                    console.log(newUser)
+                    this.signup({
+                        name: this.newUser.name,
+                        email: this.newUser.email,
+                        password: this.newUser.password,
+                    }).then(res => {
+                        this.$router.push({path: '/login'});
+                    }, err => {
+                        alert(err.message);
+                    })
                 }
+
             },
+
             onSignIn () {
                 this.$router.push({path: '/login'});
             },
