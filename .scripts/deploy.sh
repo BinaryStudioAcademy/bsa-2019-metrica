@@ -111,7 +111,6 @@ make_task_def() {
 # reads $family
 # sets $revision
 register_definition() {
-    echo $task_definition > test.json
     if revision=$(aws ecs register-task-definition \
         --container-definitions "$task_definition" \
         --network-mode bridge \
