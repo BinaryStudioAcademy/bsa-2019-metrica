@@ -34,7 +34,7 @@ export default {
 
     [SIGNUP]: (context, newUser) => {
         return new Promise((resolve, reject) => {
-            requestService.create('auth/signup', {
+            return requestService.create('auth/signup', {
                 name: newUser.name,
                 email: newUser.email,
                 password: newUser.password

@@ -112,7 +112,7 @@
                 valid: false,
                 nameRules: [
                     v => !!v || 'Field full name is required',
-                    v => (v && v.length >= 3) || 'Enter the correct information'
+                    v => (v && v.length >= 5 && (v.split(" ").length - 1) >= 1) || 'Enter the correct information'
                 ],
                 emailRules: [
                     v => !!v || 'E-mail is required',
@@ -138,18 +138,32 @@
                         name: this.newUser.name,
                         email: this.newUser.email,
                         password: this.newUser.password,
-                    }).then(res => {
-                        this.$router.push({path: '/login'});
-                    }, err => {
+                    }).then(function (res) {
+                        if (res.error) {
+                            this.onError(res.error.message);
+                        } else {
+                            this.onSuccess('Success!');
+                            this.$router.push({path: '/login'});
+                        }
+                    }).catch(function (err) {
                         alert(err.message);
-                    })
+                    });
                 }
-
             },
 
             onSignIn () {
-                this.$router.push({path: '/login'});
+                return this.$router.push({path: '/login'});
             },
-        }
+
+            onError (error) {
+                alert(error.message);
+            },
+
+            onSuccess (success) {
+                alert(success.message);
+            },
+        },
+
+
     }
 </script>
