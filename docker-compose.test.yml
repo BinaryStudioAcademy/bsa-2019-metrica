@@ -4,6 +4,7 @@ services:
   app:
     image: metrica/app:latest
     working_dir: /app
+    user: www-data
     volumes:
       - ./backend:/app
   migration:
@@ -17,11 +18,6 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
-  composer:
-    image: composer
-    working_dir: /app
-    volumes:
-      - ./backend:/app
 
   frontend:
     image: metrica/frontend:latest
