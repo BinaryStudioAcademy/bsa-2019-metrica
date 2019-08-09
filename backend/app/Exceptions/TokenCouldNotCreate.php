@@ -11,7 +11,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 final class TokenCouldNotCreate extends JWTException implements ApiException
 {
-    private $message = "Could not create token";
+    protected $message = "Could not create token";
 
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
