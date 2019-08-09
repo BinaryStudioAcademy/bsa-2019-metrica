@@ -12,7 +12,7 @@ ENV USERNAME=www-data
 RUN usermod -u $UID $USERNAME \
     && groupmod -g $GID $USERNAME \
     && mkdir -p /home/$USERNAME \
-    && chown $USERNAME:$USERNAME /home/$USERNAME
+    && chown $USERNAME:$USERNAME /home/$USERNAME \
     && mkdir -p /app \
     && chown $USERNAME:$USERNAME /app
 
