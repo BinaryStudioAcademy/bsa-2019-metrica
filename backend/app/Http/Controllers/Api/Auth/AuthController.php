@@ -62,6 +62,5 @@ final class AuthController extends Controller
                 new UserResource($response->user())
             ])
         );
-
     }
 }
