@@ -1,21 +1,7 @@
 FROM php:7.3-fpm-stretch
 
-WORKDIR /app
-
 # Fix debconf warnings upon build
 ARG DEBIAN_FRONTEND=noninteractive
-ARG UID=1000
-ARG GID=1000
-ENV USERNAME=www-data
-
-# Fix permissions
-RUN usermod -u $UID $USERNAME \
-    && groupmod -g $GID $USERNAME \
-    && mkdir -p /home/$USERNAME \
-    && chown -R $USERNAME:$USERNAME /home/$USERNAME \
-	&& mkdir -p /app \
-    && chown -R $USERNAME:$USERNAME /app \
-    && chown -R $USERNAME:$USERNAME /var/www
 
 # Install selected extensions and other stuff
 RUN apt-get update \
