@@ -91,15 +91,16 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import {UPDATE} from "../../store/modules/auth/types/actions";
-    import {GET_AUTHENTICATED_USER} from "../../store/modules/auth/types/getters";
-    import { EMPTY_USER } from '../../services/Normalizer';
+    import {UPDATE} from "@/store/modules/auth/types/actions";
+    import {GET_AUTHENTICATED_USER} from "@/store/modules/auth/types/getters";
 
     export default {
         data() {
             return {
                 editUser: {
-                    ...EMPTY_USER()
+                    name: '',
+                    email: '',
+                    password: '',
                 },
                 confirmPassword: '',
                 valid: false,
@@ -140,43 +141,45 @@
 
             onSave() {
                 if (this.$refs.form.validate()) {
-                    this.update(this.editUser)
-                        .then(response => {
-                            alert("Successfully updated.");
-                        }, err => {
-                            alert(err.message);
-                        })
+                    try{
+                        this.update(this.editUser)
+                            .then(response =>{
+                                alert(response.message);
+                            })
+                    }catch (error){
+                        alert(error.message);
+                    }
                 }
-            }
+            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .edit-form-input > > > .v-input__control {
-        min-height: 1px;
-    }
-
-    .edit-form-input.v-input--is-focused {
-        border: 1px solid rgba(60, 87, 222, 0.52);
-        box-shadow: 0 0 14px rgba(194, 205, 223, 0.6);
-    }
-
     .edit-form-input {
         background: #FFFFFF;
         border: 1px solid rgba(18, 39, 55, 0.11);
         box-sizing: border-box;
         border-radius: 3px;
-    }
 
-    .edit-form-input > > > input {
-        min-height: 35px;
-    }
+        ::v-deep {
+            .v-input__control {
+                min-height: 1px;
+            }
 
-    .edit-form-input > > > .v-input__prepend-outer {
-        margin-top: 4px;
-    }
+            input{
+                min-height: 35px;
+            }
 
+            .v-input__prepend-outer{
+                margin-top: 4px;
+            }
+        }
+        &.v-input--is-focused {
+            border: 1px solid rgba(60, 87, 222, 0.52);
+            box-shadow: 0 0 14px rgba(194, 205, 223, 0.6);
+        }
+    }
     .edit-form-label {
         font-size: 12px;
         line-height: 15px;
@@ -203,14 +206,17 @@
 
     .edit-form-button {
         border-radius: 3px;
+
+        ::v-deep{
+            span {
+                font-size: 14px;
+                line-height: 17px;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                letter-spacing: 0.4px;
+            }
+        }
     }
 
-    .edit-form-button > > > span {
-        font-size: 14px;
-        line-height: 17px;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        letter-spacing: 0.4px;
-    }
 </style>

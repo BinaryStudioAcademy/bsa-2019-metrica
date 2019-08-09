@@ -39,7 +39,7 @@ export default new Router({
                     component: SignUp
                 },
                 {
-                    path: 'user/:id',
+                    path: 'user-settings',
                     name: 'userUpdate',
                     component: UserUpdate
                 },
