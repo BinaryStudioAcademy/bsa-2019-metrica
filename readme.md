@@ -11,6 +11,9 @@ Metrica is an analog of Google Analytics. The main purpose is to collect data fr
 ```bash
 cp docker-compose.override.yml.general docker-compose.override.yml
 cp .env.example .env
+
+docker-compose run --rm frontend npm install
+
 docker-compose up -d
 
 cp backend/.env.example backend/.env
@@ -19,10 +22,6 @@ docker-compose exec app php artisan key:generate
 docker-compose exec app php artisan migrate --seed
 
 cp frontend/.env.example frontend/.env
-
-docker-compose run --rm frontend npm install
-docker-compose run --rm frontend npm run serve
-
 ```
 
 Open browser:
