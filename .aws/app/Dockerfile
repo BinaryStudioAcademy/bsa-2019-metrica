@@ -12,9 +12,9 @@ ENV USERNAME=www-data
 RUN usermod -u $UID $USERNAME \
     && groupmod -g $GID $USERNAME \
     && mkdir -p /home/$USERNAME \
-    && chown $USERNAME:$USERNAME /home/$USERNAME \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME \
 	&& mkdir -p /app \
-    && chown $USERNAME:$USERNAME /app
+    && chown -R $USERNAME:$USERNAME /app
 
 # Install selected extensions and other stuff
 RUN apt-get update \
@@ -41,7 +41,6 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY ./.aws/app/php-ini-overrides.ini /etc/php/7.3/fpm/conf.d/99-overrides.ini
 COPY --chown=www-data ./.aws/app/migration.sh /home/$USERNAME/migration.sh
-
 COPY --chown=www-data ./backend /app
 
 USER $USERNAME

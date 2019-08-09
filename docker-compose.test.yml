@@ -17,6 +17,11 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+  composer:
+    image: composer
+    working_dir: /app
+    volumes:
+      - ./backend:/app
 
   frontend:
     image: metrica/frontend:latest
