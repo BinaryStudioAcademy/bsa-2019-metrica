@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
 
-sudo chown -R travis:travis /home/travis/
-
-# install AWS SDK
-sudo pip install --user awscli
-export PATH=$PATH:$HOME/.local/bin
-
-# install necessary dependency for ecs-deploy
-sudo add-apt-repository ppa:eugenesan/ppa
-sudo apt-get update
-sudo apt-get install jq -y
-
 set -e
 set -u
 set -o pipefail
