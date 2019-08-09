@@ -9,5 +9,5 @@ use Illuminate\Support\Collection;
 
 interface SessionRepository
 {
-    public function all(): Collection;
+    public function getCollection(): Collection;
 }

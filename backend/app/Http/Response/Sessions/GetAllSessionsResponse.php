@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Response\Sessions;
 
 use App\Contracts\ApiResponse;
+use App\Http\Resources\SessionResource;
 
 final class GetAllSessionsResponse implements ApiResponse
 {
@@ -12,11 +13,11 @@ final class GetAllSessionsResponse implements ApiResponse
 
     public function __construct(array $data)
     {
-        $this->data = $data;
+        $this->data = collect($data);
     }
 
     public function toArray(): array
     {
-        return $this->data;
+        return SessionResource::collection($this->data)->jsonSerialize();
     }
 }

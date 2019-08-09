@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\SessionRepository;
+use App\Repositories\EloquentSessionRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\EloquentUserRepository::class
         );
 
-        $this->app->bind(SessionRepository::class, \App\Repositories\SessionRepository::class);
+        $this->app->bind(SessionRepository::class, EloquentSessionRepository::class);
     }
 
     /**

@@ -17,7 +17,7 @@ final class GetAllSessionsAction
 
     public function execute(): GetAllSessionsResponse
     {
-        $sessions = $this->sessionRepository->all();
+        $sessions = $this->sessionRepository->getCollection();
 
         return new GetAllSessionsResponse($sessions);
     }

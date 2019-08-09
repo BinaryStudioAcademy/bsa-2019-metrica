@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Sessions\GetAllSessionsAction;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\SessionResource;
 use App\Http\Response\Sessions\GetAllSessionsResponse;
 use App\Http\Response\ApiResponse;
 
@@ -25,7 +24,7 @@ final class SessionController extends Controller
 
         return ApiResponse::success(
             new GetAllSessionsResponse([
-                'sessions' => SessionResource::collection($response->sessions())
+                'sessions' => $response->sessions()
             ])
         );
     }
