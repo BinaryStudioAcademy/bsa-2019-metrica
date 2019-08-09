@@ -137,6 +137,7 @@ deploy_cluster() {
 
 $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
 aws s3 cp s3://${AWS_BUCKET}/envs/.env.app.$DEPLOY_TYPE ./backend/.env
+aws s3 cp s3://${AWS_BUCKET}/envs/.env.frontend.$DEPLOY_TYPE ./frontend/.env
 
 deploy_image app $DEPLOY_TYPE
 deploy_image frontend $DEPLOY_TYPE
