@@ -15,6 +15,7 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+    command: "npm run serve"
 
   adminer:
     image: adminer
