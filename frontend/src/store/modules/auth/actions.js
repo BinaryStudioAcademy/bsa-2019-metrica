@@ -25,7 +25,7 @@ export default {
     },
 
     [LOGOUT]: (context) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             context.commit(USER_LOGOUT);
             resolve();
         });
