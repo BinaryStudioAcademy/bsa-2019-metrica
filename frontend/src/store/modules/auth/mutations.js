@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import {USER_UPDATE} from './types/mutations';
+import { EMPTY_USER } from '../../../services/Normalizer';
+>>>>>>> bbd9cacbf92ede2841ce9b3f8ca53943bd14ae63
 import {SET_AUTHENTICATED_USER, SET_TOKEN, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
 
 export default {
