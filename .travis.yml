@@ -14,6 +14,9 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
+  - ./.scripts/build.sh app
+  - ./.scripts/build.sh frontend
+  - ./.scripts/build.sh nginx
 script:
   - cp backend/.env.travis backend/.env
   - docker-compose -f docker-compose.test.yml run --rm app composer install --no-interaction
@@ -23,6 +26,7 @@ script:
   - docker-compose -f docker-compose.test.yml up -d
   - docker-compose -f docker-compose.test.yml run --rm app php artisan migrate --seed --force
   - docker-compose -f docker-compose.test.yml run --rm app ./vendor/bin/phpunit
+
 branches:
   only:
     - master

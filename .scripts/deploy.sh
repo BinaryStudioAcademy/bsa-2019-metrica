@@ -95,7 +95,7 @@ make_task_def() {
         "essential": false,
 		"logConfiguration": %s,
 		"command": [
-			"php", "/app/artisan", "migrate", "--seed", "--force"
+			"/bin/bash", "/home/www-data/migration.sh"
 		],
         "memory": 128
     }' "migration" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_log")
