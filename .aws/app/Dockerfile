@@ -14,7 +14,8 @@ RUN usermod -u $UID $USERNAME \
     && mkdir -p /home/$USERNAME \
     && chown -R $USERNAME:$USERNAME /home/$USERNAME \
 	&& mkdir -p /app \
-    && chown -R $USERNAME:$USERNAME /app
+    && chown -R $USERNAME:$USERNAME /app \
+    && chown -R $USERNAME:$USERNAME /var/www
 
 # Install selected extensions and other stuff
 RUN apt-get update \
@@ -44,3 +45,5 @@ COPY --chown=www-data ./.aws/app/migration.sh /home/$USERNAME/migration.sh
 COPY --chown=www-data ./backend /app
 
 USER $USERNAME
+
+RUN composer install --no-interaction
