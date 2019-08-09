@@ -7,7 +7,7 @@ export const authPlugin = store => {
 
     store.commit(`auth/${SET_TOKEN}`, token);
 
-    store.subscribe((mutation, {}) => {
+    store.subscribe(mutation => {
         switch (mutation.type) {
             case `auth/${USER_LOGIN}`: {
                 storage.setToken(mutation.payload.access_token);

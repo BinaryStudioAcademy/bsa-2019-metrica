@@ -82,7 +82,7 @@
                     this.login({
                         email: this.email,
                         password: this.password
-                    }).then(res => {
+                    }).then(() => {
                         this.$router.push({path: '/'});
                     }, err => {
                         alert(err.message);
