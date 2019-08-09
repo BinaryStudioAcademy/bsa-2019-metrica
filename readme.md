@@ -1,6 +1,6 @@
 # BSA 2019 | PHP | Metrica
 
-[![Build Status](https://travis-ci.com/BinaryStudioAcademy/bsa-2019-metrica.svg?branch=master)](https://travis-ci.com/BinaryStudioAcademy/bsa-2019-metrica)
+[![Build Status](https://travis-ci.org/BinaryStudioAcademy/bsa-2019-metrica.svg?branch=master)](https://travis-ci.org/BinaryStudioAcademy/bsa-2019-metrica)
 
 ## Description
 
