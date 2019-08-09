@@ -6,18 +6,21 @@ namespace App\Http\Response\Sessions;
 
 use App\Contracts\ApiResponse;
 use App\Http\Resources\SessionResource;
+use Illuminate\Support\Collection;
 
 final class GetAllSessionsResponse implements ApiResponse
 {
-    private $data;
+    private $sessionCollection;
 
-    public function __construct(array $data)
+    public function __construct(Collection $sessionCollection)
     {
-        $this->data = collect($data);
+        $this->sessionCollection = $sessionCollection;
     }
 
     public function toArray(): array
     {
-        return SessionResource::collection($this->data)->jsonSerialize();
+        return [
+            'sessions' => SessionResource::collection($this->sessionCollection)->jsonSerialize()
+        ];
     }
 }

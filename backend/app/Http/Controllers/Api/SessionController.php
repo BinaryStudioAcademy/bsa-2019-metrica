@@ -23,9 +23,7 @@ final class SessionController extends Controller
         $response = $this->getAllSessionsAction->execute();
 
         return ApiResponse::success(
-            new GetAllSessionsResponse([
-                'sessions' => $response->sessions()
-            ])
+            new GetAllSessionsResponse($response->sessions())
         );
     }
 }
