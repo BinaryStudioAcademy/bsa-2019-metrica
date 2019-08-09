@@ -26,9 +26,9 @@ script:
   - docker-compose -f docker-compose.test.yml up -d
   - docker-compose -f docker-compose.test.yml ps
   - docker-compose -f docker-compose.test.yml logs migration
-  - docker-compose -f docker-compose.test.yml ls vendor
-  - docker-compose -f docker-compose.test.yml ls -la vendor
-  - docker-compose -f docker-compose.test.yml ls -la vendor/storage
+  - docker-compose -f docker-compose.test.yml exec app ls vendor
+  - docker-compose -f docker-compose.test.yml exec app ls -la vendor
+  - docker-compose -f docker-compose.test.yml exec app ls -la vendor/storage
   - docker-compose -f docker-compose.test.yml exec app php artisan key:generate
   - docker-compose -f docker-compose.test.yml exec app php artisan migrate --seed --force
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
