@@ -49,7 +49,7 @@
                                 type="password"
                                 v-model="password"
                                 name="password"
-                                :counter="6"
+                                :counter="8"
                                 :rules="passwordRules"
                             />
                             <VTextField
@@ -58,7 +58,7 @@
                                 type="password"
                                 v-model="confirmPassword"
                                 name="confirmPassword"
-                                :counter="6"
+                                :counter="8"
                                 :rules="confirmPasswordRules"
                             />
                         </VForm>
@@ -114,7 +114,7 @@
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 6) || 'Password must be equal or more than 6 characters'
+                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
@@ -125,12 +125,12 @@
         methods: {
             onSignUp () {
                 if (this.$refs.form.validate()) {
-                    let user = {
+                    let newUser = {
                         name: this.name,
                         email: this.email,
                         password: this.password,
                     }
-                    console.log(user)
+                    console.log(newUser)
                 }
             },
             onSignIn () {
