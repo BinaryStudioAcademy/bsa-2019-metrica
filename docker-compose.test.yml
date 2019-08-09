@@ -12,12 +12,15 @@ services:
     depends_on:
       - app
     command: "/bin/bash /home/www-data/migration.sh"
+  node:
+    image: node:12.7-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
 
   frontend:
     image: metrica/frontend:latest
     working_dir: /app
-    volumes:
-      - ./frontend:/app
 
   webserver:
     image: metrica/nginx:latest
