@@ -1,8 +1,7 @@
 import axios from 'axios';
 import storage from '@/services/storage';
 
-const baseURL = process.env.VUE_APP_URL || '/';
-const axiosInstance = axios.create({ baseURL });
+const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
 

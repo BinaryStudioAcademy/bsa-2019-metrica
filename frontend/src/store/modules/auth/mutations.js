@@ -6,7 +6,6 @@ export default {
     },
     [USER_LOGIN]: (state, response) => {
         state.token = response.token;
-        state.isLoggedIn = true;
     },
     [USER_LOGOUT]: (state) => {
         state.token = undefined;

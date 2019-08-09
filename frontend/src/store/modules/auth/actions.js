@@ -6,21 +6,16 @@ export default {
     [LOGIN]: (context, user) => {
         return authorize(user)
           .then(response => {
-            getAuthUser()
+            context.commit(USER_LOGIN, response.data);
+
+            return getAuthUser()
               .then(response => {
                 const user = response.data[0];
                 context.commit(SET_AUTHENTICATED_USER, user);
-                return user;
-              })/*
-              .catch(error => {
-                throw error
-              })*/;
 
-            context.commit(USER_LOGIN, response);
-          })/*
-          .catch(error => {
-              throw error;
-          })*/;
+                return user;
+              });
+          });
     },
 
     [LOGOUT]: (context) => {
