@@ -3,23 +3,18 @@ declare(strict_types=1);
 
 namespace App\Actions\Website;
 
-use App\Entities\TrackingInfo;
 use App\Entities\Website;
-use App\Repositories\Contracts\EloquentTrackingInfoRepository;
 use App\Repositories\Contracts\EloquentWebsiteRepository;
 use Illuminate\Support\Facades\Auth;
 
 class AddWebsiteAction
 {
     private $websiteRepository;
-    private $trackingInfoRepository;
 
     public function __construct(
-        EloquentWebsiteRepository $websiteRepository,
-        EloquentTrackingInfoRepository $trackingInfoRepository
+        EloquentWebsiteRepository $websiteRepository
     ) {
         $this->websiteRepository = $websiteRepository;
-        $this->trackingInfoRepository = $trackingInfoRepository;
     }
 
     public function execute(AddWebsiteRequest $request): AddWebsiteResponse

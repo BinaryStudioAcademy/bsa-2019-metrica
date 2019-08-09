@@ -11,7 +11,7 @@ final class WebsiteRepository implements EloquentWebsiteRepository
 {
     public function save(Website $website): Website
     {
-        $website->tracking_number = $this->getLastTrackingNumber();
+        $website->tracking_number = $this->getLastTrackingNumber() + 1;
 
         $website->save();
 
@@ -20,6 +20,8 @@ final class WebsiteRepository implements EloquentWebsiteRepository
 
     private function getLastTrackingNumber(): int
     {
-        $lastTrackingNumber = DB::table('websites')->latest('tracking_number')->first() ?? 1;
+        $last = DB::table('websites')->latest()->first();
+
+        return $last ? $last->tracking_number : 0;
     }
 }

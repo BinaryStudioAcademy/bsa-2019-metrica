@@ -16,7 +16,7 @@ final class WebsiteResource extends JsonResource
                 'domain' => $this->domain,
                 'single_page' => $this->single_page,
                 'user_id' => $this->user_id,
-                'tracking_info_id' => $this->tracking_info_id
+                'tracking_number' => $this->tracking_number
             ],
             'meta' => [],
         ];
