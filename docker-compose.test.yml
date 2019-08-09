@@ -5,6 +5,8 @@ services:
     image: metrica/app:latest
     working_dir: /app
     user: www-data
+    volumes:
+      - ./backend:/app
   node:
     image: node:12.7-alpine
     working_dir: /app
