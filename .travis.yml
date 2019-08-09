@@ -14,6 +14,8 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
+  - sudo groupadd -g 1000 www-data
+  - usermod -a -G 1000 travis
   - docker-compose -f docker-compose.test.yml run --rm node npm install
   - docker-compose -f docker-compose.test.yml run --rm node npm run build
   - ./.scripts/build.sh app
@@ -21,7 +23,6 @@ before_install:
   - ./.scripts/build.sh nginx
 script:
   - cp backend/.env.travis backend/.env
-  - usermod -a -G 1000 travis
   - docker-compose -f docker-compose.test.yml up -d
   - docker-compose -f docker-compose.test.yml ps
   - docker-compose -f docker-compose.test.yml exec app composer install
