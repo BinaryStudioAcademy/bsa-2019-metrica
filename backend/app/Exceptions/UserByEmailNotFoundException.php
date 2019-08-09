@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class UserByEmailNotFoundException extends ModelNotFoundException implements ApiException
 {
-    private $message = 'User with this email not found';
+    protected $message = 'User with this email not found';
 
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
