@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\SessionRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\UserRepository::class,
             \App\Repositories\EloquentUserRepository::class
         );
+
+        $this->app->bind(SessionRepository::class, \App\Repositories\SessionRepository::class);
     }
 
     /**
