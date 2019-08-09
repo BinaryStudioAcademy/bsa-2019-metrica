@@ -1,28 +1,26 @@
 <template>
-    <Nav>
+    <nav>
         <Header />
         <Sidepanel />
-    </Nav>
+    </nav>
 </template>
 
 <script>
 import Header from './Header.vue';
 import Sidepanel from './Sidepanel.vue';
-    export default {
-        components: { Header, Sidepanel },
-        data: () => ({
-            drawer: true
-        })
-    }
+
+export default {
+    components: { Header, Sidepanel }
+}
 </script>
 
-<style lang="scss">
-    .v-navigation-drawer__border {
-        display: none;
-    }
+<style scoped lang="scss">
+::v-deep .v-navigation-drawer__border {
+    display: none;
+}
 
-    .v-toolbar__content {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.034);
-        height: 61px;
-    }
+::v-deep .v-toolbar__content {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.034);
+    height: 61px;
+}
 </style>
