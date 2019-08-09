@@ -14,12 +14,12 @@
                             <VTextField
                                 name="website"
                                 @change="changeName"
+                                v-model="name"
                                 :error-messages="nameErrors"
                                 single-line
                                 solo
                                 placeholder="website name"
                                 required
-                                :rules="nameRules"
                             />
                         </div>
                         <div class="inline-element">
@@ -30,6 +30,7 @@
                                 single-line
                                 solo
                                 disabled
+                                v-model="address"
                             />
                         </div>
                         <div class="inline-element">
@@ -40,10 +41,10 @@
                     <div>
                         <p class="inline-element">
                             <span>Tracking ID: </span>
-                            <span>{{ tracking_id }}</span>
+                            <span>{{ trackingId }}</span>
                         </p>
                         <div>
-                            <h1>WebSite Tracking</h1>
+                            <h2>WebSite Tracking</h2>
                             <p>
                                 This is Global Site tag tracking code for you website.
                                 Copy and Paste this code as the
@@ -54,18 +55,9 @@
                                 filled
                                 auto-grow
                                 readonly
-                                v-bind="code"
+                                v-model="code"
                                 @focus="$event.target.select()"
-                                value="<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src='https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID'></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag() {
-  dataLayer.push(arguments);
- }
- gtag('js', new Date());
- gtag('config', 'GA_MEASUREMENT_ID');
-</script>"
+                                :value="code"
                             />
                         </div>
                     </div>
@@ -76,48 +68,68 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
-    import {SET_NAME_WEBSITE} from "../../store/modules/website/types/actions";
+    import { mapActions, mapGetters } from 'vuex';
+    import { GET_WEBSITE, SET_NAME_WEBSITE } from "../../store/modules/website/types/actions";
+    import { GET_AUTHENTICATED_USER } from "../../store/modules/auth/types/getters";
 
     export default {
         data: () => ({
-            drawer: null,
             nameErrors: '',
             chips: '',
-            tracking_id: '',
-            code: "",
-            nameRules: [
-                v => !!v || 'Name required',
-            ],
+            trackingId: '',
+            name:'',
+            address:'',
+            code: '',
         }),
         created() {
-            this.websites({
-                user_id: 1,
-            }).then((a) => {
-                alert(a)
+            this.website({
+                userId: 12
+            }).then((data) => {
+                alert(this.user)
+                this.name = data.name;
+                this.address = data.address;
+                this.trackingId = data.trackingId;
+                this.code = this.decode(this.trackingId);
             }, err => {
                 alert(err.message);
             })
         },
         computed: {
-            ...mapGetters('website', {
-                websites: 'getWebsite'
-            }),
+            ...mapGetters('auth', {
+                user: GET_AUTHENTICATED_USER
+            })
         },
         methods: {
             ...mapActions('website', {
-                website: SET_NAME_WEBSITE
+                setWebsiteName: SET_NAME_WEBSITE,
+                website: GET_WEBSITE
             }),
-            changeName(val) {
-                this.website({
-                    user_id:122,
-                    name:val
-                }).then((e) => {
-                    console.log(e)
-                    //this.$router.push({path: '/'});
+            changeName(name) {
+                if(name === this.name) {
+                    alert("");
+                }
+                this.setWebsiteName({
+                    userId:122,
+                    name:name
+                }).then((data) => {
+                    this.name = data.name;
                 }, err => {
                     alert(err.message);
                 })
+            },
+            decode (trackengId) {
+                let decoder = document.createElement('div');
+                decoder.innerHTML = "&lt;!-- Global site tag (gtag.js) - Google Analytics --&gt;\n" +
+                    "&lt;script async src='https://www.googletagmanager.com/gtag/js?id="+ trackengId +"'&gt;&lt;/script&gt;\n" +
+                    "&lt;script&gt;\n" +
+                    " window.dataLayer = window.dataLayer || [];\n" +
+                    " function gtag() {\n" +
+                    "  dataLayer.push(arguments);\n" +
+                    " }\n" +
+                    " gtag('js', new Date());\n\n" +
+                    " gtag('config', '"+ trackengId +"');\n" +
+                    "&lt;/script&gt;";
+                return decoder.textContent
             }
         },
     }

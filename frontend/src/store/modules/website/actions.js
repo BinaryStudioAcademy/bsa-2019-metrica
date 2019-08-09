@@ -2,38 +2,34 @@ import {GET_WEBSITE, SET_NAME_WEBSITE} from './types/actions';
 import {SET_WEBSITE} from "./types/mutations";
 
 export default {
-    [GET_WEBSITE]: (context, user_id) => {
+    [GET_WEBSITE]: (context, userId) => {
         return new Promise((resolve, reject) => {
             const fakeWebsite = {
                 name: 'slack',
-                adress: 'https://app.slack.com',
-                user_id: user_id,
-                tracking_id: 123156123,
+                address: 'https://app.slack.com',
+                userId: userId,
+                trackingId: 123156123,
             };
-            const websiteMapper = website => ({
-                id: website.id,
-                name: website.name,
-                adress: website.address,
-                user_id: website.user_id,
-                tracking_id: website.tracking_id,
-            });
 
             context.commit(SET_WEBSITE, fakeWebsite);
-            resolve(    fakeWebsite.map(websiteMapper));
+            resolve(fakeWebsite);
             reject({
                 message: "Wrong website"
             });
         });
     },
 
-    [SET_NAME_WEBSITE]: (context, user_id, name) => {
-        return new Promise(resolve => {
-            const website = {
+    [SET_NAME_WEBSITE]: (context, {userId, name}) => {
+        return new Promise((resolve, reject) => {
+            const fakeWebsite = {
                 name: name,
-                user_id: user_id,
+                userId: userId,
             };
-            context.commit(SET_WEBSITE, website);
-            resolve(website);
+            context.commit(SET_WEBSITE, fakeWebsite);
+            resolve({name: name});
+            reject({
+                message: "Wrong website"
+            });
         });
     },
 }

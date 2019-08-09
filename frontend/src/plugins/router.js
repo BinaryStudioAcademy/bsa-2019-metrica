@@ -31,7 +31,11 @@ export default new Router({
                             name: 'visitors',
                             component: Visitors
                         },
-
+                        {
+                            path: 'website',
+                            name: 'website',
+                            component: Website
+                        }
                     ]
                 },
                 {
@@ -39,11 +43,6 @@ export default new Router({
                     name: 'signup',
                     component: SignUp
                 },
-                {
-                    path: 'website',
-                    name: 'website',
-                    component: Website
-                }
             ]
         }
     ]
