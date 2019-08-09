@@ -38,6 +38,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
+            Route::get('/new', 'VisitorController@getNewVisitors');
         });
     });
 });
