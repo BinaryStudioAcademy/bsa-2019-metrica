@@ -129,8 +129,9 @@
                         name: this.name,
                         email: this.email,
                         password: this.password,
-                    }
-                    console.log(user)
+                    };
+
+                    alert(user.name);
                 }
             },
             onSignIn () {
