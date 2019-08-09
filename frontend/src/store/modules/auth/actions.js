@@ -12,7 +12,7 @@ export default {
                 id: 1
             };
 
-            if(fakeUser.email === user.email && fakeUser.password === user.password) {
+            if (fakeUser.email === user.email && fakeUser.password === user.password) {
                 context.commit(USER_LOGIN, fakeUser);
                 context.commit(SET_AUTHENTICATED_USER, fakeUser);
                 resolve(fakeUser);
@@ -25,7 +25,7 @@ export default {
     },
 
     [LOGOUT]: (context) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             context.commit(USER_LOGOUT);
             resolve();
         });
