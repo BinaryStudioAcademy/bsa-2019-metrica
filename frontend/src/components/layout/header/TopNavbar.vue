@@ -1,7 +1,12 @@
 <template>
-    <p v-if="!isLoggedIn">Not logged</p>
-    <p v-else>{{user.name}}
-        <v-btn @click="logout">Logout</v-btn>
+    <p v-if="!isLoggedIn">
+        Not logged
+    </p>
+    <p v-else>
+        {{ user.name }}
+        <VBtn @click="logout">
+            Logout
+        </VBtn>
     </p>
 </template>
 
