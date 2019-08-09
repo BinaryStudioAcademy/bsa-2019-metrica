@@ -31,7 +31,7 @@ export default {
         });
     },
 
-    [RESET_PASSWORD]: (context, email) => {
+    [RESET_PASSWORD]: () => {
         return new Promise((resolve, reject) => {
             const fakeResponse = 201;
             switch (fakeResponse) {

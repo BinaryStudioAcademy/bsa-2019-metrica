@@ -1,5 +1,5 @@
 <template>
-    <ResetPasswordForm/>
+    <ResetPasswordForm />
 </template>
 
 <script>
