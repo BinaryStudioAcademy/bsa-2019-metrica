@@ -1,8 +1,8 @@
 <template>
     <VApp>
-        <Header/>
-        <RouterView/>
-        <Footer/>
+        <Header />
+        <RouterView />
+        <Footer />
     </VApp>
 </template>
 
