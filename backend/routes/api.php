@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function () {
         'prefix' => 'auth',
         'namespace' => 'Api\\Auth'
     ], function () {
-        Route::post('/register', 'RegisterController@create');
+        Route::post('/register', 'AuthController@register');
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
         Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:jwt');
@@ -40,4 +40,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'VisitorController@getAllVisitors');
         });
     });
+});
+
+Route::get('/v1/health', function () {
+    return "healthy";
 });

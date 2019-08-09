@@ -51,8 +51,8 @@
                         <v-text-field
                                 name="input-10-1"
                                 class="edit-form-input"
-                                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
                                 v-model="editUser.password"
+                                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
                                 solo
                                 type="showPassword ? 'text' : 'password'"
                                 hint="At least 6 characters"
@@ -69,8 +69,8 @@
                         <v-text-field
                                 name="input-10-1"
                                 class="edit-form-input"
-                                :append-icon="showConfirmPassword ? 'visibility' : 'visibility_off'"
                                 v-model="confirmPassword"
+                                :append-icon="showConfirmPassword ? 'visibility' : 'visibility_off'"
                                 solo
                                 type="showConfirmPassword ? 'text' : 'password'"
                                 hint="At least 6 characters"
