@@ -1,10 +1,10 @@
 <template>
     <VContent>
         <VFlex
-                lg6
-                md6
-                sm12
-                xs12
+            lg6
+            md6
+            sm12
+            xs12
         >
             <VContainer>
                 <VCardText>
@@ -16,23 +16,31 @@
                             Email
                         </VSubheader>
                         <VTextField
-                                name="email"
-                                class="reset-password-form-input"
-                                v-model="email"
-                                solo
-                                type="text"
-                                :rules="emailRules"
-                                required
+                            name="email"
+                            class="reset-password-form-input"
+                            v-model="email"
+                            solo
+                            type="text"
+                            :rules="emailRules"
+                            required
                         />
                     </VForm>
                 </VCardText>
                 <VCardActions>
-                    <VBtn class="reset-password-form-button mt-3" color="#3C57DE" @click="onResetPassword">
+                    <VBtn
+                        class="reset-password-form-button mt-3"
+                        color="#3C57DE"
+                        @click="onResetPassword"
+                    >
                         Send Password Reset Link
                     </VBtn>
                 </VCardActions>
-                <VAlert :class="className" v-if="showAlert" :type="type">
-                    {{message}}
+                <VAlert
+                    :class="className"
+                    v-if="showAlert"
+                    :type="type"
+                >
+                    {{ message }}
                 </VAlert>
             </VContainer>
         </VFlex>
