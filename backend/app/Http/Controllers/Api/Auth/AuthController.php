@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterHttpRequest;
 use App\Actions\Auth\AuthenticatedUserAction;
 use App\Actions\Auth\AuthenticatedUserRequest;
-use App\Contracts\ApiException;
 use App\Http\Requests\AuthenticatedHttpRequest;
 use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
@@ -35,13 +34,9 @@ final class AuthController extends Controller
 
     public function login(AuthenticatedHttpRequest $request): ApiResponse
     {
-        try {
-            $response = $this->authenticatedUserAction->execute(
-                AuthenticatedUserRequest::fromRequest($request)
-            );
-        } catch (ApiException $exception) {
-            return ApiResponse::error($exception);
-        }
+        $response = $this->authenticatedUserAction->execute(
+            AuthenticatedUserRequest::fromRequest($request)
+        );
 
         return ApiResponse::success(new TokenResource($response));
     }
