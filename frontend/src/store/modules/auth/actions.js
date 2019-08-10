@@ -1,5 +1,5 @@
 import {LOGIN, LOGOUT, RESET_PASSWORD,GET_USER_DATA, SET_IS_LOGGED_IN} from './types/actions';
-import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT,SET_USER_IS_LOGGED_IN} from "./types/mutations";
+import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT,SET_USER_IS_LOGGED_IN,SET_AUTHENTICATED} from "./types/mutations";
 import { authorize, getAuthUser } from '@/api/auth';
 
 export default {
@@ -10,7 +10,7 @@ export default {
 
             return getAuthUser()
               .then(response => {
-                const user = response.data[0];
+                const user = response.data;
                 context.commit(SET_AUTHENTICATED_USER, user);
 
                 return user;
@@ -41,13 +41,14 @@ export default {
         })
     },
 
-    [GET_USER_DATA]: () => {
-        // alert('hello!');
-        //  getAuthUser().then(response => {
-        //     const user = response.data[0];
-        //     alert(user)
-        // })
-        //     .catch(() => alert('error!'));
+    [GET_USER_DATA]: (context) => {
+         getAuthUser().then(response => {
+            const user = response.data;
+            alert(user.name);
+            context.commit(SET_AUTHENTICATED,user);
+
+        })
+            .catch((err) => alert(err.message));
     },
 
     [SET_IS_LOGGED_IN]: (context, data) => {

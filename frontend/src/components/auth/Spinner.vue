@@ -29,8 +29,9 @@
         },
         mounted() {
             if (this.hasToken) {
-                this.setUserLoggedIn(true);
+                // this.setUserLoggedIn(true);
                 this.getUserData();
+                alert('succese!');
             } else {
                 this.setUserLoggedIn(false);
                 alert('error!');
