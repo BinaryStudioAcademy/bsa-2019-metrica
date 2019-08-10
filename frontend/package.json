@@ -68,7 +68,9 @@
           "registeredComponentsOnly": false
         }
       ],
-      "vue/eqeqeq": "error"
+      "vue/eqeqeq": "error",
+      "no-console": "off",
+      "no-debugger": "off"
     }
   },
   "postcss": {
