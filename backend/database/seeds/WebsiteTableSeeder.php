@@ -19,12 +19,13 @@ class WebsiteTableSeeder extends Seeder
         $now = Carbon::now();
         $users = User::all();
         $faker = Faker::create();
+
         $websites = $users->map(
             function (User $user) use ($faker, $now){
                 return factory(Website::class, 1)->make([
                     'user_id' => $user->id,
-                    'name' => $faker->unique()->name,
-                    'domain' => "http://". $faker->unique()->domainWord .".com",
+                    'name' => $faker->unique()->name. $now->timestamp,
+                    'domain' => "http://". $faker->unique()->domainWord. $now->timestamp .".com",
                     'created_at' => $now->toDateTimeString()
                 ]);
             }
