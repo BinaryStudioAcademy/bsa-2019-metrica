@@ -33,7 +33,7 @@ export default {
     },
 
     [SIGNUP]: (context, newUser) => {
-        return requestService.create('/api/v1/auth/register', {
+        return requestService.create('/auth/register', {
                 name: newUser.name,
                 email: newUser.email,
                 password: newUser.password
