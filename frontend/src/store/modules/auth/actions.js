@@ -1,6 +1,6 @@
-import {LOGIN, LOGOUT, RESET_PASSWORD} from './types/actions';
+import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD} from './types/actions';
 import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
-import { authorize, getAuthUser } from '@/api/auth';
+import { authorize, getAuthUser, registerUser } from '@/api/auth';
 
 export default {
     [LOGIN]: (context, user) => {
@@ -10,7 +10,7 @@ export default {
 
             return getAuthUser()
               .then(response => {
-                const user = response.data[0];
+                const user = response.data;
                 context.commit(SET_AUTHENTICATED_USER, user);
 
                 return user;
@@ -23,6 +23,10 @@ export default {
             context.commit(USER_LOGOUT);
             resolve();
         });
+    },
+
+    [SIGNUP]: (context, newUser) => {
+        return registerUser(newUser);
     },
 
     [RESET_PASSWORD]: () => {

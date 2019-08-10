@@ -31,35 +31,41 @@
                                 prepend-icon="person"
                                 label="Full name"
                                 type="name"
-                                v-model="name"
                                 name="name"
+                                v-model="newUser.name"
                                 :rules="nameRules"
                             />
                             <VTextField
                                 prepend-icon="email"
                                 label="Email"
                                 type="email"
-                                v-model="email"
                                 name="email"
+                                v-model="newUser.email"
                                 :rules="emailRules"
                             />
                             <VTextField
                                 prepend-icon="lock"
                                 label="Password"
-                                type="password"
-                                v-model="password"
                                 name="password"
-                                :counter="6"
+                                autocomplete="new-password"
+                                v-model="newUser.password"
+                                :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                                :counter="8"
                                 :rules="passwordRules"
+                                :type="show1 ? 'text' : 'password'"
+                                @click:append="show1 = !show1"
                             />
                             <VTextField
                                 prepend-icon="lock"
                                 label="Confirm password"
-                                type="password"
-                                v-model="confirmPassword"
                                 name="confirmPassword"
-                                :counter="6"
+                                autocomplete="new-password"
+                                v-model="newUser.confirmPassword"
+                                :append-icon="show2 ? 'visibility' : 'visibility_off'"
+                                :counter="8"
                                 :rules="confirmPasswordRules"
+                                :type="show2 ? 'text' : 'password'"
+                                @click:append="show2 = !show2"
                             />
                         </VForm>
                     </VCardText>
@@ -68,8 +74,8 @@
                         <VBtn
                             large
                             color="primary"
-                            @click="onSubmit"
                             :disabled="!valid"
+                            @click="onSignUp"
                         >
                             SIGN UP
                         </VBtn>
@@ -80,8 +86,8 @@
                             outlined
                             large
                             color="primary"
-                            @click="onSignIn"
                             :disabled="false"
+                            @click="onSignIn"
                         >
                             SIGN IN
                         </VBtn>
@@ -94,19 +100,27 @@
 </template>
 
 <script>
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    import {mapActions} from 'vuex';
+    import {SIGNUP} from "@/store/modules/auth/types/actions";
+
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
     export default {
         data () {
             return {
-                name: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
+                show1: false,
+                show2: false,
+                newUser: {
+                    name: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                },
+
                 valid: false,
                 nameRules: [
                     v => !!v || 'Field full name is required',
-                    v => (v && v.length >= 3) || 'Enter the correct information'
+                    v => (v && v.length >= 5 && (v.split(" ").length - 1) >= 1) || 'Enter the correct information'
                 ],
                 emailRules: [
                     v => !!v || 'E-mail is required',
@@ -114,29 +128,38 @@
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 6) || 'Password must be equal or more than 6 characters'
+                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
-                    v => v === this.password || 'Password should match'
+                    v => v === this.newUser.password || 'Password should match'
                 ]
             }
         },
         methods: {
-            onSubmit () {
+            ...mapActions('auth', {
+                signup: SIGNUP
+            }),
+            onSignUp () {
                 if (this.$refs.form.validate()) {
-                    let user = {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password,
-                    };
-
-                    alert(user.name);
+                    this.signup({
+                        name: this.newUser.name,
+                        email: this.newUser.email,
+                        password: this.newUser.password,
+                    }).then(() => {
+                        this.$router.push({name: 'login'});
+                    }, err => {
+                        alert(err.message);
+                    })
                 }
+                
             },
+
             onSignIn () {
-                this.$router.push({path: '/login'});
+                return this.$router.push({path: '/login'});
             },
-        }
+        },
+
+
     }
 </script>
