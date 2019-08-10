@@ -39,12 +39,12 @@
                 {
                     icon: '/assets/icons/home.svg',
                     text: 'Home',
-                    route: 'login'
+                    route: '/'
                 },
                 {
                     icon: '/assets/icons/person.svg',
                     text: 'Audience',
-                    route: 'audience'
+                    route: 'visitors'
                 },
                 {
                     icon: '/assets/icons/settings.svg',

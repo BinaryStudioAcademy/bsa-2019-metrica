@@ -4,15 +4,18 @@
         clipped-left
         app
     >
+        <VToolbarTitle class="pl-4">
+            <span class="logo pr-3">M</span>Metrica
+        </VToolbarTitle>
+        <VSpacer />
         <VLayout
-            flex
+            right
             align-center
-            class="pl-4 pr-10"
+            justify-end
+            row
+            class="pr-12"
+            v-if="loggedIn"
         >
-            <VToolbarTitle>
-                <span class="logo pr-3">M</span>Metrica
-            </VToolbarTitle>
-            <VSpacer />
             <VBtn
                 icon
                 class="notifications"
@@ -48,17 +51,33 @@
                 </VList>
             </VMenu>
         </VLayout>
+        <VLayout 
+            v-else
+            justify-end
+            class="pr-3"
+        >
+            <a
+                class="login-btn"
+                href="/login"
+            >
+                Sign In
+            </a>
+        </VLayout>
     </VAppBar>
 </template>
 
 <script>
     export default {
-        data: () => ({
-            items: ['profile', 'sign out'],
-            bell: {
-                icon: '/assets/icons/bell.svg'
+        props: {'isLogged': Boolean},
+        data: function(){
+            return {
+                items: ['profile', 'sign out'],
+                bell: {
+                    icon: '/assets/icons/bell.svg'
+                },
+                loggedIn: this.isLogged
             }
-        }),
+        },
     }
 </script>
 
@@ -73,44 +92,54 @@ svg path {
     fill-opacity: inherit;
 }
 
-.v-toolbar__title {
-    font-family: 'GilroyLight';
-    font-weight: light;
-    color: rgba(18, 39, 55, 0.5);
-    font-size: 14px;
+.v-toolbar__content {
+    .v-toolbar__title {
+        font-family: 'GilroyLight';
+        font-weight: light;
+        color: rgba(18, 39, 55, 0.5);
+        font-size: 14px;
 
-    &.username {
-        font-family: 'Inter';
-        font-size: 12px;
-        color: #122737;
-        span {
+        &.username {
+            font-family: 'Inter';
+            font-size: 12px;
+            color: #122737;
+            span {
+                font-family: 'InterBold';
+            }
+        }
+
+        span.logo {
             font-family: 'InterBold';
+            font-size: 24px;
+            color: #3C57DE;
         }
     }
 
-    span.logo {
-        font-family: 'InterBold';
-        font-size: 24px;
+    .v-icon.drop-down {
         color: #3C57DE;
     }
-}
 
-.v-icon.drop-down {
-    color: #3C57DE;
-}
+    .notifications {
+        position: relative;
+        fill: rgba(0, 0, 0, 0.5);
+        &::after {
+            top: 13px;
+            content: '';
+            right: 15px;
+            width: 7px;
+            height: 7px;
+            position: absolute;
+            background-color: blue;
+            border-radius: 50%;
+        }
+    }
 
-.notifications {
-    position: relative;
-    fill: rgba(0, 0, 0, 0.5);
-    &::after {
-        top: 13px;
-        content: '';
-        right: 15px;
-        width: 7px;
-        height: 7px;
-        position: absolute;
-        background-color: blue;
-        border-radius: 50%;
+    a.login-btn {
+        text-transform: capitalize;
+        font-family: 'Gilroy';
+        font-size: 14px;
+        color: black;
+        text-decoration: none;
     }
 }
 </style>

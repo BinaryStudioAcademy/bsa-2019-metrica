@@ -1,16 +1,29 @@
 <template>
     <VApp>
-        <Navbar />
-        <RouterView />
+        <Header :is-logged="isLogged" />
+        <Sidepanel v-if="isLogged" />
+        <RouterView v-if="isLogged" />
+        <LoginForm v-else />
     </VApp>
 </template>
 
 <script>
-    import Navbar from '../components/Navbar.vue'
+    import {mapGetters} from "vuex";
+    import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
+    import LoginForm from "../components/auth/LoginForm.vue";
+    import Header from '../components/Header.vue';
+    import Sidepanel from '../components/Sidepanel.vue';
 
     export default {
         components: {
-            Navbar
+            Header,
+            LoginForm,
+            Sidepanel
+        },
+        computed: {
+            ...mapGetters('auth', {
+                isLogged: IS_LOGGED_IN
+            })
         }
     }
 </script>
@@ -51,5 +64,14 @@
 svg path {
     fill: inherit;
     fill-opacity: inherit;
+}
+
+.v-navigation-drawer__border {
+    display: none;
+}
+
+.v-toolbar__content {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.034);
+    height: 61px;
 }
 </style>
