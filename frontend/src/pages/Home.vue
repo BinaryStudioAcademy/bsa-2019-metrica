@@ -17,13 +17,14 @@
                         <VBtn
                             class="start"
                             color="primary"
+                            :to="{name: 'signup'}"
                             x-large
                         >
                             Start fo free
                         </VBtn>
                         <VBtn
                             class="login"
-                            to="{name: 'home'}"
+                            :to="{name: 'login'}"
                             outlined
                             min-width="150px"
                             x-large
