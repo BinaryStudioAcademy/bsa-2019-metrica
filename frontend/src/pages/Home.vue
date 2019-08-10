@@ -1,21 +1,24 @@
 <template>
     <VContent>
         <VLayout wrap>
-
-            <VFlex left-col-wrapper sm12 md6>
+            <VFlex 
+                left-col-wrapper 
+                sm12 
+                md6
+            >
                 <VLayout 
                     column 
                     align-items-start
                     justify-center
                     left-col
-                    >
+                >
                     <h1>Get to know  your customers.</h1>
                     <div class="btn-group">
                         <VBtn 
                             class="start"
                             color="primary"
                             x-large
-                            >
+                        >
                             Start fo free
                         </VBtn>                    
                         <VBtn
@@ -24,21 +27,22 @@
                             outlined
                             min-width="150px"
                             x-large
-                            >
+                        >
                             Sign In
                         </VBtn>
                     </div>
                 </VLayout>
             </VFlex>
-
-            <VFlex image sm12 md6>
+            <VFlex 
+                image 
+                sm12 
+                md6
+            >
                 <VImg 
                     src="/assets/images/man.png"
                     alt="Man"
-                    >
-                </VImg>
+                />
             </VFlex>
-
         </VLayout>
     </VContent>
 </template>
