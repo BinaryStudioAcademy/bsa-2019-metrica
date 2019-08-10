@@ -24,8 +24,8 @@
                             required
                             single-line
                             solo
-                            :error="!!errorText"
-                            :error-messages="errorText"
+                            :error="!!errorMessage"
+                            :error-messages="errorMessage"
                             :rules="domainRules"
                         />
                     </VCardText>
@@ -52,7 +52,7 @@
 <script>
     import {mapActions, mapGetters} from 'vuex';
     import {GET_NEW_WEBSITE} from "@/store/modules/website/types/getters";
-    import {SAVE_NEW_WEBSITE, SET_DOMAIN, SET_SPA} from "@/store/modules/website/types/actions";
+    import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA} from "@/store/modules/website/types/actions";
 
     const domainRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#()?&//=]*)/;
 
@@ -61,7 +61,6 @@
         props: {
             errorMessage: {
                 type: String,
-                required: false,
                 default: ''
             }
         },
@@ -79,10 +78,7 @@
         computed: {
             ...mapGetters('website', {
                 newWebsite: GET_NEW_WEBSITE
-            }),
-            errorText() {
-                return this.errorMessage;
-            }
+            })
         },
         created () {
             this.domain = this.newWebsite.domain;
@@ -90,33 +86,31 @@
         },
         methods: {
             ...mapActions('website', {
-                setDomain: SET_DOMAIN,
-                setSinglePage: SET_SPA,
+                setWebsiteData: SET_WEBSITE_DATA,
                 saveNewSite: SAVE_NEW_WEBSITE
             }),
             onGoToNextStep () {
                 if (this.$refs.form.validate()) {
-                    this.setDomain(this.domain).then(() => {
-                        this.setSinglePage(this.single_page).then(() => {
-                            this.saveNewSite().then(() => {
-                                this.$router.push({name: 'add_websites_step_3'});
-                            })
-                                .catch((res) => {
-                                    this.onError(res.errors);
-                                });
-                        })
-                    });
+                    this.setWebsiteData({
+                        domain: this.domain,
+                        single_page: this.single_page
+                    }).then(() => this.saveNewSite())
+                        .then(() => this.$router.push({name: 'add_websites_step_3'}))
+                        .catch((res) => {this.onError(res.errors);});
                 }
             },
             onError (errors) {
                 if (errors.name) {
 
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.name}});
+                }
 
-                } else if (errors.domain) {
+                if (errors.domain) {
 
                     this.$router.push({name: 'add_websites_step_2', params: {errorMessage: errors.domain}});
-                } else if (errors.message) {
+                }
+
+                if (errors.message) {
 
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.message}});
                 }

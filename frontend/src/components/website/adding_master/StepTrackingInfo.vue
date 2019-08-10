@@ -17,7 +17,7 @@
                             single-line
                             readonly
                             solo
-                            :value="currentWebsite.tracking_info_id"
+                            :value="currentWebsite.tracking_number"
                         />
                     </VCardText>
                     <VCardText class="mb-2 pa-0">
@@ -67,7 +67,7 @@
                 currentWebsite: GET_CURRENT_WEBSITE
             }),
             messageText() {
-                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_info_id)
+                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_number)
             }
         },
         methods: {

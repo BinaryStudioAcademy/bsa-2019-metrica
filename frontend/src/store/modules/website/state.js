@@ -3,7 +3,7 @@ export default {
         name: '',
         domain: '',
         single_page: false,
-        tracking_info_id: ''
+        tracking_number: ''
     },
     newWebsite: {
         name: '',

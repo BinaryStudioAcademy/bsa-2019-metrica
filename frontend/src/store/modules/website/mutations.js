@@ -1,14 +1,9 @@
-import {ADD_WEBSITE, SET_SITE_DOMAIN, SET_SITE_NAME, SET_SITE_SPA} from "./types/mutations";
+import Vue from "vue";
+import {ADD_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
 
 export default {
-    [SET_SITE_NAME]: (state, name) => {
-        state.newWebsite.name = name;
-    },
-    [SET_SITE_DOMAIN]: (state, domain) => {
-        state.newWebsite.domain = domain;
-    },
-    [SET_SITE_SPA]: (state, single_page) => {
-        state.newWebsite.single_page = single_page;
+    [SET_WEBSITE_INFO]: (state, data) => {
+        Vue.set(state.newWebsite, data);
     },
     [ADD_WEBSITE]: (state, website) => {
         state.currentWebsite = website;

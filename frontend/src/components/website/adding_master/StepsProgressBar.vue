@@ -7,7 +7,7 @@
                 sm4
                 md4
                 class="progress-step"
-                :class="{'active': currentStep === 1,'filled': currentStep >= 1}"
+                :class="firstStepClass"
             >
                 <div
                     class="font-weight-bold step-name"
@@ -21,7 +21,7 @@
                 sm4
                 md4
                 class="progress-step"
-                :class="{'active': currentStep === 2,'filled': currentStep >= 2}"
+                :class="secondStepClass"
             >
                 <div
                     class="font-weight-bold step-name"
@@ -35,7 +35,7 @@
                 sm4
                 md4
                 class="progress-step"
-                :class="{'active': currentStep === 3,'filled': currentStep > 2}"
+                :class="thirdStepClass"
             >
                 <div
                     class="font-weight-bold step-name"
@@ -53,14 +53,43 @@
         props: {
             stepNumber: {
                 type: Number,
-                required: true,
-                default: 1
+                required: true
             }
         },
         computed: {
             currentStep () {
                 return this.stepNumber;
-            }
+            },
+            firstStepClass () {
+                let classObj = {};
+                if (this.currentStep === 1) {
+                    classObj.active = true;
+                }
+                if (this.currentStep >= 1) {
+                    classObj.filled = true;
+                }
+                return classObj;
+            },
+            secondStepClass () {
+                let classObj = {};
+                if (this.currentStep === 2) {
+                    classObj.active = true;
+                }
+                if (this.currentStep >= 2) {
+                    classObj.filled = true;
+                }
+                return classObj;
+            },
+            thirdStepClass () {
+                let classObj = {};
+                if (this.currentStep === 3) {
+                    classObj.active = true;
+                }
+                if (this.currentStep >= 3) {
+                    classObj.filled = true;
+                }
+                return classObj;
+            },
         }
     };
 </script>
@@ -89,7 +118,6 @@
             .step-name {
                 color: #122737;
                 font-size: 17px;
-
             }
         }
     }

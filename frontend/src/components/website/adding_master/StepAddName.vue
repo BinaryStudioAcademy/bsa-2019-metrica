@@ -25,8 +25,8 @@
                             solo
                             required
                             :rules="nameRules"
-                            :error="!!errorText"
-                            :error-messages="errorText"
+                            :error="!!errorMessage"
+                            :error-messages="errorMessage"
                         />
                     </VCardText>
                 </VForm>
@@ -46,14 +46,13 @@
 <script>
     import {mapGetters, mapActions} from 'vuex';
     import {GET_NEW_WEBSITE} from "@/store/modules/website/types/getters";
-    import {SET_NAME} from "@/store/modules/website/types/actions";
+    import {SET_WEBSITE_DATA} from "@/store/modules/website/types/actions";
 
     export default {
         name: 'StepAddName',
         props: {
             errorMessage: {
                 type: String,
-                required: false,
                 default: ''
             }
         },
@@ -70,21 +69,18 @@
         computed: {
             ...mapGetters('website', {
                 newWebsite: GET_NEW_WEBSITE
-            }),
-            errorText() {
-                return this.errorMessage;
-            }
+            })
         },
         created () {
             this.name = this.newWebsite.name;
         },
         methods: {
             ...mapActions('website', {
-                setName: SET_NAME,
+                setWebsiteData: SET_WEBSITE_DATA,
             }),
             onGoToNextStep () {
                 if (this.$refs.form.validate()) {
-                    this.setName(this.name).then(() => {
+                    this.setWebsiteData({name: this.name}).then(() => {
                         this.$router.push({name: 'add_websites_step_2'});
                     });
                 }
