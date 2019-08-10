@@ -12,46 +12,58 @@
             <VToolbarTitle>
                 <span class="logo pr-3">M</span>Metrica
             </VToolbarTitle>
+            
             <VSpacer />
-            <VBtn
-                icon
-                class="notifications"
-            >
-                <svg>
-                    <use href="/assets/icons/bell.svg#root" />
-                </svg>
-            </VBtn>
-            <VToolbarTitle class="username mr-6 ml-4">
-                Hello, <span>Sofi</span>
-            </VToolbarTitle>
-            <VAvatar>
-                <img src="/assets/images/lady.png">
-            </VAvatar>
-            <VMenu>
-                <template v-slot:activator="{ on }">
-                    <VIcon
-                        class="drop-down"
-                        v-on="on"
-                    >
-                        arrow_drop_down
-                    </VIcon>
-                </template>
-                <VList>
-                    <VListItem
-                        :key="item"
-                        v-for="item in items"
-                    >
-                        <VListItemTitle>
-                            {{ item }}
-                        </VListItemTitle>
-                    </VListItem>
-                </VList>
-            </VMenu>
+
+            <template v-if="isLoggedIn">
+                <VBtn
+                    icon
+                    class="notifications"
+                >
+                    <svg>
+                        <use href="/assets/icons/bell.svg#root" />
+                    </svg>
+                </VBtn>
+                <VToolbarTitle class="username mr-6 ml-4">
+                    Hello, <span>Sofi</span>
+                </VToolbarTitle>
+                <VAvatar>
+                    <img src="/assets/images/lady.png">
+                </VAvatar>
+                <VMenu>
+                    <template v-slot:activator="{ on }">
+                        <VIcon
+                            class="drop-down"
+                            v-on="on"
+                        >
+                            arrow_drop_down
+                        </VIcon>
+                    </template>
+                    <VList>
+                        <VListItem
+                            :key="item"
+                            v-for="item in items"
+                        >
+                            <VListItemTitle>
+                                {{ item }}
+                            </VListItemTitle>
+                        </VListItem>
+                    </VList>
+                </VMenu>
+            </template>
+
+            <template v-else >
+                <router-link :to="{ name: 'login' }">Sign in</router-link>
+            </template>
+
         </VLayout>
     </VAppBar>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+    import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
+
     export default {
         data: () => ({
             items: ['profile', 'sign out'],
@@ -59,6 +71,12 @@
                 icon: '/assets/icons/bell.svg'
             }
         }),
+
+        computed: {
+            ...mapGetters('auth', {
+                isLoggedIn: IS_LOGGED_IN,
+            })
+        }        
     }
 </script>
 
@@ -113,4 +131,13 @@ svg path {
         border-radius: 50%;
     }
 }
+
+.v-application a {
+    font-family: Gilroy;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.4px;
+    color: #000000;
+}
+
 </style>
