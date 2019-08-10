@@ -1,28 +1,22 @@
 import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD} from './types/actions';
 import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
 import requestService from "@/services/requestService";
+import { authorize, getAuthUser } from '@/api/auth';
 
 export default {
     [LOGIN]: (context, user) => {
-        return new Promise((resolve, reject) => {
-            const fakeUser = {
-                email: 'test@gmail.com',
-                name: 'test user',
-                password: 'secretpassword',
-                access_token: 'jwt-auth-token',
-                id: 1
-            };
+        return authorize(user)
+          .then(response => {
+            context.commit(USER_LOGIN, response.data);
 
-            if (fakeUser.email === user.email && fakeUser.password === user.password) {
-                context.commit(USER_LOGIN, fakeUser);
-                context.commit(SET_AUTHENTICATED_USER, fakeUser);
-                resolve(fakeUser);
-            }
+            return getAuthUser()
+              .then(response => {
+                const user = response.data[0];
+                context.commit(SET_AUTHENTICATED_USER, user);
 
-            reject({
-                message: "Wrong email or password"
-            });
-        });
+                return user;
+              });
+          });
     },
 
     [LOGOUT]: (context) => {
