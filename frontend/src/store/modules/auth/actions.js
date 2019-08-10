@@ -10,7 +10,7 @@ export default {
 
             return getAuthUser()
               .then(response => {
-                const user = response.data[0];
+                const user = response.data;
                 context.commit(SET_AUTHENTICATED_USER, user);
 
                 return user;
