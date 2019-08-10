@@ -31,35 +31,41 @@
                                 prepend-icon="person"
                                 label="Full name"
                                 type="name"
-                                v-model="newUser.name"
                                 name="name"
+                                v-model="newUser.name"
                                 :rules="nameRules"
                             />
                             <VTextField
                                 prepend-icon="email"
                                 label="Email"
                                 type="email"
-                                v-model="newUser.email"
                                 name="email"
+                                v-model="newUser.email"
                                 :rules="emailRules"
                             />
                             <VTextField
                                 prepend-icon="lock"
                                 label="Password"
-                                type="password"
-                                v-model="newUser.password"
                                 name="password"
+                                autocomplete="new-password"
+                                v-model="newUser.password"
+                                :append-icon="show1 ? 'visibility' : 'visibility_off'"
                                 :counter="8"
                                 :rules="passwordRules"
+                                :type="show1 ? 'text' : 'password'"
+                                @click:append="show1 = !show1"
                             />
                             <VTextField
                                 prepend-icon="lock"
                                 label="Confirm password"
-                                type="password"
-                                v-model="newUser.confirmPassword"
                                 name="confirmPassword"
+                                autocomplete="new-password"
+                                v-model="newUser.confirmPassword"
+                                :append-icon="show2 ? 'visibility' : 'visibility_off'"
                                 :counter="8"
                                 :rules="confirmPasswordRules"
+                                :type="show2 ? 'text' : 'password'"
+                                @click:append="show2 = !show2"
                             />
                         </VForm>
                     </VCardText>
@@ -68,8 +74,8 @@
                         <VBtn
                             large
                             color="primary"
-                            @click="onSignUp"
                             :disabled="!valid"
+                            @click="onSignUp"
                         >
                             SIGN UP
                         </VBtn>
@@ -80,8 +86,8 @@
                             outlined
                             large
                             color="primary"
-                            @click="onSignIn"
                             :disabled="false"
+                            @click="onSignIn"
                         >
                             SIGN IN
                         </VBtn>
@@ -102,6 +108,8 @@
     export default {
         data () {
             return {
+                show1: false,
+                show2: false,
                 newUser: {
                     name: '',
                     email: '',
@@ -140,9 +148,9 @@
                         password: this.newUser.password,
                     }).then(function (res) {
                         if (res.error) {
-                            this.onError(res.error.message);
+                            alert(res.error);
                         } else {
-                            this.onSuccess();
+                            alert(res.success);
                             this.$router.push({name: 'login'});
                         }
                     }).catch(function (err) {
@@ -153,14 +161,6 @@
 
             onSignIn () {
                 return this.$router.push({path: '/login'});
-            },
-
-            onError (error) {
-                return alert(error.message);
-            },
-
-            onSuccess () {
-                return alert("Success!");
             },
         },
 

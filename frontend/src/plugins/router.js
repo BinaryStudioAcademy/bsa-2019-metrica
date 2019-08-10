@@ -23,6 +23,11 @@ export default new Router({
                     component: Login
                 },
                 {
+                    path: 'signup',
+                    name: 'signup',
+                    component: SignUp
+                },
+                {
                     path: 'reset-password',
                     name: 'reset-password',
                     component: ResetPassword
@@ -37,11 +42,6 @@ export default new Router({
                             component: Visitors
                         }
                     ]
-                },
-                {
-                    path: 'signup',
-                    name: 'signup',
-                    component: SignUp
                 }
             ]
         },
