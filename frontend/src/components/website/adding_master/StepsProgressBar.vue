@@ -7,7 +7,7 @@
                 sm4
                 md4
                 class="progress-step"
-                :class="{'active': stepNumber == 1,'filled': this.$parent.currentStepNumber >= 1}"
+                :class="{'active': currentStep === 1,'filled': currentStep >= 1}"
             >
                 <div class="font-weight-bold step-name">Add name</div>
             </VFlex>
@@ -17,7 +17,7 @@
                 sm4
                 md4
                 class="progress-step"
-                :class="{'active': stepNumber == 2,'filled': this.$parent.currentStepNumber >= 2}"
+                :class="{'active': currentStep === 2,'filled': currentStep >= 2}"
             >
                 <div class="font-weight-bold step-name">Add website</div>
             </VFlex>
@@ -27,7 +27,7 @@
                 sm4
                 md4
                 class="progress-step"
-                :class="{'active': stepNumber == 3,'filled': this.$parent.currentStepNumber > 2}"
+                :class="{'active': currentStep === 3,'filled': currentStep > 2}"
             >
                 <div class="font-weight-bold step-name"
                 >
@@ -41,9 +41,12 @@
 <script>
     export default {
         name: 'StepsProgressBar',
+        props: {
+            stepNumber: Number
+        },
         computed: {
-            stepNumber () {
-                return this.$parent.currentStepNumber;
+            currentStep () {
+                return this.stepNumber;
             }
         }
     };

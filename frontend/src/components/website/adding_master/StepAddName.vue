@@ -10,26 +10,27 @@
                 <VForm
                     ref="form"
                     lazy-validation
+                    @submit.prevent="onGoToNextStep"
                 >
                     <VCardText class="mb-4 pa-0 mt-2">
                         <VTextField
-                            :error="!!errorText"
-                            :error-messages="errorText"
                             v-model="name"
-                            :rules="nameRules"
-                            required
                             label="Website name"
                             class="form-input"
                             single-line
                             solo
+                            required
+                            :rules="nameRules"
+                            :error="!!errorText"
+                            :error-messages="errorText"
                         />
                     </VCardText>
                 </VForm>
                 <VBtn
-                    @click="onGoToNextStep"
                     large
-                    class="white--text mt-6"
                     color="#3C57DE"
+                    class="white--text mt-6"
+                    @click="onGoToNextStep"
                 >
                     Add Website
                 </VBtn>
@@ -39,10 +40,14 @@
 </template>
 
 <script>
+    import {mapGetters, mapActions} from 'vuex';
+    import {GET_NEW_WEBSITE} from "@/store/modules/website/types/getters";
+    import {SET_NAME} from "@/store/modules/website/types/actions";
+
     export default {
         name: 'StepAddName',
         props: {
-            error: String,
+            errorMessage: String,
         },
         data() {
             return {
@@ -55,15 +60,24 @@
             }
         },
         computed: {
+            ...mapGetters('website', {
+                newWebsite: GET_NEW_WEBSITE
+            }),
             errorText() {
-                return this.$parent.currentError;
+                return this.errorMessage;
             }
         },
+        created () {
+            this.name = this.newWebsite.name;
+        },
         methods: {
+            ...mapActions('website', {
+                setName: SET_NAME,
+            }),
             onGoToNextStep () {
                 if (this.$refs.form.validate()) {
-                    this.$emit('go-to-next-step', {
-                        name: this.name
+                    this.setName(this.name).then((res) => {
+                        this.$router.push({name: 'add_websites_step_2'});
                     });
                 }
             }

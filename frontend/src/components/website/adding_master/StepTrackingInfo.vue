@@ -10,10 +10,10 @@
                 <VForm lazy-validation>
                     <VCardText class="mb-2 pa-0 mt-2">
                         <VTextField
-                            :value="trackingInfoId"
                             single-line
                             readonly
                             solo
+                            :value="currentWebsite.tracking_info_id"
                         />
                     </VCardText>
                     <VCardText class="mb-2 pa-0">
@@ -24,24 +24,16 @@
                             auto-grow
                             readonly
                             rows="6"
-                            value="<!--Global site tag - Analitycs-->
-                            <script src='http://website.com?id=123456798-09>
-                                (function (i, s, o, g, r, a, m) {
-                                    i['GoogleAnalyticsObject'] = r;
-                                    i[r] = i[r] || function () {
-                                        (i[r].q = i[r].q || []).push(arguments)
-                                    }, i[r].l = 1 * new Date();
-                                    a = s.createElement(o)
-                            </script>"
+                            :value="messageText"
                         >
                         </VTextarea>
                     </VCardText>
                 </VForm>
                 <VBtn
-                    @click="onToDashboard"
+                    color="#3C57DE"
                     large
                     class="white--text mt-3"
-                    color="#3C57DE"
+                    @click="onToDashboard"
                 >
                     Get Started
                 </VBtn>
@@ -51,10 +43,23 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import {GET_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
+
     export default {
         name: 'StepTrackingInfo',
-        props: {
-            trackingInfoId: String
+        data () {
+            return {
+                directionText: "Here will be directions with TRACKING_INFO_ID "
+            }
+        },
+        computed: {
+            ...mapGetters('website', {
+                currentWebsite: GET_CURRENT_WEBSITE
+            }),
+            messageText() {
+                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_info_id)
+            }
         },
         methods: {
             onToDashboard (){
