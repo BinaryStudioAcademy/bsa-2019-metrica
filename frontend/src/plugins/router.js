@@ -5,6 +5,7 @@ import ResetPassword from "../pages/ResetPassword";
 import LoginGuard from '../components/auth/LoginGuard.vue';
 import SignUp from "../pages/SignUp.vue";
 import Visitors from "../pages/Visitors.vue";
+import Home from "../pages/Home.vue";
 
 Vue.use(Router);
 
@@ -14,7 +15,7 @@ export default new Router({
     routes: [
         {
             path: '',
-            redirect: 'login'
+            redirect: { name: 'home' }
         },
         {
             path: '/login',
@@ -39,6 +40,11 @@ export default new Router({
             path: '/signup',
             name: 'signup',
             component: SignUp
+        },
+        {
+            path: 'home',
+            name: 'home',
+            component: Home
         }
     ]
 });

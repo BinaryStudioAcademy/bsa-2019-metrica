@@ -16,6 +16,10 @@
 </script>
 
 <style>
+#app {
+    max-width: 1200px;
+}
+
 @font-face {
     font-family: 'Gilroy';
     src: url('/assets/fonts/Gilroy-Bold.eot');
