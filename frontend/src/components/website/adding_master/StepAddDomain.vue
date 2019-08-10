@@ -6,7 +6,11 @@
             class="form-card"
         >
             <VContainer pa-1>
-                <div class="subtitle-2 font-weight-bold">Add website to track info about</div>
+                <div
+                    class="subtitle-2 title-text font-weight-bold"
+                >
+                    Add website to track info about
+                </div>
                 <VForm
                     ref="form"
                     lazy-validation
@@ -30,7 +34,7 @@
                         label="Single page app"
                         color="#3C57DE"
                         inset
-                    ></VSwitch>
+                    />
                 </VForm>
                 <VBtn
                     large
@@ -50,7 +54,7 @@
     import {GET_NEW_WEBSITE} from "@/store/modules/website/types/getters";
     import {SAVE_NEW_WEBSITE, SET_DOMAIN, SET_SPA} from "@/store/modules/website/types/actions";
 
-    const domainRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+    const domainRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#()?&//=]*)/;
 
     export default {
         name: 'StepAddDomain',
@@ -88,9 +92,9 @@
             }),
             onGoToNextStep () {
                 if (this.$refs.form.validate()) {
-                    this.setDomain(this.domain).then((res) => {
-                        this.setSinglePage(this.single_page).then((res) => {
-                            this.saveNewSite().then((res) => {
+                    this.setDomain(this.domain).then(() => {
+                        this.setSinglePage(this.single_page).then(() => {
+                            this.saveNewSite().then(() => {
                                 this.$router.push({name: 'add_websites_step_3'});
                             })
                                 .catch((res) => {
@@ -117,15 +121,3 @@
         }
     };
 </script>
-
-<style lang="scss" scoped>
-    .form-card {
-        padding-top: 15px;
-
-        .subtitle-2 {
-            letter-spacing: 0.4px;
-            line-height: 15px;
-            color: rgba(18, 39, 55, 0.5);
-        }
-    }
-</style>

@@ -1,5 +1,4 @@
 import {SAVE_NEW_WEBSITE, SET_NAME, SET_DOMAIN, SET_SPA} from './types/actions';
-import {GET_NEW_WEBSITE} from "./types/getters";
 import {ADD_WEBSITE, SET_SITE_NAME, SET_SITE_DOMAIN, SET_SITE_SPA} from "./types/mutations";
 
 export default {

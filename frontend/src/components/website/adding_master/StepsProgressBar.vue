@@ -9,7 +9,11 @@
                 class="progress-step"
                 :class="{'active': currentStep === 1,'filled': currentStep >= 1}"
             >
-                <div class="font-weight-bold step-name">Add name</div>
+                <div
+                    class="font-weight-bold step-name"
+                >
+                    Add name
+                </div>
             </VFlex>
             <VFlex
                 ma-1
@@ -19,7 +23,11 @@
                 class="progress-step"
                 :class="{'active': currentStep === 2,'filled': currentStep >= 2}"
             >
-                <div class="font-weight-bold step-name">Add website</div>
+                <div
+                    class="font-weight-bold step-name"
+                >
+                    Add website
+                </div>
             </VFlex>
             <VFlex
                 ma-1
@@ -29,7 +37,8 @@
                 class="progress-step"
                 :class="{'active': currentStep === 3,'filled': currentStep > 2}"
             >
-                <div class="font-weight-bold step-name"
+                <div
+                    class="font-weight-bold step-name"
                 >
                     Tracking info
                 </div>

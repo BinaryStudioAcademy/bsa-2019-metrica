@@ -6,7 +6,11 @@
             class="form-card"
         >
             <VContainer pa-1>
-                <div class="subtitle-2 font-weight-bold">Tracking ID</div>
+                <div
+                    class="subtitle-2 title-text font-weight-bold"
+                >
+                    Tracking ID
+                </div>
                 <VForm lazy-validation>
                     <VCardText class="mb-2 pa-0 mt-2">
                         <VTextField
@@ -17,16 +21,21 @@
                         />
                     </VCardText>
                     <VCardText class="mb-2 pa-0">
-                        <div class="subtitle-2 mb-2 font-weight-bold">Website tracking</div>
-                        <div class="caption mb-2">This is Global Site Tag tracking code for your website.</div>
+                        <div
+                            class="subtitle-2 title-text mb-2 font-weight-bold"
+                        >
+                            Website tracking
+                        </div>
+                        <div class="caption mb-2">
+                            This is Global Site Tag tracking code for your website.
+                        </div>
                         <VTextarea
                             solo
                             auto-grow
                             readonly
                             rows="6"
                             :value="messageText"
-                        >
-                        </VTextarea>
+                        />
                     </VCardText>
                 </VForm>
                 <VBtn
@@ -69,14 +78,3 @@
     };
 </script>
 
-<style lang="scss" scoped>
-    .form-card {
-        padding-top: 15px;
-
-        .subtitle-2 {
-            letter-spacing: 0.4px;
-            line-height: 15px;
-            color: rgba(18, 39, 55, 0.5);
-        }
-    }
-</style>

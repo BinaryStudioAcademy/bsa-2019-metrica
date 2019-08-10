@@ -6,7 +6,7 @@
             class="form-card"
         >
             <VContainer pa-1>
-                <div class="subtitle-2 font-weight-bold">Website name</div>
+                <div class="subtitle-2 title-text font-weight-bold">Website name</div>
                 <VForm
                     ref="form"
                     lazy-validation
@@ -76,7 +76,7 @@
             }),
             onGoToNextStep () {
                 if (this.$refs.form.validate()) {
-                    this.setName(this.name).then((res) => {
+                    this.setName(this.name).then(() => {
                         this.$router.push({name: 'add_websites_step_2'});
                     });
                 }
@@ -85,14 +85,3 @@
     };
 </script>
 
-<style lang="scss" scoped>
-    .form-card {
-        padding-top: 15px;
-
-        .subtitle-2 {
-            letter-spacing: 0.4px;
-            line-height: 15px;
-            color: rgba(18, 39, 55, 0.5);
-        }
-    }
-</style>

@@ -23,7 +23,7 @@
                         lg8
                     >
                         <StepsProgressBar :stepNumber="stepNumber" />
-                        <RouterView/>
+                        <RouterView />
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -60,6 +60,16 @@
     .content-card {
         padding-top: 30px;
         background-color: rgb(245, 248, 253);
+
+        ::v-deep .form-card {
+            padding-top: 15px;
+
+            .title-text {
+                letter-spacing: 0.4px;
+                line-height: 15px;
+                color: rgba(18, 39, 55, 0.5);
+            }
+        }
     }
     .img-card {
         background-color: white;
