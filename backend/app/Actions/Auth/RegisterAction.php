@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\User;
+namespace App\Actions\Auth;
 
 use App\Repositories\Contracts\UserRepository;
 use App\Entities\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-final class RegisterUserAction
+final class RegisterAction
 {
     private $userRepository;
 

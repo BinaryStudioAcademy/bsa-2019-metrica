@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Actions\User;
+namespace app\Actions\Auth;
 
 final class RegisterResponse
 {
