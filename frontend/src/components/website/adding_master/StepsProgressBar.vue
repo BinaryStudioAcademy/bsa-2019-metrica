@@ -51,7 +51,11 @@
     export default {
         name: 'StepsProgressBar',
         props: {
-            stepNumber: Number
+            stepNumber: {
+                type: Number,
+                required: true,
+                default: 1
+            }
         },
         computed: {
             currentStep () {

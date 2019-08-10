@@ -6,7 +6,11 @@
             class="form-card"
         >
             <VContainer pa-1>
-                <div class="subtitle-2 title-text font-weight-bold">Website name</div>
+                <div
+                    class="subtitle-2 title-text font-weight-bold"
+                >
+                    Website name
+                </div>
                 <VForm
                     ref="form"
                     lazy-validation
@@ -47,7 +51,11 @@
     export default {
         name: 'StepAddName',
         props: {
-            errorMessage: String,
+            errorMessage: {
+                type: String,
+                required: false,
+                default: ''
+            }
         },
         data() {
             return {

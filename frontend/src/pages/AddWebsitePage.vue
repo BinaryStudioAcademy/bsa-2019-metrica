@@ -22,7 +22,7 @@
                         md10
                         lg8
                     >
-                        <StepsProgressBar :stepNumber="stepNumber" />
+                        <StepsProgressBar :step-number="stepNumber" />
                         <RouterView />
                     </VFlex>
                 </VLayout>
@@ -34,7 +34,7 @@
                 height="100%"
                 class="img-card"
             >
-                <VImg :src="require('@/assets/running_man.jpg')"/>
+                <VImg :src="require('@/assets/running_man.jpg')" />
             </VFlex>
         </VLayout>
     </VContainer>

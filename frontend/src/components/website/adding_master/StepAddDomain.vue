@@ -59,7 +59,11 @@
     export default {
         name: 'StepAddDomain',
         props: {
-            errorMessage: String,
+            errorMessage: {
+                type: String,
+                required: false,
+                default: ''
+            }
         },
         data() {
             return {
