@@ -1,29 +1,29 @@
 <template>
     <VContent>
         <VLayout wrap>
-            <VFlex 
-                left-col-wrapper 
-                sm12 
+            <VFlex
+                left-col-wrapper
+                sm12
                 md6
             >
-                <VLayout 
-                    column 
+                <VLayout
+                    column
                     align-items-start
                     justify-center
                     left-col
                 >
                     <h1>Get to know  your customers.</h1>
                     <div class="btn-group">
-                        <VBtn 
+                        <VBtn
                             class="start"
                             color="primary"
                             x-large
                         >
                             Start fo free
-                        </VBtn>                    
+                        </VBtn>
                         <VBtn
                             class="login"
-                            to="/login"
+                            to="{name: 'home'}"
                             outlined
                             min-width="150px"
                             x-large
@@ -33,12 +33,12 @@
                     </div>
                 </VLayout>
             </VFlex>
-            <VFlex 
-                image 
-                sm12 
+            <VFlex
+                image
+                sm12
                 md6
             >
-                <VImg 
+                <VImg
                     src="/assets/images/man.png"
                     alt="Man"
                 />
@@ -51,7 +51,7 @@
 
 main {
     background: #FFFFFF;
-    margin-top: 40px;    
+    margin-top: 40px;
 }
 
 .v-btn {
