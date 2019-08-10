@@ -152,6 +152,7 @@
                         alert(err.message);
                     })
                 }
+                
             },
 
             onSignIn () {
