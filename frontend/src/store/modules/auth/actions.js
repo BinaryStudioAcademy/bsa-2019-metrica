@@ -1,5 +1,5 @@
-import {LOGIN, LOGOUT, RESET_PASSWORD} from './types/actions';
-import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
+import {LOGIN, LOGOUT, RESET_PASSWORD,GET_USER_DATA, SET_IS_LOGGED_IN} from './types/actions';
+import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT,SET_USER_IS_LOGGED_IN} from "./types/mutations";
 import { authorize, getAuthUser } from '@/api/auth';
 
 export default {
@@ -39,5 +39,18 @@ export default {
                     reject("User with this email does not exist. Please, check if the password is correct.");
             }
         })
+    },
+
+    [GET_USER_DATA]: () => {
+        // alert('hello!');
+        //  getAuthUser().then(response => {
+        //     const user = response.data[0];
+        //     alert(user)
+        // })
+        //     .catch(() => alert('error!'));
+    },
+
+    [SET_IS_LOGGED_IN]: (context, data) => {
+        context.commit(SET_USER_IS_LOGGED_IN, data);
     }
 }
