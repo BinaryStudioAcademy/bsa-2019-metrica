@@ -15,7 +15,7 @@ export default new Router({
     routes: [
         {
             path: '',
-            redirect: 'home'
+            redirect: { name: 'home' }
         },
         {
             path: '/login',
@@ -42,7 +42,7 @@ export default new Router({
             component: SignUp
         },
         {
-            path: '/home',
+            path: 'home',
             name: 'home',
             component: Home
         }
