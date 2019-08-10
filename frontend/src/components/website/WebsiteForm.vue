@@ -83,9 +83,8 @@
         }),
         created() {
             this.website({
-                userId: 12
+                userId: this.user.id
             }).then((data) => {
-                alert(this.user)
                 this.name = data.name;
                 this.address = data.address;
                 this.trackingId = data.trackingId;
@@ -104,17 +103,19 @@
                 setWebsiteName: SET_NAME_WEBSITE,
                 website: GET_WEBSITE
             }),
-            changeName(name) {
-                if(name === this.name) {
-                    alert("");
+            changeName(value) {
+                if(!value.trim()) {
+                    this.nameErrors = "The name is required";
+                    return;
                 }
+                this.nameErrors = "";
                 this.setWebsiteName({
-                    userId:122,
-                    name:name
+                    userId:this.user.id,
+                    name:value
                 }).then((data) => {
                     this.name = data.name;
                 }, err => {
-                    alert(err.message);
+                    alert(err);
                 })
             },
             decode (trackengId) {
