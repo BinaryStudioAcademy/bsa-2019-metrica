@@ -6,6 +6,7 @@ import LoginGuard from '../components/auth/LoginGuard.vue';
 import SignUp from "../pages/SignUp.vue";
 import AddWebsitePage from '../pages/AddWebsitePage.vue';
 import Visitors from "../pages/Visitors.vue";
+import Home from "../pages/Home.vue";
 import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
@@ -18,7 +19,7 @@ export default new Router({
     routes: [
         {
             path: '',
-            redirect: 'login'
+            redirect: { name: 'home' }
         },
         {
             path: '/login',
@@ -81,6 +82,11 @@ export default new Router({
             path: '/signup',
             name: 'signup',
             component: SignUp
+        },
+        {
+            path: 'home',
+            name: 'home',
+            component: Home
         }
     ]
 });

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Actions\Auth\GetCurrentUserAction;
-use App\Actions\User\RegisterRequest;
-use App\Actions\User\RegisterUserAction;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterHttpRequest;
 use App\Actions\Auth\AuthenticatedUserAction;
 use App\Actions\Auth\AuthenticatedUserRequest;
+use App\Actions\Auth\GetCurrentUserAction;
+use App\Actions\Auth\RegisterAction;
+use App\Actions\Auth\RegisterRequest;
 use App\Contracts\ApiException;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthenticatedHttpRequest;
+use App\Http\Requests\RegisterHttpRequest;
 use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
 use App\Http\Response\ApiResponse;
@@ -26,7 +26,7 @@ final class AuthController extends Controller
     public function __construct(
         AuthenticatedUserAction $authenticatedUserAction,
         GetCurrentUserAction $getCurrentUserAction,
-        RegisterUserAction $registerUserAction
+        RegisterAction $registerUserAction
     ) {
         $this->authenticatedUserAction = $authenticatedUserAction;
         $this->getCurrentUserAction = $getCurrentUserAction;
@@ -35,13 +35,9 @@ final class AuthController extends Controller
 
     public function login(AuthenticatedHttpRequest $request): ApiResponse
     {
-        try {
-            $response = $this->authenticatedUserAction->execute(
-                AuthenticatedUserRequest::fromRequest($request)
-            );
-        } catch (ApiException $exception) {
-            return ApiResponse::error($exception);
-        }
+        $response = $this->authenticatedUserAction->execute(
+            AuthenticatedUserRequest::fromRequest($request)
+        );
 
         return ApiResponse::success(new TokenResource($response));
     }

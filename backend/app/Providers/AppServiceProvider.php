@@ -21,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(SessionRepository::class, EloquentSessionRepository::class);
+
+        $this->app->bind(
+            \App\Repositories\Contracts\VisitorRepository::class,
+            \App\Repositories\EloquentVisitorRepository::class
+        );
     }
 
     /**
