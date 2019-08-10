@@ -8,7 +8,7 @@ use App\Actions\User\UpdateUserAction;
 use App\Actions\User\UpdateUserRequest;
 use App\Http\Requests\UpdateUserHttpRequest;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\JsonResponse;
+use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
 
 final class UserController extends Controller
@@ -20,10 +20,10 @@ final class UserController extends Controller
         $this->updateUserAction = $updateUserAction;
     }
 
-    public function update(UpdateUserHttpRequest $request): JsonResponse
+    public function update(UpdateUserHttpRequest $request): ApiResponse
     {
         $response = $this->updateUserAction->execute(UpdateUserRequest::fromRequest($request));
 
-        return response()->json(new UserResource($response->user()));
+        return ApiResponse::success(new UserResource($response->user()));
     }
 }

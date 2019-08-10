@@ -4,9 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Actions\Auth;
 
-use App\Contracts\ApiResponse as ApiResponseContract;
-
-final class AuthenticationResponse implements ApiResponseContract
+final class AuthenticationResponse
 {
     private $token;
 
@@ -19,11 +17,5 @@ final class AuthenticationResponse implements ApiResponseContract
     public function getToken(): string
     {
         return $this->token;
-    }
-    public function toArray(): array
-    {
-        return [
-            'token' => $this->getToken()
-        ];
     }
 }
