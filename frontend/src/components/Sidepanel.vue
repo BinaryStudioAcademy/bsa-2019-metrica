@@ -1,15 +1,24 @@
 <template>
-    <VNavigationDrawer permanent app clipped>
-        <VList class="mt-12" flat>
+    <VNavigationDrawer
+        permanent
+        app
+        clipped
+    >
+        <VList
+            class="mt-12"
+            flat
+        >
             <VListItem 
                 class="pl-8 my-3"
                 v-for="link in links"
                 :key="link.text"
-                router :to="link.route">
+                router
+                :to="link.route"
+            >
                 <VLayout flex>
                     <VListItemIcon class="py-0 my-0 mr-7">
                         <svg>
-                            <use :href="`${link.icon}#root`"></use>
+                            <use :href="`${link.icon}#root`" />
                         </svg>
                     </VListItemIcon>
                     <VListItemContent class="py-0">
@@ -24,36 +33,37 @@
 </template>
 
 <script>
-export default {
-    data: () => ({
-        links: [{
-                icon: '/assets/icons/home.svg',
-                text: 'Home',
-                route: 'login'
-            },
-            {
-                icon: '/assets/icons/person.svg',
-                text: 'Audience',
-                route: 'audience'
-            },
-            {
-                icon: '/assets/icons/settings.svg',
-                text: 'Behaviour',
-                route: 'behaviour'
-            },
-            {
-                icon: '/assets/icons/speed.svg',
-                text: 'Speed Overview',
-                route: 'speedoverview'
-            },
-            {
-                icon: '/assets/icons/settings.svg',
-                text: 'Settings',
-                route: 'settings'
-            },
-        ]
-    })
-}
+    export default {
+        data: () => ({
+            links: [
+                {
+                    icon: '/assets/icons/home.svg',
+                    text: 'Home',
+                    route: 'login'
+                },
+                {
+                    icon: '/assets/icons/person.svg',
+                    text: 'Audience',
+                    route: 'audience'
+                },
+                {
+                    icon: '/assets/icons/settings.svg',
+                    text: 'Behaviour',
+                    route: 'behaviour'
+                },
+                {
+                    icon: '/assets/icons/speed.svg',
+                    text: 'Speed Overview',
+                    route: 'speedoverview'
+                },
+                {
+                    icon: '/assets/icons/settings.svg',
+                    text: 'Settings',
+                    route: 'settings'
+                },
+            ]
+        })
+    }
 </script>
 
 <style scoped lang="scss">

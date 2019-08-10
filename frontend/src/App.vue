@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Layout from './pages/Layout.vue'
+    import Layout from './pages/Layout.vue'
     export default {
-        name: 'app',
+        name: 'App',
         components: { Layout }
     }
 </script>

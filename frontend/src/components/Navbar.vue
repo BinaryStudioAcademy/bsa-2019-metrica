@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Header from './Header.vue';
-import Sidepanel from './Sidepanel.vue';
+    import Header from './Header.vue';
+    import Sidepanel from './Sidepanel.vue';
 
-export default {
-    components: { Header, Sidepanel }
-}
+    export default {
+        components: { Header, Sidepanel }
+    }
 </script>
 
 <style scoped lang="scss">

@@ -1,29 +1,48 @@
 <template>
-    <VAppBar class="elevation-0 " clipped-left app>
-        <VLayout flex align-center class="pl-4 pr-10">
+    <VAppBar
+        class="elevation-0 "
+        clipped-left
+        app
+    >
+        <VLayout
+            flex
+            align-center
+            class="pl-4 pr-10"
+        >
             <VToolbarTitle>
                 <span class="logo pr-3">M</span>Metrica
             </VToolbarTitle>
             <VSpacer />
-            <VBtn icon class="notifications">
+            <VBtn
+                icon
+                class="notifications"
+            >
                 <svg>
-                    <use href="/assets/icons/bell.svg#root"></use>
+                    <use href="/assets/icons/bell.svg#root" />
                 </svg>
             </VBtn>
             <VToolbarTitle class="username mr-6 ml-4">
                 Hello, <span>Sofi</span>
             </VToolbarTitle>
             <VAvatar>
-                <img src="/assets/images/lady.png" alt="">
+                <img src="/assets/images/lady.png">
             </VAvatar>
             <VMenu>
                 <template v-slot:activator="{ on }">
-                    <VIcon class="drop-down" v-on="on">arrow_drop_down</VIcon>
+                    <VIcon
+                        class="drop-down"
+                        v-on="on"
+                    >
+                        arrow_drop_down
+                    </VIcon>
                 </template>
                 <VList>
-                    <VListItem :key="item" v-for="item in items">
+                    <VListItem
+                        :key="item"
+                        v-for="item in items"
+                    >
                         <VListItemTitle>
-                            {{item}}
+                            {{ item }}
                         </VListItemTitle>
                     </VListItem>
                 </VList>
@@ -33,14 +52,14 @@
 </template>
 
 <script>
-export default {
-    data: () => ({
-        items: ['profile', 'sign out'],
-        bell: {
-            icon: '/assets/icons/bell.svg'
-        }
-    }),
-}
+    export default {
+        data: () => ({
+            items: ['profile', 'sign out'],
+            bell: {
+                icon: '/assets/icons/bell.svg'
+            }
+        }),
+    }
 </script>
 
 <style scoped lang="scss">
