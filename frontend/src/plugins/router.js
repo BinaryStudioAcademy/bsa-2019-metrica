@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Layout from '../pages/Layout.vue';
 import Login from '../pages/Login.vue'
 import ResetPassword from "../pages/ResetPassword";
 import LoginGuard from '../components/auth/LoginGuard.vue';
@@ -15,36 +14,31 @@ export default new Router({
     routes: [
         {
             path: '',
-            component: Layout,
-            children: [
-                {
-                    path: 'login',
-                    name: 'login',
-                    component: Login
-                },
-                {
-                    path: 'reset-password',
-                    name: 'reset-password',
-                    component: ResetPassword
-                },
-                {
-                    path: '',
-                    component: LoginGuard,
-                    children: [
-                        {
-                            path: 'visitors',
-                            name: 'visitors',
-                            component: Visitors
-                        }
-                    ]
-                },
-                {
-                    path: 'signup',
-                    name: 'signup',
-                    component: SignUp
-                }
-            ]
+            redirect: 'login'
         },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
+        },
+        {
+            path: 'reset-password',
+            name: 'reset-password',
+            component: ResetPassword
+        },
+        {
+            path: '',
+            component: LoginGuard,
+            children: [{
+                path: '/visitors',
+                name: 'visitors',
+                component: Visitors
+            }]
+        },
+        {
+            path: '/signup',
+            name: 'signup',
+            component: SignUp
+        }
     ]
-})
-;
+});
