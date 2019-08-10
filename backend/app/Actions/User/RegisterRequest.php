@@ -24,7 +24,7 @@ final class RegisterRequest
 
     public function getName(): string
     {
-        return $this->password;
+        return $this->name;
     }
 
     public function getEmail(): string
