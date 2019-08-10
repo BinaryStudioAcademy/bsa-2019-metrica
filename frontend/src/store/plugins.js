@@ -10,7 +10,7 @@ export const authPlugin = store => {
     store.subscribe(mutation => {
         switch (mutation.type) {
             case `auth/${USER_LOGIN}`: {
-                storage.setToken(mutation.payload.access_token);
+                storage.setToken(mutation.payload.token);
                 break;
             }
             case `auth/${USER_LOGOUT}`: {

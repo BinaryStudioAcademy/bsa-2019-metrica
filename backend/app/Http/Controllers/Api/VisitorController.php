@@ -6,11 +6,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Visitors\GetAllVisitorsAction;
 use App\Actions\Visitors\GetNewVisitorsAction;
-use App\Http\Resources\VisitorResource;
+use App\Http\Resources\VisitorResourceCollection;
 use App\Http\Response\ApiResponse;
-use App\Http\Response\GetAllVisitorsResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Response\GetNewVisitorsResponse;
 
 final class VisitorController extends Controller
 {
@@ -26,25 +24,17 @@ final class VisitorController extends Controller
         $this->getNewVisitorsAction = $getNewVisitorsAction;
     }
 
-    public function getAllVisitors()
+    public function getAllVisitors(): ApiResponse
     {
         $response = $this->getAllVisitorsAction->execute();
 
-        return ApiResponse::success(
-            new GetAllVisitorsResponse([
-                'visitors' => VisitorResource::collection($response->visitors())
-            ])
-        );
+        return ApiResponse::success(new VisitorResourceCollection($response->visitors()));
     }
 
-    public function getNewVisitors()
+    public function getNewVisitors(): ApiResponse
     {
         $response = $this->getNewVisitorsAction->execute();
 
-        return ApiResponse::success(
-            new GetNewVisitorsResponse([
-                'visitors' => VisitorResource::collection($response->visitors())
-            ])
-        );
+        return ApiResponse::success(new VisitorResourceCollection($response->visitors()));
     }
 }

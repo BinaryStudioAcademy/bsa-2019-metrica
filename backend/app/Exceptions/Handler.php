@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Http\Response\ApiResponse;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -63,6 +64,10 @@ class Handler extends ExceptionHandler
             return response()->json([
                 "error" => $exception->getMessage()
             ], 404);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return ApiResponse::error(new UnauthenticatedException());
         }
 
         return parent::render($request, $exception);
