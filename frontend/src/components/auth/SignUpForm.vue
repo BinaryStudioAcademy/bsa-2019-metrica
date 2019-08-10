@@ -146,16 +146,11 @@
                         name: this.newUser.name,
                         email: this.newUser.email,
                         password: this.newUser.password,
-                    }).then(function (res) {
-                        if (res.error) {
-                            alert(res.error);
-                        } else {
-                            alert(res.success);
-                            this.$router.push({name: 'login'});
-                        }
-                    }).catch(function (err) {
+                    }).then(() => {
+                        this.$router.push({name: 'login'});
+                    }, err => {
                         alert(err.message);
-                    });
+                    })
                 }
             },
 
