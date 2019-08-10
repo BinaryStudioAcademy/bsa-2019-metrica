@@ -26,12 +26,7 @@ export default {
     },
 
     [SIGNUP]: (context, newUser) => {
-        return registerUser(newUser)
-            .then(response => {
-                console.log("Success!")
-            }, error => {
-                console.error("Error!")
-            });
+        return registerUser(newUser);
     },
 
     [RESET_PASSWORD]: () => {
