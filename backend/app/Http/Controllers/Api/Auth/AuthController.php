@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Actions\Auth\GetCurrentUserAction;
-use app\Actions\User\RegisterRequest;
+use App\Actions\User\RegisterRequest;
 use App\Actions\User\RegisterUserAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterHttpRequest;
