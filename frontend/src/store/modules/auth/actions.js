@@ -32,13 +32,9 @@ export default {
     },
 
     [UPDATE]: (context, user) => {
-        return new Promise((resolve, reject) => {
-            try {
-                context.commit(SET_AUTHENTICATED_USER, user);
-                resolve();
-            }catch(error) {
-                reject(error);
-            }
+        return new Promise(resolve => {
+            context.commit(SET_AUTHENTICATED_USER, user);
+            resolve();
         });
 
     },

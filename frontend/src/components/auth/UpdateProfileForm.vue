@@ -22,7 +22,7 @@
                         <VSubheader class="edit-form-label">
                             Email
                         </VSubheader>
-                        <v-text-field
+                        <VTextField
                             name="email"
                             class="edit-form-input"
                             v-model="editUser.email"
@@ -38,10 +38,10 @@
                             name="input-10-1"
                             class="edit-form-input"
                             v-model="editUser.password"
-                            :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                            :append-icon="passwordVisibility"
                             solo
-                            type="showPassword ? 'text' : 'password'"
-                            hint="At least 6 characters"
+                            :type="passwordType"
+                            hint="At least 8 characters"
                             counter
                             :rules="passwordRules"
                             required
@@ -54,10 +54,10 @@
                             name="input-10-1"
                             class="edit-form-input"
                             v-model="confirmPassword"
-                            :append-icon="showConfirmPassword ? 'visibility' : 'visibility_off'"
+                            :append-icon="confirmPasswordVisibility"
                             solo
-                            type="showConfirmPassword ? 'text' : 'password'"
-                            hint="At least 6 characters"
+                            :type="confirmPasswordType"
+                            hint="At least 8 characters"
                             counter
                             :rules="confirmPasswordRules"
                             required
@@ -102,7 +102,7 @@ export default {
             ],
             passwordRules: [
                 v => !!v || 'Password is required',
-                v => (v && v.length >= 6) || 'Password must be equal or more than 6 characters'
+                v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
             ],
             confirmPasswordRules: [
                 v => !!v || 'Password is required',
@@ -121,6 +121,18 @@ export default {
         ...mapGetters('auth', {
             getUser: GET_AUTHENTICATED_USER
         }),
+        passwordVisibility: function() {
+            return this.showPassword ? 'visibility' : 'visibility_off';
+        },
+        confirmPasswordVisibility: function () {
+            return this.showConfirmPassword ? 'visibility' : 'visibility_off';
+        },
+        passwordType: function () {
+            return this.showPassword ? 'text' : 'password';
+        },
+        confirmPasswordType: function () {
+            return this.showConfirmPassword ? 'text' : 'password';
+        }
     },
 
     methods: {
@@ -129,15 +141,10 @@ export default {
         }),
 
         onSave() {
-            new Promise((resolve,reject) => {
-                if (this.$refs.form.validate()) {
-                    this.update(this.editUser);
-                    resolve();
-                }
-                reject({
-                    message: "Can't update user"
-                });
-            });
+            if (this.$refs.form.validate()) {
+                this.update(this.editUser);
+                alert(this.editUser);
+            }
         },
     }
 };
