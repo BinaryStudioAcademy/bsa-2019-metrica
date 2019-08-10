@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Contracts\ApiResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class SessionResource extends JsonResource
+final class SessionResource extends JsonResource implements ApiResponse
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             //TODO

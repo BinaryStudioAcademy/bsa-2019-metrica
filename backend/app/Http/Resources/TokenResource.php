@@ -7,14 +7,12 @@ namespace App\Http\Resources;
 use App\Contracts\ApiResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class UserResource extends JsonResource implements ApiResponse
+final class TokenResource extends JsonResource implements ApiResponse
 {
     public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email
+            'token' => $this->getToken()
         ];
     }
 }

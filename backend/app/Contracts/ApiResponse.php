@@ -4,5 +4,5 @@ namespace App\Contracts;
 
 interface ApiResponse
 {
-    public function toArray(): array;
+    public function toArray($request): array;
 }
