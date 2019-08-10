@@ -24,7 +24,7 @@ class WebsiteTableSeeder extends Seeder
                 return factory(Website::class, 1)->make([
                     'user_id' => $user->id,
                     'name' => $faker->unique()->name,
-                    'domain' => "http://". $faker->unique()->name .".com",
+                    'domain' => "http://". $faker->unique()->domainWord .".com",
                     'created_at' => $now->toDateTimeString()
                 ]);
             }
