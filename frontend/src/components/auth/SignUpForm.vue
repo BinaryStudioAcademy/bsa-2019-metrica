@@ -64,7 +64,7 @@
                         </VForm>
                     </VCardText>
                     <VCardActions>
-                        <VSpacer/>
+                        <VSpacer />
                         <VBtn
                             large
                             color="primary"
@@ -81,11 +81,11 @@
                             large
                             color="primary"
                             @click="onSignIn"
-                            :disabled=false
+                            :disabled="false"
                         >
                             SIGN IN
                         </VBtn>
-                        <VSpacer/>
+                        <VSpacer />
                     </VCardActions>
                 </VCard>
             </VFlex>
@@ -129,8 +129,9 @@
                         name: this.name,
                         email: this.email,
                         password: this.password,
-                    }
-                    console.log(user)
+                    };
+
+                    alert(user.name);
                 }
             },
             onSignIn () {

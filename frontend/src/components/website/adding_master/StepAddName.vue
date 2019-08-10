@@ -94,12 +94,5 @@
             line-height: 15px;
             color: rgba(18, 39, 55, 0.5);
         }
-
-        .form-input {
-            height: 48px;
-           &.v-input--is-focused {
-                border:1px solid rgba(60, 87, 222, 0.52) ;
-            }
-        }
     }
 </style>
