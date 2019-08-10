@@ -1,4 +1,4 @@
-import {LOGIN, LOGOUT, SIGNUP} from './types/actions';
+import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD} from './types/actions';
 import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
 import requestService from "@/services/requestService";
 
@@ -39,4 +39,20 @@ export default {
                 password: newUser.password
             });
     },
+
+    [RESET_PASSWORD]: () => {
+        return new Promise((resolve, reject) => {
+            const fakeResponse = 201;
+            switch (fakeResponse) {
+                case 201:
+                    resolve("Your reset password link was created. Check your email, please.");
+                    break;
+                case 500:
+                    reject("Sorry, something wrong happened. Please, try again.");
+                    break;
+                default:
+                    reject("User with this email does not exist. Please, check if the password is correct.");
+            }
+        })
+    }
 }
