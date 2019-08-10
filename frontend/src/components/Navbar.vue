@@ -1,16 +1,24 @@
 <template>
     <nav>
         <Header />
-        <Sidepanel />
+        <Sidepanel v-if="isLoggedIn" />
     </nav>
 </template>
 
 <script>
     import Header from './Header.vue';
     import Sidepanel from './Sidepanel.vue';
+    import {mapGetters} from "vuex";
+    import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
 
     export default {
-        components: { Header, Sidepanel }
+        components: { Header, Sidepanel },
+
+        computed: {
+            ...mapGetters('auth', {
+                isLoggedIn: IS_LOGGED_IN,
+            })
+        }
     }
 </script>
 
