@@ -6,6 +6,7 @@ namespace App\Actions\User;
 
 use App\Repositories\Contracts\UserRepository;
 use App\Entities\User;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 final class RegisterUserAction
@@ -22,7 +23,7 @@ final class RegisterUserAction
         $user = new User();
         $user->name = $request->getName();
         $user->email = $request->getEmail();
-        $user->password = $request->getPassword();
+        $user->password = Hash::make($request->getPassword());
         $this->userRepository->save($user);
         $token = JWTAuth::fromUser($user);
 
