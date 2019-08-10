@@ -1,4 +1,4 @@
-import {SET_AUTHENTICATED_USER, SET_TOKEN, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
+import {SET_AUTHENTICATED_USER, SET_TOKEN, USER_LOGIN, USER_LOGOUT, SET_USER_IS_LOGGED_IN} from "./types/mutations";
 
 export default {
     [SET_TOKEN]: (state, token) => {
@@ -20,5 +20,8 @@ export default {
     [SET_AUTHENTICATED_USER]: (state, user) => {
         state.isLoggedIn = true;
         state.currentUser = user;
+    },
+    [SET_USER_IS_LOGGED_IN]: (state,data) => {
+        state.isLoggedIn = data;
     }
 };
