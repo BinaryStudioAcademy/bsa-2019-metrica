@@ -35,13 +35,9 @@ final class AuthController extends Controller
 
     public function login(AuthenticatedHttpRequest $request): ApiResponse
     {
-        try {
-            $response = $this->authenticatedUserAction->execute(
-                AuthenticatedUserRequest::fromRequest($request)
-            );
-        } catch (ApiException $exception) {
-            return ApiResponse::error($exception);
-        }
+        $response = $this->authenticatedUserAction->execute(
+            AuthenticatedUserRequest::fromRequest($request)
+        );
 
         return ApiResponse::success(new TokenResource($response));
     }
