@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Page extends Model
 {
@@ -14,5 +15,10 @@ final class Page extends Model
         'website_id',
     ];
 
-    protected $with = ['websites'];
+    protected $with = ['website'];
+
+    public function website(): BelongsTo
+    {
+        return $this->belongsTo(Website::class);
+    }
 }
