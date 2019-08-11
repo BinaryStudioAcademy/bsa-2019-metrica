@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class Session extends Model
 {
@@ -43,5 +46,15 @@ final class Session extends Model
     public function system(): BelongsTo
     {
         return $this->belongsTo(System::class);
+    }
+
+    public function visits(): HasMany
+    {
+        return $this->hasMany(Visit::class);
+    }
+
+    public function scopeInactive(Builder $query): Builder
+    {
+        return $query->whereTime('updated_at', '<', (Carbon::now())->subMinutes(30)->toDateString());
     }
 }

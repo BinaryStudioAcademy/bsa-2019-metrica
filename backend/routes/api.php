@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
             Route::get('/new', 'VisitorController@getNewVisitors');
+            Route::get('/bounce-rate', 'VisitorController@getBounceRate');
         });
 
         Route::group([

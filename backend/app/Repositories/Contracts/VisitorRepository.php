@@ -9,4 +9,6 @@ interface VisitorRepository
     public function all(): Collection;
 
     public function newest(): Collection;
+
+    public function withSinglePageInactiveSession(): Collection;
 }
