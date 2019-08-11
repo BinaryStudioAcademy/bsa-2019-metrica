@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\Actions\User;
+namespace App\Actions\Auth;
 
 final class RegisterResponse
 {
     private $token;
 
-    public function __construct( string $token)
+    public function __construct(string $token)
     {
         $this->token = $token;
     }
