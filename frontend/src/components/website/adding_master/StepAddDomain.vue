@@ -53,6 +53,7 @@
     import {mapActions, mapGetters} from 'vuex';
     import {GET_NEW_WEBSITE} from "@/store/modules/website/types/getters";
     import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA} from "@/store/modules/website/types/actions";
+    import {GET_AUTHENTICATED_USER} from "@/store/modules/auth/types/getters";
 
     const domainRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#()?&//=]*)/;
 
@@ -74,6 +75,9 @@
             ...mapGetters('website', {
                 newWebsite: GET_NEW_WEBSITE
             }),
+            ...mapGetters('auth', {
+                currentUser: GET_AUTHENTICATED_USER
+            }),
             errorText (){
                 return this.errorMessage;
             }
@@ -91,7 +95,8 @@
                 if (this.$refs.form.validate()) {
                     this.setWebsiteData({
                         domain: this.domain,
-                        single_page: this.single_page
+                        single_page: this.single_page,
+                        tracking_number: this.createTrackingNumber()
                     }).then(() => this.saveNewSite()
                         .then(() => this.$router.push({name: 'add_websites_step_3'}))
                         .catch((res) => this.onError(res.errors))
@@ -117,6 +122,9 @@
                     return;
                 }
             },
+            createTrackingNumber() {
+                return parseInt(this.currentUser.id);
+            }
 
         }
     };
