@@ -4,15 +4,16 @@ declare(strict_types=1);
 namespace App\Actions\Website;
 
 use App\Entities\Website;
-use App\Repositories\Contracts\EloquentWebsiteRepository;
+use App\Repositories\Contracts\WebsiteRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AddWebsiteAction
 {
     private $websiteRepository;
 
     public function __construct(
-        EloquentWebsiteRepository $websiteRepository
+        WebsiteRepository $websiteRepository
     ) {
         $this->websiteRepository = $websiteRepository;
     }
@@ -25,9 +26,17 @@ class AddWebsiteAction
         $website->domain = $request->getDomain();
         $website->single_page = $request->getSinglePage();
         $website->user_id = Auth::id();
+        $website->tracking_number = $this->getLastTrackingNumber() + 1;
 
         $this->websiteRepository->save($website);
 
         return new AddWebsiteResponse($website);
+    }
+
+    private function getLastTrackingNumber(): int
+    {
+        $last = DB::table('websites')->latest()->first();
+
+        return $last ? $last->tracking_number : 0;
     }
 }

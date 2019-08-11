@@ -33,6 +33,6 @@ final class AddWebsiteHttpRequest extends FormRequest
 
     public function singlePage(): bool
     {
-        return $this->get('single_page');
+        return $this->get('single_page') ?? false;
     }
 }

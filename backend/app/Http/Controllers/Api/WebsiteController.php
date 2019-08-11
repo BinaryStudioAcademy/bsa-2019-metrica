@@ -7,7 +7,7 @@ use App\Actions\Website\AddWebsiteAction;
 use App\Actions\Website\AddWebsiteRequest;
 use App\Http\Requests\AddWebsiteHttpRequest;
 use App\Http\Resources\WebsiteResource;
-use Illuminate\Http\JsonResponse;
+use App\Http\Response\ApiResponse;
 
 class WebsiteController
 {
@@ -18,12 +18,12 @@ class WebsiteController
         $this->addWebsiteAction = $addWebsiteAction;
     }
 
-    public function add(AddWebsiteHttpRequest $request): JsonResponse
+    public function add(AddWebsiteHttpRequest $request): ApiResponse
     {
         $response = $this->addWebsiteAction->execute(
             AddWebsiteRequest::fromRequest($request)
         );
 
-        return response()->json(new WebsiteResource($response->getWebsite()), 201);
+        return ApiResponse::success(new WebsiteResource($response->getWebsite()));
     }
 }

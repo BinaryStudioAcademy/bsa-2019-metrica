@@ -5,7 +5,7 @@ namespace App\Repositories\Contracts;
 
 use App\Entities\Website;
 
-interface EloquentWebsiteRepository
+interface WebsiteRepository
 {
     public function save(Website $website): Website;
 }
