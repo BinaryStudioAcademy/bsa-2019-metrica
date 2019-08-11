@@ -69,7 +69,7 @@
         computed: {
             ...mapGetters('website', {
                 newWebsite: GET_NEW_WEBSITE
-            })
+            }),
         },
         created () {
             this.name = this.newWebsite.name;

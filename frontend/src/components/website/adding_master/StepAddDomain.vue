@@ -24,8 +24,8 @@
                             required
                             single-line
                             solo
-                            :error="!!errorMessage"
-                            :error-messages="errorMessage"
+                            :error="!!errorText"
+                            :error-messages="errorText"
                             :rules="domainRules"
                         />
                     </VCardText>
@@ -58,14 +58,9 @@
 
     export default {
         name: 'StepAddDomain',
-        props: {
-            errorMessage: {
-                type: String,
-                default: ''
-            }
-        },
         data() {
             return {
+                errorMessage: '',
                 domain: '',
                 valid: false,
                 single_page: false,
@@ -78,7 +73,10 @@
         computed: {
             ...mapGetters('website', {
                 newWebsite: GET_NEW_WEBSITE
-            })
+            }),
+            errorText (){
+                return this.errorMessage;
+            }
         },
         created () {
             this.domain = this.newWebsite.domain;
@@ -94,25 +92,29 @@
                     this.setWebsiteData({
                         domain: this.domain,
                         single_page: this.single_page
-                    }).then(() => this.saveNewSite())
+                    }).then(() => this.saveNewSite()
                         .then(() => this.$router.push({name: 'add_websites_step_3'}))
-                        .catch((res) => {this.onError(res.errors);});
+                        .catch((res) => this.onError(res.errors))
+                    );
                 }
             },
             onError (errors) {
                 if (errors.name) {
 
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.name}});
+                    return;
                 }
 
                 if (errors.domain) {
 
-                    this.$router.push({name: 'add_websites_step_2', params: {errorMessage: errors.domain}});
+                    this.errorMessage = errors.domain;
+                    return;
                 }
 
                 if (errors.message) {
 
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.message}});
+                    return;
                 }
             },
 

@@ -51,9 +51,7 @@ export default new Router({
                             meta: {
                                 step: 1
                             },
-                            props: {
-                                errorMessage: ''
-                            }
+                            props: true
                         },
                         {
                             path: 'step-2',
@@ -62,9 +60,6 @@ export default new Router({
                             meta: {
                                 step: 2
                             },
-                            props: {
-                                errorMessage: ''
-                            }
                         },
                         {
                             path: 'step-3',
