@@ -44,19 +44,33 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "vue/script-indent": ["error", 4, {
-        "baseIndent": 1
-      }],
-      "vue/html-indent": ["error", 4, {
-        "attribute": 1,
-        "closeBracket": 0,
-        "alignAttributesVertically": true,
-        "ignores": []
-      }],
-      "vue/component-name-in-template-casing": ["error", "PascalCase", {
-        "registeredComponentsOnly": false
-      }],
-      "vue/eqeqeq": "error"
+      "vue/script-indent": [
+        "error",
+        4,
+        {
+          "baseIndent": 1
+        }
+      ],
+      "vue/html-indent": [
+        "error",
+        4,
+        {
+          "attribute": 1,
+          "closeBracket": 0,
+          "alignAttributesVertically": true,
+          "ignores": []
+        }
+      ],
+      "vue/component-name-in-template-casing": [
+        "error",
+        "PascalCase",
+        {
+          "registeredComponentsOnly": false
+        }
+      ],
+      "vue/eqeqeq": "error",
+      "no-console": "off",
+      "no-debugger": "off"
     }
   },
   "postcss": {

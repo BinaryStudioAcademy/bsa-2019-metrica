@@ -93,7 +93,7 @@
                         email: this.email,
                         password: this.password
                     }).then(() => {
-                        this.$router.push({path: '/'});
+                        this.$emit("success");
                     }, err => {
                         alert(err.message);
                     })

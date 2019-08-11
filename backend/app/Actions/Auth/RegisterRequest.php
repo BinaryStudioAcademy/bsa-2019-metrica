@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\User;
+namespace App\Actions\Auth;
 
 use App\Http\Requests\RegisterHttpRequest;
 
@@ -24,7 +24,7 @@ final class RegisterRequest
 
     public function getName(): string
     {
-        return $this->password;
+        return $this->name;
     }
 
     public function getEmail(): string
