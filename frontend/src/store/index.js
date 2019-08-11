@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import auth from './modules/auth';
 import website from './modules/website';
 import {authPlugin} from "./plugins";
+import website from './modules/website';
 
 Vue.use(Vuex);
 

@@ -1,1 +1,2 @@
-export const SET_WEBSITE = 'SET_WEBSITE';
+export const ADD_WEBSITE = 'ADD_WEBSITE';
+export const SET_WEBSITE_INFO = 'SET_WEBSITE_INFO';

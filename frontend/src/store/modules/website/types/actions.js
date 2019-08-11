@@ -1,2 +1,2 @@
-export const GET_WEBSITE = 'getWebsite';
-export const SET_NAME_WEBSITE = 'setNameWebsite';
+export const SAVE_NEW_WEBSITE = 'saveNewWebsite';
+export const SET_WEBSITE_DATA = 'setWebsiteData';
