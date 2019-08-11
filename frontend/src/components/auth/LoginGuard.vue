@@ -1,23 +1,18 @@
 <template>
-    <div>
-        <Sidenav v-if="isLogged" />
-        <VContent v-if="isLogged">
-            <RouterView />
-        </VContent>
-        <LoginForm v-else />
-    </div>
+    <UserLayout v-if="isLogged" />
+    <LoginForm v-else />
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
     import LoginForm from "./LoginForm.vue";
-    import Sidenav from "../layout/Sidepanel.vue";
+    import UserLayout from "@/components/layout/UserLayout.vue";
 
     export default {
         components: {
             LoginForm,
-            Sidenav
+            UserLayout
         },
         computed: {
             ...mapGetters('auth', {

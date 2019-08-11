@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '../pages/Login.vue'
+import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
 import SignUp from "../pages/SignUp.vue";
 import AddWebsitePage from '../pages/AddWebsitePage.vue';
@@ -15,12 +16,7 @@ Vue.use(Router);
 export default new Router({
     mode: 'history',
     base: '/',
-    component: Layout,
     routes: [
-        {
-            path: '',
-            redirect: { name: 'home' }
-        },
         {
             path: '/login',
             name: 'login',
@@ -36,8 +32,28 @@ export default new Router({
             component: LoginGuard,
             children: [
                 {
+                    path: 'dashboard',
+                    name: 'dashboard',
+                    component: Visitors
+                },
+                {
                     path: 'visitors',
                     name: 'visitors',
+                    component: Visitors
+                },
+                {
+                    path: 'settings',
+                    name: 'settings',
+                    component: Visitors
+                },
+                {
+                    path: 'behaviour',
+                    name: 'behaviour',
+                    component: Visitors
+                },
+                {
+                    path: 'speedoverview',
+                    name: 'speedoverview',
                     component: Visitors
                 },
                 {

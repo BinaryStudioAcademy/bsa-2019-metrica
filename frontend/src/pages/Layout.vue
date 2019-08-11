@@ -1,37 +1,24 @@
 <template>
     <VApp>
-        <Header :is-logged="isLogged" />
-        <Sidepanel v-if="isLogged" />
-        <RouterView v-if="isLogged" />
-        <LoginForm v-else />
+        <Header />
+        <RouterView />
+        <Footer />
     </VApp>
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
-    import LoginForm from "../components/auth/LoginForm.vue";
-    import Header from '../components/Header.vue';
-    import Sidepanel from '../components/Sidepanel.vue';
+    import Header from '../components/layout/Header.vue'
+    import Footer from '../components/layout/Footer.vue'
 
     export default {
         components: {
             Header,
-            LoginForm,
-            Sidepanel
-        },
-        computed: {
-            ...mapGetters('auth', {
-                isLogged: IS_LOGGED_IN
-            })
+            Footer,
         }
     }
 </script>
 
-<style>
-#app {
-    max-width: 1200px;
-}
+<style lang="scss">
 
 @font-face {
     font-family: 'Gilroy';
@@ -65,17 +52,12 @@
         url("/assets/fonts/Inter-Bold.woff") format("woff");
 }
 
+#app {
+    background: #F5F8FD;
+}
+
 svg path {
     fill: inherit;
     fill-opacity: inherit;
-}
-
-.v-navigation-drawer__border {
-    display: none;
-}
-
-.v-toolbar__content {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.034);
-    height: 61px;
 }
 </style>

@@ -39,7 +39,7 @@
                 {
                     icon: '/assets/icons/home.svg',
                     text: 'Home',
-                    route: 'home'
+                    route: 'dashboard'
                 },
                 {
                     icon: '/assets/icons/person.svg',
