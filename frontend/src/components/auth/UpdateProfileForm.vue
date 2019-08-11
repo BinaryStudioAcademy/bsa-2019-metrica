@@ -1,6 +1,10 @@
 <template>
     <VContent>
-        <VFlex lg6 md6 sm12 xs12>
+        <VFlex lg6
+               md6
+               sm12
+               xs12
+        >
             <VContainer>
                 <VCardText class="edit-container">
                     <VSubheader class="edit-form-header">
@@ -66,7 +70,9 @@
                     </VForm>
                 </VCardText>
                 <VCardActions>
-                    <VBtn @click="onSave" class="editUser-form-button mt-3" color="#3C57DE">
+                    <VBtn @click="onSave"
+                          class="editUser-form-button mt-3"
+                          color="#3C57DE">
                         Save
                     </VBtn>
                 </VCardActions>
@@ -76,78 +82,78 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
-import {UPDATE} from '@/store/modules/auth/types/actions';
-import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
+    import {mapGetters, mapActions} from 'vuex';
+    import {UPDATE} from '@/store/modules/auth/types/actions';
+    import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
 
-export default {
-    data() {
-        return {
-            editUser: {
-                name: '',
-                email: '',
-                password: '',
+    export default {
+        data() {
+            return {
+                editUser: {
+                    name: '',
+                    email: '',
+                    password: '',
+                },
+                confirmPassword: '',
+                valid: false,
+                showPassword: false,
+                showConfirmPassword: false,
+                nameRules: [
+                    v => !!v || 'Field full name is required',
+                    v => (v && v.length >= 3) || 'Enter the correct information'
+                ],
+                emailRules: [
+                    v => !!v || 'E-mail is required',
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ],
+                passwordRules: [
+                    v => !!v || 'Password is required',
+                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
+                ],
+                confirmPasswordRules: [
+                    v => !!v || 'Password is required',
+                    v => v === this.editUser.password || 'Password should match'
+                ]
+            };
+        },
+
+        created() {
+            this.editUser = {
+                ...this.getUser
+            };
+        },
+
+        computed: {
+            ...mapGetters('auth', {
+                getUser: GET_AUTHENTICATED_USER
+            }),
+            passwordVisibility: function() {
+                return this.showPassword ? 'visibility' : 'visibility_off';
             },
-            confirmPassword: '',
-            valid: false,
-            showPassword: false,
-            showConfirmPassword: false,
-            nameRules: [
-                v => !!v || 'Field full name is required',
-                v => (v && v.length >= 3) || 'Enter the correct information'
-            ],
-            emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-            ],
-            passwordRules: [
-                v => !!v || 'Password is required',
-                v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
-            ],
-            confirmPasswordRules: [
-                v => !!v || 'Password is required',
-                v => v === this.editUser.password || 'Password should match'
-            ]
-        };
-    },
-
-    created() {
-        this.editUser = {
-            ...this.getUser
-        };
-    },
-
-    computed: {
-        ...mapGetters('auth', {
-            getUser: GET_AUTHENTICATED_USER
-        }),
-        passwordVisibility: function() {
-            return this.showPassword ? 'visibility' : 'visibility_off';
-        },
-        confirmPasswordVisibility: function () {
-            return this.showConfirmPassword ? 'visibility' : 'visibility_off';
-        },
-        passwordType: function () {
-            return this.showPassword ? 'text' : 'password';
-        },
-        confirmPasswordType: function () {
-            return this.showConfirmPassword ? 'text' : 'password';
-        }
-    },
-
-    methods: {
-        ...mapActions('auth', {
-            update: UPDATE
-        }),
-
-        onSave() {
-            if (this.$refs.form.validate()) {
-                this.update(this.editUser);
-                alert(this.editUser);
+            confirmPasswordVisibility: function () {
+                return this.showConfirmPassword ? 'visibility' : 'visibility_off';
+            },
+            passwordType: function () {
+                return this.showPassword ? 'text' : 'password';
+            },
+            confirmPasswordType: function () {
+                return this.showConfirmPassword ? 'text' : 'password';
             }
         },
-    }
-};
+
+        methods: {
+            ...mapActions('auth', {
+                update: UPDATE
+            }),
+
+            onSave() {
+                if (this.$refs.form.validate()) {
+                    this.update(this.editUser);
+                    alert(this.editUser);
+                }
+            },
+        }
+    };
 </script>
 
 <style lang="scss" scoped>
