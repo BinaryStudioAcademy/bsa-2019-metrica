@@ -1,9 +1,10 @@
 <template>
     <VContent>
-        <VFlex lg6
-               md6
-               sm12
-               xs12
+        <VFlex
+            lg6
+            md6
+            sm12
+            xs12
         >
             <VContainer>
                 <VCardText class="edit-container">
@@ -70,9 +71,11 @@
                     </VForm>
                 </VCardText>
                 <VCardActions>
-                    <VBtn @click="onSave"
-                          class="editUser-form-button mt-3"
-                          color="#3C57DE">
+                    <VBtn
+                        @click="onSave"
+                        class="editUser-form-button mt-3"
+                        color="#3C57DE"
+                    >
                         Save
                     </VBtn>
                 </VCardActions>

@@ -8,17 +8,20 @@
         >
             <VContainer>
                 <VCardText
-                    class="login-container">
+                    class="login-container"
+                >
                     <VSubheader
                         class="login-form-header"
-                    >Welcome to Metrica!
+                    >
+                        Welcome to Metrica!
                     </VSubheader>
                     <VForm
                         ref="form"
                     >
                         <VSubheader
                             class="login-form-label"
-                        >Email
+                        >
+                            Email
                         </VSubheader>
                         <VTextField
                             name="email"
@@ -32,7 +35,8 @@
 
                         <VSubheader
                             class="login-form-label"
-                        >Password
+                        >
+                            Password
                         </VSubheader>
                         <VTextField
                             name="password"
@@ -46,7 +50,13 @@
                     </VForm>
                 </VCardText>
                 <VCardActions>
-                    <VBtn @click="onLogin" class="login-form-button mt-3" color="#3C57DE">Login</VBtn>
+                    <VBtn
+                        @click="onLogin"
+                        class="login-form-button mt-3"
+                        color="#3C57DE"
+                    >
+                        Login
+                    </VBtn>
                 </VCardActions>
             </VContainer>
         </VFlex>
@@ -69,7 +79,7 @@
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 6) || 'Password must be equal or more than 6 characters'
+                    v => (v && v.length >= 8) || 'Password must be equal or more than 8 characters'
                 ]
             }
         },
@@ -83,7 +93,7 @@
                         email: this.email,
                         password: this.password
                     }).then(() => {
-                        this.$router.push({path: '/'});
+                        this.$emit("success");
                     }, err => {
                         alert(err.message);
                     })

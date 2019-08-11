@@ -11,7 +11,7 @@ use Throwable;
 
 final class UserNotFoundException extends ModelNotFoundException implements ApiException
 {
-    private $message = "User not found.";
+    protected $message = "User not found.";
 
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
