@@ -27,7 +27,7 @@ export default new Router({
             component: Login
         },
         {
-            path: 'reset-password',
+            path: '/reset-password',
             name: 'reset-password',
             component: ResetPassword
         },
@@ -36,9 +36,9 @@ export default new Router({
             component: LoginGuard,
             children: [
                 {
-                path: '/visitors',
-                name: 'visitors',
-                component: Visitors
+                    path: 'visitors',
+                    name: 'visitors',
+                    component: Visitors
                 },
                 {
                     path: 'websites/add',
@@ -79,7 +79,7 @@ export default new Router({
             component: SignUp
         },
         {
-            path: 'home',
+            path: '/home',
             name: 'home',
             component: Home
         }
