@@ -12,16 +12,12 @@ use Faker\Generator as Faker;
 use Illuminate\Support\Carbon;
 
 $factory->define(Session::class, function (Faker $faker) {
-    $now = Carbon::now();
-
     return [
-        'start_session' => $faker->unixTime,
-        'end_session' => $faker->unixTime,
-        'visitor_id' => Visitor::query()->inRandomOrder()->first()->id,
-        'entrance_page_id' => Page::query()->inRandomOrder()->first()->id,
-        'demographic_id' => Demographic::query()->inRandomOrder()->first()->id,
-        'device_id' => Device::query()->inRandomOrder()->first()->id,
-        'system_id' => System::query()->inRandomOrder()->first()->id,
-        'created_at' => $now->toDateTimeString(),
+        'start_session' => (Carbon::now())->toDateString(),
+        'visitor_id' => Visitor::inRandomOrder()->first()->id,
+        'entrance_page_id' => Page::inRandomOrder()->first()->id,
+        'demographic_id' => Demographic::inRandomOrder()->first()->id,
+        'device_id' => Device::inRandomOrder()->first()->id,
+        'system_id' => System::inRandomOrder()->first()->id
     ];
 });

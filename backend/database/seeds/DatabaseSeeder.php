@@ -21,7 +21,9 @@ class DatabaseSeeder extends Seeder
             OsTableSeeder::class,
             SystemTableSeeder::class,
             GeoPositionTableSeeder::class,
-            SessionTableSeeder::class
+            DemographicTableSeeder::class,
+            SessionTableSeeder::class,
+            VisitTableSeeder::class
         ]);
     }
 }
