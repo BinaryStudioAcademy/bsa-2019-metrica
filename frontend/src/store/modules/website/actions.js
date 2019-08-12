@@ -51,7 +51,7 @@ export default {
             switch (fakeResponse) {
                 case 200:
                     context.commit(UPDATE_CURRENT_WEBSITE, website);
-                    resolve(website);
+                    resolve({ message:'Name Success Save'});
                     break;
                 default:
                     reject({ message:"Sorry, something wrong happened. Please, try again."});

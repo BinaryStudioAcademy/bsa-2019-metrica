@@ -15,7 +15,7 @@
                             <label>Website Name</label>
                             <VTextField
                                 name="website"
-                                v-model="localWebsite.isWebsiteName"
+                                v-model="localWebsite.WebsiteName"
                                 :success-messages="showSuccessMessage"
                                 :error-messages="showErrorMessage"
                                 single-line
@@ -50,13 +50,14 @@
                             <span>Tracking ID: </span>
                             <span>{{ currentWebsite.tracking_number }}</span>
                         </p>
-                        <VBtn
-                            @click="update"
-                            color="#3C57DE"
-                            class="update-form-button"
-                        >
-                            Update
-                        </VBtn>
+                        <VCardActions>
+                            <VBtn
+                                @click="update"
+                                color="primary"
+                            >
+                                Update
+                            </VBtn>
+                        </VCardActions>
                     </VForm>
                     <div>
                         <div>
@@ -94,22 +95,22 @@
                 v => (v && v.length >= 8) || 'Website name must be correct. Name must be at least 8 characters.'
             ],
             localWebsite: {
-                isWebsiteName: undefined
+                WebsiteName: undefined
             }
         }),
         computed: {
             ...mapGetters('website', {
                 currentWebsite: GET_CURRENT_WEBSITE
             }),
-            isWebsiteName: {
+            WebsiteName: {
                 set(value) {
-                    this.localWebsite.isWebsiteName = value;
+                    this.localWebsite.WebsiteName = value;
                 },
                 get() {
-                    if(this.localWebsite.isWebsiteName === undefined) {
+                    if(this.localWebsite.WebsiteName === undefined) {
                         return this.currentWebsite.name;
                     }
-                    return this.localWebsite.isWebsiteName;
+                    return this.localWebsite.WebsiteName;
                 },
             }
         },
@@ -119,10 +120,9 @@
             }),
             update() {
                 this.website({
-                    name:this.localWebsite.isWebsiteName
+                    name:this.localWebsite.WebsiteName
                 }).then((e) => {
-                    this.showSuccessMessage = 'Name Success Save';
-                    this.localWebsite.isWebsiteName = e.name.name
+                    this.showSuccessMessage = e.message;
                 }).catch((err) => {
                     this.showErrorMessage = err.message
                 })
@@ -139,18 +139,6 @@
         @media (max-width: 767px) {
             & {
                 grid-template-columns: 100%;
-            }
-        }
-    }
-    .update-form-button {
-        color: white;
-        margin-bottom:20px;
-        ::v-deep {
-            span {
-                font-size: 12px;
-                line-height: 15px;
-                padding: 7px 21px 7px 21px;
-                font-weight: bold;
             }
         }
     }

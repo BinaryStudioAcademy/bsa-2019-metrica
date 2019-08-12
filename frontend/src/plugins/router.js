@@ -42,6 +42,11 @@ export default new Router({
                     component: Visitors
                 },
                 {
+                    path: 'website-info',
+                    name: 'websiteinfo',
+                    component: WebsiteInfo
+                },
+                {
                     path: 'websites/add',
                     component: AddWebsitePage,
                     children: [
@@ -72,11 +77,6 @@ export default new Router({
                         }
                     ]
                 },
-                {
-                    path: '/website-info',
-                    name: 'websiteinfo',
-                    component: WebsiteInfo
-                }
             ]
         },
         {
