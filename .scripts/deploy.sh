@@ -28,7 +28,7 @@ make_task_def() {
         "name": "%s",
         "image": "%s",
         "essential": true,
-        "memory": 192,
+        "memory": 170,
         "portMappings": [
             {
                 "hostPort": 80,
@@ -94,7 +94,7 @@ register_definition() {
         --requires-compatibilities EC2 \
         --task-role-arn ${AWS_ROLE} \
         --execution-role-arn ${AWS_ROLE} \
-        --memory 980 \
+        --memory 490 \
         --family $AWS_FAMILY | $JQ '.taskDefinition.taskDefinitionArn'); then
         echo "Revision: $revision"
     else
