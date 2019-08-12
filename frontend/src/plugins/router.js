@@ -42,7 +42,7 @@ export default new Router({
                     component: Visitors
                 },
                 {
-                    path: '/user-settings',
+                    path: 'user-settings',
                     name: 'user-update',
                     component: UserUpdate
                 },

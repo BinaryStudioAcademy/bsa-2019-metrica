@@ -84,7 +84,7 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-    import {UPDATE} from '@/store/modules/auth/types/actions';
+    import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
 
     export default {
@@ -144,7 +144,7 @@
 
         methods: {
             ...mapActions('auth', {
-                update: UPDATE
+                update: UPDATE_USER
             }),
 
             onSave() {
@@ -162,14 +162,8 @@
 <style lang="scss" scoped>
 .edit-form-input {
     background: #FFFFFF;
-    border: 1px solid rgba(18, 39, 55, 0.11);
     box-sizing: border-box;
     border-radius: 3px;
-
-    &.v-input--is-focused {
-        border: 1px solid rgba(60, 87, 222, 0.52);
-        box-shadow: 0 0 14px rgba(194, 205, 223, 0.6);
-    }
 }
 
 .edit-form-label {
