@@ -42,6 +42,11 @@ export default new Router({
                     component: Visitors
                 },
                 {
+                    path: '/user-settings',
+                    name: 'user-update',
+                    component: UserUpdate
+                },
+                {
                     path: 'websites/add',
                     component: AddWebsitePage,
                     children: [
@@ -78,11 +83,6 @@ export default new Router({
             path: '/signup',
             name: 'signup',
             component: SignUp
-        },
-        {
-            path: 'user-settings',
-            name: 'userUpdate',
-            component: UserUpdate
         },
         {
             path: '/home',

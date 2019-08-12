@@ -12,6 +12,7 @@
         methods: {
             onSuccess() {
                 this.$router.push({name: 'visitors'});
+                this.$router.push({name: 'user-update'});
             },
         },
     }

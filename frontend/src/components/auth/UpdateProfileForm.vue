@@ -46,7 +46,6 @@
                             :append-icon="passwordVisibility"
                             solo
                             :type="passwordType"
-                            hint="At least 8 characters"
                             counter
                             :rules="passwordRules"
                             required
@@ -62,7 +61,6 @@
                             :append-icon="confirmPasswordVisibility"
                             solo
                             :type="confirmPasswordType"
-                            hint="At least 8 characters"
                             counter
                             :rules="confirmPasswordRules"
                             required
@@ -151,8 +149,10 @@
 
             onSave() {
                 if (this.$refs.form.validate()) {
-                    this.update(this.editUser);
-                    alert(this.editUser);
+                    this.update(this.editUser)
+                        .catch((error) => {
+                            alert(error.message);
+                        })
                 }
             },
         }
@@ -165,20 +165,6 @@
     border: 1px solid rgba(18, 39, 55, 0.11);
     box-sizing: border-box;
     border-radius: 3px;
-
-    ::v-deep {
-        .v-input__control {
-            min-height: 1px;
-        }
-
-        input {
-            min-height: 35px;
-        }
-
-        .v-input__prepend-outer {
-            margin-top: 4px;
-        }
-    }
 
     &.v-input--is-focused {
         border: 1px solid rgba(60, 87, 222, 0.52);
