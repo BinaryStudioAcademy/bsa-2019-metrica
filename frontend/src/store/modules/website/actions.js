@@ -12,8 +12,7 @@ export default {
         return addWebsite(newDataSite)
                 .then( response => context.commit(ADD_WEBSITE, response.data.data))
                 .catch(response => { return { errors: response.error } });
-    }
-
+    },
     [UPDATE_WEBSITE]: (context, name) => {
         return new Promise((resolve, reject) => {
             const website = {
