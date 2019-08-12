@@ -1,0 +1,31 @@
+version: "3.1"
+
+services:
+  app:
+    image: metrica/app:latest
+    working_dir: /app
+    user: www-data
+    volumes:
+      - ./backend:/app
+  node:
+    image: node:12.7-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+
+  webserver:
+    image: metrica/webserver:latest
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:80"
+    depends_on:
+      - app
+  db:
+    image: postgres:11
+    restart: always
+    environment:
+      - POSTGRES_DB=metrica
+      - POSTGRES_USER=metrica
+      - POSTGRES_PASSWORD=metrica

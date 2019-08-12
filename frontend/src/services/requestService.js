@@ -1,7 +1,7 @@
 import axios from 'axios';
+import storage from '@/services/storage';
 
-const baseURL = process.env.VUE_APP_URL || '/';
-const axiosInstance = axios.create({ baseURL });
+const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
 
@@ -9,18 +9,14 @@ axiosInstance.interceptors.request.use((config) => {
     config.headers['Content-type'] = 'application/json';
     config.headers['Accept'] = 'application/json';
 
-    const token = getToken();
-
-    if (token) {
-        config.headers.Authorization = token;
+    if (storage.hasToken()) {
+        config.headers.Authorization = 'Bearer ' + storage.getToken();
     }
 
     return config;
 });
 
-const getToken = () => {
-    return 'Bearer ' + 'tokenFromSessionStore';
-};
+axiosInstance.interceptors.response.use(response => response.data);
 
 const get = (url, headers = {}, params = {}) => {
     return axiosInstance.get(url, {

@@ -1,5 +1,5 @@
 <template>
-    <LoginForm />
+    <LoginForm @success="onSuccess" />
 </template>
 
 <script>
@@ -8,6 +8,11 @@
     export default {
         components: {
             LoginForm
-        }
+        },
+        methods: {
+            onSuccess() {
+                this.$router.push({name: 'visitors'});
+            },
+        },
     }
 </script>

@@ -1,5 +1,7 @@
 # BSA 2019 | PHP | Metrica
 
+[![Build Status](https://travis-ci.org/BinaryStudioAcademy/bsa-2019-metrica.svg?branch=master)](https://travis-ci.org/BinaryStudioAcademy/bsa-2019-metrica)
+
 ## Description
 
 Metrica is an analog of Google Analytics. The main purpose is to collect data from web pages, handle it and visualize.
@@ -9,6 +11,9 @@ Metrica is an analog of Google Analytics. The main purpose is to collect data fr
 ```bash
 cp docker-compose.override.yml.general docker-compose.override.yml
 cp .env.example .env
+
+docker-compose run --rm frontend npm install
+
 docker-compose up -d
 
 cp backend/.env.example backend/.env
@@ -17,10 +22,6 @@ docker-compose exec app php artisan key:generate
 docker-compose exec app php artisan migrate --seed
 
 cp frontend/.env.example frontend/.env
-
-docker-compose exec frontend npm install
-docker-compose exec frontend npm run serve
-
 ```
 
 Open browser:
