@@ -10,6 +10,7 @@ import Home from "../pages/Home.vue";
 import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
+import WebsiteInfo from '../pages/WebsiteInfo.vue';
 
 Vue.use(Router);
 
@@ -41,6 +42,11 @@ export default new Router({
                     component: Visitors
                 },
                 {
+                    path: 'website-info',
+                    name: 'websiteinfo',
+                    component: WebsiteInfo
+                },
+                {
                     path: 'websites/add',
                     component: AddWebsitePage,
                     children: [
@@ -70,7 +76,7 @@ export default new Router({
                             }
                         }
                     ]
-                }
+                },
             ]
         },
         {
