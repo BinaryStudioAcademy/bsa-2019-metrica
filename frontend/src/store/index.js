@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import auth from './modules/auth';
-import website from './modules/website';
 import {authPlugin} from "./plugins";
 import website from './modules/website';
 

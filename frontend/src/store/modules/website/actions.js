@@ -1,4 +1,4 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA} from './types/actions';
+import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, SET_NAME_WEBSITE} from './types/actions';
 import {ADD_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
 
 export default {
@@ -41,5 +41,19 @@ export default {
             }
 
         });
-    }
+    },
+    [SET_NAME_WEBSITE]: (context, user_id, name) => {
+        try {
+            const website = {
+                name: name,
+                user_id: user_id,
+            };
+            context.commit(SET_WEBSITE_INFO, website);
+
+            return Promise.resolve();
+        } catch (error) {
+
+            return Promise.reject(error);
+        }
+    },
 }
