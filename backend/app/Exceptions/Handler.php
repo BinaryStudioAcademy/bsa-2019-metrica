@@ -65,10 +65,6 @@ class Handler extends ExceptionHandler
             return ApiResponse::error(new UnauthenticatedException());
         }
 
-        if ($exception instanceof AuthenticationException) {
-            return ApiResponse::error(new UnauthenticatedException());
-        }
-
         return parent::render($request, $exception);
     }
 }

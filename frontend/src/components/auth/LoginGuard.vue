@@ -23,7 +23,6 @@
                 isLoading: true
             }
         },
-
         computed: {
             ...mapGetters('auth', {
                 isLogged: IS_LOGGED_IN,
