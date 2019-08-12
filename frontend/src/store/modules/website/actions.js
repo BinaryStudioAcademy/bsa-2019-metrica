@@ -1,9 +1,12 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA} from './types/actions';
-import {ADD_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
+import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, SET_WEBSITE} from './types/actions';
+import {SET_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
 
 export default {
     [SET_WEBSITE_DATA]: (context, data) => {
         context.commit(SET_WEBSITE_INFO, data);
+    },
+    [SET_WEBSITE]: (context, website) => {
+        context.commit(SET_CURRENT_WEBSITE, website);
     },
     [SAVE_NEW_WEBSITE]: (context) => {
         const newDataSite = context.state.newWebsite;
@@ -24,7 +27,7 @@ export default {
             };
 
             if (fakeWebsiteData.tracking_number && fakeWebsiteData.name === newDataSite.name && fakeWebsiteData.domain === newDataSite.domain) {
-                context.commit(ADD_WEBSITE, fakeWebsiteData);
+                context.commit(SET_CURRENT_WEBSITE, fakeWebsiteData);
                 resolve(fakeWebsiteData);
             } else if (fakeWebsiteData.name !== newDataSite.name) {
                 reject({

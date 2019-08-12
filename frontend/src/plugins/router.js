@@ -10,6 +10,7 @@ import Home from "../pages/Home.vue";
 import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
+import {IS_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
 
 Vue.use(Router);
 
@@ -43,6 +44,7 @@ export default new Router({
                 {
                     path: 'websites/add',
                     component: AddWebsitePage,
+                    redirect: { name: 'add_websites_step_1' },
                     children: [
                         {
                             path: 'step-1',
@@ -51,7 +53,15 @@ export default new Router({
                             meta: {
                                 step: 1
                             },
-                            props: true
+                            props: true,
+                            beforeEnter: (to, from, next) => {
+                                if (IS_CURRENT_WEBSITE) {
+                                    next({
+                                        path: '/dashboard'
+                                    })
+                                }
+                                next();
+                            }
                         },
                         {
                             path: 'step-2',
@@ -60,6 +70,14 @@ export default new Router({
                             meta: {
                                 step: 2
                             },
+                            beforeEnter: (to, from, next) => {
+                                if (IS_CURRENT_WEBSITE) {
+                                    next({
+                                        path: '/dashboard'
+                                    })
+                                }
+                                next();
+                            }
                         },
                         {
                             path: 'step-3',

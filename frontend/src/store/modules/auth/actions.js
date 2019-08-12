@@ -1,6 +1,8 @@
 import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD} from './types/actions';
 import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
 import { authorize, getAuthUser, registerUser } from '@/api/auth';
+import {getCurrentUserWebsite} from '@/api/website';
+import {SET_WEBSITE} from "../website/types/actions";
 
 export default {
     [LOGIN]: (context, user) => {
@@ -12,6 +14,12 @@ export default {
               .then(response => {
                 const user = response.data;
                 context.commit(SET_AUTHENTICATED_USER, user);
+
+                getCurrentUserWebsite()
+                    .then(response => {
+                        const website = response.data;
+                        context.dispatch(SET_WEBSITE, website, { root: true });
+                    });
 
                 return user;
               });

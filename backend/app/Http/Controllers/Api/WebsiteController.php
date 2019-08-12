@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 
-use App\Actions\Websites\GetCurrentUserWebsiteAction;
+use App\Actions\Website\GetCurrentUserWebsiteAction;
 use App\Actions\Website\AddWebsiteAction;
 use App\Actions\Website\AddWebsiteRequest;
 use App\Http\Requests\AddWebsiteHttpRequest;

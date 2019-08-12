@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Actions\Websites;
+namespace App\Actions\Website;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -10,6 +10,8 @@ final class GetCurrentUserWebsiteAction
 {
     public function execute(): GetCurrentUserWebsiteResponse
     {
-        return new GetCurrentUserWebsiteResponse(Auth::user()->website());
+        $website = Auth::user()->getWebsite();
+
+        return new GetCurrentUserWebsiteResponse($website);
     }
 }

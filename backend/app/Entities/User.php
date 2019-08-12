@@ -42,6 +42,11 @@ final class User extends Authenticatable implements JWTSubject
 
     public function website()
     {
-        return $this->hasOne(Website::class);
+        return $this->hasOne(Website::class, 'user_id');
+    }
+
+    public function getWebsite()
+    {
+        return $this->website;
     }
 }

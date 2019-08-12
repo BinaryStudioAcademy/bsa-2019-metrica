@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Actions\Websites;
+namespace App\Actions\Website;
 
 use App\Entities\Website;
 

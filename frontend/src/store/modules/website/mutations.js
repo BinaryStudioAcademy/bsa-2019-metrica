@@ -1,4 +1,4 @@
-import {ADD_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
+import {SET_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
 
 export default {
     [SET_WEBSITE_INFO]: (state, data) => {
@@ -7,7 +7,8 @@ export default {
             ...data,
         };
     },
-    [ADD_WEBSITE]: (state, website) => {
+    [SET_CURRENT_WEBSITE]: (state, website) => {
+        state.isCurrentWebsite = true;
         state.currentWebsite = website;
     },
 }

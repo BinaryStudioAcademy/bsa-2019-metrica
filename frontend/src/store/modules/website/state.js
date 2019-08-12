@@ -9,5 +9,6 @@ export default {
         name: '',
         domain: '',
         single_page: false,
-    }
+    },
+    isCurrentWebsite: false
 };
