@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '../pages/Login.vue'
+import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
-import LoginGuard from '../components/auth/LoginGuard.vue';
 import SignUp from "../pages/SignUp.vue";
 import AddWebsitePage from '../pages/AddWebsitePage.vue';
 import Visitors from "../pages/Visitors.vue";
@@ -37,8 +37,28 @@ export default new Router({
             component: LoginGuard,
             children: [
                 {
+                    path: 'dashboard',
+                    name: 'dashboard',
+                    component: Visitors
+                },
+                {
                     path: 'visitors',
                     name: 'visitors',
+                    component: Visitors
+                },
+                {
+                    path: 'settings',
+                    name: 'settings',
+                    component: Visitors
+                },
+                {
+                    path: 'behaviour',
+                    name: 'behaviour',
+                    component: Visitors
+                },
+                {
+                    path: 'speedoverview',
+                    name: 'speedoverview',
                     component: Visitors
                 },
                 {
