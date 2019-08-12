@@ -42,7 +42,7 @@
                         {{ link.text }}
                     </RouterLink>
                 </VListItem>
-                <VListItem @click="logout">
+                <VListItem @click="endSession">
                     Log Out
                 </VListItem>
             </VList>
@@ -73,7 +73,11 @@
             }),
             ...mapGetters('auth', {
                 user: GET_AUTHENTICATED_USER
-            })
+            }),
+            endSession() {
+                this.logout();
+                this.$router.push({ name: 'home' });
+            }
         }
     }
 </script>

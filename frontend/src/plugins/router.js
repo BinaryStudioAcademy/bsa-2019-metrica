@@ -18,6 +18,10 @@ export default new Router({
     base: '/',
     routes: [
         {
+            path: '',
+            redirect: { name: 'home' }
+        },
+        {
             path: '/login',
             name: 'login',
             component: Login
