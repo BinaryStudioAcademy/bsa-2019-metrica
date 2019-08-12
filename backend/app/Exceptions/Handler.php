@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Contracts\ApiException;
 use App\Http\Response\ApiResponse;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -56,14 +57,12 @@ class Handler extends ExceptionHandler
             return ApiResponse::error(new ApiValidationException($exception->validator));
         }
 
-        if ($exception instanceof UserNotFoundException) {
+        if ($exception instanceof ApiException) {
             return ApiResponse::error($exception);
         }
 
-        if ($exception instanceof UserByEmailNotFoundException) {
-            return response()->json([
-                "error" => $exception->getMessage()
-            ], 404);
+        if ($exception instanceof AuthenticationException) {
+            return ApiResponse::error(new UnauthenticatedException());
         }
 
         if ($exception instanceof AuthenticationException) {

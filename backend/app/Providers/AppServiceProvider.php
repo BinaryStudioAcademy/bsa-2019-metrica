@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\SessionRepository;
+use App\Repositories\Contracts\UserRepository;
+use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentSessionRepository;
+use App\Repositories\EloquentUserRepository;
+use App\Repositories\EloquentWebsiteRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,12 +19,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            \App\Repositories\Contracts\UserRepository::class,
-            \App\Repositories\EloquentUserRepository::class
-        );
+        $this->app->bind(UserRepository::class, EloquentUserRepository::class);
+
+        $this->app->bind(WebsiteRepository::class, EloquentWebsiteRepository::class);
 
         $this->app->bind(SessionRepository::class, EloquentSessionRepository::class);
+
+        $this->app->bind(
+            \App\Repositories\Contracts\VisitorRepository::class,
+            \App\Repositories\EloquentVisitorRepository::class
+        );
     }
 
     /**

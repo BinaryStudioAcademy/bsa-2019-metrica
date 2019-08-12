@@ -6,15 +6,10 @@ namespace App\Actions\Auth;
 
 final class ResetPasswordResponse
 {
-    private $code;
+    private $message = "Email notification sent";
 
-    public function __construct(int $code)
+    public function message(): string
     {
-        $this->code = $code;
-    }
-
-    public function getCode(): int
-    {
-        return $this->code;
+        return $this->message;
     }
 }

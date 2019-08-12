@@ -15,13 +15,13 @@ export default {
             .then(response => {
                 context.commit(USER_LOGIN, response.data);
 
-                return getAuthUser()
-                    .then(response => {
-                        const user = response.data;
-                        context.commit(SET_AUTHENTICATED_USER, user);
+            return getAuthUser()
+              .then(response => {
+                const user = response.data;
+                context.commit(SET_AUTHENTICATED_USER, user);
 
-                        return user;
-                    });
+                return user;
+              });
             });
     },
 
