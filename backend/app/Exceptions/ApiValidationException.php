@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 final class ApiValidationException extends ValidationException implements ApiException
 {
-    private $validator;
+    public $validator;
 
     public function __construct(Validator $validator, ?Response $response = null, string $errorBag = 'default')
     {

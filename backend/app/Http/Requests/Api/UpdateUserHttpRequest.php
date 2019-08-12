@@ -11,7 +11,7 @@ final class UpdateUserHttpRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|min:3',
+            'name' => 'string|min:5',
             'email' => 'email',
             'password' => 'string|min:8'
         ];

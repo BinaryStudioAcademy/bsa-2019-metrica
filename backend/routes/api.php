@@ -21,12 +21,12 @@ Route::prefix('v1')->group(function () {
         Route::post('/register', 'AuthController@register');
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
-        Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:jwt');
+        Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:api');
     });
 
     Route::group([
         'namespace' => 'Api',
-        'middleware' => 'auth:jwt'
+        'middleware' => 'auth:api'
     ], function () {
         Route::group([
             'prefix' => 'users'
@@ -34,10 +34,20 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
         });
 
+        Route::group(['prefix' => 'websites'], function () {
+            Route::post('/', 'WebsiteController@add');
+        });
         Route::group([
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
+            Route::get('/new', 'VisitorController@getNewVisitors');
+        });
+
+        Route::group([
+            'prefix' => 'sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getAllSessions');
         });
     });
 });

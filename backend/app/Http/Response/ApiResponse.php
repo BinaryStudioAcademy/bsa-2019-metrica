@@ -13,7 +13,7 @@ final class ApiResponse extends JsonResponse
     public static function success(ApiResponseContract $response, array $meta = []): self
     {
         return new static([
-            'data' => $response->toArray(),
+            'data' => $response,
             'meta' => $meta
         ]);
     }
