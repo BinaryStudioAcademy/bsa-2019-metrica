@@ -34,6 +34,9 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
         });
 
+        Route::group(['prefix' => 'websites'], function () {
+            Route::post('/', 'WebsiteController@add');
+        });
         Route::group([
             'prefix' => 'visitors'
         ], function () {
