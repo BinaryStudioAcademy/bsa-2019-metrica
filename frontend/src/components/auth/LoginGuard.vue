@@ -1,21 +1,21 @@
 <template>
-    <div>
-        <Spinner v-if="isLoading" />
-        <RouterView v-else-if="isLogged" />
-        <LoginForm v-else />
-    </div>
+    <Spinner v-if="isLoading" />
+    <UserLayout v-else-if="isLogged" />
+    <LoginForm v-else />
 </template>
 
 <script>
     import {mapGetters, mapActions} from "vuex";
     import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
     import LoginForm from "./LoginForm.vue";
+    import UserLayout from "@/components/layout/UserLayout.vue";
     import Spinner from "./Spinner";
     import {FETCH_CURRENT_USER} from "@/store/modules/auth/types/actions";
 
     export default {
         components: {
             LoginForm,
+            UserLayout,
             Spinner
         },
         data() {
@@ -23,6 +23,7 @@
                 isLoading: true
             }
         },
+
         computed: {
             ...mapGetters('auth', {
                 isLogged: IS_LOGGED_IN,

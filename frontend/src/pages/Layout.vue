@@ -1,24 +1,24 @@
 <template>
     <VApp>
-        <Navbar />
+        <Header />
         <RouterView />
+        <Footer />
     </VApp>
 </template>
 
 <script>
-    import Navbar from '../components/Navbar.vue'
+    import Header from '../components/layout/Header.vue'
+    import Footer from '../components/layout/Footer.vue'
 
     export default {
         components: {
-            Navbar
+            Header,
+            Footer,
         }
     }
 </script>
 
-<style>
-#app {
-    max-width: 1200px;
-}
+<style lang="scss">
 
 @font-face {
     font-family: 'Gilroy';
@@ -50,6 +50,10 @@
     font-display: swap;
     src: url("/assets/fonts/Inter-Bold.woff2") format("woff2"),
         url("/assets/fonts/Inter-Bold.woff") format("woff");
+}
+
+#app {
+    background: #F5F8FD;
 }
 
 svg path {
