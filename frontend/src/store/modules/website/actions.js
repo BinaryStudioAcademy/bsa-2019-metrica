@@ -1,5 +1,5 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, SET_NAME_WEBSITE} from './types/actions';
-import {ADD_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
+import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, UPDATE_WEBSITE} from './types/actions';
+import {UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
 
 export default {
     [SET_WEBSITE_DATA]: (context, data) => {
@@ -24,7 +24,7 @@ export default {
             };
 
             if (fakeWebsiteData.tracking_number && fakeWebsiteData.name === newDataSite.name && fakeWebsiteData.domain === newDataSite.domain) {
-                context.commit(ADD_WEBSITE, fakeWebsiteData);
+                context.commit(UPDATE_CURRENT_WEBSITE, fakeWebsiteData);
                 resolve(fakeWebsiteData);
             } else if (fakeWebsiteData.name !== newDataSite.name) {
                 reject({
@@ -42,18 +42,21 @@ export default {
 
         });
     },
-    [SET_NAME_WEBSITE]: (context, user_id, name) => {
-        try {
+    [UPDATE_WEBSITE]: (context, name) => {
+        return new Promise((resolve, reject) => {
             const website = {
                 name: name,
-                user_id: user_id,
             };
-            context.commit(SET_WEBSITE_INFO, website);
-
-            return Promise.resolve();
-        } catch (error) {
-
-            return Promise.reject(error);
-        }
+            const fakeResponse = 200;
+            switch (fakeResponse) {
+                case 200:
+                    context.commit(UPDATE_CURRENT_WEBSITE, website);
+                    resolve(website);
+                    break;
+                default:
+                    reject({ message:"Sorry, something wrong happened. Please, try again."});
+                    break;
+            }
+        });
     },
 }

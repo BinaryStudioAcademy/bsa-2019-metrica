@@ -15,8 +15,7 @@
                             <label>Website Name</label>
                             <VTextField
                                 name="website"
-                                @change="changeName"
-                                v-model="currentWebsite.name"
+                                v-model="localWebsite.isWebsiteName"
                                 :success-messages="showSuccessMessage"
                                 :error-messages="showErrorMessage"
                                 single-line
@@ -27,30 +26,39 @@
                             />
                         </div>
                         <div class="inline-element">
-                            <label>Website Adress</label>
+                            <label>Website Address</label>
                             <VTextField
-                                name="adress"
-                                placeholder="website adress"
+                                name="address"
+                                placeholder="website address"
                                 single-line
                                 solo
                                 disabled
-                                v-model="currentWebsite.domain"
+                                readonly
+                                :value="currentWebsite.domain"
                             />
                         </div>
                         <div class="inline-element">
                             <label>SPA</label>
                             <VSwitch
-                                v-model="currentWebsite.single_page"
+                                :value="currentWebsite.single_page"
+                                readonly
                                 color="#3C57DE"
                                 inset
                             />
                         </div>
-                    </VForm>
-                    <div>
                         <p class="inline-element">
                             <span>Tracking ID: </span>
                             <span>{{ currentWebsite.tracking_number }}</span>
                         </p>
+                        <VBtn
+                            @click="update"
+                            color="#3C57DE"
+                            class="update-form-button"
+                        >
+                            Update
+                        </VBtn>
+                    </VForm>
+                    <div>
                         <div>
                             <h2>WebSite Tracking</h2>
                             <p>
@@ -58,7 +66,7 @@
                                 Copy and Paste this code as the
                                 first item into the &lt;HEAD> of every Webpage you want to track
                             </p>
-                            <TrackWebsite :tracking-number="currentWebsite.trackingNumber" />
+                            <TrackWebsite :tracking-number="currentWebsite.tracking_number" />
                         </div>
                     </div>
                 </VContainer>
@@ -70,9 +78,8 @@
 <script>
     import TrackWebsite from './TrackWebsite.vue';
     import { mapGetters, mapActions } from 'vuex';
-    import { GET_AUTHENTICATED_USER } from "../../store/modules/auth/types/getters";
     import {GET_CURRENT_WEBSITE} from "../../store/modules/website/types/getters";
-    import {SET_NAME_WEBSITE} from "../../store/modules/website/types/actions";
+    import {UPDATE_WEBSITE} from "../../store/modules/website/types/actions";
 
     export default {
         name: 'WebsiteForm',
@@ -86,26 +93,37 @@
                 v => !!v || 'Website name is required',
                 v => (v && v.length >= 8) || 'Website name must be correct. Name must be at least 8 characters.'
             ],
+            localWebsite: {
+                isWebsiteName: undefined
+            }
         }),
         computed: {
-            ...mapGetters('auth', {
-                user: GET_AUTHENTICATED_USER
-            }),
             ...mapGetters('website', {
                 currentWebsite: GET_CURRENT_WEBSITE
             }),
+            isWebsiteName: {
+                set(value) {
+                    this.localWebsite.isWebsiteName = value;
+                },
+                get() {
+                    if(this.localWebsite.isWebsiteName === undefined) {
+                        return this.currentWebsite.name;
+                    }
+                    return this.localWebsite.isWebsiteName;
+                },
+            }
         },
         methods: {
             ...mapActions('website', {
-                website: SET_NAME_WEBSITE
+                website: UPDATE_WEBSITE
             }),
-            changeName(val) {
+            update() {
                 this.website({
-                    user_id:this.user.id,
-                    name:val
-                }).then(() => {
-                    this.showSuccessMessage = 'Name Success Save'
-                }, err => {
+                    name:this.localWebsite.isWebsiteName
+                }).then((e) => {
+                    this.showSuccessMessage = 'Name Success Save';
+                    this.localWebsite.isWebsiteName = e.name.name
+                }).catch((err) => {
                     this.showErrorMessage = err.message
                 })
             }
@@ -121,6 +139,18 @@
         @media (max-width: 767px) {
             & {
                 grid-template-columns: 100%;
+            }
+        }
+    }
+    .update-form-button {
+        color: white;
+        margin-bottom:20px;
+        ::v-deep {
+            span {
+                font-size: 12px;
+                line-height: 15px;
+                padding: 7px 21px 7px 21px;
+                font-weight: bold;
             }
         }
     }
