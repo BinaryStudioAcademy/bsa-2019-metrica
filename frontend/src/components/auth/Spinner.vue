@@ -12,8 +12,8 @@
 <script>
     import {mapGetters, mapActions} from "vuex";
     import {HAS_TOKEN} from "@/store/modules/auth/types/getters";
-    import {SET_IS_LOGGED_IN} from "@/store/modules/auth/types/actions";
-    import {GET_USER_DATA} from "@/store/modules/auth/types/actions";
+    import {GET_CURRENT_USER} from "@/store/modules/auth/types/actions";
+    import {SET_IS_LOGGED_OUT} from "../../store/modules/auth/types/actions";
 
     export default {
         name: "Spinner",
@@ -29,18 +29,16 @@
         },
         mounted() {
             if (this.hasToken) {
-                // this.setUserLoggedIn(true);
-                this.getUserData();
+                this.getCurrentUser();
                 alert('succese!');
             } else {
-                this.setUserLoggedIn(false);
-                alert('error!');
+                this.setUserLoggedOut();
             }
         },
         methods: {
             ...mapActions('auth', {
-                getUserData: GET_USER_DATA,
-                setUserLoggedIn: SET_IS_LOGGED_IN
+                getCurrentUser: GET_CURRENT_USER,
+                setUserLoggedOut: SET_IS_LOGGED_OUT
             }),
         }
     }

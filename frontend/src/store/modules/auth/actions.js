@@ -1,21 +1,28 @@
-import {LOGIN, LOGOUT, SIGNUP,RESET_PASSWORD,GET_USER_DATA, SET_IS_LOGGED_IN} from './types/actions';
-import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT,SET_USER_IS_LOGGED_IN,SET_AUTHENTICATED} from "./types/mutations";
-import { authorize, getAuthUser, registerUser } from '@/api/auth';
+import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, GET_CURRENT_USER, SET_IS_LOGGED_OUT} from './types/actions';
+import {
+    SET_AUTHENTICATED_USER,
+    USER_LOGIN,
+    USER_LOGOUT,
+    SET_USER_IS_LOGGED_OUT,
+    RESET_TOKEN,
+} from "./types/mutations";
+import {authorize, getAuthUser, registerUser} from '@/api/auth';
+import storage from "@/services/storage";
 
 export default {
     [LOGIN]: (context, user) => {
         return authorize(user)
-          .then(response => {
-            context.commit(USER_LOGIN, response.data);
+            .then(response => {
+                context.commit(USER_LOGIN, response.data);
 
-            return getAuthUser()
-              .then(response => {
-                const user = response.data;
-                context.commit(SET_AUTHENTICATED_USER, user);
+                return getAuthUser()
+                    .then(response => {
+                        const user = response.data;
+                        context.commit(SET_AUTHENTICATED_USER, user);
 
-                return user;
-              });
-          });
+                        return user;
+                    });
+            });
     },
 
     [LOGOUT]: (context) => {
@@ -45,18 +52,18 @@ export default {
         })
     },
 
-
-    [GET_USER_DATA]: (context) => {
+    [GET_CURRENT_USER]: (context) => {
         getAuthUser().then(response => {
             const user = response.data;
-            alert(user.name);
-            context.commit(SET_AUTHENTICATED,user);
-
+            context.commit(SET_AUTHENTICATED_USER, user);
         })
-            .catch((err) => alert(err.message));
+            .catch(() => {
+                storage.removeToken();
+                context.commit(RESET_TOKEN);
+            });
     },
 
-    [SET_IS_LOGGED_IN]: (context, data) => {
-        context.commit(SET_USER_IS_LOGGED_IN, data);
+    [SET_IS_LOGGED_OUT]: (context) => {
+        context.commit(SET_USER_IS_LOGGED_OUT, false);
     }
 }
