@@ -25,6 +25,15 @@ make_task_def() {
 		}
 	'
 
+    aws_cloudwatch='{
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "/ecs/metrica-stage",
+            "awslogs-region": "eu-central-1",
+            "awslogs-stream-prefix": "ecs"
+        }
+    }'
+
     nginx=$(printf '{
         "name": "%s",
         "image": "%s",
@@ -58,15 +67,21 @@ make_task_def() {
 			"app"
 		],
 		"logConfiguration": %s
-    }' "webserver" "$AWS_REPOSITORY_URI/webserver:$DEPLOY_TYPE" "$aws_log")
+    }' "webserver" "$AWS_REPOSITORY_URI/webserver:$DEPLOY_TYPE" "$aws_cloudwatch")
 
 	app=$(printf '{
         "name": "%s",
         "image": "%s",
         "essential": true,
 		"logConfiguration": %s,
+        "mountPoints": [
+            {
+                "sourceVolume": "storage",
+                "containerPath": "/app/storage/app/public"
+            }
+        ],
         "memory": 512
-    }' "app" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_log")
+    }' "app" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_cloudwatch")
 
 	migration=$(printf '{
         "name": "%s",
@@ -76,8 +91,8 @@ make_task_def() {
 		"command": [
 			"/bin/bash", "/home/www-data/migration.sh"
 		],
-        "memory": 64
-    }' "migration" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_log")
+        "memory": 192
+    }' "migration" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_cloudwatch")
 
 	task_definition="[
 		$nginx,
@@ -89,6 +104,15 @@ make_task_def() {
 # reads $family
 # sets $revision
 register_definition() {
+    aws_volumes='[
+        {
+            "name": "storage",
+            "host": {
+                "sourcePath": "/home/ec2-user/storage"
+            }
+        }
+    ]'
+
     if revision=$(aws ecs register-task-definition \
         --container-definitions "$task_definition" \
         --network-mode bridge \
@@ -96,6 +120,7 @@ register_definition() {
         --task-role-arn ${AWS_ROLE} \
         --execution-role-arn ${AWS_ROLE} \
         --memory 980 \
+        --volumes "${aws_volumes}" \
         --family $AWS_FAMILY | $JQ '.taskDefinition.taskDefinitionArn'); then
         echo "Revision: $revision"
     else
