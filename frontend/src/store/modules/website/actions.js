@@ -1,6 +1,5 @@
 import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA} from './types/actions';
-import {ADD_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
-import {UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
+import {ADD_WEBSITE, SET_WEBSITE_INFO, UPDATE_CURRENT_WEBSITE} from "./types/mutations";
 import { addWebsite } from '@/api/website';
 
 export default {
