@@ -15,7 +15,7 @@
                             <label>Website Name</label>
                             <VTextField
                                 name="website"
-                                v-model="localWebsite.WebsiteName"
+                                v-model="localWebsite.websiteName"
                                 :success-messages="showSuccessMessage"
                                 :error-messages="showErrorMessage"
                                 single-line
@@ -95,22 +95,22 @@
                 v => (v && v.length >= 8) || 'Website name must be correct. Name must be at least 8 characters.'
             ],
             localWebsite: {
-                WebsiteName: undefined
+                websiteName: undefined
             }
         }),
         computed: {
             ...mapGetters('website', {
                 currentWebsite: GET_CURRENT_WEBSITE
             }),
-            WebsiteName: {
+            websiteName: {
                 set(value) {
-                    this.localWebsite.WebsiteName = value;
+                    this.localWebsite.websiteName = value;
                 },
                 get() {
-                    if(this.localWebsite.WebsiteName === undefined) {
+                    if(this.localWebsite.websiteName === undefined) {
                         return this.currentWebsite.name;
                     }
-                    return this.localWebsite.WebsiteName;
+                    return this.localWebsite.websiteName;
                 },
             }
         },
@@ -120,7 +120,7 @@
             }),
             update() {
                 this.website({
-                    name:this.localWebsite.WebsiteName
+                    name:this.localWebsite.websiteName
                 }).then((e) => {
                     this.showSuccessMessage = e.message;
                 }).catch((err) => {
