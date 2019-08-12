@@ -14,16 +14,6 @@ class DemographicTableSeeder extends Seeder
      */
     public function run()
     {
-        $geoPositions = GeoPosition::all();
-
-        $demographics = $geoPositions->map(
-            function (GeoPosition $geoPosition) {
-                factory(Demographic::class, 5)->make([
-                    'geo_position_id' => $geoPosition->id,
-                ]);
-            }
-        );
-
-        DB::table('demographic')->insert($demographics->flatten()->toArray());
+        factory(Demographic::class, 5)->create();
     }
 }
