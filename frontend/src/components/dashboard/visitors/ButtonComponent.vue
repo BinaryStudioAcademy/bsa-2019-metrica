@@ -28,8 +28,6 @@
 </template>
 
 <script>
-    import getIcon from "./iconsConfig"
-
     export default {
         name: 'ButtonComponent',
         props: {
