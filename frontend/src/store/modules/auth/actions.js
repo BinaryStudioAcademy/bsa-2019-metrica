@@ -1,13 +1,11 @@
-import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, GET_CURRENT_USER, SET_IS_LOGGED_OUT} from './types/actions';
+import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, FETCH_CURRENT_USER} from './types/actions';
 import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
     USER_LOGOUT,
-    SET_USER_IS_LOGGED_OUT,
-    RESET_TOKEN, SET_SPINNER,
 } from "./types/mutations";
 import {authorize, getAuthUser, registerUser} from '@/api/auth';
-import storage from "@/services/storage";
+import {HAS_TOKEN} from "./types/getters";
 
 export default {
     [LOGIN]: (context, user) => {
@@ -52,22 +50,15 @@ export default {
         })
     },
 
-    [GET_CURRENT_USER]: (context) => {
-        context.commit(SET_SPINNER, true);
-        getAuthUser().then(response => {
-            const user = response.data;
-            context.commit(SET_AUTHENTICATED_USER, user);
-            context.commit(SET_SPINNER, false);
-
-        })
-            .catch(() => {
-                storage.removeToken();
-                context.commit(SET_SPINNER, false);
-                context.commit(RESET_TOKEN);
-            });
+    [FETCH_CURRENT_USER]: (context) => {
+        if (!context.getters[HAS_TOKEN]) {
+            return;
+        }
+        return getAuthUser().then(response => {
+            context.commit(SET_AUTHENTICATED_USER, response.data);
+        }).catch(() => {
+            context.commit(USER_LOGOUT);
+        });
     },
 
-    [SET_IS_LOGGED_OUT]: (context) => {
-        context.commit(SET_USER_IS_LOGGED_OUT, false);
-    }
 }

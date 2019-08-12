@@ -6,5 +6,4 @@ export default {
     },
     isLoggedIn: false,
     token: undefined,
-    spinner: false
 };
