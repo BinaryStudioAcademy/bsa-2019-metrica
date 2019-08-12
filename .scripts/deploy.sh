@@ -14,6 +14,7 @@ deploy_image() {
     docker build -t metrica/$DOCKER_IMAGE:latest -f .aws/$DOCKER_IMAGE/Dockerfile .
     docker tag metrica/$DOCKER_IMAGE:latest $AWS_REPOSITORY_URI/$DOCKER_IMAGE:$IMAGE_TAG
     docker push $AWS_REPOSITORY_URI/$DOCKER_IMAGE
+    cleanup_images $DOCKER_IMAGE
 }
 
 # sets $task_definition
@@ -28,7 +29,7 @@ make_task_def() {
         "name": "%s",
         "image": "%s",
         "essential": true,
-        "memory": 170,
+        "memory": 256,
         "portMappings": [
             {
                 "hostPort": 80,
@@ -64,7 +65,7 @@ make_task_def() {
         "image": "%s",
         "essential": true,
 		"logConfiguration": %s,
-        "memory": 256
+        "memory": 512
     }' "app" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_log")
 
 	migration=$(printf '{
@@ -94,7 +95,7 @@ register_definition() {
         --requires-compatibilities EC2 \
         --task-role-arn ${AWS_ROLE} \
         --execution-role-arn ${AWS_ROLE} \
-        --memory 490 \
+        --memory 980 \
         --family $AWS_FAMILY | $JQ '.taskDefinition.taskDefinitionArn'); then
         echo "Revision: $revision"
     else
@@ -104,10 +105,24 @@ register_definition() {
 
 }
 
+stop_active_task() {
+    ACTIVE_TASK_ID=$(aws ecs list-tasks --cluster $AWS_CLUSTER --service-name $AWS_SERVICE | grep -E "task/.*" | sed -e 's/.*task\/\(.*\)"/\1/')
+
+    aws ecs stop-task --cluster metrica-cluster --task $ACTIVE_TASK_ID >> /dev/null
+}
+
+cleanup_images() {
+    IMAGE_NAME=$1
+    IMAGES_TO_DELETE=$( aws ecr list-images --region $AWS_REGION --repository-name $IMAGE_NAME --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json )
+
+    aws ecr batch-delete-image --region $AWS_REGION --repository-name $IMAGE_NAME --image-ids "$IMAGES_TO_DELETE" || true
+}
+
 deploy_cluster() {
 
     make_task_def
     register_definition $task_definition
+    stop_active_task
 
     if [[ $(aws ecs update-service --cluster $AWS_CLUSTER --service $AWS_SERVICE --task-definition $revision --force-new-deployment | \
                    $JQ '.service.taskDefinition') != $revision ]]; then
