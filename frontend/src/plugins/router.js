@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '../pages/Login.vue'
+import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
-import LoginGuard from '../components/auth/LoginGuard.vue';
 import SignUp from "../pages/SignUp.vue";
 import AddWebsitePage from '../pages/AddWebsitePage.vue';
 import Visitors from "../pages/Visitors.vue";
@@ -10,6 +10,7 @@ import Home from "../pages/Home.vue";
 import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
+import WebsiteInfo from '../pages/WebsiteInfo.vue';
 import store from '../store';
 
 
@@ -38,9 +39,34 @@ export default new Router({
             component: LoginGuard,
             children: [
                 {
+                    path: 'dashboard',
+                    name: 'dashboard',
+                    component: Visitors
+                },
+                {
                     path: 'visitors',
                     name: 'visitors',
                     component: Visitors
+                },
+                {
+                    path: 'settings',
+                    name: 'settings',
+                    component: Visitors
+                },
+                {
+                    path: 'behaviour',
+                    name: 'behaviour',
+                    component: Visitors
+                },
+                {
+                    path: 'speedoverview',
+                    name: 'speedoverview',
+                    component: Visitors
+                },
+                {
+                    path: 'website-info',
+                    name: 'websiteinfo',
+                    component: WebsiteInfo
                 },
                 {
                     path: 'websites/add',
@@ -89,7 +115,7 @@ export default new Router({
                             }
                         }
                     ]
-                }
+                },
             ]
         },
         {

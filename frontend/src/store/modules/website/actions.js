@@ -1,5 +1,5 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, SET_WEBSITE} from './types/actions';
-import {SET_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
+import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, SET_WEBSITE, UPDATE_WEBSITE} from './types/actions';
+import {SET_CURRENT_WEBSITE, UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
 
 export default {
     [SET_WEBSITE_DATA]: (context, data) => {
@@ -44,5 +44,22 @@ export default {
             }
 
         });
-    }
+    },
+    [UPDATE_WEBSITE]: (context, name) => {
+        return new Promise((resolve, reject) => {
+            const website = {
+                name: name,
+            };
+            const fakeResponse = 200;
+            switch (fakeResponse) {
+                case 200:
+                    context.commit(UPDATE_CURRENT_WEBSITE, website);
+                    resolve({ message:'Name Success Save'});
+                    break;
+                default:
+                    reject({ message:"Sorry, something wrong happened. Please, try again."});
+                    break;
+            }
+        });
+    },
 }
