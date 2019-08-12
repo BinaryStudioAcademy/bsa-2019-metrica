@@ -50,7 +50,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'websites',
         ], function () {
-            Route::post('/', 'WebsiteController@create');
+            Route::post('/create', 'WebsiteController@create');
         });
     });
 });
