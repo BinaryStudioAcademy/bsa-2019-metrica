@@ -19,6 +19,7 @@ docker-compose up -d
 cp backend/.env.example backend/.env
 docker-compose exec app composer install
 docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan jwt:secret
 docker-compose exec app php artisan migrate --seed
 
 cp frontend/.env.example frontend/.env
@@ -39,6 +40,7 @@ docker-compose up -d
 
 docker-compose exec app composer install
 docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan jwt:secret
 docker-compose exec app php artisan migrate --seed
 
 cp frontend/.env.example frontend/.env
