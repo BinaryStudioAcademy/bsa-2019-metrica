@@ -7,7 +7,7 @@
         >
             <img
                 class="button-icon"
-                :src="iconSrs"
+                :src="require(`@/assets/button_icons/${iconKey}.png`)"
             >
         </div>
         <div
@@ -41,18 +41,10 @@
                 type:String,
                 required: true
             },
-            iconKey: {
+            iconName: {
                 type:String,
                 required: true
             }
-        },
-        data () {
-            return {
-                iconSrs: ''
-            }
-        },
-        created () {
-            this.iconSrs = "data:image/png;base64," + getIcon(this.iconKey);
         },
     }
 </script>
