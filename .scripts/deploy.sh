@@ -28,7 +28,7 @@ make_task_def() {
         "name": "%s",
         "image": "%s",
         "essential": true,
-        "memory": 256,
+        "memory": 192,
         "portMappings": [
             {
                 "hostPort": 80,
@@ -49,36 +49,23 @@ make_task_def() {
 		],
 		"dependsOn": [
 			{
-				"containerName": "frontend",
-				"condition": "START"
-			},
-			{
 				"containerName": "app",
 				"condition": "START"
 			}
 		],
 		"links": [
-			"frontend",
 			"app"
 		],
 		"logConfiguration": %s
-    }' "nginx" "$AWS_REPOSITORY_URI/nginx:$DEPLOY_TYPE" "$aws_log")
+    }' "webserver" "$AWS_REPOSITORY_URI/webserver:$DEPLOY_TYPE" "$aws_log")
 
 	app=$(printf '{
         "name": "%s",
         "image": "%s",
         "essential": true,
 		"logConfiguration": %s,
-        "memory": 512
-    }' "app" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_log")
-
-	frontend=$(printf '{
-        "name": "%s",
-        "image": "%s",
-        "essential": true,
-		"logConfiguration": %s,
         "memory": 256
-    }' "frontend" "$AWS_REPOSITORY_URI/frontend:$DEPLOY_TYPE" "$aws_log")
+    }' "app" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_log")
 
 	migration=$(printf '{
         "name": "%s",
@@ -88,13 +75,12 @@ make_task_def() {
 		"command": [
 			"/bin/bash", "/home/www-data/migration.sh"
 		],
-        "memory": 128
+        "memory": 64
     }' "migration" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_log")
 
 	task_definition="[
 		$nginx,
 		$app,
-		$frontend,
 		$migration
 	]"
 }
@@ -139,7 +125,9 @@ $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
 aws s3 cp s3://${AWS_BUCKET}/envs/.env.app.$DEPLOY_TYPE ./backend/.env
 aws s3 cp s3://${AWS_BUCKET}/envs/.env.frontend.$DEPLOY_TYPE ./frontend/.env
 
+docker-compose -f docker-compose.test.yml run --rm node npm run build
+
 deploy_image app $DEPLOY_TYPE
-deploy_image frontend $DEPLOY_TYPE
+deploy_image webserver $DEPLOY_TYPE
 
 deploy_cluster

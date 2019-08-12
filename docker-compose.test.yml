@@ -13,12 +13,8 @@ services:
     volumes:
       - ./frontend:/app
 
-  frontend:
-    image: metrica/frontend:latest
-    working_dir: /app
-
   webserver:
-    image: metrica/nginx:latest
+    image: metrica/webserver:latest
     working_dir: /app
     volumes:
       - ./backend:/app
