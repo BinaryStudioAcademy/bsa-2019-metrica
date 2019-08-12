@@ -1,9 +1,6 @@
 import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA} from './types/actions';
 import {ADD_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
-import requestService from "@/services/requestService";
-import config from "@/config";
-
-const resourceUrl = config.getApiUrl() + '/websites';
+import { addWebsite } from '@/api/website';
 
 export default {
     [SET_WEBSITE_DATA]: (context, data) => {
@@ -12,7 +9,7 @@ export default {
     [SAVE_NEW_WEBSITE]: (context) => {
         const newDataSite = context.state.newWebsite;
 
-        return requestService.create(resourceUrl, newDataSite)
+        return addWebsite(newDataSite)
                 .then( response => context.commit(ADD_WEBSITE, response.data.data))
                 .catch(response => { return { errors: response.error } });
     }
