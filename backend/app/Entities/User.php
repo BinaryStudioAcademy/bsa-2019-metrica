@@ -40,8 +40,8 @@ final class User extends Authenticatable implements JWTSubject
         $this->notify(new MailResetPasswordNotification($token));
     }
 
-    public function websites()
+    public function website()
     {
-        return $this->hasMany(Website::class);
+        return $this->hasOne(Website::class);
     }
 }
