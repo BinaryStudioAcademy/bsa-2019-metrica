@@ -3,7 +3,6 @@
 use App\Entities\Browser;
 use App\Entities\Os;
 use App\Entities\System;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,14 +17,12 @@ class SystemTableSeeder extends Seeder
     {
         $browsers = Browser::all();
         $os = Os::all();
-        $now = Carbon::now();
 
         $systems = $browsers->map(
-            function (Browser $browser) use ($os,$now) {
+            function (Browser $browser) use ($os) {
                return factory(System::class, 5)->make([
                     'browser_id' => $browser->id,
-                    'os_id' => $os->shuffle()->shuffle()->first()->id,
-                    'created_at' => $now->toDateTimeString(),
+                    'os_id' => $os->shuffle()->shuffle()->first()->id
                 ]);
             }
         );
