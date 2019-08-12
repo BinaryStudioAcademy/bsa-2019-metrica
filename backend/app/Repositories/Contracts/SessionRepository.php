@@ -10,4 +10,6 @@ use Illuminate\Support\Collection;
 interface SessionRepository
 {
     public function getCollection(): Collection;
+
+    public function getAvgSession(?int $days = null): int;
 }
