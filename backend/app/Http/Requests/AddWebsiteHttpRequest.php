@@ -31,8 +31,8 @@ final class AddWebsiteHttpRequest extends FormRequest
         return $this->get('domain');
     }
 
-    public function singlePage(): ?bool
+    public function singlePage(): bool
     {
-        return $this->get('single_page');
+        return $this->get('single_page') ?? false;
     }
 }

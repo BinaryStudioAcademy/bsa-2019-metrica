@@ -3,40 +3,40 @@ declare(strict_types=1);
 
 namespace App\Actions\Website;
 
-use App\Entities\TrackingInfo;
 use App\Entities\Website;
-use App\Repositories\Contracts\EloquentTrackingInfoRepository;
-use App\Repositories\Contracts\EloquentWebsiteRepository;
+use App\Repositories\Contracts\WebsiteRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AddWebsiteAction
 {
     private $websiteRepository;
-    private $trackingInfoRepository;
 
     public function __construct(
-        EloquentWebsiteRepository $websiteRepository,
-        EloquentTrackingInfoRepository $trackingInfoRepository
+        WebsiteRepository $websiteRepository
     ) {
         $this->websiteRepository = $websiteRepository;
-        $this->trackingInfoRepository = $trackingInfoRepository;
     }
 
     public function execute(AddWebsiteRequest $request): AddWebsiteResponse
     {
         $website = new Website();
-        $trackingInfo = new TrackingInfo();
-
-        $this->trackingInfoRepository->save($trackingInfo);
 
         $website->name = $request->getName();
         $website->domain = $request->getDomain();
         $website->single_page = $request->getSinglePage();
         $website->user_id = Auth::id();
-        $website->tracking_info_id = $trackingInfo->id;
+        $website->tracking_number = $this->getLastTrackingNumber() + 1;
 
         $this->websiteRepository->save($website);
 
         return new AddWebsiteResponse($website);
+    }
+
+    private function getLastTrackingNumber(): int
+    {
+        $last = DB::table('websites')->latest()->first();
+
+        return $last ? $last->tracking_number : 0;
     }
 }
