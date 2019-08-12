@@ -4,7 +4,7 @@ import {
     USER_LOGIN,
     USER_LOGOUT,
     SET_USER_IS_LOGGED_OUT,
-    RESET_TOKEN,
+    RESET_TOKEN, SET_SPINNER,
 } from "./types/mutations";
 import {authorize, getAuthUser, registerUser} from '@/api/auth';
 import storage from "@/services/storage";
@@ -15,13 +15,13 @@ export default {
             .then(response => {
                 context.commit(USER_LOGIN, response.data);
 
-            return getAuthUser()
-              .then(response => {
-                const user = response.data;
-                context.commit(SET_AUTHENTICATED_USER, user);
+                return getAuthUser()
+                    .then(response => {
+                        const user = response.data;
+                        context.commit(SET_AUTHENTICATED_USER, user);
 
-                return user;
-              });
+                        return user;
+                    });
             });
     },
 
@@ -53,12 +53,16 @@ export default {
     },
 
     [GET_CURRENT_USER]: (context) => {
+        context.commit(SET_SPINNER, true);
         getAuthUser().then(response => {
             const user = response.data;
             context.commit(SET_AUTHENTICATED_USER, user);
+            context.commit(SET_SPINNER, false);
+
         })
             .catch(() => {
                 storage.removeToken();
+                context.commit(SET_SPINNER, false);
                 context.commit(RESET_TOKEN);
             });
     },

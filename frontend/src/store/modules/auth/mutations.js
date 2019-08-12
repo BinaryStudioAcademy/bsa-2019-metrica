@@ -4,7 +4,8 @@ import {
     USER_LOGIN,
     USER_LOGOUT,
     RESET_TOKEN,
-    SET_USER_IS_LOGGED_OUT
+    SET_USER_IS_LOGGED_OUT,
+    SET_SPINNER,
 } from "./types/mutations";
 
 export default {
@@ -32,5 +33,9 @@ export default {
     },
     [RESET_TOKEN]: (state) => {
         state.token = undefined;
-    }
+    },
+    [SET_SPINNER]: (state, payload) => {
+        state.spinner = payload;
+    },
+
 };

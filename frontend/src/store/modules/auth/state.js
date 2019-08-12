@@ -5,5 +5,6 @@ export default {
         id: null
     },
     isLoggedIn: false,
-    token: undefined
+    token: undefined,
+    spinner: false
 };
