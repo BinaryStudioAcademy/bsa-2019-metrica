@@ -46,12 +46,6 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
         });
-
-        Route::group([
-            'prefix' => 'websites',
-        ], function () {
-            Route::post('/create', 'WebsiteController@create');
-        });
     });
 });
 
