@@ -18,8 +18,8 @@ export default {
                 getCurrentUserWebsite()
                     .then(response => {
                         const website = response.data;
-                        context.dispatch(SET_WEBSITE, website, { root: true });
-                    });
+                        context.dispatch(`website/${SET_WEBSITE}`, website, { root: true });
+                    }).catch((res) => alert(res));
 
                 return user;
               });

@@ -12,6 +12,10 @@ final class GetCurrentUserWebsiteAction
     {
         $website = Auth::user()->getWebsite();
 
+        if (!$website) {
+            throw new UserWebsiteNotFoundException();
+        }
+
         return new GetCurrentUserWebsiteResponse($website);
     }
 }

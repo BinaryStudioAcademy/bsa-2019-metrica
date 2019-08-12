@@ -10,7 +10,8 @@ import Home from "../pages/Home.vue";
 import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
-import {IS_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
+import store from '../store';
+
 
 Vue.use(Router);
 
@@ -55,7 +56,7 @@ export default new Router({
                             },
                             props: true,
                             beforeEnter: (to, from, next) => {
-                                if (IS_CURRENT_WEBSITE) {
+                                if (store.state.isCurrentWebsite) {
                                     next({
                                         path: '/dashboard'
                                     })
@@ -71,7 +72,7 @@ export default new Router({
                                 step: 2
                             },
                             beforeEnter: (to, from, next) => {
-                                if (IS_CURRENT_WEBSITE) {
+                                if (store.state.isCurrentWebsite) {
                                     next({
                                         path: '/dashboard'
                                     })
