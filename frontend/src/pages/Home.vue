@@ -19,7 +19,7 @@
                             color="primary"
                             x-large
                         >
-                            Start fo free
+                            Start for free
                         </VBtn>
                         <VBtn
                             class="login"
