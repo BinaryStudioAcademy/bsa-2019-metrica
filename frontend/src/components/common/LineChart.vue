@@ -82,22 +82,19 @@
 
         computed: {
             chartData(){
-                let tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
-                let pointStyle = 'point { stroke-color: #3C57DE; size: 5.5; shape-type: circle; fill-color: #FFFFFF; }';
-                let data = [];
-                data.push([{type: 'string', name: 'xLabel'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
-
-                this.data.forEach( (element) => {
-                    data.push([element.xLabel, element.value, element.value, pointStyle, this.tooltip(element.value, element.indication)])
-                });
-
-                return data;
+                const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
+                const pointStyle = 'point { stroke-color: #3C57DE; size: 5.5; shape-type: circle; fill-color: #FFFFFF; }';
+                let tmpData = this.data.map( element =>
+                    [element.xLabel, element.value, element.value, pointStyle, this.tooltip(element.value, element.indication)]
+                );
+                tmpData.unshift([{type: 'string', name: 'xLabel'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
+                return tmpData;
             }
         },
 
         methods: {
             tooltip(value, indication) {
-                return ' <div class=\'custom-tooltip\'>\n' +
+                return ' <div class=\'custom-google-line-chart-tooltip\'>\n' +
                     '        <div class=\'tooltip-first\'>\n' +
                     `          ${value}\n` +
                     '        </div>\n' +
@@ -112,10 +109,13 @@
     }
 </script>
 
-<style lang="scss">
-    div.google-visualization-tooltip {
-        margin-left: -100px !important;
-        z-index:+1;
+<style lang="scss" scoped>
+    ::v-deep svg path {
+        fill: none;
+    }
+
+    ::v-deep div.google-visualization-tooltip {
+        margin-left: -100px;
         width: auto;
         height:auto;
         font-family: Gilroy;
@@ -127,32 +127,32 @@
         color: #FFFFFF;
         border: 0;
         border-radius: 6px;
-    }
 
-    .custom-tooltip {
-        box-sizing: border-box;
-        border-radius: 6px;
-        width: 150px;
-        background: #3C57DE;
-    }
+        .custom-google-line-chart-tooltip {
+            box-sizing: border-box;
+            border-radius: 6px;
+            width: 150px;
+            background: #3C57DE;
 
-    .tooltip-first {
-        left: 0;
-        width: 47%;
-        display: inline-block;
-        background: #4966F2;
-        padding: 15px 10px;
-        border-radius: 6px 0 0 6px;
-    }
+            .tooltip-first {
+                left: 0;
+                width: 47%;
+                display: inline-block;
+                background: #4966F2;
+                padding: 15px 10px;
+                border-radius: 6px 0 0 6px;
+            }
 
-    .tooltip-second {
-        width: 49%;
-        display: inline-block;
-        padding: 15px 10px;
-    }
+            .tooltip-second {
+                width: 49%;
+                display: inline-block;
+                padding: 15px 10px;
 
-    .tooltip-arrow {
-        width: 8px;
-        height: 18px;
+                .tooltip-arrow {
+                    width: 8px;
+                    height: 18px;
+                }
+            }
+        }
     }
 </style>
