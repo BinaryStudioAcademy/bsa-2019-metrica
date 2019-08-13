@@ -9,6 +9,5 @@ export default {
 
     [HIDE]: (state) => {
         state.active = false;
-        state.text = '';
     }
 }

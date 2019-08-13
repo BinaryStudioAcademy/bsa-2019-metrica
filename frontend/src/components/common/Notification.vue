@@ -1,24 +1,39 @@
 <template>
-    <VAlert
+    <VSnackbar
         class="notification"
-        transition="slide-x-reverse-transition"
-        outlined
+        right
+        top
+        multi-line
         :value="active"
-        :type="alertType"
-        text
+        :color="type"
+        :timeout="0"
     >
-        {{ text }}
-    </VAlert>
+        <div class="justify-start">
+            <VIcon color="white">
+                {{ icon }}
+            </VIcon>
+            <span class="notification-text">
+                {{ text }}
+            </span>
+        </div>
+        <VBtn
+            dark
+            text
+            @click="hideMessage"
+        >
+            ✕
+        </VBtn>
+    </VSnackbar>
 </template>
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import { SHOW_SUCCESS, SHOW_ERROR } from '@/store/modules/notification/types/actions';
     import {
         GET_TEXT,
         GET_TYPE,
         IS_ACTIVE
     } from '@/store/modules/notification/types/getters';
+    import { HIDE_MESSAGE } from "@/store/modules/notification/types/actions";
 
     export default {
         name: "Notification",
@@ -26,26 +41,27 @@
         computed: {
             ...mapGetters('notification', {
                 text: GET_TEXT,
-                alertType: GET_TYPE,
+                type: GET_TYPE,
                 active: IS_ACTIVE
-            })
+            }),
+            icon: function () {
+                return this.type === 'success' ? 'check' : 'error'
+            }
         },
-
         methods: {
             ...mapActions('notification', {
-                showSuccessMessage: SHOW_SUCCESS,
-                showErrorMessage: SHOW_ERROR
+                hideMessage: HIDE_MESSAGE
             })
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    $width: 350px;
     .notification {
-        position: fixed;
-        width: $width;
-        z-index: 10000;
-        transition: all .8s ease;
+        transition: all .4s ease;
+
+        .notification-text {
+            margin-left: .5rem;
+        }
     }
 </style>
