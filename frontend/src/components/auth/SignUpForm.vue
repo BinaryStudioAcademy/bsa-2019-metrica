@@ -152,14 +152,11 @@
                         alert(err.message);
                     })
                 }
-                
             },
 
             onSignIn () {
-                return this.$router.push({path: '/login'});
+                return this.$router.push({name: 'login'});
             },
         },
-
-
     }
 </script>
