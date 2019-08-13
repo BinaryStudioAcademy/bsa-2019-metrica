@@ -7,12 +7,12 @@ namespace App\Http\Resources;
 use App\Contracts\ApiResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-final class PageResource extends ResourceCollection implements ApiResponse
+final class VisitResource extends ResourceCollection implements ApiResponse
 {
     public function toArray($request): array
     {
         return [
-          'views' => $this->collection
+            'views' => $this->collection
         ];
     }
 }

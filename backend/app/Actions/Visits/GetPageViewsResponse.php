@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Pages;
+namespace App\Actions\Visits;
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 final class GetPageViewsResponse
 {
@@ -19,5 +19,4 @@ final class GetPageViewsResponse
     {
         return $this->views;
     }
-
 }

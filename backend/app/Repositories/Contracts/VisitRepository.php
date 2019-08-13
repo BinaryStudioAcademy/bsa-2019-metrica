@@ -6,7 +6,7 @@ namespace App\Repositories\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 
-interface PageRepository
+interface VisitRepository
 {
     public function getPageViews(): Collection;
 }

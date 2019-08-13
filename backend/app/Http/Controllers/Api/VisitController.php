@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\Pages\GetPageViewsAction;
+use App\Actions\Visits\GetPageViewsAction;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PageResource;
+use App\Http\Resources\VisitResource;
 use App\Http\Response\ApiResponse;
 
-final class PageController extends Controller
+final class VisitController extends Controller
 {
     private $getPageViewsAction;
 
@@ -22,6 +22,6 @@ final class PageController extends Controller
     {
         $response = $this->getPageViewsAction->execute();
 
-        return ApiResponse::success(new PageResource($response->views()));
+        return ApiResponse::success(new VisitResource($response->views()));
     }
 }
