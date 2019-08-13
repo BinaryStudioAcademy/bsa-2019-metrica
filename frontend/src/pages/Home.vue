@@ -20,7 +20,7 @@
                             :to="{name: 'signup'}"
                             x-large
                         >
-                            Start fo free
+                            Start for free
                         </VBtn>
                         <VBtn
                             class="login"
