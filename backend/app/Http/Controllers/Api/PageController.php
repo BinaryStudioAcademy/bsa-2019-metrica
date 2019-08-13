@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\GetByIdRequest;
 use App\Actions\Pages\GetPageViewsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PageResource;
@@ -19,10 +18,10 @@ final class PageController extends Controller
         $this->getPageViewsAction = $getPageViewsAction;
     }
 
-    public function getPageViews(int $id): ApiResponse
+    public function getPageViews(): ApiResponse
     {
-        $response = $this->getPageViewsAction->execute(new GetByIdRequest($id));
+        $response = $this->getPageViewsAction->execute();
 
-        return ApiResponse::success(new PageResource($response->previews()));
+        return ApiResponse::success(new PageResource($response->views()));
     }
 }
