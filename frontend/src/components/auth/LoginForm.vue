@@ -104,37 +104,11 @@
 </script>
 
 <style lang="scss" scoped>
-    .login-form-input {
-        height: 37px;
-        border: 1px solid rgba(18, 39, 55, 0.11);
-        border-radius: 3px;
-
-        ::v-deep {
-            .v-input__control {
-                min-height: 1px;
-            }
-
-            input {
-                min-height: 35px;
-            }
-
-            .v-input__prepend-outer {
-                margin-top: 4px;
-            }
-        }
-
-        &.v-input--is-focused {
-            border: 1px solid rgba(60, 87, 222, 0.52);
-            box-shadow: 0px 0px 14px rgba(194, 205, 223, 0.6);
-        }
-    }
-
     .login-form-label {
         padding: 0;
         color: rgba(18, 39, 55, 0.5);
         font-size: 12px;
         height: 28px;
-        margin-top: 25px;
         font-weight: bold;
     }
 
