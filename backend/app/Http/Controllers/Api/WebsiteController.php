@@ -30,12 +30,12 @@ class WebsiteController
         return ApiResponse::success(new WebsiteResource($response->getWebsite()));
     }
 
-    public function update(string $id, EditWebsiteHttpRequest $request, EditWebsiteAction $action ): JsonResponse
+    public function update(string $id, EditWebsiteHttpRequest $request, EditWebsiteAction $action ): ApiResponse
     {
         $response = $action->execute(
             new EditWebsiteRequest((int) $id, $request->name(), $request->singlePage())
         );
 
-        return response()->json(new WebsiteResource($response->getWebsite()));
+        return ApiResponse::success(new WebsiteResource($response->getWebsite()));
     }
 }

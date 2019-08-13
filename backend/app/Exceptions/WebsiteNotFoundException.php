@@ -11,12 +11,9 @@ use Throwable;
 
 final class WebsiteNotFoundException extends ModelNotFoundException implements ApiException
 {
-    private $message = "Website not found.";
-
-    public function __construct($message = null, $code = 0, Throwable $previous = null)
+    public function __construct($message = 'Website not found.', $code = 0, Throwable $previous = null)
     {
-        $this->message = $message??$this->$message;
-        parent::__construct($this->$message, $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 
     public function getStatus(): int

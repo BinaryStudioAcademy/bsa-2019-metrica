@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Actions\Website;
 
 use App\Exceptions\WebsiteNotFoundException;
-use App\Repositories\Contracts\EloquentWebsiteRepository;
+use App\Repositories\Contracts\WebsiteRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,7 @@ class EditWebsiteAction
     private $websiteRepository;
 
     public function __construct(
-        EloquentWebsiteRepository $websiteRepository
+        WebsiteRepository $websiteRepository
     ) {
         $this->websiteRepository = $websiteRepository;
     }
