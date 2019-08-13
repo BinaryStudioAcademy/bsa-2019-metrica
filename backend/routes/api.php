@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'WebsiteController@getCurrentUserWebsite');
             Route::post('/', 'WebsiteController@add');
+            Route::put('/{id}', 'WebsiteController@update');
         });
         Route::group([
             'prefix' => 'visitors'
