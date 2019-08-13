@@ -25,11 +25,11 @@ class GetNewVisitorCountFilterHttpHttpRequest extends AbstractVisitorsFilterHttp
 
     public function getStartDate(): int
     {
-        return (int) $this->get('filter.startDate');
+        return (int) $this->get('filter')['startDate'];
     }
 
     public function getEndDate(): int
     {
-        return (int) $this->get('filter.endDate');
+        return (int) $this->get('filter')['endDate'];
     }
 }
