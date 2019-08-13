@@ -31,11 +31,11 @@ export default {
         });
     },
 
-    [UPDATE_USER]: (context, data) => {
-            const user = updateUser(data);
-            context.commit(SET_AUTHENTICATED_USER, user);
-
-            return user;
+    [UPDATE_USER]: (context, user) => {
+        updateUser(user)
+            .then(response => {
+                context.commit(SET_AUTHENTICATED_USER, response.data);
+            });
     },
 
     [SIGNUP]: (context, newUser) => {
