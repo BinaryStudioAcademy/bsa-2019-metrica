@@ -103,7 +103,8 @@
     import {mapActions} from 'vuex';
     import {SIGNUP} from "@/store/modules/auth/types/actions";
 
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    // eslint-disable-next-line
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     export default {
         data () {
@@ -128,7 +129,7 @@
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
+                    v => (v && v.length >= 8) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
@@ -152,14 +153,11 @@
                         alert(err.message);
                     })
                 }
-                
             },
 
             onSignIn () {
-                return this.$router.push({path: '/login'});
+                return this.$router.push({name: 'login'});
             },
         },
-
-
     }
 </script>
