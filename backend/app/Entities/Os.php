@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Os extends Model
 {
+    protected $table = 'os';
     protected $fillable = ['name'];
 }
