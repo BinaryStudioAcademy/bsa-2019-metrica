@@ -14,7 +14,7 @@
             </svg>
         </VBtn>
         <VToolbarTitle class="hidden-sm-and-down username mr-6">
-            Hello, <span>{{ user().name }}</span>
+            Hello, <span>{{ user.name }}</span>
         </VToolbarTitle>
         <VAvatar>
             <img src="/assets/images/lady.png">
@@ -71,13 +71,15 @@
             ...mapActions('auth', {
                 logout: LOGOUT
             }),
-            ...mapGetters('auth', {
-                user: GET_AUTHENTICATED_USER
-            }),
             endSession() {
                 this.logout();
                 this.$router.push({ name: 'home' });
             }
+        },
+        computed: {
+            ...mapGetters('auth', {
+                user: GET_AUTHENTICATED_USER
+            })
         }
     }
 </script>
