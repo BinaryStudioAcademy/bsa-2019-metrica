@@ -104,16 +104,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .login-form-input {
-        &.v-input--is-focused {
-            ::v-deep {
-                .v-input__slot {
-                    border: 1px solid rgba(60, 87, 222, 0.52);
-                }
-            }
-        }
-    }
-
     .login-form-label {
         padding: 0;
         color: rgba(18, 39, 55, 0.5);
