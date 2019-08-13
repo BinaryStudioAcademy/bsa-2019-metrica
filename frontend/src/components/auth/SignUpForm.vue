@@ -102,9 +102,8 @@
 <script>
     import {mapActions} from 'vuex';
     import {SIGNUP} from "@/store/modules/auth/types/actions";
-
-    // eslint-disable-next-line
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
 
     export default {
         data () {
@@ -125,11 +124,11 @@
                 ],
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => emailRegex.test(v) || 'E-mail must be valid'
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 8 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',

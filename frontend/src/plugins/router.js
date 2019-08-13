@@ -4,6 +4,7 @@ import Login from '../pages/Login.vue'
 import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
 import SignUp from "../pages/SignUp.vue";
+import UserUpdate from '../pages/UpdateProfile.vue';
 import AddWebsitePage from '../pages/AddWebsitePage.vue';
 import Visitors from "../pages/Visitors.vue";
 import Home from "../pages/Home.vue";
@@ -45,6 +46,11 @@ export default new Router({
                     path: 'visitors',
                     name: 'visitors',
                     component: Visitors
+                },
+                {
+                    path: 'user-settings',
+                    name: 'user-update',
+                    component: UserUpdate
                 },
                 {
                     path: 'settings',
