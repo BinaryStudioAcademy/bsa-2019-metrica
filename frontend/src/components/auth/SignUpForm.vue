@@ -128,7 +128,7 @@
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
+                    v => (v && v.length >= 8) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
@@ -152,14 +152,11 @@
                         alert(err.message);
                     })
                 }
-                
             },
 
             onSignIn () {
-                return this.$router.push({path: '/login'});
+                return this.$router.push({name: 'login'});
             },
         },
-
-
     }
 </script>
