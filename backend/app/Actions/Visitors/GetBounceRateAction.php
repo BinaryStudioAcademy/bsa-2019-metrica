@@ -15,10 +15,10 @@ final class GetBounceRateAction
         $this->visitorRepository = $visitorRepository;
     }
 
-    public function execute(): GetBounceRateResponse
+    public function execute(GetBounceRateRequest $request): GetBounceRateResponse
     {
-        $visitors = $this->visitorRepository->withSinglePageInactiveSession()->count();
-        $allVisitors = $this->visitorRepository->all()->count();
+        $visitors = $this->visitorRepository->countWithSinglePageInactiveSession();
+        $allVisitors = $this->visitorRepository->countAll();
 
         $bounceRate = $visitors/$allVisitors * 100;
 
