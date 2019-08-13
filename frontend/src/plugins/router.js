@@ -11,7 +11,7 @@ import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
 import WebsiteInfo from '../pages/WebsiteInfo.vue';
-import store from '../store';
+import WebsiteGuard from '@/components/website/WebsiteGuard.vue';
 
 
 Vue.use(Router);
@@ -64,56 +64,49 @@ export default new Router({
                     component: Visitors
                 },
                 {
-                    path: 'website-info',
-                    name: 'websiteinfo',
-                    component: WebsiteInfo
-                },
-                {
-                    path: 'websites/add',
-                    component: AddWebsitePage,
-                    redirect: { name: 'add_websites_step_1' },
+                    path: 'website',
+                    component: WebsiteGuard,
                     children: [
                         {
-                            path: 'step-1',
-                            name: 'add_websites_step_1',
-                            component: StepAddName,
-                            meta: {
-                                step: 1
-                            },
-                            props: true,
-                            beforeEnter: (to, from, next) => {
-                                if (store.state.isCurrentWebsite) {
-                                    next({
-                                        path: '/dashboard'
-                                    })
-                                }
-                                next();
-                            }
+                            path: 'info',
+                            name: 'websiteinfo',
+                            component: WebsiteInfo
                         },
                         {
-                            path: 'step-2',
-                            name: 'add_websites_step_2',
-                            component: StepAddDomain,
-                            meta: {
-                                step: 2
-                            },
-                            beforeEnter: (to, from, next) => {
-                                if (store.state.isCurrentWebsite) {
-                                    next({
-                                        path: '/dashboard'
-                                    })
+                            path: 'add',
+                            component: AddWebsitePage,
+                            children: [
+                                {
+                                    path: '',
+                                    redirect: { name: 'add_websites_step_1' },
+                                },
+                                {
+                                    path: 'step-1',
+                                    name: 'add_websites_step_1',
+                                    component: StepAddName,
+                                    meta: {
+                                        step: 1
+                                    },
+                                    props: true,
+                                },
+                                {
+                                    path: 'step-2',
+                                    name: 'add_websites_step_2',
+                                    component: StepAddDomain,
+                                    meta: {
+                                        step: 2
+                                    },
+                                },
+                                {
+                                    path: 'step-3',
+                                    name: 'add_websites_step_3',
+                                    component: StepTrackingInfo,
+                                    meta: {
+                                        step: 3
+                                    }
                                 }
-                                next();
-                            }
+                            ]
                         },
-                        {
-                            path: 'step-3',
-                            name: 'add_websites_step_3',
-                            component: StepTrackingInfo,
-                            meta: {
-                                step: 3
-                            }
-                        }
                     ]
                 },
             ]

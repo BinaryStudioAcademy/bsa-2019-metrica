@@ -1,12 +1,17 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, SET_WEBSITE, UPDATE_WEBSITE} from './types/actions';
-import {SET_CURRENT_WEBSITE, UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
+import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, FETCH_CURRENT_WEBSITE, UPDATE_WEBSITE} from './types/actions';
+import {SET_CURRENT_WEBSITE, UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO, RESET_CURRENT_WEBSITE} from "./types/mutations";
+import {getCurrentUserWebsite} from '@/api/website';
 
 export default {
     [SET_WEBSITE_DATA]: (context, data) => {
         context.commit(SET_WEBSITE_INFO, data);
     },
-    [SET_WEBSITE]: (context, website) => {
-        context.commit(SET_CURRENT_WEBSITE, website);
+    [FETCH_CURRENT_WEBSITE]: (context) => {
+        return getCurrentUserWebsite().then(response => {
+            context.commit(SET_CURRENT_WEBSITE, response.data);
+        }).catch(() => {
+            context.commit(RESET_CURRENT_WEBSITE);
+        });
     },
     [SAVE_NEW_WEBSITE]: (context) => {
         const newDataSite = context.state.newWebsite;
