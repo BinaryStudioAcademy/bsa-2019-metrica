@@ -71,13 +71,15 @@
             ...mapActions('auth', {
                 logout: LOGOUT
             }),
-            ...mapGetters('auth', {
-                user: GET_AUTHENTICATED_USER
-            }),
             endSession() {
                 this.logout();
                 this.$router.push({ name: 'home' });
             }
+        },
+        computed: {
+            ...mapGetters('auth', {
+                user: GET_AUTHENTICATED_USER
+            })
         }
     }
 </script>
