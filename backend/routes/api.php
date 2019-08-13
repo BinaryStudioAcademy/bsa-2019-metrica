@@ -50,7 +50,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
            'prefix' => 'pages'
         ], function(){
-            Route::get('/{id}/previews', 'PageController@getPageViews');
+            Route::get('/{id}/views', 'PageController@getPageViews');
         });
     });
 });

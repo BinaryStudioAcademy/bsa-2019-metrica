@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Actions\Pages;
 
+use Illuminate\Support\Collection;
+
 final class GetPageViewsResponse
 {
-    private $previews;
+    private $views;
 
-    public function __construct($previews)
+    public function __construct(Collection $views)
     {
-        $this->previews = $previews;
+        $this->views = $views;
     }
 
-    public function previews(): int
+    public function views(): Collection
     {
-        return $this->previews;
+        return $this->views;
     }
 
 }

@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Pages;
 
-use App\Actions\GetByIdRequest;
-use App\Exceptions\PageNotFoundException;
 use App\Repositories\Contracts\PageRepository;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class GetPageViewsAction
 {
@@ -18,14 +15,10 @@ final class GetPageViewsAction
         $this->pageRepository = $pageRepository;
     }
 
-    public function execute(GetByIdRequest $request): GetPageViewsResponse
+    public function execute(): GetPageViewsResponse
     {
-        try {
-            $page = $this->pageRepository->getPageById($request->getId());
-        }catch (ModelNotFoundException $exception){
-            throw new PageNotFoundException();
-        }
+        $views = $this->pageRepository->getPageViews();
 
-        return new GetPageViewsResponse($this->pageRepository->getPageViews($page));
+        return new GetPageViewsResponse($views);
     }
 }

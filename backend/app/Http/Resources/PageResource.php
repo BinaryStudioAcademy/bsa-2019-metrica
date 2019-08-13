@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\ApiResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-final class PageResource extends JsonResource implements ApiResponse
+final class PageResource extends ResourceCollection implements ApiResponse
 {
     public function toArray($request): array
     {
         return [
-          'previews' => $this->previews
+          'views' => $this->collection
         ];
     }
 }

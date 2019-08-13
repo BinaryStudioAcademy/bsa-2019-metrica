@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Entities\Page;
 use App\Repositories\Contracts\PageRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 final class EloquentPageRepository implements PageRepository
 {
-    public function getPageViews(Page $page): int
+    public function getPageViews(): Collection
     {
-        return $page->previews;
-    }
-
-    public function getPageById(int $id): Page
-    {
-        return Page::findOrFail($id);
+        return new Collection();
     }
 }

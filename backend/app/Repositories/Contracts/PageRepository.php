@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories\Contracts;
 
-use App\Entities\Page;
+use Illuminate\Database\Eloquent\Collection;
 
 interface PageRepository
 {
-    public function getPageViews(Page $page): int;
-
-    public function getPageById(int $id): Page;
+    public function getPageViews(): Collection;
 }
