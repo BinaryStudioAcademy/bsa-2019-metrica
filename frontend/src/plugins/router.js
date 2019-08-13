@@ -48,11 +48,11 @@ export default new Router({
                     component: Visitors
                 },
                 {
-<<<<<<< HEAD
-                    path: '/user-settings',
+                    path: 'user-settings',
                     name: 'user-update',
                     component: UserUpdate
-=======
+                },
+                {
                     path: 'settings',
                     name: 'settings',
                     component: Visitors
@@ -71,7 +71,6 @@ export default new Router({
                     path: 'website-info',
                     name: 'websiteinfo',
                     component: WebsiteInfo
->>>>>>> e79ec3e8eb880566de813b332b7bcefac92ee19c
                 },
                 {
                     path: 'websites/add',
