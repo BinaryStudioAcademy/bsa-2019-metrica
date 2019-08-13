@@ -1,11 +1,13 @@
 <template>
-    <div class="card bg-white visitors-card">
+    <div class="card bg-white visitors-card rounded shadow text-dark">
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
                 Active users
             </p>
             <p class="card-count text-right mb-0">
-                {{ activeUsersCount }}
+                <strong>
+                    {{ activeUsersCount }}
+                </strong>
             </p>
         </div>
         <div class="d-flex justify-content-between align-items-center card-top-row">
@@ -13,11 +15,13 @@
                 Page views now
             </p>
             <p class="card-count text-right mb-0">
-                {{ pageViewsCount }}
+                <strong>
+                    {{ pageViewsCount }}
+                </strong>
             </p>
         </div>
         <p
-            class="card-title"
+            class="card-title mt-3 mb-5"
         >
             Top active pages
         </p>
@@ -26,6 +30,7 @@
         >
             <li
                 v-for="page in topPages"
+                class="mb-2 mt-1 px-0 py-1"
                 :key="page"
             >
                 <a
@@ -41,7 +46,7 @@
         >
             <a
                 href="#"
-                class="btn card-button font-weight-light"
+                class="btn card-button font-weight-light rounded"
             >
                 Real time
             </a>
@@ -76,12 +81,8 @@
         font-family: Gilroy;
         height: 382px;
         width: 307px;
-        padding: 43px 33px 32px 28px;
-        background: #FFFFFF;
-        box-shadow: 0px 0px 28px rgba(0, 0, 0, 0.11);
-        border-radius: 6px;
         font-size: 12px;
-        color: #000000;
+        padding: 43px 33px 32px 28px;
 
         .card-top-row {
             height: 53px;
@@ -92,25 +93,15 @@
 
             .card-count {
                 font-size: 24px;
-                font-weight: 900;
             }
-        }
-        .card-title {
-            margin-top: 18px;
-            margin-bottom: 31px;
         }
 
         .links-list {
             list-style: none;
 
-            li {
-                padding: 5px 0;
-                margin-bottom: 10px;
-
-                .link-item {
-                    text-decoration:none;
-                    color: rgba(18, 39, 55, 0.5);
-                }
+            .link-item {
+                text-decoration:none;
+                color: rgba(18, 39, 55, 0.5);
             }
         }
 
@@ -118,7 +109,6 @@
             height: 32px;
             width: 126px;
             background: #3C57DE;
-            border-radius: 3px;
             color:#ffffff;
             font-size: 12px;
         }
