@@ -1,21 +1,26 @@
-import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD} from './types/actions';
-import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
-import { authorize, getAuthUser, registerUser } from '@/api/auth';
+import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, FETCH_CURRENT_USER} from './types/actions';
+import {
+    SET_AUTHENTICATED_USER,
+    USER_LOGIN,
+    USER_LOGOUT,
+} from "./types/mutations";
+import {authorize, getAuthUser, registerUser} from '@/api/auth';
+import {HAS_TOKEN} from "./types/getters";
 
 export default {
     [LOGIN]: (context, user) => {
         return authorize(user)
-          .then(response => {
-            context.commit(USER_LOGIN, response.data);
+            .then(response => {
+                context.commit(USER_LOGIN, response.data);
 
-            return getAuthUser()
-              .then(response => {
-                const user = response.data;
-                context.commit(SET_AUTHENTICATED_USER, user);
+                return getAuthUser()
+                    .then(response => {
+                        const user = response.data;
+                        context.commit(SET_AUTHENTICATED_USER, user);
 
-                return user;
-              });
-          });
+                        return user;
+                    });
+            });
     },
 
     [LOGOUT]: (context) => {
@@ -43,5 +48,17 @@ export default {
                     reject("User with this email does not exist. Please, check if the password is correct.");
             }
         })
-    }
+    },
+
+    [FETCH_CURRENT_USER]: (context) => {
+        if (!context.getters[HAS_TOKEN]) {
+            return;
+        }
+        return getAuthUser().then(response => {
+            context.commit(SET_AUTHENTICATED_USER, response.data);
+        }).catch(() => {
+            context.commit(USER_LOGOUT);
+        });
+    },
+
 }
