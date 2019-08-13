@@ -8,7 +8,9 @@ interface VisitorRepository
 {
     public function all(): Collection;
 
+    public function countAll(): int;
+
     public function newest(): Collection;
 
-    public function withSinglePageInactiveSession(): Collection;
+    public function countSinglePageInactiveSessionBetweenDate(string $from, string $to): int;
 }

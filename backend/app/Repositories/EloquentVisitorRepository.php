@@ -16,18 +16,24 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::all();
     }
 
+    public function countAll(): int
+    {
+        return Visitor::count();
+    }
+
     public function newest(): Collection
     {
         return new Collection();
     }
 
-
-    public function withSinglePageInactiveSession(): Collection
+    public function countSinglePageInactiveSessionBetweenDate(string $from, string $to): int
     {
         return Visitor::has('sessions', '=', '1')
-            ->whereHas('sessions', function (Builder $query) {
-                $query->inactive()->has('visits', '=', '1');
+            ->whereHas('sessions', function (Builder $query) use ($from, $to) {
+                $query->whereDateBetween($from, $to)
+                    ->has('visits', '=', '1')
+                    ->inactive();
             })
-            ->get();
+            ->count();
     }
 }

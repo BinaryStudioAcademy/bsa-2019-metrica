@@ -57,4 +57,9 @@ final class Session extends Model
     {
         return $query->whereTime('updated_at', '<', (Carbon::now())->subMinutes(30)->toDateString());
     }
+
+    public function scopeWhereDateBetween(Builder $query, string $from, string $to): Builder
+    {
+        return $query->whereBetween('start_session', [$from, $to]);
+    }
 }
