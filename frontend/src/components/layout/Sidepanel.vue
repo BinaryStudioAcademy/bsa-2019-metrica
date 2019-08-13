@@ -3,6 +3,7 @@
         app
         clipped
         floating
+        permanent
     >
         <VList
             class="mt-12"
