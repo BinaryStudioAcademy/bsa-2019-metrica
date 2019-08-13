@@ -32,7 +32,7 @@ export default {
     },
 
     [UPDATE_USER]: (context, user) => {
-        updateUser(user)
+        return updateUser(user)
             .then(response => {
                 context.commit(SET_AUTHENTICATED_USER, response.data);
             });

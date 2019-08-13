@@ -86,6 +86,8 @@
     import {mapGetters, mapActions} from 'vuex';
     import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
 
     export default {
         data() {
@@ -105,11 +107,11 @@
                 ],
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
@@ -120,13 +122,13 @@
 
         created() {
             this.editUser = {
-                ...this.getUser
+                ...this.user
             };
         },
 
         computed: {
             ...mapGetters('auth', {
-                getUser: GET_AUTHENTICATED_USER
+                user: GET_AUTHENTICATED_USER
             }),
             passwordVisibility: function() {
                 return this.showPassword ? 'visibility' : 'visibility_off';
