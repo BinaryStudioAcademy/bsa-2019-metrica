@@ -1,12 +1,12 @@
 <template>
-    <VContainer class="t">
+    <VContainer class="users-table">
         <VRow
-            class="header"
+            class="header my-3"
             fluid
         >
             <VCol>
                 <VSelect
-                    class="custom"
+                    class="option-select"
                     prefix="Show"
                     :items="options"
                     flat
@@ -14,26 +14,19 @@
                 />
             </VCol>
             <VCol>
-                <div>
-                    Users
-                </div>
+                Users
             </VCol>
             <VCol>
-                <div>
-                    Users %
-                </div>
+                Users %
             </VCol>
         </VRow>
-        <VContainer>
-            <VDataTable
-                class="caption"
-                hide-default-footer
-                hide-default-header
-                :headers="headers"
-                :items="itemss"
-                :items-per-page="5"
-            />
-        </VContainer>
+        <VDataTable
+            class="caption"
+            hide-default-footer
+            hide-default-header
+            :headers="headers"
+            :items="usersData"
+        />
     </VContainer>
 </template>
 
@@ -42,61 +35,68 @@
         data () {
             return {
                 selected: 'browser',
-                options: [ 'language', 'browser', 'country', 'city', 'browser', 'operating system', 'screen resolution' ],
+                options: [
+                    'language',
+                    'browser',
+                    'country',
+                    'city',
+                    'browser',
+                    'operating system',
+                    'screen resolution' ],
                 headers: [
-                    { text: '1', align: 'center', value: 'option'},
-                    { text: '1', align: 'center', value: 'users' },
-                    { text: '1', align: 'center', value: 'percentage', },
+                    { text: '', align: 'center', value: 'option' },
+                    { text: '', align: 'center', value: 'users' },
+                    { text: '', align: 'center', value: 'percentage' },
                 ],
                 items: {
                     'language': [
                         {
                             option: 'us',
                             users: 67,
-                            percentage: 50
+                            percentage: '50%'
                         },
                         {
                             option: 'en',
                             users: 67,
-                            percentage: 50
+                            percentage: '50%'
                         },
                         {
                             option: 'fr',
                             users: 67,
-                            percentage: 50
+                            percentage: '50%'
                         }
                     ],
                     'browser': [
                         {
-                            option: 'IEwerterIEwerterIEwerterIEwerterIEwerterIEweIEwerterIEwerterIEwIEwerterIEwerEwerterIEweIEwerterIEwerterIEwIEwerterIEwerEwerterIEweIEwerterIEwerterIEwIEwerterIEwerterIEwerterIEwertererterIEwerterrter',
+                            option: 'IE',
                             users: 55,
-                            percentage: 34
+                            percentage: '34%'
                         },
                         {
                             option: 'Edge',
                             users: 77,
-                            percentage: 34
+                            percentage: '34%'
                         },
                         {
                             option: 'Firefox',
                             users: 45,
-                            percentage: 44
+                            percentage: '44%'
                         },
                         {
                             option: 'Chrome',
                             users: 84,
-                            percentage: 34
+                            percentage: '34%'
                         },
                         {
                             option: 'iOS Safari',
                             users: 44,
-                            percentage: 55
+                            percentage: '55%'
                         }]
                 }
             }
         },
         computed: {
-            itemss() {
+            usersData() {
                 return this.items[this.selected];
             }
         }
@@ -104,97 +104,95 @@
 </script>
 
 <style scoped lang="scss">
+
 $dark: #122737;
 $blue: #3C57DE;
+$gray: rgba(18, 39, 55, 0.5);
 
-.container .v-data-table {
-    border-collapse: collapse;
-    overflow: hidden;
-    border-radius: 6px;
-    color: rgba(18, 39, 55, 0.5);
+.users-table {
+    max-width: 1032px;
     font-family: 'Gilroy';
-    line-height: 14px;
-    box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+}
 
-    ::v-deep th {
-        border: none !important;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.07) !important;
-        height: 85px;
-        font-size: 16px;
-        line-height: 19px;
-        font-family: 'GilroyLight';
-    }
-    ::v-deep tr {
-        min-height: 52px;
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.07) !important;
-        &:last-child {
-            border-style: none !important;
+.header {
+    align-items: center;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.container {
+
+    .v-data-table {
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 6px;
+        color: $gray;
+        line-height: 14px;
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+
+        ::v-deep tr {
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.07) !important;
+
+            &:last-child {
+                border-style: none !important;
+            }
+
+            td {
+                height: max-content;
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                max-width: calc(100% / 3);
+                word-break: break-all;
+                padding: 8px;
+            }
         }
     }
-    ::v-deep td {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        max-width: calc(100% / 3);
-        word-break: break-all;
-        padding: 8px;
-        &:first-child {
-            // justify-content: left;
-            // margin-left: 30px;
-        }
-    }
 }
-::v-deep .custom.v-text-field>.v-input__control>.v-input__slot:before {
-    border-style: none;
-}
-::v-deep .custom.v-text-field>.v-input__control>.v-input__slot:after {
-    border-style: none;
-}
-::v-deep .custom {
+
+::v-deep .option-select {
     padding: 0;
+
     .v-input__slot {
         margin: 0;
+
+        &:before,
+        &:after {
+            border-style: none;
+        }
+
+        .v-text-field__prefix {
+            color: $dark;
+            padding-left: 30px
+        }
+
+        .v-select__selection {
+            &.v-select__selection--comma {
+                color: $blue;
+            }
+        }
+
+        .v-select__slot
+        {
+            width: min-content;
+            white-space: nowrap;
+        }
+
+        .v-icon {
+            color: $blue;
+        }
+    }
+    .v-text-field__details {
+        display: none;
     }
 }
-::v-deep .v-text-field__prefix {
-    color: $dark;
-    padding-left: 10px
-}
 
-::v-deep .v-select__selection.v-select__selection--comma {
-    color: $blue;
-    text-transform: capitalize;
-}
-
-::v-deep .v-list-item,
-::v-deep .v-select__slot
-{
+::v-deep .v-list-item {
     font-family: 'Gilroy';
     text-transform: capitalize;
-}
-
-::v-deep .v-select__slot {
-    width: min-content;
-    white-space: nowrap;
-}
-::v-deep .v-text-field__details {
-        display: none;
-}
-.header {
-    height: 52px;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Gilroy';
-    margin: 16px 16px;
-}
-::v-deep .header > * {
-    text-align: center;
-}
-
-.t {
-    max-width: 1032px;
 }
 </style>
