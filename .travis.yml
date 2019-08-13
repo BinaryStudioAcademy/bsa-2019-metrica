@@ -31,6 +31,7 @@ script:
   - docker-compose -f docker-compose.test.yml ps
   - docker-compose -f docker-compose.test.yml exec app composer install
   - docker-compose -f docker-compose.test.yml exec app php artisan key:generate
+  - docker-compose -f docker-compose.test.yml exec app php artisan jwt:secret
   - docker-compose -f docker-compose.test.yml exec app php artisan migrate --seed --force
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
   - docker-compose -f docker-compose.test.yml run node npm run lint
