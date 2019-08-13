@@ -14,7 +14,7 @@
             </svg>
         </VBtn>
         <VToolbarTitle class="hidden-sm-and-down username mr-6">
-            Hello, <span>{{ user.name }}</span>
+            Hello, <span>{{ user().name }}</span>
         </VToolbarTitle>
         <VAvatar>
             <img src="/assets/images/lady.png">
