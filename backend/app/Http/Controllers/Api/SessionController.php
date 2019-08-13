@@ -8,12 +8,19 @@ use App\Actions\Sessions\GetAllSessionsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SessionResourceCollection;
 use App\Http\Response\ApiResponse;
+use App\Http\Resources\AvgSession;
+use App\Actions\Sessions\GetAvgSessionAction;
+use App\Actions\Sessions\GetAvgSessionRequest;
+use App\Http\Requests\GetAvgSessionHttpRequest;
 
 final class SessionController extends Controller
 {
     private $getAllSessionsAction;
 
-    public function __construct(GetAllSessionsAction $getAllSessionsAction)
+    public function __construct(
+        GetAllSessionsAction $getAllSessionsAction,
+        GetAvgSessionAction $getAvgSessionAction
+    )
     {
         $this->getAllSessionsAction = $getAllSessionsAction;
     }
@@ -24,4 +31,14 @@ final class SessionController extends Controller
 
         return ApiResponse::success(new SessionResourceCollection($response->sessions()));
     }
+
+    public function getAverageSession(GetAvgSessionHttpRequest $request): ApiResponse
+    {
+        $response = $this->getAvgSessionAction->execute(
+            GetAvgSessionRequest::fromHttpRequest($request)
+        );
+
+        return ApiResponse::success(new AvgSession($response->avgSession()));
+    }
+
 }
