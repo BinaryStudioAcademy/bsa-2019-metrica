@@ -68,7 +68,7 @@
             },
             topPages: {
                 type: Array,
-                default: function () {
+                default: () =>  {
                     return ['link_1/juhy/kkk', 'link_2/juhy/klk', 'link_3/juk/jjj'];
                 }
             }
