@@ -8,7 +8,7 @@ interface VisitorRepository
 {
     public function all(): Collection;
 
-    public function countAll(): int;
+    public function countVisitorsBetweenDate(string $from, string $to): int;
 
     public function newest(): Collection;
 

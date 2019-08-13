@@ -16,9 +16,9 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::all();
     }
 
-    public function countAll(): int
+    public function countVisitorsBetweenDate(string $from, string $to): int
     {
-        return Visitor::count();
+        return Visitor::whereDateBetween($from, $to)->count();
     }
 
     public function newest(): Collection

@@ -22,7 +22,11 @@ final class GetBounceRateAction
                 $request->startDate(),
                 $request->endDate()
             );
-        $allVisitors = $this->visitorRepository->countAll();
+        $allVisitors = $this->visitorRepository
+            ->countVisitorsBetweenDate(
+                $request->startDate(),
+                $request->endDate()
+            );
 
         $bounceRate = $visitors/$allVisitors * 100;
 
