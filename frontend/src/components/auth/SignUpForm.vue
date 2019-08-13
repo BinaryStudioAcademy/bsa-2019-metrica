@@ -102,9 +102,9 @@
 <script>
     import {mapActions} from 'vuex';
     import {SIGNUP} from "@/store/modules/auth/types/actions";
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
     import { SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
-
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
     export default {
         data () {
@@ -125,11 +125,11 @@
                 ],
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => emailRegex.test(v) || 'E-mail must be valid'
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
@@ -156,14 +156,11 @@
                         this.showErrorMessage(err.message);
                     })
                 }
-                
             },
 
             onSignIn () {
-                return this.$router.push({path: '/login'});
+                return this.$router.push({name: 'login'});
             },
         },
-
-
     }
 </script>

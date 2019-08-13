@@ -14,11 +14,7 @@ export default {
     },
     [USER_LOGOUT]: (state) => {
         state.token = undefined;
-        state.currentUser = {
-            name: '',
-            email: '',
-            id: null
-        };
+        state.currentUser = undefined;
         state.isLoggedIn = false;
     },
     [SET_AUTHENTICATED_USER]: (state, user) => {

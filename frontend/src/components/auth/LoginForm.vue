@@ -67,11 +67,10 @@
     import {mapActions} from 'vuex';
     import {LOGIN} from "@/store/modules/auth/types/actions";
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
 
     export default {
-        created() {
-            this.showErrorMessage('Logged in');
-        },
         data() {
             return {
                 email: '',
@@ -79,11 +78,11 @@
                 valid: false,
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 8 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ]
             }
         },
