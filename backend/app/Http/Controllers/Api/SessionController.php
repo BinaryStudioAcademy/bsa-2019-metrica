@@ -8,7 +8,6 @@ use App\Actions\Sessions\GetAllSessionsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SessionResourceCollection;
 use App\Http\Response\ApiResponse;
-use App\Http\Requests\SessionHttpRequest;
 
 final class SessionController extends Controller
 {
