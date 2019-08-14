@@ -4,6 +4,7 @@ import {
     USER_LOGIN,
     USER_LOGOUT,
 } from "./types/mutations";
+import {updateUser} from '@/api/users';
 import {authorize, getAuthUser, registerUser} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
 
