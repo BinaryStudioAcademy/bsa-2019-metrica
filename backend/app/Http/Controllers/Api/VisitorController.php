@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Visitors\BounceRateAction;
+use App\Actions\Visitors\BounceRateRequest;
 use App\Actions\Visitors\GetAllVisitorsAction;
 use App\Actions\Visitors\GetNewestCountAction;
 use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
 use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
+use App\Http\Requests\Visitors\VisitorsBounceRateHttpRequest;
+use App\Http\Resources\VisitorBounceRateResourceCollection;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Resources\VisitorResourceCollection;
 use App\Http\Response\ApiResponse;
@@ -46,5 +50,10 @@ final class VisitorController extends Controller
     {
         $response = $action->execute(GetNewestCountRequest::fromRequest($request));
         return ApiResponse::success(new VisitorCountResource($response->getCount()));
+    }
+
+    public function getVisitorsBounceRate(VisitorsBounceRateHttpRequest $request, BounceRateAction $action){
+        $response = $action->execute(BounceRateRequest::fromRequest($request));
+        return ApiResponse::success(new VisitorBounceRateResourceCollection($response->getVisitorsBounceRateCollection()));
     }
 }
