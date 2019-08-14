@@ -37,10 +37,10 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'websites'
         ], function () {
+            Route::get('/', 'WebsiteController@getCurrentUserWebsite');
             Route::post('/', 'WebsiteController@add');
             Route::put('/{id}', 'WebsiteController@update');
         });
-
         Route::group([
             'prefix' => 'visitors'
         ], function () {

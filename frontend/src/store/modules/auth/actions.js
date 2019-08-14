@@ -1,10 +1,10 @@
-import { updateUser } from '@/api/users';
 import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
 import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
     USER_LOGOUT,
 } from "./types/mutations";
+import {updateUser} from '@/api/users';
 import {authorize, getAuthUser, registerUser} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
 

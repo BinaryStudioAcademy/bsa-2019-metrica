@@ -12,6 +12,8 @@ import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
 import WebsiteInfo from '../pages/WebsiteInfo.vue';
+import WebsiteGuard from '@/components/website/WebsiteGuard.vue';
+
 
 Vue.use(Router);
 
@@ -68,39 +70,50 @@ export default new Router({
                     component: Visitors
                 },
                 {
-                    path: 'website-info',
-                    name: 'websiteinfo',
-                    component: WebsiteInfo
-                },
-                {
-                    path: 'websites/add',
-                    component: AddWebsitePage,
+                    path: 'website',
+                    component: WebsiteGuard,
                     children: [
                         {
-                            path: 'step-1',
-                            name: 'add_websites_step_1',
-                            component: StepAddName,
-                            meta: {
-                                step: 1
-                            },
-                            props: true
+                            path: 'info',
+                            name: 'websiteinfo',
+                            component: WebsiteInfo
                         },
                         {
-                            path: 'step-2',
-                            name: 'add_websites_step_2',
-                            component: StepAddDomain,
-                            meta: {
-                                step: 2
-                            },
+                            path: 'add',
+                            component: AddWebsitePage,
+                            children: [
+                                {
+                                    path: '',
+                                    name: 'add_website',
+                                    redirect: { name: 'add_websites_step_1' },
+                                },
+                                {
+                                    path: 'step-1',
+                                    name: 'add_websites_step_1',
+                                    component: StepAddName,
+                                    meta: {
+                                        step: 1
+                                    },
+                                    props: true,
+                                },
+                                {
+                                    path: 'step-2',
+                                    name: 'add_websites_step_2',
+                                    component: StepAddDomain,
+                                    meta: {
+                                        step: 2
+                                    },
+                                },
+                                {
+                                    path: 'step-3',
+                                    name: 'add_websites_step_3',
+                                    component: StepTrackingInfo,
+                                    meta: {
+                                        step: 3
+                                    }
+                                }
+                            ]
                         },
-                        {
-                            path: 'step-3',
-                            name: 'add_websites_step_3',
-                            component: StepTrackingInfo,
-                            meta: {
-                                step: 3
-                            }
-                        }
                     ]
                 },
             ]
