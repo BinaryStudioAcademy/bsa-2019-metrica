@@ -23,7 +23,7 @@ final class EloquentVisitorRepository implements VisitorRepository
 
     public function newestCount(NewVisitorsCountFilterData $filterData): int
     {
-        return Visitor::whereBetween('created_at', [$filterData->getStartDate(), $filterData->getEndDate()])
+        return Visitor::whereCreatedAtBetween($filterData->getStartDate(), $filterData->getEndDate())
                 ->count();
     }
 }
