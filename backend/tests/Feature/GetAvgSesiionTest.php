@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 use App\Repositories\EloquentSessionRepository;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class GetAvgSesiionTest extends TestCase
+class GetAvgSessionTest extends TestCase
 {
 
     public function test_average_session_duration()
@@ -38,7 +38,7 @@ class GetAvgSesiionTest extends TestCase
             'os_id' => $oSId
         ])->id;
 
-        $sessions = factory(Session::class, 30)->create([
+        factory(Session::class, 30)->create([
             'visitor_id' => $websiteVisitors->pluck('id')->random(),
             'start_session' => $start_session->addDays(rand(0,4))->timestamp,
             'end_session' => $start_session->addSeconds(100)->timestamp,
