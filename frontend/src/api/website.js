@@ -7,4 +7,4 @@ const getCurrentUserWebsite = () => requestService.get(resourceUrl + '/');
 
 export {
     getCurrentUserWebsite
-}
+};

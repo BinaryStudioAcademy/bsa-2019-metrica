@@ -16,7 +16,7 @@
         data() {
             return {
                 isLoading: true
-            }
+            };
         },
         methods: {
             ...mapActions('website', {
@@ -28,5 +28,5 @@
                 this.isLoading = false;
             });
         }
-    }
+    };
 </script>
