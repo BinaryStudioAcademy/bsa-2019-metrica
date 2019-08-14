@@ -1,9 +1,5 @@
 export default {
-    currentUser: {
-        name: '',
-        email: '',
-        id: null
-    },
+    currentUser: undefined,
     isLoggedIn: false,
-    token: undefined
+    token: undefined,
 };
