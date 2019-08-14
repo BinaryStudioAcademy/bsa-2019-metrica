@@ -59,7 +59,7 @@
             }
         },
         created() {
-            if (this.isCurrentWebsite && (this.stepNumber() === 1 || this.stepNumber() === 2)) {
+            if (this.isCurrentWebsite) {
                 this.$router.replace({name: 'websiteinfo'});
             }
         }

@@ -18,7 +18,7 @@
         },
         created() {
             if (!this.isCurrentWebsite) {
-                this.$router.replace({name: 'add_websites_step_1'});
+                this.$router.replace({name: 'add_website'});
             }
         }
     }
