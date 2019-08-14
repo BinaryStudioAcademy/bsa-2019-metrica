@@ -18,7 +18,8 @@ class AddWebsiteIdToSessions extends Migration
 
             $table->foreign('website_id')
                 ->references('id')
-                ->on('websites');
+                ->on('websites')
+                ->onDelete('cascade');
         });
     }
 
@@ -31,6 +32,10 @@ class AddWebsiteIdToSessions extends Migration
     {
         Schema::table('sessions', function (Blueprint $table) {
             $table->dropForeign(['website_id']);
+
+            $table->foreign('website_id')
+                ->references('id')
+                ->on('websites');
 
             $table->dropColumn('website_id');
         });
