@@ -63,7 +63,7 @@
                 ],
                 status: '',
                 message: ''
-            }
+            };
         },
         computed: {
             showAlert: function () {
@@ -95,7 +95,7 @@
             }
         }
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

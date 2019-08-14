@@ -93,14 +93,14 @@
                             percentage: '55%'
                         }]
                 }
-            }
+            };
         },
         computed: {
             usersData() {
                 return this.items[this.selected];
             }
         }
-    }
+    };
 </script>
 
 <style scoped lang="scss">
