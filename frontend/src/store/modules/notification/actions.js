@@ -15,4 +15,4 @@ export default {
     [HIDE_MESSAGE]: ({ commit }) => {
         commit(HIDE);
     }
-}
+};

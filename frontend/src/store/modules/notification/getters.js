@@ -4,4 +4,4 @@ export default {
     [GET_TEXT]: state => state.text,
     [GET_TYPE]: state => state.type,
     [IS_ACTIVE]: state => state.active
-}
+};
