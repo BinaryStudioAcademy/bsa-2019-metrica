@@ -6,7 +6,8 @@
         multi-line
         :value="active"
         :color="type"
-        :timeout="0"
+        :timeout="3000"
+        @input="hideMessage"
     >
         <div class="justify-start">
             <VIcon color="white">
