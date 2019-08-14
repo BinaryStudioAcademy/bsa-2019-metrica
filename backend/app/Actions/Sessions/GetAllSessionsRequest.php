@@ -35,32 +35,40 @@ final class GetAllSessionsRequest
         return $this->start_session;
     }
 
-    public function getStartSession(): int
+    public function getVisitorId(): int
     {
         return $this->visitor_id;
     }
 
-    public function getStartSession(): int
+    public function getEntrancePageId(): int
     {
         return $this->entrance_page_id;
     }
 
-    public function getStartSession(): int
+    public function getDemographicId(): int
     {
         return $this->demographic_id;
     }
 
-    public function getStartSession(): int
+    public function getDeviceId(): int
     {
         return $this->device_id;
     }
 
-    public function getStartSession(): int
+    public function getSystemId(): int
     {
         return $this->system_id;
     }
 
-
-
-
+    public static function fromRequest(SessionHttpRequest $request): self
+    {
+        return new static(
+            $request->startSession(),
+            $request->visitorId(),
+            $request->entrancePageId(),
+            $request->demographicId(),
+            $request->deviceId(),
+            $request->systemId(),
+        );
+    }
 }
