@@ -55,7 +55,7 @@ export default {
                 default:
                     reject("User with this email does not exist. Please, check if the password is correct.");
             }
-        })
+        });
     },
 
     [FETCH_CURRENT_USER]: (context) => {
@@ -69,4 +69,4 @@ export default {
         });
     },
 
-}
+};

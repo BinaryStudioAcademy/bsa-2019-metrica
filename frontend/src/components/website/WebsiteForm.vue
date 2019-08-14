@@ -124,11 +124,11 @@
                 }).then((e) => {
                     this.showSuccessMessage = e.message;
                 }).catch((err) => {
-                    this.showErrorMessage = err.message
-                })
+                    this.showErrorMessage = err.message;
+                });
             }
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
