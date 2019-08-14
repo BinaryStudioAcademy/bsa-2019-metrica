@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Website;
 
-use App\Http\Requests\AddWebsiteHttpRequest;
+use App\Http\Requests\Api\AddWebsiteHttpRequest;
 
 final class AddWebsiteRequest
 {

@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
             Route::get('/new', 'VisitorController@getNewVisitors');
+            Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
         });
 
         Route::group([
