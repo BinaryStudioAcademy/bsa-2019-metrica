@@ -13,6 +13,7 @@ final class GetAllSessionsRequest
     private $demographic_id;
     private $device_id;
     private $system_id;
+    private $website_id;
 
     private function __construct(
         int $start_session,
@@ -20,7 +21,8 @@ final class GetAllSessionsRequest
         int $entrance_page_id,
         int $demographic_id,
         int $device_id,
-        int $system_id
+        int $system_id,
+        int $website_id
     ) {
         $this->start_session = $start_session;
         $this->visitor_id = $visitor_id;
@@ -28,6 +30,7 @@ final class GetAllSessionsRequest
         $this->demographic_id = $demographic_id;
         $this->device_id = $device_id;
         $this->system_id = $system_id;
+        $this->website_id = $website_id;
     }
 
     public function getStartSession(): int
@@ -60,6 +63,11 @@ final class GetAllSessionsRequest
         return $this->system_id;
     }
 
+    public function getWebsiteId(): int
+    {
+        return $this->website_id;
+    }
+
     public static function fromRequest(SessionHttpRequest $request): self
     {
         return new static(
@@ -69,6 +77,7 @@ final class GetAllSessionsRequest
             $request->demographicId(),
             $request->deviceId(),
             $request->systemId(),
+            $request->websiteId()
         );
     }
 }

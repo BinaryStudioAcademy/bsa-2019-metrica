@@ -16,9 +16,10 @@ final class Session extends Model
         'demographic_id',
         'device_id',
         'system_id',
+        'website_id',
     ];
 
-    protected $with = ['visitor', 'page', 'demographic', 'device', 'system'];
+    protected $with = ['visitor', 'page', 'demographic', 'device', 'system', 'website'];
 
     public function visitor(): BelongsTo
     {
@@ -43,5 +44,10 @@ final class Session extends Model
     public function system(): BelongsTo
     {
         return $this->belongsTo(System::class);
+    }
+
+    public function website(): BelongsTo
+    {
+        return $this->belongsTo(Website::class);
     }
 }

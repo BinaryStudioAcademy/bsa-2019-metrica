@@ -23,6 +23,7 @@ final class SessionHttpRequest extends FormRequest
             'demographic_id' => 'required|number',
             'device_id' => 'required|number',
             'system_id' => 'required|number',
+            'website_id' => 'required|number',
         ];
     }
 
@@ -54,5 +55,10 @@ final class SessionHttpRequest extends FormRequest
     public function systemId(): integer
     {
         return $this->get('system_id');
+    }
+
+    public function websiteId(): integer
+    {
+        return $this->get('website_id');
     }
 }

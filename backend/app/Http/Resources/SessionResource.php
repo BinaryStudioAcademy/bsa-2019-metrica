@@ -18,6 +18,7 @@ final class SessionResource extends JsonResource implements ApiResponse
             'demographic_id' => $this->demographic_id,
             'device_id' => $this->device_id,
             'system_id' => $this->system_id,
+            'website_id' => $this->website_id,
         ];
     }
 }
