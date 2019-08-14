@@ -8,6 +8,6 @@ module.exports = {
         }
     },
     configureWebpack: (config) => {
-        config.devtool = 'source-map'
+        config.devtool = 'source-map';
     },
-}
+};

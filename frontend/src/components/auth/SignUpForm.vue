@@ -135,7 +135,7 @@
                     v => !!v || 'Password is required',
                     v => v === this.newUser.password || 'Password should match'
                 ]
-            }
+            };
         },
         methods: {
             ...mapActions('auth', {
@@ -154,7 +154,7 @@
                         this.$router.push({name: 'login'});
                     }, err => {
                         this.showErrorMessage(err.message);
-                    })
+                    });
                 }
             },
 
@@ -162,5 +162,5 @@
                 return this.$router.push({name: 'login'});
             },
         },
-    }
+    };
 </script>

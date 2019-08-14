@@ -18,7 +18,7 @@
             Footer,
             Notification
         }
-    }
+    };
 </script>
 
 <style lang="scss">

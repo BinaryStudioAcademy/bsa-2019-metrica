@@ -9,5 +9,5 @@
         components: {
             TopNavbar
         }
-    }
+    };
 </script>

@@ -84,7 +84,7 @@
                     v => !!v || 'Password is required',
                     v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ]
-            }
+            };
         },
         methods: {
             ...mapActions('auth', {
@@ -104,11 +104,11 @@
                         this.showSuccessMessage('Logged in');
                     }, err => {
                         this.showErrorMessage(err.message);
-                    })
+                    });
                 }
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
