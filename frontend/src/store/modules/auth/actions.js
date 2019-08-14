@@ -1,6 +1,5 @@
-
 import { updateUser } from '@/api/users';
-import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, UPDATE, FETCH_CURRENT_USER} from './types/actions';
+import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
 import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
@@ -32,17 +31,11 @@ export default {
         });
     },
 
-    [UPDATE]: (context, data) => {
-        return new Promise((resolve, reject) => {
-            const user = updateUser(data);
-            if(user === "undefined"){
-                return reject();
-            }
-            context.commit(SET_AUTHENTICATED_USER, user);
-
-            return resolve();
-        });
-
+    [UPDATE_USER]: (context, user) => {
+        return updateUser(user)
+            .then(response => {
+                context.commit(SET_AUTHENTICATED_USER, response.data);
+            });
     },
 
     [SIGNUP]: (context, newUser) => {

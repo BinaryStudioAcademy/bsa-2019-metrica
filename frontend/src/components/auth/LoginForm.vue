@@ -66,6 +66,8 @@
 <script>
     import {mapActions} from 'vuex';
     import {LOGIN} from "@/store/modules/auth/types/actions";
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
 
     export default {
         data() {
@@ -75,11 +77,11 @@
                 valid: false,
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 8 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ]
             }
         },
