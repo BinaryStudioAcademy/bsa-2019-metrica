@@ -26,4 +26,4 @@ export default {
         };
         state.isCurrentWebsite = false;
     }
-}
+};

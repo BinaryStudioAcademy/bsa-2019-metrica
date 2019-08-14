@@ -21,5 +21,5 @@
                 this.$router.replace({name: 'add_website'});
             }
         }
-    }
+    };
 </script>

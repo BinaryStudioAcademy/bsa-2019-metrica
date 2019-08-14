@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from '../pages/Login.vue'
+import Login from '../pages/Login.vue';
 import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
 import SignUp from "../pages/SignUp.vue";

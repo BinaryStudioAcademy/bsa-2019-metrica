@@ -21,7 +21,7 @@
         data() {
             return {
                 isLoading: true
-            }
+            };
         },
         computed: {
             ...mapGetters('auth', {
@@ -38,5 +38,5 @@
                 this.isLoading = false;
             });
         }
-    }
+    };
 </script>
