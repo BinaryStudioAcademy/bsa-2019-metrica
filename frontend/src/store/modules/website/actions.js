@@ -3,9 +3,11 @@ import {SET_CURRENT_WEBSITE, UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO, RESET_CUR
 import {addWebsite, getCurrentUserWebsite} from '@/api/website';
 
 export default {
+
     [SET_WEBSITE_DATA]: (context, data) => {
         context.commit(SET_WEBSITE_INFO, data);
     },
+
     [FETCH_CURRENT_WEBSITE]: (context) => {
         return getCurrentUserWebsite().then(response => {
             context.commit(SET_CURRENT_WEBSITE, response.data);
@@ -71,6 +73,7 @@ export default {
                         }
                     });
     },
+
     [UPDATE_WEBSITE]: (context, name) => {
         return new Promise((resolve, reject) => {
             const website = {
