@@ -46,7 +46,7 @@
                 active: IS_ACTIVE
             }),
             icon: function () {
-                return this.type === 'success' ? 'check' : 'error'
+                return this.type === 'success' ? 'check' : 'error';
             }
         },
         methods: {
@@ -54,7 +54,7 @@
                 hideMessage: HIDE_MESSAGE
             })
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
