@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Contracts\Visitors\NewVisitorsCountFilterData;
 use Illuminate\Database\Eloquent\Collection;
 
 interface VisitorRepository
@@ -11,6 +12,8 @@ interface VisitorRepository
     public function countVisitorsBetweenDate(string $from, string $to): int;
 
     public function newest(): Collection;
+
+    public function newestCount(NewVisitorsCountFilterData $filterData): int;
 
     public function countSinglePageInactiveSessionBetweenDate(string $from, string $to): int;
 }

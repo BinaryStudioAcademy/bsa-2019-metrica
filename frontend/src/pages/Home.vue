@@ -40,7 +40,7 @@
                 md6
             >
                 <VImg
-                    src="/assets/images/man.png"
+                    src="/assets/images/home.png"
                     alt="Man"
                 />
             </VFlex>
