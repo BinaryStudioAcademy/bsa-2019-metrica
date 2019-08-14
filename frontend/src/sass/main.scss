@@ -1,1 +1,6 @@
+// trying to redifine some default variables
+// e.g. getting rid of the button's border radius
+
+$btn-border-radius: 0px;
+$btn-font-size: 40px;
 @import '~vuetify/src/styles/styles.sass';
