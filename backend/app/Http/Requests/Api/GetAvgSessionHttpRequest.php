@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
 use App\Http\Request\ApiFormRequest;
 
@@ -18,11 +18,11 @@ final class GetAvgSessionHttpRequest extends ApiFormRequest
 
     public function startDate(): int
     {
-        return (int)$this->get('filter.startDate');
+        return (int)$this->validated()['filter']['startDate'];
     }
 
     public function endDate(): int
     {
-        return (int)$this->get('filter.endDate');
+        return (int)$this->validated()['filter']['endDate'];
     }
 }

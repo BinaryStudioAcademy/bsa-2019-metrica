@@ -3,13 +3,14 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Contracts\ApiResponse;
 
-class AvgSession extends JsonResource
+class AvgSession extends JsonResource implements ApiResponse
 {
-    public function toArray(int $avgSession): array
+    public function toArray($request): array
     {
         return [
-            'avg_session' => $this->convertSecondsToHoursMinutesSeconds($avgSession)
+            'avg_session' => $this->convertSecondsToHoursMinutesSeconds($this->resource)
         ];
     }
 

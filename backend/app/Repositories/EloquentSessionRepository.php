@@ -20,22 +20,21 @@ class EloquentSessionRepository implements SessionRepository
 
     public function getAvgSession(GetAvgSessionRequest $request): int
     {
-
-        // it will be actual when User->Website relations is changed to OneToOne
         $websiteId = auth()->user()->website->id;
 
         $visitorsIDsOfWebsite = Visitor::where('website_id', $websiteId)
-                                        ->get(['id']);
+                                        ->get()
+                                        ->pluck('id');
 
         $avgSession = Session::whereIn('visitor_id', $visitorsIDsOfWebsite)
-                        ->where('start_session', '>=', $request->startDate())
-                        ->where('start_session', '<=', $request->endDate())
-                        ->get(['start_session', 'end_session'])
+                        ->where('start_session', '>=', Carbon::createFromTimestamp($request->startDate())->toDateString())
+                        ->where('start_session', '<=', Carbon::createFromTimestamp($request->endDate())->toDateString())
+                        ->get()
                         ->map(function ($session) {
                             return $session->end_session->diffInSeconds($session->start_session);
                         })
                         ->avg();
 
-        return round($avgSession);
+        return (int)round($avgSession);
     }
 }
