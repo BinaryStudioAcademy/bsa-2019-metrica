@@ -31,7 +31,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'users'
         ], function () {
-            Route::put('/{id}', 'UserController@update')->where('id', '[0-9]+');
+            Route::put('/me', 'UserController@update');
         });
 
         Route::group([
@@ -53,6 +53,12 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
+        });
+
+        Route::group([
+           'prefix' => 'visits'
+        ], function(){
+            Route::get('/', 'VisitController@getPageViews');
         });
     });
 });
