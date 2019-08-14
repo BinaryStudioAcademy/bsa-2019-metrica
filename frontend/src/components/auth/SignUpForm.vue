@@ -104,6 +104,7 @@
     import {SIGNUP} from "@/store/modules/auth/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
+    import { SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
 
     export default {
         data () {
@@ -140,6 +141,9 @@
             ...mapActions('auth', {
                 signup: SIGNUP
             }),
+            ...mapActions('notification', {
+                showErrorMessage: SHOW_ERROR_MESSAGE
+            }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
                     this.signup({
@@ -149,7 +153,7 @@
                     }).then(() => {
                         this.$router.push({name: 'login'});
                     }, err => {
-                        alert(err.message);
+                        this.showErrorMessage(err.message);
                     });
                 }
             },
