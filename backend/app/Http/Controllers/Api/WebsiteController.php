@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
@@ -7,12 +8,12 @@ use App\Actions\Website\AddWebsiteAction;
 use App\Actions\Website\AddWebsiteRequest;
 use App\Actions\Website\EditWebsiteAction;
 use App\Actions\Website\EditWebsiteRequest;
-use App\Http\Requests\AddWebsiteHttpRequest;
-use App\Http\Requests\EditWebsiteHttpRequest;
+use App\Http\Requests\Api\AddWebsiteHttpRequest;
+use App\Http\Requests\Api\EditWebsiteHttpRequest;
 use App\Http\Resources\WebsiteResource;
 use App\Http\Response\ApiResponse;
 
-class WebsiteController
+final class WebsiteController
 {
     private $addWebsiteAction;
 
