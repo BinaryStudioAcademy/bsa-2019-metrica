@@ -2,9 +2,10 @@ module.exports = {
     css: {
         loaderOptions: {
             sass: {
-                data: `@import "~@/sass/main.scss"`,
+                data: `@import "~@/scss/main.scss"`,
             },
         },
+        sourceMap: true,
     },
     devServer: {
         host: '0.0.0.0',
@@ -15,12 +16,12 @@ module.exports = {
         }
     },
     configureWebpack: (config) => {
-        config.devtool = 'source-map'
+        config.devtool = 'source-map';
     },
     chainWebpack: config => {
         ["vue-modules", "vue", "normal-modules", "normal"].forEach((match) => {
             config.module.rule('scss').oneOf(match).use('sass-loader')
-                .tap(opt => Object.assign(opt, { data: `@import '~@/sass/main.scss';` }))
+                .tap(opt => Object.assign(opt, { data: `@import '~@/scss/main.scss';` }))
         })
     }
-}
+};
