@@ -3,8 +3,11 @@ import config from "@/config";
 
 const resourceUrl = config.getApiUrl() + '/websites';
 
-const getCurrentUserWebsite = () => requestService.get(resourceUrl + '/');
+const getCurrentUserWebsite = () => requestService.get(resourceUrl);
+
+const addWebsite = data => requestService.create(resourceUrl, data);
 
 export {
-    getCurrentUserWebsite
+    getCurrentUserWebsite,
+    addWebsite
 };

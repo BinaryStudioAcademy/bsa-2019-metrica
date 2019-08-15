@@ -22,8 +22,7 @@ final class VisitorController extends Controller
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
         GetNewVisitorsAction $getNewVisitorsAction
-    )
-    {
+    ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
     }
