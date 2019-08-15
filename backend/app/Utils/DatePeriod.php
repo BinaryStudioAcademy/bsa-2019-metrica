@@ -3,12 +3,10 @@
 
 namespace App\Utils;
 
-
 use App\Exceptions\AppInvalidArgumentException;
 
 class DatePeriod implements \App\Contracts\Common\DatePeriod
 {
-
     private $startDate;
     private $endDate;
 
@@ -17,7 +15,7 @@ class DatePeriod implements \App\Contracts\Common\DatePeriod
      */
     public function __construct(\DateTime $startDate, \DateTime $endDate)
     {
-        if ($startDate > $endDate){
+        if ($startDate > $endDate) {
             throw  new AppInvalidArgumentException('Start date can\'t be greater then end date');
         }
         $this->startDate = $startDate;
@@ -43,7 +41,7 @@ class DatePeriod implements \App\Contracts\Common\DatePeriod
             $startDate = new \DateTime('@' . $start);
             $endDate = new \DateTime('@' . $end);
             return new static($startDate, $endDate);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new AppInvalidArgumentException($e->getMessage());
         }
     }

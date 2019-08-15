@@ -5,5 +5,4 @@ namespace App\Actions\Website;
 
 final class AddWebsiteResponse extends AbstractWebsiteResponse
 {
-
 }
