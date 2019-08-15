@@ -45,7 +45,7 @@
                 </VForm>
                 <VBtn
                     @click="onLogin"
-                    class="login-form-button mt-9"
+                    class="mt-9"
                     color="primary"
                 >
                     Login
