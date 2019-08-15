@@ -3,7 +3,6 @@
 
 namespace App\Http\Requests\Visitors;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 abstract class AbstractVisitorsFilterHttpRequest extends FormRequest

@@ -28,6 +28,5 @@ final class PageViewsApiTest extends TestCase
         $headers = ['Authorization' => "Bearer $token"];
 
         $this->actingAs($this->user)->get(self::API_URL, $headers)->assertOk();
-
     }
 }

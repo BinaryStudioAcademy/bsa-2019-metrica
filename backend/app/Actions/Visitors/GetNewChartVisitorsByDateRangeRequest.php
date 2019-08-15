@@ -3,7 +3,6 @@
 
 namespace App\Actions\Visitors;
 
-
 use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
 
 class GetNewChartVisitorsByDateRangeRequest
