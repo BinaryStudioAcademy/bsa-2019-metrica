@@ -10,7 +10,7 @@
             <VForm
                 ref="form"
             >
-                <div class="inline-element">
+                <div class="inline-element mb-4">
                     <label>Website Name</label>
                     <VTextField
                         name="website"
@@ -24,7 +24,7 @@
                         required
                     />
                 </div>
-                <div class="inline-element">
+                <div class="inline-element mb-4">
                     <label>Website Address</label>
                     <VTextField
                         name="address"
@@ -49,10 +49,11 @@
                     <span>Tracking ID: </span>
                     <span>{{ currentWebsite.tracking_number }}</span>
                 </p>
-                <VCardActions>
+                <VCardActions class="px-0 mt-8 mb-12">
                     <VBtn
                         @click="update"
                         color="primary"
+                        width="125"
                     >
                         Update
                     </VBtn>
@@ -61,7 +62,7 @@
             <div>
                 <div>
                     <h2>WebSite Tracking</h2>
-                    <p>
+                    <p class="mt-4">
                         This is Global Site tag tracking code for you website.
                         Copy and Paste this code as the
                         first item into the &lt;HEAD> of every Webpage you want to track
