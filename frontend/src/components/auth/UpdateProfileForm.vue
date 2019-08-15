@@ -154,7 +154,7 @@
                     this.update(this.editUser)
                         .catch((error) => {
                             alert(error.message);
-                        })
+                        });
                 }
             },
         }

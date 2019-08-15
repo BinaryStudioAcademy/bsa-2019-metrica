@@ -14,5 +14,5 @@
         components: {
             Sidenav
         }
-    }
+    };
 </script>
