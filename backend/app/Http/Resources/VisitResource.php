@@ -12,7 +12,8 @@ final class VisitResource extends ResourceCollection implements ApiResponse
     public function toArray($request): array
     {
         return [
-            'views' => $this->collection
+            'date' => '1565846640',
+            'visits' => 1,
         ];
     }
 }

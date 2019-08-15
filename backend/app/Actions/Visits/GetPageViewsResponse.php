@@ -15,7 +15,7 @@ final class GetPageViewsResponse
         $this->views = $views;
     }
 
-    public function views(): Collection
+    public function views()
     {
         return $this->views;
     }

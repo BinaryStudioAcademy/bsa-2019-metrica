@@ -56,7 +56,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
-           'prefix' => 'visits'
+           'prefix' => 'chart-visits'
         ], function(){
             Route::get('/', 'VisitController@getPageViews');
         });
