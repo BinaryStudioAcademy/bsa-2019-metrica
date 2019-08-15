@@ -9,7 +9,7 @@ class VisitorsBounceRateResponseItem
     private $timeStamp;
     private $rate;
 
-    public function __construct(int $timeStamp, int $rate)
+    public function __construct(int $timeStamp, float $rate)
     {
         $this->timeStamp = $timeStamp;
         $this->rate = $rate;
@@ -20,7 +20,7 @@ class VisitorsBounceRateResponseItem
         return $this->timeStamp;
     }
 
-    public function getRate(): int
+    public function getRate(): float
     {
         return $this->rate;
     }
