@@ -4,9 +4,9 @@
 namespace App\Actions\Visitors;
 
 
-use App\Http\Requests\Visitors\GetNewVisitorsHttpRequest;
+use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
 
-class GetNewVisitorsByDateRangeRequest
+class GetNewChartVisitorsByDateRangeRequest
 {
     private $startDate;
     private $endDate;
@@ -34,7 +34,7 @@ class GetNewVisitorsByDateRangeRequest
         return $this->period;
     }
 
-    public static function fromRequest(GetNewVisitorsHttpRequest $request): self
+    public static function fromRequest(GetNewChartVisitorsHttpRequest $request): self
     {
         return new static(
             $request->getStartDate(),

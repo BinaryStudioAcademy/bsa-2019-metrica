@@ -4,7 +4,7 @@
 namespace App\Http\Requests\Visitors;
 
 
-class GetNewVisitorsHttpRequest extends AbstractVisitorsFilterHttpRequest
+class GetNewChartVisitorsHttpRequest extends AbstractVisitorsFilterHttpRequest
 {
     public function rules(): array
     {

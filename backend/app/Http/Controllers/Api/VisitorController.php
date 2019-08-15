@@ -8,10 +8,12 @@ use App\Actions\Visitors\GetAllVisitorsAction;
 use App\Actions\Visitors\GetNewestCountAction;
 use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
-use App\Actions\Visitors\GetNewVisitorsByDateRangeAction;
-use App\Actions\Visitors\GetNewVisitorsByDateRangeRequest;
+use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
+use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
 use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
-use App\Http\Requests\Visitors\GetNewVisitorsHttpRequest;
+use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
+use App\Http\Resources\ChartNewVisitorResource;
+use App\Http\Resources\ChartNewVisitorResourceCollection;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Resources\VisitorResourceCollection;
 use App\Http\Response\ApiResponse;
@@ -26,7 +28,7 @@ final class VisitorController extends Controller
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
         GetNewVisitorsAction $getNewVisitorsAction,
-        GetNewVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction
+        GetNewChartVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction
     )
     {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
@@ -54,9 +56,9 @@ final class VisitorController extends Controller
         return ApiResponse::success(new VisitorCountResource($response->getCount()));
     }
 
-    public function getNewVisitorsByDateRange(GetNewVisitorsHttpRequest $request)
+    public function getNewVisitorsByDateRange(GetNewChartVisitorsHttpRequest $request)
     {
-        $response = $this->getNewVisitorsByDateRangeAction->execute(GetNewVisitorsByDateRangeRequest::fromRequest($request));
-        return response()->json(['data'=>$response]);
+        $response = $this->getNewVisitorsByDateRangeAction->execute(GetNewChartVisitorsByDateRangeRequest::fromRequest($request));
+        return ApiResponse::success(new ChartNewVisitorResourceCollection($response->getVisitorsByDateRange()));
     }
 }
