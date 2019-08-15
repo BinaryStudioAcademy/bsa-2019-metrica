@@ -10,7 +10,7 @@ final class Timestamp implements Rule
 {
     public function passes($attribute, $value): bool
     {
-        if (is_numeric($value)) {
+        if (is_numeric($value) && strlen($value) <= 10) {
             return strtotime('@' . $value) !== false;
         }
         return false;
