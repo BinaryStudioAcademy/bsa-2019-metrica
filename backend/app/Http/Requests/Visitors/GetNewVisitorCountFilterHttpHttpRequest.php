@@ -3,7 +3,6 @@
 
 namespace App\Http\Requests\Visitors;
 
-
 class GetNewVisitorCountFilterHttpHttpRequest extends AbstractVisitorsFilterHttpRequest
 {
     public function rules(): array
