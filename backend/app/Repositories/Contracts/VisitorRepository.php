@@ -12,4 +12,7 @@ interface VisitorRepository
     public function newest(): Collection;
 
     public function newestCount(NewVisitorsCountFilterData $filterData): int;
+
+    public function getVisitorsOfWebsite(int $websiteId): Collection;
+
 }
