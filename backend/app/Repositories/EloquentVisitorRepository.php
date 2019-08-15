@@ -21,7 +21,9 @@ final class EloquentVisitorRepository implements VisitorRepository
     {
         return Visitor::whereHas('sessions', function (Builder $query) use ($from, $to) {
             $query->whereDateBetween($from, $to);
-        })->count();
+        })
+            ->forUserWebsite()
+            ->count();
     }
 
     public function newest(): Collection
@@ -43,6 +45,7 @@ final class EloquentVisitorRepository implements VisitorRepository
                     ->has('visits', '=', '1')
                     ->inactive($to);
             })
+            ->forUserWebsite()
             ->count();
     }
 }
