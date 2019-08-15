@@ -117,9 +117,9 @@
                         this.isLoading = false;
                         this.$emit("success");
                         this.showSuccessMessage('Logged in');
-                    }, err => {
+                    }).catch((error) => {
                         this.isLoading = false;
-                        this.showErrorMessage(err.message);
+                        this.showErrorMessage(error);
                     });
                 }
             }

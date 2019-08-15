@@ -7,7 +7,10 @@ const getCurrentUserWebsite = () => requestService.get(resourceUrl);
 
 const addWebsite = data => requestService.create(resourceUrl, data);
 
+const updateWebsite = (data, id) => requestService.update(resourceUrl + '/' + id, data);
+
 export {
     getCurrentUserWebsite,
-    addWebsite
+    addWebsite,
+    updateWebsite
 };
