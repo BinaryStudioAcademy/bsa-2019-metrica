@@ -19,7 +19,9 @@ final class EloquentVisitorRepository implements VisitorRepository
 
     public function countVisitorsBetweenDate(string $from, string $to): int
     {
-        return Visitor::whereDateBetween($from, $to)->count();
+        return Visitor::whereHas('sessions', function (Builder $query) use ($from, $to) {
+            $query->whereDateBetween($from, $to);
+        })->count();
     }
 
     public function newest(): Collection
@@ -39,7 +41,7 @@ final class EloquentVisitorRepository implements VisitorRepository
             ->whereHas('sessions', function (Builder $query) use ($from, $to) {
                 $query->whereDateBetween($from, $to)
                     ->has('visits', '=', '1')
-                    ->inactive();
+                    ->inactive($to);
             })
             ->count();
     }
