@@ -25,7 +25,7 @@
 <script>
     import {mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER, IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
-    import UserControls from './UserControls.vue'
+    import UserControls from './UserControls.vue';
 
     export default {
         components: { UserControls },
@@ -35,7 +35,7 @@
                 user: GET_AUTHENTICATED_USER
             })
         }
-    }
+    };
 </script>
 
 <style scoped lang="scss">

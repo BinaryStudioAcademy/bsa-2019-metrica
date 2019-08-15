@@ -19,12 +19,6 @@ deploy_image() {
 
 # sets $task_definition
 make_task_def() {
-	aws_log='
-		{
-			"logDriver": "syslog"
-		}
-	'
-
     aws_cloudwatch='{
         "logDriver": "awslogs",
         "options": {

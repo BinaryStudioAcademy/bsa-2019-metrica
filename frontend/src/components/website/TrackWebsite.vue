@@ -19,7 +19,7 @@
         name: 'TrackWebsite',
         props: {
             trackingNumber: {
-                type: Number,
+                type: [Number, String],
                 required: true
             }
         }
