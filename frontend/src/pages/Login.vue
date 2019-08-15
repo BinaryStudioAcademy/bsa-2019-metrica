@@ -14,5 +14,5 @@
                 this.$router.push({name: 'visitors'});
             },
         },
-    }
+    };
 </script>

@@ -7,4 +7,4 @@ const updateUser = params => requestService.update(resourceUrl + '/me', params);
 
 export {
     updateUser
-}
+};

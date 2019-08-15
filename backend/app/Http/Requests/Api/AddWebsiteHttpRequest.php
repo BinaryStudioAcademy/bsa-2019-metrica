@@ -10,8 +10,8 @@ final class AddWebsiteHttpRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'domain' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:websites,name',
+            'domain' => 'required|string|max:255|unique:websites,domain',
             'single_page' => 'boolean',
         ];
     }

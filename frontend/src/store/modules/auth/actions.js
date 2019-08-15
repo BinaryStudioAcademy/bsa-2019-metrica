@@ -1,10 +1,10 @@
-import { updateUser } from '@/api/users';
 import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
 import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
     USER_LOGOUT,
 } from "./types/mutations";
+import {updateUser} from '@/api/users';
 import {authorize, getAuthUser, registerUser} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
 
@@ -55,7 +55,7 @@ export default {
                 default:
                     reject("User with this email does not exist. Please, check if the password is correct.");
             }
-        })
+        });
     },
 
     [FETCH_CURRENT_USER]: (context) => {
@@ -69,4 +69,4 @@ export default {
         });
     },
 
-}
+};
