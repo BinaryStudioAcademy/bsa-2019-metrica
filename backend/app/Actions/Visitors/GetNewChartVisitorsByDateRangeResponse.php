@@ -3,7 +3,6 @@
 
 namespace App\Actions\Visitors;
 
-
 use Illuminate\Support\Collection;
 
 class GetNewChartVisitorsByDateRangeResponse
