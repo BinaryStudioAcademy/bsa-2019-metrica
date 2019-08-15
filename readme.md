@@ -6,7 +6,9 @@
 
 ## Description
 
-Metrica is an analog of Google Analytics. The main purpose is to collect data from web pages, handle it and visualize.
+[Metrica](https://metrica.fun) is an analog of Google Analytics. The main purpose is to collect data from web pages, handle it and visualize.
+
+[![Metrica](Metrica.svg)](https://metrica.fun)
 
 ## Installation. Unix
 
@@ -57,8 +59,7 @@ Open browser:
 
 `http://localhost:3000`
 
-
-### Elasticsearch troubleshoot:
+### Elasticsearch troubleshoot
 
 The vm.max_map_count kernel setting needs to be set to at least 262144 for production use. Depending on your platform:
 
