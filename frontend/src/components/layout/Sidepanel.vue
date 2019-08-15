@@ -49,7 +49,7 @@
                                 </VLayout>
                             </VListItem>
                         </template>
-                        <VList>
+                        <VList ml-6>
                             <RouterLink
                                 v-for="sublink in link.sublinks"
                                 :key="sublink.text"
@@ -114,7 +114,17 @@
                 {
                     icon: '/assets/icons/settings.svg',
                     text: 'Settings',
-                    route: 'settings'
+                    route: 'settings',
+                    sublinks: [
+                        {
+                            text: 'User',
+                            route: 'user-update',
+                        },
+                        {
+                            text: 'Website',
+                            route: 'websiteinfo',
+                        },
+                    ]
                 },
             ]
         })
@@ -149,6 +159,11 @@ a .v-list-item {
         fill: $grey;
     }
 }
+.v-list-group__items {
+    .v-list-item {
+        color: $grey;
+    }
+}
 
 .router-link-active {
     .v-list-item {
@@ -161,9 +176,7 @@ a .v-list-item {
             fill-opacity: 1;
         }
     }
-}
 
-.router-link-active {
     .v-list-group__items {
         .v-list-item {
             border-left: none;
@@ -173,4 +186,5 @@ a .v-list-item {
         }
     }
 }
+
 </style>
