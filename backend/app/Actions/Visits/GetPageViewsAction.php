@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Visits;
 
-use App\Actions\Visits\GetPageViewsRequest;
 use App\Repositories\Contracts\ChartVisitRepository;
 
 final class GetPageViewsAction
@@ -18,6 +17,8 @@ final class GetPageViewsAction
 
     public function execute(GetPageViewsRequest $request): GetPageViewsResponse
     {
-        return new GetPageViewsResponse($this->visitRepository->findByFilter($request->getFilterData(), $request->getInterval()));
+       $data =  $this->visitRepository->findByFilter($request->getFilterData(), $request->getInterval());
+
+        return new GetPageViewsResponse($data->modelsFromRawResults());
     }
 }

@@ -23,7 +23,7 @@ final class VisitController extends Controller
     public function getPageViews(GetPageViewsFilterHttpHttpRequest $request, GetPageViewsAction $action)
     {
         $response = $action->execute(GetPageViewsRequest::fromRequest($request));
-        return ApiResponse::success(new VisitResource($response->views()));
 
+        return ApiResponse::success(new VisitResource($response->views()));
     }
 }

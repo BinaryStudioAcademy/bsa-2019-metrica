@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Visit extends Model
 {
-    public $date;
-    public $visits;
     protected $fillable = [
         'visit_time',
         'ip_address',
@@ -20,20 +18,4 @@ final class Visit extends Model
     ];
 
     protected $with = ['session', 'pages', 'visitors', 'devices'];
-
-    public static function modelsFromRawResults($rawResult = [])
-    {
-        $objects = [];
-
-        foreach($rawResult as $result)
-        {
-            $object = new static();
-
-            $object->setRawAttributes((array)$result, true);
-
-            $objects[] = $object;
-        }
-
-        return new Collection($objects);
-    }
 }

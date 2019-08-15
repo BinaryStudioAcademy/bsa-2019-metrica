@@ -59,19 +59,24 @@ class VisitsApiTest extends TestCase
         ]);
 
         $expectedData = [
-            'data' => [
-                 'date' => '1565846640',
-                 'visits' => 1
+            'data' =>
+            [
+                [
+                    [
+                        'date' => '1565846640',
+                        'visits' => 1
+                    ]
+                ]
 
             ],
             'meta' => [],
         ];
+
 
        $request =  $this->actingAs($this->user)
             ->call('GET', 'api/v1/chart-visits/', $filterData)
             ->assertStatus(200)
            ->assertJson($expectedData)
         ;
-
     }
 }

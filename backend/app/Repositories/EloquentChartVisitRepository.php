@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Contracts\Visits\PageViewsFilterData;
-use App\Entities\Visit;
+use App\DataTransformer\DataTransformerInterface;
+use App\DataTransformer\visits\ChartVisitDataTransformer;
 use App\Repositories\Contracts\ChartVisitRepository;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 final class EloquentChartVisitRepository implements ChartVisitRepository
 {
-
-    public function findByFilter(PageViewsFilterData $filterData, int $interval): Collection
+    public function findByFilter(PageViewsFilterData $filterData, int $interval): DataTransformerInterface
     {
         $result =  DB::select( (string)DB::raw("SELECT COUNT(*) as visits, date FROM (
                     SELECT visits.*,
@@ -28,6 +27,7 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
             'start_date' => $filterData->getStartDate()->getTimestamp(),
             'end_date' => $filterData->getEndDate()->getTimestamp(),
         ]);
-        return Visit::modelsFromRawResults($result);
+
+        return new ChartVisitDataTransformer($result);
     }
 }
