@@ -159,7 +159,9 @@ class VisitorsApiTest extends TestCase
 
         $visitor = factory(Visitor::class)->create();
 
-        if ($sessionCount === 0) return;
+        if ($sessionCount === 0) {
+            return;
+        }
 
         $sessions = factory(Session::class, $sessionCount)
             ->create([
@@ -173,7 +175,7 @@ class VisitorsApiTest extends TestCase
                         'visitor_id' => $visitor->id
                     ])
                 );
-        });
+            });
 
         $visitor->sessions()->saveMany($sessions);
     }
