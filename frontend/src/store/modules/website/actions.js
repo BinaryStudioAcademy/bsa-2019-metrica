@@ -44,35 +44,42 @@ export default {
         }
 
         return addWebsite(newDataSite)
-                    .then( response => context.commit(SET_CURRENT_WEBSITE, response.data))
-                    .catch( error => {
+            .then( response => context.commit(SET_CURRENT_WEBSITE, response.data))
+            .catch( error => {
+                const errorBag = error.response.data.errors;
 
-                        let errorBag = error.response.data.errors;
+                if (!errorBag) {
+                    throw {
+                        errors: {
+                            message: "Unknown error"
+                        },
+                    };
+                }
 
-                        if (errorBag.name) {
-                            throw {
-                                errors: {
-                                    name: errorBag.name
-                                }
-                            };
+                if (errorBag.name) {
+                    throw {
+                        errors: {
+                            name: errorBag.name
                         }
+                    };
+                }
 
-                        if (errorBag.domain) {
-                            throw {
-                                errors: {
-                                    domain: errorBag.domain
-                                }
-                            };
+                if (errorBag.domain) {
+                    throw {
+                        errors: {
+                            domain: errorBag.domain
                         }
+                    };
+                }
 
-                        if (errorBag && !errorBag.name && !errorBag.domain) {
-                            throw {
-                                errors: {
-                                    message: errorBag
-                                }
-                            };
+                if (errorBag) {
+                    throw {
+                        errors: {
+                            message: errorBag
                         }
-                    });
+                    };
+                }
+            });
     },
 
     [UPDATE_WEBSITE]: (context, update) => {
