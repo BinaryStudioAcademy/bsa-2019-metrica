@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-
 final class GetNewestCountResponse
 {
     private $count;
