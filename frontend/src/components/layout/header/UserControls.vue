@@ -17,7 +17,7 @@
             Hello, <span>{{ user.name }}</span>
         </VToolbarTitle>
         <VAvatar>
-            <img src="/assets/images/lady.png">
+            <img src="/assets/images/avatar.png">
         </VAvatar>
         <VMenu
             bottom
