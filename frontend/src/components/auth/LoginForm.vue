@@ -64,7 +64,6 @@
 </template>
 
 <script>
-    import _ from 'lodash';
     import {mapActions} from 'vuex';
     import {LOGIN} from "@/store/modules/auth/types/actions";
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
@@ -104,7 +103,7 @@
                         this.$emit("success");
                         this.showSuccessMessage('Logged in');
                     }).catch((error) => {
-                        this.showErrorMessage(_.get(error, 'response.data.error.message', 'Current User website not found'));
+                        this.showErrorMessage(error);
                     });
                 }
             }
