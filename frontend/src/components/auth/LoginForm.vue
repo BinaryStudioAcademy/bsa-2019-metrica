@@ -66,6 +66,7 @@
 <script>
     import {mapActions} from 'vuex';
     import {LOGIN} from "@/store/modules/auth/types/actions";
+    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
 
@@ -89,6 +90,10 @@
             ...mapActions('auth', {
                 login: LOGIN
             }),
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
+            }),
             onLogin() {
                 if (this.$refs.form.validate()) {
                     this.login({
@@ -96,8 +101,9 @@
                         password: this.password
                     }).then(() => {
                         this.$emit("success");
+                        this.showSuccessMessage('Logged in');
                     }, err => {
-                        alert(err.message);
+                        this.showErrorMessage(err.message);
                     });
                 }
             }
