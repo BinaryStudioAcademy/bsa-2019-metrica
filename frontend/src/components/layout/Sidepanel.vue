@@ -16,7 +16,7 @@
             >
                 <VListItem
                     class="pl-8 my-3"
-                    v-if="!link.hasOwnProperty('sublinks')"
+                    v-if="!link.sublinks"
                 >
                     <VLayout flex>
                         <VListItemIcon class="py-0 my-0 mr-7">
