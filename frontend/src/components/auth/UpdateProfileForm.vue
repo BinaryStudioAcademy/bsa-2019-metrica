@@ -1,77 +1,80 @@
 <template>
-    <VContent>
-        <VFlex
-            lg6
-            md6
-            sm12
-            xs12
-        >
-            <VContainer>
-                <VSubheader class="grey--text text--darken-1 body-1 pa-0 mb-4">
-                    Profile
-                </VSubheader>
-                <VForm ref="form">
-                    <label class="caption grey--text">
-                        Full Name
-                    </label>
-                    <VTextField
-                        name="name"
-                        class="no-underline my-5"
-                        v-model="editUser.name"
-                        type="text"
-                        :rules="nameRules"
-                        required
-                    />
-                    <label class="caption grey--text">
-                        Email
-                    </label>
-                    <VTextField
-                        name="email"
-                        class="no-underline my-5"
-                        v-model="editUser.email"
-                        type="email"
-                        :rules="emailRules"
-                        required
-                    />
-                    <label class="caption grey--text">
-                        Password
-                    </label>
-                    <VTextField
-                        name="input-10-1"
-                        class="no-underline my-5"
-                        v-model="editUser.password"
-                        :append-icon="passwordVisibility"
-                        :type="passwordType"
-                        counter
-                        :rules="passwordRules"
-                        required
-                        @click:append="showPassword = !showPassword"
-                    />
-                    <label class="caption grey--text">
-                        Repeat password
-                    </label>
-                    <VTextField
-                        name="input-10-1"
-                        class="no-underline my-5"                            
-                        v-model="confirmPassword"
-                        :append-icon="confirmPasswordVisibility"
-                        :type="confirmPasswordType"
-                        counter
-                        :rules="confirmPasswordRules"
-                        required
-                        @click:append="showConfirmPassword = !showConfirmPassword"
-                    />
-                </VForm>
-                <VBtn
-                    @click="onSave"
-                    class="mt-3"
-                    color="primary"
-                >
-                    Save
-                </VBtn>
-            </VContainer>
-        </VFlex>
-    </VContent>
+    <VFlex
+        lg6
+        md6
+        sm12
+        xs12
+        class="ml-12"
+    >
+        <VContainer>
+            <VSubheader class="body-1 grey--text text--darken-1 pa-0 mt-8">
+                Profile
+            </VSubheader>
+            <VForm ref="form">
+                <label class="caption grey--text mt-6">
+                    Full Name
+                </label>
+                <VTextField
+                    name="name"
+                    class="no-underline my-3"
+                    v-model="editUser.name"
+                    type="text"
+                    :rules="nameRules"
+                    required
+                    solo
+                />
+                <label class="caption grey--text mt-6">
+                    Email
+                </label>
+                <VTextField
+                    name="email"
+                    class="no-underline my-3"
+                    v-model="editUser.email"
+                    type="email"
+                    :rules="emailRules"
+                    required
+                    solo
+                />
+                <label class="caption grey--text mt-6">
+                    Password
+                </label>
+                <VTextField
+                    name="input-10-1"
+                    class="no-underline my-3"
+                    v-model="editUser.password"
+                    :append-icon="passwordVisibility"
+                    :type="passwordType"
+                    counter
+                    :rules="passwordRules"
+                    required
+                    solo
+                    @click:append="showPassword = !showPassword"
+                />
+                <label class="caption grey--text mt-6">
+                    Repeat password
+                </label>
+                <VTextField
+                    name="input-10-1"
+                    class="no-underline my-3"                            
+                    v-model="confirmPassword"
+                    :append-icon="confirmPasswordVisibility"
+                    :type="confirmPasswordType"
+                    counter
+                    :rules="confirmPasswordRules"
+                    required
+                    solo
+                    @click:append="showConfirmPassword = !showConfirmPassword"
+                />
+            </VForm>
+            <VBtn
+                @click="onSave"
+                class="mt-10"
+                color="primary"
+            >
+                Save
+            </VBtn>
+        </VContainer>
+    </VFlex>
 </template>
 
 <script>
@@ -156,7 +159,7 @@
 <style lang="scss" scoped>
 ::v-deep .v-input__append-inner {
     align-self: center;
-    margin-right: 5px;
+    margin-right: 4px;
     margin-top: 0;
 }
 

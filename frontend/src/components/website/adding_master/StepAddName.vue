@@ -20,7 +20,7 @@
                         <VTextField
                             v-model="name"
                             label="Website name"
-                            class="form-input"
+                            class="form-input no-underline"
                             single-line
                             solo
                             required

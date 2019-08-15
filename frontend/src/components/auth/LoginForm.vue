@@ -9,7 +9,7 @@
         >
             <VContainer>
                 <VSubheader
-                    class="body-1 grey--text text--darken-1 pa-0 mb-4"
+                    class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
                 >
                     Welcome to Metrica!
                 </VSubheader>
@@ -23,20 +23,22 @@
                     </label>
                     <VTextField
                         name="email"
-                        class="no-underline my-5"
+                        class="no-underline my-3"
+                        solo
                         v-model="email"
                         type="text"
                         :rules="emailRules"
                         required
                     />
                     <label
-                        class="caption grey--text"
+                        class="caption grey--text mt-6"
                     >
                         Password
                     </label>
                     <VTextField
                         name="password"
-                        class="no-underline"
+                        class="no-underline my-3"
+                        solo
                         v-model="password"
                         type="password"
                         :rules="passwordRules"
@@ -104,7 +106,7 @@
 </script>
 
 <style lang="scss" scoped>
-.login-form-button {
+::v-deep .v-btn {
     width: 105px;
 }
 </style>

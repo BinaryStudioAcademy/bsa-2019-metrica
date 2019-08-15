@@ -1,12 +1,15 @@
-.v-input.v-text-field {
+.v-input.v-text-field.v-text-field--solo {
+    &:not(.v-textarea) {
+        height: 40px;
+    }
     .v-input__slot {
         border: 1px solid rgba(18, 39, 55, 0.11);
         border-radius: 3px;
-        height: 40px;
+        box-shadow: none !important;
         background-color: white;
-        .v-text-field__slot {
-            padding: 0 10px;
-        }
+    }
+    .v-text-field__details {
+        padding: 0;
     }
     &.v-input--is-focused
     {
