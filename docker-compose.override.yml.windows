@@ -1,0 +1,25 @@
+version: "3.1"
+
+services:
+  webserver:
+    volumes:
+      - ./.docker/nginx/windows.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"
+      - "8443:443"
+    depends_on:
+      - app
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  db:
+    env_file:
+      - .env
+
+  elasticsearch:
+    ports:
+      - 9200:9200

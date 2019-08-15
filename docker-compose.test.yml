@@ -13,17 +13,14 @@ services:
     volumes:
       - ./frontend:/app
 
-  frontend:
-    image: metrica/frontend:latest
-    working_dir: /app
-
   webserver:
-    image: metrica/nginx:latest
+    image: metrica/webserver:latest
     working_dir: /app
     volumes:
       - ./backend:/app
     ports:
-      - "8000:80"
+      - "80:80"
+      - "443:443"
     depends_on:
       - app
   db:

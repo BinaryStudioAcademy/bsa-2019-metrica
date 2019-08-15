@@ -5,11 +5,19 @@
   "scripts": {
     "serve": "vue-cli-service serve --host=0.0.0.0 --port=3000",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint --no-fix"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "jwt-decode": "^2.2.0",
+    "material-design-icons-iconfont": "^5.0.1",
+    "sass": "^1.22.9",
+    "vue": "^2.6.10",
+    "vue-google-charts": "^0.3.2",
+    "vue-router": "^3.1.0",
+    "vuetify": "^2.0.4",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
@@ -18,7 +26,11 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "sass": "^1.17.4",
+    "sass-loader": "^7.1.0",
+    "vue-cli-plugin-vuetify": "^0.6.1",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify-loader": "^1.2.2"
   },
   "eslintConfig": {
     "root": true,
@@ -26,12 +38,41 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/strongly-recommended",
       "eslint:recommended"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "rules": {
+      "vue/script-indent": [
+        "error",
+        4,
+        {
+          "baseIndent": 1
+        }
+      ],
+      "vue/html-indent": [
+        "error",
+        4,
+        {
+          "attribute": 1,
+          "closeBracket": 0,
+          "alignAttributesVertically": true,
+          "ignores": []
+        }
+      ],
+      "vue/component-name-in-template-casing": [
+        "error",
+        "PascalCase",
+        {
+          "registeredComponentsOnly": false
+        }
+      ],
+      "vue/eqeqeq": "error",
+      "semi": "error",
+      "no-console": "off",
+      "no-debugger": "off"
     }
   },
   "postcss": {
