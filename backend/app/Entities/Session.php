@@ -55,7 +55,7 @@ final class Session extends Model
 
     public function scopeInactive(Builder $query, string $date): Builder
     {
-        return $query->where('updated_at', '<', $date);
+        return $query->where('updated_at', '<', Carbon::rawParse($date)->subMinutes(30)->toDateTimeString());
     }
 
     public function scopeWhereDateBetween(Builder $query, string $from, string $to): Builder
