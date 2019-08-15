@@ -105,6 +105,7 @@
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import _ from 'lodash';
 
     export default {
         data () {
@@ -155,8 +156,8 @@
                         this.$emit("success");
                         this.showSuccessMessage('You have been successfully registered! Please log in!');
                         this.$router.push({name: 'login'});
-                    }, err => {
-                        this.showErrorMessage(err.message);
+                    }).catch((error) => {
+                        this.showErrorMessage(_.get(error, 'response.data.error.message', 'Unknown error'));
                     });
                 }
             },
