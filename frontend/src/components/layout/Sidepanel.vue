@@ -9,28 +9,31 @@
             class="mt-12"
             flat
         >
-            <RouterLink
+            <div
                 v-for="link in links"
                 :key="link.text"
-                :to="{ name: link.route }"
             >
-                <VListItem
-                    class="pl-8 my-3"
+                <RouterLink
                     v-if="!link.sublinks"
+                    :to="{ name: link.route }"
                 >
-                    <VLayout flex>
-                        <VListItemIcon class="py-0 my-0 mr-7">
-                            <svg>
-                                <use :href="`${link.icon}#root`" />
-                            </svg>
-                        </VListItemIcon>
-                        <VListItemContent class="py-0">
-                            <VListItemTitle>
-                                {{ link.text }}
-                            </VListItemTitle>
-                        </VListItemContent>
-                    </VLayout>
-                </VListItem>
+                    <VListItem
+                        class="pl-8 my-3"
+                    >
+                        <VLayout flex>
+                            <VListItemIcon class="py-0 my-0 mr-7">
+                                <svg>
+                                    <use :href="`${link.icon}#root`" />
+                                </svg>
+                            </VListItemIcon>
+                            <VListItemContent class="py-0">
+                                <VListItemTitle>
+                                    {{ link.text }}
+                                </VListItemTitle>
+                            </VListItemContent>
+                        </VLayout>
+                    </VListItem>
+                </RouterLink>
                 <VList v-else>
                     <VListGroup>
                         <template v-slot:activator>
@@ -50,25 +53,28 @@
                             </VListItem>
                         </template>
                         <VList ml-6>
-                            <RouterLink
+                            <div
                                 v-for="sublink in link.sublinks"
                                 :key="sublink.text"
-                                :to="{ name: sublink.route }"
                             >
-                                <VListItem>
-                                    <VLayout flex>
-                                        <VListItemContent>
-                                            <VListItemTitle>
-                                                {{ sublink.text }}
-                                            </VListItemTitle>
-                                        </VListItemContent>
-                                    </VLayout>
-                                </VListItem>
-                            </RouterLink>
+                                <RouterLink
+                                    :to="{ name: sublink.route }"
+                                >
+                                    <VListItem>
+                                        <VLayout flex>
+                                            <VListItemContent>
+                                                <VListItemTitle>
+                                                    {{ sublink.text }}
+                                                </VListItemTitle>
+                                            </VListItemContent>
+                                        </VLayout>
+                                    </VListItem>
+                                </RouterLink>
+                            </div>
                         </VList>
                     </VListGroup>
                 </VList>
-            </RouterLink>
+            </div>
         </VList>
     </VNavigationDrawer>
 </template>
@@ -93,11 +99,11 @@
                         },
                         {
                             text: 'Page Views',
-                            route: 'visitors',
+                            route: 'page-views',
                         },
                         {
                             text: 'Geo Location',
-                            route: 'visitors',
+                            route: 'geo-locations',
                         },
                     ]
                 },
@@ -145,7 +151,7 @@ a:hover{
     text-decoration: none;
 }
 
-a .v-list-item {
+.v-list-item {
     min-height: 34px;
     height: 34px;
     font-family: 'Gilroy';
