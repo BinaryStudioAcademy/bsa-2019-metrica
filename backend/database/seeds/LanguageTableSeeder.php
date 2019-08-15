@@ -1,11 +1,10 @@
 <?php
 
-use App\Entities\Demographic;
-use App\Entities\GeoPosition;
+use App\Entities\Language;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DemographicTableSeeder extends Seeder
+class LanguageTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +13,6 @@ class DemographicTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Demographic::class, 5)->create();
+        factory(Language::class, 5)->create();
     }
 }

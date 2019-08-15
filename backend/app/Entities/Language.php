@@ -5,10 +5,9 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-final class Demographic extends Model
+final class Language extends Model
 {
     protected $fillable = [
         'language',
-        'geo_position_id',
     ];
 }

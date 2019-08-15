@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace App\Actions\Visitors;
-use App\Http\Requests\Api\GetVisitorsByParameterHttpRequest;
+use App\Http\Requests\Api\GetTableVisitorsByParameterHttpRequest;
 use Carbon\Carbon;
 final class GetVisitorsByParameterRequest
 {
@@ -16,7 +16,7 @@ final class GetVisitorsByParameterRequest
         $this->parameter = $parameter;
     }
 
-    public static function fromRequest(GetVisitorsByParameterHttpRequest $request): self
+    public static function fromRequest(GetTableVisitorsByParameterHttpRequest $request): self
     {
         return new static($request->startDate(), $request->endDate(), $request->parameter());
     }

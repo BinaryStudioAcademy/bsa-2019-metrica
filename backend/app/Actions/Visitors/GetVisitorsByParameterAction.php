@@ -9,54 +9,54 @@ use http\Exception\InvalidArgumentException;
 
 final class GetVisitorsByParameterAction
 {
-    private $tableVisitorRepository;
+    private $tableVisitorsRepository;
 
-    public function __construct(TableVisitorsRepository $tableVisitorRepository)
+    public function __construct(TableVisitorsRepository $tableVisitorsRepository)
     {
-        $this->tableVisitorRepository = $tableVisitorRepository;
+        $this->tableVisitorsRepository = $tableVisitorsRepository;
     }
 
     public function execute(GetVisitorsByParameterRequest $request): GetVisitorsByParameterResponse
     {
         switch ($request->parameter()) {
             case 'city':
-                $visitors = $this->tableVisitorRepository
+                $visitors = $this->tableVisitorsRepository
                     ->groupByCity(
                         $request->startDate(),
                         $request->endDate()
                     );
                 break;
             case 'country':
-                $visitors = $this->tableVisitorRepository
-                    ->groupByCity(
+                $visitors = $this->tableVisitorsRepository
+                    ->groupByCountry(
                         $request->startDate(),
                         $request->endDate()
                     );
                 break;
             case 'language':
-                $visitors = $this->tableVisitorRepository
-                    ->groupByCity(
+                $visitors = $this->tableVisitorsRepository
+                    ->groupByLanguage(
                         $request->startDate(),
                         $request->endDate()
                     );
                 break;
             case 'browser':
-                $visitors = $this->tableVisitorRepository
-                    ->groupByCity(
+                $visitors = $this->tableVisitorsRepository
+                    ->groupByBrowser(
                         $request->startDate(),
                         $request->endDate()
                     );
                 break;
             case 'operating_system':
-                $visitors = $this->tableVisitorRepository
-                    ->groupByCity(
+                $visitors = $this->tableVisitorsRepository
+                    ->groupByOperatingSystem(
                         $request->startDate(),
                         $request->endDate()
                     );
                 break;
-            case 'screen_Resolution':
-                $visitors = $this->tableVisitorRepository
-                    ->groupByCity(
+            case 'screen_resolution':
+                $visitors = $this->tableVisitorsRepository
+                    ->groupByScreenResolution(
                         $request->startDate(),
                         $request->endDate()
                     );

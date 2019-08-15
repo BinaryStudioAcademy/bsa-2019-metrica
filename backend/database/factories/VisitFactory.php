@@ -2,7 +2,7 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Entities\Device;
+use App\Entities\GeoPosition;
 use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\Visit;
@@ -16,6 +16,6 @@ $factory->define(Visit::class, function (Faker $faker) {
         'session_id' => Session::inRandomOrder()->first()->id,
         'page_id' => Page::inRandomOrder()->first()->id,
         'visitor_id' => Visitor::inRandomOrder()->first()->id,
-        'device_id' => Device::inRandomOrder()->first()->id,
+        'geo_position_id' => GeoPosition::inRandomOrder()->first()->id,
     ];
 });

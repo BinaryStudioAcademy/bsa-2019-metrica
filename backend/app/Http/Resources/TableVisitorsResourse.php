@@ -12,9 +12,9 @@ final class TableVisitorsResourse extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            $this->parameter_name => $this->parameter_value,
-            'visitors' => $this->visitors_count,
-            'percentage' => $this->visitors_count/$this->total_count*100,
+            'parameter_value' => $this->parameter_value,
+            'visitors' => $this->count_visitors,
+            'percentage' => $this->count_visitors/$this->total_count*100,
         ];
     }
 }

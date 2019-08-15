@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api;
 
 use App\Http\Request\ApiFormRequest;
+use App\Rules\Timestamp;
+use App\Rules\TimestampAfter;
 
-final class GetVisitorsByParameterHttpRequest extends ApiFormRequest
+final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
 {
     public function rules()
     {
@@ -13,11 +15,12 @@ final class GetVisitorsByParameterHttpRequest extends ApiFormRequest
             'filter' => 'required|array',
             'filter.start_date' => [
                 'required',
-                'date'
+                new Timestamp()
             ],
             'filter.end_date' => [
                 'required',
-                "after:{$this->get('filter')['start_date']}"
+                new Timestamp(),
+                new TimestampAfter($this->get('filter')['start_date'])
             ],
             'parameter' => [
                 'required',

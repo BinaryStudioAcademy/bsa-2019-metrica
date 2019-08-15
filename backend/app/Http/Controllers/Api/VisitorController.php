@@ -8,9 +8,9 @@ use App\Actions\Visitors\GetAllVisitorsAction;
 use App\Actions\Visitors\GetNewVisitorsAction;
 use App\Actions\Visitors\GetVisitorsByParameterAction;
 use App\Actions\Visitors\GetVisitorsByParameterRequest;
-use App\Http\Requests\Api\GetVisitorsByParameterHttpRequest;
+use App\Http\Requests\Api\GetTableVisitorsByParameterHttpRequest;
 use App\Http\Resources\VisitorResourceCollection;
-use App\Http\Resources\TableVisitorsResourse;
+use App\Http\Resources\TableVisitorsResourseCollection;
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
 
@@ -45,11 +45,11 @@ final class VisitorController extends Controller
         return ApiResponse::success(new VisitorResourceCollection($response->visitors()));
     }
 
-    public function getVisitorsByParameter (GetVisitorsByParameterHttpRequest $request): ApiResponse
+    public function getVisitorsByParameter (GetTableVisitorsByParameterHttpRequest $request): ApiResponse
     {
         $response = $this->getVisitorsByParameterAction->execute(
             GetVisitorsByParameterRequest::fromRequest($request));
 
-        return ApiResponse::success(new TableVisitorsResourse($response->visitors()));
+        return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
     }
 }
