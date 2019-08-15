@@ -114,9 +114,6 @@
                         this.showErrorMessage(err.message);
                     });
                 }
-            },
-            onForgotPassword() {
-
             }
         }
     };
