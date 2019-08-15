@@ -8,7 +8,7 @@
         >
             <VContainer>
                 <VCardText>
-                    <VSubheader class="reset-password-form-header">
+                    <VSubheader class="grey--text text--darken-1 reset-password-form-header">
                         Welcome to Metrica!
                     </VSubheader>
                     <VForm ref="form">
@@ -89,7 +89,6 @@
         align-items: center;
         letter-spacing: 0.4px;
         font-weight: bold;
-        color: #122737;
     }
 
     .reset-password-form-label {

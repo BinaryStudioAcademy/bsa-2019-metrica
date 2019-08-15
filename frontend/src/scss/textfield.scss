@@ -1,20 +1,13 @@
 .v-input {
     .v-input__slot {
         border: 1px solid rgba(18, 39, 55, 0.11);
-        border: 1px solid rgba(18, 39, 55, 0.11);
         border-radius: 3px;
         height: 40px;
-        width: 426px;
-        &:before,
-        &:after {
-            display: none;
-        }
         background-color: white;
         .v-text-field__slot {
-            padding: 5px 10px;
+            padding: 0 10px;
         }
     }
-    margin-top: 10px;
     &.v-input--is-focused
     {
         .v-input__slot{
@@ -22,7 +15,17 @@
             border: 1px solid rgba(60, 87, 222, 0.52) !important;
         }
     }
-    .v-text-field__details {
-        display: none;
+    &.no-details {
+        .v-text-field__details {
+            display: none;
+        }
+    }
+    &.no-underline {
+        .v-input__slot {
+            &:before,
+            &:after {
+                display: none;
+            }
+        }
     }
 }

@@ -2,10 +2,6 @@
 @import './reset.scss';
 @import './textfield.scss';
 
-$btn-border-radius: 3px;
-$btn-font-size: 12px;
-$body-font-family: 'Gilroy';
-
 @font-face {
     font-family: 'Gilroy';
     src: url('/assets/fonts/Gilroy-Bold.eot');
@@ -41,7 +37,11 @@ $body-font-family: 'Gilroy';
 #app {
     background: #F5F8FD;
 }
-
+// .v-subheader {
+//     font-size: 16px;
+//     line-height: 19px;
+//     padding: 0;
+// }
 svg path {
     fill: inherit;
     fill-opacity: inherit;

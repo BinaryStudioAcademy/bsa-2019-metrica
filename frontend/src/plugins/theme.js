@@ -34,5 +34,9 @@ export default {
         lighten3: '#edf2fa', // very very low opacity
         darken1: '#122737', // opacity 1
     },
-    background: '#F2F2F2'
-}
+    background: '#F2F2F2',
+    text: {
+        primary: 'yellow',
+        secondary: 'blue'
+    }
+};
