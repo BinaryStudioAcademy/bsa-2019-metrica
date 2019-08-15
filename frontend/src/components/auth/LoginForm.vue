@@ -1,66 +1,72 @@
 <template>
-    <VContent>
-        <VFlex
-            lg6
-            md6
-            sm12
-            xs12
+    <div class="form">
+        <Spinner
+            v-if="isLoading"
+        />
+        <h3>Welcome to Metrica!</h3>
+        <VForm
+            lazy-validation
+            ref="form"
+            v-model="valid"
         >
-            <VContainer>
-                <VCardText
-                    class="login-container"
-                >
-                    <VSubheader
-                        class="login-form-header"
-                    >
-                        Welcome to Metrica!
-                    </VSubheader>
-                    <VForm
-                        ref="form"
-                    >
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Email
-                        </VSubheader>
-                        <VTextField
-                            name="email"
-                            class="login-form-input"
-                            v-model="email"
-                            solo
-                            type="text"
-                            :rules="emailRules"
-                            required
-                        />
+            <VTextField
+                outlined
+                label="Email"
+                type="email"
+                name="email"
+                v-model="email"
+                :rules="emailRules"
+                required
+            />
 
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Password
-                        </VSubheader>
-                        <VTextField
-                            name="password"
-                            class="login-form-input"
-                            v-model="password"
-                            solo
-                            type="password"
-                            :rules="passwordRules"
-                            required
-                        />
-                    </VForm>
-                </VCardText>
-                <VCardActions>
+            <VTextField
+                class="password"
+                outlined
+                label="Password"
+                name="password"
+                autocomplete="new-password"
+                v-model="password"
+                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                :counter="8"
+                :rules="passwordRules"
+                :type="showPassword ? 'text' : 'password'"
+                @click:append="showPassword = !showPassword"
+                required
+            />
+
+            <div class="password-group">
+                <div class="btn-group">
                     <VBtn
-                        @click="onLogin"
-                        class="login-form-button mt-3"
+                        class="login-btn"
+                        min-width="100px"
                         color="#3C57DE"
+                        :disabled="!valid"
+                        @click="onLogin"
                     >
-                        Login
+                        SIGN IN
                     </VBtn>
-                </VCardActions>
-            </VContainer>
-        </VFlex>
-    </VContent>
+
+                    <VBtn
+                        class="start"
+                        min-width="100px"
+                        :to="{name: 'signup'}"
+                        outlined
+                        :disabled="false"
+                    >
+                        SIGN UP
+                    </VBtn>
+                </div>
+                <div class="btn-group">
+                    <RouterLink
+                        class="forgot-password-link"
+                        :to="{name: 'reset-password'}"
+                    >
+                        Forgot password?
+                    </RouterLink>
+                </div>
+            </div>
+        </VForm>
+    </div>
 </template>
 
 <script>
@@ -69,13 +75,20 @@
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
+    import Spinner from "../utilites/Spinner";
 
     export default {
+        components: {
+            Spinner
+        },
+
         data() {
             return {
                 email: '',
                 password: '',
+                showPassword: false,
                 valid: false,
+                isLoading: false,
                 emailRules: [
                     v => !!v || 'E-mail is required',
                     v => validateEmail(v) || 'E-mail must be valid',
@@ -96,13 +109,16 @@
             }),
             onLogin() {
                 if (this.$refs.form.validate()) {
+                    this.isLoading = true;
                     this.login({
                         email: this.email,
                         password: this.password
                     }).then(() => {
+                        this.isLoading = false;
                         this.$emit("success");
                         this.showSuccessMessage('Logged in');
                     }, err => {
+                        this.isLoading = false;
                         this.showErrorMessage(err.message);
                     });
                 }
@@ -112,36 +128,62 @@
 </script>
 
 <style lang="scss" scoped>
-    .login-form-label {
-        padding: 0;
-        color: rgba(18, 39, 55, 0.5);
-        font-size: 12px;
-        height: 28px;
-        font-weight: bold;
-    }
 
-    .login-form-header {
-        font-size: 16px;
-        line-height: 19px;
-        font-weight: bold;
-        color: #122737;
-        padding: 0;
-    }
+    .form {
+        width: 50%;
+        font-family: Gilroy;
 
-    .login-container {
-        padding: 8px;
-    }
+        .login-btn {
+            color: white;
+        }
 
-    .login-form-button {
-        color: white;
+        .v-btn {
+            font-family: Gilroy;
+            letter-spacing: 0.4px;
+            text-transform: none;
+            border-radius: 3px;
 
-        ::v-deep {
-            span {
-                font-size: 12px;
-                line-height: 15px;
-                padding: 7px 21px 7px 21px;
-                font-weight: bold;
+            +.start {
+                background: #FFFFFF;
+                border: 2px solid #3C57DE;
+                box-sizing: border-box;
+                border-radius: 3px;
+                color: #3C57DE;
             }
+        }
+
+        h3 {
+            margin-bottom: 30px;
+            font-size: 19px;
+            line-height: 19px;
+        }
+
+        .password {
+            line-height: 20px;
+        }
+
+        .v-input__slot {
+            min-height: 45px;
+        }
+
+        .password-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-group {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .choice {
+            align-self: center;
+            margin: 0 15px;
+        }
+
+        .forgot-password-link {
+            color: #3C57DE;
         }
     }
 </style>
