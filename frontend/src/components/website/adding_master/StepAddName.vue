@@ -7,7 +7,7 @@
         >
             <VContainer pa-1>
                 <div
-                    class="subtitle-2 title-text font-weight-bold"
+                    class="subtitle-2 title-text"
                 >
                     Website name
                 </div>
@@ -20,7 +20,7 @@
                         <VTextField
                             v-model="name"
                             label="Website name"
-                            class="form-input no-underline"
+                            class="form-input no-underline mt-5"
                             single-line
                             solo
                             required
@@ -33,7 +33,7 @@
                 <VBtn
                     large
                     color="#3C57DE"
-                    class="white--text mt-6"
+                    class="white--text mt-12"
                     @click="onGoToNextStep"
                 >
                     Add Website

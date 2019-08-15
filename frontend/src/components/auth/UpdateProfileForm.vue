@@ -4,10 +4,10 @@
         md6
         sm12
         xs12
-        class="ml-12"
+        class="ml-12 mt-8"
     >
         <VContainer>
-            <VSubheader class="body-1 grey--text text--darken-1 pa-0 mt-8">
+            <VSubheader class="body-1 grey--text text--darken-1 pa-0">
                 Profile
             </VSubheader>
             <VForm ref="form">
