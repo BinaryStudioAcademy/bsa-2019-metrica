@@ -18,14 +18,8 @@ class EloquentSessionRepository implements SessionRepository
         return collect([]);
     }
 
-    public function getAvgSession(GetAvgSessionRequest $request): int
+    public function getAvgSession(GetAvgSessionRequest $request, Collection $visitorsIDsOfWebsite): int
     {
-        $websiteId = auth()->user()->website->id;
-
-        $visitorsIDsOfWebsite = Visitor::where('website_id', $websiteId)
-                                        ->get()
-                                        ->pluck('id');
-
         $avgSession = Session::whereIn('visitor_id', $visitorsIDsOfWebsite)
                         ->where('start_session', '>=', Carbon::createFromTimestamp($request->startDate())->toDateString())
                         ->where('start_session', '<=', Carbon::createFromTimestamp($request->endDate())->toDateString())
