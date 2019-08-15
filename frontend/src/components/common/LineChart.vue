@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { GChart } from 'vue-google-charts'
+    import { GChart } from 'vue-google-charts';
     export default {
         components: {
             GChart,
@@ -77,7 +77,7 @@
                         }
                     }
                 },
-            }
+            };
         },
 
         computed: {
@@ -102,11 +102,11 @@
                     '            <img class="tooltip-arrow" src="/assets/icons/arrow-up.svg#root" alt="arrow-up">\n' +
                     `            ${indication}%\n` +
                     '        </div>\n' +
-                    '</div>'
+                    '</div>';
             },
 
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

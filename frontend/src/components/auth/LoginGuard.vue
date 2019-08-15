@@ -9,7 +9,7 @@
     import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
     import LoginForm from "./LoginForm.vue";
     import UserLayout from "@/components/layout/UserLayout.vue";
-    import Spinner from "./Spinner";
+    import Spinner from "../utilites/Spinner";
     import {FETCH_CURRENT_USER} from "@/store/modules/auth/types/actions";
 
     export default {
@@ -21,7 +21,7 @@
         data() {
             return {
                 isLoading: true
-            }
+            };
         },
         computed: {
             ...mapGetters('auth', {
@@ -38,5 +38,5 @@
                 this.isLoading = false;
             });
         }
-    }
+    };
 </script>

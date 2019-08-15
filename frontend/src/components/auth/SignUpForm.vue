@@ -104,6 +104,7 @@
     import {SIGNUP} from "@/store/modules/auth/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
+    import { SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
 
     export default {
         data () {
@@ -134,11 +135,14 @@
                     v => !!v || 'Password is required',
                     v => v === this.newUser.password || 'Password should match'
                 ]
-            }
+            };
         },
         methods: {
             ...mapActions('auth', {
                 signup: SIGNUP
+            }),
+            ...mapActions('notification', {
+                showErrorMessage: SHOW_ERROR_MESSAGE
             }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
@@ -149,8 +153,8 @@
                     }).then(() => {
                         this.$router.push({name: 'login'});
                     }, err => {
-                        alert(err.message);
-                    })
+                        this.showErrorMessage(err.message);
+                    });
                 }
             },
 
@@ -158,5 +162,5 @@
                 return this.$router.push({name: 'login'});
             },
         },
-    }
+    };
 </script>

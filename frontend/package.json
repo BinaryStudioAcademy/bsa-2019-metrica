@@ -70,6 +70,7 @@
         }
       ],
       "vue/eqeqeq": "error",
+      "semi": "error",
       "no-console": "off",
       "no-debugger": "off"
     }
