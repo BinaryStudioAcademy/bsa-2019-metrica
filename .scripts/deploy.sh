@@ -19,12 +19,6 @@ deploy_image() {
 
 # sets $task_definition
 make_task_def() {
-	aws_log='
-		{
-			"logDriver": "syslog"
-		}
-	'
-
     aws_cloudwatch='{
         "logDriver": "awslogs",
         "options": {
@@ -89,10 +83,10 @@ make_task_def() {
         "essential": false,
 		"logConfiguration": %s,
 		"command": [
-			"/bin/bash", "/home/www-data/migration.sh"
+			"/bin/bash", "/home/www-data/migration.sh", "%s"
 		],
         "memory": 192
-    }' "migration" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_cloudwatch")
+    }' "migration" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_cloudwatch" "$DEPLOY_TYPE")
 
 	task_definition="[
 		$nginx,

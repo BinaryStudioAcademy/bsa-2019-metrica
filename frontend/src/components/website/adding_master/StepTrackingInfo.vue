@@ -60,14 +60,14 @@
         data () {
             return {
                 directionText: "Here will be directions with TRACKING_INFO_ID "
-            }
+            };
         },
         computed: {
             ...mapGetters('website', {
                 currentWebsite: GET_CURRENT_WEBSITE
             }),
             messageText() {
-                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_number)
+                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_number);
             }
         },
         methods: {
