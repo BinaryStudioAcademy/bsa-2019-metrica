@@ -1,22 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Request\ApiFormRequest;
 
-final class AddWebsiteHttpRequest extends FormRequest
+final class AddWebsiteHttpRequest extends ApiFormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'domain' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:websites,name',
+            'domain' => 'required|string|max:255|unique:websites,domain',
             'single_page' => 'boolean',
         ];
     }

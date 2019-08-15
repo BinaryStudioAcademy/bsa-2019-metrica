@@ -68,7 +68,7 @@
                     v => !!v || 'Website domain is required',
                     v => domainRegex.test(v) || 'Domain must be correct'
                 ],
-            }
+            };
         },
         computed: {
             ...mapGetters('website', {

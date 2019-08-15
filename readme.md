@@ -1,10 +1,14 @@
 # BSA 2019 | PHP | Metrica
 
 [![Build Status](https://travis-ci.org/BinaryStudioAcademy/bsa-2019-metrica.svg?branch=master)](https://travis-ci.org/BinaryStudioAcademy/bsa-2019-metrica)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/863afc2d9c034b33ae2e0b49827e19fa)](https://www.codacy.com/app/lenchvolodymyr/bsa-2019-metrica?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BinaryStudioAcademy/bsa-2019-metrica&amp;utm_campaign=Badge_Grade)
+[![License: MIT](https://img.shields.io/badge/License-MIT-success.svg)](LICENSE)
 
 ## Description
 
-Metrica is an analog of Google Analytics. The main purpose is to collect data from web pages, handle it and visualize.
+[Metrica](https://metrica.fun) is an analog of Google Analytics. The main purpose is to collect data from web pages, handle it and visualize.
+
+[![Metrica](Metrica.svg)](https://metrica.fun)
 
 ## Installation. Unix
 
@@ -55,8 +59,7 @@ Open browser:
 
 `http://localhost:3000`
 
-
-### Elasticsearch troubleshoot:
+### Elasticsearch troubleshoot
 
 The vm.max_map_count kernel setting needs to be set to at least 262144 for production use. Depending on your platform:
 
