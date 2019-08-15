@@ -29,6 +29,7 @@ final class VisitorController extends Controller
         GetAllVisitorsAction $getAllVisitorsAction,
         GetNewVisitorsAction $getNewVisitorsAction,
         GetNewChartVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction
+
     ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
