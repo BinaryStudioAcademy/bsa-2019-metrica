@@ -7,7 +7,7 @@
     >
         <VToolbarTitle class="pl-4">
             <span class="logo pr-3">
-                <RouterLink :to="{ name: isLoggedIn?'dashboard':'home' }">M</RouterLink>
+                <RouterLink :to="redirectRoute">M</RouterLink>
             </span>
             <span>Metrica</span>
         </VToolbarTitle>
@@ -34,6 +34,9 @@
                 isLoggedIn: IS_LOGGED_IN,
                 user: GET_AUTHENTICATED_USER
             }),
+            redirectRoute(){
+                return this.isLoggedIn ? {name: 'dashboard'} : {name: 'home'};
+            }
         }
     };
 </script>
