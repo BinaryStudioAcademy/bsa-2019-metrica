@@ -1,6 +1,6 @@
 import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, FETCH_CURRENT_WEBSITE, UPDATE_WEBSITE} from './types/actions';
 import {SET_CURRENT_WEBSITE, UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO, RESET_CURRENT_WEBSITE} from "./types/mutations";
-import {addWebsite, getCurrentUserWebsite} from '@/api/website';
+import {addWebsite, updateWebsite, getCurrentUserWebsite} from '@/api/website';
 
 export default {
 
@@ -15,6 +15,7 @@ export default {
             context.commit(RESET_CURRENT_WEBSITE);
         });
     },
+
     [SAVE_NEW_WEBSITE]: (context) => {
         const newDataSite = context.state.newWebsite;
 
@@ -74,21 +75,19 @@ export default {
                     });
     },
 
-    [UPDATE_WEBSITE]: (context, name) => {
-        return new Promise((resolve, reject) => {
-            const website = {
-                name: name,
-            };
-            const fakeResponse = 200;
-            switch (fakeResponse) {
-                case 200:
-                    context.commit(UPDATE_CURRENT_WEBSITE, website);
-                    resolve({ message:'Name Success Save'});
-                    break;
-                default:
-                    reject({ message:"Sorry, something wrong happened. Please, try again."});
-                    break;
-            }
-        });
+    [UPDATE_WEBSITE]: (context, update) => {
+
+        if(!update.name) throw { message: "Name can not be empty." };
+
+        let id = context.state.currentWebsite.id;
+        if(!id) throw { message: "Current website is undefined." };
+
+        return updateWebsite(update, id)
+                .then((response) => {
+                    context.commit(UPDATE_CURRENT_WEBSITE, response.data);
+                })
+                .catch(error => {
+                    throw { message: error.response.data.errors.name };
+                });
     },
 };
