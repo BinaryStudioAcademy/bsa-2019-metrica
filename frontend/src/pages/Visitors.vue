@@ -1,16 +1,10 @@
 <template>
-    <VContainer>
-        <!-- the component to be changed by customizing default variables -->
-        <VBtn>
-            Visitors
-        </VBtn>
-    </VContainer>
+    <p>This is visitors page</p>
 </template>
 
 <script>
-    export default {}
+    export default {};
 </script>
 
-<style>
-
+<style scoped>
 </style>
