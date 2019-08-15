@@ -1,102 +1,81 @@
 <template>
-    <VContainer
-        fluid
-        fill-height
-    >
-        <VLayout
-            align-center
-            justify-center
+    <div class="form">
+        <h3>Welcome to Metrica!</h3>
+        <VForm
+            lazy-validation
+            ref="form"
+            v-model="valid"
         >
-            <VFlex
-                xs12
-                sm8
-                md6
-            >
-                <VCard class="elevation-12">
-                    <VToolbar
-                        dark
+            <VTextField
+                outlined
+                label="Full name"
+                type="name"
+                name="name"
+                v-model="newUser.name"
+                :rules="nameRules"
+            />
+            <VTextField
+                outlined
+                label="Email"
+                type="email"
+                name="email"
+                v-model="newUser.email"
+                :rules="emailRules"
+            />
+            <div class="password-group">
+                <VTextField
+                    class="password"
+                    outlined
+                    label="Password"
+                    name="password"
+                    autocomplete="new-password"
+                    v-model="newUser.password"
+                    :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                    :counter="8"
+                    :rules="passwordRules"
+                    :type="show1 ? 'text' : 'password'"
+                    @click:append="show1 = !show1"
+                />
+                <VTextField
+                    class="password"
+                    width="70%"
+                    outlined
+                    label="Confirm password"
+                    name="confirmPassword"
+                    autocomplete="new-password"
+                    v-model="newUser.confirmPassword"
+                    :append-icon="show2 ? 'visibility' : 'visibility_off'"
+                    :counter="8"
+                    :rules="confirmPasswordRules"
+                    :type="show2 ? 'text' : 'password'"
+                    @click:append="show2 = !show2"
+                />
+                <div class="btn-group">
+                    <VBtn
+                        class="start"
+                        min-width="100px"
                         color="primary"
+                        :disabled="!valid"
+                        @click="onSignUp"
                     >
-                        <VToolbarTitle>
-                            Welcome to Metrica!
-                        </VToolbarTitle>
-                    </VToolbar>
-                    <VCardText>
-                        <VForm
-                            lazy-validation
-                            ref="form"
-                            v-model="valid"
-                        >
-                            <VTextField
-                                prepend-icon="person"
-                                label="Full name"
-                                type="name"
-                                name="name"
-                                v-model="newUser.name"
-                                :rules="nameRules"
-                            />
-                            <VTextField
-                                prepend-icon="email"
-                                label="Email"
-                                type="email"
-                                name="email"
-                                v-model="newUser.email"
-                                :rules="emailRules"
-                            />
-                            <VTextField
-                                prepend-icon="lock"
-                                label="Password"
-                                name="password"
-                                autocomplete="new-password"
-                                v-model="newUser.password"
-                                :append-icon="show1 ? 'visibility' : 'visibility_off'"
-                                :counter="8"
-                                :rules="passwordRules"
-                                :type="show1 ? 'text' : 'password'"
-                                @click:append="show1 = !show1"
-                            />
-                            <VTextField
-                                prepend-icon="lock"
-                                label="Confirm password"
-                                name="confirmPassword"
-                                autocomplete="new-password"
-                                v-model="newUser.confirmPassword"
-                                :append-icon="show2 ? 'visibility' : 'visibility_off'"
-                                :counter="8"
-                                :rules="confirmPasswordRules"
-                                :type="show2 ? 'text' : 'password'"
-                                @click:append="show2 = !show2"
-                            />
-                        </VForm>
-                    </VCardText>
-                    <VCardActions>
-                        <VSpacer />
-                        <VBtn
-                            large
-                            color="primary"
-                            :disabled="!valid"
-                            @click="onSignUp"
-                        >
-                            SIGN UP
-                        </VBtn>
-                        <VLabel large>
-                            &nbsp; or &nbsp;
-                        </VLabel>
-                        <VBtn
-                            outlined
-                            large
-                            color="primary"
-                            :disabled="false"
-                            @click="onSignIn"
-                        >
-                            SIGN IN
-                        </VBtn>
-                        <VSpacer />
-                    </VCardActions>
-                </VCard>
-            </VFlex>
-        </VLayout>
-    </VContainer>
+                        SIGN UP
+                    </VBtn>
+                    <div class="choice">
+                        or
+                    </div>
+                    <VBtn
+                        class="login"
+                        min-width="100px"
+                        :to="{name: 'login'}"
+                        outlined
+                        :disabled="false"
+                    >
+                        SIGN IN
+                    </VBtn>
+                </div>
+            </div>
+        </VForm>
+    </div>
 </template>
 
 <script>
@@ -164,3 +143,61 @@
         },
     };
 </script>
+
+<style lang="scss" scoped>
+
+.v-btn {
+    font-family: Gilroy;
+    letter-spacing: 0.4px;
+    text-transform: none;
+    border-radius: 3px;
+
+    +.start {
+        background: #3C57DE;
+    }
+    +.login {
+        background: #FFFFFF;
+        border: 2px solid #3C57DE;
+        box-sizing: border-box;
+        border-radius: 3px;
+        color: #3C57DE;
+    }
+}
+
+h3 {
+    font-family: Gilroy;
+    margin-bottom: 30px;
+    font-size: 19px;
+    line-height: 19px;
+}
+
+.password {
+    line-height: 20px;
+}
+
+.v-input__slot{
+    min-height: 45px;
+}
+
+.password-group {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.btn-group{
+    display: flex;
+    justify-content: space-between;
+    max-width: 80%;
+}
+
+.choice{
+    align-self: center;
+    margin: 0 15px;
+}
+
+.form{
+    width: 50%;
+}
+
+</style>
