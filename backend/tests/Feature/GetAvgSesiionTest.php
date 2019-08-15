@@ -56,11 +56,7 @@ class GetAvgSessionTest extends TestCase
             ->assertOk()
             ->assertJsonStructure([
                     'data' => [
-                        'avg_session' => [
-                            'h',
-                            'm',
-                            's'
-                        ]
+                        'avg_session'
                     ],
                     'meta',
                ]);
