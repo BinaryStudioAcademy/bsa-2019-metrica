@@ -102,8 +102,9 @@
 <script>
     import {mapActions} from 'vuex';
     import {SIGNUP} from "@/store/modules/auth/types/actions";
-
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
+    import { SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
 
     export default {
         data () {
@@ -124,21 +125,24 @@
                 ],
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => emailRegex.test(v) || 'E-mail must be valid'
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
                     v => v === this.newUser.password || 'Password should match'
                 ]
-            }
+            };
         },
         methods: {
             ...mapActions('auth', {
                 signup: SIGNUP
+            }),
+            ...mapActions('notification', {
+                showErrorMessage: SHOW_ERROR_MESSAGE
             }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
@@ -149,17 +153,14 @@
                     }).then(() => {
                         this.$router.push({name: 'login'});
                     }, err => {
-                        alert(err.message);
-                    })
+                        this.showErrorMessage(err.message);
+                    });
                 }
-                
             },
 
             onSignIn () {
-                return this.$router.push({path: '/login'});
+                return this.$router.push({name: 'login'});
             },
         },
-
-
-    }
+    };
 </script>

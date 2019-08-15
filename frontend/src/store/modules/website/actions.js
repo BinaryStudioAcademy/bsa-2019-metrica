@@ -1,9 +1,17 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, UPDATE_WEBSITE} from './types/actions';
-import {UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO} from "./types/mutations";
+import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, FETCH_CURRENT_WEBSITE, UPDATE_WEBSITE} from './types/actions';
+import {SET_CURRENT_WEBSITE, UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO, RESET_CURRENT_WEBSITE} from "./types/mutations";
+import {getCurrentUserWebsite} from '@/api/website';
 
 export default {
     [SET_WEBSITE_DATA]: (context, data) => {
         context.commit(SET_WEBSITE_INFO, data);
+    },
+    [FETCH_CURRENT_WEBSITE]: (context) => {
+        return getCurrentUserWebsite().then(response => {
+            context.commit(SET_CURRENT_WEBSITE, response.data);
+        }).catch(() => {
+            context.commit(RESET_CURRENT_WEBSITE);
+        });
     },
     [SAVE_NEW_WEBSITE]: (context) => {
         const newDataSite = context.state.newWebsite;
@@ -24,7 +32,7 @@ export default {
             };
 
             if (fakeWebsiteData.tracking_number && fakeWebsiteData.name === newDataSite.name && fakeWebsiteData.domain === newDataSite.domain) {
-                context.commit(UPDATE_CURRENT_WEBSITE, fakeWebsiteData);
+                context.commit(SET_CURRENT_WEBSITE, fakeWebsiteData);
                 resolve(fakeWebsiteData);
             } else if (fakeWebsiteData.name !== newDataSite.name) {
                 reject({
@@ -59,4 +67,4 @@ export default {
             }
         });
     },
-}
+};

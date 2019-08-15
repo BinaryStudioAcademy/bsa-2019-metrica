@@ -35,13 +35,6 @@
                         Send Password Reset Link
                     </VBtn>
                 </VCardActions>
-                <VAlert
-                    :class="className"
-                    v-if="showAlert"
-                    :type="type"
-                >
-                    {{ message }}
-                </VAlert>
             </VContainer>
         </VFlex>
     </VContent>
@@ -51,6 +44,7 @@
 <script>
     import {mapActions} from 'vuex';
     import {RESET_PASSWORD} from "@/store/modules/auth/types/actions";
+    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
 
     export default {
         name: "ResetPasswordForm",
@@ -60,42 +54,31 @@
                 emailRules: [
                     v => !!v || 'E-mail is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-                ],
-                status: '',
-                message: ''
-            }
-        },
-        computed: {
-            showAlert: function () {
-                return this.status === 'success' || this.status === 'error';
-            },
-            type: function () {
-                return this.status === 'success' ? 'success' : 'error';
-            },
-            className: function () {
-                return this.status === 'success' ? 'status-success' : 'status-error';
-            }
+                ]
+            };
         },
         methods: {
             ...mapActions('auth', {
                 resetPassword: RESET_PASSWORD
+            }),
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
             }),
             onResetPassword() {
                 if (this.$refs.form.validate()) {
                     this.resetPassword({
                         email: this.email,
                     }).then(response => {
-                        this.status = 'success';
-                        this.message = response;
+                        this.showSuccessMessage(response);
                     }).catch(err => {
-                        this.status = 'error';
-                        this.message = err;
+                        this.showErrorMessage(err);
                     });
                 }
             }
         }
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -173,11 +156,5 @@
     .v-card__actions {
         box-sizing: border-box;
         padding: 8px 16px;
-    }
-
-    .status-success, .status-error {
-        padding: 8px;
-        margin: 8px 0 0 12px;
-        max-width: 550px;
     }
 </style>
