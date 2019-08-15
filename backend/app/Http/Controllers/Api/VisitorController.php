@@ -8,7 +8,10 @@ use App\Actions\Visitors\GetAllVisitorsAction;
 use App\Actions\Visitors\GetNewestCountAction;
 use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
+use App\Actions\Visitors\GetNewVisitorsByDateRangeAction;
+use App\Actions\Visitors\GetNewVisitorsByDateRangeRequest;
 use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
+use App\Http\Requests\Visitors\GetNewVisitorsHttpRequest;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Resources\VisitorResourceCollection;
 use App\Http\Response\ApiResponse;
@@ -18,14 +21,17 @@ final class VisitorController extends Controller
 {
     private $getAllVisitorsAction;
     private $getNewVisitorsAction;
+    private $getNewVisitorsByDateRangeAction;
 
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
-        GetNewVisitorsAction $getNewVisitorsAction
+        GetNewVisitorsAction $getNewVisitorsAction,
+        GetNewVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction
     )
     {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
+        $this->getNewVisitorsByDateRangeAction = $getNewVisitorsByDateRangeAction;
     }
 
     public function getAllVisitors(): ApiResponse
@@ -46,5 +52,11 @@ final class VisitorController extends Controller
     {
         $response = $action->execute(GetNewestCountRequest::fromRequest($request));
         return ApiResponse::success(new VisitorCountResource($response->getCount()));
+    }
+
+    public function getNewVisitorsByDateRange(GetNewVisitorsHttpRequest $request)
+    {
+        $response = $this->getNewVisitorsByDateRangeAction->execute(GetNewVisitorsByDateRangeRequest::fromRequest($request));
+        return response()->json(['data'=>$response]);
     }
 }
