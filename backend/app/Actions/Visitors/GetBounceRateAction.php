@@ -28,6 +28,10 @@ final class GetBounceRateAction
                 $request->endDate()
             );
 
+        if ($allVisitors === 0) {
+            return new GetBounceRateResponse(0);
+        }
+
         $bounceRate = $visitors/$allVisitors * 100;
 
         return new GetBounceRateResponse($bounceRate);
