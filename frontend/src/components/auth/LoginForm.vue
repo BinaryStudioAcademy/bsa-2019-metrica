@@ -58,6 +58,14 @@
                         Login
                     </VBtn>
                 </VCardActions>
+                <VCardActions>
+                    <RouterLink
+                        class="link"
+                        :to="{name: 'reset-password'}"
+                    >
+                        Forgot Password?
+                    </RouterLink>
+                </VCardActions>
             </VContainer>
         </VFlex>
     </VContent>
@@ -106,6 +114,9 @@
                         this.showErrorMessage(err.message);
                     });
                 }
+            },
+            onForgotPassword() {
+
             }
         }
     };
