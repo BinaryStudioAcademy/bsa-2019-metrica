@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Actions\Website\GetCurrentUserWebsiteAction;
 use App\Actions\Website\AddWebsiteAction;
 use App\Actions\Website\AddWebsiteRequest;
@@ -23,8 +22,7 @@ final class WebsiteController
     public function __construct(
         AddWebsiteAction $addWebsiteAction,
         GetCurrentUserWebsiteAction $getCurrentUserWebsiteAction
-    )
-    {
+    ) {
         $this->addWebsiteAction = $addWebsiteAction;
         $this->getCurrentUserWebsiteAction = $getCurrentUserWebsiteAction;
     }
@@ -38,7 +36,7 @@ final class WebsiteController
         return ApiResponse::success(new WebsiteResource($response->getWebsite()));
     }
 
-    public function update(string $id, EditWebsiteHttpRequest $request, EditWebsiteAction $action ): ApiResponse
+    public function update(string $id, EditWebsiteHttpRequest $request, EditWebsiteAction $action): ApiResponse
     {
         $response = $action->execute(
             new EditWebsiteRequest((int) $id, $request->name(), $request->singlePage())

@@ -9,7 +9,7 @@
         >
             <VContainer>
                 <VSubheader
-                    class="body-1 grey--text text--darken-1 pa-0"
+                    class="body-1 grey--text text--darken-1 pa-0 mb-4"
                 >
                     Welcome to Metrica!
                 </VSubheader>
@@ -17,7 +17,7 @@
                     ref="form"
                 >
                     <label
-                        class="pa-0 grey--text"
+                        class="caption grey--text"
                     >
                         Email
                     </label>
@@ -29,9 +29,8 @@
                         :rules="emailRules"
                         required
                     />
-
                     <label
-                        class="pa-0 grey--text"
+                        class="caption grey--text"
                     >
                         Password
                     </label>

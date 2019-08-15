@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-
 use App\Contracts\Visitors\NewVisitorsCountFilterData;
 use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
 use App\Utils\DatePeriod;
