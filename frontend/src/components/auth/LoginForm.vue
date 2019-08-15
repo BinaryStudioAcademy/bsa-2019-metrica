@@ -39,11 +39,14 @@
                             Password
                         </VSubheader>
                         <VTextField
+                            :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                            :type="showPassword ? 'text' : 'password'"
+                            label="Normal with hint text"
+                            @click:append="showPassword = !showPassword"
                             name="password"
                             class="login-form-input"
                             v-model="password"
                             solo
-                            type="password"
                             :rules="passwordRules"
                             required
                         />
@@ -75,6 +78,7 @@
             return {
                 email: '',
                 password: '',
+                showPassword: false,
                 valid: false,
                 emailRules: [
                     v => !!v || 'E-mail is required',
