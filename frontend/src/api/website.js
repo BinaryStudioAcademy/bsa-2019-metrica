@@ -5,7 +5,7 @@ const resourceUrl = config.getApiUrl() + '/websites';
 
 const getCurrentUserWebsite = () => requestService.get(resourceUrl);
 
-const addWebsite = data => requestService.post(resourceUrl, data);
+const addWebsite = data => requestService.create(resourceUrl, data);
 
 export {
     getCurrentUserWebsite,
