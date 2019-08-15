@@ -77,10 +77,14 @@ export default {
 
     [UPDATE_WEBSITE]: (context, update) => {
 
-        if(!update.name) throw { message: "Name can not be empty." };
+        if(!update.name) {
+            throw { message: "Name can not be empty." };
+        }
 
         let id = context.state.currentWebsite.id;
-        if(!id) throw { message: "Current website is undefined." };
+        if(!id) {
+            throw { message: "Current website is undefined." };
+        }
 
         return updateWebsite(update, id)
                 .then((response) => {
