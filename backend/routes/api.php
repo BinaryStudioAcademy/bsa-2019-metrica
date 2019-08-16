@@ -54,6 +54,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
+            Route::get('/count', 'SessionController@getCountOfSessions');
         });
 
         Route::group([
