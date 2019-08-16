@@ -23,7 +23,7 @@
                     </label>
                     <VTextField
                         name="email"
-                        class="no-underline my-3"
+                        class="no-underline mt-3"
                         solo
                         v-model="email"
                         type="text"
@@ -31,7 +31,7 @@
                         required
                     />
                     <label
-                        class="caption grey--text mt-6"
+                        class="caption grey--text"
                     >
                         Password
                     </label>
@@ -49,7 +49,7 @@
                 </VForm>
                 <VBtn
                     @click="onLogin"
-                    class="mt-9"
+                    class="mt-6"
                     color="primary"
                 >
                     Login

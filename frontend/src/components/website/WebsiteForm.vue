@@ -10,7 +10,7 @@
             <VForm
                 ref="form"
             >
-                <div class="inline-element mb-8">
+                <div class="inline-element mb-4">
                     <label>Website Name</label>
                     <VTextField
                         name="website"
@@ -24,7 +24,7 @@
                         required
                     />
                 </div>
-                <div class="inline-element mb-6">
+                <div class="inline-element">
                     <label>Website Address</label>
                     <VTextField
                         name="address"
@@ -36,7 +36,7 @@
                         :value="currentWebsite.domain"
                     />
                 </div>
-                <div class="inline-element mb-6">
+                <div class="inline-element mb-7">
                     <label>SPA</label>
                     <VSwitch
                         :value="currentWebsite.single_page"

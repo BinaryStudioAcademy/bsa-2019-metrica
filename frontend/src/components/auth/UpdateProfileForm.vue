@@ -4,43 +4,43 @@
         md6
         sm12
         xs12
-        class="ml-12 mt-8"
+        class="ml-12 mt-11"
     >
         <VContainer>
             <VSubheader class="body-1 grey--text text--darken-1 pa-0">
                 Profile
             </VSubheader>
             <VForm ref="form">
-                <label class="caption grey--text mt-6">
+                <label class="caption grey--text mt-2 mb-3">
                     Full Name
                 </label>
                 <VTextField
                     name="name"
-                    class="no-underline my-3"
+                    class="no-underline"
                     v-model="editUser.name"
                     type="text"
                     :rules="nameRules"
                     required
                     solo
                 />
-                <label class="caption grey--text mt-6">
+                <label class="caption grey--text mt-2 mb-3">
                     Email
                 </label>
                 <VTextField
                     name="email"
-                    class="no-underline my-3"
+                    class="no-underline"
                     v-model="editUser.email"
                     type="email"
                     :rules="emailRules"
                     required
                     solo
                 />
-                <label class="caption grey--text mt-6">
+                <label class="caption grey--text mt-2 mb-3">
                     Password
                 </label>
                 <VTextField
                     name="input-10-1"
-                    class="no-underline my-3"
+                    class="no-underline"
                     v-model="editUser.password"
                     :append-icon="passwordVisibility"
                     :type="passwordType"
@@ -50,12 +50,12 @@
                     solo
                     @click:append="showPassword = !showPassword"
                 />
-                <label class="caption grey--text mt-6">
+                <label class="caption grey--text mt-2 mb-3">
                     Repeat password
                 </label>
                 <VTextField
                     name="input-10-1"
-                    class="no-underline my-3"                            
+                    class="no-underline"
                     v-model="confirmPassword"
                     :append-icon="confirmPasswordVisibility"
                     :type="confirmPasswordType"
@@ -68,7 +68,7 @@
             </VForm>
             <VBtn
                 @click="onSave"
-                class="mt-10"
+                class="mt-9"
                 color="primary"
             >
                 Save
