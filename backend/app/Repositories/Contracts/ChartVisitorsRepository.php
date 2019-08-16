@@ -3,10 +3,9 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
 use Illuminate\Support\Collection;
 
 interface ChartVisitorsRepository
 {
-    public function getNewVisitorsByDate(GetNewChartVisitorsByDateRangeRequest $request): Collection;
+    public function getNewVisitorsByDate(string $startData, string $endData, int $period, int $userId): Collection;
 }
