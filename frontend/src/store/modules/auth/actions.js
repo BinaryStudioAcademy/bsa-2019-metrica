@@ -45,8 +45,7 @@ export default {
 
     [SIGN_UP]: (context, newUser) => {
         return registerUser(newUser)
-            .then( () => {
-            }).catch((error) => {
+            .catch((error) => {
                 throw new Error(_.get(error, 'response.data.error.message', 'Unknown error'));
             });
     },
