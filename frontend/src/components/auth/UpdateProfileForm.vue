@@ -20,7 +20,6 @@
                     v-model="editUser.name"
                     type="text"
                     :rules="nameRules"
-                    required
                     solo
                 />
                 <label class="caption grey--text mt-2 mb-3">
@@ -32,7 +31,6 @@
                     v-model="editUser.email"
                     type="email"
                     :rules="emailRules"
-                    required
                     solo
                 />
                 <label class="caption grey--text mt-2 mb-3">
@@ -46,7 +44,6 @@
                     :type="passwordType"
                     counter
                     :rules="passwordRules"
-                    required
                     solo
                     @click:append="showPassword = !showPassword"
                 />
@@ -61,7 +58,6 @@
                     :type="confirmPasswordType"
                     counter
                     :rules="confirmPasswordRules"
-                    required
                     solo
                     @click:append="showConfirmPassword = !showConfirmPassword"
                 />
@@ -82,7 +78,7 @@
     import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
     import {validateEmail} from '@/services/validation';
-    import {validatePassword} from '@/services/validation';
+    import {validateFullName} from '@/services/validation';
 
     export default {
         data() {
@@ -97,19 +93,16 @@
                 showPassword: false,
                 showConfirmPassword: false,
                 nameRules: [
-                    v => !!v || 'Field full name is required',
-                    v => (v && v.length >= 3) || 'Enter the correct information'
+                    v => v && v.length >= 5 || 'Name must be equal or more than 5 characters',
+                    v => validateFullName(v) || 'Enter the correct information'
                 ],
                 emailRules: [
-                    v => !!v || 'E-mail is required',
                     v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
-                    v => !!v || 'Password is required',
-                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
+                    v => (v.length === 0 || v.length >= 8) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
-                    v => !!v || 'Password is required',
                     v => v === this.editUser.password || 'Password should match'
                 ]
             };
@@ -156,15 +149,3 @@
         }
     };
 </script>
-
-<style lang="scss" scoped>
-::v-deep .v-input__append-inner {
-    align-self: center;
-    margin-right: 4px;
-    margin-top: 0;
-}
-
-::v-deep .v-btn {
-    width: 105px;
-}
-</style>
