@@ -6,25 +6,21 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CountSessionsHttpRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'filter.startDate' => 'required|integer',
+            'filter.endDate' => 'required|integer',
         ];
+    }
+
+    public function startDate(): int
+    {
+        return (int)$this->validated()['filter']['startDate'];
+    }
+
+    public function endDate(): int
+    {
+        return (int)$this->validated()['filter']['endDate'];
     }
 }
