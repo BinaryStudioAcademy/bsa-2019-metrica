@@ -78,7 +78,8 @@
     import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
     import {validateEmail} from '@/services/validation';
-    import {validateFullName} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
+    import _ from "lodash";
 
     export default {
         data() {
@@ -93,14 +94,13 @@
                 showPassword: false,
                 showConfirmPassword: false,
                 nameRules: [
-                    v => v && v.length >= 5 || 'Name must be equal or more than 5 characters',
-                    v => validateFullName(v) || 'Enter the correct information'
+                    v => !!(_.trim(v)) || 'Field full name is required',
                 ],
                 emailRules: [
                     v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
-                    v => (v.length === 0 || v.length >= 8) || 'Password must be equal or more than 8 characters'
+                    v => (v.length === 0 || validatePassword(v)) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => v === this.editUser.password || 'Password should match'
