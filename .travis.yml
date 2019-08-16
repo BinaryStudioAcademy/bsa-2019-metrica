@@ -35,7 +35,6 @@ script:
   - docker-compose -f docker-compose.test.yml exec app php artisan migrate --seed --force
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
   - docker-compose -f docker-compose.test.yml run node npm run lint
-  - docker-compose -f docker-compose.test.yml down
 after_script:
   - docker-compose -f docker-compose.test.yml down
   - docker image rmi -f metrica/app:latest
