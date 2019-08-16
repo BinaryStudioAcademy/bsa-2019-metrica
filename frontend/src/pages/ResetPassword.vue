@@ -10,7 +10,7 @@
         components: {
             ResetPasswordForm
         }
-    }
+    };
 </script>
 
 <style scoped>

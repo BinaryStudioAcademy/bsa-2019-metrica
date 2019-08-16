@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class EloquentWebsiteRepository implements WebsiteRepository
 {
@@ -13,5 +14,13 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         $website->save();
 
         return $website;
+    }
+
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function getById(int $id): Website
+    {
+        return Website::findOrFail($id);
     }
 }

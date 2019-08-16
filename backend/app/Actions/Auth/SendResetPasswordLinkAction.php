@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 namespace App\Actions\Auth;
+
 use App\Exceptions\TokenCouldNotCreate;
 use App\Exceptions\UserByEmailNotFoundException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -29,7 +30,6 @@ final class SendResetPasswordLinkAction
         try {
             JWTAuth::factory()->setTTL(30);
             $token = JWTAuth::fromUser($user);
-
         } catch (JWTException $e) {
             throw new TokenCouldNotCreate();
         }

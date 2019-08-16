@@ -1,21 +1,32 @@
-import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD} from './types/actions';
-import {SET_AUTHENTICATED_USER, USER_LOGIN, USER_LOGOUT} from "./types/mutations";
-import { authorize, getAuthUser, registerUser } from '@/api/auth';
+import {LOGIN, LOGOUT, SIGN_UP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
+import {
+    SET_AUTHENTICATED_USER,
+    USER_LOGIN,
+    USER_LOGOUT,
+} from "./types/mutations";
+import {updateUser} from '@/api/users';
+import {authorize, getAuthUser, registerUser} from '@/api/auth';
+import {HAS_TOKEN} from "./types/getters";
+import _ from 'lodash';
 
 export default {
     [LOGIN]: (context, user) => {
         return authorize(user)
-          .then(response => {
-            context.commit(USER_LOGIN, response.data);
+            .then(response => {
+                context.commit(USER_LOGIN, response.data);
 
-            return getAuthUser()
-              .then(response => {
-                const user = response.data;
-                context.commit(SET_AUTHENTICATED_USER, user);
+                return getAuthUser()
+                    .then(response => {
+                        const user = response.data;
+                        context.commit(SET_AUTHENTICATED_USER, user);
 
-                return user;
-              });
-          });
+                        return user;
+                    });
+            }).catch((response) => {
+                return Promise.reject(response.response.data.error.message);
+            });
+
+
     },
 
     [LOGOUT]: (context) => {
@@ -25,8 +36,18 @@ export default {
         });
     },
 
-    [SIGNUP]: (context, newUser) => {
-        return registerUser(newUser);
+    [UPDATE_USER]: (context, user) => {
+        return updateUser(user)
+            .then(response => {
+                context.commit(SET_AUTHENTICATED_USER, response.data);
+            });
+    },
+
+    [SIGN_UP]: (context, newUser) => {
+        return registerUser(newUser)
+            .catch((error) => {
+                throw new Error(_.get(error, 'response.data.error.message', 'Unknown error'));
+            });
     },
 
     [RESET_PASSWORD]: () => {
@@ -42,6 +63,18 @@ export default {
                 default:
                     reject("User with this email does not exist. Please, check if the password is correct.");
             }
-        })
-    }
-}
+        });
+    },
+
+    [FETCH_CURRENT_USER]: (context) => {
+        if (!context.getters[HAS_TOKEN]) {
+            return;
+        }
+        return getAuthUser().then(response => {
+            context.commit(SET_AUTHENTICATED_USER, response.data);
+        }).catch(() => {
+            context.commit(USER_LOGOUT);
+        });
+    },
+
+};

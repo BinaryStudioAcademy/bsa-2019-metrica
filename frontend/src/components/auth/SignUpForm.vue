@@ -101,9 +101,10 @@
 
 <script>
     import {mapActions} from 'vuex';
-    import {SIGNUP} from "@/store/modules/auth/types/actions";
-
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    import {SIGN_UP} from "@/store/modules/auth/types/actions";
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
+    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
 
     export default {
         data () {
@@ -124,42 +125,44 @@
                 ],
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => emailRegex.test(v) || 'E-mail must be valid'
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 6 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
                     v => v === this.newUser.password || 'Password should match'
                 ]
-            }
+            };
         },
         methods: {
             ...mapActions('auth', {
-                signup: SIGNUP
+                signUp: SIGN_UP
+            }),
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
             }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
-                    this.signup({
+                    this.signUp({
                         name: this.newUser.name,
                         email: this.newUser.email,
                         password: this.newUser.password,
                     }).then(() => {
+                        this.$emit("success");
+                        this.showSuccessMessage('You have been successfully registered! Please log in!');
                         this.$router.push({name: 'login'});
-                    }, err => {
-                        alert(err.message);
-                    })
+                    }).catch((error) => {
+                        this.showErrorMessage(error);
+                    });
                 }
-                
             },
-
             onSignIn () {
-                return this.$router.push({path: '/login'});
+                return this.$router.push({name: 'login'});
             },
         },
-
-
-    }
+    };
 </script>
