@@ -16,12 +16,7 @@ class ChangeSessionsTable extends Migration
         Schema::table('sessions', function (Blueprint $table) {
             $table->dropForeign(['demographic_id']);
             $table->dropColumn('demographic_id');
-            $table->unsignedBigInteger('language_id');
-
-            $table->foreign('language_id')
-                ->references('id')
-                ->on('languages');
-
+            $table->string('language');
         });
     }
 
@@ -33,8 +28,6 @@ class ChangeSessionsTable extends Migration
     public function down()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->dropForeign(['language_id']);
-            $table->dropColumn('language_id');
             $table->unsignedBigInteger('demographic_id');
 
             $table->foreign('demographic_id')

@@ -65,7 +65,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
     {
         $count = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
-            ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->select('visitors.id')
             ->where('visitors.website_id', '=', $this->website_id)
             ->whereBetween('visits.visit_time', [$from, $to])
@@ -74,11 +74,10 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
-            ->join('languages', 'languages.id', '=', 'sessions.language_id')
-            ->select(DB::raw('COUNT(visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'languages.language as parameter_value')
+            ->select(DB::raw('COUNT(visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'sessions.language as parameter_value')
             ->where('visitors.website_id', '=', $this->website_id)
             ->whereBetween('visits.visit_time', [$from, $to])
-            ->groupBy('languages.id')
+            ->groupBy('sessions.language')
             ->get();
 
         return new Collection($visitors);

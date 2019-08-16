@@ -16,7 +16,7 @@ $factory->define(Session::class, function (Faker $faker) {
         'start_session' => (Carbon::now())->toDateString(),
         'visitor_id' => Visitor::inRandomOrder()->first()->id,
         'entrance_page_id' => Page::inRandomOrder()->first()->id,
-        'language_id' => Language::inRandomOrder()->first()->id,
+        'language' => $faker->languageCode,
         'device_id' => Device::inRandomOrder()->first()->id,
         'system_id' => System::inRandomOrder()->first()->id
     ];

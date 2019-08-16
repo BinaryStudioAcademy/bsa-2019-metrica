@@ -17,7 +17,7 @@ final class Session extends Model
         'visitor_id',
         'entrance_page_id',
         'demographic_id',
-        'language_id',
+        'language',
         'device_id',
         'system_id',
     ];
