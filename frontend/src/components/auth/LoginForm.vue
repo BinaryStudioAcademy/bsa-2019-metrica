@@ -131,23 +131,16 @@
 
     .form {
         width: 50%;
-        font-family: Gilroy;
 
         .login-btn {
             color: white;
         }
 
         .v-btn {
-            font-family: Gilroy;
-            letter-spacing: 0.4px;
             text-transform: none;
-            border-radius: 3px;
 
             +.start {
                 background: #FFFFFF;
-                border: 2px solid #3C57DE;
-                box-sizing: border-box;
-                border-radius: 3px;
                 color: #3C57DE;
             }
         }
