@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class EditWebsiteAction
 {
-
     private $websiteRepository;
 
     public function __construct(

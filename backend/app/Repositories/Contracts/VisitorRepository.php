@@ -9,10 +9,13 @@ interface VisitorRepository
 {
     public function all(): Collection;
 
+    public function countVisitorsBetweenDate(string $from, string $to): int;
+
     public function newest(): Collection;
 
     public function newestCount(NewVisitorsCountFilterData $filterData): int;
 
-    public function getVisitorsOfWebsite(int $websiteId): Collection;
+    public function countSinglePageInactiveSessionBetweenDate(string $from, string $to): int;
 
+    public function getVisitorsOfWebsite(int $websiteId): Collection;
 }
