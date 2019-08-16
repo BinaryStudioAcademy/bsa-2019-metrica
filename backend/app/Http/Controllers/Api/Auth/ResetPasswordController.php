@@ -22,11 +22,11 @@ final class ResetPasswordController extends Controller
 
     public function sendPasswordResetLink(ResetPasswordHttpRequest $request)
     {
-            $response = $this->sendLinkAction->execute(
-                new ResetPasswordRequest(
-                    $request->get('email')
-                )
-            );
+        $response = $this->sendLinkAction->execute(
+            new ResetPasswordRequest(
+                $request->get('email')
+            )
+        );
 
         return ApiResponse::success(new MessageResource($response));
     }
