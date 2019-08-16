@@ -8,6 +8,7 @@ import {updateUser} from '@/api/users';
 import {authorize, getAuthUser, registerUser, resetPassword} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
 
+
 export default {
     [LOGIN]: (context, user) => {
         return authorize(user)
@@ -21,7 +22,11 @@ export default {
 
                         return user;
                     });
+            }).catch((response) => {
+                return Promise.reject(response.response.data.error.message);
             });
+
+
     },
 
     [LOGOUT]: (context) => {
