@@ -16,7 +16,10 @@
         <VToolbarTitle class="hidden-sm-and-down username mr-6">
             Hello, <span>{{ user.name }}</span>
         </VToolbarTitle>
-        <VAvatar>
+        <VAvatar
+            width="32"
+            height="auto"
+        >
             <img src="/assets/images/avatar.png">
         </VAvatar>
         <VMenu
