@@ -29,7 +29,7 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
             " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . ") , " . $period . ")";
     }
 
-    public function findByFilter( PageViewsFilterData $filterData, int $interval): Collection
+    public function findByFilter(PageViewsFilterData $filterData, int $interval): Collection
     {
         $subQuery = "SELECT visits.*, (" . $this->roundDate('created_at', $interval) . ") as date " .
             "FROM visits " .
