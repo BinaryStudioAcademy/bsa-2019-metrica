@@ -21,8 +21,7 @@ final class SessionController extends Controller
     public function __construct(
         GetAllSessionsAction $getAllSessionsAction,
         GetAvgSessionAction $getAvgSessionAction
-    )
-    {
+    ) {
         $this->getAllSessionsAction = $getAllSessionsAction;
         $this->getAvgSessionAction = $getAvgSessionAction;
     }
@@ -41,5 +40,4 @@ final class SessionController extends Controller
         );
         return ApiResponse::success(new AvgSession($response->avgSession()));
     }
-
 }

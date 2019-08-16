@@ -8,7 +8,6 @@ use App\Actions\Sessions\GetAvgSessionRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 
-
 final class AverageSessionFilter
 {
     private $startDate;
@@ -18,12 +17,10 @@ final class AverageSessionFilter
     public function __construct(
         GetAvgSessionRequest $request,
         Collection $visitorsIDsOfWebsite
-    )
-    {
+    ) {
         $this->startDate = $request->startDate();
         $this->endDate = $request->endDate();
         $this->visitorsIDs = $visitorsIDsOfWebsite;
-
     }
 
     public function getVisitorsIDs()
@@ -40,6 +37,4 @@ final class AverageSessionFilter
     {
         return Carbon::createFromTimestamp($this->endDate)->toDateTimeString();
     }
-
-
 }
