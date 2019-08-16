@@ -101,11 +101,10 @@
 
 <script>
     import {mapActions} from 'vuex';
-    import {SIGNUP} from "@/store/modules/auth/types/actions";
+    import {SIGN_UP} from "@/store/modules/auth/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
-    import _ from 'lodash';
 
     export default {
         data () {
@@ -140,7 +139,7 @@
         },
         methods: {
             ...mapActions('auth', {
-                signup: SIGNUP
+                signUp: SIGN_UP
             }),
             ...mapActions('notification', {
                 showSuccessMessage: SHOW_SUCCESS_MESSAGE,
@@ -148,7 +147,7 @@
             }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
-                    this.signup({
+                    this.signUp({
                         name: this.newUser.name,
                         email: this.newUser.email,
                         password: this.newUser.password,
@@ -157,10 +156,25 @@
                         this.showSuccessMessage('You have been successfully registered! Please log in!');
                         this.$router.push({name: 'login'});
                     }).catch((error) => {
-                        this.showErrorMessage(_.get(error, 'response.data.error.message', 'Unknown error'));
+                        this.showErrorMessage(error);
                     });
                 }
             },
+
+            //     .then(() => {
+            //     this.$emit("success");
+            //     this.showSuccessMessage('You have been successfully registered! Please log in!');
+            //     this.$router.push({name: 'login'});
+            // }).catch((error) => {
+            //     this.showErrorMessage(_.get(error, 'response.data.error.message', 'Unknown error'));
+            // });
+
+
+            // onError (errors) {
+            //     if (errors.message) {
+            //         return errors.message;
+            //     }
+            // },
 
             onSignIn () {
                 return this.$router.push({name: 'login'});
