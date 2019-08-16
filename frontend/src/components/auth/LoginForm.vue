@@ -39,7 +39,7 @@
                     <VBtn
                         class="login-btn"
                         min-width="100px"
-                        color="#3C57DE"
+                        color="primary"
                         :disabled="!valid"
                         @click="onLogin"
                     >
@@ -128,13 +128,8 @@
 </script>
 
 <style lang="scss" scoped>
-
     .form {
         width: 50%;
-
-        .login-btn {
-            color: white;
-        }
 
         .v-btn {
             text-transform: none;
@@ -148,17 +143,7 @@
         h3 {
             margin-bottom: 30px;
             font-size: 19px;
-            line-height: 19px;
         }
-
-        .password {
-            line-height: 20px;
-        }
-
-        .v-input__slot {
-            min-height: 45px;
-        }
-
         .password-group {
             display: flex;
             flex-direction: column;
@@ -168,15 +153,6 @@
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
-        }
-
-        .choice {
-            align-self: center;
-            margin: 0 15px;
-        }
-
-        .forgot-password-link {
-            color: #3C57DE;
         }
     }
 </style>
