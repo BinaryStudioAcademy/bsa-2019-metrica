@@ -118,7 +118,7 @@
             }),
             update() {
                 this.website({
-                    name:this.localWebsite.websiteName
+                    name: this.websiteName,
                 }).then(() => {
                     this.showSuccessMessage = 'Name is successfully saved';
                 }).catch((err) => {
