@@ -1,85 +1,80 @@
 <template>
-    <VContent>
-        <VFlex
-            lg6
-            md6
-            sm12
-            xs12
-        >
-            <VContainer>
-                <VCardText class="edit-container">
-                    <VSubheader class="edit-form-header">
-                        Profile
-                    </VSubheader>
-                    <VForm ref="form">
-                        <VSubheader class="edit-form-label">
-                            Full Name
-                        </VSubheader>
-                        <VTextField
-                            name="name"
-                            class="edit-form-input"
-                            v-model="editUser.name"
-                            solo
-                            type="text"
-                            :rules="nameRules"
-                            required
-                        />
-                        <VSubheader class="edit-form-label">
-                            Email
-                        </VSubheader>
-                        <VTextField
-                            name="email"
-                            class="edit-form-input"
-                            v-model="editUser.email"
-                            solo
-                            type="email"
-                            :rules="emailRules"
-                            required
-                        />
-                        <VSubheader class="edit-form-label">
-                            Password
-                        </VSubheader>
-                        <VTextField
-                            name="input-10-1"
-                            class="edit-form-input"
-                            v-model="editUser.password"
-                            :append-icon="passwordVisibility"
-                            solo
-                            :type="passwordType"
-                            counter
-                            :rules="passwordRules"
-                            required
-                            @click:append="showPassword = !showPassword"
-                        />
-                        <VSubheader class="edit-form-label">
-                            Repeat password
-                        </VSubheader>
-                        <VTextField
-                            name="input-10-1"
-                            class="edit-form-input"
-                            v-model="confirmPassword"
-                            :append-icon="confirmPasswordVisibility"
-                            solo
-                            :type="confirmPasswordType"
-                            counter
-                            :rules="confirmPasswordRules"
-                            required
-                            @click:append="showConfirmPassword = !showConfirmPassword"
-                        />
-                    </VForm>
-                </VCardText>
-                <VCardActions>
-                    <VBtn
-                        @click="onSave"
-                        class="editUser-form-button mt-3"
-                        color="#3C57DE"
-                    >
-                        Save
-                    </VBtn>
-                </VCardActions>
-            </VContainer>
-        </VFlex>
-    </VContent>
+    <VFlex
+        lg6
+        md6
+        sm12
+        xs12
+        class="ml-12 mt-11"
+    >
+        <VContainer>
+            <VSubheader class="body-1 grey--text text--darken-1 pa-0">
+                Profile
+            </VSubheader>
+            <VForm ref="form">
+                <label class="caption grey--text mt-2 mb-3">
+                    Full Name
+                </label>
+                <VTextField
+                    name="name"
+                    class="no-underline"
+                    v-model="editUser.name"
+                    type="text"
+                    :rules="nameRules"
+                    required
+                    solo
+                />
+                <label class="caption grey--text mt-2 mb-3">
+                    Email
+                </label>
+                <VTextField
+                    name="email"
+                    class="no-underline"
+                    v-model="editUser.email"
+                    type="email"
+                    :rules="emailRules"
+                    required
+                    solo
+                />
+                <label class="caption grey--text mt-2 mb-3">
+                    Password
+                </label>
+                <VTextField
+                    name="input-10-1"
+                    class="no-underline"
+                    v-model="editUser.password"
+                    :append-icon="passwordVisibility"
+                    :type="passwordType"
+                    counter
+                    :rules="passwordRules"
+                    required
+                    solo
+                    @click:append="showPassword = !showPassword"
+                />
+                <label class="caption grey--text mt-2 mb-3">
+                    Repeat password
+                </label>
+                <VTextField
+                    name="input-10-1"
+                    class="no-underline"
+                    v-model="confirmPassword"
+                    :append-icon="confirmPasswordVisibility"
+                    :type="confirmPasswordType"
+                    counter
+                    :rules="confirmPasswordRules"
+                    required
+                    solo
+                    @click:append="showConfirmPassword = !showConfirmPassword"
+                />
+            </VForm>
+            <VBtn
+                @click="onSave"
+                class="mt-9"
+                color="primary"
+            >
+                Save
+            </VBtn>
+        </VContainer>
+    </VFlex>
 </template>
 
 <script>
@@ -122,7 +117,8 @@
 
         created() {
             this.editUser = {
-                ...this.user
+                ...this.editUser,
+                ...this.user,
             };
         },
 
@@ -154,7 +150,7 @@
                     this.update(this.editUser)
                         .catch((error) => {
                             alert(error.message);
-                        })
+                        });
                 }
             },
         }
@@ -162,48 +158,13 @@
 </script>
 
 <style lang="scss" scoped>
-.edit-form-input {
-    background: #FFFFFF;
-    box-sizing: border-box;
-    border-radius: 3px;
+::v-deep .v-input__append-inner {
+    align-self: center;
+    margin-right: 4px;
+    margin-top: 0;
 }
 
-.edit-form-label {
-    font-size: 12px;
-    line-height: 15px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.4px;
-
-    color: rgba(18, 39, 55, 0.5);
-}
-
-.edit-form-header {
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.4px;
-
-    color: #122737;
-}
-
-.edit-container {
-    padding: 8px;
-}
-
-.edit-form-button {
-    border-radius: 3px;
-
-    ::v-deep {
-        span {
-            font-size: 14px;
-            line-height: 17px;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            letter-spacing: 0.4px;
-        }
-    }
+::v-deep .v-btn {
+    width: 105px;
 }
 </style>

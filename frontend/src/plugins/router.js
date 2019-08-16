@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from '../pages/Login.vue'
+import Login from '../pages/Login.vue';
 import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
 import SignUp from "../pages/SignUp.vue";
@@ -12,6 +12,8 @@ import StepAddName from '@/components/website/adding_master/StepAddName.vue';
 import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue';
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
 import WebsiteInfo from '../pages/WebsiteInfo.vue';
+import WebsiteGuard from '@/components/website/WebsiteGuard.vue';
+import Default from '@/components/layout/Default.vue';
 
 Vue.use(Router);
 
@@ -40,12 +42,37 @@ export default new Router({
                 {
                     path: 'dashboard',
                     name: 'dashboard',
-                    component: Visitors
+                    component: Default,
+                    meta: {
+                        title: 'Dashboard'
+                    },
                 },
                 {
                     path: 'visitors',
-                    name: 'visitors',
-                    component: Visitors
+                    component: Visitors,
+                    children: [
+                        {
+                            path: 'main',
+                            name: 'visitors',
+                            meta: {
+                                title: 'Visitors'
+                            },
+                        },
+                        {
+                            path: 'page-views',
+                            name: 'page-views',
+                            meta: {
+                                title: 'Page views'
+                            },
+                        },
+                        {
+                            path: 'geo-locations',
+                            name: 'geo-locations',
+                            meta: {
+                                title: 'Geo locations'
+                            },
+                        },
+                    ]
                 },
                 {
                     path: 'user-settings',
@@ -60,47 +87,64 @@ export default new Router({
                 {
                     path: 'behaviour',
                     name: 'behaviour',
-                    component: Visitors
+                    component: Default,
+                    meta: {
+                        title: 'Behaviour'
+                    },
                 },
                 {
                     path: 'speedoverview',
                     name: 'speedoverview',
-                    component: Visitors
+                    component: Default,
+                    meta: {
+                        title: 'Speedoverview'
+                    },
                 },
                 {
-                    path: 'website-info',
-                    name: 'websiteinfo',
-                    component: WebsiteInfo
-                },
-                {
-                    path: 'websites/add',
-                    component: AddWebsitePage,
+                    path: 'website',
+                    component: WebsiteGuard,
                     children: [
                         {
-                            path: 'step-1',
-                            name: 'add_websites_step_1',
-                            component: StepAddName,
-                            meta: {
-                                step: 1
-                            },
-                            props: true
+                            path: 'info',
+                            name: 'websiteinfo',
+                            component: WebsiteInfo
                         },
                         {
-                            path: 'step-2',
-                            name: 'add_websites_step_2',
-                            component: StepAddDomain,
-                            meta: {
-                                step: 2
-                            },
+                            path: 'add',
+                            component: AddWebsitePage,
+                            children: [
+                                {
+                                    path: '',
+                                    name: 'add_website',
+                                    redirect: { name: 'add_websites_step_1' },
+                                },
+                                {
+                                    path: 'step-1',
+                                    name: 'add_websites_step_1',
+                                    component: StepAddName,
+                                    meta: {
+                                        step: 1
+                                    },
+                                    props: true,
+                                },
+                                {
+                                    path: 'step-2',
+                                    name: 'add_websites_step_2',
+                                    component: StepAddDomain,
+                                    meta: {
+                                        step: 2
+                                    },
+                                },
+                                {
+                                    path: 'step-3',
+                                    name: 'add_websites_step_3',
+                                    component: StepTrackingInfo,
+                                    meta: {
+                                        step: 3
+                                    }
+                                }
+                            ]
                         },
-                        {
-                            path: 'step-3',
-                            name: 'add_websites_step_3',
-                            component: StepTrackingInfo,
-                            meta: {
-                                step: 3
-                            }
-                        }
                     ]
                 },
             ]

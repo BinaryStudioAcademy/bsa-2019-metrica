@@ -7,7 +7,7 @@
         >
             <VContainer pa-1>
                 <div
-                    class="subtitle-2 title-text font-weight-bold"
+                    class="subtitle-2 title-text"
                 >
                     Add website to track info about
                 </div>
@@ -20,7 +20,7 @@
                         <VTextField
                             v-model="domain"
                             label="Website domain"
-                            class="form-input"
+                            class="form-input mt-5"
                             required
                             single-line
                             solo
@@ -32,14 +32,14 @@
                     <VSwitch
                         v-model="single_page"
                         label="Single page app"
-                        color="#3C57DE"
+                        color="primary"
+                        class="mt-9 mb-8"
                         inset
                     />
                 </VForm>
                 <VBtn
                     large
-                    class="white--text mt-4"
-                    color="#3C57DE"
+                    color="primary"
                     @click="onGoToNextStep"
                 >
                     Get Tracking Info
@@ -68,7 +68,7 @@
                     v => !!v || 'Website domain is required',
                     v => domainRegex.test(v) || 'Domain must be correct'
                 ],
-            }
+            };
         },
         computed: {
             ...mapGetters('website', {
@@ -92,30 +92,35 @@
                     this.setWebsiteData({
                         domain: this.domain,
                         single_page: this.single_page
-                    }).then(() => this.saveNewSite()
-                        .then(() => this.$router.push({name: 'add_websites_step_3'}))
-                        .catch((res) => this.onError(res.errors))
-                    );
+                    }).then(
+                        this.saveNewSite
+                    ).then(() => {
+                        this.$router.push({name: 'add_websites_step_3'});
+                    }).catch((res) => {
+                        this.onError(res.errors);
+                    });
                 }
             },
             onError (errors) {
                 if (errors.name) {
-
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.name}});
+
                     return;
                 }
 
                 if (errors.domain) {
-
                     this.errorMessage = errors.domain;
+
                     return;
                 }
 
                 if (errors.message) {
-
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.message}});
+
                     return;
                 }
+
+                console.error(errors);
             },
 
         }

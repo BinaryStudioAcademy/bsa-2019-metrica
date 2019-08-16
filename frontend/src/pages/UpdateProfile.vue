@@ -9,5 +9,5 @@
         components: {
             UpdateProfileForm
         }
-    }
+    };
 </script>

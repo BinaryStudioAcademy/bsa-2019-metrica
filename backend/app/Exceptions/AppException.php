@@ -3,7 +3,6 @@
 
 namespace App\Exceptions;
 
-
 use App\Contracts\ApiException;
 use Illuminate\Http\Response;
 

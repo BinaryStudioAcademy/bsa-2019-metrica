@@ -53,9 +53,9 @@ final class Session extends Model
         return $this->hasMany(Visit::class);
     }
 
-    public function scopeInactive(Builder $query): Builder
+    public function scopeInactive(Builder $query, string $date): Builder
     {
-        return $query->whereTime('updated_at', '<', (Carbon::now())->subMinutes(30)->toDateString());
+        return $query->where('updated_at', '<', Carbon::rawParse($date)->subMinutes(30)->toDateTimeString());
     }
 
     public function scopeWhereDateBetween(Builder $query, string $from, string $to): Builder

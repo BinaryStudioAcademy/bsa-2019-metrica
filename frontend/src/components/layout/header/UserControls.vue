@@ -16,8 +16,11 @@
         <VToolbarTitle class="hidden-sm-and-down username mr-6">
             Hello, <span>{{ user.name }}</span>
         </VToolbarTitle>
-        <VAvatar>
-            <img src="/assets/images/lady.png">
+        <VAvatar
+            width="32"
+            height="auto"
+        >
+            <img src="/assets/images/avatar.png">
         </VAvatar>
         <VMenu
             bottom
@@ -81,7 +84,7 @@
                 user: GET_AUTHENTICATED_USER
             })
         }
-    }
+    };
 </script>
 
 <style scoped lang="scss">
