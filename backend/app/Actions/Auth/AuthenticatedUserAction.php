@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace App\Actions\Auth;
 
 use App\Exceptions\TokenCouldNotCreate;
-use App\Exceptions\UserByEmailNotFoundException;
+use App\Exceptions\UnauthenticatedException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -20,7 +20,7 @@ final class AuthenticatedUserAction
             ]);
 
             if (!$token) {
-                throw new UserByEmailNotFoundException();
+                throw new UnauthenticatedException();
             }
         } catch (JWTException $exception) {
             throw new TokenCouldNotCreate();

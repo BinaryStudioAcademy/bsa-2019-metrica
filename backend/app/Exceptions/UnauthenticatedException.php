@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 
 final class UnauthenticatedException extends AuthenticationException implements ApiException
 {
-    protected $message = "Unauthenticated.";
+    protected $message = "Something wrong with email or password";
 
     public function __construct(string $message = '', array $guards = [], ?string $redirectTo = null)
     {
