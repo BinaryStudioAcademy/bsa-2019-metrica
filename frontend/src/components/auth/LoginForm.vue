@@ -41,7 +41,6 @@
                         <VTextField
                             :append-icon="showPassword ? 'visibility' : 'visibility_off'"
                             :type="showPassword ? 'text' : 'password'"
-                            label="Normal with hint text"
                             @click:append="showPassword = !showPassword"
                             name="password"
                             class="login-form-input"
