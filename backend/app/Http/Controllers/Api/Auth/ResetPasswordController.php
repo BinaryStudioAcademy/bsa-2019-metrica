@@ -31,7 +31,9 @@ final class ResetPasswordController extends Controller
                 )
             );
         } catch (UserByEmailNotFoundException|TokenCouldNotCreate $exception) {
-            return ApiResponse::error($exception);
+            return ['error' => [
+                'status' => $exception->getStatus()]
+            ];
         }
 
         return ApiResponse::success(new MessageResource($response));

@@ -36,6 +36,12 @@
                         Reset password
                     </VBtn>
                 </VCardActions>
+                <VAlert
+                    class="error-response"
+                    v-if="hasError"
+                    type="error"
+                    v-html="errorMsg"
+                />
             </VContainer>
             <VContainer v-else>
                 <VAlert
@@ -53,7 +59,6 @@
 <script>
     import {mapActions} from 'vuex';
     import {RESET_PASSWORD} from "@/store/modules/auth/types/actions";
-    import { SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import {validateEmail} from '@/services/validation';
 
     export default {
@@ -66,25 +71,26 @@
                     v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 showEmail: true,
-                successMsg:''
+                hasError:false,
+                successMsg:'',
+                errorMsg:''
             };
         },
         methods: {
             ...mapActions('auth', {
                 resetPassword: RESET_PASSWORD
             }),
-            ...mapActions('notification', {
-                showErrorMessage: SHOW_ERROR_MESSAGE
-            }),
             onResetPassword() {
                 if (this.$refs.form.validate()) {
+                    this.hasError=false;
                     this.resetPassword({
                         email: this.email,
                     }).then((response) => {
                         this.showEmail = false;
                         this.successMsg = response;
                     }).catch(err => {
-                        this.showErrorMessage(err);
+                        this.hasError = true;
+                        this.errorMsg = err;
                     });
                 }
             }
@@ -175,4 +181,10 @@
         min-width: 245px;
         max-width: 712px;
     }
+
+    .error-response{
+        margin-left: 16px;
+        margin-top: 5px;
+    }
+
 </style>

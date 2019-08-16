@@ -48,10 +48,15 @@ export default {
     },
 
     [RESET_PASSWORD]: (context, payload) => {
-        return resetPassword(payload).then(() => {
-                    return `Your reset password link was created. Check your email ${payload.email}, please.`;
-            }).catch((err) => {
-           throw new Error(err);
+        return resetPassword(payload).then((response) => {
+            if (response.data) {
+                return `Your reset password link was created. Check your email ${payload.email}, please.`;
+            } else if (response.error.status === 404) {
+                throw `It looks like there is no account associated with this email address.
+                 You can  <a href="/signup"> create an account</a> to access our services.`;
+            } else if (response.error.status === 500) {
+                throw 'Sorry, something wrong happened. Please, try again';
+            }
         });
     },
 
