@@ -160,22 +160,6 @@
                     });
                 }
             },
-
-            //     .then(() => {
-            //     this.$emit("success");
-            //     this.showSuccessMessage('You have been successfully registered! Please log in!');
-            //     this.$router.push({name: 'login'});
-            // }).catch((error) => {
-            //     this.showErrorMessage(_.get(error, 'response.data.error.message', 'Unknown error'));
-            // });
-
-
-            // onError (errors) {
-            //     if (errors.message) {
-            //         return errors.message;
-            //     }
-            // },
-
             onSignIn () {
                 return this.$router.push({name: 'login'});
             },
