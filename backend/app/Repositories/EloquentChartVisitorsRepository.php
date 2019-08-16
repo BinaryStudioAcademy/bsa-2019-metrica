@@ -14,7 +14,7 @@ class EloquentChartVisitorsRepository implements ChartVisitorsRepository
     public function getNewVisitorsByDate(GetNewChartVisitorsByDateRangeRequest $request): Collection
     {
         $subQueryFirst = "SELECT id FROM websites where user_id = :user_id";
-        $subQuerySecond = "SELECT visitors.*, ( " .$this->getPeriod('created_at',$request->getPeriod()) .") as period
+        $subQuerySecond = "SELECT visitors.*, ( " .$this->getPeriod('created_at', $request->getPeriod()) .") as period
                              FROM \"visitors\" WHERE
                                       created_at >= :startData and created_at <= :endData and website_id = ($subQueryFirst)";
         $query = DB::raw("SELECT COUNT(*), period from ($subQuerySecond) as periods group by period");
