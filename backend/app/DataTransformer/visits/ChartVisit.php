@@ -13,4 +13,13 @@ class ChartVisit
         $this->visits = $visits;
     }
 
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    public function getVisits(): int
+    {
+        return $this->visits;
+    }
 }

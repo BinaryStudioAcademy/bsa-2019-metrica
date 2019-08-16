@@ -28,20 +28,6 @@ class VisitsApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-    }
-
-    public function testPageViewsFilter()
-    {
-        $firstDate = new DateTime('@1565846640');
-
-        $filterData = [
-            'filter' => [
-                'startDate' => $firstDate->getTimestamp(),
-                'endDate' => $firstDate->getTimestamp(),
-                'period' => 60000
-            ]
-        ];
-
         factory(Website::class)->create();
         factory(Visitor::class)->create();
         factory(Page::class)->create();
@@ -52,32 +38,62 @@ class VisitsApiTest extends TestCase
         factory(Demographic::class)->create();
         factory(System::class)->create();
         factory(Session::class)->create();
+    }
+
+    public function testPageViewsFilter()
+    {
+        $firstDate = new DateTime('@1565846640');
+        $secondDate = new DateTime('@1565734102');
+
+        $filterData = [
+            'filter' => [
+                'startDate' => $secondDate->getTimestamp(),
+                'endDate' => $firstDate->getTimestamp(),
+                'period' => 60000
+            ]
+        ];
 
         factory(Visit::class)->create([
             'created_at' => $firstDate,
 
         ]);
 
+        factory(Visit::class)->create([
+            'created_at' => $secondDate,
+
+        ]);
+
+        factory(Visit::class)->create([
+            'created_at' => $secondDate,
+
+        ]);
+
+        factory(Visit::class)->create([
+            'created_at' => $secondDate,
+
+        ]);
+
         $expectedData = [
             'data' =>
-            [
                 [
+                    [
+                        'date' => '1565734080',
+                        'visits' => 3
+                    ],
+
                     [
                         'date' => '1565846640',
                         'visits' => 1
-                    ]
-                ]
+                    ],
 
-            ],
+                ],
             'meta' => [],
         ];
 
 
-
-       $request =  $this->actingAs($this->user)
+        $request = $this->actingAs($this->user)
             ->call('GET', 'api/v1/chart-visits/', $filterData)
             ->assertStatus(200)
-           //->assertJson($expectedData)
-        ;
+            ->assertJson($expectedData);
     }
 }
