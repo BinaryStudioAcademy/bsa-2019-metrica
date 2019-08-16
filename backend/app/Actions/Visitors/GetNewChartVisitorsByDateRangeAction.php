@@ -16,11 +16,11 @@ class GetNewChartVisitorsByDateRangeAction
         $this->repository = $repository;
     }
 
-    public function execute(GetNewChartVisitorsByDateRangeRequest $request):GetNewChartVisitorsByDateRangeResponse
+    public function execute(GetNewChartVisitorsByDateRangeRequest $request): GetNewChartVisitorsByDateRangeResponse
     {
         $startData = Carbon::createFromTimestampUTC($request->getStartDate())->toDateTimeString();
         $endData = Carbon::createFromTimestampUTC($request->getEndDate())->toDateTimeString();
-        $response = $this->repository->getNewVisitorsByDate($startData,$endData,$request->getPeriod(),Auth::user()->id);
+        $response = $this->repository->getNewVisitorsByDate($startData, $endData, $request->getPeriod(), Auth::user()->id);
         return new GetNewChartVisitorsByDateRangeResponse($response);
     }
 }
