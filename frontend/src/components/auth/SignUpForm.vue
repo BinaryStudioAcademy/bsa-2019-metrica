@@ -1,58 +1,77 @@
 <template>
     <div class="form">
-        <h3>Welcome to Metrica!</h3>
+        <VSubheader
+            class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
+        >
+            Welcome to Metrica!
+        </VSubheader>
         <VForm
             lazy-validation
             ref="form"
             v-model="valid"
         >
+            <label
+                class="caption grey--text"
+            >
+                Full name
+            </label>
             <VTextField
-                outlined
-                label="Full name"
-                type="name"
+                class="no-underline mt-1"
+                solo
+                type="text"
                 name="name"
                 v-model="newUser.name"
                 :rules="nameRules"
             />
+            <label
+                class="caption grey--text"
+            >
+                Email
+            </label>
             <VTextField
-                outlined
-                label="Email"
+                class="no-underline mt-1"
+                solo
                 type="email"
                 name="email"
                 v-model="newUser.email"
                 :rules="emailRules"
             />
             <div class="password-group">
+                <label
+                    class="caption grey--text"
+                >
+                    Password
+                </label>
                 <VTextField
-                    class="password"
-                    outlined
-                    label="Password"
+                    class="no-underline my-1"
+                    solo
                     name="password"
                     autocomplete="new-password"
                     v-model="newUser.password"
                     :append-icon="show1 ? 'visibility' : 'visibility_off'"
-                    :counter="8"
                     :rules="passwordRules"
                     :type="show1 ? 'text' : 'password'"
                     @click:append="show1 = !show1"
                 />
+                <label
+                    class="caption grey--text"
+                >
+                    Confirm password
+                </label>
                 <VTextField
-                    class="password"
-                    width="70%"
-                    outlined
-                    label="Confirm password"
+                    class="no-underline my-1"
+                    solo
                     name="confirmPassword"
                     autocomplete="new-password"
                     v-model="newUser.confirmPassword"
                     :append-icon="show2 ? 'visibility' : 'visibility_off'"
-                    :counter="8"
                     :rules="confirmPasswordRules"
                     :type="show2 ? 'text' : 'password'"
                     @click:append="show2 = !show2"
                 />
                 <div class="btn-group">
                     <VBtn
-                        class="start"
+                        class="mt-5"
                         min-width="100px"
                         color="primary"
                         :disabled="!valid"
@@ -60,14 +79,15 @@
                     >
                         SIGN UP
                     </VBtn>
-                    <div class="choice">
+                    <div class="choice mt-5">
                         or
                     </div>
                     <VBtn
-                        class="login"
+                        class="mt-5"
+                        outlined
+                        color="primary"
                         min-width="100px"
                         :to="{name: 'login'}"
-                        outlined
                         :disabled="false"
                     >
                         SIGN IN
@@ -166,21 +186,6 @@
     }
 }
 
-h3 {
-    font-family: Gilroy;
-    margin-bottom: 30px;
-    font-size: 19px;
-    line-height: 19px;
-}
-
-.password {
-    line-height: 20px;
-}
-
-.v-input__slot{
-    min-height: 45px;
-}
-
 .password-group {
     display: flex;
     flex-direction: column;
@@ -190,11 +195,11 @@ h3 {
 .btn-group{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     max-width: 80%;
 }
 
 .choice{
-    align-self: center;
     margin: 0 15px;
 }
 

@@ -51,11 +51,10 @@
 
 main{
     background: #FFFFFF;
-
 }
 
 .image{
-    padding-top: 40px;
+    padding-top: 110px;
 }
 
 .container{
@@ -63,12 +62,8 @@ main{
 }
 
 .form-wrapper{
-    padding-top: 40px;
-    height: 100vh;
-    background: #F2F2F2;
+    height: 89vh;
+    background: #f5f8fd;
 }
-
-
-
 
 </style>
