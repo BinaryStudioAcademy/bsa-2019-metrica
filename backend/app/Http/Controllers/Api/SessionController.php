@@ -10,6 +10,8 @@ use App\Http\Resources\SessionResourceCollection;
 use App\Http\Response\ApiResponse;
 use App\Http\Resources\CountSession;
 use App\Http\Requests\Api\CountSessionsHttpRequest;
+use App\Actions\Sessions\CountSessionsAction;
+use App\Actions\Sessions\CountSessionsRequest;
 
 final class SessionController extends Controller
 {
@@ -34,7 +36,7 @@ final class SessionController extends Controller
 
     public function getCountOfSessions(CountSessionsHttpRequest $request): ApiResponse
     {
-        $response = $this->countSessionAction->execute(
+        $response = $this->countSessionsAction->execute(
             CountSessionsRequest::fromHttpRequest($request)
         );
 

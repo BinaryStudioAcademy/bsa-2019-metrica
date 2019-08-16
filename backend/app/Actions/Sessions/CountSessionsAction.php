@@ -10,7 +10,7 @@ use App\Actions\Sessions\CountSessionsRequest;
 use App\Actions\Sessions\CountSessionsFilter;
 use App\Actions\Sessions\CountSessionsResponse;
 
-final class GetAvgSessionAction
+final class CountSessionsAction
 {
     private $sessionRepository;
     private $visitorRepository;
