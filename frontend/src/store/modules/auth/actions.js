@@ -47,7 +47,7 @@ export default {
         return registerUser(newUser)
             .then( () => {
             }).catch((error) => {
-                return Promise.reject(_.get(error, 'response.data.error.message', 'Unknown error'));
+                throw new Error(_.get(error, 'response.data.error.message', 'Unknown error'));
             });
     },
 
