@@ -13,6 +13,7 @@ import StepAddDomain from '@/components/website/adding_master/StepAddDomain.vue'
 import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInfo.vue';
 import WebsiteInfo from '../pages/WebsiteInfo.vue';
 import WebsiteGuard from '@/components/website/WebsiteGuard.vue';
+import Default from '@/components/layout/Default.vue';
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -49,12 +50,37 @@ export default new Router({
                 {
                     path: 'dashboard',
                     name: 'dashboard',
-                    component: Visitors
+                    component: Default,
+                    meta: {
+                        title: 'Dashboard'
+                    },
                 },
                 {
                     path: 'visitors',
-                    name: 'visitors',
-                    component: Visitors
+                    component: Visitors,
+                    children: [
+                        {
+                            path: 'main',
+                            name: 'visitors',
+                            meta: {
+                                title: 'Visitors'
+                            },
+                        },
+                        {
+                            path: 'page-views',
+                            name: 'page-views',
+                            meta: {
+                                title: 'Page views'
+                            },
+                        },
+                        {
+                            path: 'geo-locations',
+                            name: 'geo-locations',
+                            meta: {
+                                title: 'Geo locations'
+                            },
+                        },
+                    ]
                 },
                 {
                     path: 'user-settings',
@@ -69,12 +95,18 @@ export default new Router({
                 {
                     path: 'behaviour',
                     name: 'behaviour',
-                    component: Visitors
+                    component: Default,
+                    meta: {
+                        title: 'Behaviour'
+                    },
                 },
                 {
                     path: 'speedoverview',
                     name: 'speedoverview',
-                    component: Visitors
+                    component: Default,
+                    meta: {
+                        title: 'Speedoverview'
+                    },
                 },
                 {
                     path: 'website',

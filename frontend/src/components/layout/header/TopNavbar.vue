@@ -12,13 +12,22 @@
             <span>Metrica</span>
         </VToolbarTitle>
         <UserControls v-if="isLoggedIn" />
-        <RouterLink
+        <div
             v-else
-            class="login-btn pr-3"
-            :to="{ name: 'login' }"
         >
-            Sign In
-        </RouterLink>
+            <RouterLink
+                class="login-btn pr-3"
+                :to="{ name: 'login' }"
+            >
+                Sign In
+            </RouterLink>
+            <RouterLink
+                class="login-btn pr-3"
+                :to="{ name: 'signup' }"
+            >
+                Sign Up
+            </RouterLink>
+        </div>
     </VAppBar>
 </template>
 
