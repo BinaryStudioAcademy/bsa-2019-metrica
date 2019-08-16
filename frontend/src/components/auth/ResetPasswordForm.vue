@@ -9,29 +9,28 @@
         >
             <VContainer v-if="showEmail">
                 <VSubheader class="body-1 grey--text text--darken-1 pa-0 mb-4">
-                        Forgot your password?
-                        Please enter your email address and we'll send you a link to reset your password
-                    </VSubheader>
-                    <VForm ref="form">
-                        <label class="caption grey--text">
-                            Email
-                        </label>
-                        <VTextField
-                            name="email"
-                            class="no-underline mt-5"
-                            v-model="email"
-                            type="text"
-                            :rules="emailRules"
-                            required
-                        />
-                    </VForm>
-                    <VBtn
-                        class="mt-9"
-                        color="primary"
-                        @click="onResetPassword"
-                    >
-                        Reset password
-                    </VBtn>
+                    Forgot your password? Please enter your email address and we'll send you a link to reset your password
+                </VSubheader>
+                <VForm ref="form">
+                    <label class="caption grey--text">
+                        Email
+                    </label>
+                    <VTextField
+                        name="email"
+                        class="no-underline mt-5"
+                        v-model="email"
+                        type="text"
+                        :rules="emailRules"
+                        required
+                    />
+                </VForm>
+                <VBtn
+                    class="mt-9"
+                    color="primary"
+                    @click="onResetPassword"
+                >
+                    Reset password
+                </VBtn>
                 <VAlert
                     class="error-response"
                     v-if="hasError"
@@ -103,7 +102,6 @@
     }
 
     .error-response{
-        margin-left: 16px;
-        margin-top: 5px;
+        margin-top: 25px;
     }
 </style>
