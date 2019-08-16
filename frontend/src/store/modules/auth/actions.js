@@ -11,6 +11,7 @@ import {authorize, getAuthUser, registerUser, getRegisteredUser} from '@/api/aut
 import {HAS_TOKEN} from "./types/getters";
 import _ from 'lodash';
 
+
 export default {
     [LOGIN]: (context, user) => {
         return authorize(user)
@@ -24,7 +25,11 @@ export default {
 
                         return user;
                     });
+            }).catch((response) => {
+                return Promise.reject(response.response.data.error.message);
             });
+
+
     },
 
     [LOGOUT]: (context) => {

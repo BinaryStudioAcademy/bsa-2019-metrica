@@ -92,30 +92,35 @@
                     this.setWebsiteData({
                         domain: this.domain,
                         single_page: this.single_page
-                    }).then(() => this.saveNewSite()
-                        .then(() => this.$router.push({name: 'add_websites_step_3'}))
-                        .catch((res) => this.onError(res.errors))
-                    );
+                    }).then(
+                        this.saveNewSite
+                    ).then(() => {
+                        this.$router.push({name: 'add_websites_step_3'});
+                    }).catch((res) => {
+                        this.onError(res.errors);
+                    });
                 }
             },
             onError (errors) {
                 if (errors.name) {
-
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.name}});
+
                     return;
                 }
 
                 if (errors.domain) {
-
                     this.errorMessage = errors.domain;
+
                     return;
                 }
 
                 if (errors.message) {
-
                     this.$router.push({name: 'add_websites_step_1', params: {errorMessage: errors.message}});
+
                     return;
                 }
+
+                console.error(errors);
             },
 
         }
