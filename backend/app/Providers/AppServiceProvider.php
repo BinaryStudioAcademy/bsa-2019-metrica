@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(VisitRepository::class, EloquentVisitRepository::class);
 
-        $this->app->singleton(ChartVisitorsRepository::class, EloquentChartVisitorsRepository::class);
+        $this->app->bind(ChartVisitorsRepository::class, EloquentChartVisitorsRepository::class);
     }
 
     /**

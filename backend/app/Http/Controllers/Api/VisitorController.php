@@ -33,10 +33,7 @@ final class VisitorController extends Controller
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
         GetNewVisitorsAction $getNewVisitorsAction,
-        GetNewChartVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction
-    )
-    {
-        GetNewVisitorsAction $getNewVisitorsAction,
+        GetNewChartVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction,
         GetBounceRateAction $getBounceRateAction
     ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
