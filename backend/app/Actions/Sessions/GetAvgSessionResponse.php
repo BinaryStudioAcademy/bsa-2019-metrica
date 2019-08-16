@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Actions\Sessions;
+
 use Illuminate\Support\Collection;
 
 final class GetAvgSessionResponse

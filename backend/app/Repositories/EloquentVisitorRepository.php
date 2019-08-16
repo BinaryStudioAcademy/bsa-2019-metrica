@@ -31,5 +31,4 @@ final class EloquentVisitorRepository implements VisitorRepository
     {
         return Visitor::where('website_id', $websiteId)->get();
     }
-
 }

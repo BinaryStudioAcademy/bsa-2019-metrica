@@ -16,7 +16,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class GetAvgSessionTest extends TestCase
 {
-
     public function test_average_session_duration()
     {
         $user = factory(User::class)->create();
@@ -40,7 +39,7 @@ class GetAvgSessionTest extends TestCase
 
         factory(Session::class, 30)->create([
             'visitor_id' => $websiteVisitors->pluck('id')->random(),
-            'start_session' => $start_session->addDays(rand(0,4))->timestamp,
+            'start_session' => $start_session->addDays(rand(0, 4))->timestamp,
             'end_session' => $start_session->addSeconds(100)->timestamp,
             'entrance_page_id' => $pageId,
             'demographic_id' => $demographicId ,
