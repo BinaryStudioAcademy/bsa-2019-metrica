@@ -1,6 +1,8 @@
-@import '~vuetify/src/styles/styles.sass';
-@import './reset.scss';
-@import './textfield.scss';
+@import 'variables';
+
+@import "~vuetify/src/styles/main";
+@import 'reset';
+@import 'textfield';
 
 @font-face {
     font-family: 'Gilroy';
