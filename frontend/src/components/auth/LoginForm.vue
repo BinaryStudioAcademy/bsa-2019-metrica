@@ -5,61 +5,55 @@
             md6
             sm12
             xs12
+            :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
             <VContainer>
-                <VCardText
-                    class="login-container"
+                <VSubheader
+                    class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
                 >
-                    <VSubheader
-                        class="login-form-header"
+                    Welcome to Metrica!
+                </VSubheader>
+                <VForm
+                    ref="form"
+                >
+                    <label
+                        class="caption grey--text"
                     >
-                        Welcome to Metrica!
-                    </VSubheader>
-                    <VForm
-                        ref="form"
+                        Email
+                    </label>
+                    <VTextField
+                        name="email"
+                        class="no-underline mt-3"
+                        solo
+                        v-model="email"
+                        type="text"
+                        :rules="emailRules"
+                        required
+                    />
+                    <label
+                        class="caption grey--text"
                     >
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Email
-                        </VSubheader>
-                        <VTextField
-                            name="email"
-                            class="login-form-input"
-                            v-model="email"
-                            solo
-                            type="text"
-                            :rules="emailRules"
-                            required
-                        />
-
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Password
-                        </VSubheader>
-                        <VTextField
-                            :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-                            :type="showPassword ? 'text' : 'password'"
-                            @click:append="showPassword = !showPassword"
-                            name="password"
-                            class="login-form-input"
-                            v-model="password"
-                            solo
-                            :rules="passwordRules"
-                            required
-                        />
-                    </VForm>
-                </VCardText>
-                <VCardActions>
-                    <VBtn
-                        @click="onLogin"
-                        class="login-form-button mt-3"
-                        color="#3C57DE"
-                    >
-                        Login
-                    </VBtn>
-                </VCardActions>
+                        Password
+                    </label>
+                    <VTextField
+                        :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                        :type="showPassword ? 'text' : 'password'"
+                        @click:append="showPassword = !showPassword"
+                        name="password"
+                        class="no-underline my-3"
+                        solo
+                        v-model="password"
+                        :rules="passwordRules"
+                        required
+                    />
+                </VForm>
+                <VBtn
+                    @click="onLogin"
+                    class="mt-5"
+                    color="primary"
+                >
+                    Login
+                </VBtn>
             </VContainer>
         </VFlex>
     </VContent>
@@ -115,36 +109,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .login-form-label {
-        padding: 0;
-        color: rgba(18, 39, 55, 0.5);
-        font-size: 12px;
-        height: 28px;
-        font-weight: bold;
-    }
-
-    .login-form-header {
-        font-size: 16px;
-        line-height: 19px;
-        font-weight: bold;
-        color: #122737;
-        padding: 0;
-    }
-
-    .login-container {
-        padding: 8px;
-    }
-
-    .login-form-button {
-        color: white;
-
-        ::v-deep {
-            span {
-                font-size: 12px;
-                line-height: 15px;
-                padding: 7px 21px 7px 21px;
-                font-weight: bold;
-            }
-        }
-    }
+::v-deep .v-btn {
+    width: 105px;
+}
 </style>
