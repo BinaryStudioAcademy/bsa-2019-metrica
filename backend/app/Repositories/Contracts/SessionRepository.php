@@ -13,5 +13,4 @@ interface SessionRepository
     public function getCollection(): Collection;
 
     public function countSessions(CountSessionsFilter $filter): int;
-
 }
