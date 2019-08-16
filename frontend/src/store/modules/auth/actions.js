@@ -3,7 +3,6 @@ import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
     USER_LOGOUT,
-    USER_SIGN_UP,
 } from "./types/mutations";
 import {updateUser} from '@/api/users';
 import {authorize, getAuthUser, registerUser} from '@/api/auth';
@@ -46,8 +45,7 @@ export default {
 
     [SIGN_UP]: (context, newUser) => {
         return registerUser(newUser)
-            .then(response => {
-                context.commit(USER_SIGN_UP, response.data);
+            .then( () => {
             }).catch((error) => {
                 return Promise.reject(_.get(error, 'response.data.error.message', 'Unknown error'));
             });
