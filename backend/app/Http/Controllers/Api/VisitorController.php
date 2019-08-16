@@ -7,9 +7,13 @@ namespace App\Http\Controllers\Api;
 use App\Actions\Visitors\GetAllVisitorsAction;
 use App\Actions\Visitors\GetNewestCountAction;
 use App\Actions\Visitors\GetNewestCountRequest;
+use App\Actions\Visitors\GetBounceRateAction;
+use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
 use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
 use App\Http\Resources\VisitorCountResource;
+use App\Http\Requests\Api\GetBounceRateHttpRequest;
+use App\Http\Resources\BounceRateResource;
 use App\Actions\Visitors\GetVisitorsByParameterAction;
 use App\Actions\Visitors\GetVisitorsByParameterRequest;
 use App\Http\Requests\Api\GetTableVisitorsByParameterHttpRequest;
@@ -22,16 +26,18 @@ final class VisitorController extends Controller
 {
     private $getAllVisitorsAction;
     private $getNewVisitorsAction;
+    private $getBounceRateAction;
     private $getVisitorsByParameterAction;
 
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
         GetNewVisitorsAction $getNewVisitorsAction,
+        GetBounceRateAction $getBounceRateAction,
         GetVisitorsByParameterAction $getVisitorsByParameterAction
-    )
-    {
+    ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
+        $this->getBounceRateAction = $getBounceRateAction;
         $this->getVisitorsByParameterAction = $getVisitorsByParameterAction;
     }
 
@@ -53,6 +59,15 @@ final class VisitorController extends Controller
     {
         $response = $action->execute(GetNewestCountRequest::fromRequest($request));
         return ApiResponse::success(new VisitorCountResource($response->getCount()));
+    }
+
+    public function getBounceRate(GetBounceRateHttpRequest $request): ApiResponse
+    {
+        $response = $this->getBounceRateAction->execute(
+            GetBounceRateRequest::fromRequest($request)
+        );
+
+        return ApiResponse::success(new BounceRateResource($response));
     }
 
     public function getVisitorsByParameter (GetTableVisitorsByParameterHttpRequest $request): ApiResponse
