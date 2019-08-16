@@ -49,7 +49,7 @@ final class EloquentVisitorRepository implements VisitorRepository
             ->count();
     }
 
-   public function getVisitorsOfWebsite(int $websiteId): Collection
+    public function getVisitorsOfWebsite(int $websiteId): Collection
     {
         return Visitor::where('website_id', $websiteId)->get();
     }
