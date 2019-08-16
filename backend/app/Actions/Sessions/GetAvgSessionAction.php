@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Actions\Sessions;
 
 use App\Repositories\Contracts\SessionRepository;
-use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Repositories\Contracts\VisitorRepository;
+use App\Actions\Sessions\GetAvgSessionRequest;
+use App\Actions\Sessions\AverageSessionFilter;
 
 final class GetAvgSessionAction
 {
     private $sessionRepository;
+    private $visitorRepository;
 
     public function __construct(
         SessionRepository $sessionRepository,
@@ -18,6 +20,7 @@ final class GetAvgSessionAction
     )
     {
         $this->sessionRepository = $sessionRepository;
+        $this->visitorRepository = $visitorRepository;
     }
 
     public function execute(GetAvgSessionRequest $request): GetAvgSessionResponse
@@ -27,7 +30,9 @@ final class GetAvgSessionAction
         $visitorsIDsOfWebsite = $this->visitorRepository->getVisitorsOfWebsite((int) $websiteId)
                                                         ->pluck('id');
 
-        $avgSessionInSeconds = $this->sessionRepository->getAvgSession($request, $visitorsIDsOfWebsite);
+        $avgSessionFilter = new AverageSessionFilter($request, $visitorsIDsOfWebsite);
+
+        $avgSessionInSeconds = $this->sessionRepository->getAvgSession($avgSessionFilter);
 
         return new GetAvgSessionResponse($avgSessionInSeconds);
     }
