@@ -15,7 +15,7 @@
                             <label>Website Name</label>
                             <VTextField
                                 name="website"
-                                v-model="localWebsite.websiteName"
+                                v-model="websiteName"
                                 :success-messages="showSuccessMessage"
                                 :error-messages="showErrorMessage"
                                 single-line
@@ -120,11 +120,11 @@
             }),
             update() {
                 this.website({
-                    name:this.localWebsite.websiteName
-                }).then((e) => {
-                    this.showSuccessMessage = e.message;
+                    name: this.websiteName,
+                }).then(() => {
+                    this.showSuccessMessage = 'Name is successfully saved';
                 }).catch((err) => {
-                    this.showErrorMessage = err.message;
+                    this.showErrorMessage = err;
                 });
             }
         },

@@ -21,7 +21,7 @@ class UserAuthTest extends TestCase
 
     public function testSuccessLogin()
     {
-        $response = $this->json('POST','api/v1/auth/login',[
+        $response = $this->json('POST', 'api/v1/auth/login', [
             'email' => 'test@gmail.com',
             'password' => 'secret1234',
         ]);
@@ -36,7 +36,7 @@ class UserAuthTest extends TestCase
 
     public function testFailLogin()
     {
-        $response = $this->json('POST','api/v1/auth/login',[
+        $response = $this->json('POST', 'api/v1/auth/login', [
             'email' => 'test@gmail.com11',
             'password' => 'secret1234',
         ]);
@@ -45,6 +45,5 @@ class UserAuthTest extends TestCase
         $response->assertJsonStructure([
                 'error'
         ]);
-
     }
 }

@@ -122,7 +122,8 @@
 
         created() {
             this.editUser = {
-                ...this.user
+                ...this.editUser,
+                ...this.user,
             };
         },
 
