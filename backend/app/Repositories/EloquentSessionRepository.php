@@ -10,6 +10,8 @@ use Illuminate\Support\Carbon;
 use App\Entities\Session;
 use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Entities\Visitor;
+use Illuminate\Support\Facades\DB;
+use App\Actions\Sessions\AverageSessionFilter;
 
 class EloquentSessionRepository implements SessionRepository
 {
@@ -18,17 +20,13 @@ class EloquentSessionRepository implements SessionRepository
         return collect([]);
     }
 
-    public function getAvgSession(GetAvgSessionRequest $request, Collection $visitorsIDsOfWebsite): int
+    public function getAvgSession(AverageSessionFilter $filter): Collection
     {
-        $avgSession = Session::whereIn('visitor_id', $visitorsIDsOfWebsite)
-                        ->where('start_session', '>=', Carbon::createFromTimestamp($request->startDate())->toDateString())
-                        ->where('start_session', '<=', Carbon::createFromTimestamp($request->endDate())->toDateString())
-                        ->get()
-                        ->map(function ($session) {
-                            return $session->end_session->diffInSeconds($session->start_session);
-                        })
-                        ->avg();
-
-        return (int)round($avgSession);
+        return DB::table('sessions')
+                ->selectRaw('EXTRACT(EPOCH FROM (AVG(end_session - start_session))) as avg')
+                ->whereIn('visitor_id', $filter->getVisitorsIDs())
+                ->where('start_session', '>=', $filter->getStartDate())
+                ->where('start_session', '<=', $filter->getEndDate())
+                ->get();
     }
 }

@@ -7,10 +7,11 @@ namespace App\Repositories\Contracts;
 
 use Illuminate\Support\Collection;
 use App\Actions\Sessions\GetAvgSessionRequest;
+use App\Actions\Sessions\AverageSessionFilter;
 
 interface SessionRepository
 {
     public function getCollection(): Collection;
 
-    public function getAvgSession(GetAvgSessionRequest $request): int;
+    public function getAvgSession(AverageSessionFilter $filter): Collection;
 }
