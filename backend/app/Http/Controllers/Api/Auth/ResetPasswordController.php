@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Exceptions\TokenCouldNotCreate;
+use App\Exceptions\UserByEmailNotFoundException;
 use App\Http\Requests\ResetPasswordHttpRequest;
 use App\Http\Controllers\Controller;
 use App\Actions\Auth\SendResetPasswordLinkAction;
@@ -22,11 +24,15 @@ final class ResetPasswordController extends Controller
 
     public function sendPasswordResetLink(ResetPasswordHttpRequest $request)
     {
-        $response = $this->sendLinkAction->execute(
-            new ResetPasswordRequest(
-                $request->get('email')
-            )
-        );
+        try {
+            $response = $this->sendLinkAction->execute(
+                new ResetPasswordRequest(
+                    $request->get('email')
+                )
+            );
+        } catch (UserByEmailNotFoundException|TokenCouldNotCreate $exception) {
+            return ApiResponse::error($exception);
+        }
 
         return ApiResponse::success(new MessageResource($response));
     }

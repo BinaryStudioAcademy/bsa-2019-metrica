@@ -6,10 +6,11 @@
             sm12
             xs12
         >
-            <VContainer>
+            <VContainer v-if="showEmail">
                 <VCardText>
                     <VSubheader class="reset-password-form-header">
-                        Welcome to Metrica!
+                        Forgot your password?
+                        Please enter your email address and we'll send you a link to reset your password
                     </VSubheader>
                     <VForm ref="form">
                         <VSubheader class="reset-password-form-label">
@@ -32,9 +33,17 @@
                         color="#3C57DE"
                         @click="onResetPassword"
                     >
-                        Send Password Reset Link
+                        Reset password
                     </VBtn>
                 </VCardActions>
+            </VContainer>
+            <VContainer v-else>
+                <VAlert
+                    class="success-response"
+                    type="success"
+                >
+                    {{ successMsg }}
+                </VAlert>
             </VContainer>
         </VFlex>
     </VContent>
@@ -44,7 +53,8 @@
 <script>
     import {mapActions} from 'vuex';
     import {RESET_PASSWORD} from "@/store/modules/auth/types/actions";
-    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import { SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
+    import {validateEmail} from '@/services/validation';
 
     export default {
         name: "ResetPasswordForm",
@@ -53,8 +63,10 @@
                 email: '',
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-                ]
+                    v => validateEmail(v) || 'E-mail must be valid',
+                ],
+                showEmail: true,
+                successMsg:''
             };
         },
         methods: {
@@ -62,15 +74,15 @@
                 resetPassword: RESET_PASSWORD
             }),
             ...mapActions('notification', {
-                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
                 showErrorMessage: SHOW_ERROR_MESSAGE
             }),
             onResetPassword() {
                 if (this.$refs.form.validate()) {
                     this.resetPassword({
                         email: this.email,
-                    }).then(response => {
-                        this.showSuccessMessage(response);
+                    }).then((response) => {
+                        this.showEmail = false;
+                        this.successMsg = response;
                     }).catch(err => {
                         this.showErrorMessage(err);
                     });
@@ -89,7 +101,8 @@
         align-items: center;
         letter-spacing: 0.4px;
         font-weight: bold;
-        color: #122737;
+        /*color: #122737;*/
+        color: rgba(0, 0, 0, .54);
     }
 
     .reset-password-form-label {
@@ -143,7 +156,6 @@
                 align-items: center;
                 text-align: center;
                 letter-spacing: 0.4px;
-                text-transform: uppercase;
                 color: #FFFFFF;
             }
         }
@@ -156,5 +168,11 @@
     .v-card__actions {
         box-sizing: border-box;
         padding: 8px 16px;
+    }
+
+    .success-response{
+        margin-top: 100px;
+        min-width: 245px;
+        max-width: 712px;
     }
 </style>
