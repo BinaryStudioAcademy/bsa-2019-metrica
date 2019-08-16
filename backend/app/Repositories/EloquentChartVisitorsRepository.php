@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentChartVisitorsRepository implements ChartVisitorsRepository
 {
-    public function getNewVisitorsByDate(string $startData,string $endData,int $period, int $userId): Collection
+    public function getNewVisitorsByDate(string $startData, string $endData, int $period, int $userId): Collection
     {
         $subQueryFirst = "SELECT id FROM websites where user_id = :user_id";
         $subQuerySecond = "SELECT visitors.*, ( " . $this->getPeriod('created_at', $period) . ") as period
