@@ -27,6 +27,7 @@
                 <VBtn
                     class="mt-9"
                     color="primary"
+                    :disabled="sending"
                     @click="onResetPassword"
                 >
                     Reset password
@@ -68,7 +69,8 @@
                 showEmail: true,
                 hasError:false,
                 successMsg:'',
-                errorMsg:''
+                errorMsg:'',
+                sending:false
             };
         },
         methods: {
@@ -78,6 +80,7 @@
             onResetPassword() {
                 if (this.$refs.form.validate()) {
                     this.hasError=false;
+                    this.sending = true;
                     this.resetPassword({
                         email: this.email,
                     }).then((response) => {
@@ -86,6 +89,8 @@
                     }).catch(err => {
                         this.hasError = true;
                         this.errorMsg = err;
+                    }).finally(()=>{
+                        this.sending = false;
                     });
                 }
             }
