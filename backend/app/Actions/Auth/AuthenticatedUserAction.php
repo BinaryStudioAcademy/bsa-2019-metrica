@@ -14,7 +14,6 @@ final class AuthenticatedUserAction
     public function execute(AuthenticatedUserRequest $request): AuthenticationResponse
     {
         try {
-
             $token = JWTAuth::attempt([
                 'email' => $request->getEmail(),
                 'password' => $request->getPassword()

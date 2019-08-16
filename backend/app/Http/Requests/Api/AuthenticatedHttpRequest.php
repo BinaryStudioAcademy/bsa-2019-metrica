@@ -32,6 +32,5 @@ final class AuthenticatedHttpRequest extends ApiFormRequest
         return [
             'email.exists' => "User doesn't exist"
         ];
-
     }
 }
