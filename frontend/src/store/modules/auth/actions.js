@@ -4,13 +4,11 @@ import {
     USER_LOGIN,
     USER_LOGOUT,
     USER_SIGN_UP,
-    SET_REGISTERED_USER
 } from "./types/mutations";
 import {updateUser} from '@/api/users';
-import {authorize, getAuthUser, registerUser, getRegisteredUser} from '@/api/auth';
+import {authorize, getAuthUser, registerUser} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
 import _ from 'lodash';
-
 
 export default {
     [LOGIN]: (context, user) => {
@@ -50,14 +48,6 @@ export default {
         return registerUser(newUser)
             .then(response => {
                 context.commit(USER_SIGN_UP, response.data);
-
-                return getRegisteredUser()
-                    .then(response => {
-                        const newUser = response.data;
-                        context.commit(SET_REGISTERED_USER, newUser);
-
-                        return newUser;
-                    });
             }).catch((error) => {
                 return Promise.reject(_.get(error, 'response.data.error.message', 'Unknown error'));
             });
