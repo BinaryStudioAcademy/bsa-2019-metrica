@@ -11,7 +11,8 @@ final class GetAvgSessionRequest
     private $startDate;
     private $endDate;
 
-    private function __construct(int $startDate, int $endDate) {
+    private function __construct(int $startDate, int $endDate)
+    {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
     }

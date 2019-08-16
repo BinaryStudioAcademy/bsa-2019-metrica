@@ -14,5 +14,4 @@ interface VisitorRepository
     public function newestCount(NewVisitorsCountFilterData $filterData): int;
 
     public function getVisitorsOfWebsite(int $websiteId): Collection;
-
 }

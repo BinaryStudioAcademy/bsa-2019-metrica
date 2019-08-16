@@ -17,8 +17,7 @@ final class GetAvgSessionAction
     public function __construct(
         SessionRepository $sessionRepository,
         VisitorRepository $visitorRepository
-    )
-    {
+    ) {
         $this->sessionRepository = $sessionRepository;
         $this->visitorRepository = $visitorRepository;
     }
