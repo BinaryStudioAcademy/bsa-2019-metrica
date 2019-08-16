@@ -14,7 +14,6 @@ deploy_image() {
     docker build -t metrica/$DOCKER_IMAGE:latest -f .aws/$DOCKER_IMAGE/Dockerfile .
     docker tag metrica/$DOCKER_IMAGE:latest $AWS_REPOSITORY_URI/$DOCKER_IMAGE:$IMAGE_TAG
     docker push $AWS_REPOSITORY_URI/$DOCKER_IMAGE
-    cleanup_images $DOCKER_IMAGE
 }
 
 # sets $task_definition
