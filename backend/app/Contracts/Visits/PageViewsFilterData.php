@@ -7,5 +7,4 @@ use App\Contracts\Common\DatePeriod;
 
 interface PageViewsFilterData extends DatePeriod
 {
-
 }

@@ -30,13 +30,11 @@ final class GetPageViewsRequest
 
     public static function fromRequest(GetPageViewsFilterHttpRequest $request)
     {
-
         $period = DatePeriod::createFromTimestamp(
             $request->getStartDate(),
             $request->getEndDate()
         );
 
         return new static(new \App\Model\Visits\PageViewsFilterData($period), $request->getPeriod());
-
     }
 }

@@ -3,7 +3,6 @@
 
 namespace App\Model\Visits;
 
-
 use App\Contracts\Common\DatePeriod;
 use App\Contracts\Visits\PageViewsFilterData as IPageViewsFilterData;
 

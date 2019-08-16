@@ -17,7 +17,7 @@ final class GetPageViewsAction
 
     public function execute(GetPageViewsRequest $request): GetPageViewsResponse
     {
-       $data =  $this->visitRepository->findByFilter($request->getFilterData(), $request->getInterval());
+        $data = $this->visitRepository->findByFilter($request->getFilterData(), $request->getInterval());
 
         return new GetPageViewsResponse($data);
     }

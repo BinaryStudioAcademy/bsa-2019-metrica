@@ -13,7 +13,6 @@ final class VisitResource extends ResourceCollection implements ApiResponse
 {
     public function toArray($request): array
     {
-
         return $this->presentCollection($this->collection);
     }
 
