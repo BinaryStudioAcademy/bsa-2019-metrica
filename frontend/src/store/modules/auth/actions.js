@@ -1,4 +1,4 @@
-import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
+import {LOGIN, LOGOUT, SIGN_UP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
 import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
@@ -7,7 +7,7 @@ import {
 import {updateUser} from '@/api/users';
 import {authorize, getAuthUser, registerUser, resetPassword} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
-
+import _ from 'lodash';
 
 export default {
     [LOGIN]: (context, user) => {
@@ -43,8 +43,11 @@ export default {
             });
     },
 
-    [SIGNUP]: (context, newUser) => {
-        return registerUser(newUser);
+    [SIGN_UP]: (context, newUser) => {
+        return registerUser(newUser)
+            .catch((error) => {
+                throw new Error(_.get(error, 'response.data.error.message', 'Unknown error'));
+            });
     },
 
     [RESET_PASSWORD]: (context, payload) => {

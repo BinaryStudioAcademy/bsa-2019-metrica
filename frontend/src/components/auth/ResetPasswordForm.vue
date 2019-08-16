@@ -5,37 +5,33 @@
             md6
             sm12
             xs12
+            :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
             <VContainer v-if="showEmail">
-                <VCardText>
-                    <VSubheader class="reset-password-form-header">
+                <VSubheader class="body-1 grey--text text--darken-1 pa-0 mb-4">
                         Forgot your password?
                         Please enter your email address and we'll send you a link to reset your password
                     </VSubheader>
                     <VForm ref="form">
-                        <VSubheader class="reset-password-form-label">
+                        <label class="caption grey--text">
                             Email
-                        </VSubheader>
+                        </label>
                         <VTextField
                             name="email"
-                            class="reset-password-form-input"
+                            class="no-underline mt-5"
                             v-model="email"
-                            solo
                             type="text"
                             :rules="emailRules"
                             required
                         />
                     </VForm>
-                </VCardText>
-                <VCardActions>
                     <VBtn
-                        class="reset-password-form-button mt-3"
-                        color="#3C57DE"
+                        class="mt-9"
+                        color="primary"
                         @click="onResetPassword"
                     >
                         Reset password
                     </VBtn>
-                </VCardActions>
                 <VAlert
                     class="error-response"
                     v-if="hasError"
@@ -100,82 +96,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .reset-password-form-header {
-        font-size: 16px;
-        line-height: 19px;
-        display: flex;
-        align-items: center;
-        letter-spacing: 0.4px;
-        font-weight: bold;
-        /*color: #122737;*/
-        color: rgba(0, 0, 0, .54);
-    }
-
-    .reset-password-form-label {
-        box-sizing: border-box;
-        margin-top: 26px;
-        font-size: 12px;
-        line-height: 15px;
-        display: flex;
-        align-items: center;
-        letter-spacing: 0.4px;
-        color: rgba(18, 39, 55, 0.5);
-    }
-
-    .reset-password-form-input {
-        max-width: 426px;
-        height: 37px;
-        border: 1px solid rgba(18, 39, 55, 0.11);
-        border-radius: 3px;
-        background: #FFFFFF;
-        box-sizing: border-box;
-
-        ::v-deep {
-            .v-input__control {
-                min-height: 1px;
-            }
-
-            input {
-                min-height: 36px;
-                -webkit-box-shadow: inset 0 0 0 9999px white !important;
-            }
-        }
-
-        &.v-input--is-focused {
-            border: 1px solid rgba(60, 87, 222, 0.52);
-            box-shadow: 0px 0px 14px rgba(194, 205, 223, 0.6);
-        }
-    }
-
-    .reset-password-form-button {
-        color: white;
-        border: 1px solid rgba(18, 39, 55, 0.11);
-        box-sizing: border-box;
-        border-radius: 3px;
-        max-width: 208px;
-
-        ::v-deep {
-            span {
-                font-size: 12px;
-                line-height: 15px;
-                display: flex;
-                align-items: center;
-                text-align: center;
-                letter-spacing: 0.4px;
-                color: #FFFFFF;
-            }
-        }
-    }
-
-    .v-subheader {
-        padding: 0;
-    }
-
-    .v-card__actions {
-        box-sizing: border-box;
-        padding: 8px 16px;
-    }
-
     .success-response{
         margin-top: 100px;
         min-width: 245px;
@@ -186,5 +106,4 @@
         margin-left: 16px;
         margin-top: 5px;
     }
-
 </style>
