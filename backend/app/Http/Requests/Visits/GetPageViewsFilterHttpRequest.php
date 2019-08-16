@@ -1,10 +1,9 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Http\Requests\Visits;
 
-
-class GetPageViewsFilterHttpHttpRequest extends AbstractVisitsFilterHttpRequest
+class GetPageViewsFilterHttpRequest extends AbstractVisitsFilterHttpRequest
 {
     public function rules(): array
     {

@@ -19,6 +19,6 @@ final class GetPageViewsAction
     {
        $data =  $this->visitRepository->findByFilter($request->getFilterData(), $request->getInterval());
 
-        return new GetPageViewsResponse($data->modelsFromRawResults());
+        return new GetPageViewsResponse($data);
     }
 }

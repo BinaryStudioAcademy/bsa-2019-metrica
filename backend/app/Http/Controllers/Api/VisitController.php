@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Visits\GetPageViewsFilterHttpHttpRequest;
+use App\Http\Requests\Visits\GetPageViewsFilterHttpRequest;
 use App\Http\Resources\VisitResource;
 use App\Http\Response\ApiResponse;
 
@@ -20,9 +20,9 @@ final class VisitController extends Controller
         $this->getPageViewsAction = $getPageViewsAction;
     }
 
-    public function getPageViews(GetPageViewsFilterHttpHttpRequest $request, GetPageViewsAction $action)
+    public function getPageViews(GetPageViewsFilterHttpRequest $request)
     {
-        $response = $action->execute(GetPageViewsRequest::fromRequest($request));
+        $response = $this->getPageViewsAction->execute(GetPageViewsRequest::fromRequest($request));
 
         return ApiResponse::success(new VisitResource($response->views()));
     }

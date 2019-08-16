@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Actions\Visits;
 
 use App\Contracts\Visits\PageViewsFilterData;
-use App\Http\Requests\Visits\GetPageViewsFilterHttpHttpRequest;
+use App\Http\Requests\Visits\GetPageViewsFilterHttpRequest;
 use App\Utils\DatePeriod;
 
 final class GetPageViewsRequest
@@ -28,7 +28,7 @@ final class GetPageViewsRequest
         return (int) \round($this->interval/1000, 0);
     }
 
-    public static function fromRequest(GetPageViewsFilterHttpHttpRequest $request)
+    public static function fromRequest(GetPageViewsFilterHttpRequest $request)
     {
 
         $period = DatePeriod::createFromTimestamp(
