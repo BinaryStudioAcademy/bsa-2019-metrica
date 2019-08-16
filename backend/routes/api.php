@@ -64,7 +64,7 @@ Route::prefix('v1')->group(function () {
 
         Route::group([
             'prefix'=>'chart-new-visitors'
-        ],function (){
+        ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
     });
