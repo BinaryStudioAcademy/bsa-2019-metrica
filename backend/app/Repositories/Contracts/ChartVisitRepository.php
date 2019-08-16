@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repositories\Contracts;
 
-use App\Contracts\Visits\PageViewsFilterData;
+use App\Contracts\Common\DatePeriod;
 use Illuminate\Support\Collection;
 
 interface ChartVisitRepository
 {
-    public function findByFilter(PageViewsFilterData $filterData, int $interval): Collection;
+    public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection;
 }

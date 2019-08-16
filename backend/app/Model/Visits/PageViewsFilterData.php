@@ -3,10 +3,10 @@
 
 namespace App\Model\Visits;
 
-use App\Contracts\Common\DatePeriod;
-use App\Contracts\Visits\PageViewsFilterData as IPageViewsFilterData;
 
-class PageViewsFilterData implements IPageViewsFilterData
+use App\Contracts\Common\DatePeriod;
+
+class PageViewsFilterData implements DatePeriod
 {
     private $datePeriod;
 

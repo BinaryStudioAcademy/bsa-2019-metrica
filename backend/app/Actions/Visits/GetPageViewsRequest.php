@@ -3,22 +3,26 @@ declare(strict_types=1);
 
 namespace App\Actions\Visits;
 
-use App\Contracts\Visits\PageViewsFilterData;
+use App\Contracts\Common\DatePeriod;
+use App\Exceptions\WebsiteNotFoundException;
 use App\Http\Requests\Visits\GetPageViewsFilterHttpRequest;
-use App\Utils\DatePeriod;
+use Illuminate\Support\Facades\Auth;
+
 
 final class GetPageViewsRequest
 {
     private $filterData;
     private $interval;
+    private $websiteId;
 
-    private function __construct(PageViewsFilterData $filterData, int $interval)
+    private function __construct(DatePeriod $filterData, int $interval, int $websiteId)
     {
         $this->filterData = $filterData;
         $this->interval = $interval;
+        $this->websiteId = $websiteId;
     }
 
-    public function getFilterData(): PageViewsFilterData
+    public function getFilterData(): DatePeriod
     {
         return $this->filterData;
     }
@@ -28,13 +32,28 @@ final class GetPageViewsRequest
         return (int) \round($this->interval/1000, 0);
     }
 
+    public function getWebsiteId(): int
+    {
+        return $this->websiteId;
+    }
+
     public static function fromRequest(GetPageViewsFilterHttpRequest $request)
     {
-        $period = DatePeriod::createFromTimestamp(
+        $period = \App\Utils\DatePeriod::createFromTimestamp(
             $request->getStartDate(),
             $request->getEndDate()
         );
 
-        return new static(new \App\Model\Visits\PageViewsFilterData($period), $request->getPeriod());
+        $websiteId = Auth::user()->website->id;
+
+        if(!$websiteId) {
+            throw new WebsiteNotFoundException();
+        }
+
+        return new static(
+            new \App\Model\Visits\PageViewsFilterData($period),
+            $request->getPeriod(),
+            Auth::user()->website->id
+        );
     }
 }

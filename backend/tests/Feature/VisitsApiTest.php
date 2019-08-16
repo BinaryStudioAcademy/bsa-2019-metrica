@@ -23,6 +23,7 @@ class VisitsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $url = 'api/v1/chart-visits/';
 
     protected function setUp(): void
     {
@@ -92,8 +93,29 @@ class VisitsApiTest extends TestCase
 
 
         $request = $this->actingAs($this->user)
-            ->call('GET', 'api/v1/chart-visits/', $filterData)
+            ->call('GET', $this->url, $filterData)
             ->assertStatus(200)
             ->assertJson($expectedData);
+    }
+
+    public function testPageViewsInvalidPeriod()
+    {
+        $startDate = new DateTime('@1565734202');
+        $endDate = new DateTime('@1565734102');
+        $filterData = [
+            'filter' => [
+                'startDate' => $startDate->getTimestamp(),
+                'endDate' => $endDate->getTimestamp(),
+            ]
+        ];
+
+        $expectedData = [
+            'error' => [
+                'message' => 'Start date can\'t be greater then end date',
+            ],
+        ];
+
+        $request = $this->actingAs($this->user)
+            ->call('GET', $this->url, $filterData);
     }
 }
