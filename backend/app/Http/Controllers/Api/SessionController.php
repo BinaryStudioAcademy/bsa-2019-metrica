@@ -8,7 +8,7 @@ use App\Actions\Sessions\GetAllSessionsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SessionResourceCollection;
 use App\Http\Response\ApiResponse;
-use App\Http\Resources\CountSession;
+use App\Http\Resources\CountSessions;
 use App\Http\Requests\Api\CountSessionsHttpRequest;
 use App\Actions\Sessions\CountSessionsAction;
 use App\Actions\Sessions\CountSessionsRequest;
@@ -40,6 +40,6 @@ final class SessionController extends Controller
             CountSessionsRequest::fromHttpRequest($request)
         );
 
-        return ApiResponse::success(new CountSession($response->countSessions()));
+        return ApiResponse::success(new CountSessions($response->countSessions()));
     }
 }
