@@ -20,7 +20,7 @@ class SystemTableSeeder extends Seeder
 
         $systems = $browsers->map(
             function (Browser $browser) use ($os) {
-               return factory(System::class, 5)->make([
+                return factory(System::class, 5)->make([
                     'browser_id' => $browser->id,
                     'os_id' => $os->shuffle()->shuffle()->first()->id
                 ]);

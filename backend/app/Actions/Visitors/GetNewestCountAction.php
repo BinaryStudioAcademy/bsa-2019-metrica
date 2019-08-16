@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-
 use App\Repositories\Contracts\VisitorRepository;
 
 final class GetNewestCountAction
