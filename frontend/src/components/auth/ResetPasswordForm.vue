@@ -7,9 +7,9 @@
             xs12
             :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
-            <VContainer>
+            <VContainer v-if="showEmail">
                 <VSubheader class="body-1 grey--text text--darken-1 pa-0 mb-4">
-                    Welcome to Metrica!
+                    Forgot your password? Please enter your email address and we'll send you a link to reset your password
                 </VSubheader>
                 <VForm ref="form">
                     <label class="caption grey--text">
@@ -27,10 +27,25 @@
                 <VBtn
                     class="mt-9"
                     color="primary"
+                    :disabled="sending"
                     @click="onResetPassword"
                 >
-                    Send Password Reset Link
+                    Reset password
                 </VBtn>
+                <VAlert
+                    class="error-response"
+                    v-if="hasError"
+                    type="error"
+                    v-html="errorMsg"
+                />
+            </VContainer>
+            <VContainer v-else>
+                <VAlert
+                    class="success-response"
+                    type="success"
+                >
+                    {{ successMsg }}
+                </VAlert>
             </VContainer>
         </VFlex>
     </VContent>
@@ -40,7 +55,7 @@
 <script>
     import {mapActions} from 'vuex';
     import {RESET_PASSWORD} from "@/store/modules/auth/types/actions";
-    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import {validateEmail} from '@/services/validation';
 
     export default {
         name: "ResetPasswordForm",
@@ -49,26 +64,33 @@
                 email: '',
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-                ]
+                    v => validateEmail(v) || 'E-mail must be valid',
+                ],
+                showEmail: true,
+                hasError:false,
+                successMsg:'',
+                errorMsg:'',
+                sending:false
             };
         },
         methods: {
             ...mapActions('auth', {
                 resetPassword: RESET_PASSWORD
             }),
-            ...mapActions('notification', {
-                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
-                showErrorMessage: SHOW_ERROR_MESSAGE
-            }),
             onResetPassword() {
                 if (this.$refs.form.validate()) {
+                    this.hasError=false;
+                    this.sending = true;
                     this.resetPassword({
                         email: this.email,
-                    }).then(response => {
-                        this.showSuccessMessage(response);
+                    }).then((response) => {
+                        this.showEmail = false;
+                        this.successMsg = response;
                     }).catch(err => {
-                        this.showErrorMessage(err);
+                        this.hasError = true;
+                        this.errorMsg = err;
+                    }).finally(()=>{
+                        this.sending = false;
                     });
                 }
             }
@@ -78,4 +100,13 @@
 </script>
 
 <style lang="scss" scoped>
+    .success-response{
+        margin-top: 100px;
+        min-width: 245px;
+        max-width: 712px;
+    }
+
+    .error-response{
+        margin-top: 25px;
+    }
 </style>
