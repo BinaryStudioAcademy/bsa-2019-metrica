@@ -20,7 +20,7 @@ final class GetPageViewsAction
 
     public function execute(GetPageViewsRequest $request): GetPageViewsResponse
     {
-        try{
+        try {
             $websiteId = Auth::user()->website->id;
         } catch (\Exception $exception) {
             throw new WebsiteNotFoundException();
@@ -28,7 +28,7 @@ final class GetPageViewsAction
 
         $interval = $this->getInterval($request->interval());
 
-        if($interval < 1) {
+        if ($interval < 1) {
             throw new AppInvalidArgumentException('Interval must more 500 ms');
         }
 

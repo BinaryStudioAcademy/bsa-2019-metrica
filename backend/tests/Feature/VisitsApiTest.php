@@ -141,7 +141,7 @@ class VisitsApiTest extends TestCase
             ],
         ];
 
-       $this->actingAs($user)
+        $this->actingAs($user)
             ->call('GET', $this->url, $filterData)
            ->assertStatus(404)
             ->assertJson($expectedData);
