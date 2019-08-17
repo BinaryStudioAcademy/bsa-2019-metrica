@@ -57,7 +57,7 @@ class CountSessionsTest extends TestCase
             ->assertOk()
             ->assertJsonStructure([
                     'data' => [
-                        'qty_sessions'
+                        'quantity_sessions'
                     ],
                     'meta',
                ]);

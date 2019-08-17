@@ -10,7 +10,7 @@ class CountSessions extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            'qty_sessions' => $this->resource
+            'quantity_sessions' => $this->resource
         ];
     }
 }
