@@ -15,6 +15,7 @@ deploy_to_docker_hub() {
     docker build -t metrica/$DOCKER_IMAGE:latest -f .aws/$DOCKER_IMAGE/Dockerfile .
     docker tag metrica/$DOCKER_IMAGE:latest $DOCKER_HUB_LOGIN/$DOCKER_SHARED_IMAGE:$IMAGE_TAG
     docker push $DOCKER_HUB_LOGIN/$DOCKER_SHARED_IMAGE
+    docker image rm -f metrica/$DOCKER_IMAGE:latest
 }
 
 deploy_image() {
@@ -66,11 +67,17 @@ make_task_def() {
 				"condition": "START"
 			}
 		],
+        "mountPoints": [
+            {
+                "sourceVolume": "certs",
+                "containerPath": "/nginx/certs"
+            }
+        ],
 		"links": [
 			"app"
 		],
 		"logConfiguration": %s
-    }' "webserver" "$AWS_REPOSITORY_URI/webserver:$DEPLOY_TYPE" "$aws_cloudwatch")
+    }' "webserver" "$DOCKER_HUB_LOGIN/metrica-frontend:$DEPLOY_TYPE" "$aws_cloudwatch")
 
 	app=$(printf '{
         "name": "%s",
@@ -118,6 +125,12 @@ register_definition() {
             "name": "storage",
             "host": {
                 "sourcePath": "/home/ec2-user/storage"
+            }
+        },
+        {
+            "name": "certs",
+            "host": {
+                "sourcePath": "/home/ec2-user/certs"
             }
         }
     ]'
@@ -190,9 +203,8 @@ docker-compose -f docker-compose.test.yml run --rm node npm run build
 docker login --username $DOCKER_HUB_LOGIN --password $DOCKER_HUB_PASSWORD
 
 deploy_to_docker_hub app metrica-app $DEPLOY_TYPE
+deploy_to_docker_hub webserver metrica-frontend $DEPLOY_TYPE
 
 $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
-
-deploy_image webserver $DEPLOY_TYPE
 
 deploy_cluster
