@@ -6,15 +6,17 @@ namespace App\Repositories;
 
 use App\Entities\Session;
 use App\Repositories\Contracts\TableSessionRepository;
+use App\Utils\DatePeriod;
 use Illuminate\Database\Eloquent\Collection;
 
 final class EloquentTableSessionRepository implements TableSessionRepository
 {
-    public function getAvgSessionsTimeByParameter(string $startDate, string $endDate, string $parameter): Collection
+    public function getAvgSessionsTimeByParameter(DatePeriod $datePeriod, string $parameter): Collection
     {
-        return Session::whereDateBetween($startDate, $endDate)
+        return Session::whereDateBetween($datePeriod)
             ->avgSessionsTime()
             ->groupByParameter($parameter)
+            ->count()
             ->get();
     }
 }

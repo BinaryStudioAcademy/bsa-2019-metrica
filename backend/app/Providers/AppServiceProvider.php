@@ -5,12 +5,12 @@ namespace App\Providers;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\TableSessionRepository;
 use App\Repositories\Contracts\UserRepository;
-use App\Repositories\Contracts\VisitRepository;
+use App\Repositories\Contracts\ChartVisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentSessionRepository;
 use App\Repositories\EloquentTableSessionRepository;
 use App\Repositories\EloquentUserRepository;
-use App\Repositories\EloquentVisitRepository;
+use App\Repositories\EloquentChartVisitRepository;
 use App\Repositories\EloquentWebsiteRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\EloquentVisitorRepository::class
         );
 
+        $this->app->bind(ChartVisitRepository::class, EloquentChartVisitRepository::class);
         $this->app->bind(VisitRepository::class, EloquentVisitRepository::class);
 
         $this->app->bind(TableSessionRepository::class, EloquentTableSessionRepository::class);

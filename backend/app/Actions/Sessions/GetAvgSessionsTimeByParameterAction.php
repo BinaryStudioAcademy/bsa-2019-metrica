@@ -18,8 +18,7 @@ final class GetAvgSessionsTimeByParameterAction
     public function execute(GetAvgSessionsTimeByParameterRequest $request): GetAvgSessionsTimeByParameterResponse
     {
         $avgSessionsTimeCollection = $this->repository->getAvgSessionsTimeByParameter(
-            $request->startDate(),
-            $request->endDate(),
+            $request->period(),
             $request->parameter()
         );
 

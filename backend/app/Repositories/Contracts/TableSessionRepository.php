@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Utils\DatePeriod;
 use Illuminate\Database\Eloquent\Collection;
 
 interface TableSessionRepository
 {
-    public function getAvgSessionsTimeByParameter(string $startDate, string $endDate, string $parameter): Collection;
+    public function getAvgSessionsTimeByParameter(DatePeriod $datePeriod, string $parameter): Collection;
 }

@@ -12,7 +12,10 @@ final class TableSessionResource extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            $request->get('filter')['parameter'] => ''
+            'parameter' => $request->get('filter')['parameter'],
+            'parameter_value' => $this->parameter_value,
+            'total' => $this->time_difference,
+            'percentage' => $this->parameter_count
         ];
     }
 }
