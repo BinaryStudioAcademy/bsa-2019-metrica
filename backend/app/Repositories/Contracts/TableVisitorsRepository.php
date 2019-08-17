@@ -17,5 +17,4 @@ interface TableVisitorsRepository
     public function groupByOperatingSystem(string $from, string $to): Collection;
 
     public function groupByScreenResolution(string $from, string $to): Collection;
-
 }
