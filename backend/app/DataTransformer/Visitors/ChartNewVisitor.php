@@ -3,7 +3,6 @@
 
 namespace App\DataTransformer\Visitors;
 
-
 class ChartNewVisitor
 {
     private $period;
@@ -24,5 +23,4 @@ class ChartNewVisitor
     {
         return $this->count;
     }
-
 }
