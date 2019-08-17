@@ -5,29 +5,21 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Utils\DatePeriod;
-use DateTime;
 
 abstract class TableDataRequest
 {
-    private $startDate;
-    private $endDate;
+    private $period;
     private $parameter;
 
-    public function __construct(DatePeriod $datePeriod, string $parameter)
+    public function __construct(string $startDate, string $endDate, string $parameter)
     {
-        $this->startDate = $datePeriod->getStartDate();
-        $this->endDate = $datePeriod->getEndDate();
+        $this->period = DatePeriod::createFromTimestamp($startDate, $endDate);
         $this->parameter = $parameter;
     }
 
-    public function startDate(): DateTime
+    public function period(): DatePeriod
     {
-        return $this->startDate;
-    }
-
-    public function endDate(): DateTime
-    {
-        return $this->endDate;
+        return $this->period;
     }
 
     public function parameter(): string

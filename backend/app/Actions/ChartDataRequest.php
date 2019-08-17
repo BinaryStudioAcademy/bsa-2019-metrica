@@ -5,29 +5,21 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Utils\DatePeriod;
-use DateTime;
 
 abstract class ChartDataRequest
 {
-    private $startDate;
-    private $endDate;
+    private $period;
     private $interval;
 
-    public function __construct(DatePeriod $datePeriod, string $interval)
+    public function __construct(string $startDate, string $endDate, string $interval)
     {
-        $this->startDate = $datePeriod->getStartDate();
-        $this->endDate = $datePeriod->getEndDate();
+        $this->period = DatePeriod::createFromTimestamp($startDate, $endDate);
         $this->interval = $interval;
     }
 
-    public function startDate(): DateTime
+    public function period(): DatePeriod
     {
-        return $this->startDate;
-    }
-
-    public function endDate(): DateTime
-    {
-        return $this->endDate;
+        return $this->period;
     }
 
     public function interval(): string

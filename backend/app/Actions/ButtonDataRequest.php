@@ -5,26 +5,18 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Utils\DatePeriod;
-use DateTime;
 
 abstract class ButtonDataRequest
 {
-    private $startDate;
-    private $endDate;
+    private $period;
 
-    public function __construct(DatePeriod $datePeriod)
+    public function __construct(string $startDate, string $endDate)
     {
-        $this->startDate = $datePeriod->getStartDate();
-        $this->endDate = $datePeriod->getEndDate();
+        $this->period = DatePeriod::createFromTimestamp($startDate, $endDate);
     }
 
-    public function startDate(): DateTime
+    public function period(): DatePeriod
     {
-        return $this->startDate;
-    }
-
-    public function endDate(): DateTime
-    {
-        return $this->endDate;
+        return $this->period;
     }
 }
