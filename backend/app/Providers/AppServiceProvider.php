@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\SessionRepository;
+use App\Repositories\Contracts\TableVisitorRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentSessionRepository;
+use App\Repositories\EloquentTableVisitorRepository;
 use App\Repositories\EloquentUserRepository;
 use App\Repositories\EloquentVisitRepository;
 use App\Repositories\EloquentWebsiteRepository;
@@ -33,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(VisitRepository::class, EloquentVisitRepository::class);
+
+        $this->app->bind(TableVisitorRepository::class, EloquentTableVisitorRepository::class);
     }
 
     /**

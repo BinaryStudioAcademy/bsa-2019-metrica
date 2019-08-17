@@ -41,6 +41,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/', 'WebsiteController@add');
             Route::put('/{id}', 'WebsiteController@update');
         });
+
         Route::group([
             'prefix' => 'visitors'
         ], function () {
@@ -54,6 +55,12 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
+        });
+
+        Route::group([
+            'prefix' => 'table-sessions'
+        ], function () {
+            Route::get('/avg-sessions-time', 'SessionController@getAvgSessionsTimeByParameter');
         });
 
         Route::group([
