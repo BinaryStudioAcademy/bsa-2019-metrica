@@ -62,4 +62,31 @@ final class Session extends Model
     {
         return $query->whereBetween('start_session', [$from, $to]);
     }
+
+    public function scopeAvgSessionsTime(Builder $query): Builder
+    {
+        return $query->avg('updated_at - start_session');
+    }
+
+    public function scopeGroupByParameter(Builder $query, string $param): Builder
+    {
+        return $query->when($param === 'language', function (Builder $query) {
+            return $query->groupBy('language');
+        })
+            ->when($param === 'country', function (Builder $query) {
+                return $query->groupBy('geo_positions.country');
+            })
+            ->when($param === 'city', function (Builder $query) {
+                return $query->groupBy('geo_positions.city');
+            })
+            ->when($param === 'browser', function (Builder $query) {
+                return $query->groupBy('systems.browser');
+            })
+            ->when($param === 'operating_system', function (Builder $query) {
+                return $query->groupBy('systems.os');
+            })
+            ->when($param === 'screen_resolution', function (Builder $query) {
+                return $query->groupBy('systems.resolution_width', 'systems.resolution_height');
+            });
+    }
 }

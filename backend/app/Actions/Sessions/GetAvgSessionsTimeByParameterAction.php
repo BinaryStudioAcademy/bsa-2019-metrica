@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
-use App\Repositories\Contracts\TableVisitorRepository;
+use App\Repositories\Contracts\TableSessionRepository;
 
 final class GetAvgSessionsTimeByParameterAction
 {
     private $repository;
 
-    public function __construct(TableVisitorRepository $repository)
+    public function __construct(TableSessionRepository $repository)
     {
         $this->repository = $repository;
     }
