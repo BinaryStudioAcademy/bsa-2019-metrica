@@ -34,3 +34,6 @@ services:
       memlock:
         soft: -1
         hard: -1
+
+  beanstalk:
+    image: schickling/beanstalkd:latest
