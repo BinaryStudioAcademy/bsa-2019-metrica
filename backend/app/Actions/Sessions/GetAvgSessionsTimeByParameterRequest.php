@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
-use App\Http\Requests\GetAvgSessionsTimeByParameterHttpRequest;
-use Carbon\Carbon;
+use App\Actions\TableDataRequest;
+use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
 
-final class GetAvgSessionsTimeByParameterRequest
+final class GetAvgSessionsTimeByParameterRequest extends TableDataRequest
 {
-    private $startDate;
-    private $endDate;
-    private $parameter;
-
-    private function __construct(string $startDate, string $endDate, string $parameter)
-    {
-        $this->startDate = Carbon::createFromTimestamp($startDate)->toDateString();
-        $this->endDate = Carbon::createFromTimestamp($endDate)->toDateString();
-        $this->parameter = $parameter;
-    }
-
     public static function fromRequest(GetAvgSessionsTimeByParameterHttpRequest $request): self
     {
         return new static(
@@ -27,20 +16,5 @@ final class GetAvgSessionsTimeByParameterRequest
             $request->endDate(),
             $request->parameter()
         );
-    }
-
-    public function startDate(): string
-    {
-        return $this->startDate;
-    }
-
-    public function endDate(): string
-    {
-        return $this->endDate;
-    }
-
-    public function parameter(): string
-    {
-        return $this->parameter;
     }
 }
