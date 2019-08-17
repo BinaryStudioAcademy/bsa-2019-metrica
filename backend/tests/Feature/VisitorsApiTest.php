@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Entities\Browser;
-use App\Entities\Demographic;
 use App\Entities\Device;
 use App\Entities\GeoPosition;
 use App\Entities\Os;
@@ -36,7 +35,6 @@ class VisitorsApiTest extends TestCase
         factory(Os::class, 1)->create();
         factory(System::class, 1)->create();
         factory(GeoPosition::class, 1)->create();
-        factory(Demographic::class, 1)->create();
     }
 
     public function testNewVisitorsAction()

@@ -13,7 +13,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 {
     private $website_id;
 
-    public function __construct () {
+    public function __construct ()
+    {
         $this->website_id = Auth::user()->getWebsite()->id;
     }
 
