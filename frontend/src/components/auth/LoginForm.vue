@@ -54,12 +54,14 @@
                 >
                     Login
                 </VBtn>
-                <RouterLink
+                <VCardActions>
+                    <RouterLink
                         class="link"
                         :to="{name: 'reset-password'}"
-                >
-                    Forgot Password?
-                </RouterLink>
+                    >
+                        Forgot Password?
+                    </RouterLink>
+                </VCardActions>
             </VContainer>
         </VFlex>
     </VContent>
