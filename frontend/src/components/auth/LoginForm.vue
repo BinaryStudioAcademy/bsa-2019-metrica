@@ -52,15 +52,15 @@
                     >
                         SIGN UP
                     </VBtn>
-                <VCardActions>
-                    <RouterLink
-                        class="link"
-                        :to="{name: 'reset-password'}"
-                    >
-                        Forgot Password?
-                    </RouterLink>
-                </VCardActions>
-            </div>
+                    <VCardActions>
+                        <RouterLink
+                            class="link"
+                            :to="{name: 'reset-password'}"
+                        >
+                            Forgot Password?
+                        </RouterLink>
+                    </VCardActions>
+                </div>
                 <div class="btn-group">
                     <RouterLink
                         class="forgot-password-link"
