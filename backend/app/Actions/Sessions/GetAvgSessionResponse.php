@@ -10,13 +10,13 @@ final class GetAvgSessionResponse
 {
     private $avgSession;
 
-    public function __construct(Collection $avgSession)
+    public function __construct(int $avgSession)
     {
         $this->avgSession = $avgSession;
     }
 
     public function avgSession(): int
     {
-        return (int) $this->avgSession->first()->avg;
+        return (int) $this->avgSession;
     }
 }

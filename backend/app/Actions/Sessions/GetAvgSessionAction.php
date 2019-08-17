@@ -31,7 +31,9 @@ final class GetAvgSessionAction
 
         $avgSessionFilter = new AverageSessionFilter($request, $visitorsIDsOfWebsite);
 
-        $avgSessionInSeconds = $this->sessionRepository->getAvgSession($avgSessionFilter);
+        $avgSessionInSeconds = (int)$this->sessionRepository->getAvgSession($avgSessionFilter)
+                                                       ->first()
+                                                       ->avg;
 
         return new GetAvgSessionResponse($avgSessionInSeconds);
     }
