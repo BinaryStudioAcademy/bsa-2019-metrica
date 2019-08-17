@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Visitors\GetAllVisitorsAction;
+use App\Actions\Visitors\GetChartCountVisitorsAction;
+use App\Actions\Visitors\GetChartCountVisitorsRequest;
 use App\Actions\Visitors\GetNewestCountAction;
 use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetBounceRateAction;
@@ -12,6 +14,7 @@ use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
+use App\Http\Requests\Visitors\GetChartCountVisitorsHttpRequest;
 use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
 use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
 use App\Http\Resources\ChartNewVisitorResource;
@@ -29,17 +32,21 @@ final class VisitorController extends Controller
     private $getNewVisitorsAction;
     private $getNewVisitorsByDateRangeAction;
     private $getBounceRateAction;
+    private $getChartCountVisitorsAction;
 
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
         GetNewVisitorsAction $getNewVisitorsAction,
         GetNewChartVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction,
-        GetBounceRateAction $getBounceRateAction
-    ) {
+        GetBounceRateAction $getBounceRateAction,
+        GetChartCountVisitorsAction $getChartCountVisitorsAction
+    )
+    {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
         $this->getNewVisitorsByDateRangeAction = $getNewVisitorsByDateRangeAction;
         $this->getBounceRateAction = $getBounceRateAction;
+        $this->getChartCountVisitorsAction = $getChartCountVisitorsAction;
     }
 
     public function getAllVisitors(): ApiResponse
@@ -75,5 +82,11 @@ final class VisitorController extends Controller
         );
 
         return ApiResponse::success(new BounceRateResource($response));
+    }
+
+    public function getVisitorsCount(GetChartCountVisitorsHttpRequest $request)
+    {
+        $response = $this->getChartCountVisitorsAction->execute(GetChartCountVisitorsRequest::fromRequest($request));
+        return response()->json($response);
     }
 }
