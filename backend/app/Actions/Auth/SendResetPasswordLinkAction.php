@@ -22,7 +22,6 @@ final class SendResetPasswordLinkAction
     public function execute(ResetPasswordRequest $request): ResetPasswordResponse
     {
         $user = $this->userRepository->getByEmail($request->getEmail());
-
         if (!$user) {
             throw new UserByEmailNotFoundException();
         }

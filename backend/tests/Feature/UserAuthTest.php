@@ -40,8 +40,9 @@ class UserAuthTest extends TestCase
             'email' => 'test@gmail.com11',
             'password' => 'secret1234',
         ]);
-        $response->assertStatus(404);
-        $this->assertEquals('User with this email not found', $response->json('error.message'));
+        $response->assertStatus(400);
+
+        $this->assertEquals('User doesn\'t exist', $response->json('error.message'));
         $response->assertJsonStructure([
                 'error'
         ]);
