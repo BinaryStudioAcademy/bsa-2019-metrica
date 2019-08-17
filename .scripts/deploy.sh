@@ -7,6 +7,16 @@ set -o pipefail
 # more bash-friendly output for jq
 JQ="jq --raw-output --exit-status"
 
+deploy_to_docker_hub() {
+    DOCKER_IMAGE=$1
+    DOCKER_SHARED_IMAGE=$2
+    IMAGE_TAG=$3
+    
+    docker build -t metrica/$DOCKER_IMAGE:latest -f .aws/$DOCKER_IMAGE/Dockerfile .
+    docker tag metrica/$DOCKER_IMAGE:latest $DOCKER_HUB_LOGIN/$DOCKER_SHARED_IMAGE:$IMAGE_TAG
+    docker push $DOCKER_HUB_LOGIN/$DOCKER_SHARED_IMAGE
+}
+
 deploy_image() {
     DOCKER_IMAGE=$1
     IMAGE_TAG=$2
@@ -14,7 +24,6 @@ deploy_image() {
     docker build -t metrica/$DOCKER_IMAGE:latest -f .aws/$DOCKER_IMAGE/Dockerfile .
     docker tag metrica/$DOCKER_IMAGE:latest $AWS_REPOSITORY_URI/$DOCKER_IMAGE:$IMAGE_TAG
     docker push $AWS_REPOSITORY_URI/$DOCKER_IMAGE
-    cleanup_images $DOCKER_IMAGE
 }
 
 # sets $task_definition
@@ -74,19 +83,25 @@ make_task_def() {
                 "containerPath": "/app/storage/app/public"
             }
         ],
+        "repositoryCredentials": {
+            "credentialsParameter": "%s"
+        },
         "memory": 512
-    }' "app" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_cloudwatch")
+    }' "app" "$DOCKER_HUB_LOGIN/metrica-app:$DEPLOY_TYPE" "$aws_cloudwatch" "$AWS_DOCKER_HUB_ARN")
 
 	migration=$(printf '{
         "name": "%s",
         "image": "%s",
         "essential": false,
 		"logConfiguration": %s,
+        "repositoryCredentials": {
+            "credentialsParameter": "%s"
+        },
 		"command": [
 			"/bin/bash", "/home/www-data/migration.sh", "%s"
 		],
         "memory": 192
-    }' "migration" "$AWS_REPOSITORY_URI/app:$DEPLOY_TYPE" "$aws_cloudwatch" "$DEPLOY_TYPE")
+    }' "migration" "$DOCKER_HUB_LOGIN/metrica-app:$DEPLOY_TYPE" "$aws_cloudwatch" "$AWS_DOCKER_HUB_ARN" "$DEPLOY_TYPE")
 
 	task_definition="[
 		$nginx,
@@ -127,7 +142,14 @@ register_definition() {
 stop_active_task() {
     ACTIVE_TASK_ID=$(aws ecs list-tasks --cluster $AWS_CLUSTER --service-name $AWS_SERVICE | grep -E "task/.*" | sed -e 's/.*task\/\(.*\)"/\1/')
 
-    aws ecs stop-task --cluster metrica-cluster --task $ACTIVE_TASK_ID >> /dev/null
+    echo $ACTIVE_TASK_ID
+    if [[ -n $ACTIVE_TASK_ID ]]; then
+        echo "Stopping task with id: $ACTIVE_TASK_ID"
+
+        aws ecs stop-task --cluster metrica-cluster --task $ACTIVE_TASK_ID > /dev/null
+    
+        echo "Task stopped: $ACTIVE_TASK_ID"
+    fi
 }
 
 cleanup_images() {
@@ -141,7 +163,12 @@ deploy_cluster() {
 
     make_task_def
     register_definition $task_definition
+    
+    echo "Definition has successfully registered"
+
     stop_active_task
+
+    echo "Active task stopped"
 
     if [[ $(aws ecs update-service --cluster $AWS_CLUSTER --service $AWS_SERVICE --task-definition $revision --force-new-deployment | \
                    $JQ '.service.taskDefinition') != $revision ]]; then
@@ -149,19 +176,23 @@ deploy_cluster() {
         return 1
     fi
 
-    echo "Deployed!"
+    echo "Successfully deployed!"
 
     return 0
 
 }
 
-$(aws ecr get-login --region ${AWS_REGION} --no-include-email)
 aws s3 cp s3://${AWS_BUCKET}/envs/.env.app.$DEPLOY_TYPE ./backend/.env
 aws s3 cp s3://${AWS_BUCKET}/envs/.env.frontend.$DEPLOY_TYPE ./frontend/.env
 
 docker-compose -f docker-compose.test.yml run --rm node npm run build
 
-deploy_image app $DEPLOY_TYPE
+docker login --username $DOCKER_HUB_LOGIN --password $DOCKER_HUB_PASSWORD
+
+deploy_to_docker_hub app metrica-app $DEPLOY_TYPE
+
+$(aws ecr get-login --region ${AWS_REGION} --no-include-email)
+
 deploy_image webserver $DEPLOY_TYPE
 
 deploy_cluster
