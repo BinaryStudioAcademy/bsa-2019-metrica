@@ -39,7 +39,7 @@ after_script:
   - docker-compose -f docker-compose.test.yml down
   - docker image rm -f metrica/app:latest
   - docker image rm -f metrica/webserver:latest
-  - docker rm -f $(docker images | grep "^<none>" | awk "{print $3}")
+  - docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")
   - docker images
 branches:
   only:
