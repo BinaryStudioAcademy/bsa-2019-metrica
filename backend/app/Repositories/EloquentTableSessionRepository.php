@@ -17,14 +17,14 @@ final class EloquentTableSessionRepository implements TableSessionRepository
         return Session::whereDateBetween($datePeriod)
             ->avgSessionsTime()
             ->groupByParameter($parameter)
-            //->calculateAvgSessionTimePercentage()
+            ->calculateAvgSessionTimePercentage()
             ->get()
             ->map(function (Session $session) use ($parameter) {
                 return new TableSession(
                     $parameter,
                     $session->parameter_value,
                     $session->avg_session_time,
-                    2//$session->percentage
+                    $session->avg_session_time_percentage
                 );
             });
     }

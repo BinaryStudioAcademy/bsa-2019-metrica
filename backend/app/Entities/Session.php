@@ -128,13 +128,15 @@ final class Session extends Model
 
     public function scopeCalculateAvgSessionTimePercentage(Builder $query): Builder
     {
-        return $query->select(
+        return $query->addSelect(
             DB::raw(
-                'round(avg(unix_timestamp(timediff(
-                    max(sessions.updated_at), 
-                    min(sessions.start_session
-                ))))) as avg_session_time_percentage'
+                'round(unix_timestamp(timediff(max(sessions.updated_at), min(sessions.start_session)))) as max_time_difference'
             )
         );
+    }
+
+    public function getAvgSessionTimePercentageAttribute()
+    {
+        return $this->avg_session_time / $this->max_time_difference * 100;
     }
 }
