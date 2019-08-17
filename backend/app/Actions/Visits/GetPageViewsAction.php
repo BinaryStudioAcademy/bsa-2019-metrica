@@ -26,17 +26,23 @@ final class GetPageViewsAction
             throw new WebsiteNotFoundException();
         }
 
-        if($request->getInterval() < 1) {
-            throw new AppInvalidArgumentException('Interval must more 1000 ms');
+        $interval = $this->getInterval($request->interval());
+
+        if($interval < 1) {
+            throw new AppInvalidArgumentException('Interval must more 500 ms');
         }
 
-
         $data = $this->visitRepository->findByFilter(
-            $request->getFilterData(),
-            $request->getInterval(),
+            $request->period(),
+            $interval,
             $websiteId
         );
 
         return new GetPageViewsResponse($data);
+    }
+
+    private function getInterval(string $interval): int
+    {
+        return (int) \round($interval/1000, 0);
     }
 }
