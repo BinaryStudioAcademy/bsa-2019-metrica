@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Visits\GetPageViewsFilterHttpRequest;
 use App\Http\Resources\VisitResource;
 use App\Http\Response\ApiResponse;
-use Illuminate\Support\Facades\Auth;
 
 final class VisitController extends Controller
 {

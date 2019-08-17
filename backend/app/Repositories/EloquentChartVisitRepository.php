@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\DataTransformer\visits\ChartVisit;
+use App\DataTransformer\Visits\ChartVisit;
 use App\Repositories\Contracts\ChartVisitRepository;
 use App\Contracts\Common\DatePeriod;
 use Illuminate\Support\Collection;
@@ -19,14 +19,14 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
 
     private function toInteger(string $expression): string
     {
-        return "(CAST ($expression AS INTEGER)";
+        return "(CAST ($expression AS INTEGER))";
     }
 
-    private function roundDate(string $columnName, int $period): string
+    private function roundDate(string $columnName, float $period): string
     {
         return
             $this->toTimestamp($columnName) .
-            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . ") , " . $period . ")";
+            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . " , " . $period . ")";
     }
 
     public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection
@@ -43,7 +43,6 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
             'start_date' => $filterData->getStartDate()->getTimestamp(),
             'end_date' =>  $filterData->getEndDate()->getTimestamp(),
         ]);
-
 
         return collect($result)->map(function ($item) {
             return new ChartVisit($item->date, $item->visits);

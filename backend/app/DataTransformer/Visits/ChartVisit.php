@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTransformer\visits;
+namespace App\DataTransformer\Visits;
 
 class ChartVisit
 {
