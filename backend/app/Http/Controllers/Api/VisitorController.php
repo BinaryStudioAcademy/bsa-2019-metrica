@@ -65,7 +65,7 @@ final class VisitorController extends Controller
         return ApiResponse::success(new VisitorCountResource($response->getCount()));
     }
 
-    public function getNewVisitorsByDateRange(GetNewChartVisitorsHttpRequest $request)
+    public function getNewVisitorsByDateRange(GetNewChartVisitorsHttpRequest $request): ApiResponse
     {
         $response = $this->getNewVisitorsByDateRangeAction->execute(
             GetNewChartVisitorsByDateRangeRequest::fromRequest($request));
