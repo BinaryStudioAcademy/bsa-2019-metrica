@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Actions\Visitors;
 
 use App\Contracts\Visitors\NewVisitorsCountFilterData;
-use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
+use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
 use App\Utils\DatePeriod;
 
 final class GetNewestCountRequest
@@ -21,7 +21,7 @@ final class GetNewestCountRequest
         return $this->filterData;
     }
 
-    public static function fromRequest(GetNewVisitorCountFilterHttpHttpRequest $request): self
+    public static function fromRequest(GetNewVisitorCountFilterHttpRequest $request): self
     {
         $period = DatePeriod::createFromTimestamp(
             $request->getStartDate(),
