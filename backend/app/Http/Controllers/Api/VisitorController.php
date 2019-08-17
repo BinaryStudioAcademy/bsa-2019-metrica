@@ -10,18 +10,22 @@ use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetBounceRateAction;
 use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
-use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
-use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
-use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
-use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
-use App\Http\Resources\ChartNewVisitorResource;
-use App\Http\Resources\ChartNewVisitorResourceCollection;
+use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
 use App\Http\Resources\BounceRateResource;
 use App\Http\Resources\VisitorResourceCollection;
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ChartNewVisitorResource;
+use App\Http\Resources\ChartNewVisitorResourceCollection;
+use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
+use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
+use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
+use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
+
+
+
 
 final class VisitorController extends Controller
 {
@@ -56,7 +60,7 @@ final class VisitorController extends Controller
         return ApiResponse::success(new VisitorResourceCollection($response->visitors()));
     }
 
-    public function getNewVisitorsCountForFilterData(GetNewVisitorCountFilterHttpHttpRequest $request, GetNewestCountAction $action): ApiResponse
+    public function getNewVisitorsCountForFilterData(GetNewVisitorCountFilterHttpRequest $request, GetNewestCountAction $action): ApiResponse
     {
         $response = $action->execute(GetNewestCountRequest::fromRequest($request));
         return ApiResponse::success(new VisitorCountResource($response->getCount()));

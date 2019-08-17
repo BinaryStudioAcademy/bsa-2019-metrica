@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
@@ -12,9 +13,8 @@ final class Visit extends Model
         'ip_address',
         'session_id',
         'page_id',
-        'visitor_id',
-        'device_id',
+        'visitor_id'
     ];
 
-    protected $with = ['session', 'pages', 'visitors', 'devices'];
+    protected $with = ['session', 'pages', 'visitors'];
 }

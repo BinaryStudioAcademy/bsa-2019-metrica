@@ -15,12 +15,12 @@ final class UserByEmailNotFoundException extends ModelNotFoundException implemen
     {
         parent::__construct($this->message, $code, $previous);
     }
-  
+
     public function getStatus(): int
     {
         return Response::HTTP_NOT_FOUND;
     }
-  
+
     public function toArray(): array
     {
         return [
