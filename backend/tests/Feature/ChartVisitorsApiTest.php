@@ -75,7 +75,7 @@ class ChartVisitorsApiTest extends TestCase
 
         $this->actingAs($this->user)
             ->call('GET', 'api/v1/chart-new-visitors', $filterData)
-            ->assertStatus(200);
-//            ->assertJson($expectedData);
+            ->assertStatus(200)
+            ->assertJson($expectedData);
     }
 }

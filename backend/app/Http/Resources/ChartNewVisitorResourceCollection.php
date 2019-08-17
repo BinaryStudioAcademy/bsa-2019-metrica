@@ -9,8 +9,6 @@ class ChartNewVisitorResourceCollection extends ResourceCollection implements Ap
 {
     public function toArray($request): array
     {
-        return [
-             $this->collection
-        ];
+        return $this->collection->toArray();
     }
 }

@@ -11,6 +11,7 @@ use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetBounceRateAction;
 use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
+use App\DataTransformer\Visitors\ChartNewVisitor;
 use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
 use App\Http\Resources\VisitorCountResource;
@@ -23,6 +24,7 @@ use App\Http\Resources\ChartNewVisitorResource;
 use App\Http\Resources\ChartNewVisitorResourceCollection;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
+use http\Env\Response;
 
 final class VisitorController extends Controller
 {
