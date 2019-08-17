@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Repositories\Contracts\ChartVisitorsRepository;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 

@@ -3,37 +3,12 @@
 
 namespace App\Actions\Visitors;
 
-use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
+use App\Actions\ChartDataRequest;
+use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
 
-class GetNewChartVisitorsByDateRangeRequest
+class GetNewChartVisitorsByDateRangeRequest extends ChartDataRequest
 {
-    private $startDate;
-    private $endDate;
-    private $period;
-
-    private function __construct(int $startDate, int $endDate, int $period)
-    {
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-        $this->period = $period;
-    }
-
-    public function getStartDate(): int
-    {
-        return $this->startDate;
-    }
-
-    public function getEndDate(): int
-    {
-        return $this->endDate;
-    }
-
-    public function getPeriod(): int
-    {
-        return $this->period;
-    }
-
-    public static function fromRequest(GetNewChartVisitorsHttpRequest $request): self
+    public static function fromRequest(GetNewChartVisitorsHttpRequest $request)
     {
         return new static(
             $request->getStartDate(),
