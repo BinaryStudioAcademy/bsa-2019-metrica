@@ -3,7 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Utils\DatePeriod;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 interface TableSessionRepository
 {

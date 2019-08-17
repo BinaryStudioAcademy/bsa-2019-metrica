@@ -7,7 +7,7 @@ namespace App\Actions\Sessions;
 use App\Actions\TableDataRequest;
 use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
 
-final class GetAvgSessionsTimeByParameterRequest extends TableDataRequest
+final class GetAvgSessionTimeByParameterRequest extends TableDataRequest
 {
     public static function fromRequest(GetAvgSessionsTimeByParameterHttpRequest $request): self
     {

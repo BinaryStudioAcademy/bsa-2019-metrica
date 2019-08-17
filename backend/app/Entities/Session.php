@@ -64,7 +64,7 @@ final class Session extends Model
     {
         return $query->select(
             DB::raw(
-                'round(avg(unix_timestamp(timediff(sessions.updated_at, sessions.start_session)))) as time_difference'
+                'round(avg(unix_timestamp(timediff(sessions.updated_at, sessions.start_session)))) as avg_session_time'
             )
         );
     }
@@ -124,5 +124,17 @@ final class Session extends Model
                     ->addSelect('resolution_width as parameter_value')
                     ->groupBy('systems.resolution_width', 'systems.resolution_height');
             });
+    }
+
+    public function scopeCalculateAvgSessionTimePercentage(Builder $query): Builder
+    {
+        return $query->select(
+            DB::raw(
+                'round(avg(unix_timestamp(timediff(
+                    max(sessions.updated_at), 
+                    min(sessions.start_session
+                ))))) as avg_session_time_percentage'
+            )
+        );
     }
 }

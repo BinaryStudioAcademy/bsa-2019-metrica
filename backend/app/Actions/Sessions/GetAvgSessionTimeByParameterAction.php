@@ -6,7 +6,7 @@ namespace App\Actions\Sessions;
 
 use App\Repositories\Contracts\TableSessionRepository;
 
-final class GetAvgSessionsTimeByParameterAction
+final class GetAvgSessionTimeByParameterAction
 {
     private $repository;
 
@@ -15,13 +15,13 @@ final class GetAvgSessionsTimeByParameterAction
         $this->repository = $repository;
     }
 
-    public function execute(GetAvgSessionsTimeByParameterRequest $request): GetAvgSessionsTimeByParameterResponse
+    public function execute(GetAvgSessionTimeByParameterRequest $request): GetAvgSessionTimeByParameterResponse
     {
         $avgSessionsTimeCollection = $this->repository->getAvgSessionsTimeByParameter(
             $request->period(),
             $request->parameter()
         );
 
-        return new GetAvgSessionsTimeByParameterResponse($avgSessionsTimeCollection);
+        return new GetAvgSessionTimeByParameterResponse($avgSessionsTimeCollection);
     }
 }
