@@ -1,8 +1,5 @@
 <template>
     <div class="form">
-        <Spinner
-            v-if="isLoading"
-        />
         <h3>Welcome to Metrica!</h3>
         <VForm
             lazy-validation
@@ -43,7 +40,7 @@
                         :disabled="!valid"
                         @click="onLogin"
                     >
-                        SIGN IN
+                        {{ signInText }}
                     </VBtn>
 
                     <VBtn
@@ -75,13 +72,8 @@
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
-    import Spinner from "../utilites/Spinner";
 
     export default {
-        components: {
-            Spinner
-        },
-
         data() {
             return {
                 email: '',
@@ -122,6 +114,11 @@
                         this.showErrorMessage(error);
                     });
                 }
+            }
+        },
+        computed: {
+            signInText() {
+                return this.isLoading?'SIGN INNING...':'SIGN IN';
             }
         }
     };
