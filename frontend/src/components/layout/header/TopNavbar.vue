@@ -7,93 +7,107 @@
     >
         <VToolbarTitle class="pl-4">
             <span class="logo pr-3">
-                <RouterLink :to="{ name: 'home' }">M</RouterLink>
+                <RouterLink :to="redirectRoute">M</RouterLink>
             </span>
             <span>Metrica</span>
         </VToolbarTitle>
         <UserControls v-if="isLoggedIn" />
-        <a
+        <div
             v-else
-            class="login-btn pr-3"
-            href="/login"
         >
-            Sign In
-        </a>
+            <RouterLink
+                class="login-btn pr-3"
+                :to="{ name: 'login' }"
+            >
+                Sign In
+            </RouterLink>
+            <RouterLink
+                class="login-btn pr-3"
+                :to="{ name: 'signup' }"
+            >
+                Sign Up
+            </RouterLink>
+        </div>
     </VAppBar>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER, IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
-    import UserControls from './UserControls.vue'
+    import UserControls from './UserControls.vue';
 
     export default {
-        components: { UserControls },
+        components: {UserControls},
         computed: {
             ...mapGetters('auth', {
                 isLoggedIn: IS_LOGGED_IN,
                 user: GET_AUTHENTICATED_USER
-            })
+            }),
+            redirectRoute(){
+                return this.isLoggedIn ? {name: 'dashboard'} : {name: 'home'};
+            }
         }
-    }
+    };
 </script>
 
 <style scoped lang="scss">
-svg {
-    width: 25px;
-    height: 25px;
-}
-
-a:hover{
-    text-decoration: none;
-}
-
-::v-deep .v-toolbar__content {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.034);
-    justify-content: space-between;
-
-    .login-btn {
-        font-family: 'Gilroy';
-        color: black;
+    svg {
+        width: 25px;
+        height: 25px;
     }
 
-    .v-toolbar__title {
-        font-family: 'GilroyLight';
-        color: rgba(18, 39, 55, 0.5);
-        font-size: 14px;
+    a:hover {
+        text-decoration: none;
+    }
 
-        &.username {
-            font-family: 'Inter';
-            font-size: 12px;
-            color: #122737;
-            span {
+    ::v-deep .v-toolbar__content {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.034);
+        justify-content: space-between;
+
+        .login-btn {
+            font-family: 'Gilroy';
+            color: black;
+        }
+
+        .v-toolbar__title {
+            font-family: 'GilroyLight';
+            color: rgba(18, 39, 55, 0.5);
+            font-size: 14px;
+
+            &.username {
+                font-family: 'Inter';
+                font-size: 12px;
+                color: #122737;
+
+                span {
+                    font-family: 'InterBold';
+                }
+            }
+
+            .logo {
                 font-family: 'InterBold';
+                font-size: 24px;
+
+                a {
+                    color: #3C57DE !important;
+                }
             }
         }
 
-        .logo {
-            font-family: 'InterBold';
-            font-size: 24px;
-            a {
-                color: #3C57DE !important;
+        .notifications {
+            position: relative;
+            fill: rgba(0, 0, 0, 0.5);
+
+            &::after {
+                top: 13px;
+                content: '';
+                right: 15px;
+                width: 7px;
+                height: 7px;
+                position: absolute;
+                background-color: #3C57DE;
+                border-radius: 50%;
             }
         }
     }
-
-    .notifications {
-        position: relative;
-        fill: rgba(0, 0, 0, 0.5);
-
-        &::after {
-            top: 13px;
-            content: '';
-            right: 15px;
-            width: 7px;
-            height: 7px;
-            position: absolute;
-            background-color: #3C57DE;
-            border-radius: 50%;
-        }
-    }
-}
 </style>

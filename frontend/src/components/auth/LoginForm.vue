@@ -5,58 +5,62 @@
             md6
             sm12
             xs12
+            :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
             <VContainer>
-                <VCardText
-                    class="login-container"
+                <VSubheader
+                    class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
                 >
-                    <VSubheader
-                        class="login-form-header"
+                    Welcome to Metrica!
+                </VSubheader>
+                <VForm
+                    ref="form"
+                >
+                    <label
+                        class="caption grey--text"
                     >
-                        Welcome to Metrica!
-                    </VSubheader>
-                    <VForm
-                        ref="form"
+                        Email
+                    </label>
+                    <VTextField
+                        name="email"
+                        class="no-underline mt-3"
+                        solo
+                        v-model="email"
+                        type="text"
+                        :rules="emailRules"
+                        required
+                    />
+                    <label
+                        class="caption grey--text"
                     >
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Email
-                        </VSubheader>
-                        <VTextField
-                            name="email"
-                            class="login-form-input"
-                            v-model="email"
-                            solo
-                            type="text"
-                            :rules="emailRules"
-                            required
-                        />
-
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Password
-                        </VSubheader>
-                        <VTextField
-                            name="password"
-                            class="login-form-input"
-                            v-model="password"
-                            solo
-                            type="password"
-                            :rules="passwordRules"
-                            required
-                        />
-                    </VForm>
-                </VCardText>
+                        Password
+                    </label>
+                    <VTextField
+                        :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                        :type="showPassword ? 'text' : 'password'"
+                        @click:append="showPassword = !showPassword"
+                        name="password"
+                        class="no-underline my-3"
+                        solo
+                        v-model="password"
+                        :rules="passwordRules"
+                        required
+                    />
+                </VForm>
+                <VBtn
+                    @click="onLogin"
+                    class="mt-5"
+                    color="primary"
+                >
+                    Login
+                </VBtn>
                 <VCardActions>
-                    <VBtn
-                        @click="onLogin"
-                        class="login-form-button mt-3"
-                        color="#3C57DE"
+                    <RouterLink
+                        class="link"
+                        :to="{name: 'reset-password'}"
                     >
-                        Login
-                    </VBtn>
+                        Forgot Password?
+                    </RouterLink>
                 </VCardActions>
             </VContainer>
         </VFlex>
@@ -66,26 +70,34 @@
 <script>
     import {mapActions} from 'vuex';
     import {LOGIN} from "@/store/modules/auth/types/actions";
+    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import {validateEmail} from '@/services/validation';
+    import {validatePassword} from '@/services/validation';
 
     export default {
         data() {
             return {
                 email: '',
                 password: '',
+                showPassword: false,
                 valid: false,
                 emailRules: [
                     v => !!v || 'E-mail is required',
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                    v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => (v && v.length >= 8) || 'Password must be equal or more than 8 characters'
+                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
                 ]
-            }
+            };
         },
         methods: {
             ...mapActions('auth', {
                 login: LOGIN
+            }),
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
             }),
             onLogin() {
                 if (this.$refs.form.validate()) {
@@ -94,72 +106,18 @@
                         password: this.password
                     }).then(() => {
                         this.$emit("success");
-                    }, err => {
-                        alert(err.message);
-                    })
+                        this.showSuccessMessage('Logged in');
+                    }).catch((error) => {
+                        this.showErrorMessage(error);
+                    });
                 }
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
-    .login-form-input {
-        height: 37px;
-        border: 1px solid rgba(18, 39, 55, 0.11);
-        border-radius: 3px;
-
-        ::v-deep {
-            .v-input__control {
-                min-height: 1px;
-            }
-
-            input {
-                min-height: 35px;
-            }
-
-            .v-input__prepend-outer {
-                margin-top: 4px;
-            }
-        }
-
-        &.v-input--is-focused {
-            border: 1px solid rgba(60, 87, 222, 0.52);
-            box-shadow: 0px 0px 14px rgba(194, 205, 223, 0.6);
-        }
-    }
-
-    .login-form-label {
-        padding: 0;
-        color: rgba(18, 39, 55, 0.5);
-        font-size: 12px;
-        height: 28px;
-        margin-top: 25px;
-        font-weight: bold;
-    }
-
-    .login-form-header {
-        font-size: 16px;
-        line-height: 19px;
-        font-weight: bold;
-        color: #122737;
-        padding: 0;
-    }
-
-    .login-container {
-        padding: 8px;
-    }
-
-    .login-form-button {
-        color: white;
-
-        ::v-deep {
-            span {
-                font-size: 12px;
-                line-height: 15px;
-                padding: 7px 21px 7px 21px;
-                font-weight: bold;
-            }
-        }
-    }
+::v-deep .v-btn {
+    width: 105px;
+}
 </style>

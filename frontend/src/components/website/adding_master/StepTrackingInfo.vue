@@ -7,12 +7,12 @@
         >
             <VContainer pa-1>
                 <div
-                    class="subtitle-2 title-text font-weight-bold"
+                    class="subtitle-2 title-text"
                 >
                     Tracking ID
                 </div>
                 <VForm lazy-validation>
-                    <VCardText class="mb-2 pa-0 mt-2">
+                    <VCardText class="mb-12 pa-0 mt-5">
                         <VTextField
                             single-line
                             readonly
@@ -22,17 +22,18 @@
                     </VCardText>
                     <VCardText class="mb-2 pa-0">
                         <div
-                            class="subtitle-2 title-text mb-2 font-weight-bold"
+                            class="subtitle-2 title-text mb-3"
                         >
                             Website tracking
                         </div>
-                        <div class="caption mb-2">
+                        <div class="caption mb-3">
                             This is Global Site Tag tracking code for your website.
                         </div>
                         <VTextarea
                             solo
                             auto-grow
                             readonly
+                            height="130"
                             rows="6"
                             :value="messageText"
                         />
@@ -41,7 +42,7 @@
                 <VBtn
                     color="#3C57DE"
                     large
-                    class="white--text mt-3"
+                    class="white--text mt-6"
                     @click="onToDashboard"
                 >
                     Get Started
@@ -60,14 +61,14 @@
         data () {
             return {
                 directionText: "Here will be directions with TRACKING_INFO_ID "
-            }
+            };
         },
         computed: {
             ...mapGetters('website', {
                 currentWebsite: GET_CURRENT_WEBSITE
             }),
             messageText() {
-                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_number)
+                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_number);
             }
         },
         methods: {

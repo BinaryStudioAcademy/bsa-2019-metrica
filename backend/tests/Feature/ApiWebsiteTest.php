@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Entities\User;
+use App\Entities\Website;
 use App\Http\Controllers\Api\WebsiteController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -85,6 +86,71 @@ class ApiWebsiteTest extends TestCase
         $this->actingAs($this->user)
             ->post('/api/v1/websites', $secondWebsiteData, $headers)
             ->assertStatus(200)
+            ->assertJson($expectedData);
+    }
+
+    public function test_success_edit()
+    {
+        $website = factory(Website::class)->create();
+        $expectedData = [
+            "data" => [
+                'name' => 'New name',
+                'domain' => $website->domain,
+                'single_page' => $website->single_page,
+                'user_id' => $website->user_id,
+                'tracking_number' => $website->tracking_number,
+            ],
+            "meta" => [],
+
+        ];
+        $websiteData = [
+            'name' => $expectedData['data']['name'],
+            'single_page' => $expectedData['data']['single_page'],
+        ];
+        $token = JWTAuth::fromUser($this->user);
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $this->actingAs($this->user)
+            ->put('/api/v1/websites/'.$website->id, $websiteData, $headers)
+            ->assertStatus(200)
+            ->assertJson($expectedData);
+    }
+
+    public function test_without_required_field_edit()
+    {
+        $expectedData = [
+            'error' => [
+                'message' => 'The name field is required.'
+            ]
+        ];
+        $website = factory(Website::class)->create();
+        $websiteData = [];
+        $token = JWTAuth::fromUser($this->user);
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $this->actingAs($this->user)
+            ->put('/api/v1/websites/'.$website->id, $websiteData, $headers)
+            ->assertStatus(400)
+            ->assertJson($expectedData);
+    }
+
+    public function test_edit_not_exist()
+    {
+        $expectedData = [
+            'error' => [
+                'message' => 'Website not found.'
+            ]
+        ];
+        $websiteData = [
+            'name' => 'name',
+        ];
+        $failId = 100;
+        $token = JWTAuth::fromUser($this->user);
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $this->actingAs($this->user)
+            ->put('/api/v1/websites/'.$failId, $websiteData, $headers)
+            ->assertStatus(404)
             ->assertJson($expectedData);
     }
 }
