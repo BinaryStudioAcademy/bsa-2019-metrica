@@ -2,11 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Browser;
 use App\Entities\Demographic;
-use App\Entities\Device;
 use App\Entities\GeoPosition;
-use App\Entities\Os;
 use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\System;
@@ -31,9 +28,6 @@ class VisitorsApiTest extends TestCase
         $this->user = factory(User::class)->create();
         factory(Website::class, 1)->create();
         factory(Page::class, 1)->create();
-        factory(Device::class, 1)->create();
-        factory(Browser::class, 1)->create();
-        factory(Os::class, 1)->create();
         factory(System::class, 1)->create();
         factory(GeoPosition::class, 1)->create();
         factory(Demographic::class, 1)->create();
