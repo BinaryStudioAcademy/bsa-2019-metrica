@@ -268,11 +268,12 @@ class VisitorsApiTest extends TestCase
         ];
     }
 
-    private function initDataForBounceRateByTimeFrame(){
+    private function initDataForBounceRateByTimeFrame()
+    {
         $date = new Carbon();
         factory(Visitor::class, 9)->create([
             'created_at' => $date
-        ])->each(function (Visitor $visitor){
+        ])->each(function (Visitor $visitor) {
             $visitor->sessions()->saveMany(
                 factory(Session::class)
                     ->create([
@@ -289,7 +290,7 @@ class VisitorsApiTest extends TestCase
 
         factory(Visitor::class, 1)->create([
             'created_at' => $date
-        ])->each(function (Visitor $visitor){
+        ])->each(function (Visitor $visitor) {
             $visitor->sessions()->saveMany(
                 factory(Session::class)
                     ->create([

@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-
 use App\Repositories\Contracts\ChartVisitorRepository;
 
 final class BounceRateAction
 {
-
     private $repository;
 
     public function __construct(ChartVisitorRepository $repository)

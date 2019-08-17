@@ -3,7 +3,6 @@
 
 namespace App\Http\Requests\Visitors;
 
-
 class VisitorsBounceRateHttpRequest extends AbstractVisitorsFilterHttpRequest
 {
     public function rules(): array

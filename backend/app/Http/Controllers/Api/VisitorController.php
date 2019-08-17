@@ -58,7 +58,8 @@ final class VisitorController extends Controller
         return ApiResponse::success(new VisitorCountResource($response->getCount()));
     }
 
-    public function getVisitorsBounceRate(VisitorsBounceRateHttpRequest $request, BounceRateAction $action){
+    public function getVisitorsBounceRate(VisitorsBounceRateHttpRequest $request, BounceRateAction $action)
+    {
         $response = $action->execute(BounceRateRequest::fromRequest($request));
         return ApiResponse::success(new VisitorBounceRateResourceCollection($response->getVisitorsBounceRateCollection()));
     }
