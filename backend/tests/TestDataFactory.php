@@ -52,7 +52,7 @@ class TestDataFactory
         return factory(User::class)->create();
     }
 
-    public static function createVisitsBetweenDates(User $user, String $from,String $to): void
+    public static function createVisitsBetweenDates(User $user, String $from, String $to): void
     {
         $website = factory(Website::class)->create(['user_id' => $user->id]);
         factory(Page::class, 3)->create(['website_id' => $website->id]);

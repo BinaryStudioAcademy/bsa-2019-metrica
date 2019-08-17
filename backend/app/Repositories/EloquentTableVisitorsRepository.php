@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 {
-    public function groupByCity(int $website_id,string $from, string $to): Collection
+    public function groupByCity(int $website_id, string $from, string $to): Collection
     {
         $count = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
