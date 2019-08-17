@@ -1,12 +1,11 @@
 <template>
     <VContainer
         fluid
-        pa-0
     >
         <VLayout
             wrap
         >
-            <h4>Visitors</h4>
+            <h4>{{ title }}</h4>
         </VLayout>
         <VLayout>
             <VFlex
@@ -55,6 +54,11 @@
                 data: [],
             };
         },
+        computed: {
+            title () {
+                return this.$route.meta.title;
+            }
+        },
         mounted() {
             for (let i = 1; i < 20; i++) {
                 const x = new Date(2019, 9, 5, i).toLocaleTimeString();
@@ -70,5 +74,4 @@
 </script>
 
 <style scoped>
-
 </style>

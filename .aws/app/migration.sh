@@ -1,3 +1,3 @@
 #/bin/bash
 
-php /app/artisan migrate
+php /app/artisan migrate --force
