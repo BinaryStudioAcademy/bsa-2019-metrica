@@ -14,8 +14,6 @@ class ChangeVisitsTableAddGeoLocation extends Migration
     public function up()
     {
         Schema::table('visits', function (Blueprint $table) {
-            $table->dropForeign(['device_id']);
-            $table->dropColumn('device_id');
             $table->unsignedBigInteger('geo_position_id');
 
             $table->foreign('geo_position_id')
@@ -34,11 +32,6 @@ class ChangeVisitsTableAddGeoLocation extends Migration
         Schema::table('visits', function (Blueprint $table) {
             $table->dropForeign(['geo_position_id']);
             $table->dropColumn('geo_position_id');
-            $table->unsignedBigInteger('device_id');
-
-            $table->foreign('device_id')
-                ->references('id')
-                ->on('devices');
         });
     }
 }

@@ -6,6 +6,7 @@ namespace App\Actions\Visitors;
 
 use App\Repositories\Contracts\TableVisitorsRepository;
 use http\Exception\InvalidArgumentException;
+use Illuminate\Support\Facades\Auth;
 
 final class GetVisitorsByParameterAction
 {
@@ -22,6 +23,7 @@ final class GetVisitorsByParameterAction
             case 'city':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByCity(
+                        Auth::user()->website->id,
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -29,6 +31,7 @@ final class GetVisitorsByParameterAction
             case 'country':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByCountry(
+                        Auth::user()->website->id,
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -36,6 +39,7 @@ final class GetVisitorsByParameterAction
             case 'language':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByLanguage(
+                        Auth::user()->website->id,
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -43,6 +47,7 @@ final class GetVisitorsByParameterAction
             case 'browser':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByBrowser(
+                        Auth::user()->website->id,
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -50,6 +55,7 @@ final class GetVisitorsByParameterAction
             case 'operating_system':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByOperatingSystem(
+                        Auth::user()->website->id,
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -57,6 +63,7 @@ final class GetVisitorsByParameterAction
             case 'screen_resolution':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByScreenResolution(
+                        Auth::user()->website->id,
                         $request->startDate(),
                         $request->endDate()
                     );

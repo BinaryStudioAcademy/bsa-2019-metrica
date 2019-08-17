@@ -10,7 +10,7 @@ use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetBounceRateAction;
 use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
-use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
+use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
 use App\Http\Resources\BounceRateResource;
@@ -55,7 +55,7 @@ final class VisitorController extends Controller
         return ApiResponse::success(new VisitorResourceCollection($response->visitors()));
     }
 
-    public function getNewVisitorsCountForFilterData(GetNewVisitorCountFilterHttpHttpRequest $request, GetNewestCountAction $action): ApiResponse
+    public function getNewVisitorsCountForFilterData(GetNewVisitorCountFilterHttpRequest $request, GetNewestCountAction $action): ApiResponse
     {
         $response = $action->execute(GetNewestCountRequest::fromRequest($request));
         return ApiResponse::success(new VisitorCountResource($response->getCount()));

@@ -7,11 +7,8 @@ use App\Entities\Visit;
 use App\Entities\Website;
 use App\Entities\Session;
 use App\Entities\GeoPosition;
-use App\Entities\Browser;
 use App\Entities\System;
-use App\Entities\Os;
 use App\Entities\Page;
-use App\Entities\Device;
 use App\Entities\Visitor;
 
 class TestDataFactory
@@ -26,10 +23,13 @@ class TestDataFactory
         'Mozilla/5.0 (X11; Linux x86_64; rv:7.0) Gecko/20120215 Firefox/37.0',
         'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 4.0; Trident/3.1)'
     ];
-    const SCREEN_RESOLUTIONS = [
-        '847x1595',
-        '914x1638',
-        '757x1704'
+    const SCREEN_HEIGHT = [
+        '1595',
+        '1638'
+    ];
+    const SCREEN_WIDTH = [
+        '789',
+        '920'
     ];
     const OS = [
         'Macintosh; U; PPC Mac OS X 10_5_0',
@@ -57,23 +57,20 @@ class TestDataFactory
         $website = factory(Website::class)->create(['user_id' => $user->id]);
         factory(Page::class, 3)->create(['website_id' => $website->id]);
         factory(Visitor::class, 15)->create();
-        factory(Device::class, 5)->create();
 
-        foreach (self::OS as $os_name) {
-            $o_systems[] = factory(Os::class)->create(['name' =>$os_name]);
-        }
-
-        foreach (self::BROWSERS as $browser_name) {
-            $browser = factory(Browser::class)->create(['name' =>$browser_name]);
-            foreach (self::SCREEN_RESOLUTIONS as $screen_resolution) {
-                foreach ($o_systems as $o_system) {
-                    factory(System::class)->create(
-                        [
-                            'browser_id' => $browser->id,
-                            'screen_resolution' => $screen_resolution,
-                            'os_id' =>$o_system->id
-                        ]
-                    );
+        foreach (self::BROWSERS as $browser) {
+            foreach (self::SCREEN_HEIGHT as $screen_height) {
+                foreach (self::SCREEN_WIDTH as $screen_width) {
+                    foreach (self::OS as $o_system) {
+                        $systems[] = factory(System::class)->create(
+                            [
+                                'browser' => $browser,
+                                'resolution_height' => $screen_height,
+                                'resolution_width' => $screen_width,
+                                'os' => $o_system
+                            ]
+                        );
+                    }
                 }
             }
         }
@@ -90,10 +87,10 @@ class TestDataFactory
         }
 
         foreach (self::LANGUAGES as $language) {
-            foreach ($o_systems as $o_system) {
+            foreach ($systems as $system) {
                 $session = factory(Session::class)->create(
                     [
-                        'system_id' => $o_system->id,
+                        'system_id' => $system->id,
                         'language' => $language
                     ]
                 );

@@ -16,13 +16,11 @@ final class Session extends Model
         'end_session',
         'visitor_id',
         'entrance_page_id',
-        'demographic_id',
         'language',
-        'device_id',
         'system_id',
     ];
 
-    protected $with = ['visitor', 'page', 'device', 'system'];
+    protected $with = ['visitor', 'page', 'system'];
 
     public function visitor(): BelongsTo
     {
