@@ -33,7 +33,7 @@ final class Visitor extends Model
         return $query->whereWebsiteId(Auth::user()->website->id);
     }
 
-    public function scopeWhereCreatedAtBetween(Builder $query,  $from,  $to): Builder
+    public function scopeWhereCreatedAtBetween(Builder $query, $from, $to): Builder
     {
         return $query->whereBetween('created_at', [$from, $to]);
     }

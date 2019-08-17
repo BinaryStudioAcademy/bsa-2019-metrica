@@ -3,7 +3,6 @@
 
 namespace App\Model\Visitors;
 
-
 use App\Contracts\Common\DatePeriod;
 use App\Contracts\Visitors\VisitorsBounceRateFilterData as IVisitorsBounceRateFilterData;
 

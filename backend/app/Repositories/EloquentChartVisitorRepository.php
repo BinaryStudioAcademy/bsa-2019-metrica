@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
 
 final class EloquentChartVisitorRepository implements ChartVisitorRepository
 {
-
     public function getBounceRateCollection(VisitorsBounceRateFilterData $filterData): Collection
     {
         $from = $filterData->getStartDate();
@@ -48,8 +47,8 @@ final class EloquentChartVisitorRepository implements ChartVisitorRepository
             $all = $allVisitorsByTimeFrameValues[$start]??0;
             $bounced = $bounceVisitorsByTimeFrameValues[$start]??0;
             $rate = ($all === 0) ? 0 : ($bounced / $all);
-            $collection->add(new VisitorsBounceRateResponseItem($start, $rate ));
-        }while (($start+=$timeFrame)<=$end);
+            $collection->add(new VisitorsBounceRateResponseItem($start, $rate));
+        } while (($start+=$timeFrame)<=$end);
 
         return $collection;
     }

@@ -3,7 +3,6 @@
 
 namespace App\Model\Visitors;
 
-
 class VisitorsBounceRateResponseItem
 {
     private $timeStamp;

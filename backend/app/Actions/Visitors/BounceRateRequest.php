@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-
 use App\Http\Requests\Visitors\VisitorsBounceRateHttpRequest;
 use App\Model\Visitors\VisitorsBounceRateFilterData;
 use App\Utils\DatePeriod;
