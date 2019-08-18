@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
@@ -17,11 +18,10 @@ final class Session extends Model
         'visitor_id',
         'entrance_page_id',
         'demographic_id',
-        'device_id',
         'system_id',
     ];
 
-    protected $with = ['visitor', 'page', 'demographic', 'device', 'system'];
+    protected $with = ['visitor', 'page', 'demographic', 'system'];
 
     protected $dates = ['start_session', 'end_session'];
 
@@ -38,11 +38,6 @@ final class Session extends Model
     public function demographic(): BelongsTo
     {
         return $this->belongsTo(Demographic::class);
-    }
-
-    public function device(): BelongsTo
-    {
-        return $this->belongsTo(Device::class);
     }
 
     public function system(): BelongsTo

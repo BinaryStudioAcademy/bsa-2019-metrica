@@ -35,7 +35,7 @@ class AddWebsiteAction
 
     private function getLastTrackingNumber(): int
     {
-        $last = DB::table('websites')->latest()->first();
+        $last = DB::table('websites')->latest('tracking_number')->first();
 
         return $last ? $last->tracking_number : 0;
     }

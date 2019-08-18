@@ -11,8 +11,8 @@ final class AuthenticatedHttpRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'email' => 'email',
-            'password' => 'string|min:8'
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:8'
         ];
     }
 
@@ -24,5 +24,13 @@ final class AuthenticatedHttpRequest extends ApiFormRequest
     public function password(): ?string
     {
         return $this->get('password');
+    }
+
+    public function messages()
+    {
+        parent::messages();
+        return [
+            'email.exists' => "User doesn't exist"
+        ];
     }
 }
