@@ -4,24 +4,45 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
-use App\Entities\Session;
-use App\Repositories\Contracts\SessionRepository;
+use App\Exceptions\AppInvalidArgumentException;
+use App\Exceptions\WebsiteNotFoundException;
+use App\Repositories\Contracts\ChartSessionsRepository;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 final class GetSessionsAction
 {
-    private $sessionRepository;
+    private $sessionsRepository;
 
-    public function __construct(SessionRepository $sessionRepository)
+    public function __construct(ChartSessionsRepository $sessionsRepository)
     {
-        $this->sessionRepository = $sessionRepository;
+        $this->sessionsRepository = $sessionsRepository;
     }
 
-    public function execute(): GetSessionsResponse
+    public function execute(GetSessionsRequest $request): GetSessionsRequest
     {
-        $getMySessions = $this->sessionRepository->getCollection();
+        try {
+            $websiteId = Auth::user()->website->id;
+        } catch (\Exception $exception) {
+            throw new WebsiteNotFoundException();
+        }
 
-        return new GetSessionsResponse($getMySessions);
+        $interval = $this->getInterval($request->interval());
+
+        if ($interval < 1) {
+            throw new AppInvalidArgumentException('Interval must more 500 ms');
+        }
+
+        $data = $this->sessionsRepository->findByFilter(
+            $request->period(),
+            $interval,
+            $websiteId
+        );
+
+        return new GetSessionsResponse($data);
+    }
+
+    private function getInterval(string $interval): int
+    {
+        return (int) \round($interval/1000, 0);
     }
 }

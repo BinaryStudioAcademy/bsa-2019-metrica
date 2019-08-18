@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Collection;
 
 final class Session extends Model
 {
@@ -22,7 +23,7 @@ final class Session extends Model
         'website_id',
     ];
 
-    protected $with = ['visitor', 'page', 'demographic', 'system', 'device', 'website'];
+    protected $with = ['visitor', 'page', 'demographic', 'system', 'website'];
 
     public function visitor(): BelongsTo
     {

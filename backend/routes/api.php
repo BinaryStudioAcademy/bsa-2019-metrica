@@ -54,13 +54,18 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
-            Route::get('/get', 'SessionController@getSessions');
         });
 
         Route::group([
            'prefix' => 'chart-visits'
         ], function() {
             Route::get('/', 'VisitController@getPageViews');
+        });
+
+        Route::group([
+            'prefix' => 'chart-sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getSessions');
         });
     });
 });

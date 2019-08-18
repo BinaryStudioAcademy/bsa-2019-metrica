@@ -14,7 +14,7 @@ class AddWebsiteIdToSessions extends Migration
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->unsignedBigInteger('website_id');
+            $table->unsignedBigInteger('website_id')->nullable();
 
             $table->foreign('website_id')
                 ->references('id')
