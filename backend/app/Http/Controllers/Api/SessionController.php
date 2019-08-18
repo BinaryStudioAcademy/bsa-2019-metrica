@@ -11,6 +11,10 @@ use App\Actions\Sessions\GetAvgSessionTimeByParameterRequest;
 use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Response\ApiResponse;
+use App\Http\Resources\CountSessions;
+use App\Http\Requests\Api\CountSessionsHttpRequest;
+use App\Actions\Sessions\CountSessionsAction;
+use App\Actions\Sessions\CountSessionsRequest;
 use App\Http\Resources\AvgSession;
 use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
 use App\Http\Requests\Api\GetAvgSessionHttpRequest;
@@ -20,15 +24,18 @@ use App\Http\Resources\SessionResourceCollection;
 final class SessionController extends Controller
 {
     private $getAllSessionsAction;
+    private $countSessionsAction;
     private $getAvgSessionAction;
     private $getAvgSessionTimeByParameterAction;
 
     public function __construct(
         GetAllSessionsAction $getAllSessionsAction,
+        CountSessionsAction $countSessionsAction,
         GetAvgSessionAction $getAvgSessionAction,
         GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction
     ) {
         $this->getAllSessionsAction = $getAllSessionsAction;
+        $this->countSessionsAction = $countSessionsAction;
         $this->getAvgSessionAction = $getAvgSessionAction;
         $this->getAvgSessionTimeByParameterAction = $getAvgSessionTimeByParameterAction;
     }
@@ -38,6 +45,15 @@ final class SessionController extends Controller
         $response = $this->getAllSessionsAction->execute();
 
         return ApiResponse::success(new SessionResourceCollection($response->sessions()));
+    }
+
+    public function getCountOfSessions(CountSessionsHttpRequest $request): ApiResponse
+    {
+        $response = $this->countSessionsAction->execute(
+            new CountSessionsRequest($request->startDate(), $request->endDate())
+        );
+
+        return ApiResponse::success(new CountSessions($response->countSessions()));
     }
 
     public function getAverageSession(GetAvgSessionHttpRequest $request): ApiResponse
