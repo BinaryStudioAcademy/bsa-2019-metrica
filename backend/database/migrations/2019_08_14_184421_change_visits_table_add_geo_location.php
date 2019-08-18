@@ -14,7 +14,7 @@ class ChangeVisitsTableAddGeoLocation extends Migration
     public function up()
     {
         Schema::table('visits', function (Blueprint $table) {
-            $table->unsignedBigInteger('geo_position_id');
+            $table->unsignedBigInteger('geo_position_id')->default(1);
 
             $table->foreign('geo_position_id')
                 ->references('id')
