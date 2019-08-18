@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerTelescope();
+
         $this->app->bind(UserRepository::class, EloquentUserRepository::class);
 
         $this->app->bind(WebsiteRepository::class, EloquentWebsiteRepository::class);
@@ -46,5 +48,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    private function registerTelescope()
+    {
+        if (env('APP_ENV') === 'production') {
+            return;
+        }
+
+        $this->app->register(TelescopeServiceProvider::class);
     }
 }
