@@ -19,14 +19,14 @@ class MergeBrowsersOsDevicesIntoSystems extends Migration
             $table->dropForeign(['os_id']);
             $table->dropColumn('os_id');
 
-            $table->string('name');
-            $table->string('os');
-            $table->string('browser');
-            $table->string('device');
+            $table->string('name')->nullable();
+            $table->string('os')->nullable();
+            $table->string('browser')->nullable();
+            $table->string('device')->nullable();
 
             $table->dropColumn('screen_resolution');
-            $table->string('resolution_width');
-            $table->string('resolution_height');
+            $table->string('resolution_width')->nullable();
+            $table->string('resolution_height')->nullable();
         });
 
         Schema::dropIfExists('os');
