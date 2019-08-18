@@ -71,7 +71,8 @@ class TableVisitorsApiTest extends TestCase
         }
     }
 
-    public function testFailedGetVisitorsByParameterAction() {
+    public function testFailedGetVisitorsByParameterAction()
+    {
         $query = [
             'filter' => [
                 'start_date' => self::DATE_FROM,
