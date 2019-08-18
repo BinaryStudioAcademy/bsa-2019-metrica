@@ -14,6 +14,15 @@
 }
 
 @font-face {
+    font-family: 'GilroySemiBold';
+    src: url('/assets/fonts/Gilroy-SemiBold.eot');
+    src: local('Gilroy SemiBold'), local('Gilroy-SemiBold'),
+        url('/assets/fonts/Gilroy-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/Gilroy-SemiBold.woff') format('woff'),
+        url('/assets/fonts/Gilroy-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'GilroyLight';
     src: url('/assets/fonts/Gilroy-Light.eot');
     src: local('Gilroy Light'), local('Gilroy-Light'),
