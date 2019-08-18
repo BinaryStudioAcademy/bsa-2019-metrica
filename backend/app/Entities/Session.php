@@ -24,6 +24,8 @@ final class Session extends Model
 
     protected $with = ['visitor', 'page', 'system'];
 
+    protected $dates = ['start_session', 'end_session'];
+
     public function visitor(): BelongsTo
     {
         return $this->belongsTo(Visitor::class);
