@@ -16,13 +16,13 @@ final class GetAvgSessionHttpRequest extends ApiFormRequest
         ];
     }
 
-    public function startDate(): int
+    public function startDate(): string
     {
-        return (int)$this->validated()['filter']['startDate'];
+        return $this->validated()['filter']['startDate'];
     }
 
-    public function endDate(): int
+    public function endDate(): string
     {
-        return (int)$this->validated()['filter']['endDate'];
+        return $this->validated()['filter']['endDate'];
     }
 }

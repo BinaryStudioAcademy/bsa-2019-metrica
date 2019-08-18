@@ -18,8 +18,8 @@ final class AverageSessionFilter
         GetAvgSessionRequest $request,
         Collection $visitorsIDsOfWebsite
     ) {
-        $this->startDate = $request->startDate();
-        $this->endDate = $request->endDate();
+        $this->startDate = $request->period()->getStartDate();
+        $this->endDate = $request->period()->getEndDate();
         $this->visitorsIDs = $visitorsIDsOfWebsite;
     }
 
@@ -30,11 +30,11 @@ final class AverageSessionFilter
 
     public function getStartDate()
     {
-        return Carbon::createFromTimestamp($this->startDate)->toDateTimeString();
+        return $this->startDate;
     }
 
     public function getEndDate()
     {
-        return Carbon::createFromTimestamp($this->endDate)->toDateTimeString();
+        return $this->endDate;
     }
 }

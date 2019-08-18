@@ -36,7 +36,7 @@ final class SessionController extends Controller
     public function getAverageSession(GetAvgSessionHttpRequest $request): ApiResponse
     {
         $response = $this->getAvgSessionAction->execute(
-            GetAvgSessionRequest::fromHttpRequest($request)
+            new GetAvgSessionRequest($request->startDate(), $request->endDate())
         );
         return ApiResponse::success(new AvgSession($response->avgSession()));
     }
