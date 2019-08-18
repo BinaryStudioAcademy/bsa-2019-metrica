@@ -77,8 +77,8 @@ final class Session extends Model
             ->when(
                 in_array($param, ['country', 'city']),
                 function (Builder $query) use ($param) {
-                    return $query->join('visits','sessions.id','=','visits.session_id')
-                        ->join('geo_positions','visits.geo_position_id','=','geo_positions.id')
+                    return $query->join('visits', 'sessions.id', '=', 'visits.session_id')
+                        ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
                         ->when($param === 'country', function (Builder $query) {
                             return $query->addSelect('country as parameter_value')
                                 ->groupBy('country');
@@ -91,7 +91,7 @@ final class Session extends Model
             ->when(
                 in_array($param, ['browser', 'operating_system', 'screen_resolution']),
                 function (Builder $query) use ($param) {
-                    return $query->join('systems','sessions.system_id','=','systems.id')
+                    return $query->join('systems', 'sessions.system_id', '=', 'systems.id')
                         ->when($param === 'browser', function (Builder $query) {
                             return $query->addSelect('browser as parameter_value')
                                 ->groupBy('browser');
