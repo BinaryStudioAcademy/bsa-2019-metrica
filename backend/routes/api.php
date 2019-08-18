@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
+            Route::get('/by-table', 'VisitorController@getVisitorsByParameter');
             Route::get('/new', 'VisitorController@getNewVisitors');
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
