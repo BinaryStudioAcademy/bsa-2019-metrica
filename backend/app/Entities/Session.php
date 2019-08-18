@@ -71,60 +71,42 @@ final class Session extends Model
     public function scopeGroupByParameter(Builder $query, string $param): Builder
     {
         return $query->when($param === 'language', function (Builder $query) {
-            return $query->groupBy('language');
+            return $query->addSelect('language as parameter_value')
+                ->groupBy('language');
         })
-            ->when($param === 'country', function (Builder $query) {
-                return $query->join(
-                    'geo_positions',
-                    'sessions.geo_position_id',
-                    '=',
-                    'geo_positions.id'
-                )
-                    ->addSelect('country as parameter_value')
-                    ->groupBy('geo_positions.country');
-            })
-            ->when($param === 'city', function (Builder $query) {
-                return $query->join(
-                    'geo_positions',
-                    'sessions.geo_position_id',
-                    '=',
-                    'geo_positions.id'
-                )
-                    ->addSelect('city as parameter_value')
-                    ->groupBy('geo_positions.city');
-            })
-            ->when($param === 'browser', function (Builder $query) {
-                return $query->join(
-                    'systems',
-                    'sessions.system_id',
-                    '=',
-                    'systems.id'
-                )
-                    ->addSelect('browser as parameter_value')
-                    ->groupBy('browser');
-            })
-            ->when($param === 'operating_system', function (Builder $query) {
-                return $query->join(
-                    'systems',
-                    'sessions.system_id',
-                    '=',
-                    'systems.id'
-                )
-                    ->addSelect('os as parameter_value')
-                    ->groupBy('systems.os');
-            })
-            ->when($param === 'screen_resolution', function (Builder $query) {
-                return $query->join(
-                    'systems',
-                    'sessions.system_id',
-                    '=',
-                    'systems.id'
-                )
-                    ->addSelect(
-                        DB::raw('concat(systems.resolution_width, "x", systems.resolution_height) as parameter_value')
-                    )
-                    ->groupBy('parameter_value');
-            });
+            ->when(
+                in_array($param, ['country', 'city']),
+                function (Builder $query) use ($param) {
+                    return $query->join('visits','sessions.id','=','visits.session_id')
+                        ->join('geo_positions','visits.geo_position_id','=','geo_positions.id')
+                        ->when($param === 'country', function (Builder $query) {
+                            return $query->addSelect('country as parameter_value')
+                                ->groupBy('country');
+                        })
+                        ->when($param === 'city', function (Builder $query) {
+                            return $query->addSelect('city as parameter_value')
+                                ->groupBy('city');
+                        });
+                })
+            ->when(
+                in_array($param, ['browser', 'operating_system', 'screen_resolution']),
+                function (Builder $query) use ($param) {
+                    return $query->join('systems','sessions.system_id','=','systems.id')
+                        ->when($param === 'browser', function (Builder $query) {
+                            return $query->addSelect('browser as parameter_value')
+                                ->groupBy('browser');
+                        })
+                        ->when($param === 'operating_system', function (Builder $query) {
+                            return $query->addSelect('os as parameter_value')
+                                ->groupBy('os');
+                        })
+                        ->when($param === 'screen_resolution', function (Builder $query) {
+                            return $query->addSelect(
+                                DB::raw('concat(resolution_width, "x", resolution_height) as parameter_value')
+                            )
+                                ->groupBy('parameter_value');
+                        });
+                });
     }
 
     public function scopeCalculateAvgSessionTimePercentage(Builder $query): Builder
