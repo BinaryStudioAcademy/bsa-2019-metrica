@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\ApiResponse;
-use App\DataTransformer\TableFormat;
+use App\DataTransformer\TableValue;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
@@ -16,7 +16,7 @@ final class TableResource extends ResourceCollection implements ApiResponse
         return $this->presentCollection($this->collection);
     }
 
-    public function present(TableFormat $table): array
+    public function present(TableValue $table): array
     {
         return [
             'parameter' => $table->parameter(),
@@ -30,7 +30,7 @@ final class TableResource extends ResourceCollection implements ApiResponse
     {
         return $collection
             ->map(
-                function (TableFormat $table) {
+                function (TableValue $table) {
                     return $this->present($table);
                 }
             )

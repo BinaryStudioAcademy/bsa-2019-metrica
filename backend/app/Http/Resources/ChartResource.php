@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\ApiResponse;
-use App\DataTransformer\ChartFormat;
+use App\DataTransformer\ChartValue;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
@@ -16,7 +16,7 @@ final class ChartResource extends ResourceCollection implements ApiResponse
         return $this->presentCollection($this->collection);
     }
 
-    public function present(ChartFormat $chart): array
+    public function present(ChartValue $chart): array
     {
         return [
             'date' => $chart->date(),
@@ -28,7 +28,7 @@ final class ChartResource extends ResourceCollection implements ApiResponse
     {
         return $collection
             ->map(
-                function (ChartFormat $chart) {
+                function (ChartValue $chart) {
                     return $this->present($chart);
                 }
             )

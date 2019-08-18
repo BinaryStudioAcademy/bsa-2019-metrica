@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataTransformer;
 
-final class TableFormat
+use App\Contracts;
+use App\DataTransformer\Traits\TableValueTrait;
+
+final class TableValue implements Contracts\TableValue
 {
+    use TableValueTrait;
+
     private $parameter;
     private $parameterValue;
     private $total;
@@ -21,25 +26,5 @@ final class TableFormat
         $this->parameterValue = $parameterValue;
         $this->total = $total;
         $this->percentage = $percentage;
-    }
-
-    public function parameter(): string
-    {
-        return $this->parameter;
-    }
-
-    public function parameterValue(): string
-    {
-        return $this->parameterValue;
-    }
-
-    public function total(): string
-    {
-        return $this->total;
-    }
-
-    public function percentage(): float
-    {
-        return $this->percentage;
     }
 }
