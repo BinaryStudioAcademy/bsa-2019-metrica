@@ -45,6 +45,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
+            Route::get('/by-table', 'VisitorController@getVisitorsByParameter');
             Route::get('/new', 'VisitorController@getNewVisitors');
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
@@ -54,13 +55,20 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
-            Route::get('/get', 'SessionController@getSessions');
+            Route::get('/count', 'SessionController@getCountOfSessions');
+            Route::get('/average', 'SessionController@getAverageSession');
         });
 
         Route::group([
            'prefix' => 'chart-visits'
         ], function() {
             Route::get('/', 'VisitController@getPageViews');
+        });
+      
+        Route::group([
+            'prefix' => 'chart-sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getSessions');
         });
     });
 });

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Demographic;
 use App\Entities\GeoPosition;
 use App\Entities\Page;
 use App\Entities\Session;
@@ -30,7 +29,6 @@ class VisitsApiTest extends TestCase
         factory(Visitor::class)->create();
         factory(Page::class)->create();
         factory(GeoPosition::class)->create();
-        factory(Demographic::class)->create();
         factory(System::class)->create();
         factory(Session::class)->create();
     }
