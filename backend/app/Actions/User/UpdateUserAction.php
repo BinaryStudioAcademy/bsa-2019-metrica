@@ -7,6 +7,7 @@ namespace App\Actions\User;
 use App\Exceptions\UserNotFoundException;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Hash;
 
 final class UpdateUserAction
 {
@@ -27,7 +28,9 @@ final class UpdateUserAction
 
         $user->email = $request->getEmail($user->email);
         $user->name = $request->getName($user->name);
-        $user->password = $request->getPassword($user->password);
+        if($request->getPassword() !== ""){
+            $user->password = Hash::make($request->getPassword());
+        }
 
         $user = $this->userRepository->save($user);
 

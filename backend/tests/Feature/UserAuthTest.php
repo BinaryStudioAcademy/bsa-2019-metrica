@@ -5,10 +5,12 @@ namespace Tests\Feature;
 use App\Entities\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserAuthTest extends TestCase
 {
     use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -46,5 +48,22 @@ class UserAuthTest extends TestCase
         $response->assertJsonStructure([
                 'error'
         ]);
+    }
+
+    public function testUpdateUser()
+    {
+        $user = factory(User::class)->create();
+        $token = JWTAuth::fromUser($user);
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $response = $this->actingAs($user)->put('api/v1/users/me', [
+            'name' => 'Test',
+            'email' => 'test@unique.com',
+            'password' => ''
+        ], $headers);
+
+//        dd($response->json());
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }
