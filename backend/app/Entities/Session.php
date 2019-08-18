@@ -5,6 +5,7 @@ namespace App\Entities;
 
 use App\Utils\DatePeriod;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,9 +52,9 @@ final class Session extends Model
         return $this->hasMany(Visit::class);
     }
 
-    public function scopeInactive(Builder $query, string $date): Builder
+    public function scopeInactive(Builder $query, DateTime $date): Builder
     {
-        return $query->where('updated_at', '<', Carbon::rawParse($date)->subMinutes(30)->toDateTimeString());
+        return $query->where('updated_at', '<', Carbon::instance($date)->subMinutes(30)->toDateTimeString());
     }
 
     public function scopeWhereDateBetween(Builder $query, DatePeriod $datePeriod): Builder

@@ -33,7 +33,7 @@ class SessionsApiTest extends TestCase
         factory(Visit::class)->create();
     }
 
-    public function testGetAvgSessionsTimeByParameter()
+    public function testGetAvgSessionTimeByParameterAction()
     {
         $parameters = [
             'language',
