@@ -21,8 +21,7 @@ final class SessionController extends Controller
     public function __construct(
         GetAllSessionsAction $getAllSessionsAction,
         CountSessionsAction $countSessionsAction
-    )
-    {
+    ) {
         $this->getAllSessionsAction = $getAllSessionsAction;
         $this->countSessionsAction = $countSessionsAction;
     }
