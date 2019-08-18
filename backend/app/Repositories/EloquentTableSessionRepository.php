@@ -15,7 +15,7 @@ final class EloquentTableSessionRepository implements TableSessionRepository
     public function getAvgSessionsTimeByParameter(DatePeriod $datePeriod, string $parameter): Collection
     {
         return Session::whereDateBetween($datePeriod)
-            ->avgSessionsTime()
+            ->avgSessionTime()
             ->groupByParameter($parameter)
             ->calculateAvgSessionTimePercentage()
             ->get()

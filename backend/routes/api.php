@@ -60,7 +60,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'table-sessions'
         ], function () {
-            Route::get('/avg-sessions-time', 'SessionController@getAvgSessionsTimeByParameter');
+            Route::get('/avg-session-time', 'SessionController@getAvgSessionTimeByParameter');
         });
 
         Route::group([

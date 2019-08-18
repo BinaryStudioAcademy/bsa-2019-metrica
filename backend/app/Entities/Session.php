@@ -60,7 +60,7 @@ final class Session extends Model
         return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
     }
 
-    public function scopeAvgSessionsTime(Builder $query): Builder
+    public function scopeAvgSessionTime(Builder $query): Builder
     {
         return $query->select(
             DB::raw(
@@ -121,8 +121,10 @@ final class Session extends Model
                     '=',
                     'systems.id'
                 )
-                    ->addSelect('resolution_width as parameter_value')
-                    ->groupBy('systems.resolution_width', 'systems.resolution_height');
+                    ->addSelect(
+                        DB::raw('concat(systems.resolution_width, "x", systems.resolution_height) as parameter_value')
+                    )
+                    ->groupBy('parameter_value');
             });
     }
 

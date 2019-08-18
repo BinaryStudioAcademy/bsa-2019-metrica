@@ -16,14 +16,14 @@ use App\Http\Response\ApiResponse;
 final class SessionController extends Controller
 {
     private $getAllSessionsAction;
-    private $getAvgSessionsTimeByParameterAction;
+    private $getAvgSessionTimeByParameterAction;
 
     public function __construct(
         GetAllSessionsAction $getAllSessionsAction,
-        GetAvgSessionTimeByParameterAction $getAvgSessionsTimeByParameterAction
+        GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction
     ) {
         $this->getAllSessionsAction = $getAllSessionsAction;
-        $this->getAvgSessionsTimeByParameterAction = $getAvgSessionsTimeByParameterAction;
+        $this->getAvgSessionTimeByParameterAction = $getAvgSessionTimeByParameterAction;
     }
 
     public function getAllSessions(): ApiResponse
@@ -33,9 +33,9 @@ final class SessionController extends Controller
         return ApiResponse::success(new SessionResourceCollection($response->sessions()));
     }
 
-    public function getAvgSessionsTimeByParameter(GetAvgSessionsTimeByParameterHttpRequest $request)
+    public function getAvgSessionTimeByParameter(GetAvgSessionsTimeByParameterHttpRequest $request)
     {
-        $response = $this->getAvgSessionsTimeByParameterAction->execute(
+        $response = $this->getAvgSessionTimeByParameterAction->execute(
             GetAvgSessionTimeByParameterRequest::fromRequest($request)
         );
 
