@@ -37,11 +37,6 @@ final class Session extends Model
         return $this->belongsTo(Page::class);
     }
 
-    public function device(): BelongsTo
-    {
-        return $this->belongsTo(Device::class);
-    }
-
     public function system(): BelongsTo
     {
         return $this->belongsTo(System::class);
@@ -105,7 +100,7 @@ final class Session extends Model
                         })
                         ->when($param === 'screen_resolution', function (Builder $query) {
                             return $query->addSelect(
-                                DB::raw('concat(resolution_width, "x", resolution_height) as parameter_value')
+                                DB::raw('concat(resolution_width, \'x\', resolution_height) as parameter_value')
                             )
                                 ->groupBy('parameter_value');
                         });
