@@ -70,6 +70,12 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'SessionController@getSessions');
         });
+          
+        Route::group([
+            'prefix'=>'chart-new-visitors'
+        ], function () {
+            Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
+        });
     });
 });
 
