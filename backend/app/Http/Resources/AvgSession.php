@@ -11,7 +11,7 @@ class AvgSession extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            'avg_session' => Carbon::createFromTimestamp(0)->addSeconds($this->resource)
+            'avg_session' => $this->resource
         ];
     }
 }
