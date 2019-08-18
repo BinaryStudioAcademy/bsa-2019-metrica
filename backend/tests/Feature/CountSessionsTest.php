@@ -59,7 +59,6 @@ class CountSessionsTest extends TestCase
 
     private function seedDataBase(): void
     {
-
         factory(Website::class)->create();
         factory(Visitor::class)->create();
         factory(Page::class)->create();
