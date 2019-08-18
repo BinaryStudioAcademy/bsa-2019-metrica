@@ -66,7 +66,7 @@ final class Session extends Model
     {
         return $query->select(
             DB::raw(
-                'round(avg(unix_timestamp(timediff(sessions.updated_at, sessions.start_session)))) as avg_session_time'
+                'round(extract(epoch from (avg(sessions.updated_at - sessions.start_session)))) as avg_session_time'
             )
         );
     }
@@ -116,7 +116,7 @@ final class Session extends Model
     {
         return $query->addSelect(
             DB::raw(
-                'round(unix_timestamp(timediff(max(sessions.updated_at), min(sessions.start_session)))) as max_time_difference'
+                'round(extract(epoch from (max(sessions.updated_at) - min(sessions.start_session)))) as max_time_difference'
             )
         );
     }
