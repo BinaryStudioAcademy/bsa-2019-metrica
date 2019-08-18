@@ -7,7 +7,7 @@
         >
             <img
                 class="button-icon"
-                :src="require(`@/assets/button_icons/${iconKey}.png`)"
+                :src="sourcePath"
             >
         </div>
         <div
@@ -44,6 +44,11 @@
                 required: true
             }
         },
+        computed: {
+            sourcePath() {
+                return `/assets/button_icons/${this.iconName}.png`;
+            }
+        }
     };
 </script>
 
