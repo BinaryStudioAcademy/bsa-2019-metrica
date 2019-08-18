@@ -14,13 +14,13 @@ class CountSessionsHttpRequest extends FormRequest
         ];
     }
 
-    public function startDate(): int
+    public function startDate()
     {
-        return (int)$this->validated()['filter']['startDate'];
+        return $this->validated()['filter']['startDate'];
     }
 
-    public function endDate(): int
+    public function endDate()
     {
-        return (int)$this->validated()['filter']['endDate'];
+        return $this->validated()['filter']['endDate'];
     }
 }

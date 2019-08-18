@@ -43,7 +43,7 @@ final class SessionController extends Controller
     public function getCountOfSessions(CountSessionsHttpRequest $request): ApiResponse
     {
         $response = $this->countSessionsAction->execute(
-            CountSessionsRequest::fromHttpRequest($request)
+            new CountSessionsRequest($request->startDate(), $request->endDate())
         );
 
         return ApiResponse::success(new CountSessions($response->countSessions()));
