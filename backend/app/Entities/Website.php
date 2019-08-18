@@ -27,4 +27,8 @@ final class Website extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
+    }
 }
