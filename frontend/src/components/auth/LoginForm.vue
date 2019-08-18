@@ -114,19 +114,19 @@
                         email: this.email,
                         password: this.password
                     }).then(() => {
-                        this.isLoading = false;
                         this.$emit("success");
                         this.showSuccessMessage('Logged in');
                     }).catch((error) => {
-                        this.isLoading = false;
                         this.showErrorMessage(error);
+                    }).final(() => {
+                        this.isLoading = false;
                     });
                 }
             }
         },
         computed: {
             signInText() {
-                return this.isLoading?'SIGN INNING...':'SIGN IN';
+                return this.isLoading?'Processing...':'SIGN IN';
             }
         }
     };
