@@ -12,7 +12,6 @@ use App\Entities\Session;
 use App\Entities\Page;
 use App\Entities\System;
 use App\Entities\GeoPosition;
-use App\Entities\Demographic;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use App\Repositories\EloquentSessionRepository;
@@ -65,7 +64,6 @@ class GetAvgSessionTest extends TestCase
         factory(Page::class)->create();
         factory(System::class)->create();
         factory(GeoPosition::class)->create();
-        factory(Demographic::class)->create();
         $this->createSessions();
     }
 
