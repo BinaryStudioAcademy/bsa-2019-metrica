@@ -9,6 +9,10 @@ use App\Entities\User;
 use App\Entities\Website;
 use App\Entities\Visitor;
 use App\Entities\Session;
+use App\Entities\Page;
+use App\Entities\System;
+use App\Entities\GeoPosition;
+use App\Entities\Demographic;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use App\Repositories\EloquentSessionRepository;
@@ -18,49 +22,72 @@ class CountSessionsTest extends TestCase
 {
     use RefreshDatabase;
 
+    private $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->setUser();
+        $this->seedDataBase();
+    }
+
     public function test_count_sessions()
     {
-        $user = factory(User::class)->create();
-        $website = factory(Website::class)->create();
-        $user->website()->save($website);
-        $token = JWTAuth::fromUser($user);
-        $websiteVisitors = factory(Visitor::class, 10)->create(['website_id' => $website->id]);
-        $start_session = Carbon::now();
+        $dateFilter = [
+            'startDate' => 1566086400, // 18.08.19 00:00:00
+            'endDate' => 1566259200, // 20.08.19 00:00:00
+        ];
 
+        $queryString = '?filter[startDate]='.$dateFilter['startDate'].
+                         '&filter[endDate]='.$dateFilter['endDate'];
 
-        $geoPositionId = factory(\App\Entities\GeoPosition::class)->create()->id;
-        $oSId = factory(\App\Entities\Os::class)->create()->id;
-        $browserId = factory(\App\Entities\Browser::class)->create()->id;
-        $pageId = factory(\App\Entities\Page::class)->create(['website_id' => $website->id])->id;
-        $demographicId = factory(\App\Entities\Demographic::class)->create(['geo_position_id' => $geoPositionId])->id;
-        $deviceId = factory(\App\Entities\Device::class)->create()->id;
-        $systemId = factory(\App\Entities\System::class)->create([
-            'browser_id' => $browserId,
-            'os_id' => $oSId
-        ])->id;
-
-        factory(Session::class, 30)->create([
-            'visitor_id' => $websiteVisitors->pluck('id')->random(),
-            'start_session' => $start_session->addDays(rand(0, 4))->toDateTimeString(),
-            'end_session' => $start_session->addSeconds(100)->toDateTimeString(),
-            'entrance_page_id' => $pageId,
-            'demographic_id' => $demographicId ,
-            'device_id' => $deviceId ,
-            'system_id' => $systemId
-        ]);
-
-        $queryString = '?filter[startDate]='.Carbon::now()->timestamp.'&filter[endDate]='.Carbon::now()->addDays(5)->timestamp;
-
-        $this->actingAs($user)
-            ->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/v1/sessions/count/'.$queryString)
-            ->assertOk()
-            ->assertJsonStructure([
+        $expected = [
                     'data' => [
-                        'quantity_sessions'
+                        'quantity_sessions' => 4
                     ],
-                    'meta',
-               ]);
+                    'meta' => []
+               ];
+
+        $this->actingAs($this->user)
+            ->getJson('/api/v1/sessions/count/'.$queryString)
+            ->assertJson($expected);
+    }
+
+    private function setUser(): User
+    {
+        return $this->user = factory(User::class)->create();
+    }
+
+    private function seedDataBase(): void
+    {
+
+        factory(Website::class)->create();
+        factory(Visitor::class)->create();
+        factory(Page::class)->create();
+        factory(System::class)->create();
+        factory(GeoPosition::class)->create();
+        factory(Demographic::class)->create();
+        $this->createSessions();
+    }
+
+    private function createSessions(): void
+    {
+        foreach ($this->sessionStarts() as $sessionStart) {
+            factory(Session::class)->create([
+               'start_session' => $sessionStart,
+            ]);
+        }
+    }
+
+    private function sessionStarts(): array
+    {
+        return [
+            '2019-08-18 10:00:00',
+            '2019-08-18 20:00:00',
+            '2019-08-19 10:00:00',
+            '2019-08-19 20:00:00',
+            '2019-08-21 10:00:00',
+        ];
     }
 }
 
