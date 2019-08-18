@@ -71,6 +71,10 @@ make_task_def() {
             {
                 "sourceVolume": "certs",
                 "containerPath": "/nginx/certs"
+            },
+            {
+                "sourceVolume": "passwd",
+                "containerPath": "/etc/users"
             }
         ],
 		"links": [
@@ -131,6 +135,12 @@ register_definition() {
             "name": "certs",
             "host": {
                 "sourcePath": "/home/ec2-user/certs"
+            }
+        },
+        {
+            "name": "passwd",
+            "host": {
+                "sourcePath": "/home/ec2-user/users/"
             }
         }
     ]'

@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             PageTableSeeder::class,
             SystemTableSeeder::class,
             GeoPositionTableSeeder::class,
-            DemographicTableSeeder::class,
             SessionTableSeeder::class,
             VisitTableSeeder::class
         ]);
