@@ -62,8 +62,10 @@ class UserAuthTest extends TestCase
             'password' => ''
         ], $headers);
 
-//        dd($response->json());
-
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertDatabaseHas('users', [
+            'name' => 'Test',
+            'email' => 'test@unique.com'
+        ]);
     }
 }

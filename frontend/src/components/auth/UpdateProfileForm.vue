@@ -148,7 +148,7 @@
                 if (this.$refs.form.validate()) {
                     this.update(this.editUser).then(() => {
                         this.$emit("success");
-                        this.showSuccessMessage('Profile have been successfully updated!');
+                        this.showSuccessMessage('Profile has been successfully updated!');
                     }).catch((error) => {
                         this.showErrorMessage(error);
                     });
