@@ -39,7 +39,7 @@
                 <div class="inline-element mb-7">
                     <label>SPA</label>
                     <VSwitch
-                        :value="currentWebsite.single_page"
+                        :input-value="currentWebsite.single_page"
                         readonly
                         color="#3C57DE"
                         inset
