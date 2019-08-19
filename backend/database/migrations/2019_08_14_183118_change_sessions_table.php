@@ -28,7 +28,7 @@ class ChangeSessionsTable extends Migration
     public function down()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->unsignedBigInteger('demographic_id');
+            $table->unsignedBigInteger('demographic_id')->nullable();
 
             $table->foreign('demographic_id')
                 ->references('id')

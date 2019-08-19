@@ -7,6 +7,7 @@ namespace App\Repositories;
 use App\Contracts\Visitors\NewVisitorsCountFilterData;
 use App\Entities\Visitor;
 use App\Repositories\Contracts\VisitorRepository;
+use App\Utils\DatePeriod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -17,10 +18,10 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::all();
     }
 
-    public function countVisitorsBetweenDate(string $from, string $to): int
+    public function countVisitorsBetweenDate(DatePeriod $period): int
     {
-        return Visitor::whereHas('sessions', function (Builder $query) use ($from, $to) {
-            $query->whereDateBetween($from, $to);
+        return Visitor::whereHas('sessions', function (Builder $query) use ($period) {
+            $query->whereDateBetween($period);
         })
             ->forUserWebsite()
             ->count();
@@ -37,13 +38,13 @@ final class EloquentVisitorRepository implements VisitorRepository
                 ->count();
     }
 
-    public function countSinglePageInactiveSessionBetweenDate(string $from, string $to): int
+    public function countSinglePageInactiveSessionBetweenDate(DatePeriod $period): int
     {
         return Visitor::has('sessions', '=', '1')
-            ->whereHas('sessions', function (Builder $query) use ($from, $to) {
-                $query->whereDateBetween($from, $to)
+            ->whereHas('sessions', function (Builder $query) use ($period) {
+                $query->whereDateBetween($period)
                     ->has('visits', '=', '1')
-                    ->inactive($to);
+                    ->inactive($period->getEndDate());
             })
             ->forUserWebsite()
             ->count();

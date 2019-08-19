@@ -1,5 +1,8 @@
 <template>
-    <VContainer class="users-table">
+    <VContainer
+        p-0
+        class="users-table"
+    >
         <VRow
             class="header my-3"
             fluid

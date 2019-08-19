@@ -6,20 +6,28 @@
             ref="form"
             v-model="valid"
         >
+            <label
+                class="caption grey--text"
+            >
+                Email
+            </label>
             <VTextField
-                outlined
-                label="Email"
+                class="no-underline"
+                solo
                 type="email"
                 name="email"
                 v-model="email"
                 :rules="emailRules"
                 required
             />
-
+            <label
+                class="caption grey--text"
+            >
+                Password
+            </label>
             <VTextField
-                class="password"
-                outlined
-                label="Password"
+                class="no-underline password"
+                solo
                 name="password"
                 autocomplete="new-password"
                 v-model="password"
@@ -110,7 +118,7 @@
                         this.showSuccessMessage('Logged in');
                     }).catch((error) => {
                         this.showErrorMessage(error);
-                    }).final(() => {
+                    }).finally(() => {
                         this.isLoading = false;
                     });
                 }
