@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
@@ -25,5 +26,9 @@ final class Website extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
     }
 }

@@ -17,7 +17,9 @@ module.exports = {
         }
     },
     configureWebpack: (config) => {
-        config.devtool = 'source-map';
+        if (process.env.NODE_ENV !== "production") {
+            config.devtool = 'source-map';
+        }
     },
     chainWebpack: config => {
         ["vue-modules", "vue", "normal-modules", "normal"].forEach((match) => {
