@@ -17,5 +17,4 @@ final class GetChartTotalVisitorsByDateRangeRequest extends ChartDataRequest
             $request->getPeriod()
         );
     }
-
 }
