@@ -4,6 +4,7 @@
     />
     <VContent v-else>
         <VContainer
+            fluid
             fill-height
         >
             <VLayout
@@ -95,7 +96,8 @@
     }
 
     .container{
-        padding-top: 0px
+        padding: 0px
+
     }
 
     .form-wrapper{
