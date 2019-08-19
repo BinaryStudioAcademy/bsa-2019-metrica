@@ -73,7 +73,7 @@ Route::prefix('v1')->group(function () {
 
 
         Route::group([
-            'prefix'=>'chart-visitors'
+            'prefix'=>'button-visitors'
         ], function () {
             Route::get('/count', 'VisitorController@getVisitorsCount');
         });

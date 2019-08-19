@@ -6,7 +6,7 @@ namespace App\Actions\Visitors;
 
 use App\Repositories\Contracts\ChartVisitorsRepository;
 
-class GetChartCountVisitorsAction
+class GetButtonCountVisitorsAction
 {
     private $repository;
 
@@ -15,8 +15,8 @@ class GetChartCountVisitorsAction
         $this->repository = $repository;
     }
 
-    public function execute(GetChartCountVisitorsRequest $request)
+    public function execute(GetButtonCountVisitorsRequest $request)
     {
-        return 'hello!';
+
     }
 }

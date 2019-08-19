@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Visitors\GetAllVisitorsAction;
-use App\Actions\Visitors\GetChartCountVisitorsAction;
-use App\Actions\Visitors\GetChartCountVisitorsRequest;
+use App\Actions\Visitors\GetButtonCountVisitorsAction;
+use App\Actions\Visitors\GetButtonCountVisitorsRequest;
 use App\Actions\Visitors\GetNewestCountAction;
 use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetBounceRateAction;
 use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
+use App\Http\Requests\Api\GetButtonCountVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
 use App\Http\Resources\VisitorCountResource;
@@ -34,7 +35,7 @@ final class VisitorController extends Controller
     private $getNewVisitorsAction;
     private $getNewVisitorsByDateRangeAction;
     private $getBounceRateAction;
-    private $getChartCountVisitorsAction;
+    private $getButtonCountVisitorsAction;
     private $getVisitorsByParameterAction;
 
     public function __construct(
@@ -42,17 +43,14 @@ final class VisitorController extends Controller
         GetNewVisitorsAction $getNewVisitorsAction,
         GetNewChartVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction,
         GetBounceRateAction $getBounceRateAction,
-        GetChartCountVisitorsAction $getChartCountVisitorsAction
-    )
-    {
-        GetBounceRateAction $getBounceRateAction,
+        GetButtonCountVisitorsAction $getButtonCountVisitorsAction,
         GetVisitorsByParameterAction $getVisitorsByParameterAction
     ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
         $this->getNewVisitorsByDateRangeAction = $getNewVisitorsByDateRangeAction;
         $this->getBounceRateAction = $getBounceRateAction;
-        $this->getChartCountVisitorsAction = $getChartCountVisitorsAction;
+        $this->getButtonCountVisitorsAction = $getButtonCountVisitorsAction;
         $this->getVisitorsByParameterAction = $getVisitorsByParameterAction;
     }
 
@@ -101,9 +99,10 @@ final class VisitorController extends Controller
         return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
     }
 
-    public function getVisitorsCount(GetChartCountVisitorsHttpRequest $request)
+    public function getVisitorsCount(GetButtonCountVisitorsHttpRequest $request)
     {
-        $response = $this->getChartCountVisitorsAction->execute(GetChartCountVisitorsRequest::fromRequest($request));
-        return response()->json($response);
+        $response = $this->getButtonCountVisitorsAction->execute(GetButtonCountVisitorsRequest::fromRequest($request));
+//        return response()->json(['data'=>$response->getEndDate()]);
+//        return ApiResponse::success($response);
     }
 }
