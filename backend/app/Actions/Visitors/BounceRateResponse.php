@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use App\Model\Visitors\ChartBounceRateItem;
 use Illuminate\Support\Collection;
 
 final class BounceRateResponse
@@ -15,9 +14,6 @@ final class BounceRateResponse
         $this->collection = $collection;
     }
 
-    /**
-     * @return ChartBounceRateItem[]
-     */
     public function getVisitorsBounceRateCollection(): Collection
     {
         return $this->collection;

@@ -112,11 +112,9 @@ class VisitorsApiTest extends TestCase
         $timeFrameX = $from - ($from%$timeFrame);
         $expectedData = [
             'data' => [
-                'rates' => [
-                    [
-                        'timestamp' => $timeFrameX,
-                        'rate' => 0.1,
-                    ]
+                [
+                    'date' => $timeFrameX,
+                    'value' => 0.1,
                 ]
             ],
             'meta' => [],

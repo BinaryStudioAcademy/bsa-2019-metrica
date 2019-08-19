@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use App\Model\Visitors\ChartBounceRateItem;
+use App\DataTransformer\ChartValue;
 use App\Repositories\Contracts\ChartVisitorsRepository;
 use Illuminate\Support\Collection;
 
@@ -33,7 +33,7 @@ final class BounceRateAction
             $all = $allVisitorsByTimeFrameValues[$start]??0;
             $bounced = $bounceVisitorsByTimeFrameValues[$start]??0;
             $rate = ($all === 0) ? 0 : ($bounced / $all);
-            $collection->add(new ChartBounceRateItem($start, $rate));
+            $collection->add(new ChartValue((string) $start, (string) $rate));
         } while (($start+=$timeFrame)<=$end);
 
         return new BounceRateResponse($collection);
