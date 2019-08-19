@@ -1,77 +1,116 @@
 <template>
-    <div class="form">
-        <h3>Welcome to Metrica!</h3>
-        <VForm
-            lazy-validation
-            ref="form"
-            v-model="valid"
+    <VContent>
+        <VContainer
+            fluid
+            fill-height
         >
-            <label
-                class="caption grey--text"
+            <VLayout
+                content
+                wrap
+                align-start
+                justify-center
             >
-                Email
-            </label>
-            <VTextField
-                class="no-underline"
-                solo
-                type="email"
-                name="email"
-                v-model="email"
-                :rules="emailRules"
-                required
-            />
-            <label
-                class="caption grey--text"
-            >
-                Password
-            </label>
-            <VTextField
-                class="no-underline password"
-                solo
-                name="password"
-                autocomplete="new-password"
-                v-model="password"
-                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-                :counter="8"
-                :rules="passwordRules"
-                :type="showPassword ? 'text' : 'password'"
-                @click:append="showPassword = !showPassword"
-                required
-            />
+                <VFlex
+                    form-wrapper
+                    xs12
+                    sm8
+                    md6
+                >
+                    <VLayout
+                        column
+                        align-items-center
+                    >
+                        <div class="form">
+                            <VSubheader
+                                class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
+                            >
+                                Welcome to Metrica!
+                            </VSubheader>
+                            <VForm
+                                lazy-validation
+                                ref="form"
+                                v-model="valid"
+                            >
+                                <label
+                                    class="caption grey--text"
+                                >
+                                    Email
+                                </label>
+                                <VTextField
+                                    class="no-underline"
+                                    solo
+                                    type="email"
+                                    name="email"
+                                    v-model="email"
+                                    :rules="emailRules"
+                                    required
+                                />
+                                <label
+                                    class="caption grey--text"
+                                >
+                                    Password
+                                </label>
+                                <VTextField
+                                    class="no-underline password"
+                                    solo
+                                    name="password"
+                                    autocomplete="new-password"
+                                    v-model="password"
+                                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                                    :rules="passwordRules"
+                                    :type="showPassword ? 'text' : 'password'"
+                                    @click:append="showPassword = !showPassword"
+                                    required
+                                />
 
-            <div class="password-group">
-                <div class="btn-group">
-                    <VBtn
-                        class="login-btn"
-                        min-width="100px"
-                        color="primary"
-                        :disabled="!valid"
-                        @click="onLogin"
-                    >
-                        {{ signInText }}
-                    </VBtn>
+                                <div class="password-group">
+                                    <div class="btn-group">
+                                        <VBtn
+                                            class="login-btn"
+                                            min-width="100px"
+                                            color="primary"
+                                            :disabled="!valid"
+                                            @click="onLogin"
+                                        >
+                                            {{ signInText }}
+                                        </VBtn>
 
-                    <VBtn
-                        class="start"
-                        min-width="100px"
-                        :to="{name: 'signup'}"
-                        outlined
-                        :disabled="false"
-                    >
-                        SIGN UP
-                    </VBtn>
-                </div>
-                <div class="btn-group">
-                    <RouterLink
-                        class="forgot-password-link"
-                        :to="{name: 'reset-password'}"
-                    >
-                        Forgot password?
-                    </RouterLink>
-                </div>
-            </div>
-        </VForm>
-    </div>
+                                        <VBtn
+                                            class="start"
+                                            min-width="100px"
+                                            :to="{name: 'signup'}"
+                                            outlined
+                                            :disabled="false"
+                                        >
+                                            SIGN UP
+                                        </VBtn>
+                                    </div>
+                                    <div class="btn-group">
+                                        <RouterLink
+                                            class="forgot-password-link"
+                                            :to="{name: 'reset-password'}"
+                                        >
+                                            Forgot password?
+                                        </RouterLink>
+                                    </div>
+                                </div>
+                            </VForm>
+                        </div>
+                    </VLayout>
+                </VFlex>
+                <VFlex
+                    image
+                    sm12
+                    md6
+                >
+                    <VImg
+                        src="/assets/images/home.png"
+                        alt="Man"
+                    />
+                </VFlex>
+            </VLayout>
+        </VContainer>
+    </VContent>
 </template>
 
 <script>
@@ -133,6 +172,10 @@
 </script>
 
 <style lang="scss" scoped>
+    main{
+        background: #FFFFFF;
+    }
+
     .form {
         width: 50%;
 
@@ -160,5 +203,20 @@
             display: flex;
             justify-content: flex-start;
         }
+    }
+
+    .image{
+        padding-top: 70px;
+    }
+
+    .container{
+        padding: 0px
+
+    }
+
+    .form-wrapper{
+        padding-top: 40px;
+        height: 100%;
+        background: #f5f8fd;
     }
 </style>
