@@ -15,6 +15,7 @@ use App\Actions\Visitors\GetNewVisitorsAction;
 use App\Http\Requests\Api\GetButtonCountVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
+use App\Http\Resources\ButtonResource;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
 use App\Http\Resources\BounceRateResource;
@@ -45,7 +46,8 @@ final class VisitorController extends Controller
         GetBounceRateAction $getBounceRateAction,
         GetButtonCountVisitorsAction $getButtonCountVisitorsAction,
         GetVisitorsByParameterAction $getVisitorsByParameterAction
-    ) {
+    )
+    {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
         $this->getNewVisitorsByDateRangeAction = $getNewVisitorsByDateRangeAction;
@@ -91,7 +93,7 @@ final class VisitorController extends Controller
         return ApiResponse::success(new BounceRateResource($response));
     }
 
-    public function getVisitorsByParameter (GetTableVisitorsByParameterHttpRequest $request): ApiResponse
+    public function getVisitorsByParameter(GetTableVisitorsByParameterHttpRequest $request): ApiResponse
     {
         $response = $this->getVisitorsByParameterAction->execute(
             GetVisitorsByParameterRequest::fromRequest($request));
@@ -99,10 +101,9 @@ final class VisitorController extends Controller
         return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
     }
 
-    public function getVisitorsCount(GetButtonCountVisitorsHttpRequest $request)
+    public function getVisitorsCount(GetButtonCountVisitorsHttpRequest $request):ApiResponse
     {
         $response = $this->getButtonCountVisitorsAction->execute(GetButtonCountVisitorsRequest::fromRequest($request));
-//        return response()->json(['data'=>$response->getEndDate()]);
-//        return ApiResponse::success($response);
+        return ApiResponse::success(new ButtonResource($response));
     }
 }
