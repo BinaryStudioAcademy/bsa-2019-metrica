@@ -25,6 +25,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ChartNewVisitorResourceCollection;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
+use App\Actions\Visitors\GetNewVisitorsByParameterAction;
 
 final class VisitorController extends Controller
 {
@@ -33,19 +34,22 @@ final class VisitorController extends Controller
     private $getNewVisitorsByDateRangeAction;
     private $getBounceRateAction;
     private $getVisitorsByParameterAction;
+    private $getNewVisitorsByParameterAction;
 
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
         GetNewVisitorsAction $getNewVisitorsAction,
         GetNewChartVisitorsByDateRangeAction $getNewVisitorsByDateRangeAction,
         GetBounceRateAction $getBounceRateAction,
-        GetVisitorsByParameterAction $getVisitorsByParameterAction
+        GetVisitorsByParameterAction $getVisitorsByParameterAction,
+        GetNewVisitorsByParameterAction $getNewVisitorsByParameterAction
     ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
         $this->getNewVisitorsByDateRangeAction = $getNewVisitorsByDateRangeAction;
         $this->getBounceRateAction = $getBounceRateAction;
         $this->getVisitorsByParameterAction = $getVisitorsByParameterAction;
+        $this->getNewVisitorsByParameterAction = $getNewVisitorsByParameterAction;
     }
 
     public function getAllVisitors(): ApiResponse
@@ -92,4 +96,14 @@ final class VisitorController extends Controller
 
         return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
     }
+
+    public function getNewVisitorsForTableByParameter(GetTableVisitorsByParameterHttpRequest $request): ApiResponse
+    {
+        $response = $this->getNewVisitorsByParameterAction->execute(
+            GetVisitorsByParameterRequest::fromRequest($request));
+
+        return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
+    }
+
+
 }
