@@ -13,6 +13,7 @@ use App\Entities\Website;
 use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class ChartSessionsApiTest extends TestCase
 {
@@ -102,7 +103,7 @@ class ChartSessionsApiTest extends TestCase
             ]
         ];
 
-        factory(Visit::class)->create([
+        factory(Session::class)->create([
             'created_at' => new DateTime('@1564734209'),
 
         ]);
@@ -168,7 +169,7 @@ class ChartSessionsApiTest extends TestCase
             ->assertJson($expectedData);
     }
 
-    public function testPageViewsFailedInterval()
+    public function testChartSessionsFailedInterval()
     {
         $firstDate = new DateTime('@1565846640');
         $secondDate = new DateTime('@1565734102');
@@ -181,7 +182,7 @@ class ChartSessionsApiTest extends TestCase
             ]
         ];
 
-        factory(Visit::class)->create([
+        factory(Session::class)->create([
             'created_at' => new DateTime('@1564734209'),
 
         ]);
