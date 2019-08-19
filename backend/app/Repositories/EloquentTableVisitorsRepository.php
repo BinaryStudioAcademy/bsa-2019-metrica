@@ -11,9 +11,17 @@ use Illuminate\Support\Facades\DB;
 
 final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 {
-    public function groupByCity(int $website_id, string $from, string $to): Collection
+    public function groupByCity(
+        int $website_id,
+        string $from,
+        string $to,
+        bool $newVisitorsOnly = false
+    ): Collection
     {
         $count = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select('visitors.id')
@@ -22,6 +30,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('COUNT(visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.city as parameter_value')
@@ -33,9 +44,17 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return new Collection($visitors);
     }
 
-    public function groupByCountry(int $website_id, string $from, string $to): Collection
+    public function groupByCountry(
+        int $website_id,
+        string $from,
+        string $to,
+        bool $newVisitorsOnly = false
+    ): Collection
     {
         $count = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select('visitors.id')
@@ -44,6 +63,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('COUNT(visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.country as parameter_value')
@@ -55,9 +77,17 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return new Collection($visitors);
     }
 
-    public function groupByLanguage(int $website_id, string $from, string $to): Collection
+    public function groupByLanguage(
+        int $website_id,
+        string $from,
+        string $to,
+        bool $newVisitorsOnly = false
+    ): Collection
     {
         $count = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->select('visitors.id')
@@ -66,6 +96,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->select(DB::raw('COUNT(visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'sessions.language as parameter_value')
@@ -77,9 +110,17 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return new Collection($visitors);
     }
 
-    public function groupByBrowser(int $website_id, string $from, string $to): Collection
+    public function groupByBrowser(
+        int $website_id,
+        string $from,
+        string $to,
+        bool $newVisitorsOnly = false
+    ): Collection
     {
         $count = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
@@ -89,6 +130,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
@@ -101,9 +145,17 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return new Collection($visitors);
     }
 
-    public function groupByOperatingSystem(int $website_id, string $from, string $to): Collection
+    public function groupByOperatingSystem(
+        int $website_id,
+        string $from,
+        string $to,
+        bool $newVisitorsOnly = false
+    ): Collection
     {
         $count = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
@@ -113,6 +165,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
@@ -125,9 +180,17 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return new Collection($visitors);
     }
 
-    public function groupByScreenResolution(int $website_id, string $from, string $to): Collection
+    public function groupByScreenResolution(
+        int $website_id,
+        string $from,
+        string $to,
+        bool $newVisitorsOnly = false
+    ): Collection
     {
         $count = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
@@ -137,6 +200,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
+            })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
