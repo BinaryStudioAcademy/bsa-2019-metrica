@@ -7,7 +7,7 @@
         >
             <img
                 class="button-icon"
-                :src="require(`@/assets/button_icons/${iconKey}.png`)"
+                :src="require(`@/assets/button_icons/${iconName}.png`)"
             >
         </div>
         <div
@@ -43,7 +43,7 @@
                 type:String,
                 required: true
             }
-        },
+        }
     };
 </script>
 

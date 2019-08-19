@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Entities\Demographic;
 use App\Entities\GeoPosition;
 use App\Entities\Page;
 use App\Entities\Session;
@@ -30,7 +29,6 @@ class VisitorsApiTest extends TestCase
         factory(Page::class, 1)->create();
         factory(System::class, 1)->create();
         factory(GeoPosition::class, 1)->create();
-        factory(Demographic::class, 1)->create();
     }
 
     public function testNewVisitorsAction()
@@ -44,7 +42,7 @@ class VisitorsApiTest extends TestCase
     public function testAllVisitorsAction()
     {
         $user = factory(User::class)->make();
-        $response = $this->actingAs($user)->call('GET', 'api/v1/visitors');
+        $response = $this->actingAs($user)->json('GET', 'api/v1/visitors');
 
         $this->assertEquals(200, $response->getStatusCode());
     }

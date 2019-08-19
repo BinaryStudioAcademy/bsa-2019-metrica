@@ -20,10 +20,24 @@
                     align-center
                     justify-center
                 >
-                    <VFlex>
+                    <VFlex
+                        class="chart-container"
+                    >
                         <LineChart :data="data" />
                     </VFlex>
                 </VLayout>
+            </VFlex>
+        </VLayout>
+        <VLayout class="buttons-row">
+            <VFlex
+                v-for="button in buttons"
+                :key="button.title"
+            >
+                <ButtonComponent
+                    :title="button.title"
+                    :character="button.character"
+                    :icon-name="button.icon"
+                />
             </VFlex>
         </VLayout>
         <VLayout>
@@ -36,6 +50,18 @@
             >
                 <UserTable />
             </VFlex>
+            <VFlex
+                lg5
+                md5
+                hidden-sm-and-down
+                height="100%"
+                class="img-card"
+            >
+                <VSubheader class="body-1 grey--text text--darken-1 pa-0">
+                    Summary
+                </VSubheader>
+                <PieChart :data="pieData" />
+            </VFlex>
         </VLayout>
     </VContainer>
 </template>
@@ -43,15 +69,54 @@
 <script>
     import LineChart from "../components/common/LineChart";
     import UserTable from "../components/dashboard/visitors/UsersTable";
+    import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
+    import PieChart from "../components/common/PieChart";
 
     export default {
         components: {
+            PieChart,
             LineChart,
-            UserTable
+            UserTable,
+            ButtonComponent
         },
         data() {
             return {
                 data: [],
+                buttons: [
+                    {
+                        icon: 'person',
+                        title: 'Total visitors',
+                        character: '120'
+                    },
+                    {
+                        icon: 'eye',
+                        title: 'New visitors',
+                        character: '100'
+                    },
+                    {
+                        icon: 'clock',
+                        title: 'Avg. session',
+                        character: '00:00:33'
+                    },
+                    {
+                        icon: 'yellow_arrow',
+                        title: 'Page views',
+                        character: '321'
+                    },
+                    {
+                        icon: 'peach_arrow',
+                        title: 'Sessions',
+                        character: '145'
+                    },
+                    {
+                        icon: 'violet_arrow',
+                        title: 'Bounce rate',
+                        character: '41%'
+                    },
+                ],
+                pieData: [
+                    ['Type', 'Value']
+                ],
             };
         },
         computed: {
@@ -69,9 +134,19 @@
                 };
                 this.data.push(item);
             }
+            this.pieData.push(
+                ['New Visitors', 41],
+                ['Return Visitors', 59],
+            );
         }
     };
 </script>
 
 <style scoped>
+    .buttons-row {
+        margin-top: 50px;
+    }
+    .chart-container {
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+    }
 </style>
