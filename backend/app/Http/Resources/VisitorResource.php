@@ -12,7 +12,7 @@ final class VisitorResource extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            // TODO
+
         ];
     }
 }

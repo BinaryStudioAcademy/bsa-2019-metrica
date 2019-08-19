@@ -24,7 +24,6 @@ use App\Http\Resources\AvgSession;
 use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
 use App\Http\Requests\Api\GetAvgSessionHttpRequest;
 use App\Http\Resources\TableSessionResource;
-use App\Http\Resources\SessionResourceCollection;
 
 final class SessionController extends Controller
 {
