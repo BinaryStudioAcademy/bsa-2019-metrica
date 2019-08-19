@@ -94,5 +94,4 @@ class ChartVisitorsApiTest extends TestCase
             'meta' => []
         ]);
     }
-
 }
