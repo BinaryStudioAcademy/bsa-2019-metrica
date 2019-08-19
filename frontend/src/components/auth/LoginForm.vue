@@ -110,7 +110,7 @@
                         this.showSuccessMessage('Logged in');
                     }).catch((error) => {
                         this.showErrorMessage(error);
-                    }).final(() => {
+                    }).finally(() => {
                         this.isLoading = false;
                     });
                 }
