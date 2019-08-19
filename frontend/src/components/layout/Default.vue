@@ -1,6 +1,6 @@
 <template>
-    <VContainer>
-        <h4>{{ title }}</h4>
+    <VContainer class="content-container">
+        <h5>{{ title }}</h5>
         <VImg
             :src="require('@/assets/running_man.jpg')"
             width="50%"
@@ -19,4 +19,10 @@
         }
     };
 </script>
+
+<style scoped>
+    .content-container {
+        padding: 70px 66px 0 80px;
+    }
+</style>
 
