@@ -1,6 +1,8 @@
 <template>
     <VContent>
         <VContainer
+            p-o
+            fluid
             fill-height
         >
             <VLayout
@@ -58,7 +60,7 @@ main{
 }
 
 .container{
-    padding-top: 0px
+    padding: 0px
 }
 
 .form-wrapper{
