@@ -58,10 +58,10 @@
                 height="100%"
                 class="img-card"
             >
-                <VSubheader class="body-1 grey--text text--darken-1 pa-0">
-                    Summary
-                </VSubheader>
-                <PieChart :data="pieData" />
+                <PieChart
+                    :data="pieData"
+                    :legend="legend"
+                />
             </VFlex>
         </VLayout>
     </VContainer>
@@ -118,6 +118,21 @@
                 pieData: [
                     ['Type', 'Value']
                 ],
+                legend: {
+                    title: 'Outcome',
+                    data: {
+                        newVisitors: {
+                            title: 'New Visitors',
+                            percentageDiff: 41,
+                            color: '#3C57DE'
+                        },
+                        returnVisitors: {
+                            title: 'Return Visitors',
+                            percentageDiff: 49,
+                            color: '#1BC3DA',
+                        },
+                    }
+                }
             };
         },
         computed: {
