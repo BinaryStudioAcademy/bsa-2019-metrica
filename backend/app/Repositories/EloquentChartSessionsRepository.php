@@ -9,6 +9,7 @@ use App\Repositories\Contracts\ChartSessionsRepository;
 use App\Contracts\Common\DatePeriod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Entities\Session;
 
 final class EloquentChartSessionsRepository implements ChartSessionsRepository
 {
@@ -26,26 +27,54 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
     {
         return
             $this->toTimestamp($columnName) .
-            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . " , " . $period . ")";
+            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . " , " . $period . ") + $period";
     }
 
     public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
-        $subQuery = "SELECT s.*, (" . $this->roundDate('s.start_session', $interval) . ") as date " .
-            "FROM sessions AS s WHERE s.website_id = " . "$websiteId ".
-            "AND " . $this->toTimestamp('s.start_session') . " >= :start_date" .
-            " AND " .
-            $this->toTimestamp('s.start_session') . " <= :end_date";
 
-        $query = DB::raw("SELECT COUNT(*) as sessions, date FROM ($subQuery) AS periods GROUP BY date");
+        // $subQuery = "SELECT s.*, (" . $this->roundDate('s.start_session', $interval) . ") as date " .
+        //     "FROM sessions AS s ".
+        //     "WHERE " .
+        //         "s.website_id = " . "$websiteId AND " .
+        //         $this->toTimestamp('s.start_session') . " >= :start_date AND " .
+        //         $this->toTimestamp('s.start_session') . " <= :end_date";
 
-        $result =  DB::select((string)$query, [
-            'start_date' => $filterData->getStartDate()->getTimestamp(),
-            'end_date' =>  $filterData->getEndDate()->getTimestamp(),
-        ]);
+        // $query = DB::raw("SELECT COUNT(*) as sessions, date FROM ($subQuery) AS periods GROUP BY date");
 
-        return collect($result)->map(function ($item) {
-            return new ChartSessions($item->date, $item->sessions);
-        });
+        // $result =  DB::select((string)$query, [
+        //     'start_date' => $filterData->getStartDate()->getTimestamp(),
+        //     'end_date' =>  $filterData->getEndDate()->getTimestamp(),
+        // ]);
+
+        // return collect($result)->map(function ($item) {
+        //     return new ChartSessions($item->date, $item->sessions);
+        // });
+
+        // todo filter by website
+        // 
+        $result = Session::whereDateBetween($filterData)
+            ->get()
+            ->reduce(function ($hashTable, $item) use ($interval) {
+                $startTimestamp = $item->start_session->getTimestamp();
+                $endTimestamp = $item->end_session->getTimestamp();
+                $startDate = $startTimestamp - ($startTimestamp % $interval) + $interval;
+                $endDate = $endTimestamp - ($endTimestamp % $interval) + $interval;
+                
+                for ($offset = $endDate - $startDate; $offset > 0; $offset -= $interval) {
+                    $position = $startDate + $offset;
+
+                    if (!isset($hashTable[$position]) || is_null($hashTable[$position])) {
+                        $hashTable[$position] = 0;
+                    }
+
+                    $hashTable[$position]++;
+                }
+
+                return $hashTable;
+            }, []);
+
+        return collect($result);
     }
 }
+// app()->make(\App\Repositories\Contracts\ChartSessionsRepository::class)->findByFilter(new \App\Utils\DatePeriod(new DateTime('2019-08-19 06:00:00'), new DateTime('2019-08-19 08:00:00')), 3600, 2)

@@ -35,65 +35,69 @@ class ChartSessionsApiTest extends TestCase
 
     public function testChartSessionsFilter()
     {
-        $firstDate = new DateTime('2019-08-19 06:00:00');
-        $secondDate = new DateTime('2019-08-19 08:00:00');
-        $endSessionDate = new DateTime('2019-08-19 07:00:00');
+        factory(Session::class)->create([
+            'start_session' => new DateTime('2019-08-19 06:05:00'),
+            'end_session' => new DateTime('2019-08-19 08:30:00')
+        ]);
+
+        factory(Session::class)->create([
+            'start_session' => new DateTime('2019-08-19 06:15:00'),
+            'end_session' => new DateTime('2019-08-19 08:30:00')
+        ]);
+
+        factory(Session::class)->create([
+            'start_session' => new DateTime('2019-08-19 06:20:00'),
+            'end_session' => new DateTime('2019-08-19 08:30:00')
+        ]);
+
+        factory(Session::class)->create([
+            'start_session' => new DateTime('2019-08-19 06:25:00'),
+            'end_session' => new DateTime('2019-08-19 06:50:00')
+        ]);
+
+        factory(Session::class)->create([
+            'start_session' => new DateTime('2019-08-19 06:30:00'),
+            'end_session' => new DateTime('2019-08-19 06:55:00')
+        ]);
+
+        factory(Session::class)->create([
+            'start_session' => new DateTime('2019-08-19 07:30:00'),
+            'end_session' => new DateTime('2019-08-19 08:30:00')
+        ]);
+
+        $startDate = new DateTime('2019-08-19 06:00:00');
+        $endDate = new DateTime('2019-08-19 08:00:00');
 
         $filterData = [
             'filter' => [
-                'startDate' => (string) $firstDate->getTimestamp(),
-                'endDate' => (string) $secondDate->getTimestamp(),
+                'startDate' => (string) $startDate->getTimestamp(),
+                'endDate' => (string) $endDate->getTimestamp(),
                 'period' => 3600
             ]
         ];
 
-        factory(Session::class)->create([
-            'start_session' => $firstDate,
-        ]);
-
-        factory(Session::class)->create([
-            'start_session' => $firstDate,
-        ]);
-
-        factory(Session::class)->create([
-            'start_session' => $firstDate,
-            'end_session' => $endSessionDate
-        ]);
-
-        factory(Session::class)->create([
-            'start_session' => $firstDate,
-            'end_session' => $endSessionDate
-        ]);
-
-        factory(Session::class)->create([
-            'start_session' => $firstDate,
-            'end_session' => $endSessionDate
-        ]);
-
-        factory(Session::class)->create([
-            'start_session' => $secondDate,
-        ]);
+        $date1 = new DateTime('2019-08-19 06:00:00');
+        $date2 = new DateTime('2019-08-19 07:00:00');
+        $date3 = new DateTime('2019-08-19 08:00:00');
 
         $expectedData = [
             'data' =>
                 [
                     [
-                        'date' => '1566198000',
+                        'date' => (string) $date2->getTimestamp(),
                         'sessions' => 5
                     ],
-
                     [
-                        'date' => '1566201600',
+                        'date' => (string) $date3->getTimestamp(),
                         'sessions' => 4
                     ],
-
                 ],
             'meta' => [],
         ];
 
-        $this->actingAs($this->user)
-            ->call('GET', $this->url, $filterData)
-            ->assertStatus(200)
+        $response = $this->actingAs($this->user)->json('GET', $this->url, $filterData);
+
+        $response->assertStatus(200)
             ->assertJson($expectedData);
     }
 

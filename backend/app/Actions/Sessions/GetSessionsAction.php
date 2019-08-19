@@ -43,6 +43,6 @@ final class GetSessionsAction
 
     private function getInterval(string $interval): int
     {
-        return (int) \round($interval/1000, 0);
+        return (int) $interval;
     }
 }
