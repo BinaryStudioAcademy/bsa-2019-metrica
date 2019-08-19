@@ -52,14 +52,6 @@
                     >
                         SIGN UP
                     </VBtn>
-                    <VCardActions>
-                        <RouterLink
-                            class="link"
-                            :to="{name: 'reset-password'}"
-                        >
-                            Forgot Password?
-                        </RouterLink>
-                    </VCardActions>
                 </div>
                 <div class="btn-group">
                     <RouterLink
@@ -142,6 +134,7 @@
             +.start {
                 background: #FFFFFF;
                 color: #3C57DE;
+                margin-left: 50px;
             }
         }
 
@@ -157,7 +150,7 @@
         .btn-group {
             margin-bottom: 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
         }
     }
 </style>
