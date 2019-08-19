@@ -37,7 +37,7 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
             " AND " .
             $this->toTimestamp('s.created_at') . " <= :end_date";
 
-        $query = DB::raw("SELECT COUNT(*) as sessions, date FROM ($subQuery) AS periods GROUP BY date");
+        $query = DB::raw("SELECT COUNT(*) as count, date FROM ($subQuery) AS periods GROUP BY date");
 
         $result =  DB::select((string)$query, [
             'start_date' => $filterData->getStartDate()->getTimestamp(),
@@ -45,7 +45,7 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
         ]);
 
         return collect($result)->map(function ($item) {
-            return new ChartSessions($item->date, $item->visits);
+            return new ChartSessions($item->date, $item->count);
         });
     }
 }

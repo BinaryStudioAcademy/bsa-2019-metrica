@@ -33,8 +33,7 @@ final class SessionController extends Controller
         GetSessionsAction $getSessionsAction,
         CountSessionsAction $countSessionsAction,
         GetAvgSessionAction $getAvgSessionAction
-    )
-    {
+    ) {
         $this->getAllSessionsAction = $getAllSessionsAction;
         $this->getSessionsAction = $getSessionsAction;
         $this->countSessionsAction = $countSessionsAction;
@@ -49,10 +48,9 @@ final class SessionController extends Controller
     }
 
     public function getSessions(GetSessionsFilterHttpRequest $request): ApiResponse
-
     {
         $response = $this->getSessionsAction->execute(
-            GetSessionsRequest::fromHttpRequest($request)
+            GetSessionsRequest::fromRequest($request)
         );
 
         return ApiResponse::success(new GetSessionsResource($response->sessions()));
