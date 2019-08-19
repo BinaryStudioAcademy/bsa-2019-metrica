@@ -16,12 +16,8 @@ class DatabaseSeeder extends Seeder
             WebsiteTableSeeder::class,
             VisitorTableSeeder::class,
             PageTableSeeder::class,
-            DeviceTableSeeder::class,
-            BrowserTableSeeder::class,
-            OsTableSeeder::class,
             SystemTableSeeder::class,
             GeoPositionTableSeeder::class,
-            DemographicTableSeeder::class,
             SessionTableSeeder::class,
             VisitTableSeeder::class
         ]);

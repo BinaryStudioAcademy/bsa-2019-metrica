@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 final class Visit extends Model
@@ -12,9 +14,8 @@ final class Visit extends Model
         'ip_address',
         'session_id',
         'page_id',
-        'visitor_id',
-        'device_id',
+        'visitor_id'
     ];
 
-    protected $with = ['session', 'pages', 'visitors', 'devices'];
+    protected $with = ['session', 'pages', 'visitors'];
 }

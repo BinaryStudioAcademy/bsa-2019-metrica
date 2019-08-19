@@ -1,62 +1,77 @@
 <template>
-    <VContent>
-        <VFlex
-            lg6
-            md6
-            sm12
-            xs12
-            :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
+    <div class="form">
+        <h3>Welcome to Metrica!</h3>
+        <VForm
+            lazy-validation
+            ref="form"
+            v-model="valid"
         >
-            <VContainer>
-                <VSubheader
-                    class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
-                >
-                    Welcome to Metrica!
-                </VSubheader>
-                <VForm
-                    ref="form"
-                >
-                    <label
-                        class="caption grey--text"
+            <label
+                class="caption grey--text"
+            >
+                Email
+            </label>
+            <VTextField
+                class="no-underline"
+                solo
+                type="email"
+                name="email"
+                v-model="email"
+                :rules="emailRules"
+                required
+            />
+            <label
+                class="caption grey--text"
+            >
+                Password
+            </label>
+            <VTextField
+                class="no-underline password"
+                solo
+                name="password"
+                autocomplete="new-password"
+                v-model="password"
+                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                :counter="8"
+                :rules="passwordRules"
+                :type="showPassword ? 'text' : 'password'"
+                @click:append="showPassword = !showPassword"
+                required
+            />
+
+            <div class="password-group">
+                <div class="btn-group">
+                    <VBtn
+                        class="login-btn"
+                        min-width="100px"
+                        color="primary"
+                        :disabled="!valid"
+                        @click="onLogin"
                     >
-                        Email
-                    </label>
-                    <VTextField
-                        name="email"
-                        class="no-underline mt-3"
-                        solo
-                        v-model="email"
-                        type="text"
-                        :rules="emailRules"
-                        required
-                    />
-                    <label
-                        class="caption grey--text"
+                        {{ signInText }}
+                    </VBtn>
+
+                    <VBtn
+                        class="start"
+                        min-width="100px"
+                        :to="{name: 'signup'}"
+                        outlined
+                        :disabled="false"
                     >
-                        Password
-                    </label>
-                    <VTextField
-                        :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-                        :type="showPassword ? 'text' : 'password'"
-                        @click:append="showPassword = !showPassword"
-                        name="password"
-                        class="no-underline my-3"
-                        solo
-                        v-model="password"
-                        :rules="passwordRules"
-                        required
-                    />
-                </VForm>
-                <VBtn
-                    @click="onLogin"
-                    class="mt-5"
-                    color="primary"
-                >
-                    Login
-                </VBtn>
-            </VContainer>
-        </VFlex>
-    </VContent>
+                        SIGN UP
+                    </VBtn>
+                </div>
+                <div class="btn-group">
+                    <RouterLink
+                        class="forgot-password-link"
+                        :to="{name: 'reset-password'}"
+                    >
+                        Forgot password?
+                    </RouterLink>
+                </div>
+            </div>
+        </VForm>
+    </div>
 </template>
 
 <script>
@@ -73,6 +88,7 @@
                 password: '',
                 showPassword: false,
                 valid: false,
+                isLoading: false,
                 emailRules: [
                     v => !!v || 'E-mail is required',
                     v => validateEmail(v) || 'E-mail must be valid',
@@ -93,6 +109,7 @@
             }),
             onLogin() {
                 if (this.$refs.form.validate()) {
+                    this.isLoading = true;
                     this.login({
                         email: this.email,
                         password: this.password
@@ -101,15 +118,47 @@
                         this.showSuccessMessage('Logged in');
                     }).catch((error) => {
                         this.showErrorMessage(error);
+                    }).finally(() => {
+                        this.isLoading = false;
                     });
                 }
+            }
+        },
+        computed: {
+            signInText() {
+                return this.isLoading?'Processing...':'SIGN IN';
             }
         }
     };
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-btn {
-    width: 105px;
-}
+    .form {
+        width: 50%;
+
+        .v-btn {
+            text-transform: none;
+
+            +.start {
+                background: #FFFFFF;
+                color: #3C57DE;
+                margin-left: 50px;
+            }
+        }
+
+        h3 {
+            margin-bottom: 30px;
+            font-size: 19px;
+        }
+        .password-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-group {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
+        }
+    }
 </style>

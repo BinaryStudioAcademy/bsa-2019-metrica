@@ -12,9 +12,10 @@ ENV USERNAME=www-data
 RUN usermod -u $UID $USERNAME \
     && groupmod -g $GID $USERNAME \
     && mkdir -p /home/$USERNAME \
-    && chown $USERNAME:$USERNAME /home/$USERNAME \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME \
     && mkdir -p /app \
-    && chown $USERNAME:$USERNAME /app
+    && chown $USERNAME:$USERNAME /app \
+    && chown -R $USERNAME:$USERNAME /var/www
 
 # Install selected extensions and other stuff
 RUN apt-get update \
