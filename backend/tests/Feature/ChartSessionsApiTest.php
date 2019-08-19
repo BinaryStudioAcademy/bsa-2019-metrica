@@ -93,7 +93,7 @@ class ChartSessionsApiTest extends TestCase
 
         $this->actingAs($this->user)
             ->call('GET', $this->url, $filterData)
-//            ->assertStatus(200)
+            ->assertStatus(200)
             ->assertJson($expectedData);
     }
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use App\Contracts\ApiResponse;
 use App\DataTransformer\Sessions\ChartSessions;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
-final class GetSessionsResource extends JsonResource implements ApiResponse
+final class GetSessionsResource extends ResourceCollection implements ApiResponse
 {
     public function toArray($request): array
     {
