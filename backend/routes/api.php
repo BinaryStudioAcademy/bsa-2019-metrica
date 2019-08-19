@@ -62,6 +62,12 @@ Route::prefix('v1')->group(function () {
         ], function() {
             Route::get('/', 'VisitController@getPageViews');
         });
+
+        Route::group([
+            'prefix' => 'chart-total-visitors'
+        ], function() {
+            Route::get('/', 'VisitorController@getTotalVisitorsByDateRange');
+        });
     });
 });
 
