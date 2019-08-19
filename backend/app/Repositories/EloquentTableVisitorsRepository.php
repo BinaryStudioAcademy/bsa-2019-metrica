@@ -16,8 +16,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitors, function($query) {
                 return $query->has('sessions', '=', 1);
@@ -49,8 +48,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitors, function($query) {
                 return $query->has('sessions', '=', 1);
@@ -82,8 +80,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitors, function($query) {
                 return $query->has('sessions', '=', 1);
@@ -115,8 +112,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitors, function($query) {
                 return $query->has('sessions', '=', 1);
@@ -150,8 +146,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitors, function($query) {
                 return $query->has('sessions', '=', 1);
@@ -185,8 +180,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitors, function($query) {
                 return $query->has('sessions', '=', 1);
