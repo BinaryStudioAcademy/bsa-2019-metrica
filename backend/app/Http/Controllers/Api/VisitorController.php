@@ -12,20 +12,21 @@ use App\Actions\Visitors\GetNewestCountRequest;
 use App\Actions\Visitors\GetBounceRateAction;
 use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
+use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
-use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
-use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
-use App\Http\Requests\Visitors\GetChartCountVisitorsHttpRequest;
-use App\Http\Requests\Visitors\GetNewVisitorCountFilterHttpHttpRequest;
-use App\Http\Requests\Visitors\GetNewChartVisitorsHttpRequest;
-use App\Http\Resources\ChartNewVisitorResource;
-use App\Http\Resources\ChartNewVisitorResourceCollection;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
 use App\Http\Resources\BounceRateResource;
+use App\Actions\Visitors\GetVisitorsByParameterAction;
+use App\Actions\Visitors\GetVisitorsByParameterRequest;
+use App\Http\Requests\Api\GetTableVisitorsByParameterHttpRequest;
 use App\Http\Resources\VisitorResourceCollection;
+use App\Http\Resources\TableVisitorsResourseCollection;
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ChartNewVisitorResourceCollection;
+use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
+use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
 
 final class VisitorController extends Controller
 {
@@ -34,6 +35,7 @@ final class VisitorController extends Controller
     private $getNewVisitorsByDateRangeAction;
     private $getBounceRateAction;
     private $getChartCountVisitorsAction;
+    private $getVisitorsByParameterAction;
 
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
@@ -43,11 +45,15 @@ final class VisitorController extends Controller
         GetChartCountVisitorsAction $getChartCountVisitorsAction
     )
     {
+        GetBounceRateAction $getBounceRateAction,
+        GetVisitorsByParameterAction $getVisitorsByParameterAction
+    ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
         $this->getNewVisitorsByDateRangeAction = $getNewVisitorsByDateRangeAction;
         $this->getBounceRateAction = $getBounceRateAction;
         $this->getChartCountVisitorsAction = $getChartCountVisitorsAction;
+        $this->getVisitorsByParameterAction = $getVisitorsByParameterAction;
     }
 
     public function getAllVisitors(): ApiResponse
@@ -70,9 +76,11 @@ final class VisitorController extends Controller
         return ApiResponse::success(new VisitorCountResource($response->getCount()));
     }
 
-    public function getNewVisitorsByDateRange(GetNewChartVisitorsHttpRequest $request)
+    public function getNewVisitorsByDateRange(GetNewChartVisitorsHttpRequest $request): ApiResponse
     {
-        $response = $this->getNewVisitorsByDateRangeAction->execute(GetNewChartVisitorsByDateRangeRequest::fromRequest($request));
+        $response = $this->getNewVisitorsByDateRangeAction->execute(
+            GetNewChartVisitorsByDateRangeRequest::fromRequest($request));
+
         return ApiResponse::success(new ChartNewVisitorResourceCollection($response->getVisitorsByDateRange()));
     }
 
@@ -83,6 +91,14 @@ final class VisitorController extends Controller
         );
 
         return ApiResponse::success(new BounceRateResource($response));
+    }
+
+    public function getVisitorsByParameter (GetTableVisitorsByParameterHttpRequest $request): ApiResponse
+    {
+        $response = $this->getVisitorsByParameterAction->execute(
+            GetVisitorsByParameterRequest::fromRequest($request));
+
+        return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
     }
 
     public function getVisitorsCount(GetChartCountVisitorsHttpRequest $request)

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\DataTransformer\Visitors\ChartNewVisitor;
 use App\Repositories\Contracts\ChartVisitorsRepository;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +21,9 @@ class EloquentChartVisitorsRepository implements ChartVisitorsRepository
             'endData' => $endData,
             'user_id' => $userId
         ]);
-        return collect($response);
+        return collect($response)->map(function ($item) {
+            return new ChartNewVisitor($item->period, $item->count);
+        });
     }
 
     private function toTimestamp(string $columnName): string

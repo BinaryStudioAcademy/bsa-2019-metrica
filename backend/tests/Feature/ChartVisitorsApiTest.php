@@ -50,27 +50,24 @@ class ChartVisitorsApiTest extends TestCase
 
         $filterData = [
             'filter' => [
-                'startDate' => $secondDate->getTimestamp(),
-                'endDate' => $fifthDate->getTimestamp(),
+                'startDate' => (string)$secondDate->getTimestamp(),
+                'endDate' => (string)$fifthDate->getTimestamp(),
                 'period' => 86400
             ]
         ];
-
         $expectedData = [
             'data' => [
-                'new_visitors' => [
-                    [
-                        'period' => '1566086400',
-                        'count' => 1
-                    ],
-                    [
-                        'period' => '1566172800',
-                        'count' => 1
-                    ],
-                    [
-                        'period' => '1566259200',
-                        'count' => 2
-                    ],
+                [
+                    'period' => '1566086400',
+                    'count' => 1
+                ],
+                [
+                    'period' => '1566172800',
+                    'count' => 1
+                ],
+                [
+                    'period' => '1566259200',
+                    'count' => 2
                 ],
             ],
             'meta' => []
