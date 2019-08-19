@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ChartVisitorsRepository;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\TableVisitorsRepository;
 use App\Repositories\Contracts\TableSessionRepository;
@@ -9,6 +10,7 @@ use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\ChartVisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
+use App\Repositories\EloquentChartVisitorsRepository;
 use App\Repositories\EloquentSessionRepository;
 use App\Repositories\EloquentTableVisitorsRepository;
 use App\Repositories\EloquentTableSessionRepository;
@@ -27,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerTelescope();
+
         $this->app->bind(UserRepository::class, EloquentUserRepository::class);
 
         $this->app->bind(WebsiteRepository::class, EloquentWebsiteRepository::class);
@@ -39,6 +43,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ChartVisitRepository::class, EloquentChartVisitRepository::class);
 
+        $this->app->bind(ChartVisitorsRepository::class, EloquentChartVisitorsRepository::class);
+
         $this->app->bind(TableSessionRepository::class, EloquentTableSessionRepository::class);
     }
 
@@ -50,5 +56,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    private function registerTelescope()
+    {
+        if (env('APP_ENV') === 'production') {
+            return;
+        }
+
+        $this->app->register(TelescopeServiceProvider::class);
     }
 }
