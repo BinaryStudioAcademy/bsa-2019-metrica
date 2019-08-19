@@ -14,7 +14,7 @@ use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
 use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
-use App\Http\Requests\Visitors\VisitorsBounceRateHttpRequest;
+use App\Http\Requests\Api\GetVisitorsBounceRateHttpRequest;
 use App\Http\Resources\VisitorBounceRateResourceCollection;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
@@ -80,7 +80,7 @@ final class VisitorController extends Controller
         return ApiResponse::success(new ChartNewVisitorResourceCollection($response->getVisitorsByDateRange()));
     }
 
-    public function getVisitorsBounceRate(VisitorsBounceRateHttpRequest $request, BounceRateAction $action)
+    public function getVisitorsBounceRate(GetVisitorsBounceRateHttpRequest $request, BounceRateAction $action)
     {
         $response = $action->execute(BounceRateRequest::fromRequest($request));
         return ApiResponse::success(new VisitorBounceRateResourceCollection($response->getVisitorsBounceRateCollection()));

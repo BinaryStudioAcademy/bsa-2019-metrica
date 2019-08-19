@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use App\Http\Requests\Visitors\VisitorsBounceRateHttpRequest;
+use App\Http\Requests\Api\GetVisitorsBounceRateHttpRequest;
 use App\Model\Visitors\VisitorsBounceRateFilterData;
 use App\Utils\DatePeriod;
 
@@ -21,7 +21,7 @@ final class BounceRateRequest
         return $this->filterData;
     }
 
-    public static function fromRequest(VisitorsBounceRateHttpRequest $request): self
+    public static function fromRequest(GetVisitorsBounceRateHttpRequest $request): self
     {
         $period = DatePeriod::createFromTimestamp(
             $request->getStartDate(),

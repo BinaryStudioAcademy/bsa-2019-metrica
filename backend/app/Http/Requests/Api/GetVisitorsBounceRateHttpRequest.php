@@ -1,24 +1,26 @@
 <?php
 
 
-namespace App\Http\Requests\Visitors;
+namespace App\Http\Requests\Api;
 
-class VisitorsBounceRateHttpRequest extends AbstractVisitorsFilterHttpRequest
+use App\Http\Request\ApiFormRequest;
+
+class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
         return  array_merge(
-            parent::rules(),
             [
-                "filter.startDate" => [
+                'filter' => 'required|array',
+                'filter.startDate' => [
                     'required',
                     'integer',
                 ],
-                "filter.endDate" => [
+                'filter.endDate' => [
                     'required',
                     'integer',
                 ],
-                "filter.timeFrame" => [
+                'filter.timeFrame' => [
                     'required',
                     'integer',
                 ],

@@ -25,7 +25,9 @@ class VisitorsApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class, 1)->create();
+        factory(Website::class, 1)->create(
+            ['user_id' => $this->user->id]
+        );
         factory(Page::class, 1)->create();
         factory(System::class, 1)->create();
         factory(GeoPosition::class, 1)->create();
@@ -92,19 +94,21 @@ class VisitorsApiTest extends TestCase
 
     public function testBounceRateByTimeFrameAction()
     {
-        $this->initDataForBounceRateByTimeFrame();
+        $from = 1566230940;
+
+        $this->initDataForBounceRateByTimeFrame(Carbon::createFromTimestamp($from));
         $endpoint = 'api/v1/visitors/bounce-rate';
-        $timeFrame = 60*60*24*10;
+        $oneDayInSecond = 60*60*24;
+        $timeFrame = $oneDayInSecond*10;
 
         $filterData = [
             'filter' => [
-                'startDate' => Carbon::yesterday()->getTimestamp(),
-                'endDate' => Carbon::tomorrow()->getTimestamp(),
+                'startDate' => $from - $oneDayInSecond,
+                'endDate' => $from + $oneDayInSecond,
                 'timeFrame' => $timeFrame,
             ]
         ];
 
-        $from = Carbon::now()->getTimestamp();
         $timeFrameX = $from - ($from%$timeFrame);
         $expectedData = [
             'data' => [
@@ -260,9 +264,8 @@ class VisitorsApiTest extends TestCase
         ];
     }
 
-    private function initDataForBounceRateByTimeFrame()
+    private function initDataForBounceRateByTimeFrame(DateTime $date)
     {
-        $date = new Carbon();
         factory(Visitor::class, 9)->create([
             'created_at' => $date
         ])->each(function (Visitor $visitor) {

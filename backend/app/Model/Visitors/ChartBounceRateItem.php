@@ -3,7 +3,7 @@
 
 namespace App\Model\Visitors;
 
-class VisitorsBounceRateResponseItem
+class ChartBounceRateItem
 {
     private $timeStamp;
     private $rate;
