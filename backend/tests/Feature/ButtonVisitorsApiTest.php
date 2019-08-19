@@ -61,7 +61,7 @@ class ButtonVisitorsApiTest extends TestCase
         ];
         $expectedData = [
             'data' => [
-                    'value'=> '4'
+                'value' => '4'
             ],
             'meta' => []
         ];

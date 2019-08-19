@@ -6,7 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class ChangeVisitorsTableAddLastActivity extends Migration
 {
-
     public function up()
     {
         Schema::table('visitors', function (Blueprint $table) {
