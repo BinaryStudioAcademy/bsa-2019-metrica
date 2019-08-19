@@ -1,12 +1,13 @@
 <template>
-    <VFlex
-        lg6
-        md6
-        sm12
-        xs12
-        class="ml-12 mt-8"
+    <VContainer
+        class="content-with-padding"
     >
-        <VContainer>
+        <VFlex
+            lg6
+            md6
+            sm12
+            xs12
+        >
             <VForm
                 ref="form"
             >
@@ -70,8 +71,8 @@
                     <TrackWebsite :tracking-number="currentWebsite.tracking_number" />
                 </div>
             </div>
-        </VContainer>
-    </VFlex>
+        </VFlex>
+    </VContainer>
 </template>
 
 <script>

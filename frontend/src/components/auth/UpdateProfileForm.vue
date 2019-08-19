@@ -1,12 +1,13 @@
 <template>
-    <VFlex
-        lg6
-        md6
-        sm12
-        xs12
-        class="ml-12 mt-11"
+    <VContainer
+        class="content-with-padding"
     >
-        <VContainer>
+        <VFlex
+            lg6
+            md6
+            sm12
+            xs12
+        >
             <VSubheader class="body-1 grey--text text--darken-1 pa-0">
                 Profile
             </VSubheader>
@@ -69,8 +70,8 @@
             >
                 Save
             </VBtn>
-        </VContainer>
-    </VFlex>
+        </VFlex>
+    </VContainer>
 </template>
 
 <script>

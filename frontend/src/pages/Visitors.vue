@@ -1,7 +1,7 @@
 <template>
     <VContainer
         fluid
-        class="content-container"
+        class="content-with-padding"
     >
         <VLayout
             wrap
@@ -128,8 +128,5 @@
     }
     .chart-container {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
-    }
-    .content-container {
-        padding: 70px 66px 0 80px;
     }
 </style>

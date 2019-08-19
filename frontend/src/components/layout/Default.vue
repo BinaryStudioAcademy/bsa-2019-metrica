@@ -1,10 +1,12 @@
 <template>
-    <VContainer class="content-container">
+    <VContainer
+        class="content-with-padding"
+    >
         <h5>{{ title }}</h5>
         <VImg
             :src="require('@/assets/running_man.jpg')"
             width="50%"
-            height="50%"
+            height="60%"
         />
     </VContainer>
 </template>
@@ -19,10 +21,4 @@
         }
     };
 </script>
-
-<style scoped>
-    .content-container {
-        padding: 70px 66px 0 80px;
-    }
-</style>
 

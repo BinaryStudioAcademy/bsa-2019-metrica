@@ -102,7 +102,7 @@
 
     .form-wrapper{
         padding-top: 40px;
-        height: 100vh;
+        height: 100%;
         background: #F2F2F2;
     }
 </style>
