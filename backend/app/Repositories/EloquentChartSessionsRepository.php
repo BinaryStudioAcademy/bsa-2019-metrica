@@ -31,13 +31,13 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
 
     public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
-        $subQuery = "SELECT s.*, (" . $this->roundDate('s.created_at', $interval) . ") as date " .
+        $subQuery = "SELECT s.*, (" . $this->roundDate('s.start_session', $interval) . ") as date " .
             "FROM sessions AS s WHERE s.website_id = " . "$websiteId ".
-            "AND " . $this->toTimestamp('s.created_at') . " >= :start_date" .
+            "AND " . $this->toTimestamp('s.start_session') . " >= :start_date" .
             " AND " .
-            $this->toTimestamp('s.created_at') . " <= :end_date";
+            $this->toTimestamp('s.start_session') . " <= :end_date";
 
-        $query = DB::raw("SELECT COUNT(*) as count, date FROM ($subQuery) AS periods GROUP BY date");
+        $query = DB::raw("SELECT COUNT(*) as sessions, date FROM ($subQuery) AS periods GROUP BY date");
 
         $result =  DB::select((string)$query, [
             'start_date' => $filterData->getStartDate()->getTimestamp(),
@@ -45,7 +45,7 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
         ]);
 
         return collect($result)->map(function ($item) {
-            return new ChartSessions($item->date, $item->count);
+            return new ChartSessions($item->date, $item->sessions);
         });
     }
 }
