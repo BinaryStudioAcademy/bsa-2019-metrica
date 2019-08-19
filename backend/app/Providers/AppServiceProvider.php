@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Repositories\Contracts\ChartVisitorsRepository;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\TableVisitorsRepository;
+use App\Repositories\Contracts\TableSessionRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\ChartVisitRepository;
@@ -13,6 +14,7 @@ use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentChartVisitorsRepository;
 use App\Repositories\EloquentSessionRepository;
 use App\Repositories\EloquentTableVisitorsRepository;
+use App\Repositories\EloquentTableSessionRepository;
 use App\Repositories\EloquentUserRepository;
 use App\Repositories\EloquentVisitorRepository;
 use App\Repositories\EloquentChartVisitRepository;
@@ -46,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ChartSessionsRepository::class, EloquentChartSessionsRepository::class);
 
         $this->app->bind(ChartVisitorsRepository::class, EloquentChartVisitorsRepository::class);
+
+        $this->app->bind(TableSessionRepository::class, EloquentTableSessionRepository::class);
     }
 
     /**

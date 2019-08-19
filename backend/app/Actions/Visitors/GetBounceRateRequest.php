@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace App\Actions\Visitors;
 
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
-use Carbon\Carbon;
+use App\Utils\DatePeriod;
 
 final class GetBounceRateRequest
 {
-    private $startDate;
-    private $endDate;
+    private $period;
 
     private function __construct(string $startDate, string $endDate)
     {
-        $this->startDate = Carbon::createFromTimestamp($startDate)->toDateString();
-        $this->endDate = Carbon::createFromTimestamp($endDate)->toDateString();
+        $this->period = DatePeriod::createFromTimestamp($startDate, $endDate);
     }
 
     public static function fromRequest(GetBounceRateHttpRequest $request): self
@@ -23,13 +21,8 @@ final class GetBounceRateRequest
         return new static($request->startDate(), $request->endDate());
     }
 
-    public function startDate(): string
+    public function period(): DatePeriod
     {
-        return $this->startDate;
-    }
-
-    public function endDate(): string
-    {
-        return $this->endDate;
+        return $this->period;
     }
 }
