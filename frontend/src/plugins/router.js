@@ -14,6 +14,8 @@ import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInf
 import WebsiteInfo from '../pages/WebsiteInfo.vue';
 import WebsiteGuard from '@/components/website/WebsiteGuard.vue';
 import Default from '@/components/layout/Default.vue';
+import UserDataProviderPage from '../pages/UserDataProviderPage.vue';
+import store from '../store';
 
 Vue.use(Router);
 
@@ -22,142 +24,183 @@ export default new Router({
     base: '/',
     routes: [
         {
-            path: '',
-            redirect: { name: 'home' }
-        },
-        {
-            path: '/login',
-            name: 'login',
-            component: Login
-        },
-        {
-            path: '/reset-password',
-            name: 'reset-password',
-            component: ResetPassword
-        },
-        {
-            path: '',
-            component: LoginGuard,
+            path:'',
+            component: UserDataProviderPage,
             children: [
                 {
-                    path: 'dashboard',
-                    name: 'dashboard',
-                    component: Default,
-                    meta: {
-                        title: 'Dashboard'
-                    },
+                    path: '',
+                    redirect: { name: 'home' }
                 },
                 {
-                    path: 'visitors',
-                    component: Visitors,
+                    path: '/home',
+                    name: 'home',
+                    component: Home,
+                    beforeEnter: (to,from,next) => {
+                        if(store.state.currentUser) {
+                            next({
+                                path: '/dashboard'
+                            });
+                        } else {
+                            next();
+                        }
+                    }
+                },
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: Login,
+                    beforeEnter: (to,from,next) => {
+                        if(store.state.currentUser) {
+                            next({
+                                path: '/dashboard'
+                            });
+                        } else {
+                            next();
+                        }
+                    }
+                },
+                {
+                    path: '/signup',
+                    name: 'signup',
+                    component: SignUp,
+                    beforeEnter: (to,from,next) => {
+                        if(store.state.currentUser) {
+                            next(false);
+                        } else {
+                            next();
+                        }
+                    }
+                },
+                {
+                    path: '/reset-password',
+                    name: 'reset-password',
+                    component: ResetPassword,
+                    beforeEnter: (to,from,next) => {
+                        if(store.state.currentUser) {
+                            next({
+                                path: '/dashboard'
+                            });
+                        } else {
+                            next();
+                        }
+                    }
+                },
+                {
+                    path: '',
+                    component: LoginGuard,
                     children: [
                         {
-                            path: 'main',
-                            name: 'visitors',
+                            path: 'dashboard',
+                            name: 'dashboard',
+                            component: Default,
                             meta: {
-                                title: 'Visitors'
+                                title: 'Dashboard'
                             },
                         },
                         {
-                            path: 'page-views',
-                            name: 'page-views',
-                            meta: {
-                                title: 'Page views'
-                            },
-                        },
-                        {
-                            path: 'geo-locations',
-                            name: 'geo-locations',
-                            meta: {
-                                title: 'Geo locations'
-                            },
-                        },
-                    ]
-                },
-                {
-                    path: 'user-settings',
-                    name: 'user-update',
-                    component: UserUpdate
-                },
-                {
-                    path: 'settings',
-                    name: 'settings',
-                    component: Visitors
-                },
-                {
-                    path: 'behaviour',
-                    name: 'behaviour',
-                    component: Default,
-                    meta: {
-                        title: 'Behaviour'
-                    },
-                },
-                {
-                    path: 'speedoverview',
-                    name: 'speedoverview',
-                    component: Default,
-                    meta: {
-                        title: 'Speedoverview'
-                    },
-                },
-                {
-                    path: 'website',
-                    component: WebsiteGuard,
-                    children: [
-                        {
-                            path: 'info',
-                            name: 'websiteinfo',
-                            component: WebsiteInfo
-                        },
-                        {
-                            path: 'add',
-                            component: AddWebsitePage,
+                            path: 'visitors',
+                            component: Visitors,
                             children: [
                                 {
-                                    path: '',
-                                    name: 'add_website',
-                                    redirect: { name: 'add_websites_step_1' },
-                                },
-                                {
-                                    path: 'step-1',
-                                    name: 'add_websites_step_1',
-                                    component: StepAddName,
+                                    path: 'main',
+                                    name: 'visitors',
                                     meta: {
-                                        step: 1
-                                    },
-                                    props: true,
-                                },
-                                {
-                                    path: 'step-2',
-                                    name: 'add_websites_step_2',
-                                    component: StepAddDomain,
-                                    meta: {
-                                        step: 2
+                                        title: 'Visitors'
                                     },
                                 },
                                 {
-                                    path: 'step-3',
-                                    name: 'add_websites_step_3',
-                                    component: StepTrackingInfo,
+                                    path: 'page-views',
+                                    name: 'page-views',
                                     meta: {
-                                        step: 3
-                                    }
-                                }
+                                        title: 'Page views'
+                                    },
+                                },
+                                {
+                                    path: 'geo-locations',
+                                    name: 'geo-locations',
+                                    meta: {
+                                        title: 'Geo locations'
+                                    },
+                                },
                             ]
                         },
+                        {
+                            path: 'user-settings',
+                            name: 'user-update',
+                            component: UserUpdate
+                        },
+                        {
+                            path: 'settings',
+                            name: 'settings',
+                            component: Visitors
+                        },
+                        {
+                            path: 'behaviour',
+                            name: 'behaviour',
+                            component: Default,
+                            meta: {
+                                title: 'Behaviour'
+                            },
+                        },
+                        {
+                            path: 'speedoverview',
+                            name: 'speedoverview',
+                            component: Default,
+                            meta: {
+                                title: 'Speedoverview'
+                            },
+                        },
+                        {
+                            path: 'website',
+                            component: WebsiteGuard,
+                            children: [
+                                {
+                                    path: 'info',
+                                    name: 'websiteinfo',
+                                    component: WebsiteInfo
+                                },
+                                {
+                                    path: 'add',
+                                    component: AddWebsitePage,
+                                    children: [
+                                        {
+                                            path: '',
+                                            name: 'add_website',
+                                            redirect: { name: 'add_websites_step_1' },
+                                        },
+                                        {
+                                            path: 'step-1',
+                                            name: 'add_websites_step_1',
+                                            component: StepAddName,
+                                            meta: {
+                                                step: 1
+                                            },
+                                            props: true,
+                                        },
+                                        {
+                                            path: 'step-2',
+                                            name: 'add_websites_step_2',
+                                            component: StepAddDomain,
+                                            meta: {
+                                                step: 2
+                                            },
+                                        },
+                                        {
+                                            path: 'step-3',
+                                            name: 'add_websites_step_3',
+                                            component: StepTrackingInfo,
+                                            meta: {
+                                                step: 3
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
                     ]
-                },
+                }
             ]
         },
-        {
-            path: '/signup',
-            name: 'signup',
-            component: SignUp
-        },
-        {
-            path: '/home',
-            name: 'home',
-            component: Home
-        }
+
     ]
 });

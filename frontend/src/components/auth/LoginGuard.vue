@@ -1,42 +1,26 @@
 <template>
-    <Spinner v-if="isLoading" />
-    <UserLayout v-else-if="isLogged" />
-    <LoginForm v-else />
+    <UserLayout v-if="isLogged" />
+    <Login v-else />
 </template>
 
 <script>
-    import {mapGetters, mapActions} from "vuex";
+    import {mapGetters} from "vuex";
     import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
-    import LoginForm from "./LoginForm.vue";
+    import Login from "../../pages/Login.vue";
     import UserLayout from "@/components/layout/UserLayout.vue";
-    import Spinner from "../utilites/Spinner";
-    import {FETCH_CURRENT_USER} from "@/store/modules/auth/types/actions";
 
     export default {
         components: {
-            LoginForm,
-            UserLayout,
-            Spinner
+            Login,
+            UserLayout
         },
         data() {
-            return {
-                isLoading: true
-            };
+            return {};
         },
         computed: {
             ...mapGetters('auth', {
                 isLogged: IS_LOGGED_IN,
             })
-        },
-        methods: {
-            ...mapActions('auth', {
-                fetchUserInfo: FETCH_CURRENT_USER
-            })
-        },
-        mounted() {
-            this.fetchUserInfo().then(() => {
-                this.isLoading = false;
-            });
         }
     };
 </script>
