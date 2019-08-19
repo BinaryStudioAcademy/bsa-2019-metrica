@@ -70,14 +70,14 @@ class MergeBrowsersOsDevicesIntoSystems extends Migration
         });
 
         Schema::table('sessions', function (Blueprint $table) {
-            $table->unsignedBigInteger('device_id');
+            $table->unsignedBigInteger('device_id')->nullable();
             $table->foreign('device_id')
                 ->references('id')
                 ->on('devices');
         });
 
         Schema::table('visits', function (Blueprint $table) {
-            $table->unsignedBigInteger('device_id');
+            $table->unsignedBigInteger('device_id')->nullable();
             $table->foreign('device_id')
                 ->references('id')
                 ->on('devices');
