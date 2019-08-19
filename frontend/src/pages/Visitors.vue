@@ -50,6 +50,18 @@
             >
                 <UserTable />
             </VFlex>
+            <VFlex
+                lg5
+                md5
+                hidden-sm-and-down
+                height="100%"
+                class="img-card"
+            >
+                <VSubheader class="body-1 grey--text text--darken-1 pa-0">
+                    Summary
+                </VSubheader>
+                <PieChart :data="pieData" />
+            </VFlex>
         </VLayout>
     </VContainer>
 </template>
@@ -58,9 +70,11 @@
     import LineChart from "../components/common/LineChart";
     import UserTable from "../components/dashboard/visitors/UsersTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
+    import PieChart from "../components/common/PieChart";
 
     export default {
         components: {
+            PieChart,
             LineChart,
             UserTable,
             ButtonComponent
@@ -99,7 +113,10 @@
                         title: 'Bounce rate',
                         character: '41%'
                     },
-                ]
+                ],
+                pieData: [
+                    ['Type', 'Value']
+                ],
             };
         },
         computed: {
@@ -117,6 +134,10 @@
                 };
                 this.data.push(item);
             }
+            this.pieData.push(
+                ['New Visitors', 41],
+                ['Return Visitors', 59],
+            );
         }
     };
 </script>
