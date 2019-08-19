@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 final class Session extends Model
@@ -23,8 +24,6 @@ final class Session extends Model
         'system_id',
     ];
 
-    protected $with = ['visitor', 'page', 'system'];
-
     protected $dates = ['start_session', 'end_session'];
 
     public function visitor(): BelongsTo
@@ -34,7 +33,7 @@ final class Session extends Model
 
     public function page(): BelongsTo
     {
-        return $this->belongsTo(Page::class);
+        return $this->belongsTo(Page::class, 'entrance_page_id');
     }
 
     public function system(): BelongsTo
@@ -47,6 +46,11 @@ final class Session extends Model
         return $this->hasMany(Visit::class);
     }
 
+    public function visit(): HasOne
+    {
+        return $this->hasOne(Visit::class);
+    }
+
     public function scopeInactive(Builder $query, DateTime $date): Builder
     {
         return $query->where('updated_at', '<', Carbon::instance($date)->subMinutes(30)->toDateTimeString());
@@ -55,6 +59,13 @@ final class Session extends Model
     public function scopeWhereDateBetween(Builder $query, DatePeriod $datePeriod): Builder
     {
         return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
+    }
+
+    public function scopeForWebsite(Builder $query, int $website_id): Builder
+    {
+        return $query->whereHas('page', function($query) use ($website_id) {
+            $query->where('website_id', $website_id);
+        });
     }
 
     public function scopeAvgSessionTime(Builder $query): Builder

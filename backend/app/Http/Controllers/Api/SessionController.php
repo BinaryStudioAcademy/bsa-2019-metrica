@@ -15,10 +15,14 @@ use App\Http\Resources\CountSessions;
 use App\Http\Requests\Api\CountSessionsHttpRequest;
 use App\Actions\Sessions\CountSessionsAction;
 use App\Actions\Sessions\CountSessionsRequest;
+use App\Actions\Sessions\GetSessionsByParameterAction;
+use App\Actions\Sessions\GetSessionsByParameterRequest;
+use App\Http\Requests\Api\GetSessionsByParameterHttpRequest;
 use App\Http\Resources\AvgSession;
 use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
 use App\Http\Requests\Api\GetAvgSessionHttpRequest;
 use App\Http\Resources\TableSessionResource;
+use App\Http\Resources\TableResource;
 use App\Http\Resources\SessionResourceCollection;
 
 final class SessionController extends Controller
@@ -27,17 +31,20 @@ final class SessionController extends Controller
     private $countSessionsAction;
     private $getAvgSessionAction;
     private $getAvgSessionTimeByParameterAction;
+    private $getSessionsByParameterAction;
 
     public function __construct(
         GetAllSessionsAction $getAllSessionsAction,
         CountSessionsAction $countSessionsAction,
         GetAvgSessionAction $getAvgSessionAction,
-        GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction
+        GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction,
+        GetSessionsByParameterAction $getSessionsByParameterAction
     ) {
         $this->getAllSessionsAction = $getAllSessionsAction;
         $this->countSessionsAction = $countSessionsAction;
         $this->getAvgSessionAction = $getAvgSessionAction;
         $this->getAvgSessionTimeByParameterAction = $getAvgSessionTimeByParameterAction;
+        $this->getSessionsByParameterAction = $getSessionsByParameterAction;
     }
 
     public function getAllSessions(): ApiResponse
@@ -71,5 +78,17 @@ final class SessionController extends Controller
         );
 
         return ApiResponse::success(new TableSessionResource($response->tableSessionCollection()));
+    }
+
+    public function getSessionsByParameter(
+        GetSessionsByParameterHttpRequest $request
+    ) {
+        $response = $this->getSessionsByParameterAction->execute(
+            GetSessionsByParameterRequest::fromRequest($request)
+        );
+
+        return ApiResponse::success(
+            new TableResource($response->getSessionsByParameter())
+        );
     }
 }
