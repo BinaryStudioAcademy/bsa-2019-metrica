@@ -25,7 +25,9 @@ class VisitorsApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class, 1)->create();
+        factory(Website::class, 1)->create(
+            ['user_id' => $this->user->id]
+        );
         factory(Page::class, 1)->create();
         factory(System::class, 1)->create();
         factory(GeoPosition::class, 1)->create();
@@ -87,6 +89,40 @@ class VisitorsApiTest extends TestCase
         $this->actingAs($this->user)
             ->call('GET', 'api/v1/visitors/new/count', $filterData)
             //->assertStatus(200)
+            ->assertJson($expectedData);
+    }
+
+    public function testBounceRateByTimeFrameAction()
+    {
+        $from = 1566230940;
+
+        $this->initDataForBounceRateByTimeFrame(Carbon::createFromTimestamp($from));
+        $endpoint = 'api/v1/visitors/bounce-rate';
+        $oneDayInSecond = 60*60*24;
+        $timeFrame = $oneDayInSecond*10;
+
+        $filterData = [
+            'filter' => [
+                'startDate' => $from - $oneDayInSecond,
+                'endDate' => $from + $oneDayInSecond,
+                'timeFrame' => $timeFrame,
+            ]
+        ];
+
+        $timeFrameX = $from - ($from%$timeFrame);
+        $expectedData = [
+            'data' => [
+                [
+                    'date' => $timeFrameX,
+                    'value' => 0.1,
+                ]
+            ],
+            'meta' => [],
+        ];
+
+        $this->actingAs($this->user)
+            ->call('GET', $endpoint, $filterData)
+            ->assertStatus(200)
             ->assertJson($expectedData);
     }
 
@@ -224,5 +260,42 @@ class VisitorsApiTest extends TestCase
                 'updated_at' => Carbon::create(2019)
             ],
         ];
+    }
+
+    private function initDataForBounceRateByTimeFrame(DateTime $date)
+    {
+        factory(Visitor::class, 9)->create([
+            'created_at' => $date
+        ])->each(function (Visitor $visitor) {
+            $visitor->sessions()->saveMany(
+                factory(Session::class)
+                    ->create([
+                        'start_session' => new Carbon(),
+                        'visitor_id' => $visitor->id
+                    ])
+                    ->visits()->saveMany(
+                        factory(Visit::class, 2)->make([
+                            'visitor_id' => $visitor->id
+                        ])
+                    )
+            );
+        });
+
+        factory(Visitor::class, 1)->create([
+            'created_at' => $date
+        ])->each(function (Visitor $visitor) {
+            $visitor->sessions()->saveMany(
+                factory(Session::class)
+                    ->create([
+                        'start_session' => new Carbon(),
+                        'visitor_id' => $visitor->id
+                    ])
+                    ->visits()->saveMany(
+                        factory(Visit::class, 1)->make([
+                            'visitor_id' => $visitor->id
+                        ])
+                    )
+            );
+        });
     }
 }
