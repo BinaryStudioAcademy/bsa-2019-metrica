@@ -7,7 +7,7 @@ namespace App\Http\Resources;
 use App\Contracts\ApiResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class ChartTotalVisitorsResource extends JsonResource implements  ApiResponse
+final class ChartTotalVisitorsResource extends JsonResource implements ApiResponse
 {
     public function toArray($request): array
     {

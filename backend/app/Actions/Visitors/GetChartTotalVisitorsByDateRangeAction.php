@@ -31,6 +31,5 @@ final class GetChartTotalVisitorsByDateRangeAction
         );
 
         return new GetChartTotalVisitorsByDateRangeResponse($response);
-
     }
 }
