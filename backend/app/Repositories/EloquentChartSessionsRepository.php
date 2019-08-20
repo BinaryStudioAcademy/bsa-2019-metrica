@@ -48,13 +48,12 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
         'start_date' => $filterData->getStartDate()->getTimestamp(),
         'end_date' => $filterData->getEndDate()->getTimestamp(),
         ]);
-        dd($result);
+//        dd($result);
         return collect($result)->map(function ($item) {
             return array(
-                $item->date,
                 $item->start_session,
                 $item->end_session,
-                $item->website_id
+                $item->website_id,
             );
         });
 
