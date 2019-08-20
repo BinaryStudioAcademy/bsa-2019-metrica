@@ -62,7 +62,6 @@
                 valid: false,
                 nameRules: [
                     v => !!v || 'Website name is required',
-                    v => (v && v.length >= 8) || 'Website name must be correct. Name must be at least 8 characters.'
                 ],
             };
         },
