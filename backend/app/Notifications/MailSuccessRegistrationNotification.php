@@ -13,10 +13,12 @@ class MailSuccessRegistrationNotification extends Notification implements Should
     use Queueable;
 
     private $user;
+    private $token;
 
-    public function __construct(User $user)
+    public function __construct(User $user, string $token)
     {
         $this->user = $user;
+        $this->token = $token;
     }
 
     /**
@@ -38,15 +40,14 @@ class MailSuccessRegistrationNotification extends Notification implements Should
      */
     public function toMail($notifiable)
     {
-        $link = url('/reset-password');
+        $link = url("/signup/verify-email/token/{$this->token}");
         return (new MailMessage)
             ->subject('Confirmation of registration')
             ->line("Dear {$this->user->name},")
-            ->line("Thank you for registering to Metrica service. Your registration was successful.")
-            ->line("You registered with this email: {$this->user->email}.")
-            ->line("If you forgot your password, simply hit Forgot password and you'll be prompted to reset it.  ")
-            ->action('Forgot password', $link)
-            ->line("If you have any questions, feel free to reply to this email.");
+            ->line("Thanks for getting started with Metrica. We need a little more information to complete your
+            registration, including confirmation of your email address. Click below to confirm your email address.")
+            ->action('Verify your account', $link)
+            ->salutation("Thanks, Metrica Support");
     }
 
 

@@ -41,9 +41,9 @@ final class User extends Authenticatable implements JWTSubject
         $this->notify(new MailResetPasswordNotification($token));
     }
 
-    public function sendSuccessRegistrationNotification($user)
+    public function sendSuccessRegistrationNotification(User $user, string $token)
     {
-        $this->notify(new MailSuccessRegistrationNotification($user));
+        $this->notify(new MailSuccessRegistrationNotification($user, $token));
     }
 
     public function website()

@@ -8,9 +8,9 @@ final class RegisterResponse
 {
     private $token;
 
-    public function __construct(string $token)
+    public function __construct()
     {
-        $this->token = $token;
+        $this->token = 'succeess';
     }
 
     public function getToken(): string

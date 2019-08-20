@@ -27,7 +27,7 @@ final class RegisterAction
         $this->userRepository->save($user);
         $token = JWTAuth::fromUser($user);
 
-        $user->sendSuccessRegistrationNotification($user);
-        return new RegisterResponse($token);
+        $user->sendSuccessRegistrationNotification($user,$token);
+        return new RegisterResponse();
     }
 }
