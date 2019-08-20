@@ -8,7 +8,11 @@
 
     export default {
         beforeRouteEnter(to,from,next) {
-            store.dispatch(`auth/${FETCH_CURRENT_USER}`).finally(() => next());
+            if(!store.state.auth.CurrentUser) {
+                store.dispatch(`auth/${FETCH_CURRENT_USER}`).finally(() => next());
+            } else {
+                next();
+            }
         }
     };
 </script>

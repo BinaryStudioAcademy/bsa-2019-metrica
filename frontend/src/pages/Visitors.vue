@@ -59,8 +59,10 @@
     import LineChart from "../components/common/LineChart";
     import UserTable from "../components/dashboard/visitors/UsersTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
+    import {isWebsite} from '../mixins/isWebsite';
 
     export default {
+        mixins: [isWebsite],
         components: {
             LineChart,
             UserTable,

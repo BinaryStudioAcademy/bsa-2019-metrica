@@ -49,8 +49,10 @@
     import {IS_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
     import Spinner from "@/components/utilites/Spinner";
     import LoginForm from '@/components/auth/LoginForm.vue';
+    import {isCurrentUser} from '../mixins/isCurrentUser';
 
     export default {
+        mixins: [isCurrentUser],
         components: {
             LoginForm,
             Spinner

@@ -1,21 +1,18 @@
 <template>
     <UserLayout v-if="isLogged" />
-    <Login v-else />
+    <LoginForm v-else />
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import {IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
-    import Login from "../../pages/Login.vue";
+    import LoginForm from "./LoginForm.vue";
     import UserLayout from "@/components/layout/UserLayout.vue";
 
     export default {
         components: {
-            Login,
+            LoginForm,
             UserLayout
-        },
-        data() {
-            return {};
         },
         computed: {
             ...mapGetters('auth', {
