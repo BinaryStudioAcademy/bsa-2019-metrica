@@ -39,7 +39,7 @@
                 <div class="inline-element mb-7">
                     <label>SPA</label>
                     <VSwitch
-                        :value="currentWebsite.single_page"
+                        :input-value="currentWebsite.single_page"
                         readonly
                         color="#3C57DE"
                         inset
@@ -90,7 +90,6 @@
             showSuccessMessage: '',
             nameRules: [
                 v => !!v || 'Website name is required',
-                v => (v && v.length >= 8) || 'Website name must be correct. Name must be at least 8 characters.'
             ],
             localWebsite: {
                 websiteName: undefined
