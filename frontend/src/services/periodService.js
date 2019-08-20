@@ -5,11 +5,11 @@ const PERIOD_LAST_MONTH = 'last_month';
 const PERIOD_LAST_QUARTAL = 'last_quartal';
 const PERIOD_ALL = 'all_period';
 
-export const DAYS_IN_WEEK = 7;
-export const HOURS_IN_DAY = 24;
-export const MINUTES_IN_HOUR = 60;
-export const SECONDS_IN_MINUTE = 60;
-export const MILLISECONDS = 1000;
+const DAYS_IN_WEEK = 7;
+const HOURS_IN_DAY = 24;
+const MINUTES_IN_HOUR = 60;
+const SECONDS_IN_MINUTE = 60;
+const MILLISECONDS = 1000;
 
 const createTime = (interval, startDate, endDate) => {
     return {
