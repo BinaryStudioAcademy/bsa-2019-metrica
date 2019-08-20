@@ -11,6 +11,22 @@ export const MINUTES_IN_HOUR = 60;
 export const SECONDS_IN_MINUTE = 60;
 export const MILLISECONDS = 1000;
 
+const createTime = (interval, startDate, endDate) => {
+    return {
+        interval,
+        startDate,
+        endDate
+    };
+};
+
+const timestampToDate = timestamp => new Date(timestamp);
+
+const substructMonth = monthCount => {
+    let d = new Date();
+    d.setUTCMonth(d.getUTCMonth() - monthCount);
+    return d.getUTCMonth();
+};
+
 const getTimeByPeriod = (period) => {
 
     let now = new Date();
@@ -52,24 +68,8 @@ const getTimeByPeriod = (period) => {
     }
 };
 
-const createTime = (interval, startDate, endDate) => {
-    return {
-        interval,
-        startDate,
-        endDate
-    };
-};
-
-const timestampToDate = timestamp => new Date(timestamp);
-
 const periodService = {
     getTimeByPeriod
-};
-
-const substructMonth = monthCount => {
-    let d = new Date();
-    d.setUTCMonth(d.getUTCMonth() - monthCount);
-    return d.getUTCMonth();
 };
 
 export default periodService;
