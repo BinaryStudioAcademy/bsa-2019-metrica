@@ -1,11 +1,27 @@
-import {LOGIN, LOGOUT, SIGN_UP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
+import {
+    LOGIN,
+    LOGOUT,
+    SIGN_UP,
+    RESET_PASSWORD,
+    UPDATE_USER,
+    FETCH_CURRENT_USER,
+    SOCIAL_REDIRECT,
+    SOCIAL_LOGIN,
+} from './types/actions';
 import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
     USER_LOGOUT,
 } from "./types/mutations";
 import {updateUser} from '@/api/users';
-import {authorize, getAuthUser, registerUser, resetPassword} from '@/api/auth';
+import {
+    authorize,
+    getAuthUser,
+    registerUser,
+    resetPassword,
+    getSocialRedirectUrl,
+    socialLogin
+} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
 import _ from 'lodash';
 
@@ -74,6 +90,19 @@ export default {
         }).catch(() => {
             context.commit(USER_LOGOUT);
         });
+    },
+
+    [SOCIAL_LOGIN]: (context, provider) => {
+        return socialLogin({ provider })
+            .then(response => {
+                context.commit(USER_LOGIN, response.data);
+                context.dispatch(FETCH_CURRENT_USER);
+            });
+    },
+
+    [SOCIAL_REDIRECT]: (context, provider) => {
+        return getSocialRedirectUrl({ provider })
+            .then(response => response.data.url);
     },
 
 };
