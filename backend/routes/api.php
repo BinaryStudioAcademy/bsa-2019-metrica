@@ -41,12 +41,15 @@ Route::prefix('v1')->group(function () {
             Route::post('/', 'WebsiteController@add');
             Route::put('/{id}', 'WebsiteController@update');
         });
+
         Route::group([
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
+            Route::get('/by-table', 'VisitorController@getVisitorsByParameter');
             Route::get('/new', 'VisitorController@getNewVisitors');
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
+            Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
         });
 
@@ -54,12 +57,26 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
+            Route::get('/count', 'SessionController@getCountOfSessions');
+            Route::get('/average', 'SessionController@getAverageSession');
         });
 
         Route::group([
-           'prefix' => 'visits'
+            'prefix' => 'table-sessions'
+        ], function () {
+            Route::get('/avg-session-time', 'SessionController@getAvgSessionTimeByParameter');
+        });
+
+        Route::group([
+           'prefix' => 'chart-visits'
         ], function() {
             Route::get('/', 'VisitController@getPageViews');
+        });
+
+        Route::group([
+            'prefix'=>'chart-new-visitors'
+        ], function () {
+            Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
     });
 });

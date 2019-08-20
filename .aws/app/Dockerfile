@@ -1,4 +1,4 @@
-FROM 918681676479.dkr.ecr.eu-central-1.amazonaws.com/php-fpm:latest
+FROM lenchv/metrica-php-fpm:latest
 
 WORKDIR /app
 
