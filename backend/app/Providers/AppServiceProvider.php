@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ChartVisitorRepository;
 use App\Repositories\Contracts\ChartVisitorsRepository;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\TableVisitorsRepository;
