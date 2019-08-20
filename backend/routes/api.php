@@ -51,8 +51,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
             Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
-            Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
-            Route::get('/by-table/new', 'VisitorController@getNewVisitorsForTableByParameter');
+            Route::get('/new-visitors-table', 'VisitorController@getNewVisitorsForTableByParameter');
         });
 
         Route::group([
