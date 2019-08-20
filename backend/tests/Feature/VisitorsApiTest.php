@@ -108,18 +108,17 @@ class VisitorsApiTest extends TestCase
             ]
         ];
 
-        $visitor1 = factory(Visitor::class)->create([
+        factory(Visitor::class)->create([
             'created_at' => new DateTime('2019-08-20 05:30:00')
         ]);
         
-        $visitorOneVisit1 = $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 1);
-        $visitorTwoVisits1 = $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 2);
-        $visitorOneVisit2 = $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 1);
-        $visitorTwoVisits2 = $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
-        $visitorTwoVisits3 = $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
-        $visitorTwoVisits4 = $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
-
-        $visitor4 = factory(Visitor::class)->create([
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 1);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 2);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 1);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
+        factory(Visitor::class)->create([
             'created_at' => new DateTime('2019-08-20 08:30:00')
         ]);
 
