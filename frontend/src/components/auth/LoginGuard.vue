@@ -11,7 +11,7 @@
                 next({
                     name: "login",
                     params: {
-                        redirectTo: to}
+                        redirectTo: to.path}
                 });
             } else {
                 next();
