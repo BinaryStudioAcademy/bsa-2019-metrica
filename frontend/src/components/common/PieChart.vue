@@ -72,7 +72,6 @@
             data: {
                 type: Array,
                 required: true,
-                default: () => []
             },
             pieHole: {
                 type: Number,
@@ -81,7 +80,6 @@
             legend: {
                 type: Object,
                 required: true,
-                default: () => [],
             }
         },
         data() {

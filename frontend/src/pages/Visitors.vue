@@ -116,7 +116,9 @@
                     },
                 ],
                 pieData: [
-                    ['Type', 'Value']
+                    ['Type', 'Value'],
+                    ['New Visitors', 41],
+                    ['Return Visitors', 59],
                 ],
                 legend: {
                     title: 'Outcome',
@@ -150,10 +152,6 @@
                 };
                 this.data.push(item);
             }
-            this.pieData.push(
-                ['New Visitors', 41],
-                ['Return Visitors', 59],
-            );
         }
     };
 </script>
