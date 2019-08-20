@@ -32,29 +32,30 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
 
     public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
+//        , (" . $this->roundDate('s.start_session', $interval) . ") as date " .
+        $subQuery = "SELECT s.*, (" . $this->roundDate('s.start_session', $interval) . ") as date " .
+        "FROM sessions AS s ".
+        "WHERE " .
+            "s.website_id = " . "$websiteId AND " .
+            $this->toTimestamp('s.start_session') . " >= :start_date OR " .
+            $this->toTimestamp('s.start_session') . " < :start_date AND " .
+            $this->toTimestamp('s.start_session') . " <= :end_date";
 
-         $subQuery = "SELECT s.*, (" . $this->roundDate('s.start_session', $interval) . ") as date " .
-             "FROM sessions AS s ".
-             "WHERE " .
-                 "s.website_id = " . "$websiteId AND " .
-             $this->toTimestamp('s.start_session') . " >= :start_date AND " .
-             $this->toTimestamp('s.start_session') . " <= :end_date OR ".
-             $this->toTimestamp('s.start_session') . " < :start_date AND " .
-             $this->toTimestamp('s.end_session') . " > :start_date"
-//                 $this->toTimestamp('s.start_session') . " >= :end_date AND " .
-//                 $this->toTimestamp('s.end_session') . " <= :end_date"
-         ;
-
-         $query = DB::raw("SELECT COUNT(*) as sessions, date FROM ($subQuery) AS periods GROUP BY date");
-
-         $result =  DB::select((string)$query, [
-             'start_date' => $filterData->getStartDate()->getTimestamp(),
-             'end_date' =>  $filterData->getEndDate()->getTimestamp(),
-         ]);
-
-         return collect($result)->map(function ($item) {
-             return new ChartSessions($item->date, $item->sessions);
-         });
+//        $query = DB::raw("SELECT COUNT(*) as sessions, date FROM ($subQuery) AS periods GROUP BY date");
+//        dd($subQuery);
+        $result = DB::select((string)$subQuery, [
+        'start_date' => $filterData->getStartDate()->getTimestamp(),
+        'end_date' => $filterData->getEndDate()->getTimestamp(),
+        ]);
+//        dd($result);
+        return collect($result)->map(function ($item) {
+            return array(
+                $item->date,
+                $item->start_session,
+                $item->end_session,
+                $item->website_id
+            );
+        });
 
 //        $result = Session::where('website_id', $websiteId)
 //            ->whereDateBetween($filterData)

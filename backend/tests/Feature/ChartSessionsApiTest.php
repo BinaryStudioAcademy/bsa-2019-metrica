@@ -65,8 +65,8 @@ class ChartSessionsApiTest extends TestCase
             'end_session' => new DateTime('2019-08-19 08:30:00')
         ]);
 
-        $startDate = new DateTime('2019-08-19 06:00:00');
-        $endDate = new DateTime('2019-08-19 08:00:00');
+        $startDate = new DateTime('2019-08-19 08:00:00');
+        $endDate = new DateTime('2019-08-19 09:00:00');
 
         $filterData = [
             'filter' => [
@@ -76,9 +76,9 @@ class ChartSessionsApiTest extends TestCase
             ]
         ];
 
-        $date1 = new DateTime('2019-08-19 06:00:00');
-        $date2 = new DateTime('2019-08-19 07:00:00');
-        $date3 = new DateTime('2019-08-19 08:00:00');
+        $date1 = new DateTime('2019-08-19 06:00:00'); //1566194400
+        $date2 = new DateTime('2019-08-19 07:00:00'); //1566198000
+        $date3 = new DateTime('2019-08-19 08:00:00'); //1566201600
 
         $expectedData = [
             'data' =>

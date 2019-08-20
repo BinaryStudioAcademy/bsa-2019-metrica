@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
+use App\DataTransformer\Sessions\ChartSessions;
 use App\Exceptions\AppInvalidArgumentException;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ChartSessionsRepository;
@@ -37,6 +38,45 @@ final class GetSessionsAction
             $interval,
             $websiteId
         );
+
+//        dd($data);
+
+        foreach ($data as $key => $value) {
+            $session = $data[$key][1];
+            dd($session);
+
+
+//            return collect($result)->map(function ($item) {
+//                return new ChartSessions($item->date, $item->sessions);
+        }
+
+
+//
+//        $result = Session::where('website_id', $websiteId)
+//            ->whereDateBetween($filterData)
+//            ->get()
+//            ->reduce(function ($hashTable, $item) use ($interval) {
+//                $startTimestamp = $item->start_session->getTimestamp();
+//                $endTimestamp = $item->end_session->getTimestamp();
+//                $startDate = $startTimestamp - ($startTimestamp % $interval) + $interval;
+//                dd($startDate);
+//                $endDate = $endTimestamp - ($endTimestamp % $interval) + $interval;
+//
+//                for ($offset = $endDate - $startDate; $offset > 0; $offset -= $interval) {
+//                    $position = $startDate + $offset;
+//
+//                    if (!isset($hashTable[$position]) || is_null($hashTable[$position])) {
+//                        $hashTable[$position] = 0;
+//                    }
+//
+//                    $hashTable[$position]++;
+//                }
+//
+//                return $hashTable;
+//            }, []);
+//
+//        return collect($result);
+
 
         return new GetSessionsResponse($data);
     }
