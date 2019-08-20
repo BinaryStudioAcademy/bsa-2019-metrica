@@ -23,8 +23,7 @@ final class VisitController extends Controller
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
         GetPageViewsCountAction $getPageViewsCountAction
-    )
-    {
+    ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
     }

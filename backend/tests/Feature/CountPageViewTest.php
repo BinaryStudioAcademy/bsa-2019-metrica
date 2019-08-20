@@ -35,8 +35,8 @@ class CountPageViewTest extends TestCase
     public function testCountPageViews()
     {
         $dateFilter = [
-            'startDate' => Carbon::parse( '2019-08-18 00:00:00')->timestamp,
-            'endDate' => Carbon::parse( '2019-08-20 00:00:00')->timestamp,
+            'startDate' => Carbon::parse('2019-08-18 00:00:00')->timestamp,
+            'endDate' => Carbon::parse('2019-08-20 00:00:00')->timestamp,
         ];
         $this->createVisits();
         $queryString = '?filter[startDate]='.$dateFilter['startDate'].
