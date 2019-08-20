@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
+use App\Notifications\MailSuccessRegistrationNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -38,6 +39,11 @@ final class User extends Authenticatable implements JWTSubject
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MailResetPasswordNotification($token));
+    }
+
+    public function sendSuccessRegistrationNotification($user)
+    {
+        $this->notify(new MailSuccessRegistrationNotification($user));
     }
 
     public function website()
