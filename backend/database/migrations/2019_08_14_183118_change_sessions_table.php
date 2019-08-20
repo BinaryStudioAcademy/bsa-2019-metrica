@@ -16,7 +16,7 @@ class ChangeSessionsTable extends Migration
         Schema::table('sessions', function (Blueprint $table) {
             $table->dropForeign(['demographic_id']);
             $table->dropColumn('demographic_id');
-            $table->string('language');
+            $table->string('language')->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class ChangeSessionsTable extends Migration
     public function down()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->unsignedBigInteger('demographic_id');
+            $table->unsignedBigInteger('demographic_id')->nullable();
 
             $table->foreign('demographic_id')
                 ->references('id')
