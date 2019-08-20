@@ -4,7 +4,7 @@
         pa-0
         class="left-container"
     >
-        <div class="content-with-padding">
+        <ContentLayout>
             <VFlex
                 lg12
                 md12
@@ -15,19 +15,20 @@
                 <VLayout
                     wrap
                     align-center
+                    justify-center
                 >
                     <VFlex
-                        xs12
-                        sm12
-                        md11
-                        lg11
+                        xs10
+                        sm10
+                        md10
+                        lg10
                     >
                         <StepsProgressBar :step-number="stepNumber" />
                         <RouterView />
                     </VFlex>
                 </VLayout>
             </VFlex>
-        </div>
+        </ContentLayout>
         <VFlex
             lg6
             md6
@@ -41,6 +42,7 @@
 </template>
 
 <script>
+    import ContentLayout from '../components/layout/ContentLayout.vue';
     import {mapGetters} from "vuex";
     import {IS_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
     import StepsProgressBar from '@/components/website/adding_master/StepsProgressBar.vue';
@@ -49,6 +51,7 @@
         name: 'AddWebsitePage',
         components: {
             StepsProgressBar,
+            ContentLayout
         },
         computed: {
             ...mapGetters('website', {
@@ -82,10 +85,6 @@
     }
     .img-card {
         background-color: white;
-    }
-    .content-with-padding {
-        width: 100%;
-        padding-right: 0;
     }
     .left-container {
         display: flex;

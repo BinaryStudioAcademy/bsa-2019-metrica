@@ -1,13 +1,8 @@
 <template>
-    <VContainer
-        fluid
-        class="content-with-padding"
-    >
+    <ContentLayout :title="title">
         <VLayout
             wrap
-        >
-            <h5>{{ title }}</h5>
-        </VLayout>
+        />
         <VLayout>
             <VFlex
                 lg12
@@ -52,10 +47,11 @@
                 <UserTable />
             </VFlex>
         </VLayout>
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import UserTable from "../components/dashboard/visitors/UsersTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
@@ -64,7 +60,8 @@
         components: {
             LineChart,
             UserTable,
-            ButtonComponent
+            ButtonComponent,
+            ContentLayout
         },
         data() {
             return {

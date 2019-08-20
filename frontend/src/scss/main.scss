@@ -58,15 +58,6 @@ svg path {
     text-decoration: none !important;
 }
 
-.content-with-padding {
-    padding: 70px 66px 0 80px;
-    @media (max-width: 960px) {
-        & {
-            padding: 35px 33px 0 40px;
-        }
-    }
-}
-
 .v-content__wrap {
     display: flex;
 }

@@ -1,18 +1,17 @@
 <template>
-    <VContainer
-        class="content-with-padding"
-    >
-        <h5>{{ title }}</h5>
+    <ContentLayout :title="title">
         <VImg
             :src="require('@/assets/running_man.jpg')"
             width="50%"
             height="60%"
         />
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from './ContentLayout.vue';
     export default {
+        components: {ContentLayout},
         name: 'Default',
         computed: {
             title () {

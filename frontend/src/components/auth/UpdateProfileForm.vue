@@ -1,7 +1,5 @@
 <template>
-    <VContainer
-        class="content-with-padding"
-    >
+    <ContentLayout>
         <VFlex
             lg6
             md6
@@ -71,10 +69,11 @@
                 Save
             </VBtn>
         </VFlex>
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from '../layout/ContentLayout.vue';
     import {mapGetters, mapActions} from 'vuex';
     import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
@@ -83,6 +82,7 @@
     import _ from "lodash";
 
     export default {
+        components: {ContentLayout},
         data() {
             return {
                 editUser: {
