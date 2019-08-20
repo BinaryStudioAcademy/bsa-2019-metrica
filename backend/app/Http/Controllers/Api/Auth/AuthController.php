@@ -12,6 +12,7 @@ use App\Actions\Auth\RegisterRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AuthenticatedHttpRequest;
 use App\Http\Requests\RegisterHttpRequest;
+use App\Http\Resources\EmailResource;
 use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
 use App\Http\Response\ApiResponse;
@@ -46,7 +47,7 @@ final class AuthController extends Controller
         $request = RegisterRequest::fromHttpRequest($request);
         $response = $this->registerUserAction->execute($request);
 
-        return ApiResponse::success(new TokenResource($response));
+        return ApiResponse::success(new EmailResource($response));
     }
 
     public function getCurrentUser(): ApiResponse
