@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\Visitors\GetPageViewsCountAction;
-use App\Actions\Visitors\GetPageViewsCountRequest;
+use App\Actions\Visits\GetPageViewsCountAction;
+use App\Actions\Visits\GetPageViewsCountRequest;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
 use App\Http\Controllers\Controller;
@@ -29,7 +29,7 @@ final class VisitController extends Controller
         $this->getPageViewsCountAction = $getPageViewsCountAction;
     }
 
-    public function getPageViews(GetPageViewsFilterHttpRequest $request)
+    public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
     {
         $response = $this->getPageViewsAction->execute(GetPageViewsRequest::fromRequest($request));
 
@@ -41,5 +41,4 @@ final class VisitController extends Controller
         $response = $this->getPageViewsCountAction->execute(GetPageViewsCountRequest::fromRequest($request));
         return ApiResponse::success(new VisitCountResource($response->getCount()));
     }
-
 }

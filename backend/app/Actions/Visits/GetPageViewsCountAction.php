@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Actions\Visitors;
+namespace App\Actions\Visits;
 
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ButtonDataPageViews;

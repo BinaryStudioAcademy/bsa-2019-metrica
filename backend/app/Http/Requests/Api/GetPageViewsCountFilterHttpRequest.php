@@ -31,13 +31,13 @@ final class GetPageViewsCountFilterHttpRequest extends ApiFormRequest
         return $this->get('filter');
     }
 
-    public function getStartDate(): int
+    public function getStartDate(): string
     {
-        return (int) $this->get('filter')['startDate'];
+        return (string) $this->get('filter')['startDate'];
     }
 
-    public function getEndDate(): int
+    public function getEndDate(): string
     {
-        return (int) $this->get('filter')['endDate'];
+        return (string) $this->get('filter')['endDate'];
     }
 }
