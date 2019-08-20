@@ -43,7 +43,7 @@ export default {
             };
         }
 
-        if(!newDataSite.name && !newDataSite.domain) {
+        if (!newDataSite.name && !newDataSite.domain) {
             throw {
                 errors: {
                     message: "Name and Domain can not be empty"
@@ -92,12 +92,12 @@ export default {
 
     [UPDATE_WEBSITE]: (context, update) => {
 
-        if(!update.name) {
+        if (!update.name) {
             throw { message: "Name can not be empty." };
         }
 
         let id = context.state.currentWebsite.id;
-        if(!id) {
+        if (!id) {
             throw { message: "Current website is undefined." };
         }
 

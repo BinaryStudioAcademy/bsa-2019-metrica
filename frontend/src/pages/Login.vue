@@ -57,7 +57,7 @@
         },
         methods: {
             onSuccess() {
-                if(this.redirectTo) {
+                if (this.redirectTo) {
                     this.$router.replace({path: this.redirectTo});
                 } else {
                     this.$router.replace({name: 'dashboard'});

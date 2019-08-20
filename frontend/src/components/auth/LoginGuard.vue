@@ -7,11 +7,12 @@
 
     export default {
         beforeRouteEnter(to,from,next) {
-            if(!store.state.auth.isLoggedIn) {
+            if (!store.state.auth.isLoggedIn) {
                 next({
                     name: "login",
                     params: {
-                        redirectTo: to.path}
+                        redirectTo: to.path
+                    }
                 });
             } else {
                 next();

@@ -13,7 +13,7 @@
             UserLayout
         },
         beforeRouteEnter(to,from,next) {
-            if(!store.state.website.isFetchedWebsite && store.state.auth.isLoggedIn) {
+            if (!store.state.website.isFetchedWebsite && store.state.auth.isLoggedIn) {
                 store.dispatch(`website/${FETCH_CURRENT_WEBSITE}`).finally(() => next());
             } else {
                 next();
