@@ -21,8 +21,8 @@
                 />
             </VFlex>
             <VFlex
-                lg8
-                md8
+                lg5
+                md5
                 hidden-sm-and-down
                 height="100%"
                 class="img-card"
@@ -36,16 +36,23 @@
                         v-for="visitor in legend.data"
                         :key="visitor.title"
                     >
-                        <VRow class="align-center">
-                            <VCheckbox
-                                class="radio"
-                                :label="visitor.title"
+                        <VRow class="align-center justify-content-between">
+                            <VIcon
                                 :color="visitor.color"
-                                hide-details
-                                input-value="true"
-                                value
-                            />
-                            <VLabel>{{ visitor.percentageDiff }}</VLabel>
+                                small
+                            >
+                                mdi-circle
+                            </VIcon>
+                            <VLabel>{{ visitor.title }}</VLabel>
+                            <VLabel>
+                                <VIcon
+                                    :color="visitor.color"
+                                    small
+                                >
+                                    mdi-arrow-up
+                                </VIcon>
+                                {{ visitor.percentageDiff }}%
+                            </VLabel>
                         </VRow>
                     </VListItem>
                 </VList>
@@ -72,7 +79,7 @@
                 default: 0.95
             },
             legend: {
-                type: Array,
+                type: Object,
                 required: true,
                 default: () => [],
             }
@@ -119,12 +126,18 @@
 }
 .legend-title {
     font-family: Gilroy;
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 14px;
+    line-height: 16px;
 }
 .radio {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+}
+.dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    display: inline-block;
 }
 </style>

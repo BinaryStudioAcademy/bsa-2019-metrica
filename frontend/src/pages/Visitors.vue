@@ -124,7 +124,7 @@
                         newVisitors: {
                             title: 'New Visitors',
                             percentageDiff: 41,
-                            color: '#3C57DE'
+                            color: '#3C57DE',
                         },
                         returnVisitors: {
                             title: 'Return Visitors',
