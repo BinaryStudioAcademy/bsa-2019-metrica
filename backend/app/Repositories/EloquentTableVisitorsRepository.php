@@ -18,8 +18,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         bool $newVisitorsOnly = false
     ): Collection {
         $count = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
@@ -29,8 +29,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
@@ -50,8 +50,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         bool $newVisitorsOnly = false
     ): Collection {
         $count = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
@@ -61,8 +61,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
@@ -82,8 +82,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         bool $newVisitorsOnly = false
     ): Collection {
         $count = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
@@ -93,8 +93,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
@@ -114,8 +114,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         bool $newVisitorsOnly = false
     ): Collection {
         $count = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
@@ -126,8 +126,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
@@ -148,8 +148,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         bool $newVisitorsOnly = false
     ): Collection {
         $count = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
@@ -160,8 +160,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
@@ -182,8 +182,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         bool $newVisitorsOnly = false
     ): Collection {
         $count = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
@@ -194,8 +194,8 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->count();
 
         $visitors = DB::table('visitors')
-            ->when($newVisitorsOnly, function($query) {
-                $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
+            ->when($newVisitors, function($query) {
+                return $query->has('sessions', '=', 1);
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
