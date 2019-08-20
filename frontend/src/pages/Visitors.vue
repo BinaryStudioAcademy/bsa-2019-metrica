@@ -25,6 +25,7 @@
                         class="chart-container"
                     >
                         <LineChart :data="data" />
+                        <PeriodDropdown />
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -59,12 +60,14 @@
     import LineChart from "../components/common/LineChart";
     import UserTable from "../components/dashboard/visitors/UsersTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
+    import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
 
     export default {
         components: {
             LineChart,
             UserTable,
-            ButtonComponent
+            ButtonComponent,
+            PeriodDropdown
         },
         data() {
             return {

@@ -23,12 +23,12 @@ export default new Router({
     routes: [
         {
             path: '',
-            redirect: { name: 'home' }
+            redirect: {name: 'home'}
         },
         {
             path: '/login',
             name: 'login',
-            component: Login
+            component: Login,
         },
         {
             path: '/reset-password',
@@ -116,7 +116,7 @@ export default new Router({
                                 {
                                     path: '',
                                     name: 'add_website',
-                                    redirect: { name: 'add_websites_step_1' },
+                                    redirect: {name: 'add_websites_step_1'},
                                 },
                                 {
                                     path: 'step-1',
