@@ -1,9 +1,57 @@
 <template>
-    <GChart
-        type="PieChart"
-        :data="chartData"
-        :options="chartOptions"
-    />
+    <VContainer>
+        <VSubheader
+            class="header my-3 text-dark"
+            fluid
+        >
+            Summary
+        </VSubheader>
+        <VLayout class="pie-container">
+            <VFlex
+                lg4
+                md4
+                hidden-sm-and-down
+                height="100%"
+                class="img-card"
+            >
+                <GChart
+                    type="PieChart"
+                    :data="chartData"
+                    :options="chartOptions"
+                />
+            </VFlex>
+            <VFlex
+                lg8
+                md8
+                hidden-sm-and-down
+                height="100%"
+                class="img-card"
+            >
+                <VSubheader
+                    v-text="legend.title"
+                    class="legend-title text-dark"
+                />
+                <VList>
+                    <VListItem
+                        v-for="visitor in legend.data"
+                        :key="visitor.title"
+                    >
+                        <VRow class="align-center">
+                            <VCheckbox
+                                class="radio"
+                                :label="visitor.title"
+                                :color="visitor.color"
+                                hide-details
+                                input-value="true"
+                                value
+                            />
+                            <VLabel>{{ visitor.percentageDiff }}</VLabel>
+                        </VRow>
+                    </VListItem>
+                </VList>
+            </VFlex>
+        </VLayout>
+    </VContainer>
 </template>
 
 <script>
@@ -14,10 +62,6 @@
             GChart
         },
         props: {
-            title: {
-                type: String,
-                default: 'Outcome'
-            },
             data: {
                 type: Array,
                 required: true,
@@ -25,29 +69,33 @@
             },
             pieHole: {
                 type: Number,
-                default: 0.9
+                default: 0.95
+            },
+            legend: {
+                type: Array,
+                required: true,
+                default: () => [],
             }
         },
         data() {
             return {
                 chartData: this.data,
                 chartOptions: {
-                    title: this.title,
+                    width: 200,
+                    height: 200,
                     pieHole: this.pieHole,
-                    pieSliceBorderColor: 'black',
                     legend: 'none',
                     pieSliceText: 'none',
                     tooltip: {
-                        isHtml: true,
-                        ignoreBounds: true,
                         trigger: 'none',
                     },
                     slices: {
-                        newVisitors: {
-                            colors: '#3C57DE',
+                        0: {
+                            color: '#3C57DE',
                         },
-                        returnVisitors: {
-                            colors: 'black',
+                        1: {
+                            color: '#1BC3DA',
+                            offset: 0.04,
                         },
                     }
                 }
@@ -56,24 +104,27 @@
     };
 </script>
 
-
-<style lang="scss" scoped>
-    ::v-deep svg path {
-        fill: none;
-    }
-
-    ::v-deep div.google-visualization-tooltip {
-        margin-left: -100px;
-        width: auto;
-        height: auto;
-        font-family: Gilroy;
-        font-size: 18px;
-        line-height: 21px;
-        align-items: center;
-        text-align: center;
-        letter-spacing: 0.533333px;
-        color: #FFFFFF;
-        border: 10px;
-        border-radius: 6px;
-    }
+<style scoped lang="scss">
+.pie-container {
+    background-color: white;
+}
+.header {
+    align-items: center;
+    text-align: center;
+    text-transform: capitalize;
+    font-family: 'Gilroy';
+    padding-bottom: 10px;
+    font-size: 16px;
+    line-height: 19px;
+}
+.legend-title {
+    font-family: Gilroy;
+    font-size: 12px;
+    line-height: 14px;
+}
+.radio {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
 </style>
