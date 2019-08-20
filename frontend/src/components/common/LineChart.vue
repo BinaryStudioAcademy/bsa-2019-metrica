@@ -131,7 +131,7 @@
         .custom-google-line-chart-tooltip {
             box-sizing: border-box;
             border-radius: 6px;
-            width: 150px;
+            min-width: 175px;
             background: #3C57DE;
 
             .tooltip-first {
