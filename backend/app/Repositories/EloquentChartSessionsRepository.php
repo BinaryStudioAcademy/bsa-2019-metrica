@@ -18,28 +18,29 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
         return "extract(epoch FROM $columnName)";
     }
 
-    private function toInteger(string $expression): string
-    {
-        return "(CAST ($expression AS INTEGER))";
-    }
-
-    private function roundDate(string $columnName, float $period): string
-    {
-        return
-            $this->toTimestamp($columnName) .
-            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . " , " . $period . ") + $period";
-    }
+//    private function toInteger(string $expression): string
+//    {
+//        return "(CAST ($expression AS INTEGER))";
+//    }
+//
+//    private function roundDate(string $columnName, float $period): string
+//    {
+//        return
+//            $this->toTimestamp($columnName) .
+//            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . " , " . $period . ") + $period";
+//    }
 
     public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
 //        , (" . $this->roundDate('s.start_session', $interval) . ") as date " .
-        $subQuery = "SELECT s.*, (" . $this->roundDate('s.start_session', $interval) . ") as date " .
+        $subQuery = "SELECT s.*" .
         "FROM sessions AS s ".
         "WHERE " .
-            "s.website_id = " . "$websiteId AND " .
-            $this->toTimestamp('s.start_session') . " >= :start_date OR " .
-            $this->toTimestamp('s.start_session') . " < :start_date AND " .
-            $this->toTimestamp('s.start_session') . " <= :end_date";
+            "s.website_id = " . "$websiteId AND (" .
+            $this->toTimestamp('s.start_session') . " >= :start_date AND " .
+            $this->toTimestamp('s.start_session') . " <= :end_date) OR (" .
+            $this->toTimestamp('s.start_session') . " <= :start_date AND " .
+            $this->toTimestamp('s.end_session') . " >= :start_date)";
 
 //        $query = DB::raw("SELECT COUNT(*) as sessions, date FROM ($subQuery) AS periods GROUP BY date");
 //        dd($subQuery);
@@ -47,7 +48,7 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
         'start_date' => $filterData->getStartDate()->getTimestamp(),
         'end_date' => $filterData->getEndDate()->getTimestamp(),
         ]);
-//        dd($result);
+        dd($result);
         return collect($result)->map(function ($item) {
             return array(
                 $item->date,
@@ -83,4 +84,3 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
 //        return collect($result);
     }
 }
-// app()->make(\App\Repositories\Contracts\ChartSessionsRepository::class)->findByFilter(new \App\Utils\DatePeriod(new DateTime('2019-08-19 06:00:00'), new DateTime('2019-08-19 08:00:00')), 3600, 2)

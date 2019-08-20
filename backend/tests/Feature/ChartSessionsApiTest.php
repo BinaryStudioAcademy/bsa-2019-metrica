@@ -65,8 +65,8 @@ class ChartSessionsApiTest extends TestCase
             'end_session' => new DateTime('2019-08-19 08:30:00')
         ]);
 
-        $startDate = new DateTime('2019-08-19 08:00:00');
-        $endDate = new DateTime('2019-08-19 09:00:00');
+        $startDate = new DateTime('2019-08-19 07:00:00');
+        $endDate = new DateTime('2019-08-19 08:00:00');
 
         $filterData = [
             'filter' => [
