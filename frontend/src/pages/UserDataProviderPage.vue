@@ -8,7 +8,7 @@
 
     export default {
         beforeRouteEnter(to,from,next) {
-            if(!store.state.auth.CurrentUser) {
+            if(!store.state.auth.currentUser) {
                 store.dispatch(`auth/${FETCH_CURRENT_USER}`).finally(() => next());
             } else {
                 next();

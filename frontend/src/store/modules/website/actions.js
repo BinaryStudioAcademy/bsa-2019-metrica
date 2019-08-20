@@ -1,5 +1,12 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, FETCH_CURRENT_WEBSITE, UPDATE_WEBSITE} from './types/actions';
-import {SET_CURRENT_WEBSITE, UPDATE_CURRENT_WEBSITE, SET_WEBSITE_INFO, RESET_CURRENT_WEBSITE} from "./types/mutations";
+import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, FETCH_CURRENT_WEBSITE, UPDATE_WEBSITE, RESET_DATA} from './types/actions';
+import {
+    SET_CURRENT_WEBSITE,
+    UPDATE_CURRENT_WEBSITE,
+    SET_WEBSITE_INFO,
+    RESET_CURRENT_WEBSITE,
+    SET_FETCH_TRUE,
+    RESET_WEBSITE_DATA
+} from "./types/mutations";
 import {addWebsite, updateWebsite, getCurrentUserWebsite} from '@/api/website';
 
 export default {
@@ -9,6 +16,7 @@ export default {
     },
 
     [FETCH_CURRENT_WEBSITE]: (context) => {
+        context.commit(SET_FETCH_TRUE);
         return getCurrentUserWebsite().then(response => {
             context.commit(SET_CURRENT_WEBSITE, response.data);
         }).catch(() => {
@@ -101,4 +109,7 @@ export default {
                     throw { message: error.response.data.errors.name };
                 });
     },
+    [RESET_DATA]: (context) => {
+        context.commit(RESET_WEBSITE_DATA);
+    }
 };
