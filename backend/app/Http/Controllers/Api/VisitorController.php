@@ -104,6 +104,4 @@ final class VisitorController extends Controller
 
         return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
     }
-
-
 }

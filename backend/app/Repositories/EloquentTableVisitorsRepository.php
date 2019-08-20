@@ -16,8 +16,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitorsOnly, function($query) {
                 $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
@@ -49,8 +48,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitorsOnly, function($query) {
                 $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
@@ -82,8 +80,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitorsOnly, function($query) {
                 $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
@@ -115,8 +112,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitorsOnly, function($query) {
                 $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
@@ -150,8 +146,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitorsOnly, function($query) {
                 $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
@@ -185,8 +180,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         string $from,
         string $to,
         bool $newVisitorsOnly = false
-    ): Collection
-    {
+    ): Collection {
         $count = DB::table('visitors')
             ->when($newVisitorsOnly, function($query) {
                 $query->raw('where (select count(*) from "sessions" where "visitors"."id" = "sessions"."visitor_id") = 1');
