@@ -6,6 +6,7 @@ namespace Tests\Feature;
 use App\Entities\User;
 use App\Entities\Visitor;
 use App\Entities\Website;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -23,14 +24,14 @@ class ButtonVisitorsApiTest extends TestCase
     public function testButtonCountVisitors()
     {
         factory(Website::class)->create();
-        $firstDate = new DateTime('@1565560845');
-        $secondDate = new DateTime('@1566156750');
-        $secondDateLastActivity = new DateTime('@1566511245');
-        $thirdDate = new DateTime('@1566338445');
-        $fourthDate = new DateTime('@1566597645');
-        $fifthDate = new DateTime('@1566684045');
-        $sixDate = new DateTime('@1564005645');
-        $sixDateLastActivity = new DateTime('@1566424845');
+        $firstDate = Carbon::parse('2019-08-11 22:00:45', 'UTC');
+        $secondDate = Carbon::parse('2019-08-18 19:32:30', 'UTC');
+        $secondDateLastActivity = Carbon::parse('2019-08-22 22:00:45', 'UTC');
+        $thirdDate = Carbon::parse('2019-08-20 22:00:45', 'UTC');
+        $fourthDate = Carbon::parse('2019-08-23 22:00:45', 'UTC');
+        $fifthDate = Carbon::parse('2019-08-24 22:00:45', 'UTC');
+        $sixDate = Carbon::parse('2019-07-24 22:00:45', 'UTC');
+        $sixDateLastActivity = Carbon::parse('2019-08-21 22:00:45', 'UTC');
 
         factory(Visitor::class)->create([
             'created_at' => $firstDate
@@ -67,7 +68,7 @@ class ButtonVisitorsApiTest extends TestCase
         ];
 
         $this->actingAs($this->user)
-            ->call('GET', 'api/v1/button-visitors/count', $filterData)
+            ->call('GET', 'api/v1/button-visitors', $filterData)
             ->assertStatus(200)
             ->assertJson($expectedData);
     }

@@ -17,12 +17,10 @@ class GetButtonCountVisitorsAction
         $this->repository = $repository;
     }
 
-    public function execute(GetButtonCountVisitorsRequest $request): ButtonValue
+    public function execute(GetButtonCountVisitorsRequest $request)
     {
-        $startData = Carbon::createFromTimestampUTC($request->period()->getStartDate()->getTimestamp())->toDateTimeString();
-        $endData = Carbon::createFromTimestampUTC($request->period()->getEndDate()->getTimestamp())->toDateTimeString();
         $websiteId = Auth::user()->website->id;
-        $count = $this->repository->getVisitorsCount($startData, $endData, $websiteId, Auth::user()->id);
+        $count = $this->repository->getVisitorsCount($request->period(), $websiteId, Auth::user()->id);
         return new ButtonValue($count);
     }
 }

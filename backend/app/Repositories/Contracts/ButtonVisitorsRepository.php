@@ -3,7 +3,9 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Utils\DatePeriod;
+
 interface ButtonVisitorsRepository
 {
-    public function getVisitorsCount(string $startData, string $endData, int $websiteId, int $userId): int;
+    public function getVisitorsCount(DatePeriod $period, int $websiteId, int $userId): int;
 }
