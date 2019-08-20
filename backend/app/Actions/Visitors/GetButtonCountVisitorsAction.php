@@ -5,7 +5,6 @@ namespace App\Actions\Visitors;
 
 use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\ButtonVisitorsRepository;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class GetButtonCountVisitorsAction
