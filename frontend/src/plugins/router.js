@@ -15,6 +15,14 @@ import WebsiteInfo from '../pages/WebsiteInfo.vue';
 import WebsiteGuard from '@/components/website/WebsiteGuard.vue';
 import Default from '@/components/layout/Default.vue';
 
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location, onResolve, onReject) {
+    if (onResolve || onReject) {
+        return originalPush.call(this, location, onResolve, onReject);
+    }
+    return originalPush.call(this, location).catch(() => { });
+};
+
 Vue.use(Router);
 
 export default new Router({
