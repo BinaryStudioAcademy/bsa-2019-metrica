@@ -8,7 +8,7 @@
             :items="items"
             item-text="title"
             item-value="value"
-            class="period-dropdown"
+            class="option-select"
             v-model="selectedItem"
             solo
             return-object
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {CHANGE_SELECTED_PERIOD} from "../../../store/modules/visitors/types/actions";
+    import {CHANGE_SELECTED_PERIOD} from "@/store/modules/visitors/types/actions";
     import {mapActions} from 'vuex';
 
     export default {
@@ -50,15 +50,19 @@
 </script>
 
 <style lang="scss" scoped>
-    .period-dropdown {
+    $dark: #122737;
+    $blue: #3C57DE;
+
+    ::v-deep .option-select {
+        padding: 0;
         max-width: 140px;
         max-height: 29px;
         background: #FFFFFF;
-        border: 1px solid rgba(18, 39, 55, 0.116);
         box-sizing: border-box;
         border-radius: 6px;
+        margin: 20px 24px 33px 28px ;
 
-        ::v-deep .v-select__selection {
+        .v-select__selection {
             font-size: 12px;
             line-height: 14px;
             display: flex;
@@ -66,16 +70,18 @@
             letter-spacing: 0.533333px;
             color: #122737;
         }
+            .v-icon {
+                color: $blue;
+            }
 
     }
+
     ::v-deep .v-list-item .v-list-item__title{
         font-size: 12px;
         line-height: 14px;
         display: flex;
         align-items: center;
         letter-spacing: 0.533333px;
-        color: #122737;
+        color: $dark;
     }
-
-
 </style>
