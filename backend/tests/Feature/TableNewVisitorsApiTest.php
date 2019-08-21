@@ -6,14 +6,23 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestDataFactory;
+use Illuminate\Support\Carbon;
+use App\Entities\User;
+use App\Entities\Visit;
+use App\Entities\Website;
+use App\Entities\Session;
+use App\Entities\GeoPosition;
+use App\Entities\System;
+use App\Entities\Page;
+use App\Entities\Visitor;
 
 class TableNewVisitorsApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    const DATE_FROM = '1563148800';
-    const DATE_TO = '1566049604';
-    const ENDPOINT = 'api/v1/visitors/by-table/new';
+    const DATE_FROM = '2019-08-20 00:00:00';
+    const DATE_TO = '2019-08-24 23:59:59';
+    const ENDPOINT = '/api/v1/visitors/new-visitors-table/';
     const PARAMETERS = [
         'city',
         'country',
@@ -24,96 +33,162 @@ class TableNewVisitorsApiTest extends TestCase
     ];
 
     private $user;
+    private $fromTimeStamp;
+    private $toTimeStamp;
 
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->user = TestDataFactory::createUser();
-        TestDataFactory::createVisitsBetweenDates($this->user, self::DATE_FROM, self::DATE_TO);
-    }
-    public function testGetVisitorsByParameterAction()
-    {
-        foreach (self::PARAMETERS as $parameter) {
-            $query = [
-                'filter' => [
-                    'start_date' => self::DATE_FROM,
-                    'end_date' => self::DATE_TO
-                ],
-                'parameter' => $parameter
-            ];
-
-            $result = $this->actingAs($this->user)
-                ->json('GET', self::ENDPOINT, $query)
-                ->assertStatus(200)
-                ->assertJsonStructure([
-                    'data' => [
-                        'visitors' => [
-                            '*' => [
-                                'parameter_value',
-                                'visitors',
-                                'percentage'
-                            ]
-                        ]
-                    ],
-                    'meta' => []
-                ])
-                ->assertJsonCount($this->getAssertedCount($parameter), 'data.visitors')
-                ->json();
-
-            $this->assertNotEmpty($result);
-
-            $percentage = 0;
-            foreach ($result['data']['visitors'] as $item) {
-                $percentage += $item['percentage'];
-            }
-            $this->assertEquals(100, $percentage);
-        }
+        $this->setUser();
+        $this->seedDataBase();
+        $this->fromTimeStamp = (new Carbon(self::DATE_FROM))->timestamp;
+        $this->toTimeStamp = (new Carbon(self::DATE_TO))->timestamp;
     }
 
-    public function testFailedGetVisitorsByParameterAction()
+    public function test_get_new_visitors_by_param()
     {
-        $query = [
-            'filter' => [
-                'start_date' => self::DATE_FROM,
-                'end_date' => self::DATE_TO
-            ],
-            'parameter' => 'wrong_parameter'
+        $requestData = [
+            'startDate' => $this->fromTimeStamp,
+            'endDate' => $this->toTimeStamp,
         ];
 
-        $result = $this->actingAs($this->user)
-            ->json('GET', self::ENDPOINT, $query)
-            ->assertStatus(400)
-            ->assertJsonStructure([
-                'error' => [
-                    'message'
-                    ]
-                ])
-            ->json();
-        $this->assertEquals('The selected parameter is invalid.', $result['error']['message']);
+        $queryString = '?filter[startDate]='.$requestData['startDate'].
+                         '&filter[endDate]='.$requestData['endDate'].
+                         '&filter[parameter]=';
+
+        $expected = [
+            'data' => [
+                '*' => [
+                    'parameter',
+                    'parameter_value',
+                    'total',
+                    'percentage'
+                ]
+            ],
+            'meta' => []
+        ];
+
+        // foreach ($self::PARAMETERS as $parameter) {
+        $parameter = 'city';
+            $queryString .= $parameter;
+
+            $this->actingAs($this->user)
+                ->getJson(self::ENDPOINT.$queryString)
+                ->assertJson($expected);
+        // }
     }
 
-    public function getAssertedCount(String $parameter): int
+    private function setUser(): User
     {
-        switch ($parameter) {
-            case 'city':
-                return 5;
-                break;
-            case 'country':
-                return 2;
-                break;
-            case 'language':
-                return 3;
-                break;
-            case 'browser':
-                return 3;
-                break;
-            case 'operating_system':
-                return 3;
-                break;
-            case 'screen_resolution':
-                return 3;
-                break;
-        }
+        return $this->user = factory(User::class)->create();
     }
+
+    private function seedDataBase(): void
+    {
+        factory(Website::class)->create();
+        factory(Visitor::class, 10)->create();
+        factory(Page::class, 3)->create();
+
+        foreach ($this->testdata()['geo_positions'] as $geo_position) {
+            $geo_positions[] = factory(GeoPosition::class)->create(
+                [
+                    'country' => $geo_position['country'],
+                    'city' => $geo_position['city']
+                ]
+            );
+        }
+
+        foreach ($this->testData()['systems'] as $system) {
+            $systems[] = factory(System::class)->create($system);
+        }
+
+        foreach ($this->testData()['languages'] as $language) {
+            foreach ($systems as $system) {
+                $sessions[] = factory(Session::class)->create([
+                    'system_id' => $system->id,
+                    'language' => $language
+                ]);
+            }
+        }
+
+
+
+        foreach ($geo_positions as $geo_position) {
+            foreach ($sessions as $session) {
+                factory(Visit::class)->create(
+                    [
+                        'geo_position_id' => $geo_position->id,
+                        'session_id' => $session->id,
+                        'visit_time' => (new Carbon(rand($this->fromTimeStamp, $this->toTimeStamp)))->toDateTimeString()
+                    ]
+                );
+            }
+        }
+
+    }
+
+
+    private function testData(): array
+    {
+        return [
+            'languages'=> [
+                'en',
+                'ru',
+                'ua',
+            ],
+            'geo_positions' => [
+                [
+                    'country' => 'Ukraine',
+                    'city' => 'Kiev'
+                ],
+                [
+                    'country' => 'Germany',
+                    'city' => 'Berlin'
+                ],
+                [
+                    'country' => 'France',
+                    'city' => 'Paris'
+                ],
+            ],
+            'systems' => [
+                [
+                    'browser' => 'Mozilla/5.0 (Windows NT 6.2; en-US; rv:1.9.0.20) Gecko/20120922 Firefox/35.0',
+                    'resolution_height' => '640',
+                    'resolution_width' => '784',
+                    'os' => 'Windows NT 6.0'
+                ],
+                [
+                    'browser' => 'Mozilla/5.0 (X11; Linux x86_64; rv:7.0) Gecko/20120215 Firefox/37.0',
+                    'resolution_height' => '576',
+                    'resolution_width' => '1024',
+                    'os' => 'Macintosh; U; PPC Mac OS X 10_5_0'
+                ],
+                [
+                    'browser' => 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.2; Trident/3.1)',
+                    'resolution_height' => '768',
+                    'resolution_width' => '1152',
+                    'os' => 'Windows NT 6.0'
+                ],
+                [
+                    'browser' => 'Mozilla/5.0 (Windows NT 6.2; en-US; rv:1.9.0.20) Gecko/20120922 Firefox/35.0',
+                    'resolution_height' => '576',
+                    'resolution_width' => '1024',
+                    'os' => 'Macintosh; U; PPC Mac OS X 10_5_0'
+                ],
+                [
+                    'browser' => 'Mozilla/5.0 (X11; Linux x86_64; rv:7.0) Gecko/20120215 Firefox/37.0',
+                    'resolution_height' => '640',
+                    'resolution_width' => '784',
+                    'os' => 'X11; Linux i686'
+                ],
+                [
+                    'browser' => 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.2; Trident/3.1)',
+                    'resolution_height' => '576',
+                    'resolution_width' => '1024',
+                    'os' => 'X11; Linux i686'
+                ]
+            ],
+        ];
+    }
+
 }
