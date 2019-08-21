@@ -1,11 +1,11 @@
 import requestService from "../requestService";
 import config from "@/config";
-import {buttonTransformer, chartTransformer, tableTransformer} from './transformers';
+import {buttonTransformer, chartTransformer} from './transformers';
 
 const resourceUrl = config.getApiUrl();
 
 const fetchButtonValue = (startDate, endDate) => {
-    return requestService.get(resourceUrl + '/button-visitors', {}, {
+    return requestService.get(resourceUrl + '/visitors/new/count', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
@@ -21,19 +21,20 @@ const fetchChartValues = (startDate, endDate, interval) => {
         .catch(err => alert(err));
 };
 
-const fetchTableValues = (startDate, endDate, groupBy) => {
-    return requestService.get(resourceUrl + '/visitors/by-table', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate,
-        'parameter': groupBy
-    }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
-        .catch(err => alert(err));
-};
+// const fetchTableValues = (startDate, endDate, groupBy) => {
+//     return new Promise(resolve => {
+//         let fakeRequest = {
+//             'filter[start_date]': startDate,
+//             'filter[end_date]': endDate,
+//             'parameter': groupBy
+//         }
+//     });
+// };
 
 const totalVisitorsService = {
     fetchButtonValue,
     fetchChartValues,
-    fetchTableValues
+    // fetchTableValues
 };
 
 export default totalVisitorsService;

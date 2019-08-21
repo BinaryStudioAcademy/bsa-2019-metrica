@@ -30,9 +30,12 @@
             };
         },
         created() {
-            newVisitorsService.fetchChartValues(1474221618, 1568829618,86400).then(res=>{
+            newVisitorsService.fetchButtonValue(1474221618, 1568829618).then(res=>{
                 this.result = res;
             });
+            // newVisitorsService.fetchChartValues(1474221618, 1568829618,86400).then(res=>{
+            //     this.result = res;
+            // });
             // totalVisitorsService.fetchTableValues(1474221618, 1568829618, 'language').then(res => {
             //     this.result = res;
             // });

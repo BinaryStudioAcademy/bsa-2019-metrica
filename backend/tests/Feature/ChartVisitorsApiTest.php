@@ -143,16 +143,16 @@ class ChartVisitorsApiTest extends TestCase
         $expectedData = [
             'data' => [
                 [
-                    'period' => '1566086400',
-                    'count' => 1
+                    'date' => '1566086400',
+                    'value' => 1
                 ],
                 [
-                    'period' => '1566172800',
-                    'count' => 1
+                    'date' => '1566172800',
+                    'value' => 1
                 ],
                 [
-                    'period' => '1566259200',
-                    'count' => 2
+                    'date' => '1566259200',
+                    'value' => 2
                 ],
             ],
             'meta' => []
