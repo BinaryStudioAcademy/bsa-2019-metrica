@@ -33,7 +33,6 @@ final class VisitController extends Controller
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
-
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
