@@ -14,11 +14,14 @@
                 append-icon=""
                 class="my-4"
             >
-                <template v-slot:activator>
+                <template 
+                    v-if="!link.sublinks"
+                    v-slot:activator
+                >
                     <RouterLink
                         :to="{ name: link.route }"
                     >
-                        <VListItem>
+                        <VListItem class="pl-9">
                             <VListItemIcon>
                                 <svg>
                                     <use :href="`${link.icon}#root`" />
@@ -29,6 +32,21 @@
                             </VListItemTitle>
                         </VListItem>
                     </RouterLink>
+                </template>
+                <template 
+                    v-else
+                    v-slot:activator
+                >
+                    <VListItem class="pl-9">
+                        <VListItemIcon>
+                            <svg>
+                                <use :href="`${link.icon}#root`" />
+                            </svg>
+                        </VListItemIcon>
+                        <VListItemTitle>
+                            {{ link.text }}
+                        </VListItemTitle>
+                    </VListItem>
                 </template>
                 <VListItem
                     v-for="sublink in link.sublinks"
@@ -161,6 +179,7 @@ a {
     }
     .v-list-group__items {
         font-family: 'GilroySemiBold';
+        padding-left: 20px;
         .router-link-active {
             .v-list-item__title {
                 color: $blue;
