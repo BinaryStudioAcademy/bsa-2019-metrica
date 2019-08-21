@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ChartVisitorRepository;
 use App\Repositories\Contracts\ButtonVisitorsRepository;
 use App\Repositories\Contracts\ButtonDataPageViews;
 use App\Repositories\Contracts\ChartVisitorsRepository;
@@ -13,6 +14,7 @@ use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\ChartVisitRepository;
 use App\Repositories\Contracts\ChartSessionsRepository;
 use App\Repositories\Contracts\WebsiteRepository;
+use App\Repositories\EloquentChartVisitorRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
 use App\Repositories\EloquentButtonDataPageViews;
 use App\Repositories\EloquentChartVisitorsRepository;

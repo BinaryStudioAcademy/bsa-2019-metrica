@@ -89,6 +89,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
 
+        Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
+
         Route::group([
             'prefix'=>'button-page-views'
         ], function () {
