@@ -1,7 +1,7 @@
 <template>
     <VContainer
         fluid
-        class="content-with-padding"
+        class="content-container"
     >
         <VLayout
             wrap
@@ -51,6 +51,18 @@
             >
                 <UserTable />
             </VFlex>
+            <VFlex
+                lg5
+                md5
+                hidden-sm-and-down
+                height="100%"
+                class="img-card"
+            >
+                <PieChart
+                    :data="pieData"
+                    :legend="legend"
+                />
+            </VFlex>
         </VLayout>
     </VContainer>
 </template>
@@ -59,9 +71,11 @@
     import LineChart from "../components/common/LineChart";
     import UserTable from "../components/dashboard/visitors/UsersTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
+    import PieChart from "../components/common/PieChart";
 
     export default {
         components: {
+            PieChart,
             LineChart,
             UserTable,
             ButtonComponent
@@ -100,7 +114,27 @@
                         title: 'Bounce rate',
                         character: '41%'
                     },
-                ]
+                ],
+                pieData: [
+                    ['Type', 'Value'],
+                    ['New Visitors', 41],
+                    ['Return Visitors', 59],
+                ],
+                legend: {
+                    title: 'Outcome',
+                    data: {
+                        newVisitors: {
+                            title: 'New Visitors',
+                            percentageDiff: 41,
+                            color: '#3C57DE',
+                        },
+                        returnVisitors: {
+                            title: 'Return Visitors',
+                            percentageDiff: 49,
+                            color: '#1BC3DA',
+                        },
+                    }
+                }
             };
         },
         computed: {
@@ -128,5 +162,8 @@
     }
     .chart-container {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+    }
+    .content-container {
+        padding: 70px 66px 0 80px;
     }
 </style>
