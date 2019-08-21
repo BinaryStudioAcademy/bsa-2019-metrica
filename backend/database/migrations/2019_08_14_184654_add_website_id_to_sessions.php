@@ -18,8 +18,7 @@ class AddWebsiteIdToSessions extends Migration
 
             $table->foreign('website_id')
                 ->references('id')
-                ->on('websites')
-                ->onDelete('cascade');
+                ->on('websites');
         });
     }
 

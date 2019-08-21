@@ -30,11 +30,11 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
 //            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . " , " . $period . ") + $period";
 //    }
 
-    public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection
+    public function findByFilter(DatePeriod $filterData, int $websiteId): Collection
     {
 //        , (" . $this->roundDate('s.start_session', $interval) . ") as date " .
         $subQuery = "SELECT s.*" .
-        "FROM sessions AS s ".
+        "FROM sessions AS s " .
         "WHERE " .
             "s.website_id = " . "$websiteId AND (" .
             $this->toTimestamp('s.start_session') . " >= :start_date AND " .
