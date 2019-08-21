@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Contracts\Visitors\VisitorsBounceRateFilterData;
@@ -10,9 +12,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class EloquentChartVisitorsRepository implements ChartVisitorsRepository
+final class EloquentChartVisitorsRepository implements ChartVisitorsRepository
 {
-    public function getNewVisitorsByDate(string $startData, string $endData, int $period, int $userId): Collection
+    public function getNewVisitorsByDate(string $startData, string $endData, string $period, int $userId): Collection
     {
         $subQueryFirst = "SELECT id FROM websites where user_id = :user_id";
         $subQuerySecond = "SELECT visitors.*, ( " . $this->getPeriod('created_at', $period) . ") as period
