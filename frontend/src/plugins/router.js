@@ -14,6 +14,7 @@ import StepTrackingInfo from '@/components/website/adding_master/StepTrackingInf
 import WebsiteInfo from '../pages/WebsiteInfo.vue';
 import WebsiteGuard from '@/components/website/WebsiteGuard.vue';
 import Default from '@/components/layout/Default.vue';
+import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
             path: '/reset-password',
             name: 'reset-password',
             component: ResetPassword
+        },
+        {
+            path: '/auth/social/:provider',
+            name: 'social-auth',
+            component: SocialAuthPage
         },
         {
             path: '',
