@@ -11,7 +11,7 @@ use App\Actions\Visits\GetPageViewsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\GetPageViewsFilterHttpRequest;
 use App\Http\Requests\Api\GetTableVisitsByParameterHttpRequest;
-use App\Http\Resources\TableVisitsResourceCollection;
+use App\Http\Resources\TableResource;
 use App\Http\Resources\VisitResource;
 use App\Http\Response\ApiResponse;
 
@@ -40,6 +40,6 @@ final class VisitController extends Controller
         $response = $this->getPageViewsByParameterAction
             ->execute(GetPageViewsByParameterRequest::fromRequest($request));
 
-        return ApiResponse::success(new TableVisitsResourceCollection($response->visits()));
+        return ApiResponse::success(new TableResource($response->visits()));
     }
 }

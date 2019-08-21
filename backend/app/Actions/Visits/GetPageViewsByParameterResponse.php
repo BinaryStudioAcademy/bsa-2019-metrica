@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Visits;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 final class GetPageViewsByParameterResponse
 {

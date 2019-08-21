@@ -50,23 +50,22 @@ class TableVisitsApiTest extends TestCase
                 ->assertStatus(200)
                 ->assertJsonStructure([
                     'data' => [
-                        'visits' => [
-                            '*' => [
-                                'parameter_value',
-                                'visits',
-                                'percentage'
-                            ]
+                        '*' => [
+                            'parameter',
+                            'parameter_value',
+                            'total',
+                            'percentage'
                         ]
                     ],
                     'meta' => []
                 ])
-                ->assertJsonCount($this->getAssertedCount($parameter), 'data.visits')
+                ->assertJsonCount($this->getAssertedCount($parameter), 'data')
                 ->json();
 
             $this->assertNotEmpty($response);
 
             $percentage = 0;
-            foreach ($response['data']['visits'] as $item) {
+            foreach ($response['data'] as $item) {
                 $percentage += $item['percentage'];
             }
             $this->assertEquals(100, $percentage);
