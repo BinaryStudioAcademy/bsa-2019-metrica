@@ -5,7 +5,7 @@ const buttonTransformer = (item) => {
 const chartTransformer = (item) => {
     return {
         date: item.date,
-        value:item.value
+        value: item.value
     };
 };
 

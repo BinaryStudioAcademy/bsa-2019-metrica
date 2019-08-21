@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import totalVisitorsService from "../../services/visitors/totalVisitorsService";
+    import newVisitorsService from "../../services/visitors/newVisitorsService";
 
     export default {
         name: "TestForm",
@@ -30,12 +30,12 @@
             };
         },
         created() {
-            // totalVisitorsService.fetchChartValues(1474221618, 1568829618,86400).then(res=>{
-            //     this.result = res;
-            // });
-            totalVisitorsService.fetchTableValues(1474221618, 1568829618, 'language').then(res => {
+            newVisitorsService.fetchChartValues(1474221618, 1568829618,86400).then(res=>{
                 this.result = res;
             });
+            // totalVisitorsService.fetchTableValues(1474221618, 1568829618, 'language').then(res => {
+            //     this.result = res;
+            // });
 
         }
     };
