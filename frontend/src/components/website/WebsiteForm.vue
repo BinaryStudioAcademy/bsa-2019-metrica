@@ -104,7 +104,7 @@
                     this.localWebsite.websiteName = value;
                 },
                 get() {
-                    if(this.localWebsite.websiteName === undefined) {
+                    if (this.localWebsite.websiteName === undefined) {
                         return this.currentWebsite.name;
                     }
                     return this.localWebsite.websiteName;

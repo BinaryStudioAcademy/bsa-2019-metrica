@@ -41,8 +41,7 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import {IS_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
+    import store from "../store";
     import StepsProgressBar from '@/components/website/adding_master/StepsProgressBar.vue';
 
     export default {
@@ -51,16 +50,17 @@
             StepsProgressBar,
         },
         computed: {
-            ...mapGetters('website', {
-                isCurrentWebsite: IS_CURRENT_WEBSITE
-            }),
             stepNumber () {
                 return this.$route.meta.step;
             }
         },
-        created() {
-            if (this.isCurrentWebsite) {
-                this.$router.replace({name: 'websiteinfo'});
+        beforeRouteEnter: (to, from, next) => {
+            if (store.state.website.isCurrentWebsite) {
+                next({
+                    name: 'websiteinfo'
+                });
+            } else {
+                next();
             }
         }
     };
