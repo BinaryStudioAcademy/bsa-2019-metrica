@@ -26,7 +26,7 @@ final class SocialAuthenticationAction
 
         $user = $this->userRepository->getByEmail($socialUser->email);
 
-        if($user === null) {
+        if ($user === null) {
             $user = User::create([
                 'name' => $socialUser->name,
                 'email' => $socialUser->email,
