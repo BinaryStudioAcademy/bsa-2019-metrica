@@ -4,81 +4,38 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use App\Repositories\Contracts\TableVisitorsRepository;
+use App\Repositories\Contracts\TableNewVisitorsRepository;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
+use App\DataTransformer\TableValue;
+use App\Actions\Visitors\GetNewVisitorsByParameterRequest;
+use App\Actions\Visitors\GetVisitorsByParameterResponse;
 
 final class GetNewVisitorsByParameterAction
 {
     private $tableVisitorsRepository;
 
-    public function __construct(TableVisitorsRepository $tableVisitorsRepository)
+    public function __construct(TableNewVisitorsRepository $tableNewVisitorsRepository)
     {
-        $this->tableVisitorsRepository = $tableVisitorsRepository;
+        $this->tableNewVisitorsRepository = $tableNewVisitorsRepository;
     }
 
-    public function execute(GetVisitorsByParameterRequest $request): GetVisitorsByParameterResponse
+    public function execute(GetNewVisitorsByParameterRequest $request): GetVisitorsByParameterResponse
     {
-        switch ($request->parameter()) {
-            case 'city':
-                $visitors = $this->tableVisitorsRepository
-                    ->groupByCity(
-                        Auth::user()->website->id,
-                        $request->startDate(),
-                        $request->endDate(),
-                        true
-                    );
-                break;
-            case 'country':
-                $visitors = $this->tableVisitorsRepository
-                    ->groupByCountry(
-                        Auth::user()->website->id,
-                        $request->startDate(),
-                        $request->endDate(),
-                        true
-                    );
-                break;
-            case 'language':
-                $visitors = $this->tableVisitorsRepository
-                    ->groupByLanguage(
-                        Auth::user()->website->id,
-                        $request->startDate(),
-                        $request->endDate(),
-                        true
-                    );
-                break;
-            case 'browser':
-                $visitors = $this->tableVisitorsRepository
-                    ->groupByBrowser(
-                        Auth::user()->website->id,
-                        $request->startDate(),
-                        $request->endDate(),
-                        true
-                    );
-                break;
-            case 'operating_system':
-                $visitors = $this->tableVisitorsRepository
-                    ->groupByOperatingSystem(
-                        Auth::user()->website->id,
-                        $request->startDate(),
-                        $request->endDate(),
-                        true
-                    );
-                break;
-            case 'screen_resolution':
-                $visitors = $this->tableVisitorsRepository
-                    ->groupByScreenResolution(
-                        Auth::user()->website->id,
-                        $request->startDate(),
-                        $request->endDate(),
-                        true
-                    );
-                break;
-            default:
-                throw new InvalidArgumentException(sprintf('The parameter "%s" is not valid.', $request->parameter()));
-        }
+        $websiteId = (int)auth()->user()->website->id;
 
-
+        $parameter = $request->parameter();
+        dump($websiteId, $request->startDate(),  $request->endDate(), $request->parameter());
+        $visitors = $this->tableNewVisitorsRepository->groupVisitorsByParameter(
+            $websiteId, $request->startDate(),  $request->endDate(), $request->parameter()
+        )->map(function ($visitor) use ($parameter) {
+            return new TableValue(
+                $parameter,
+                (string)$visitor->parameter_value,
+                (string)$visitor->total,
+                (float)$visitor->percentage
+            );
+        });
 
         return new GetVisitorsByParameterResponse($visitors);
     }
