@@ -11,6 +11,7 @@ use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ChartSessionsRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use App\DataTransformer\Sessions\ChartSessionValue;
 
 final class GetSessionsAction
 {
@@ -50,15 +51,17 @@ final class GetSessionsAction
             $websiteId
         );
 
+        $result = [];
+
         for ($date = $startDate; $date < $endDate; $date += $interval) {
             $intervalEndDate = $date + $interval;
-            $countSessions = (int) 0;
 
-            foreach ($arrayAllSessions as $v) {
-                if (strtotime($v[0]) <= ($date + $interval) && strtotime($v[1]) >= $date) {
-                    $countSessions++;
-                }
-            }
+            $countSessions = $arrayAllSessions->filter(function (ChartSessionValue $chartSession) use ($date, $interval) {
+                return (
+                    $chartSession->getStartSession()->getTimestamp() <= ($date + $interval) &&
+                    $chartSession->getEndSession()->getTimestamp() >= $date);
+                    })
+                ->count();
 
             $result[] = new ChartValue((string) $intervalEndDate, (string) $countSessions);
         }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\DataTransformer\Sessions\ChartSessions;
+use App\DataTransformer\Sessions\ChartSessionValue;
 use App\Repositories\Contracts\ChartSessionsRepository;
 use App\Contracts\Common\DatePeriod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Entities\Session;
+use Carbon\Carbon;
 
 final class EloquentChartSessionsRepository implements ChartSessionsRepository
 {
@@ -35,10 +35,9 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
         ]);
 
         return collect($result)->map(function ($item) {
-            return array(
-                $item->start_session,
-                $item->end_session,
-                $item->website_id,
+            return new ChartSessionValue(
+                Carbon::create($item->start_session),
+                Carbon::create($item->end_session)
             );
         });
     }
