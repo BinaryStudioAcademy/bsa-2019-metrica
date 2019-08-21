@@ -30,12 +30,7 @@ deploy_image() {
 # sets $task_definition
 make_task_def() {
     aws_cloudwatch='{
-        "logDriver": "awslogs",
-        "options": {
-            "awslogs-group": "/ecs/metrica-stage",
-            "awslogs-region": "eu-central-1",
-            "awslogs-stream-prefix": "ecs"
-        }
+        "logDriver": "json-file"
     }'
 
     nginx=$(printf '{
