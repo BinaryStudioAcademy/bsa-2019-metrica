@@ -22,6 +22,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
         Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:api');
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'AuthController@redirect');
+            Route::get('/{provider}/callback', 'AuthController@oauthCallback');
+        });
     });
 
     Route::group([

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
-final class RegisterResponse
+final class SocialAuthenticationResponse
 {
     private $token;
 
