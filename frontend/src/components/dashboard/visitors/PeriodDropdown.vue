@@ -9,7 +9,7 @@
             item-text="title"
             item-value="value"
             class="option-select"
-            v-model="selectedItem"
+            :value="getSelectedPeriod"
             solo
             return-object
             @change="change"
@@ -19,15 +19,13 @@
 
 <script>
     import {CHANGE_SELECTED_PERIOD} from "@/store/modules/visitors/types/actions";
-    import {mapActions} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
+    import {GET_SELECTED_PERIOD} from "../../../store/modules/visitors/types/getters";
 
     export default {
         name: "PeriodDropdown",
         data() {
             return {
-                selectedItem: {
-                    value: 'last_week'
-                },
                 items: [
                     {title: 'Today', value: 'today'},
                     {title: 'Yesterday', value: 'yesterday'},
@@ -38,12 +36,17 @@
                 ]
             };
         },
+        computed: {
+            ...mapGetters('visitors', {
+                getSelectedPeriod: GET_SELECTED_PERIOD
+            })
+        },
         methods: {
             ...mapActions('visitors', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD
             }),
-            change() {
-                this.changeSelectedPeriod(this.selectedItem);
+            change(selectedItem) {
+                this.changeSelectedPeriod(selectedItem);
             }
         }
     };
@@ -60,7 +63,7 @@
         background: #FFFFFF;
         box-sizing: border-box;
         border-radius: 6px;
-        margin: 20px 24px 33px 28px ;
+        margin: 20px 24px 33px 28px;
 
         .v-select__selection {
             font-size: 12px;
@@ -70,13 +73,14 @@
             letter-spacing: 0.533333px;
             color: #122737;
         }
-            .v-icon {
-                color: $blue;
-            }
+
+        .v-icon {
+            color: $blue;
+        }
 
     }
 
-    ::v-deep .v-list-item .v-list-item__title{
+    ::v-deep .v-list-item .v-list-item__title {
         font-size: 12px;
         line-height: 14px;
         display: flex;

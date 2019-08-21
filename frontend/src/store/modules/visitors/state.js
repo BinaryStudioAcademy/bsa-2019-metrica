@@ -1,3 +1,3 @@
 export default {
-    selectedPeriod: undefined
+    selectedPeriod: 'last_week'
 };
