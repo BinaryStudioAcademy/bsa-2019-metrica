@@ -58,6 +58,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'visits'
+        ], function () {
+            Route::get('/by-table', 'VisitController@getPageViewsByParameter');
+        });
+
+        Route::group([
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
@@ -77,6 +83,12 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'VisitController@getPageViews');
         });
 
+        Route::group([
+            'prefix' => 'chart-sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getSessions');
+        });
+          
         Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {
