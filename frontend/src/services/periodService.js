@@ -1,5 +1,33 @@
 import moment from 'moment';
 
+const currentDate = () => {
+    return moment().format("DD-MM-YYYY HH:mm");
+};
+
+const getSubtractStartDate = (day) => {
+    return moment().subtract('days', day).startOf('day').format("DD-MM-YYYY HH:mm");
+};
+
+const getSubtractEndDate = (day) => {
+    return moment().subtract('days', day).endOf('day').format("DD-MM-YYYY HH:mm");
+};
+
+const getSubtractStartMonth = (month) => {
+    return moment().subtract('months', month).startOf('day').format("DD-MM-YYYY HH:mm");
+};
+
+const getHourInterval = (hour) => {
+    return moment.duration({h: hour}).asSeconds();
+};
+
+const getDayInterval = (day) => {
+    return moment.duration({d: day}).asSeconds();
+};
+
+const getWeekInterval = (week) => {
+    return moment.duration({w: week}).asSeconds();
+};
+
 const getTimeByPeriod = (period) => {
     let interval = null;
     let startDate = null;
@@ -44,34 +72,6 @@ const getTimeByPeriod = (period) => {
         startDate: startDate,
         endDate: endDate
     };
-};
-
-const currentDate = () => {
-    return moment().format("DD-MM-YYYY HH:mm");
-};
-
-const getSubtractStartDate = (day) => {
-    return moment().subtract('days', day).startOf('day').format("DD-MM-YYYY HH:mm");
-};
-
-const getSubtractEndDate = (day) => {
-    return moment().subtract('days', day).endOf('day').format("DD-MM-YYYY HH:mm");
-};
-
-const getSubtractStartMonth = (month) => {
-    return moment().subtract('months', month).startOf('day').format("DD-MM-YYYY HH:mm");
-};
-
-const getHourInterval = (hour) => {
-    return moment.duration({h: hour}).asSeconds();
-};
-
-const getDayInterval = (day) => {
-    return moment.duration({d: day}).asSeconds();
-};
-
-const getWeekInterval = (week) => {
-    return moment.duration({w: week}).asSeconds();
 };
 
 const periodService = {
