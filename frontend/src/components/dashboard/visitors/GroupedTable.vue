@@ -14,13 +14,18 @@
                     :items="options"
                     flat
                     v-model="selected"
+                    @change="changeSelect"
                 />
             </VCol>
             <VCol>
-                Users
+                <slot name="title">
+                    Users
+                </slot>
             </VCol>
             <VCol>
-                Users %
+                <slot name="percentage">
+                    Users %
+                </slot>
             </VCol>
         </VRow>
         <VDataTable
@@ -28,13 +33,20 @@
             hide-default-footer
             hide-default-header
             :headers="headers"
-            :items="usersData"
+            :items="tableData"
         />
     </VContainer>
 </template>
 
 <script>
     export default {
+        name: 'GroupedTable',
+        props: {
+            items: {
+                type: Array,
+                required: true
+            }
+        },
         data () {
             return {
                 selected: 'browser',
@@ -43,7 +55,6 @@
                     'browser',
                     'country',
                     'city',
-                    'browser',
                     'operating system',
                     'screen resolution' ],
                 headers: [
@@ -51,56 +62,16 @@
                     { text: '', align: 'center', value: 'users' },
                     { text: '', align: 'center', value: 'percentage' },
                 ],
-                items: {
-                    'language': [
-                        {
-                            option: 'us',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'en',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'fr',
-                            users: 67,
-                            percentage: '50%'
-                        }
-                    ],
-                    'browser': [
-                        {
-                            option: 'IE',
-                            users: 55,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Edge',
-                            users: 77,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Firefox',
-                            users: 45,
-                            percentage: '44%'
-                        },
-                        {
-                            option: 'Chrome',
-                            users: 84,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'iOS Safari',
-                            users: 44,
-                            percentage: '55%'
-                        }]
-                }
             };
         },
         computed: {
-            usersData() {
-                return this.items[this.selected];
+            tableData () {
+                return this.items;
+            }
+        },
+        methods: {
+            changeSelect () {
+                this.$emit('change', this.selected);
             }
         }
     };
