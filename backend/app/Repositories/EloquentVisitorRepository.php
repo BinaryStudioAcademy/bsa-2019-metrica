@@ -18,6 +18,11 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::all();
     }
 
+    public function getById(string $id): Visitor
+    {
+        return Visitor::findOrFail($id);
+    }
+
     public function countVisitorsBetweenDate(DatePeriod $period): int
     {
         return Visitor::whereHas('sessions', function (Builder $query) use ($period) {
