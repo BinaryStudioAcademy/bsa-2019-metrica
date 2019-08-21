@@ -8,7 +8,12 @@
             :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
             <VContainer>
-                <div>{{ result }}</div>
+                <div
+                    :key="res.percentage"
+                    v-for="res in result"
+                >
+                    {{ res }}
+                </div>
             </VContainer>
         </VFlex>
     </VContent>
@@ -16,6 +21,7 @@
 
 <script>
     import totalVisitorsService from "../../services/visitors/totalVisitorsSevice";
+
     export default {
         name: "TestForm",
         data() {
@@ -24,7 +30,13 @@
             };
         },
         created() {
-            totalVisitorsService.fetchButtonValue(1564697460, 1565467638).then(res=>alert(res.value));
+            // totalVisitorsService.fetchChartValues(1474221618, 1568829618,86400).then(res=>{
+            //     this.result = res;
+            // });
+            totalVisitorsService.fetchTableValues(1474221618, 1568829618, 'language').then(res => {
+                this.result = res;
+            });
+
         }
     };
 </script>
