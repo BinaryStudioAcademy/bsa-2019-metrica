@@ -14,10 +14,9 @@ final class VisitResource extends JsonResource implements ApiResponse
         return [
             'visit_time' => $this->visit_time,
             'ip_address' => $this->ip_address,
-            // 'session' => new SessionResource($this->session),
-            // 'page' => new PageResource($this->page),
-            // 'visitor' => new VisitorResource($this->visitor),
-            // 'geo_position' => new GeoPositionResource($this->get_position)
+            'session' => new SessionResource($this->session),
+            'page' => new PageResource($this->page),
+            'geo_position' => new GeoPositionResource($this->geo_position)
         ];
     }
 }

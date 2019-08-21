@@ -12,7 +12,8 @@ final class GeoPositionResource extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            // TODO
+            'country' => $this->country,
+            'city' => $this->city
         ];
     }
 }

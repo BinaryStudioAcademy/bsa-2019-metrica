@@ -12,7 +12,9 @@ final class PageResource extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            // TODO
+            'title' => $this->name,
+            'url' => $this->url,
+            'website' => new WebsiteResource($this->website)
         ];
     }
 }
