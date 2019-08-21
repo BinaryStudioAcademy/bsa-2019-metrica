@@ -19,5 +19,4 @@ final class GetPageViewsByParameterResponse
     {
         return $this->visits;
     }
-
 }
