@@ -79,19 +79,15 @@
                     >
                         SIGN UP
                     </VBtn>
-                    <div class="choice mt-5">
-                        or
-                    </div>
-                    <VBtn
-                        class="mt-5"
-                        outlined
-                        color="primary"
-                        min-width="100px"
+                </div>
+                <div class="btn-group mt-5">
+                    Already have an account? Please
+                    <RouterLink
+                        class="forgot-password-link"
                         :to="{name: 'login'}"
-                        :disabled="false"
                     >
-                        SIGN IN
-                    </VBtn>
+                        sign in
+                    </RouterLink>
                 </div>
             </div>
         </VForm>
