@@ -92,8 +92,8 @@ export default {
         });
     },
 
-    [SOCIAL_LOGIN]: (context, provider) => {
-        return socialLogin({ provider })
+    [SOCIAL_LOGIN]: (context, data) => {
+        return socialLogin(data)
             .then(response => {
                 context.commit(USER_LOGIN, response.data);
                 context.dispatch(FETCH_CURRENT_USER);
