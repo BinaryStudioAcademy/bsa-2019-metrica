@@ -37,17 +37,13 @@ final class GetSessionsAction
 
         $result = $this->getCountSessionsInPeriod($request->period(), $interval, $websiteId);
 
-//        dd($result);
-
         return new GetSessionsResponse($result);
     }
 
     private function getCountSessionsInPeriod(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
-        $startTimestamp = $filterData->getStartDate()->getTimestamp();
-        $endTimestamp = $filterData->getEndDate()->getTimestamp();
-        $startDate = $startTimestamp - ($startTimestamp % $interval);
-        $endDate = $endTimestamp - ($endTimestamp % $interval);
+        $startDate = $filterData->getStartDate()->getTimestamp();
+        $endDate = $filterData->getEndDate()->getTimestamp();
 
         for ($date = $startDate; $date < $endDate; $date += $interval) {
             $intervalEndDate = $date + $interval;
@@ -60,19 +56,10 @@ final class GetSessionsAction
 
             $countSessions = count($arraySessions);
 
-//            $result[] = (object )[
-//                'date' => $intervalEndDate,
-//                'sessions' => $countSessions,
-//            ];
-
             $result[] = new ChartSessions((string) $intervalEndDate, $countSessions);
         }
 
         return collect($result);
-
-//        return collect($result)->map(function ($item) {
-//            return new ChartSessions($item->date, $item->sessions);
-//        });
     }
 
     private function getInterval(string $interval): int
