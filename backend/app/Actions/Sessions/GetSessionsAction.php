@@ -35,15 +35,9 @@ final class GetSessionsAction
             throw new AppInvalidArgumentException('Interval must more 1 s');
         }
 
-
-//        $startDate = $request->period()->getStartDate()->getTimestamp(); //1566194400  2019-08-19 06:00:00
-//        $endDate = $request->period()->getEndDate()->getTimestamp();    //1566201600  2019-08-19 08:00:00
-
-
-
         $result = $this->getCountSessionsInPeriod($request->period(), $interval, $websiteId);
 
-//        dd($request);
+//        dd($result);
 
         return new GetSessionsResponse($result);
     }
@@ -66,23 +60,18 @@ final class GetSessionsAction
 
             $countSessions = count($arraySessions);
 
-            $array[] = [
-                "date" => $intervalEndDate,
-                "sessions" => $countSessions,
-            ];
+//            $result[] = (object )[
+//                'date' => $intervalEndDate,
+//                'sessions' => $countSessions,
+//            ];
 
-            };
+            $result[] = new ChartSessions((string) $intervalEndDate, $countSessions);
+        }
 
-
-            dd($array);
-
-//            count($sessions, $session->start_session <= $date + $interval && $session->end_session >= $date);
+        return collect($result);
 
 //        return collect($result)->map(function ($item) {
-//            return array(
-//                $item->date,
-//                $item->sessions,
-//            );
+//            return new ChartSessions($item->date, $item->sessions);
 //        });
     }
 

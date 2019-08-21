@@ -76,7 +76,6 @@ class ChartSessionsApiTest extends TestCase
             ]
         ];
 
-        $date1 = new DateTime('2019-08-19 06:00:00'); //1566194400
         $date2 = new DateTime('2019-08-19 07:00:00'); //1566198000
         $date3 = new DateTime('2019-08-19 08:00:00'); //1566201600
 
@@ -84,7 +83,7 @@ class ChartSessionsApiTest extends TestCase
             'data' =>
                 [
                     [
-                        'date' => (string) $date1->getTimestamp(),
+                        'date' => (string) $date2->getTimestamp(),
                         'sessions' => 5
                     ],
                     [

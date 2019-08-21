@@ -38,6 +38,8 @@ final class GetPageViewsAction
             $websiteId
         );
 
+        dd($data);
+
         return new GetPageViewsResponse($data);
     }
 
