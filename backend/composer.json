@@ -17,6 +17,7 @@
         "laravel/telescope": "^2.0",
         "laravel/tinker": "^1.0",
         "pda/pheanstalk": "^4.0",
+        "torann/geoip": "^1.0",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
