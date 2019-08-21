@@ -9,7 +9,6 @@ use App\DataTransformer\Sessions\ChartSessions;
 use App\Exceptions\AppInvalidArgumentException;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ChartSessionsRepository;
-use DateTime;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +29,8 @@ final class GetSessionsAction
             throw new WebsiteNotFoundException();
         }
 
-        $interval = $this->getInterval($request->interval()); //3600
+        $interval = $this->getInterval($request->interval());
+
         if ($interval < 1) {
             throw new AppInvalidArgumentException('Interval must more 1 s');
         }
@@ -45,16 +45,26 @@ final class GetSessionsAction
         $startDate = $filterData->getStartDate()->getTimestamp();
         $endDate = $filterData->getEndDate()->getTimestamp();
 
+        $arrayAllSessions = $this->sessionsRepository->findByFilter(
+            $filterData,
+            $websiteId
+        );
+
+//        dd($arrayAllSessions);
+
+
+
         for ($date = $startDate; $date < $endDate; $date += $interval) {
             $intervalEndDate = $date + $interval;
             $period = \App\Utils\DatePeriod::createFromTimestamp($date, $intervalEndDate);
 
-            $arraySessions = $this->sessionsRepository->findByFilter(
-                $period,
-                $websiteId
-            );
+            $countSessions = (int) 0;
 
-            $countSessions = count($arraySessions);
+            foreach ($arrayAllSessions as $k => $v ) {
+                if (strtotime($v[0]) <= ($date + $interval) && strtotime($v[1]) >= $date ) {
+                    $countSessions++;
+                }
+            }
 
             $result[] = new ChartSessions((string) $intervalEndDate, $countSessions);
         }
