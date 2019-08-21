@@ -2,7 +2,11 @@
     <VContainer
         class="content-with-padding"
     >
-        <h5>{{ title }}</h5>
+        <h5
+            v-if="title"
+        >
+            {{ title }}
+        </h5>
         <slot />
     </VContainer>
 </template>
