@@ -2,13 +2,13 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Model\Sessions\AverageSessionByIntervalFilterData;
+use App\Utils\DatePeriod;
 use Illuminate\Support\Collection;
 
 interface ChartSessionRepository
 {
-    public function getAverageSessionByInterval(
-        AverageSessionByIntervalFilterData $filter,
+    public function getSessionByInterval(
+        DatePeriod $filter,
         Collection $visitorsId
-    ): array;
+    ): Collection;
 }

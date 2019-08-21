@@ -57,6 +57,12 @@ final class Session extends Model
         return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
     }
 
+    public function scopeWhereSessionDateBetween(Builder $query, DatePeriod $datePeriod): Builder
+    {
+        return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
+            ->orWhereBetween('end_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
+    }
+
     public function scopeAvgSessionTime(Builder $query): Builder
     {
         return $query->select(

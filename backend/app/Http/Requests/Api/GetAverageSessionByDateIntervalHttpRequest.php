@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api;
 
 use App\Http\Request\ApiFormRequest;
 
-final class AverageSessionByDateIntervalHttpRequest extends ApiFormRequest
+final class GetAverageSessionByDateIntervalHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {

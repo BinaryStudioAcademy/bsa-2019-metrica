@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
-use App\Http\Requests\Api\AverageSessionByDateIntervalHttpRequest;
+use App\Http\Requests\Api\GetAverageSessionByDateIntervalHttpRequest;
 use App\Model\Sessions\AverageSessionByIntervalFilterData;
 use App\Utils\DatePeriod;
 
@@ -21,7 +21,7 @@ final class GetAverageSessionByIntervalRequest
         return $this->filterData;
     }
 
-    public static function fromRequest(AverageSessionByDateIntervalHttpRequest $request): self
+    public static function fromRequest(GetAverageSessionByDateIntervalHttpRequest $request): self
     {
         $period = DatePeriod::createFromTimestamp(
             $request->getStartDate(),

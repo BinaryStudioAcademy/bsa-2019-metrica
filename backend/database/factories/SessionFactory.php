@@ -11,10 +11,11 @@ use Illuminate\Support\Carbon;
 
 $factory->define(Session::class, function (Faker $faker) {
     return [
-        'start_session' => (Carbon::yesterday())->toDateString(),
+        'start_session' => (Carbon::yesterday())->toDateTimeString(),
         'visitor_id' => Visitor::inRandomOrder()->first()->id,
         'entrance_page_id' => Page::inRandomOrder()->first()->id,
         'language' => $faker->languageCode,
-        'system_id' => System::inRandomOrder()->first()->id
+        'system_id' => System::inRandomOrder()->first()->id,
+        'end_session' => (Carbon::today())->toDateTimeString(),
     ];
 });

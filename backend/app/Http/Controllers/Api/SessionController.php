@@ -12,7 +12,7 @@ use App\Actions\Sessions\GetAvgSessionTimeByParameterAction;
 use App\Actions\Sessions\GetAvgSessionTimeByParameterRequest;
 use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\AverageSessionByDateIntervalHttpRequest;
+use App\Http\Requests\Api\GetAverageSessionByDateIntervalHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Response\ApiResponse;
 use App\Http\Resources\CountSessions;
@@ -80,7 +80,7 @@ final class SessionController extends Controller
         return ApiResponse::success(new TableSessionResource($response->tableSessionCollection()));
     }
 
-    public function getAverageSessionByInterval(AverageSessionByDateIntervalHttpRequest $request){
+    public function getAverageSessionByInterval(GetAverageSessionByDateIntervalHttpRequest $request){
         $response = $this->getAvgSessionByIntervalAction->execute(
             GetAverageSessionByIntervalRequest::fromRequest($request)
         );
