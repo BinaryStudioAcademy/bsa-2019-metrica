@@ -51,7 +51,6 @@ final class GetSessionsAction
         );
 
         for ($date = $startDate; $date < $endDate; $date += $interval) {
-
             $intervalEndDate = $date + $interval;
             $countSessions = (int) 0;
 

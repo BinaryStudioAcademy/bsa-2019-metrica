@@ -7,12 +7,12 @@ namespace App\Http\Resources;
 use App\Contracts\ApiResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class VisitorResource extends JsonResource implements ApiResponse
+final class SessionResource extends JsonResource implements ApiResponse
 {
     public function toArray($request): array
     {
         return [
-            // TODO
+            //TODO
         ];
     }
 }
