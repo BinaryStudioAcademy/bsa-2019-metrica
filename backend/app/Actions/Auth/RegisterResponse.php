@@ -13,7 +13,7 @@ final class RegisterResponse
         $this->token = $token;
     }
 
-    public function getToken(): string
+    public function token(): string
     {
         return $this->token;
     }

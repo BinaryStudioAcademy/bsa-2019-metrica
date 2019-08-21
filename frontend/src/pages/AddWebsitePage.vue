@@ -4,7 +4,7 @@
         pa-0
         class="left-container"
     >
-        <div class="content-with-padding">
+        <ContentLayout>
             <VFlex
                 lg12
                 md12
@@ -15,19 +15,20 @@
                 <VLayout
                     wrap
                     align-center
+                    justify-center
                 >
                     <VFlex
-                        xs12
-                        sm12
-                        md11
-                        lg11
+                        xs10
+                        sm10
+                        md10
+                        lg10
                     >
                         <StepsProgressBar :step-number="stepNumber" />
                         <RouterView />
                     </VFlex>
                 </VLayout>
             </VFlex>
-        </div>
+        </ContentLayout>
         <VFlex
             lg6
             md6
@@ -41,26 +42,28 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import {IS_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
+    import ContentLayout from '../components/layout/ContentLayout.vue';
+    import store from "../store";
     import StepsProgressBar from '@/components/website/adding_master/StepsProgressBar.vue';
 
     export default {
         name: 'AddWebsitePage',
         components: {
             StepsProgressBar,
+            ContentLayout
         },
         computed: {
-            ...mapGetters('website', {
-                isCurrentWebsite: IS_CURRENT_WEBSITE
-            }),
             stepNumber () {
                 return this.$route.meta.step;
             }
         },
-        created() {
-            if (this.isCurrentWebsite) {
-                this.$router.replace({name: 'websiteinfo'});
+        beforeRouteEnter: (to, from, next) => {
+            if (store.state.website.isCurrentWebsite) {
+                next({
+                    name: 'websiteinfo'
+                });
+            } else {
+                next();
             }
         }
     };
@@ -82,10 +85,6 @@
     }
     .img-card {
         background-color: white;
-    }
-    .content-with-padding {
-        width: 100%;
-        padding-right: 0;
     }
     .left-container {
         display: flex;

@@ -1,7 +1,5 @@
 <template>
-    <VContainer
-        class="content-with-padding"
-    >
+    <ContentLayout>
         <VFlex
             lg6
             md6
@@ -71,11 +69,13 @@
                 Save
             </VBtn>
         </VFlex>
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from '../layout/ContentLayout.vue';
     import {mapGetters, mapActions} from 'vuex';
+    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
     import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
     import {validateEmail} from '@/services/validation';
@@ -83,6 +83,7 @@
     import _ from "lodash";
 
     export default {
+        components: {ContentLayout},
         data() {
             return {
                 editUser: {
@@ -139,12 +140,19 @@
                 update: UPDATE_USER
             }),
 
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
+            }),
+
             onSave() {
                 if (this.$refs.form.validate()) {
-                    this.update(this.editUser)
-                        .catch((error) => {
-                            alert(error.message);
-                        });
+                    this.update(this.editUser).then(() => {
+                        this.$emit("success");
+                        this.showSuccessMessage('Profile has been successfully updated!');
+                    }).catch((error) => {
+                        this.showErrorMessage(error);
+                    });
                 }
             },
         }

@@ -57,6 +57,7 @@
     import {mapActions, mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER} from "@/store/modules/auth/types/getters";
     import {LOGOUT} from "@/store/modules/auth/types/actions";
+    import {RESET_DATA} from "@/store/modules/website/types/actions";
 
     export default {
         data: () => ({
@@ -74,8 +75,12 @@
             ...mapActions('auth', {
                 logout: LOGOUT
             }),
+            ...mapActions('website', {
+                resetData: RESET_DATA
+            }),
             endSession() {
                 this.logout();
+                this.resetData();
                 this.$router.push({ name: 'home' });
             }
         },

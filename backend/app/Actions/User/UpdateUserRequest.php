@@ -50,8 +50,8 @@ final class UpdateUserRequest
         return $this->email ?? $default;
     }
 
-    public function getPassword(string $default): ?string
+    public function getPassword()
     {
-        return $this->password ?? $default;
+        return $this->password;
     }
 }

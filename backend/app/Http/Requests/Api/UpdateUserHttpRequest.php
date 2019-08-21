@@ -5,34 +5,35 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Http\Request\ApiFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 final class UpdateUserHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
         return [
-            'name' => 'string|min:5',
-            'email' => 'email',
-            'password' => 'string|min:8'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password',
         ];
     }
 
     public function id(): int
     {
-        return (int)$this->route('id');
+        return Auth::id();
     }
 
-    public function name(): ?string
+    public function name(): string
     {
         return $this->get('name');
     }
 
-    public function email(): ?string
+    public function email(): string
     {
         return $this->get('email');
     }
 
-    public function password(): ?string
+    public function password()
     {
         return $this->get('password');
     }
