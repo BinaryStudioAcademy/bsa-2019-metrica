@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Repositories\Contracts\SessionRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Carbon;
 use App\Entities\Session;
-use App\Actions\Sessions\GetAvgSessionRequest;
-use App\Entities\Visitor;
 use Illuminate\Support\Facades\DB;
 use App\Actions\Sessions\AverageSessionFilter;
 use App\Actions\Sessions\CountSessionsFilter;
 
-class EloquentSessionRepository implements SessionRepository
+final class EloquentSessionRepository implements SessionRepository
 {
     public function getCollection(): Collection
     {
@@ -37,5 +35,11 @@ class EloquentSessionRepository implements SessionRepository
                 ->where('start_session', '>=', $filter->getStartDate())
                 ->where('start_session', '<=', $filter->getEndDate())
                 ->get();
+    }
+
+    public function lastActiveByVisitorId(string $visitorId): Session
+    {
+        return Session::whereVisitorId($visitorId)
+            ->whereTime('updated_ad', '>', (Carbon::now())->subMinutes(30)->toDateString());
     }
 }
