@@ -1,6 +1,5 @@
 import {CHANGE_SELECTED_PERIOD, CHANGE_ACTIVE_BUTTON, CHANGE_FETCHED_BUTTON_STATE} from "./types/actions";
 import {SET_SELECTED_PERIOD, SET_ACTIVE_BUTTON, RESET_BUTTON_FETCHING, SET_BUTTON_FETCHING} from "./types/mutations";
-import {GET_BUTTON_DATA} from "./types/getters";
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -9,12 +8,12 @@ export default {
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
     },
-    [CHANGE_FETCHED_BUTTON_STATE]: (context, button) => {
+    [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
 
-        if (context.getters[GET_BUTTON_DATA][button].isFetching) {
-            context.commit(RESET_BUTTON_FETCHING, button);
+        if (data.value) {
+            context.commit(SET_BUTTON_FETCHING, data.button);
         } else {
-            context.commit(SET_BUTTON_FETCHING, button);
+            context.commit(RESET_BUTTON_FETCHING, data.button);
         }
     },
 };

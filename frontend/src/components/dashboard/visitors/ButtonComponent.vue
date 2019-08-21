@@ -1,5 +1,7 @@
 <template>
+    <Spinner v-if="buttonData.isFetching" />
     <div
+        v-else
         class="button-card bg-white d-inline-flex justify-content-start align-items-center"
         :class="{ active: isActive }"
         @click="changeButton"
@@ -31,11 +33,15 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
+    import Spinner from '../../utilites/Spinner';
     import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON} from "@/store/modules/visitors/types/getters";
     import {CHANGE_ACTIVE_BUTTON, CHANGE_FETCHED_BUTTON_STATE} from "@/store/modules/visitors/types/actions";
 
     export default {
         name: 'ButtonComponent',
+        components: {
+            Spinner
+        },
         props: {
             title: {
                 type:String,
@@ -69,8 +75,7 @@
             }),
             changeButton () {
                 if (!this.isActive) {
-                    this.changeFetchingButtonState(this.type);
-                    this.changeActiveButton(this.type).then(() => this.changeFetchingButtonState(this.type));
+                    this.changeActiveButton(this.type);
                 }
             }
         }
