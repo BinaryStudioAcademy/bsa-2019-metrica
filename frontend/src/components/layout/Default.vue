@@ -10,8 +10,11 @@
 </template>
 
 <script>
+    import {isWebsite} from '../../mixins/isWebsite';
+
     export default {
         name: 'Default',
+        mixins: [isWebsite],
         computed: {
             title () {
                 return this.$route.meta.title;
