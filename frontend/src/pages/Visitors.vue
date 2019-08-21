@@ -49,7 +49,10 @@
                 height="100%"
                 class="img-card"
             >
-                <UserTable />
+                <GroupedTable
+                    :items="tableData"
+                    @change="changeTable"
+                />
             </VFlex>
             <VFlex
                 lg5
@@ -69,7 +72,7 @@
 
 <script>
     import LineChart from "../components/common/LineChart";
-    import UserTable from "../components/dashboard/visitors/UsersTable";
+    import GroupedTable from "../components/dashboard/visitors/GroupedTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
     import PieChart from "../components/common/PieChart";
     import {isWebsite} from '../mixins/isWebsite';
@@ -79,12 +82,29 @@
         components: {
             PieChart,
             LineChart,
-            UserTable,
+            GroupedTable,
             ButtonComponent
         },
         data() {
             return {
                 data: [],
+                items: [
+                    {
+                        option: 'IE',
+                        users: 55,
+                        percentage: '34%'
+                    },
+                    {
+                        option: 'Edge',
+                        users: 77,
+                        percentage: '34%'
+                    },
+                    {
+                        option: 'Firefox',
+                        users: 45,
+                        percentage: '44%'
+                    },
+                ],
                 buttons: [
                     {
                         icon: 'person',
@@ -136,12 +156,60 @@
                             color: '#1BC3DA',
                         },
                     }
+                },
+                tableItems: {
+                    'language': [
+                        {
+                            option: 'us',
+                            users: 67,
+                            percentage: '50%'
+                        },
+                        {
+                            option: 'en',
+                            users: 67,
+                            percentage: '50%'
+                        },
+                        {
+                            option: 'fr',
+                            users: 67,
+                            percentage: '50%'
+                        }
+                    ],
+                    'browser': [
+                        {
+                            option: 'IE',
+                            users: 55,
+                            percentage: '34%'
+                        },
+                        {
+                            option: 'Edge',
+                            users: 77,
+                            percentage: '34%'
+                        },
+                        {
+                            option: 'Firefox',
+                            users: 45,
+                            percentage: '44%'
+                        },
+                        {
+                            option: 'Chrome',
+                            users: 84,
+                            percentage: '34%'
+                        },
+                        {
+                            option: 'iOS Safari',
+                            users: 44,
+                            percentage: '55%'
+                        }]
                 }
             };
         },
         computed: {
             title () {
                 return this.$route.meta.title;
+            },
+            tableData () {
+                return this.items;
             }
         },
         mounted() {
@@ -153,6 +221,11 @@
                     indication: Math.floor(Math.random() * 200) + 1,
                 };
                 this.data.push(item);
+            }
+        },
+        methods: {
+            changeTable (parameter) {
+                this.items = this.tableItems[parameter];
             }
         }
     };
