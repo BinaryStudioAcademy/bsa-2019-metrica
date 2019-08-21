@@ -25,6 +25,7 @@
                         class="chart-container"
                     >
                         <LineChart :data="data" />
+                        <PeriodDropdown />
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -74,6 +75,7 @@
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/visitors/GroupedTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
+    import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
     import PieChart from "../components/common/PieChart";
     import {isWebsite} from '../mixins/isWebsite';
 
@@ -83,7 +85,8 @@
             PieChart,
             LineChart,
             GroupedTable,
-            ButtonComponent
+            ButtonComponent,
+            PeriodDropdown
         },
         data() {
             return {
