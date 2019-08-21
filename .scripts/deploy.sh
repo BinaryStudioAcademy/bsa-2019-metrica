@@ -100,7 +100,7 @@ make_task_def() {
         "memory": 512
     }' "app" "$DOCKER_HUB_LOGIN/metrica-app:$DEPLOY_TYPE" "$aws_cloudwatch" "$AWS_DOCKER_HUB_ARN")
 
-	migration=$(printf '{
+	schedule=$(printf '{
         "name": "%s",
         "image": "%s",
         "essential": false,
@@ -111,13 +111,28 @@ make_task_def() {
 		"command": [
 			"/bin/bash", "/home/www-data/migration.sh", "%s"
 		],
-        "memory": 192
-    }' "migration" "$DOCKER_HUB_LOGIN/metrica-app:$DEPLOY_TYPE" "$aws_cloudwatch" "$AWS_DOCKER_HUB_ARN" "$DEPLOY_TYPE")
+        "memory": 64
+    }' "schedule" "$DOCKER_HUB_LOGIN/metrica-app:$DEPLOY_TYPE" "$aws_cloudwatch" "$AWS_DOCKER_HUB_ARN" "$DEPLOY_TYPE")
+
+    queue=$(printf '{
+        "name": "%s",
+        "image": "%s",
+        "essential": false,
+		"logConfiguration": %s,
+        "repositoryCredentials": {
+            "credentialsParameter": "%s"
+        },
+		"command": [
+			"/bin/bash", "/home/www-data/queue.sh", "%s"
+		],
+        "memory": 128
+    }' "queue" "$DOCKER_HUB_LOGIN/metrica-app:$DEPLOY_TYPE" "$aws_cloudwatch" "$AWS_DOCKER_HUB_ARN" "$DEPLOY_TYPE")
 
 	task_definition="[
 		$nginx,
 		$app,
-		$migration
+		$schedule,
+        $queue
 	]"
 }
 
