@@ -49,6 +49,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/by-table', 'VisitorController@getVisitorsByParameter');
             Route::get('/new', 'VisitorController@getNewVisitors');
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
+            Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
         });
 
@@ -67,16 +68,18 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
-           'prefix' => 'chart-visits'
-        ], function() {
+            'prefix' => 'chart-visits'
+        ], function () {
             Route::get('/', 'VisitController@getPageViews');
         });
 
         Route::group([
-            'prefix'=>'chart-new-visitors'
+            'prefix' => 'chart-new-visitors'
         ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
+
+        Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
     });
 });
 

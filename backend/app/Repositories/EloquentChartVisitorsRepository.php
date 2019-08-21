@@ -2,8 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Contracts\Visitors\VisitorsBounceRateFilterData;
 use App\DataTransformer\Visitors\ChartNewVisitor;
+use App\Entities\Visitor;
 use App\Repositories\Contracts\ChartVisitorsRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -24,6 +27,41 @@ class EloquentChartVisitorsRepository implements ChartVisitorsRepository
         return collect($response)->map(function ($item) {
             return new ChartNewVisitor($item->period, $item->count);
         });
+    }
+
+    public function getVisitorsCountByTimeFrame(VisitorsBounceRateFilterData $filterData): array
+    {
+        $from = $filterData->getStartDate();
+        $to = $filterData->getEndDate();
+        $timeFrame = $filterData->getTimeFrame();
+        $allVisitorsByTimeFrame = Visitor::whereCreatedAtBetween($from, $to)
+            ->forUserWebsite()
+            ->selectRaw('COUNT (*)')
+            ->selectRaw(' (extract(epoch FROM created_at) - MOD( (CAST (extract(epoch FROM created_at) AS INTEGER)), ? )) AS period', [$timeFrame])
+            ->groupBy('period')
+            ->get();
+
+        return array_column($allVisitorsByTimeFrame->toArray(), 'count', 'period');
+    }
+
+    public function getBouncedVisitorsCountByTimeFrame(VisitorsBounceRateFilterData $filterData): array
+    {
+        $from = $filterData->getStartDate();
+        $to = $filterData->getEndDate();
+        $timeFrame = $filterData->getTimeFrame();
+        $bounceVisitorsByTimeFrame =  Visitor::whereCreatedAtBetween($from, $to)
+            ->forUserWebsite()
+            ->has('sessions', '=', '1')
+            ->whereHas('sessions', function (Builder $query) use ($from, $to) {
+                $query->where('start_session', '<', $to)
+                    ->has('visits', '=', '1');
+            })
+            ->selectRaw('COUNT (*)')
+            ->selectRaw(' (extract(epoch FROM created_at) - MOD( (CAST (extract(epoch FROM created_at) AS INTEGER)), ? )) AS period', [$timeFrame])
+            ->groupBy('period')
+            ->get();
+
+        return array_column($bounceVisitorsByTimeFrame->toArray(), 'count', 'period');
     }
 
     private function toTimestamp(string $columnName): string

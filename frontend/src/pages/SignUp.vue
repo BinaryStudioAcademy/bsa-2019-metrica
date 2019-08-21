@@ -41,8 +41,10 @@
 
 <script>
     import SignUpForm from '@/components/auth/SignUpForm.vue';
+    import {isCurrentUser} from '../mixins/isCurrentUser';
 
     export default {
+        mixins: [isCurrentUser],
         components: {
             SignUpForm
         }
