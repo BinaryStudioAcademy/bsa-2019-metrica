@@ -83,6 +83,12 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
 
+        Route::group([
+            'prefix'=>'button-page-views'
+        ], function () {
+            Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
+        });
+
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
     });
 });
