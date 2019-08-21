@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-final class GetPageViewsFilterHttpRequest extends ApiFormRequest
+final class GetNewVisitorCountFilterHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
@@ -23,24 +23,21 @@ final class GetPageViewsFilterHttpRequest extends ApiFormRequest
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
             ],
-            "filter.period" => [
-                'required',
-                'integer',
-            ],
         ];
     }
 
-    public function getStartDate(): string
+    public function getFilterArray(): array
     {
-        return (string) $this->get('filter')['startDate'];
+        return $this->get('filter');
     }
 
-    public function getEndDate(): string
+    public function getStartDate(): int
     {
-        return (string) $this->get('filter')['endDate'];
+        return (int) $this->get('filter')['startDate'];
     }
-    public function getInterval(): string
+
+    public function getEndDate(): int
     {
-        return (string) $this->get('filter')['period'];
+        return (int) $this->get('filter')['endDate'];
     }
 }

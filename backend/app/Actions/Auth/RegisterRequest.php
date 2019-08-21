@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
-use App\Http\Requests\RegisterHttpRequest;
+use App\Http\Requests\Auth\RegisterHttpRequest;
 
 final class RegisterRequest
 {

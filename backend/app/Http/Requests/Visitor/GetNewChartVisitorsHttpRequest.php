@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-class GetNewChartVisitorsHttpRequest extends ApiFormRequest
+final class GetNewChartVisitorsHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
@@ -41,6 +42,6 @@ class GetNewChartVisitorsHttpRequest extends ApiFormRequest
 
     public function getPeriod(): string
     {
-        return $this->get('filter')['period'];
+        return (string) $this->get('filter')['period'];
     }
 }

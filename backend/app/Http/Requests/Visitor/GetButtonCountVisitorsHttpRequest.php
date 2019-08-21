@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Api;
+declare(strict_types=1);
+
+namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-class GetButtonCountVisitorsHttpRequest extends ApiFormRequest
+final class GetButtonCountVisitorsHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {

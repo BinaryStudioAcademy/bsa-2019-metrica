@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\DataTransformer\Visitors;
 
-class ChartNewVisitor
+final class ChartNewVisitor
 {
     private $period;
     private $count;

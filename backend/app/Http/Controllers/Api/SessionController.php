@@ -12,12 +12,12 @@ use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Response\ApiResponse;
 use App\Http\Resources\CountSessions;
-use App\Http\Requests\Api\CountSessionsHttpRequest;
+use App\Http\Requests\Session\CountSessionsHttpRequest;
 use App\Actions\Sessions\CountSessionsAction;
 use App\Actions\Sessions\CountSessionsRequest;
 use App\Http\Resources\AvgSession;
-use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
-use App\Http\Requests\Api\GetAvgSessionHttpRequest;
+use App\Http\Requests\Session\GetAvgSessionsTimeByParameterHttpRequest;
+use App\Http\Requests\Session\GetAvgSessionHttpRequest;
 use App\Http\Resources\TableSessionResource;
 use App\Http\Resources\SessionResourceCollection;
 

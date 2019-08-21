@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
 
-class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
+final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {

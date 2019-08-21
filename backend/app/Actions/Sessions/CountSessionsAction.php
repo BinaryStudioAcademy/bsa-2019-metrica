@@ -6,9 +6,6 @@ namespace App\Actions\Sessions;
 
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\VisitorRepository;
-use App\Actions\Sessions\CountSessionsRequest;
-use App\Actions\Sessions\CountSessionsFilter;
-use App\Actions\Sessions\CountSessionsResponse;
 
 final class CountSessionsAction
 {
