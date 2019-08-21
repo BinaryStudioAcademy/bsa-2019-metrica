@@ -9,10 +9,13 @@
 </template>
 
 <script>
+    import {isWebsite} from '../../mixins/isWebsite';
+
     import ContentLayout from './ContentLayout.vue';
     export default {
         components: {ContentLayout},
         name: 'Default',
+        mixins: [isWebsite],
         computed: {
             title () {
                 return this.$route.meta.title;

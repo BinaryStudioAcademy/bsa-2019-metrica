@@ -68,8 +68,10 @@
     import UserTable from "../components/dashboard/visitors/UsersTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
     import PieChart from "../components/common/PieChart";
+    import {isWebsite} from '../mixins/isWebsite';
 
     export default {
+        mixins: [isWebsite],
         components: {
             PieChart,
             LineChart,
