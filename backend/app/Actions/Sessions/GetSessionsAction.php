@@ -60,7 +60,7 @@ final class GetSessionsAction
                 return (
                     $chartSession->getStartSession()->getTimestamp() <= ($date + $interval) &&
                     $chartSession->getEndSession()->getTimestamp() >= $date);
-                    })
+            })
                 ->count();
 
             $result[] = new ChartValue((string) $intervalEndDate, (string) $countSessions);
