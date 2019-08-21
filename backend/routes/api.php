@@ -58,6 +58,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'visits'
+        ], function () {
+            Route::get('/by-table', 'VisitController@getPageViewsByParameter');
+        });
+
+        Route::group([
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
@@ -82,6 +88,8 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
+
+        Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
 
         Route::group([
             'prefix'=>'button-page-views'

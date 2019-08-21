@@ -34,26 +34,29 @@ class ButtonVisitorsApiTest extends TestCase
         $sixDateLastActivity = Carbon::parse('2019-08-21 22:00:45', 'UTC');
 
         factory(Visitor::class)->create([
-            'created_at' => $firstDate
+            'created_at' => $firstDate,
+            'last_activity' => $firstDate
         ]);
         factory(Visitor::class)->create([
             'created_at' => $secondDate,
             'last_activity' => $secondDateLastActivity
         ]);
         factory(Visitor::class)->create([
-            'created_at' => $thirdDate
+            'created_at' => $thirdDate,
+            'last_activity' => $thirdDate
         ]);
         factory(Visitor::class)->create([
-            'created_at' => $fourthDate
+            'created_at' => $fourthDate,
+            'last_activity' => $fourthDate
         ]);
         factory(Visitor::class)->create([
-            'created_at' => $fifthDate
+            'created_at' => $fifthDate,
+            'last_activity' => $fifthDate
         ]);
         factory(Visitor::class)->create([
             'created_at' => $sixDate,
             'last_activity' => $sixDateLastActivity
         ]);
-
         $filterData = [
             'filter' => [
                 'startDate' => (string)$thirdDate->getTimestamp(),
