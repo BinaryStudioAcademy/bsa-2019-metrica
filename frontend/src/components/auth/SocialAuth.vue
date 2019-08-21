@@ -13,6 +13,7 @@
                 <FontAwesomeIcon
                     class="social-icon"
                     :icon="['fab', 'google']"
+                    size="xs"
                 />
             </button>
             <button
@@ -22,6 +23,7 @@
                 <FontAwesomeIcon
                     class="social-icon"
                     :icon="['fab', 'facebook-f']"
+                    size="xs"
                 />
             </button>
         </div>
@@ -98,13 +100,11 @@
             padding: 5px;
             border-radius: 3px;
             margin: 1rem .5rem;
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             transition: background-color 0.2s ease-in-out;
             .social-icon {
                 display:inline-block;
-                width: 30px;
-                height: 30px;
                 vertical-align: top;
             }
             &:hover {
