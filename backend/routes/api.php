@@ -59,6 +59,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'visits'
+        ], function () {
+            Route::get('/by-table', 'VisitController@getPageViewsByParameter');
+        });
+
+        Route::group([
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
