@@ -16,6 +16,7 @@ import Default from '@/components/layout/Default.vue';
 import UserDataProviderPage from '../pages/UserDataProviderPage.vue';
 import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
 import SocialAuthPage from '@/pages/SocialAuthPage.vue';
+import Test from "../pages/Test";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -38,6 +39,10 @@ export default new Router({
                 {
                     path: '',
                     redirect: { name: 'home' }
+                },
+                {
+                    path:'test',
+                    component:Test
                 },
                 {
                     path: 'home',
