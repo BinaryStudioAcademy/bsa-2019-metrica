@@ -2,11 +2,12 @@
     <VContainer
         fluid
         pa-0
+        class="left-container"
     >
-        <VLayout>
+        <ContentLayout>
             <VFlex
-                lg6
-                md6
+                lg12
+                md12
                 sm12
                 xs12
                 class="content-card"
@@ -18,29 +19,30 @@
                 >
                     <VFlex
                         xs10
-                        sm8
+                        sm10
                         md10
-                        lg8
+                        lg10
                     >
                         <StepsProgressBar :step-number="stepNumber" />
                         <RouterView />
                     </VFlex>
                 </VLayout>
             </VFlex>
-            <VFlex
-                lg6
-                md6
-                hidden-sm-and-down
-                height="100%"
-                class="img-card"
-            >
-                <VImg :src="require('@/assets/running_man.jpg')" />
-            </VFlex>
-        </VLayout>
+        </ContentLayout>
+        <VFlex
+            lg6
+            md6
+            hidden-sm-and-down
+            height="100%"
+            class="img-card"
+        >
+            <VImg :src="require('@/assets/running_man.jpg')" />
+        </VFlex>
     </VContainer>
 </template>
 
 <script>
+    import ContentLayout from '../components/layout/ContentLayout.vue';
     import store from "../store";
     import StepsProgressBar from '@/components/website/adding_master/StepsProgressBar.vue';
 
@@ -48,6 +50,7 @@
         name: 'AddWebsitePage',
         components: {
             StepsProgressBar,
+            ContentLayout
         },
         computed: {
             stepNumber () {
@@ -68,7 +71,6 @@
 
 <style lang="scss" scoped>
     .content-card {
-        padding-top: 30px;
         background-color: rgb(245, 248, 253);
 
         ::v-deep .form-card {
@@ -83,5 +85,8 @@
     }
     .img-card {
         background-color: white;
+    }
+    .left-container {
+        display: flex;
     }
 </style>

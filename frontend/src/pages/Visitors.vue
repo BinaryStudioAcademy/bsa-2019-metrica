@@ -1,13 +1,8 @@
 <template>
-    <VContainer
-        fluid
-        class="content-container"
-    >
+    <ContentLayout :title="title">
         <VLayout
             wrap
-        >
-            <h5>{{ title }}</h5>
-        </VLayout>
+        />
         <VLayout>
             <VFlex
                 lg12
@@ -68,10 +63,11 @@
                 />
             </VFlex>
         </VLayout>
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/visitors/GroupedTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
@@ -86,7 +82,8 @@
             LineChart,
             GroupedTable,
             ButtonComponent,
-            PeriodDropdown
+            PeriodDropdown,
+            ContentLayout
         },
         data() {
             return {
@@ -240,8 +237,5 @@
     }
     .chart-container {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
-    }
-    .content-container {
-        padding: 70px 66px 0 80px;
     }
 </style>

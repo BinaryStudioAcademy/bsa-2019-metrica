@@ -1,12 +1,11 @@
 <template>
-    <VFlex
-        lg6
-        md6
-        sm12
-        xs12
-        class="ml-12 mt-11"
-    >
-        <VContainer>
+    <ContentLayout>
+        <VFlex
+            lg6
+            md6
+            sm12
+            xs12
+        >
             <VSubheader class="body-1 grey--text text--darken-1 pa-0">
                 Profile
             </VSubheader>
@@ -69,11 +68,12 @@
             >
                 Save
             </VBtn>
-        </VContainer>
-    </VFlex>
+        </VFlex>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from '../layout/ContentLayout.vue';
     import {mapGetters, mapActions} from 'vuex';
     import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
@@ -82,6 +82,7 @@
     import _ from "lodash";
 
     export default {
+        components: {ContentLayout},
         data() {
             return {
                 editUser: {

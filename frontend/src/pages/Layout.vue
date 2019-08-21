@@ -1,7 +1,9 @@
 <template>
     <VApp>
         <Header />
-        <RouterView />
+        <RouterView
+            class="container-router-view"
+        />
         <Footer />
         <Notification />
     </VApp>
@@ -20,3 +22,11 @@
         }
     };
 </script>
+<style lang="scss" scoped>
+
+    .container-router-view {
+        display: flex;
+        height: 100%;
+    }
+
+</style>
