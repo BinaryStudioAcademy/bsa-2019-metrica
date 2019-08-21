@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\ButtonVisitorsRepository;
 use App\Repositories\Contracts\ChartVisitorsRepository;
+use App\Repositories\Contracts\GeoPositionRepository;
+use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\SessionRepository;
+use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\TableVisitorsRepository;
 use App\Repositories\Contracts\TableSessionRepository;
 use App\Repositories\Contracts\UserRepository;
@@ -13,7 +16,10 @@ use App\Repositories\Contracts\ChartVisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
 use App\Repositories\EloquentChartVisitorsRepository;
+use App\Repositories\EloquentGeoPositionRepository;
+use App\Repositories\EloquentPageRepository;
 use App\Repositories\EloquentSessionRepository;
+use App\Repositories\EloquentSystemRepository;
 use App\Repositories\EloquentTableVisitorsRepository;
 use App\Repositories\EloquentTableSessionRepository;
 use App\Repositories\EloquentUserRepository;
@@ -50,6 +56,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ButtonVisitorsRepository::class, EloquentButtonVisitorsRepository::class);
 
         $this->app->bind(TableSessionRepository::class, EloquentTableSessionRepository::class);
+
+        $this->app->bind(PageRepository::class, EloquentPageRepository::class);
+
+        $this->app->bind(SystemRepository::class, EloquentSystemRepository::class);
+
+        $this->app->bind(GeoPositionRepository::class, EloquentGeoPositionRepository::class);
     }
 
     /**
