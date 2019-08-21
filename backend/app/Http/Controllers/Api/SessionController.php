@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Sessions\GetAverageSessionByIntervalRequest;
 use App\Actions\Sessions\GetAllSessionsAction;
+use App\Actions\Sessions\GetAverageSessionByIntervalAction;
 use App\Actions\Sessions\GetAvgSessionAction;
 use App\Actions\Sessions\GetAvgSessionTimeByParameterAction;
 use App\Actions\Sessions\GetAvgSessionTimeByParameterRequest;
 use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\AverageSessionByDateIntervalHttpRequest;
+use App\Http\Resources\ChartResource;
 use App\Http\Response\ApiResponse;
 use App\Http\Resources\CountSessions;
 use App\Http\Requests\Api\CountSessionsHttpRequest;
@@ -27,17 +31,20 @@ final class SessionController extends Controller
     private $countSessionsAction;
     private $getAvgSessionAction;
     private $getAvgSessionTimeByParameterAction;
+    private $getAvgSessionByIntervalAction;
 
     public function __construct(
         GetAllSessionsAction $getAllSessionsAction,
         CountSessionsAction $countSessionsAction,
         GetAvgSessionAction $getAvgSessionAction,
-        GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction
+        GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction,
+        GetAverageSessionByIntervalAction $getAvgSessionByIntervalAction
     ) {
         $this->getAllSessionsAction = $getAllSessionsAction;
         $this->countSessionsAction = $countSessionsAction;
         $this->getAvgSessionAction = $getAvgSessionAction;
         $this->getAvgSessionTimeByParameterAction = $getAvgSessionTimeByParameterAction;
+        $this->getAvgSessionByIntervalAction = $getAvgSessionByIntervalAction;
     }
 
     public function getAllSessions(): ApiResponse
@@ -71,5 +78,13 @@ final class SessionController extends Controller
         );
 
         return ApiResponse::success(new TableSessionResource($response->tableSessionCollection()));
+    }
+
+    public function getAverageSessionByInterval(AverageSessionByDateIntervalHttpRequest $request){
+        $response = $this->getAvgSessionByIntervalAction->execute(
+            GetAverageSessionByIntervalRequest::fromRequest($request)
+        );
+
+        return ApiResponse::success(new ChartResource($response->getSessionByIntervalCollection()));
     }
 }

@@ -26,6 +26,13 @@ Route::prefix('v1')->group(function () {
 
     Route::group([
         'namespace' => 'Api',
+        'prefix' => 'chart-sessions'
+    ], function () {
+        Route::get('/', 'SessionController@getAverageSessionByInterval');
+    });
+
+    Route::group([
+        'namespace' => 'Api',
         'middleware' => 'auth:api'
     ], function () {
         Route::group([
