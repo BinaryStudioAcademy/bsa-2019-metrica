@@ -15,6 +15,7 @@ use App\Actions\Visitors\GetChartTotalVisitorsByDateRangeRequest;
 use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
 use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
 use App\Http\Requests\Api\GetChartTotalVisitorsByDateRangeHttpRequest;
+use App\Http\Resources\ChartResource;
 use App\Http\Resources\ChartTotalVisitorsResourceCollection;
 use App\Http\Resources\VisitorCountResource;
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
@@ -103,9 +104,8 @@ final class VisitorController extends Controller
     public function getTotalVisitorsByDateRange(GetChartTotalVisitorsByDateRangeHttpRequest $request): ApiResponse
     {
         $response = $this->getTotalVisitorsByDateRangeAction->execute(
-            GetChartTotalVisitorsByDateRangeRequest::fromRequest($request)
-        );
+            GetChartTotalVisitorsByDateRangeRequest::fromRequest($request));
 
-        return ApiResponse::success(new ChartTotalVisitorsResourceCollection($response->getTotalVisitorsByDateRange()));
+        return ApiResponse::success(new ChartResource($response->getTotalVisitorsByDateRange()));
     }
 }

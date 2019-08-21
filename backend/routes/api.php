@@ -73,16 +73,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
-            'prefix' => 'chart-total-visitors'
-        ], function() {
-            Route::get('/', 'VisitorController@getTotalVisitorsByDateRange');
-        });
-          
-        Route::group([
             'prefix'=>'chart-new-visitors'
         ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
+
+        Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
     });
 });
 

@@ -12,6 +12,7 @@ use App\Entities\Visit;
 use App\Entities\User;
 use App\Entities\Visitor;
 use App\Entities\Website;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use DateTime;
@@ -35,6 +36,7 @@ class ChartVisitorsApiTest extends TestCase
         factory(Visitor::class)->create(['id' => 1]);
         factory(Visitor::class)->create(['id' => 2]);
         factory(Visitor::class)->create(['id' => 3]);
+        factory(Visitor::class)->create(['id' => 4]);
 
         factory(Website::class)->create();
         factory(Page::class)->create();
@@ -42,15 +44,19 @@ class ChartVisitorsApiTest extends TestCase
         factory(System::class)->create();
         factory(Session::class)->create();
 
-        $firstDate = new DateTime('@1566070350');
-        $secondDate = new DateTime('@1566156750');
-        $thirdDate = new DateTime('@1566243150');
-        $fourthDate = new DateTime('@1566305040');
-        $fifthDate = new DateTime('@1566326640');
-  
+        $firstDate = Carbon::create(2019, 6, 23, 12, 12, 12)->toDateTime();
+        $secondDate = Carbon::create(2019, 7, 10, 12, 12, 12)->toDateTime();
+        $thirdDate = Carbon::create(2019, 7, 19, 12, 12, 12)->toDateTime();
+        $fourthDate = Carbon::create(2019, 8, 1, 12, 12, 12)->toDateTime();
+        $fifthDate = Carbon::create(2019, 8, 15, 12, 12, 12)->toDateTime();
+
         factory(Visit::class)->create([
             'visit_time' => $firstDate,
             'visitor_id' => 1
+        ]);
+        factory(Visit::class)->create([
+            'visit_time' => $firstDate,
+            'visitor_id' => 4
         ]);
         factory(Visit::class)->create([
             'visit_time' => $secondDate,
@@ -71,27 +77,31 @@ class ChartVisitorsApiTest extends TestCase
 
         $filterData = [
             'filter' => [
-            'startDate' => (string)$thirdDate->getTimestamp(),
+            'startDate' => (string)$firstDate->getTimestamp(),
                 'endDate' => (string)$fifthDate->getTimestamp(),
                 'period' => '86400'
             ]
         ];
 
-        $token = JWTAuth::fromUser($this->user);
-        $headers = ['Authorization' => "Bearer $token"];
-
-        $response = $this->actingAs($this->user)
-            ->call('GET', 'api/v1/chart-total-visitors', $filterData, $headers);
-
-        $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'data' => [
-                [
-                    'period',
-                    'count'
+        $this->actingAs($this->user)
+            ->call('GET', 'api/v1/chart-total-visitors', $filterData)
+            ->assertStatus(200)
+            ->assertJson([
+            "data" => [
+                0 => [
+                    "date" => "1561248000",
+                    "value" => "2"
                 ],
+                1 => [
+                    "date" => "1562716800",
+                    "value" => "1"
+                ],
+                2 => [
+                    "date" => "1563494400",
+                    "value" => "1"
+                ]
             ],
-            'meta' => []
+            "meta" => []
         ]);
     }
 

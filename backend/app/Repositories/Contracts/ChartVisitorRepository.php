@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repositories\Contracts;
 
+use App\Utils\DatePeriod;
 use Illuminate\Support\Collection;
 
 interface ChartVisitorRepository
 {
     public function getTotalVisitorsByDateRange(
-        string $startDate,
-        string $endDate,
+        DatePeriod $datePeriod,
         string $period,
         int $userId
     ): Collection;

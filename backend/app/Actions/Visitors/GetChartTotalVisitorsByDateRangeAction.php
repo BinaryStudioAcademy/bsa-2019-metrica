@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
+use App\DataTransformer\ChartValue;
 use App\Repositories\Contracts\ChartVisitorRepository;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 final class GetChartTotalVisitorsByDateRangeAction
@@ -19,16 +19,11 @@ final class GetChartTotalVisitorsByDateRangeAction
 
     public function execute(GetChartTotalVisitorsByDateRangeRequest $request)
     {
-        $startDate = Carbon::createFromTimestampUTC(
-            $request->period()->getStartDate()->getTimestamp()
-        )->toDateTimeString();
-        $endDate = Carbon::createFromTimestampUTC(
-            $request->period()->getEndDate()->getTimestamp()
-        )->toDateTimeString();
-
         $response = $this->repository->getTotalVisitorsByDateRange(
-            $startDate, $endDate, $request->interval(), Auth::id()
-        );
+            $request->period(), $request->interval(), Auth::id()
+        )->map(function ($item) {
+            return new ChartValue($item->date(), $item->value());
+        });
 
         return new GetChartTotalVisitorsByDateRangeResponse($response);
     }

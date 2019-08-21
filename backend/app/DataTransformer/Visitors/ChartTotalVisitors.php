@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace App\DataTransformer\Visitors;
 
-final class ChartTotalVisitors
+use App\Contracts\ChartValue;
+
+final class ChartTotalVisitors implements ChartValue
 {
     private $period;
     private $count;
 
-    public function __construct(string $period, int $count)
+    public function __construct(string $period, string $count)
     {
         $this->period = $period;
         $this->count = $count;
     }
 
-    public function getPeriod(): string
+    public function date(): string
     {
         return $this->period;
     }
 
-    public function getCount(): int
+    public function value(): string
     {
         return $this->count;
     }

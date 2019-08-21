@@ -6,16 +6,17 @@ namespace App\Repositories;
 
 use App\DataTransformer\Visitors\ChartTotalVisitors;
 use App\Repositories\Contracts\ChartVisitorRepository;
+use App\Utils\DatePeriod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 final class EloquentChartVisitorRepository implements ChartVisitorRepository
 {
-    public function getTotalVisitorsByDateRange(string $startDate, string $endDate, string $period, int $userId): Collection
+    public function getTotalVisitorsByDateRange(DatePeriod $datePeriod, string $period, int $userId): Collection
     {
         $subQueryFirst = "SELECT id FROM visitors WHERE website_id IN (SELECT id FROM websites WHERE user_id = :user_id)";
 
-        $subQuerySecond = "SELECT visits.*, (" . $this->getPeriod('created_at', $period) . ") AS period
+        $subQuerySecond = "SELECT visits.*, (" . $this->getPeriod('visit_time', $period) . ") AS period
                              FROM visits 
                              WHERE visit_time >= :startDate and visit_time <= :endDate and visitor_id 
                              IN ($subQueryFirst)";
@@ -24,12 +25,12 @@ final class EloquentChartVisitorRepository implements ChartVisitorRepository
                           FROM ($subQuerySecond) AS periods) as rows where row_number = 1";
         $query = DB::raw("SELECT COUNT(*), period FROM ($subQueryThird) AS periods GROUP BY period;");
         $response = DB::select((string)$query, [
-            'startDate' => $startDate,
-            'endDate' => $endDate,
+            'startDate' => $datePeriod->getStartDate(),
+            'endDate' => $datePeriod->getEndDate(),
             'user_id' => $userId
         ]);
         return collect($response)->map(function ($item) {
-            return new ChartTotalVisitors($item->period, $item->count);
+            return new ChartTotalVisitors($item->period, (string)$item->count);
         });
     }
     private function toTimestamp(string $columnName): string
