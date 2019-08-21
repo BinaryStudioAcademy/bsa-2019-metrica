@@ -7,7 +7,7 @@ const getTimeByPeriod = (period) => {
     switch (period) {
         case 'today':
             interval = getHourInterval(1);
-            startDate = currentDate();
+            startDate = getSubtractStartDate(0);
             endDate = getSubtractEndDate(0);
             break;
         case 'yesterday':
