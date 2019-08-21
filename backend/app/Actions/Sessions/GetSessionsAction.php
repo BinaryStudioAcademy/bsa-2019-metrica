@@ -56,7 +56,7 @@ final class GetSessionsAction
             $countSessions = (int) 0;
 
             foreach ($arrayAllSessions as $k => $v) {
-                if (strtotime($v[0]) <= ($date + $interval) && strtotime($v[1]) >= $date ) {
+                if (strtotime($v[0]) <= ($date + $interval) && strtotime($v[1]) >= $date) {
                     $countSessions++;
                 }
             }
