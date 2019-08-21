@@ -71,17 +71,24 @@
                 </div>
             </div>
         </VForm>
+
+        <SocialAuth />
     </div>
 </template>
 
 <script>
     import {mapActions} from 'vuex';
     import {LOGIN} from "@/store/modules/auth/types/actions";
-    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import {SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
+    import SocialAuth from './SocialAuth';
 
     export default {
+        components: {
+            SocialAuth
+        },
+
         data() {
             return {
                 email: '',
@@ -126,7 +133,7 @@
         },
         computed: {
             signInText() {
-                return this.isLoading?'Processing...':'SIGN IN';
+                return this.isLoading ? 'Processing...' : 'SIGN IN';
             }
         }
     };
@@ -139,7 +146,7 @@
         .v-btn {
             text-transform: none;
 
-            +.start {
+            + .start {
                 background: #FFFFFF;
                 color: #3C57DE;
                 margin-left: 50px;
@@ -150,6 +157,7 @@
             margin-bottom: 30px;
             font-size: 19px;
         }
+
         .password-group {
             display: flex;
             flex-direction: column;
