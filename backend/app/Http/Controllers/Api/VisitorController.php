@@ -59,7 +59,6 @@ final class VisitorController extends Controller
         GetBounceRateAction $getBounceRateAction,
         GetChartTotalVisitorsByDateRangeAction $getTotalVisitorsByDateRangeAction,
         GetButtonCountVisitorsAction $getButtonCountVisitorsAction,
-        GetVisitorsByParameterAction $getVisitorsByParameterAction
         GetVisitorsByParameterAction $getVisitorsByParameterAction,
         GetNewVisitorsByParameterAction $getNewVisitorsByParameterAction
     ) {
