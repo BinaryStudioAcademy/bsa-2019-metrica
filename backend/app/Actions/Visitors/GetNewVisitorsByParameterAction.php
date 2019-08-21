@@ -25,7 +25,7 @@ final class GetNewVisitorsByParameterAction
         $websiteId = (int)auth()->user()->website->id;
 
         $parameter = $request->parameter();
-        dump($websiteId, $request->startDate(),  $request->endDate(), $request->parameter());
+
         $visitors = $this->tableNewVisitorsRepository->groupVisitorsByParameter(
             $websiteId, $request->startDate(),  $request->endDate(), $request->parameter()
         )->map(function ($visitor) use ($parameter) {
