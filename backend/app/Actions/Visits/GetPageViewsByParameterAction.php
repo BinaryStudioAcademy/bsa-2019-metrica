@@ -21,13 +21,6 @@ final class GetPageViewsByParameterAction
 
     public function execute(GetPageViewsByParameterRequest $request): GetPageViewsByParameterResponse
     {
-        $startDate = Carbon::createFromTimestampUTC(
-            $request->period()->getStartDate()->getTimestamp()
-        )->toDateTimeString();
-        $endDate = Carbon::createFromTimestampUTC(
-            $request->period()->getEndDate()->getTimestamp()
-        )->toDateTimeString();
-
         switch ($request->parameter()) {
             case 'city':
                 $visits = $this->tableVisitsRepository
