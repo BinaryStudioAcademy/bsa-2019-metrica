@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Sessions;
 
 use App\Contracts\Common\DatePeriod;
-use App\DataTransformer\Sessions\ChartSessions;
+use App\DataTransformer\ChartValue;
 use App\Exceptions\AppInvalidArgumentException;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ChartSessionsRepository;
@@ -50,23 +50,18 @@ final class GetSessionsAction
             $websiteId
         );
 
-//        dd($arrayAllSessions);
-
-
-
         for ($date = $startDate; $date < $endDate; $date += $interval) {
-            $intervalEndDate = $date + $interval;
-            $period = \App\Utils\DatePeriod::createFromTimestamp($date, $intervalEndDate);
 
+            $intervalEndDate = $date + $interval;
             $countSessions = (int) 0;
 
-            foreach ($arrayAllSessions as $k => $v ) {
+            foreach ($arrayAllSessions as $k => $v) {
                 if (strtotime($v[0]) <= ($date + $interval) && strtotime($v[1]) >= $date ) {
                     $countSessions++;
                 }
             }
 
-            $result[] = new ChartSessions((string) $intervalEndDate, $countSessions);
+            $result[] = new ChartValue((string) $intervalEndDate, (string) $countSessions);
         }
 
         return collect($result);

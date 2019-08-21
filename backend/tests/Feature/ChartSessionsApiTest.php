@@ -84,11 +84,11 @@ class ChartSessionsApiTest extends TestCase
                 [
                     [
                         'date' => (string) $date2->getTimestamp(),
-                        'sessions' => 5
+                        'value' => 5
                     ],
                     [
                         'date' => (string) $date3->getTimestamp(),
-                        'sessions' => 4
+                        'value' => 4
                     ],
                 ],
             'meta' => [],
