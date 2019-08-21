@@ -13,6 +13,7 @@
                 no-action
                 append-icon=""
                 class="my-4"
+                v-model="link.active"
             >
                 <template v-slot:activator>
                     <RouterLink
@@ -90,6 +91,7 @@
                     icon: '/assets/icons/settings.svg',
                     text: 'Settings',
                     route: 'settings',
+                    active: false,
                     sublinks: [
                         {
                             text: 'User',
@@ -102,7 +104,36 @@
                     ]
                 },
             ]
-        })
+        }),
+
+        watch:{
+            $route (to, from) {
+                console.log(this.$route.name, to, from);
+                this.links.map(item => {
+                    if (item.route === 'settings') {
+                        if (this.$route.name === 'websiteinfo' ||
+                            this.$route.name === 'add_websites_step_1') {
+                            item.active = true;
+                        } else {
+                            item.active = false;
+                        }
+                    }
+                });
+            }
+        },
+
+        created() {
+            this.links.map(item => {
+                if (item.route === 'settings') {
+                    if (this.$route.name === 'websiteinfo' ||
+                        this.$route.name === 'add_websites_step_1') {
+                        item.active = true;
+                    } else {
+                        item.active = false;
+                    }
+                }
+            });
+        }
     };
 </script>
 
