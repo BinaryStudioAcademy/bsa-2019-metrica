@@ -30,6 +30,9 @@ use App\Http\Resources\ChartNewVisitorResourceCollection;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeAction;
 use App\Actions\Visitors\GetNewChartVisitorsByDateRangeRequest;
 use App\Actions\Visitors\GetNewVisitorsByParameterAction;
+use App\Http\Resources\TableResource;
+use App\Http\Requests\Api\GetTableNewVisitorsByParameterHttpRequest;
+use App\Actions\Visitors\GetNewVisitorsByParameterRequest;
 
 final class VisitorController extends Controller
 {
@@ -107,11 +110,11 @@ final class VisitorController extends Controller
         return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
     }
 
-    public function getNewVisitorsForTableByParameter(GetTableVisitorsByParameterHttpRequest $request): ApiResponse
+    public function getNewVisitorsForTableByParameter(GetTableNewVisitorsByParameterHttpRequest $request): ApiResponse
     {
         $response = $this->getNewVisitorsByParameterAction->execute(
-            GetVisitorsByParameterRequest::fromRequest($request));
+            GetNewVisitorsByParameterRequest::fromRequest($request));
 
-        return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
+        return ApiResponse::success(new TableResource($response->visitors()));
     }
 }
