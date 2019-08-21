@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import totalVisitorsService from "../../services/visitors/totalVisitorsSevice";
+    import totalVisitorsService from "../../services/visitors/totalVisitorsService";
 
     export default {
         name: "TestForm",
