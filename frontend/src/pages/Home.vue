@@ -48,6 +48,14 @@
     </VContent>
 </template>
 
+<script>
+    import {isCurrentUser} from '../mixins/isCurrentUser';
+
+    export default {
+        mixins: [isCurrentUser]
+    };
+</script>
+
 <style lang="scss" scoped>
 
 main {

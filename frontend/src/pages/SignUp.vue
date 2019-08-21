@@ -41,8 +41,10 @@
 
 <script>
     import SignUpForm from '@/components/auth/SignUpForm.vue';
+    import {isCurrentUser} from '../mixins/isCurrentUser';
 
     export default {
+        mixins: [isCurrentUser],
         components: {
             SignUpForm
         }
@@ -64,7 +66,7 @@ main{
 }
 
 .form-wrapper{
-    height: 89vh;
+    height: 100%;
     background: #f5f8fd;
 }
 
