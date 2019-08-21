@@ -25,7 +25,9 @@ class VisitorsApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class, 1)->create();
+        factory(Website::class, 1)->create(
+            ['user_id' => $this->user->id]
+        );
         factory(Page::class, 1)->create();
         factory(System::class, 1)->create();
         factory(GeoPosition::class, 1)->create();
@@ -86,8 +88,75 @@ class VisitorsApiTest extends TestCase
 
         $this->actingAs($this->user)
             ->call('GET', 'api/v1/visitors/new/count', $filterData)
-            //->assertStatus(200)
+            ->assertStatus(200)
             ->assertJson($expectedData);
+    }
+
+    public function testBounceRateByTimeFrameAction()
+    {
+        $endpoint = 'api/v1/visitors/bounce-rate';
+
+        $startDate = new DateTime('2019-08-20 06:00:00');
+        $endDate = new DateTime('2019-08-20 08:00:00');
+        $anHour = 60 * 60;
+
+        $filterData = [
+            'filter' => [
+                'startDate' => $startDate->getTimestamp(),
+                'endDate' => $endDate->getTimestamp(),
+                'timeFrame' => $anHour,
+            ]
+        ];
+
+        factory(Visitor::class)->create([
+            'created_at' => new DateTime('2019-08-20 05:30:00')
+        ]);
+        
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 1);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 2);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 1);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
+        $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 2);
+        factory(Visitor::class)->create([
+            'created_at' => new DateTime('2019-08-20 08:30:00')
+        ]);
+
+        $expectedData = [
+            'data' => [
+                [
+                    'date' => (string) $startDate->getTimestamp(),
+                    'value' => 0.5,
+                ],
+                [
+                    'date' => (string) ($startDate->getTimestamp() + $anHour),
+                    'value' => 0.25,
+                ]
+            ],
+            'meta' => [],
+        ];
+
+        $this->actingAs($this->user)
+            ->json('GET', $endpoint, $filterData)
+            ->assertStatus(200)
+            ->assertJson($expectedData);
+    }
+
+    private function createVisitorWithVisits(DateTime $createdDate, int $countVisits)
+    {
+        $visitor = factory(Visitor::class)->create([
+            'created_at' => $createdDate
+        ]);
+        $session = factory(Session::class)->create([
+            'start_session' => $visitor->created_at,
+            'visitor_id' => $visitor->id
+        ]);
+        factory(Visit::class, $countVisits)->create([
+            'session_id' => $session->id,
+            'visitor_id' => $visitor->id
+        ]);
+
+        return $visitor;
     }
 
     public function testNewVisitorsCountWithInvalidDataAction()

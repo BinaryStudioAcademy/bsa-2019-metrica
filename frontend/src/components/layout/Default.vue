@@ -1,17 +1,21 @@
 <template>
-    <VContainer class="content-container">
-        <h5>{{ title }}</h5>
+    <ContentLayout :title="title">
         <VImg
             :src="require('@/assets/running_man.jpg')"
             width="50%"
-            height="50%"
+            height="60%"
         />
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import {isWebsite} from '../../mixins/isWebsite';
+
+    import ContentLayout from './ContentLayout.vue';
     export default {
+        components: {ContentLayout},
         name: 'Default',
+        mixins: [isWebsite],
         computed: {
             title () {
                 return this.$route.meta.title;
@@ -19,10 +23,4 @@
         }
     };
 </script>
-
-<style scoped>
-    .content-container {
-        padding: 70px 66px 0 80px;
-    }
-</style>
 

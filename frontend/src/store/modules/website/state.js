@@ -10,5 +10,6 @@ export default {
         domain: '',
         single_page: false,
     },
-    isCurrentWebsite: false
+    isCurrentWebsite: false,
+    isFetchedWebsite:false,
 };
