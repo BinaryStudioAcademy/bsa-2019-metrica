@@ -1,11 +1,11 @@
-import requestService from "../requestService";
+import requestService from "@/services/requestService";
 import config from "@/config";
 import {buttonTransformer, chartTransformer, tableTransformer} from './transformers';
 
 const resourceUrl = config.getApiUrl();
 
 const fetchButtonValue = (startDate, endDate) => {
-    return requestService.get(resourceUrl + '/button-visitors', {}, {
+    return requestService.get(resourceUrl + '/sessions/count', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
@@ -13,7 +13,7 @@ const fetchButtonValue = (startDate, endDate) => {
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
-    return requestService.get(resourceUrl + '/chart-total-visitors', {}, {
+    return requestService.get(resourceUrl + '/chart-sessions', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[period]': interval
@@ -22,18 +22,18 @@ const fetchChartValues = (startDate, endDate, interval) => {
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
-    return requestService.get(resourceUrl + '/visitors/by-table', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate,
-        'parameter': groupBy
-    }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
+    return requestService.get(resourceUrl + '/sessions/param', {}, {
+        'filter[startDate]': startDate,
+        'filter[endDate]': endDate,
+        'filter[parameter]': groupBy
+    }).then(response => response.data.map(tableTransformer))
         .catch(err => throw err);
 };
 
-const totalVisitorsService = {
+const sessionsService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
 
-export default totalVisitorsService;
+export default sessionsService;
