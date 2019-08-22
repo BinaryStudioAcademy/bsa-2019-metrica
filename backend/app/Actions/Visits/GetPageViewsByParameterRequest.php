@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Visits;
 
 use App\Actions\TableDataRequest;
-use App\Http\Requests\Api\GetTableVisitsByParameterHttpRequest;
+use App\Http\Requests\Visitor\GetTableVisitsByParameterHttpRequest;
 
 final class GetPageViewsByParameterRequest extends TableDataRequest
 {

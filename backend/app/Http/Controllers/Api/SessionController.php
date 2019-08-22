@@ -10,7 +10,7 @@ use App\Actions\Sessions\GetSessionsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SessionResourceCollection;
 use App\Http\Resources\ChartResource;
-use App\Http\Requests\Api\GetSessionsFilterHttpRequest;
+use App\Http\Requests\Session\GetSessionsFilterHttpRequest;
 use App\Actions\Sessions\GetAvgSessionAction;
 use App\Actions\Sessions\GetAvgSessionTimeByParameterAction;
 use App\Actions\Sessions\GetAvgSessionTimeByParameterRequest;
