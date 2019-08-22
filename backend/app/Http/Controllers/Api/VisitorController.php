@@ -119,7 +119,7 @@ final class VisitorController extends Controller
         $response = $this->getVisitorsByParameterAction->execute(
             GetVisitorsByParameterRequest::fromRequest($request));
 
-        return ApiResponse::success(new TableVisitorsResourseCollection($response->visitors()));
+        return ApiResponse::success(new TableResource($response->visitors()));
     }
 
     public function getTotalVisitorsByDateRange(GetChartTotalVisitorsByDateRangeHttpRequest $request): ApiResponse
