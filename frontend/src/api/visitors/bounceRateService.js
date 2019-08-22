@@ -43,7 +43,7 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[start_date]': startDate,
         'filter[end_date]': endDate,
         'parameter': groupBy
-    }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
+    }).then(response => response.data.map(tableTransformer))
         .catch(error => Promise.reject(
             new Error(
                 _.get(
