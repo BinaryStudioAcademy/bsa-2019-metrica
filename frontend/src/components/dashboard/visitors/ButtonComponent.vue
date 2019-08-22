@@ -1,11 +1,10 @@
 <template>
-    <Spinner v-if="buttonData.isFetching" />
     <div
-        v-else
-        class="button-card bg-white d-inline-flex justify-content-start align-items-center"
+        class="button-card bg-white d-inline-flex justify-content-start align-items-center position-relative"
         :class="{ active: isActive }"
         @click="changeButton"
     >
+        <Spinner v-if="buttonData.isFetching" />
         <div
             class="card-image"
         >
