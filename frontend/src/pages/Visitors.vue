@@ -99,7 +99,6 @@
         data() {
             return {
                 data: [],
-                isFetching:false,
                 items: [
                     {
                         option: 'IE',
