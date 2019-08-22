@@ -15,12 +15,10 @@ class ChartNewVisitor implements ChartValue
         $this->period = $period;
         $this->count = $count;
     }
-
     public function date(): string
     {
         return $this->period;
     }
-
     public function value(): string
     {
         return $this->count;
