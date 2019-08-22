@@ -19,8 +19,11 @@
                     <VFlex
                         class="chart-container"
                     >
-                        <LineChart :data="data" />
+                        <LineChart
+                            :data="chartData.items"
+                        />
                         <PeriodDropdown />
+
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -87,7 +90,10 @@
         },
         data() {
             return {
-                data: [],
+                chartData: {
+                    items: [],
+                    isFetching: false
+                },
                 items: [
                     {
                         option: 'IE',
@@ -220,7 +226,7 @@
                     value: Math.floor(Math.random() * 2000) + 1,
                     indication: Math.floor(Math.random() * 200) + 1,
                 };
-                this.data.push(item);
+                this.chartData.items.push(item);
             }
         },
         methods: {
