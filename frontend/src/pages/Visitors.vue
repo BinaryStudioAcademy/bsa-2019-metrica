@@ -20,7 +20,7 @@
                         class="chart-container"
                     >
                         <LineChart
-                            :data="chartData.items"
+                            :data="chartData"
                         />
                         <PeriodDropdown />
                     </VFlex>
@@ -72,7 +72,7 @@
     import {mapGetters} from 'vuex';
     import {
         GET_PIE_CHART_DATA,
-        GET_LINE_CHART_DATA
+        GET_LINE_CHART_DATA,
     } from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";

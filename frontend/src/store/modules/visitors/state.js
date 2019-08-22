@@ -37,12 +37,12 @@ export default {
     },
     chartData: {
         items: [],
-        isFetching: true
+        isFetching: false
     },
     pieChartData: {
         newVisitors: 0,
         returnVisitors: 0,
-        isFetching: true
+        isFetching: false
     },
     activeButton: TOTAL_VISITORS
 };
