@@ -1,4 +1,5 @@
 import moment from "moment";
+
 const buttonTransformer = (item) => {
     return {value: item.value};
 };
@@ -10,10 +11,11 @@ const chartTransformer = (item) => {
     };
 };
 
-const tableTransformer = (groupByParam, item) => {
+const tableTransformer = (item) => {
     return {
-        [groupByParam]: item.parameter_value,
-        'visitors': item.visitors,
+        'parameter': item.parameter,
+        'parameter_value': item.parameter_value,
+        'total': item.total,
         'percentage': item.percentage
     };
 };

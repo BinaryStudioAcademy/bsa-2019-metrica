@@ -1,8 +1,9 @@
-import {AVG_SESSION, BOUNCE_RATE, NEW_VISITORS, TOTAL_VISITORS} from "../../configs/visitors/buttonTypes";
+import {AVG_SESSION, BOUNCE_RATE, NEW_VISITORS, SESSIONS, TOTAL_VISITORS} from "../../configs/visitors/buttonTypes";
 import totalVisitorsService from "./totalVisitorsService";
 import newVisitorsService from "./newVisitorsService";
 import bounceRateService from "./bounceRateService";
 import averangeSessionService from "./averangeSessionsService";
+import sessionsService from "./sessionsService";
 
 const create = (type) => {
     switch (type) {
@@ -14,6 +15,8 @@ const create = (type) => {
             return bounceRateService;
         case AVG_SESSION:
             return averangeSessionService;
+        case SESSIONS:
+            return sessionsService;
     }
 };
 
