@@ -9,7 +9,6 @@ import {
     SET_ACTIVE_BUTTON,
     RESET_BUTTON_FETCHING,
     SET_BUTTON_FETCHING,
-    GET_SELECTED_PERIOD,
     SET_TABLE_DATA,
     SET_TABLE_DATA_FETCHING,
     RESET_TABLE_DATA_FETCHING,
@@ -46,7 +45,7 @@ export default {
 
         periodService.getTimeByPeriod(context.state.selectedPeriod)
             .then(response => {
-                factoryVisitorService.create(data.button)
+                return factoryVisitorService.create(data.button)
                     .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
             })
             .then(response => {
