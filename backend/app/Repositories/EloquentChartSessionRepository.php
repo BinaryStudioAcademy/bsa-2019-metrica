@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 
 final class EloquentChartSessionRepository implements ChartSessionRepository
 {
-
     public function getSessionByInterval(
         DatePeriod $period,
         Collection $visitorsId
