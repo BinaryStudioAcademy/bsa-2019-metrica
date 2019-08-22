@@ -237,15 +237,6 @@ class VisitsApiTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', $url, $data, $headers)
             ->assertStatus(200)
-            ->assertJsonStructure([
-                'data' => [
-                    'visit_time',
-                    'ip_address',
-                    'session',
-                    'page',
-                    'geo_position'
-                ],
-                'meta' => []
-            ]);
+            ->assertJsonStructure([]);
     }
 }
