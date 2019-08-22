@@ -43,7 +43,6 @@
 
         data() {
             return {
-                chartDate: this.data,
                 chartOptions: {
                     tooltip: {
                         isHtml: true,
