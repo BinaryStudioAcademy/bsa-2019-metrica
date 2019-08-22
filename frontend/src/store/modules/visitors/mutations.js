@@ -2,8 +2,8 @@ import {
     SET_SELECTED_PERIOD,
     SET_LINE_CHART_DATA,
     GET_SELECTED_PERIOD,
-    SET_LINE_CHART_DATA_FETCHING,
-    RESET_LINE_CHART_DATA_FETCHING,
+    SET_LINE_CHART_FETCHING,
+    RESET_LINE_CHART_FETCHING,
     SET_GROUPED_PARAMETER,
     SET_ACTIVE_BUTTON,
     SET_BUTTON_FETCHING,
@@ -31,10 +31,10 @@ export default {
     [SET_LINE_CHART_DATA]: (state, value) => {
         state.chartData.items = value;
     },
-    [SET_LINE_CHART_DATA_FETCHING]: (state) => {
+    [SET_LINE_CHART_FETCHING]: (state) => {
         state.chartData.isFetching = true;
     },
-    [RESET_LINE_CHART_DATA_FETCHING]: (state) => {
+    [RESET_LINE_CHART_FETCHING]: (state) => {
         state.chartData.isFetching = false;
     },
     [SET_GROUPED_PARAMETER]: (state, parameter) => {
