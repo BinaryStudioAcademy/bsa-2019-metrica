@@ -14,8 +14,7 @@ final class EloquentChartSessionRepository implements ChartSessionRepository
     public function getSessionByInterval(
         DatePeriod $period,
         Collection $visitorsId
-    ): Collection
-    {
+    ): Collection {
         return Session::whereSessionDateBetween($period)
             ->whereIn('visitor_id', $visitorsId)
             ->get();

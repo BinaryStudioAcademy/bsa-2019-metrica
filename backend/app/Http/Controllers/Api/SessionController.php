@@ -95,7 +95,8 @@ final class SessionController extends Controller
         return ApiResponse::success(new TableSessionResource($response->tableSessionCollection()));
     }
 
-    public function getAverageSessionByInterval(GetAverageSessionByDateIntervalHttpRequest $request){
+    public function getAverageSessionByInterval(GetAverageSessionByDateIntervalHttpRequest $request)
+    {
         $response = $this->getAvgSessionByIntervalAction->execute(
             GetAverageSessionByIntervalRequest::fromRequest($request)
         );
