@@ -40,5 +40,9 @@ export default {
         returnVisitors: 0,
         isFetching: false
     },
-    activeButton: TOTAL_VISITORS
+    activeButton: TOTAL_VISITORS,
+    tableData: {
+
+        isFetching: false
+    },
 };

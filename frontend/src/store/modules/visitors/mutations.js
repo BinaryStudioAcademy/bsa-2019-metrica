@@ -13,4 +13,5 @@ export default {
     [RESET_BUTTON_FETCHING]: (state, button) => {
         state.buttonData[button].isFetching = false;
     },
+
 };

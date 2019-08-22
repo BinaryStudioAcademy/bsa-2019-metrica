@@ -34,7 +34,11 @@
     import {mapGetters, mapActions} from 'vuex';
     import Spinner from '../../utilites/Spinner';
     import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON} from "@/store/modules/visitors/types/getters";
-    import {CHANGE_ACTIVE_BUTTON, CHANGE_FETCHED_BUTTON_STATE} from "@/store/modules/visitors/types/actions";
+    import {
+        CHANGE_ACTIVE_BUTTON,
+        CHANGE_FETCHED_BUTTON_STATE,
+        CHANGE_TABLE_DATA
+    } from "@/store/modules/visitors/types/actions";
 
     export default {
         name: 'ButtonComponent',
@@ -70,7 +74,8 @@
         methods: {
             ...mapActions('visitors', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE
+                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
+                changeTableData: CHANGE_TABLE_DATA,
             }),
             changeButton () {
                 if (!this.isActive) {
