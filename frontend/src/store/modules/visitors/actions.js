@@ -35,28 +35,29 @@ export default {
         }
     },
     [FETCH_TABLE_DATA]: (context, data) => {
-        if (data.value) {
-            context.commit(SET_TABLE_DATA_FETCHING);
-            context.commit(GET_ACTIVE_BUTTON)
-                .then(response => {
-                    data.button = response.data;
-                });
-            context.commit(GET_SELECTED_PERIOD)
-                .then(response => {
-                    periodService.getTimeByPeriod(response.data);
-                })
-                .then(response => {
-                    factoryVisitorService.create(data.button)
-                        .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
-                })
-                .then(response => {
-                    context.commit(SET_TABLE_DATA, response.data);
-                })
-                .catch(err => {
-                    context.commit(RESET_TABLE_DATA_FETCHING);
-                    throw err;
-                });
-            context.commit(RESET_TABLE_DATA_FETCHING);
+        if (!data.value) {
+            return;
         }
+        context.commit(SET_TABLE_DATA_FETCHING);
+        context.commit(GET_ACTIVE_BUTTON)
+            .then(response => {
+                data.button = response.data;
+            });
+
+        periodService.getTimeByPeriod(context.state.selectedPeriod)
+            .then(response => {
+                factoryVisitorService.create(data.button)
+                    .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
+            })
+            .then(response => {
+                context.commit(SET_TABLE_DATA, response.data);
+            })
+            .catch(err => {
+                context.commit(RESET_TABLE_DATA_FETCHING);
+                throw err;
+            })
+            .finally(() => {
+                context.commit(RESET_TABLE_DATA_FETCHING);
+            });
     }
 };
