@@ -58,8 +58,9 @@
                 class="img-card"
             >
                 <PieChart
-                    :data="pieChartData"
+                    :data="pieData"
                     :legend="legend"
+                    :is-fetching="pieChartData.isFetching"
                 />
             </VFlex>
         </VLayout>
@@ -98,6 +99,7 @@
         data() {
             return {
                 data: [],
+                isFetching:false,
                 items: [
                     {
                         option: 'IE',
@@ -218,6 +220,13 @@
             },
             tableData () {
                 return this.items;
+            },
+            pieData () {
+                return [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.pieChartData.newVisitors],
+                    ['Return Visitors', this.pieChartData.returnVisitors],
+                ];
             }
         },
         mounted() {
