@@ -197,7 +197,7 @@ class VisitorsApiTest extends TestCase
 
         $expected = [
             'data' => [
-                'bounce_rate' => 1/6 * 100
+                'value' => round(1/6 * 100,2)
             ],
             'meta' => []
         ];
