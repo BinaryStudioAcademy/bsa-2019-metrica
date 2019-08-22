@@ -12,7 +12,6 @@ use App\Actions\Visits\CreateVisitAction;
 use App\Actions\Visits\CreateVisitRequest;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
-use App\Contracts\ChartValue;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visit\CreateVisitHttpRequest;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
@@ -21,7 +20,6 @@ use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
 use App\Http\Resources\ButtonResource;
 use App\Http\Resources\TableResource;
-use App\Http\Resources\VisitCountResource;
 use App\Http\Resources\VisitResource;
 use App\Http\Response\ApiResponse;
 

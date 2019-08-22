@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Session;
 
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
