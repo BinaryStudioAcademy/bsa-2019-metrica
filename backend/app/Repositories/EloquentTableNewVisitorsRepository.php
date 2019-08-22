@@ -9,60 +9,134 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Visitor;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 final class EloquentTableNewVisitorsRepository implements TableNewVisitorsRepository
 {
-
-    public function groupVisitorsByParameter(
-        int $website_id, string $from, string $to, string $parameter
-    ): Collection
+    public function getNewVisitors(int $website_id, string $from, string $to): Collection
     {
-
-        $total = Visitor::whereHas('sessions', function (Builder $query) use($from, $to) {
-                return $query->whereBetween('start_session', [$from, $to]);
-            }, '=', 1)->count();
-
-        dump($total);
-
-        $query = Visitor::whereHas('sessions', function (Builder $query) use($from, $to) {
-                    return $query->whereBetween('start_session', [$from, $to]);
-                }, '=', 1)
-                ->selectRaw('COUNT(*) as total, COUNT(*) / ? * 100 as percentage', [$total])
-                ->when(in_array($parameter, ['country', 'city']),
-                    function($query) use($parameter) {
-                        return $query->join('visits', 'visits.visitor_id', '=', 'visitors.id')
-                            ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
-                            // ->when($parameter === 'country', function (Builder $query) {
-                            //     return $query->addSelect('country as parameter');
-                            // })
-                            ->when($parameter === 'city', function (Builder $query)  {
-                                return $query->addSelect('geo_positions.city as parameter_value')
-                                            ->groupBy('parameter_value');
-                            });
-                });
-                // ->when(in_array($parameter, ['language', 'browser','operating_system','screen_resolution']),
-                //     function($query, $parameter) {
-                //         return $query->join('sessions', 'sessions.visitor_id', '=', 'visitors.id')
-                //             ->join('systems', 'sessions.system_id', '=', 'systems.id')
-                //             ->when($parameter === 'browser', function (Builder $query) {
-                //                 return $query->addSelect('browser as parameter');
-                //             })
-                //             ->when($parameter === 'operating_system', function (Builder $query) {
-                //                 return $query->addSelect('os as parameter');
-                //             })
-                //             ->when($parameter === 'screen_resolution', function (Builder $query) {
-                //                 return $query->addSelect(
-                //                     DB::raw('concat(resolution_width, \'x\', resolution_height) as parameter')
-                //                     );
-                //             })
-                //             ->when($parameter === 'language', function (Builder $query) {
-                //                 return $query->addSelect('language as parameter');
-                //         });
-                // })
-
-            $query->dump();
-
-            return $query->get();
+        return Visitor::whereBetween('created_at', [
+            (new Carbon((int)$from))->toDateTimeString(),
+            (new Carbon((int)$to))->toDateTimeString(),
+        ])
+        ->where('website_id', $website_id)
+        ->get(['id', 'created_at']);
     }
 
+    public function countAllVisitors(int $website_id): int
+    {
+        return Visitor::where('website_id', $website_id)->count();
+    }
+
+
+    public function groupByCity(int $website_id, string $from, string $to): Collection
+    {
+        $count = $this->countAllVisitors($website_id);
+
+        $query = DB::table('visitors')
+            ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
+            ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage" ),
+                    'geo_positions.city as parameter_value')
+            ->where('visitors.website_id', '=', $website_id)
+            ->whereBetween('visitors.created_at', [$from, $to])
+            ->groupBy('geo_positions.city')
+            ->get();
+
+        return new Collection($visitors);
+    }
+
+    public function groupByCountry(int $website_id, string $from, string $to): Collection
+    {
+        $count = $this->countAllVisitors($website_id);
+
+        $visitors = DB::table('visitors')
+            ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
+            ->select(DB::raw('COUNT(visitors.id) as total'),
+                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage" ),
+                    'geo_positions.country as parameter_value')
+            ->where('visitors.website_id', '=', $website_id)
+            ->whereBetween('visitors.created_at', [$from, $to])
+            ->groupBy('geo_positions.country')
+            ->get();
+
+        return new Collection($visitors);
+    }
+
+    public function groupByLanguage(int $website_id, string $from, string $to): Collection
+    {
+        $count = $this->countAllVisitors($website_id);
+
+        $visitors = DB::table('visitors')
+            ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
+            ->select(DB::raw('COUNT(visitors.id) as total'),
+                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage" ),
+                    'sessions.language as parameter_value')
+            ->where('visitors.website_id', '=', $website_id)
+            ->whereBetween('visitors.created_at', [$from, $to])
+            ->groupBy('sessions.language')
+            ->get();
+
+        return new Collection($visitors);
+    }
+
+    public function groupByBrowser(int $website_id, string $from, string $to): Collection
+    {
+        $count = $this->countAllVisitors($website_id);
+
+        $visitors = DB::table('visitors')
+            ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
+            ->join('systems', 'systems.id', '=', 'sessions.system_id')
+            ->select(DB::raw('COUNT(visitors.id) as total'),
+                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage" ),
+                    'systems.browser as parameter_value')
+            ->where('visitors.website_id', '=', $website_id)
+            ->whereBetween('visitors.created_at', [$from, $to])
+            ->groupBy('systems.browser')
+            ->get();
+
+        return new Collection($visitors);
+    }
+
+    public function groupByOperatingSystem(int $website_id, string $from, string $to): Collection
+    {
+        $count = $this->countAllVisitors($website_id);
+
+        $visitors = DB::table('visitors')
+            ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
+            ->join('systems', 'systems.id', '=', 'sessions.system_id')
+            ->select(DB::raw('COUNT(visitors.id) as total'),
+                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage" ),
+                    'systems.os as parameter_value')
+            ->where('visitors.website_id', '=', $website_id)
+            ->whereBetween('visitors.created_at', [$from, $to])
+            ->groupBy('systems.os')
+            ->get();
+
+        return new Collection($visitors);
+    }
+
+    public function groupByScreenResolution(int $website_id, string $from, string $to): Collection
+    {
+        $count = $this->countAllVisitors($website_id);
+
+        $visitors = DB::table('visitors')
+            ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
+            ->join('systems', 'systems.id', '=', 'sessions.system_id')
+            ->select(DB::raw('COUNT(visitors.id) as total'),
+                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage" ),
+                     DB::raw('CONCAT(systems.resolution_height, \'x\', systems.resolution_width) as parameter_value'))
+            ->where('visitors.website_id', '=', $website_id)
+            ->whereBetween('visitors.created_at', [$from, $to])
+            ->groupBy(['systems.resolution_width','systems.resolution_height'])
+            ->get();
+
+        return new Collection($visitors);
+    }
 }
