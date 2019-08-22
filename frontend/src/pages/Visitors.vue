@@ -35,7 +35,7 @@
             >
                 <ButtonComponent
                     :title="button.title"
-                    :character="button.character"
+                    :type="button.type"
                     :icon-name="button.icon"
                 />
             </VFlex>
@@ -61,7 +61,7 @@
                 class="img-card"
             >
                 <PieChart
-                    :data="pieData"
+                    :data="pieChartData"
                     :legend="legend"
                 />
             </VFlex>
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import {GET_PIE_CHART_DATA} from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/visitors/GroupedTable";
@@ -77,6 +79,14 @@
     import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
     import PieChart from "../components/common/PieChart";
     import {isWebsite} from '../mixins/isWebsite';
+    import {
+        TOTAL_VISITORS,
+        NEW_VISITORS,
+        AVG_SESSION,
+        PAGE_VIEWS,
+        SESSIONS,
+        BOUNCE_RATE
+    } from '../configs/visitors/buttonTypes.js';
 
     export default {
         mixins: [isWebsite],
@@ -115,38 +125,33 @@
                     {
                         icon: 'person',
                         title: 'Total visitors',
-                        character: '120'
+                        type: TOTAL_VISITORS
                     },
                     {
                         icon: 'eye',
                         title: 'New visitors',
-                        character: '100'
+                        type: NEW_VISITORS
                     },
                     {
                         icon: 'clock',
                         title: 'Avg. session',
-                        character: '00:00:33'
+                        type: AVG_SESSION
                     },
                     {
                         icon: 'yellow_arrow',
                         title: 'Page views',
-                        character: '321'
+                        type: PAGE_VIEWS
                     },
                     {
                         icon: 'peach_arrow',
                         title: 'Sessions',
-                        character: '145'
+                        type: SESSIONS
                     },
                     {
                         icon: 'violet_arrow',
                         title: 'Bounce rate',
-                        character: '41%'
+                        type: BOUNCE_RATE
                     },
-                ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 59],
                 ],
                 legend: {
                     title: 'Outcome',
@@ -211,6 +216,9 @@
             };
         },
         computed: {
+            ...mapGetters('visitors', {
+                pieChartData: GET_PIE_CHART_DATA,
+            }),
             title () {
                 return this.$route.meta.title;
             },

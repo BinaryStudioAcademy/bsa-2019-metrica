@@ -6,7 +6,7 @@
         >
             Summary
         </VSubheader>
-        <VLayout class="pie-container">
+        <VLayout class="pie-container position-relative">
             <VFlex
                 lg4
                 md4
@@ -14,6 +14,7 @@
                 height="100%"
                 class="img-card"
             >
+                <Spinner v-if="data.isFetching" />
                 <GChart
                     type="PieChart"
                     :data="chartData"
@@ -63,10 +64,11 @@
 
 <script>
     import {GChart} from 'vue-google-charts';
-
+    import Spinner from '../utilites/Spinner';
     export default {
         components: {
-            GChart
+            GChart,
+            Spinner
         },
         props: {
             data: {
