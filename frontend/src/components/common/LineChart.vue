@@ -1,16 +1,26 @@
 <template>
-    <GChart
-        type="LineChart"
-        :data="chartData"
-        :options="chartOptions"
-    />
+    <VContainer
+        class="position-relative"
+    >
+        <Spinner
+            v-if="data.isFetching"
+        />
+        <GChart
+            type="LineChart"
+            :data="chartData"
+            :options="chartOptions"
+        />
+    </VContainer>
 </template>
 
 <script>
     import { GChart } from 'vue-google-charts';
+    import Spinner from '../utilites/Spinner';
+
     export default {
         components: {
             GChart,
+            Spinner,
         },
 
         props: {
@@ -22,6 +32,7 @@
 
         data() {
             return {
+                chartDate: this.data,
                 chartOptions: {
                     tooltip: {
                         isHtml: true,
