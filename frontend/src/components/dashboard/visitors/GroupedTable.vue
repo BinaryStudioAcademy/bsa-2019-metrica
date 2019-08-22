@@ -39,6 +39,9 @@
 </template>
 
 <script>
+    import {mapActions} from "vuex";
+    import {FETCH_TABLE_DATA} from "@/store/modules/visitors/types/actions";
+
     export default {
         name: 'GroupedTable',
         props: {
@@ -70,8 +73,14 @@
             }
         },
         methods: {
+            ...mapActions('visitors', {
+                getTableData: FETCH_TABLE_DATA,
+            }),
             changeSelect () {
                 this.$emit('change', this.selected);
+                this.items = this.getTableData({
+                    groupedParameter: this.selected,
+                });
             }
         }
     };
