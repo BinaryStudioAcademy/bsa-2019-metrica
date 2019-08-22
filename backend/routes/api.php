@@ -70,6 +70,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'SessionController@getAllSessions');
             Route::get('/count', 'SessionController@getCountOfSessions');
             Route::get('/average', 'SessionController@getAverageSession');
+            Route::get('/param', 'SessionController@getSessionsByParameter');
         });
 
         Route::group([

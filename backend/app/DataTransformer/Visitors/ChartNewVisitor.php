@@ -7,7 +7,7 @@ namespace App\DataTransformer\Visitors;
 use App\Contracts\ChartValue;
 use App\DataTransformer\Traits\ChartValueTrait;
 
-final class ChartNewVisitor implements ChartValue
+class ChartNewVisitor implements ChartValue
 {
     use ChartValueTrait;
 
