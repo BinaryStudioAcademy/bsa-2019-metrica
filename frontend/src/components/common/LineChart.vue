@@ -12,12 +12,12 @@
                 primary-title
                 class="justify-center grey--text"
             >
-                LineChart has no data to display!
+                There is no data to display!
             </VCardTitle>
         </VFlex>
         <GChart
             type="LineChart"
-            v-if="this.data.length"
+            v-else
             :data="chartData"
             :options="chartOptions"
         />
