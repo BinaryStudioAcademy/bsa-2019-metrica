@@ -45,14 +45,14 @@ final class CreateVisitHttpRequest extends ApiFormRequest
         return $this->get('device');
     }
 
-    public function resolutionWidth(): string
+    public function resolutionWidth(): int
     {
-        return (string) $this->get('resolution_width');
+        return $this->get('resolution_width');
     }
 
-    public function resolutionHeight(): string
+    public function resolutionHeight(): int
     {
-        return (string) $this->get('resolution_height');
+        return $this->get('resolution_height');
     }
 
     public function token(): string

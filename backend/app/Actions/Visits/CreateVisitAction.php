@@ -14,6 +14,7 @@ use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\VisitorRepository;
+use App\Repositories\Contracts\VisitRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Agent;
@@ -26,25 +27,27 @@ final class CreateVisitAction
     private $pageRepository;
     private $systemRepository;
     private $geoPositionRepository;
+    private $visitRepository;
 
     public function __construct(
         VisitorRepository $visitorRepository,
         SessionRepository $sessionRepository,
         PageRepository $pageRepository,
         SystemRepository $systemRepository,
-        GeoPositionRepository $geoPositionRepository
+        GeoPositionRepository $geoPositionRepository,
+        VisitRepository $visitRepository
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->sessionRepository = $sessionRepository;
         $this->pageRepository = $pageRepository;
         $this->systemRepository = $systemRepository;
         $this->geoPositionRepository = $geoPositionRepository;
+        $this->visitRepository = $visitRepository;
     }
 
-    public function execute(CreateVisitRequest $request): CreateVisitResponse
+    public function execute(CreateVisitRequest $request): void
     {
-        $token = Str::after($request->token(), 'Bearer ');
-        JWTAuth::setToken($token);
+        JWTAuth::setToken(Str::after($request->token(), 'Bearer '));
         $visitorId = JWTAuth::getPayload()->get('visitor_id');
 
         $visitor = $this->visitorRepository->getById($visitorId);
@@ -74,49 +77,42 @@ final class CreateVisitAction
             $system->id
         );
 
-        $visit = Visit::create([
-            'visit_time' => Carbon::now(),
-            'ip_address' => $request->ip(),
-            'session_id' => $session->id,
-            'page_id' => $page->id,
-            'visitor_id' => $visitor->id,
-            'geo_position_id' => $geoPosition->id
-        ]);
+        $visit = new Visit();
 
-        $visit->load('session', 'page', 'visitor', 'geo_position');
+        $visit->visit_time = Carbon::now();
+        $visit->ip_address = $request->ip();
+        $visit->session_id = $session->id;
+        $visit->page_id = $page->id;
+        $visit->visitor_id = $visitor->id;
+        $visit->geo_position_id = $geoPosition->id;
 
-        return new CreateVisitResponse($visit);
+        $this->visitRepository->save($visit);
     }
 
-    private function getOrCreatePage(
-        int $websiteId,
-        string $pageTitle,
-        string $pageUrl
-    ): Page {
+    private function getOrCreatePage(int $websiteId, string $pageTitle, string $pageUrl): Page
+    {
         $page = $this->pageRepository->getByParameters($websiteId, $pageTitle, $pageUrl);
 
         if ($page !== null) {
             return $page;
         }
 
-        $page = Page::create([
-            'name' => $pageTitle,
-            'url' => $pageUrl,
-            'previews' => 0,
-            'website_id' => $websiteId
-        ]);
+        $page = new Page();
 
-        $page->load('website');
+        $page->name = $pageTitle;
+        $page->url = $pageUrl;
+        $page->previews = 0;
+        $page->website_id = $websiteId;
 
-        return $page;
+        return $this->pageRepository->save($page);
     }
 
     private function getOrCreateSystem(
         string $operatingSystem,
         string $device,
         string $browser,
-        string $resolutionHeight,
-        string $resolutionWidth
+        int $resolutionHeight,
+        int $resolutionWidth
     ): System {
         $system = $this->systemRepository->getByParameters(
             $operatingSystem,
@@ -130,13 +126,15 @@ final class CreateVisitAction
             return $system;
         }
 
-        return System::create([
-            'os' => $operatingSystem,
-            'device' => $device,
-            'browser' => $browser,
-            'resolution_height' => $resolutionHeight,
-            'resolution_width' => $resolutionWidth
-        ]);
+        $system = new System();
+
+        $system->os = $operatingSystem;
+        $system->device = $device;
+        $system->browser = $browser;
+        $system->resolution_height = $resolutionHeight;
+        $system->resolution_width = $resolutionWidth;
+
+        return $this->systemRepository->save($system);
     }
 
     private function getOrCreateGeoPosition(string $ip): GeoPosition
@@ -148,10 +146,12 @@ final class CreateVisitAction
             return $geoPosition;
         }
 
-        return GeoPosition::create([
-            'country' => $location->country,
-            'city' => $location->city
-        ]);
+        $geoPosition = new GeoPosition();
+
+        $geoPosition->country = $location->country;
+        $geoPosition->city = $location->city;
+
+        return $this->geoPositionRepository->save($geoPosition);
     }
 
     private function getOrCreateSession(
@@ -166,16 +166,14 @@ final class CreateVisitAction
             return $session;
         }
 
-        $session = Session::create([
-            'start_session' => Carbon::now(),
-            'visitor_id' => $visitorId,
-            'entrance_page_id' => $pageId,
-            'language' => $language,
-            'system_id' => $systemId
-        ]);
+        $session = new Session();
 
-        $session->load('visitor', 'page', 'system');
+        $session->start_session = Carbon::now();
+        $session->visitor_id = $visitorId;
+        $session->entrance_page_id = $pageId;
+        $session->language = $language;
+        $session->system_id = $systemId;
 
-        return $session;
+        return $this->sessionRepository->save($session);
     }
 }

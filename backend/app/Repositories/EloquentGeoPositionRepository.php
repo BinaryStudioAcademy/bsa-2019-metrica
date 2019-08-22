@@ -16,4 +16,10 @@ final class EloquentGeoPositionRepository implements GeoPositionRepository
             ['city', $city]
         ])->first();
     }
+
+    public function save(GeoPosition $geoPosition): GeoPosition
+    {
+        $geoPosition->save();
+        return $geoPosition;
+    }
 }

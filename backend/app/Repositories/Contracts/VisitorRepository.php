@@ -13,6 +13,8 @@ interface VisitorRepository
 
     public function getById(int $id): Visitor;
 
+    public function save(Visitor $visitor): Visitor;
+
     public function countVisitorsBetweenDate(DatePeriod $period): int;
 
     public function newest(): Collection;

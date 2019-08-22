@@ -17,6 +17,7 @@ use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\ChartVisitRepository;
 use App\Repositories\Contracts\ChartSessionsRepository;
+use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentChartVisitorRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
@@ -33,6 +34,7 @@ use App\Repositories\EloquentUserRepository;
 use App\Repositories\EloquentVisitorRepository;
 use App\Repositories\EloquentChartVisitRepository;
 use App\Repositories\EloquentChartSessionsRepository;
+use App\Repositories\EloquentVisitRepository;
 use App\Repositories\EloquentWebsiteRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -78,6 +80,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SystemRepository::class, EloquentSystemRepository::class);
 
         $this->app->bind(GeoPositionRepository::class, EloquentGeoPositionRepository::class);
+
+        $this->app->bind(VisitRepository::class, EloquentVisitRepository::class);
     }
 
     /**

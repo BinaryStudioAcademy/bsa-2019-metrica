@@ -13,6 +13,8 @@ interface SessionRepository
 {
     public function getCollection(): Collection;
 
+    public function save(Session $session): Session;
+
     public function countSessions(CountSessionsFilter $filter): int;
 
     public function getAvgSession(AverageSessionFilter $filter): Collection;

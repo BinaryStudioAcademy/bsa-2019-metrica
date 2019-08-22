@@ -13,8 +13,8 @@ final class EloquentSystemRepository implements SystemRepository
         string $operatingSystem,
         string $device,
         string $browser,
-        string $resolutionHeight,
-        string $resolutionWidth
+        int $resolutionHeight,
+        int $resolutionWidth
     ): ?System {
         return System::where([
             ['os', $operatingSystem],
@@ -23,5 +23,11 @@ final class EloquentSystemRepository implements SystemRepository
             ['resolution_height', $resolutionHeight],
             ['resolution_width', $resolutionWidth]
         ])->first();
+    }
+
+    public function save(System $system): System
+    {
+        $system->save();
+        return $system;
     }
 }

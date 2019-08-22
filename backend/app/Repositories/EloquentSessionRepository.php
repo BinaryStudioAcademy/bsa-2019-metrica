@@ -19,6 +19,12 @@ final class EloquentSessionRepository implements SessionRepository
         return collect([]);
     }
 
+    public function save(Session $session): Session
+    {
+        $session->save();
+        return $session;
+    }
+
     public function countSessions(CountSessionsFilter $filter): int
     {
         return Session::whereIn('visitor_id', $filter->getVisitorsIDs())

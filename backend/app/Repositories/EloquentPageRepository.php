@@ -17,4 +17,10 @@ final class EloquentPageRepository implements PageRepository
             ['url', $pageUrl]
         ])->first();
     }
+
+    public function save(Page $page): Page
+    {
+        $page->save();
+        return $page;
+    }
 }

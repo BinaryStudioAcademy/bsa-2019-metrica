@@ -23,6 +23,12 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::findOrFail($id);
     }
 
+    public function save(Visitor $visitor): Visitor
+    {
+        $visitor->save();
+        return $visitor;
+    }
+
     public function countVisitorsBetweenDate(DatePeriod $period): int
     {
         return Visitor::whereHas('sessions', function (Builder $query) use ($period) {

@@ -23,8 +23,8 @@ final class CreateVisitRequest
         string $pageTitle,
         string $language,
         string $device,
-        string $resolutionWidth,
-        string $resolutionHeight,
+        int $resolutionWidth,
+        int $resolutionHeight,
         string $userAgent,
         string $ip,
         string $token
@@ -75,12 +75,12 @@ final class CreateVisitRequest
         return $this->device;
     }
 
-    public function resolutionWidth(): string
+    public function resolutionWidth(): int
     {
         return $this->resolutionWidth;
     }
 
-    public function resolutionHeight(): string
+    public function resolutionHeight(): int
     {
         return $this->resolutionHeight;
     }

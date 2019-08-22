@@ -10,7 +10,9 @@ interface SystemRepository
         string $operatingSystem,
         string $device,
         string $browser,
-        string $resolutionHeight,
-        string $resolutionWidth
+        int $resolutionHeight,
+        int $resolutionWidth
     ): ?System;
+
+    public function save(System $system): System;
 }
