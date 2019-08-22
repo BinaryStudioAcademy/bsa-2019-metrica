@@ -42,33 +42,7 @@ export default {
     },
     activeButton: TOTAL_VISITORS,
     tableData: {
-        items: [
-            {
-                option: 'IE',
-                users: 55,
-                percentage: '34%'
-            },
-            {
-                option: 'Edge',
-                users: 77,
-                percentage: '34%'
-            },
-            {
-                option: 'Firefox',
-                users: 45,
-                percentage: '44%'
-            },
-            {
-                option: 'Chrome',
-                users: 84,
-                percentage: '34%'
-            },
-            {
-                option: 'iOS Safari',
-                users: 44,
-                percentage: '55%'
-            }
-        ],
+        items: [],
         isFetching: false,
         groupedParameter: 'browser'
     }

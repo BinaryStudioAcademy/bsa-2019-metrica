@@ -7,7 +7,7 @@ import {
     BOUNCE_RATE
 } from "../../../configs/visitors/buttonTypes.js";
 
-export default {
+export const visitorsHashMap = {
     [TOTAL_VISITORS]: {
         "total": "Visitors",
         "percantage": "Visitors %"

@@ -45,10 +45,7 @@
                 height="100%"
                 class="img-card"
             >
-                <GroupedTable
-                    :items="tableData"
-                    @change="changeTable"
-                />
+                <VisitorsTable />
             </VFlex>
             <VFlex
                 lg5
@@ -71,7 +68,7 @@
     import {GET_PIE_CHART_DATA} from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import GroupedTable from "../components/dashboard/visitors/GroupedTable";
+    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
     import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
     import PieChart from "../components/common/PieChart";
@@ -90,7 +87,7 @@
         components: {
             PieChart,
             LineChart,
-            GroupedTable,
+            VisitorsTable,
             ButtonComponent,
             PeriodDropdown,
             ContentLayout
@@ -162,51 +159,6 @@
                         },
                     }
                 },
-                tableItems: {
-                    'language': [
-                        {
-                            option: 'us',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'en',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'fr',
-                            users: 67,
-                            percentage: '50%'
-                        }
-                    ],
-                    'browser': [
-                        {
-                            option: 'IE',
-                            users: 55,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Edge',
-                            users: 77,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Firefox',
-                            users: 45,
-                            percentage: '44%'
-                        },
-                        {
-                            option: 'Chrome',
-                            users: 84,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'iOS Safari',
-                            users: 44,
-                            percentage: '55%'
-                        }]
-                }
             };
         },
         computed: {
@@ -215,9 +167,6 @@
             }),
             title () {
                 return this.$route.meta.title;
-            },
-            tableData () {
-                return this.items;
             }
         },
         mounted() {
@@ -229,11 +178,6 @@
                     indication: Math.floor(Math.random() * 200) + 1,
                 };
                 this.data.push(item);
-            }
-        },
-        methods: {
-            changeTable (parameter) {
-                this.items = this.tableItems[parameter];
             }
         }
     };
