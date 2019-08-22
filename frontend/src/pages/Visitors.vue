@@ -58,7 +58,7 @@
                 class="img-card"
             >
                 <PieChart
-                    :data="pieData"
+                    :data="pieChartData"
                     :legend="legend"
                 />
             </VFlex>
@@ -67,6 +67,8 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import {GET_PIE_CHART_DATA} from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/visitors/GroupedTable";
@@ -145,11 +147,6 @@
                         type: BOUNCE_RATE
                     },
                 ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 59],
-                ],
                 legend: {
                     title: 'Outcome',
                     data: {
@@ -213,6 +210,9 @@
             };
         },
         computed: {
+            ...mapGetters('visitors', {
+                pieChartData: GET_PIE_CHART_DATA,
+            }),
             title () {
                 return this.$route.meta.title;
             },
