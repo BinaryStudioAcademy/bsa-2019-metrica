@@ -71,12 +71,12 @@ class VisitsApiTest extends TestCase
                 [
                     [
                         'date' => '1565734080',
-                        'visits' => 3
+                        'value' => 3
                     ],
 
                     [
                         'date' => '1565846640',
-                        'visits' => 1
+                        'value' => 1
                     ],
 
                 ],

@@ -2,24 +2,26 @@
 
 namespace App\DataTransformer\Visits;
 
-class ChartVisit
+use App\Contracts\ChartValue;
+
+class ChartVisit implements ChartValue
 {
     private $date;
-    private $visits;
+    private $value;
 
-    public function __construct(string $date, int $visits)
+    public function __construct(string $date, int $value)
     {
         $this->date = $date;
-        $this->visits = $visits;
+        $this->value = $value;
     }
 
-    public function getDate(): string
+    public function date(): string
     {
         return $this->date;
     }
 
-    public function getVisits(): int
+    public function value(): string
     {
-        return $this->visits;
+        return (string)$this->value;
     }
 }

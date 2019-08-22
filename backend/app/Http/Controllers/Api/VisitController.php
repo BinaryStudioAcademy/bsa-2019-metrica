@@ -10,10 +10,12 @@ use App\Actions\Visits\GetPageViewsCountAction;
 use App\Actions\Visits\GetPageViewsCountRequest;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
+use App\Contracts\ChartValue;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Api\GetPageViewsFilterHttpRequest;
 use App\Http\Requests\Api\GetTableVisitsByParameterHttpRequest;
+use App\Http\Resources\ChartResource;
 use App\Http\Resources\TableResource;
 use App\Http\Resources\VisitCountResource;
 use App\Http\Resources\VisitResource;
@@ -39,7 +41,7 @@ final class VisitController extends Controller
     {
         $response = $this->getPageViewsAction->execute(GetPageViewsRequest::fromRequest($request));
 
-        return ApiResponse::success(new VisitResource($response->views()));
+        return ApiResponse::success(new ChartResource($response->views()));
     }
 
     public function getPageViewsByParameter(GetTableVisitsByParameterHttpRequest $request): ApiResponse
