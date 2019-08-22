@@ -84,6 +84,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'chart-sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getSessions');
+        });
+          
+        Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
