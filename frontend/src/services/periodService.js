@@ -38,7 +38,7 @@ const getWeekInterval = (week) => {
     return moment.duration({w: week}).asSeconds();
 };
 
-export const getTimeByPeriod = (period) => {
+const getTimeByPeriod = (period) => {
     let interval = null;
     let startDate = null;
     let endDate = null;
@@ -83,3 +83,9 @@ export const getTimeByPeriod = (period) => {
         endDate
     };
 };
+
+const periodService = {
+    getTimeByPeriod
+};
+
+export default periodService;
