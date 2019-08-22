@@ -9,7 +9,7 @@ import {
 import totalVisitorsService from "./totalVisitorsService";
 import newVisitorsService from "./newVisitorsService";
 import bounceRateService from "./bounceRateService";
-import averangeSessionService from "./averangeSessionsService";
+import averageSessionService from "./averageSessionsService";
 import sessionsService from "./sessionsService";
 import visitsService from "./visitsService";
 
@@ -22,7 +22,7 @@ const create = (type) => {
         case BOUNCE_RATE:
             return bounceRateService;
         case AVG_SESSION:
-            return averangeSessionService;
+            return averageSessionService;
         case SESSIONS:
             return sessionsService;
         case PAGE_VIEWS:

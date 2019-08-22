@@ -30,10 +30,10 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         .catch(err => alert(err));
 };
 
-const averangeSessionService = {
+const averageSessionService = {
     fetchButtonValue,
     // fetchChartValues,
     fetchTableValues
 };
 
-export default averangeSessionService;
+export default averageSessionService;
