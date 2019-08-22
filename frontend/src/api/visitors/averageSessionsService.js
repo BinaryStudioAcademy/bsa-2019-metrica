@@ -55,10 +55,8 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         ));
 };
 
-const averageSessionService = {
+export const averageSessionService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
-
-export default averageSessionService;
