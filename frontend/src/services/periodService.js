@@ -38,11 +38,11 @@ const getWeekInterval = (week) => {
     return moment.duration({w: week}).asSeconds();
 };
 
-export const getTimeByPeriod = (period) => {
+export const getTimeByPeriod = (value) => {
     let interval = null;
     let startDate = null;
     let endDate = null;
-    switch (period) {
+    switch (value) {
         case period.PERIOD_TODAY:
             interval = getHourInterval(1);
             startDate = getSubtractStartDate(0);
