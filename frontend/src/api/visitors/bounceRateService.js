@@ -1,24 +1,27 @@
-import requestService from "../requestService";
+import requestService from "@/services/requestService";
 import config from "@/config";
 import {buttonTransformer, chartTransformer, tableTransformer} from './transformers';
+import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
 const fetchButtonValue = (startDate, endDate) => {
-    return requestService.get(resourceUrl + '/button-visitors', {}, {
-        'filter[startDate]': startDate,
-        'filter[endDate]': endDate
+    return requestService.get(resourceUrl + '/visitors/bounce-rate/total', {}, {
+        'filter[start_date]': startDate,
+        'filter[end_date]': endDate
     }).then(response => buttonTransformer(response.data))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting bounce rate')));
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
-    return requestService.get(resourceUrl + '/chart-total-visitors', {}, {
+    return requestService.get(resourceUrl + '/visitors/bounce-rate', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[period]': interval
+        'filter[timeFrame]': interval
     }).then(response => response.data.map(chartTransformer))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting bounce rate')));
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
@@ -27,13 +30,14 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[end_date]': endDate,
         'parameter': groupBy
     }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting bounce rate')));
 };
 
-const totalVisitorsService = {
+const bounceRateService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
 
-export default totalVisitorsService;
+export default bounceRateService;

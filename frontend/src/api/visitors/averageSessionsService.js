@@ -1,6 +1,7 @@
-import requestService from "../requestService";
+import requestService from "@/services/requestService";
 import config from "@/config";
-import {buttonTransformer, tableTransformer,chartTransformer} from './transformers';
+import {buttonTransformer, tableTransformer, chartTransformer} from './transformers';
+import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
@@ -9,7 +10,8 @@ const fetchButtonValue = (startDate, endDate) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting average session')));
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
@@ -18,7 +20,8 @@ const fetchChartValues = (startDate, endDate, interval) => {
         'filter[endDate]': endDate,
         'filter[timeFrame]': interval
     }).then(response => response.data.map(chartTransformer))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting average session')));
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
@@ -27,7 +30,8 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[end_date]': endDate,
         'filter[parameter]': groupBy
     }).then(response => response.data.map(tableTransformer))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting average session')));
 };
 
 const averageSessionService = {

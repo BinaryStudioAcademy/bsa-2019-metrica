@@ -1,24 +1,27 @@
-import requestService from "../requestService";
+import requestService from "@/services/requestService";
 import config from "@/config";
 import {buttonTransformer, chartTransformer, tableTransformer} from './transformers';
+import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
 const fetchButtonValue = (startDate, endDate) => {
-    return requestService.get(resourceUrl + '/visitors/bounce-rate/total', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate
+    return requestService.get(resourceUrl + '/visitors/new/count', {}, {
+        'filter[startDate]': startDate,
+        'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting new visitors')));
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
-    return requestService.get(resourceUrl + '/visitors/bounce-rate', {}, {
+    return requestService.get(resourceUrl + '/chart-new-visitors', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[timeFrame]': interval
+        'filter[period]': interval
     }).then(response => response.data.map(chartTransformer))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting new visitors')));
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
@@ -27,13 +30,14 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[end_date]': endDate,
         'parameter': groupBy
     }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
-        .catch(err => throw err);
+        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
+            'Something went wrong with getting new visitors')));
 };
 
-const bounceRateService = {
+const newVisitorsService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
 
-export default bounceRateService;
+export default newVisitorsService;
