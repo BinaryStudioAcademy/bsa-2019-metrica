@@ -107,7 +107,7 @@
         }),
 
         watch:{
-            $route (to, from) {
+            $route () {
                 this.links.map(item => {
                     if (item.route === 'settings') {
                         if (this.$route.name === 'websiteinfo' ||
