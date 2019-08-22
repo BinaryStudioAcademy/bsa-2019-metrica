@@ -33,7 +33,7 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
     {
         $count = $this->countAllVisitors($website_id);
 
-        $query = DB::table('visitors')
+        $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
