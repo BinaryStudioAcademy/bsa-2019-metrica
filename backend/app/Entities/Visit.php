@@ -36,4 +36,9 @@ final class Visit extends Model
     {
         return $this->belongsTo(GeoPosition::class);
     }
+
+    public function pages(): BelongsTo
+    {
+        return $this->belongsTo(Page::class, 'page_id', 'id');
+    }
 }

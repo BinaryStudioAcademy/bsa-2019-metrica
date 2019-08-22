@@ -79,22 +79,20 @@
                     >
                         SIGN UP
                     </VBtn>
-                    <div class="choice mt-5">
-                        or
-                    </div>
-                    <VBtn
-                        class="mt-5"
-                        outlined
-                        color="primary"
-                        min-width="100px"
+                </div>
+                <div class="btn-group mt-5">
+                    Already have an account? Please
+                    <RouterLink
+                        class="forgot-password-link"
                         :to="{name: 'login'}"
-                        :disabled="false"
                     >
-                        SIGN IN
-                    </VBtn>
+                        sign in
+                    </RouterLink>
                 </div>
             </div>
         </VForm>
+
+        <SocialAuth />
     </div>
 </template>
 
@@ -104,8 +102,12 @@
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import SocialAuth from "./SocialAuth";
 
     export default {
+        components: {
+            SocialAuth
+        },
         data () {
             return {
                 show1: false,
@@ -197,6 +199,7 @@
     justify-content: space-between;
     align-items: center;
     max-width: 80%;
+    margin-bottom: 20px;
 }
 
 .choice{

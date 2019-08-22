@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
@@ -22,6 +23,7 @@ final class Session extends Model
         'entrance_page_id',
         'language',
         'system_id',
+        'website_id',
     ];
 
     protected $dates = ['start_session', 'end_session'];
@@ -39,6 +41,11 @@ final class Session extends Model
     public function system(): BelongsTo
     {
         return $this->belongsTo(System::class);
+    }
+
+    public function website(): BelongsTo
+    {
+        return $this->belongsTo(Website::class);
     }
 
     public function visits(): HasMany

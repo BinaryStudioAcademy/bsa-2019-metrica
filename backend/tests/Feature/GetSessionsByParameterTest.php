@@ -110,8 +110,8 @@ class GetSessionsByParameterTest extends TestCase
             ['resolution_width' => '800', 'resolution_height' => '600', 'os' => 'X11; Linux i686', 'browser' => 'Mozilla/5.0'],
             ['resolution_width' => '800', 'resolution_height' => '600',  'os' => 'X11; Linux i686', 'browser' => 'Mozilla/5.0'],
         ];
-        foreach($params as $param) {
-            factory('App\Entities\System', 2)->create($param)->each(function($system){
+        foreach ($params as $param) {
+            factory('App\Entities\System', 2)->create($param)->each(function($system) {
                 $system->sessions()->save(factory('App\Entities\Session')->make())
                 ->visit()->save(factory('App\Entities\Visit')->make());
             });
@@ -148,7 +148,7 @@ class GetSessionsByParameterTest extends TestCase
     {
         $cities = ['Kwekwe', 'Hwange', 'Bulawayo'];
 
-        foreach($cities as $city) {
+        foreach ($cities as $city) {
             $geoPosition = factory('App\Entities\GeoPosition')->create([
                 'country' => 'Zimbabwe', 'city' => $city
             ]);
@@ -172,7 +172,8 @@ class GetSessionsByParameterTest extends TestCase
         $this->assertEquals(1, sizeof($result['data']));
     }
 
-    private function getQuery($parameter = 'language') {
+    private function getQuery($parameter = 'language')
+    {
         return [
             'filter' => [
                 'startDate' => strval($this->from->timestamp),

@@ -20,8 +20,7 @@ class GetSessionsByParameterAction
         $parameter = $request->parameter();
         $period = $request->period();
         $website_id = Auth::user()->website->id;
-        switch($parameter)
-        {
+        switch ($parameter) {
             case 'language':
                 $sessions = $this->repository->groupByLanguage($website_id, $period);
                 break;

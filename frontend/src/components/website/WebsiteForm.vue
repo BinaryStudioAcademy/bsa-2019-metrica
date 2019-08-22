@@ -1,12 +1,11 @@
 <template>
-    <VFlex
-        lg6
-        md6
-        sm12
-        xs12
-        class="ml-12 mt-8"
-    >
-        <VContainer>
+    <ContentLayout>
+        <VFlex
+            lg6
+            md6
+            sm12
+            xs12
+        >
             <VForm
                 ref="form"
             >
@@ -70,12 +69,13 @@
                     <TrackWebsite :tracking-number="currentWebsite.tracking_number" />
                 </div>
             </div>
-        </VContainer>
-    </VFlex>
+        </VFlex>
+    </ContentLayout>
 </template>
 
 <script>
     import TrackWebsite from './TrackWebsite.vue';
+    import ContentLayout from '../layout/ContentLayout.vue';
     import { mapGetters, mapActions } from 'vuex';
     import {GET_CURRENT_WEBSITE} from "../../store/modules/website/types/getters";
     import {UPDATE_WEBSITE} from "../../store/modules/website/types/actions";
@@ -83,7 +83,8 @@
     export default {
         name: 'WebsiteForm',
         components: {
-            TrackWebsite
+            TrackWebsite,
+            ContentLayout
         },
         data: () => ({
             showErrorMessage: '',
@@ -104,7 +105,7 @@
                     this.localWebsite.websiteName = value;
                 },
                 get() {
-                    if(this.localWebsite.websiteName === undefined) {
+                    if (this.localWebsite.websiteName === undefined) {
                         return this.currentWebsite.name;
                     }
                     return this.localWebsite.websiteName;
