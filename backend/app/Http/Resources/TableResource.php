@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\ApiResponse;
-use App\DataTransformer\TableValue;
+
+use App\Contracts\TableValue;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
