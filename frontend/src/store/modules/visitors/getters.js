@@ -17,5 +17,5 @@ export default {
     [GET_LINE_CHART_DATA]: (state) => state.chartData,
     [GET_TABLE_DATA_ITEMS]: (state) => state.tableData.items,
     [GET_TABLE_DATA_FETCHING]: (state) => state.tableData.isFetching,
-    [GET_GROUPED_PARAMETER]: (state) =>state.tableData.groupedParameter
+    [GET_GROUPED_PARAMETER]: (state) => state.tableData.groupedParameter
 };
