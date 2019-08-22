@@ -6,6 +6,7 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Visit extends Model
 {
@@ -14,8 +15,29 @@ final class Visit extends Model
         'ip_address',
         'session_id',
         'page_id',
-        'visitor_id'
+        'visitor_id',
+        'geo_position_id'
     ];
 
-    protected $with = ['session', 'pages', 'visitors'];
+    protected $with = ['session', 'page', 'visitor', 'geo_position'];
+
+    public function session(): BelongsTo
+    {
+        return $this->belongsTo(Session::class);
+    }
+
+    public function page(): BelongsTo
+    {
+        return $this->belongsTo(Page::class);
+    }
+
+    public function visitor(): BelongsTo
+    {
+        return $this->belongsTo(Visitor::class);
+    }
+
+    public function geo_position(): BelongsTo
+    {
+        return $this->belongsTo(GeoPosition::class);
+    }
 }

@@ -11,7 +11,7 @@ interface VisitorRepository
 {
     public function all(): Collection;
 
-    public function getById(string $id): Visitor;
+    public function getById(int $id): Visitor;
 
     public function countVisitorsBetweenDate(DatePeriod $period): int;
 

@@ -17,5 +17,5 @@ interface SessionRepository
 
     public function getAvgSession(AverageSessionFilter $filter): Collection;
 
-    public function lastActiveByVisitorId(string $visitorId): ?Session;
+    public function lastActiveByVisitorId(int $visitorId): ?Session;
 }

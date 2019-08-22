@@ -11,7 +11,6 @@ final class CreateVisitRequest
     private $page;
     private $pageTitle;
     private $language;
-    private $operatingSystem;
     private $device;
     private $resolutionWidth;
     private $resolutionHeight;
@@ -23,7 +22,6 @@ final class CreateVisitRequest
         string $page,
         string $pageTitle,
         string $language,
-        string $operatingSystem,
         string $device,
         string $resolutionWidth,
         string $resolutionHeight,
@@ -34,7 +32,6 @@ final class CreateVisitRequest
         $this->page = $page;
         $this->pageTitle = $pageTitle;
         $this->language = $language;
-        $this->operatingSystem = $operatingSystem;
         $this->device = $device;
         $this->resolutionWidth = $resolutionWidth;
         $this->resolutionHeight = $resolutionHeight;
@@ -49,7 +46,6 @@ final class CreateVisitRequest
             $request->page(),
             $request->pageTitle(),
             $request->language(),
-            $request->operatingSystem(),
             $request->device(),
             $request->resolutionWidth(),
             $request->resolutionHeight(),
@@ -72,11 +68,6 @@ final class CreateVisitRequest
     public function language(): string
     {
         return $this->language;
-    }
-
-    public function operatingSystem(): string
-    {
-        return $this->operatingSystem;
     }
 
     public function device(): string

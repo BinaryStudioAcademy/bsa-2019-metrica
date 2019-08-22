@@ -18,7 +18,7 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::all();
     }
 
-    public function getById(string $id): Visitor
+    public function getById(int $id): Visitor
     {
         return Visitor::findOrFail($id);
     }

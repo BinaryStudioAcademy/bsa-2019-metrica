@@ -34,7 +34,7 @@ final class Session extends Model
 
     public function page(): BelongsTo
     {
-        return $this->belongsTo(Page::class);
+        return $this->belongsTo(Page::class, 'entrance_page_id');
     }
 
     public function system(): BelongsTo

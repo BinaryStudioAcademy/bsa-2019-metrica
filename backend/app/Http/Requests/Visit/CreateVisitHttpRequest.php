@@ -19,10 +19,9 @@ final class CreateVisitHttpRequest extends ApiFormRequest
             'page' => 'required|url',
             'page_title' => 'required|string',
             'language' => 'required|string',
-            'operating_system' =>  'required|string',
             'device' => 'required|string',
-            'resolution_width' => 'required|string',
-            'resolution_height' => 'required|string'
+            'resolution_width' => 'required|integer',
+            'resolution_height' => 'required|integer'
         ];
     }
 
@@ -41,11 +40,6 @@ final class CreateVisitHttpRequest extends ApiFormRequest
         return $this->get('language');
     }
 
-    public function operatingSystem(): string
-    {
-        return $this->get('operating_system');
-    }
-
     public function device(): string
     {
         return $this->get('device');
@@ -53,12 +47,12 @@ final class CreateVisitHttpRequest extends ApiFormRequest
 
     public function resolutionWidth(): string
     {
-        return $this->get('resolution_width');
+        return (string) $this->get('resolution_width');
     }
 
     public function resolutionHeight(): string
     {
-        return $this->get('resolution_height');
+        return (string) $this->get('resolution_height');
     }
 
     public function token(): string

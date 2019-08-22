@@ -16,7 +16,7 @@ final class SessionResource extends JsonResource implements ApiResponse
             'start_session' => $this->start_session,
             'update_session' => $this->updated_at,
             'system' => new SystemResource($this->system),
-            'entrance_page' => new PageResource($this->entrance_page_id),
+            'entrance_page' => new PageResource($this->page),
             'language' => $this->language
         ];
     }

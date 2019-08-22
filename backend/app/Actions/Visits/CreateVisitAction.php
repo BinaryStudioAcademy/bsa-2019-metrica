@@ -15,6 +15,8 @@ use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use Jenssegers\Agent\Agent;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 final class CreateVisitAction
@@ -41,8 +43,9 @@ final class CreateVisitAction
 
     public function execute(CreateVisitRequest $request): CreateVisitResponse
     {
-        $token = $request->token();
-        $visitorId = JWTAuth::getPayload($token)->get('visitor_id');
+        $token = Str::after($request->token(), 'Bearer ');
+        JWTAuth::setToken($token);
+        $visitorId = JWTAuth::getPayload()->get('visitor_id');
 
         $visitor = $this->visitorRepository->getById($visitorId);
 
@@ -52,11 +55,12 @@ final class CreateVisitAction
             $request->page()
         );
 
-        $browser = get_browser($request->userAgent());
+        $agent = new Agent();
+        $agent->setUserAgent($request->userAgent());
         $system = $this->getOrCreateSystem(
-            $request->operatingSystem(),
+            $agent->platform(),
             $request->device(),
-            $browser->browser,
+            $agent->browser(),
             $request->resolutionHeight(),
             $request->resolutionWidth()
         );
@@ -79,11 +83,13 @@ final class CreateVisitAction
             'geo_position_id' => $geoPosition->id
         ]);
 
+        $visit->load('session', 'page', 'visitor', 'geo_position');
+
         return new CreateVisitResponse($visit);
     }
 
     private function getOrCreatePage(
-        string $websiteId,
+        int $websiteId,
         string $pageTitle,
         string $pageUrl
     ): Page {
@@ -93,12 +99,16 @@ final class CreateVisitAction
             return $page;
         }
 
-        return Page::create([
+        $page = Page::create([
             'name' => $pageTitle,
             'url' => $pageUrl,
             'previews' => 0,
             'website_id' => $websiteId
         ]);
+
+        $page->load('website');
+
+        return $page;
     }
 
     private function getOrCreateSystem(
@@ -145,10 +155,10 @@ final class CreateVisitAction
     }
 
     private function getOrCreateSession(
-        string $visitorId,
-        string $pageId,
+        int $visitorId,
+        int $pageId,
         string $language,
-        string $systemId
+        int $systemId
     ): Session {
         $session = $this->sessionRepository->lastActiveByVisitorId($visitorId);
 
@@ -156,12 +166,16 @@ final class CreateVisitAction
             return $session;
         }
 
-        return Session::create([
+        $session = Session::create([
             'start_session' => Carbon::now(),
             'visitor_id' => $visitorId,
             'entrance_page_id' => $pageId,
-            'language' => $language(),
+            'language' => $language,
             'system_id' => $systemId
         ]);
+
+        $session->load('visitor', 'page', 'system');
+
+        return $session;
     }
 }
