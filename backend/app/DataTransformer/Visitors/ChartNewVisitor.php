@@ -3,23 +3,22 @@
 
 namespace App\DataTransformer\Visitors;
 
-class ChartNewVisitor
+use App\Contracts\ChartValue;
+
+class ChartNewVisitor implements ChartValue
 {
     private $period;
     private $count;
-
     public function __construct(string $period, int $count)
     {
         $this->period = $period;
         $this->count = $count;
     }
-
-    public function getPeriod(): string
+    public function date(): string
     {
         return $this->period;
     }
-
-    public function getCount(): int
+    public function value(): string
     {
         return $this->count;
     }
