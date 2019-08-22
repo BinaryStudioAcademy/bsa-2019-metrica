@@ -15,6 +15,8 @@ interface VisitorRepository
 
     public function save(Visitor $visitor): Visitor;
 
+    public function updateLastActivity(Visitor $visitor): void;
+
     public function countVisitorsBetweenDate(DatePeriod $period): int;
 
     public function newest(): Collection;

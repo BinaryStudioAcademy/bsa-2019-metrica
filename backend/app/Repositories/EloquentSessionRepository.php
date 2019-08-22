@@ -48,4 +48,10 @@ final class EloquentSessionRepository implements SessionRepository
         return Session::whereVisitorId($visitorId)
             ->whereTime('updated_at', '>', (Carbon::now())->subMinutes(30)->toDateTimeString())->first();
     }
+
+    public function updateEndSession(Session $session): void
+    {
+        $session->end_session = Carbon::now()->toDateTimeString();
+        $session->save();
+    }
 }

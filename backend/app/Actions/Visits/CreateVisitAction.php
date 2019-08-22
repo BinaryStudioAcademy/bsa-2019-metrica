@@ -51,6 +51,7 @@ final class CreateVisitAction
         $visitorId = JWTAuth::getPayload()->get('visitor_id');
 
         $visitor = $this->visitorRepository->getById($visitorId);
+        $this->visitorRepository->updateLastActivity($visitor);
 
         $page = $this->getOrCreatePage(
             $visitor->website_id,
@@ -163,6 +164,7 @@ final class CreateVisitAction
         $session = $this->sessionRepository->lastActiveByVisitorId($visitorId);
 
         if ($session !== null) {
+            $this->sessionRepository->updateEndSession($session);
             return $session;
         }
 
