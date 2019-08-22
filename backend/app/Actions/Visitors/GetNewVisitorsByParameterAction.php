@@ -22,13 +22,39 @@ final class GetNewVisitorsByParameterAction
 
     public function execute(GetNewVisitorsByParameterRequest $request): GetVisitorsByParameterResponse
     {
-        $websiteId = (int)auth()->user()->website->id;
-
         $parameter = $request->parameter();
+        $arguments = [
+            (int)Auth::user()->website->id,
+            $request->startDate(),
+            $request->endDate()
+        ];
 
-        $visitors = $this->tableNewVisitorsRepository->groupVisitorsByParameter(
-            $websiteId, $request->startDate(),  $request->endDate(), $request->parameter()
-        )->map(function ($visitor) use ($parameter) {
+        switch ($parameter) {
+            case 'city':
+                $visitors = $this->tableNewVisitorsRepository->groupByCity(...$arguments);
+                break;
+            case 'country':
+                $visitors = $this->tableNewVisitorsRepository->groupByCountry(...$arguments);
+                break;
+            case 'language':
+                $visitors = $this->tableNewVisitorsRepository->groupByLanguage(...$arguments);
+                break;
+            case 'browser':
+                $visitors = $this->tableNewVisitorsRepository->groupByBrowser(...$arguments);
+                break;
+            case 'operating_system':
+                $visitors = $this->tableNewVisitorsRepository->groupByOperatingSystem(...$arguments);
+                break;
+            case 'screen_resolution':
+                $visitors = $this->tableNewVisitorsRepository->groupByScreenResolution(...$arguments);
+                break;
+            default:
+                throw new InvalidArgumentException(sprintf('The parameter "%s" is not valid.', $parameter));
+        }
+
+        print_r($visitors->all());
+
+        $formattedVisitors = $visitors->map(function ($visitor) use ($parameter) {
             return new TableValue(
                 $parameter,
                 (string)$visitor->parameter_value,
@@ -37,7 +63,8 @@ final class GetNewVisitorsByParameterAction
             );
         });
 
-        return new GetVisitorsByParameterResponse($visitors);
+
+        return new GetVisitorsByParameterResponse($formattedVisitors);
     }
 }
 
