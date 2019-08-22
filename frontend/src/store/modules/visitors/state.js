@@ -42,7 +42,8 @@ export default {
     },
     activeButton: TOTAL_VISITORS,
     tableData: {
-
-        isFetching: false
+        items: [],
+        isFetching: false,
+        groupedParameter: 'language',
     },
 };

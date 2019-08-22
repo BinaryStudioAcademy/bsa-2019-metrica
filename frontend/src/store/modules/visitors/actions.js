@@ -2,15 +2,21 @@ import {
     CHANGE_SELECTED_PERIOD,
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
-    CHANGE_TABLE_DATA
+    GET_TABLE_DATA
 } from "./types/actions";
 import {
     SET_SELECTED_PERIOD,
     SET_ACTIVE_BUTTON,
     RESET_BUTTON_FETCHING,
     SET_BUTTON_FETCHING,
-    SET_TABLE_DATA
+    GET_SELECTED_PERIOD,
+    SET_TABLE_DATA,
+    SET_TABLE_DATA_FETCHING,
+    RESET_TABLE_DATA_FETCHING,
 } from "./types/mutations";
+
+import factoryVisitorService from '@/services/visitors/factoryVisitorsService';
+import periodService from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -27,13 +33,25 @@ export default {
             context.commit(RESET_BUTTON_FETCHING, data.button);
         }
     },
-    [CHANGE_TABLE_DATA]: (context, payload) => {
-        context.commit(SET_TABLE_DATA, payload);
-        alert('hello!');
-        //  getAuthUser().then(response => {
-        //     const user = response.data[0];
-        //     alert(user)
-        // })
-        //     .catch(() => alert('error!'));
+    [GET_TABLE_DATA]: (context, data) => {
+        if (data.value) {
+            context.commit(SET_TABLE_DATA_FETCHING);
+            context.commit(GET_SELECTED_PERIOD)
+                .then(response => {
+                    periodService.getTimeByPeriod(response.data);
+                })
+                .then(response => {
+                    factoryVisitorService.create(data.button)
+                        .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
+                })
+                .then(response => {
+                    context.commit(SET_TABLE_DATA, response.data);
+                })
+                .catch(err => {
+                    context.commit(RESET_TABLE_DATA_FETCHING);
+                    throw err;
+                });
+            context.commit(RESET_TABLE_DATA_FETCHING);
+        }
     }
 };
