@@ -31,7 +31,7 @@ final class GetBounceRateAction
             return new ButtonValue((string)0);
         }
 
-        $bounceRate = round($visitors/$allVisitors * 100,2);
+        $bounceRate = round($visitors / $allVisitors * 100, 2);
 
         return new ButtonValue((string)$bounceRate);
     }
