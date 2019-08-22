@@ -3,7 +3,7 @@
         class="position-relative"
     >
         <Spinner
-            v-if="data.isFetching"
+            v-if="chartData.isFetching"
         />
         <VFlex
             v-if="!this.data.length"
@@ -37,7 +37,8 @@
         props: {
             data: {
                 type: Array,
-                required: true
+                required: true,
+                isFetching: false
             }
         },
 

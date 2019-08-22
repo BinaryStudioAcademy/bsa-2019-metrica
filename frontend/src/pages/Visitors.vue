@@ -20,7 +20,8 @@
                         class="chart-container"
                     >
                         <LineChart
-                            :data="chartData"
+                            :data="chartData.items"
+                            :is-fetching="chartData.isFetching"
                         />
                         <PeriodDropdown />
                     </VFlex>
@@ -100,7 +101,6 @@
         },
         data() {
             return {
-                chartData: this.chartData.items,
                 items: [
                     {
                         option: 'IE',
