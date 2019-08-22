@@ -55,10 +55,8 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         ));
 };
 
-const totalVisitorsService = {
+export const totalVisitorsService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
-
-export default totalVisitorsService;
