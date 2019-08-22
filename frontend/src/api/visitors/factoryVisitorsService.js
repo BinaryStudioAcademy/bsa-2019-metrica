@@ -30,8 +30,6 @@ const create = (type) => {
     }
 };
 
-const factoryVisitorsService = {
+export const factoryVisitorsService = {
     create
 };
-
-export default factoryVisitorsService;

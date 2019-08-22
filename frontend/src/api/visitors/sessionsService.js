@@ -55,10 +55,8 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         ));
 };
 
-const sessionsService = {
+export const sessionsService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
-
-export default sessionsService;

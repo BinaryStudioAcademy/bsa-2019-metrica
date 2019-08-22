@@ -55,10 +55,8 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         ));
 };
 
-const bounceRateService = {
+export const bounceRateService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
-
-export default bounceRateService;
