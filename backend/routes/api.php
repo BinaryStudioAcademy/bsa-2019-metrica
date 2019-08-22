@@ -70,6 +70,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'SessionController@getAllSessions');
             Route::get('/count', 'SessionController@getCountOfSessions');
             Route::get('/average', 'SessionController@getAverageSession');
+            Route::get('/param', 'SessionController@getSessionsByParameter');
         });
 
         Route::group([
@@ -84,6 +85,12 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'VisitController@getPageViews');
         });
 
+        Route::group([
+            'prefix' => 'chart-sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getSessions');
+        });
+          
         Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {

@@ -55,7 +55,6 @@ class VisitorsApiTest extends TestCase
         $secondDate = new DateTime('@1565734102');
         $thirdDate = new DateTime('@1565734202');
         $fourthDate = new DateTime('@1565734302');
-        factory(Website::class)->create();
         factory(Visitor::class)->create([
             'created_at' => $firstDate
         ]);
@@ -80,7 +79,7 @@ class VisitorsApiTest extends TestCase
 
         $expectedData = [
             'data' => [
-                'count' => 2,
+                'value' => 2,
             ],
             'meta' => [],
 
@@ -111,7 +110,7 @@ class VisitorsApiTest extends TestCase
         factory(Visitor::class)->create([
             'created_at' => new DateTime('2019-08-20 05:30:00')
         ]);
-        
+
         $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 1);
         $this->createVisitorWithVisits(new DateTime('2019-08-20 06:30:00'), 2);
         $this->createVisitorWithVisits(new DateTime('2019-08-20 07:30:00'), 1);

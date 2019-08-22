@@ -23,7 +23,6 @@ use App\Http\Resources\ChartResource;
 use App\Http\Requests\Api\GetButtonCountVisitorsHttpRequest;
 use App\Http\Resources\ButtonResource;
 use App\Http\Requests\Api\GetVisitorsBounceRateHttpRequest;
-use App\Http\Resources\VisitorCountResource;
 use App\Http\Requests\Api\GetBounceRateHttpRequest;
 use App\Http\Resources\BounceRateResource;
 use App\Actions\Visitors\GetVisitorsByParameterAction;
@@ -89,7 +88,7 @@ final class VisitorController extends Controller
     public function getNewVisitorsCountForFilterData(GetNewVisitorCountFilterHttpRequest $request, GetNewestCountAction $action): ApiResponse
     {
         $response = $action->execute(GetNewestCountRequest::fromRequest($request));
-        return ApiResponse::success(new VisitorCountResource($response->getCount()));
+        return ApiResponse::success(new ButtonResource($response));
     }
 
     public function getNewVisitorsByDateRange(GetNewChartVisitorsHttpRequest $request): ApiResponse
