@@ -23,7 +23,7 @@ final class GetBounceRateAction
             );
         $allVisitors = $this->visitorRepository
             ->countVisitorsBetweenDate(
-                $request->period(),
+                $request->period()
             );
 
         if ($allVisitors === 0) {

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Visits;
 
+use App\DataTransformer\ButtonValue;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ButtonDataPageViews;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ final class GetPageViewsCountAction
         $this->repository = $repository;
     }
 
-    public function execute(GetPageViewsCountRequest $request): GetPageViewsCountResponse
+    public function execute(GetPageViewsCountRequest $request): ButtonValue
     {
         try {
             $websiteId = Auth::user()->website->id;
@@ -24,6 +25,6 @@ final class GetPageViewsCountAction
             throw new WebsiteNotFoundException();
         }
 
-        return new GetPageViewsCountResponse($this->repository->countBetweenDate($request->period(), $websiteId));
+        return new ButtonValue((string)$this->repository->countBetweenDate($request->period(), $websiteId));
     }
 }

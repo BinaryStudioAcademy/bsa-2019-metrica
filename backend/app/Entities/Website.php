@@ -16,8 +16,6 @@ final class Website extends Model
         'tracking_number',
     ];
 
-    protected $with = ['user'];
-
     public function getTrackingNumberAttribute($value)
     {
         return str_pad((string) $value, 8, '0', STR_PAD_LEFT);
