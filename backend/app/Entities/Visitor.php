@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class Visitor
+ * @package App\Entities
+ * @property int $id
+ * @property string $visitor_type
+ * @property int $website_id
+ */
 final class Visitor extends Model
 {
     protected $fillable = [
