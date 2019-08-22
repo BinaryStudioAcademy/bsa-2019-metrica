@@ -2,21 +2,21 @@ import {
     CHANGE_SELECTED_PERIOD,
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
-    GET_LINE_CHART_DATA
+    GET_LINE_CHART_DATA,
+    CHANGE_GROUPED_PARAMETER,
+    CHANGE_ACTIVE_BUTTON,
+    CHANGE_FETCHED_BUTTON_STATE,
+    CHANGE_FETCHED_TABLE_STATE
 } from "./types/actions";
 import {
     SET_SELECTED_PERIOD,
+    SET_GROUPED_PARAMETER,
     SET_ACTIVE_BUTTON,
     RESET_BUTTON_FETCHING,
     SET_BUTTON_FETCHING,
-    SET_LINE_CHART_DATA,
-    GET_SELECTED_PERIOD,
-    SET_LINE_CHART_DATA_FETCHING,
-    RESET_LINE_CHART_DATA_FETCHING
+    RESET_TABLE_FETCHING,
+    SET_TABLE_FETCHING
 } from "./types/mutations";
-
-import factoryVisitorService from '@/services/visitors/factoryVisitorsService';
-import periodService from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -55,5 +55,16 @@ export default {
                 throw err;
             });
         context.commit(RESET_BUTTON_FETCHING);
-    }
+    },
+    [CHANGE_GROUPED_PARAMETER]: (context, parameter) => {
+        context.commit(SET_GROUPED_PARAMETER, parameter);
+    },
+    [CHANGE_FETCHED_TABLE_STATE]: (context, value) => {
+
+        if (value) {
+            context.commit(SET_TABLE_FETCHING);
+        } else {
+            context.commit(RESET_TABLE_FETCHING);
+        }
+    },
 };

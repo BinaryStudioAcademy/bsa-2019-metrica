@@ -1,12 +1,15 @@
 import {
     SET_SELECTED_PERIOD,
-    SET_ACTIVE_BUTTON,
-    SET_BUTTON_FETCHING,
-    RESET_BUTTON_FETCHING,
     SET_LINE_CHART_DATA,
     GET_SELECTED_PERIOD,
     SET_LINE_CHART_DATA_FETCHING,
-    RESET_LINE_CHART_DATA_FETCHING
+    RESET_LINE_CHART_DATA_FETCHING,
+    SET_GROUPED_PARAMETER,
+    SET_ACTIVE_BUTTON,
+    SET_BUTTON_FETCHING,
+    RESET_BUTTON_FETCHING,
+    SET_TABLE_FETCHING,
+    RESET_TABLE_FETCHING
 } from "./types/mutations";
 
 export default {
@@ -33,5 +36,14 @@ export default {
     },
     [RESET_LINE_CHART_DATA_FETCHING]: (state) => {
         state.chartData.isFetching = false;
+    },
+    [SET_GROUPED_PARAMETER]: (state, parameter) => {
+        state.tableData.groupedParameter = parameter;
+    },
+    [SET_TABLE_FETCHING]: (state) => {
+        state.tableData.isFetching = true;
+    },
+    [RESET_TABLE_FETCHING]: (state) => {
+        state.tableData.isFetching = false;
     },
 };

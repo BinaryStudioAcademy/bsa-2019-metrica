@@ -1,6 +1,7 @@
-import requestService from "../requestService";
+import requestService from "@/services/requestService";
 import config from "@/config";
 import {buttonTransformer, chartTransformer, tableTransformer} from './transformers';
+import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
@@ -9,7 +10,15 @@ const fetchButtonValue = (startDate, endDate) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
-        .catch(err => throw err);
+        .catch(error => Promise.reject(
+            new Error(
+                _.get(
+                    error,
+                    'response.data.error.message',
+                    'Something went wrong with getting sessions'
+                )
+            )
+        ));
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
@@ -18,7 +27,15 @@ const fetchChartValues = (startDate, endDate, interval) => {
         'filter[endDate]': endDate,
         'filter[period]': interval
     }).then(response => response.data.map(chartTransformer))
-        .catch(err => throw err);
+        .catch(error => Promise.reject(
+            new Error(
+                _.get(
+                    error,
+                    'response.data.error.message',
+                    'Something went wrong with getting sessions'
+                )
+            )
+        ));
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
@@ -27,7 +44,15 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[endDate]': endDate,
         'filter[parameter]': groupBy
     }).then(response => response.data.map(tableTransformer))
-        .catch(err => throw err);
+        .catch(error => Promise.reject(
+            new Error(
+                _.get(
+                    error,
+                    'response.data.error.message',
+                    'Something went wrong with getting sessions'
+                )
+            )
+        ));
 };
 
 const sessionsService = {
