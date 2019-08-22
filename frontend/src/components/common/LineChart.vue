@@ -10,13 +10,14 @@
         >
             <VCardTitle
                 primary-title
-                class="justify-center"
+                class="justify-center grey--text"
             >
                 LineChart has no data to display!
             </VCardTitle>
         </VFlex>
         <GChart
             type="LineChart"
+            v-if="this.data.length"
             :data="chartData"
             :options="chartOptions"
         />
