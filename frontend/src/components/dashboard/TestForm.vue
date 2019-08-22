@@ -20,8 +20,8 @@
 </template>
 
 <script>
-    import newVisitorsService from "../../services/visitors/newVisitorsService";
-
+    import factoryVisitorsService from "../../services/visitors/factoryVisitorsService";
+    import {BOUNCE_RATE} from "../../configs/visitors/buttonTypes";
     export default {
         name: "TestForm",
         data() {
@@ -30,16 +30,9 @@
             };
         },
         created() {
-            newVisitorsService.fetchButtonValue(1474221618, 1568829618).then(res=>{
+            factoryVisitorsService.create(BOUNCE_RATE).fetchButtonValue(1474221618, 1568829618).then(res=>{
                 this.result = res;
             });
-            // newVisitorsService.fetchChartValues(1474221618, 1568829618,86400).then(res=>{
-            //     this.result = res;
-            // });
-            // totalVisitorsService.fetchTableValues(1474221618, 1568829618, 'language').then(res => {
-            //     this.result = res;
-            // });
-
         }
     };
 </script>

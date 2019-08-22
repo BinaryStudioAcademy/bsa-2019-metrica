@@ -31,10 +31,10 @@ const fetchChartValues = (startDate, endDate, interval) => {
 //     });
 // };
 
-const totalVisitorsService = {
+const newVisitorsService = {
     fetchButtonValue,
     fetchChartValues,
     // fetchTableValues
 };
 
-export default totalVisitorsService;
+export default newVisitorsService;
