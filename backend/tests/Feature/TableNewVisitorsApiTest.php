@@ -58,24 +58,28 @@ class TableNewVisitorsApiTest extends TestCase
 
         $expected = [
             'data' => [
-                '*' => [
-                    'parameter',
-                    'parameter_value',
-                    'total',
-                    'percentage'
+                [
+                    'parameter' => 'city',
+                    'parameter_value' => 'Berlin',
+                    'total' => 1,
+                    'percentage' => 25
+                ],
+                [
+                    'parameter' => 'city',
+                    'parameter_value' => 'Kiev',
+                    'total' => 1,
+                    'percentage' => 25
                 ]
             ],
             'meta' => []
         ];
 
-        // foreach ($self::PARAMETERS as $parameter) {
         $parameter = 'city';
-            $queryString .= $parameter;
+        $queryString .= $parameter;
 
-            $this->actingAs($this->user)
-                ->getJson(self::ENDPOINT.$queryString)
-                ->assertJson($expected);
-        // }
+        $this->actingAs($this->user)
+            ->getJson(self::ENDPOINT.$queryString)
+            ->assertJson($expected);
     }
 
     private function setUser(): User
@@ -86,10 +90,16 @@ class TableNewVisitorsApiTest extends TestCase
     private function seedDataBase(): void
     {
         factory(Website::class)->create();
-        factory(Visitor::class, 10)->create();
-        factory(Page::class, 3)->create();
 
-        foreach ($this->testdata()['geo_positions'] as $geo_position) {
+        foreach ($this->fakeData()['visitors_created'] as $created_at) {
+            factory(Visitor::class)->create([
+                'created_at' => $created_at
+            ]);
+        }
+
+        factory(Page::class)->create();
+
+        foreach ($this->fakeData()['geo_positions'] as $geo_position) {
             $geo_positions[] = factory(GeoPosition::class)->create(
                 [
                     'country' => $geo_position['country'],
@@ -98,11 +108,11 @@ class TableNewVisitorsApiTest extends TestCase
             );
         }
 
-        foreach ($this->testData()['systems'] as $system) {
+        foreach ($this->fakeData()['systems'] as $system) {
             $systems[] = factory(System::class)->create($system);
         }
 
-        foreach ($this->testData()['languages'] as $language) {
+        foreach ($this->fakeData()['languages'] as $language) {
             foreach ($systems as $system) {
                 $sessions[] = factory(Session::class)->create([
                     'system_id' => $system->id,
@@ -111,15 +121,14 @@ class TableNewVisitorsApiTest extends TestCase
             }
         }
 
-
-
-        foreach ($geo_positions as $geo_position) {
+        foreach ($geo_positions as $i => $geo_position) {
+            $visitorId = $i == 1 ? 1 : 2;
             foreach ($sessions as $session) {
                 factory(Visit::class)->create(
                     [
                         'geo_position_id' => $geo_position->id,
                         'session_id' => $session->id,
-                        'visit_time' => (new Carbon(rand($this->fromTimeStamp, $this->toTimeStamp)))->toDateTimeString()
+                        'visitor_id' => $visitorId,
                     ]
                 );
             }
@@ -128,13 +137,18 @@ class TableNewVisitorsApiTest extends TestCase
     }
 
 
-    private function testData(): array
+    private function fakeData(): array
     {
         return [
+            'visitors_created' => [
+                '2019-08-21 00:00:00',
+                '2019-08-22 00:00:00',
+                '2019-08-25 00:00:00',
+                '2019-08-26 00:00:00',
+            ],
             'languages'=> [
                 'en',
                 'ru',
-                'ua',
             ],
             'geo_positions' => [
                 [
@@ -144,10 +158,6 @@ class TableNewVisitorsApiTest extends TestCase
                 [
                     'country' => 'Germany',
                     'city' => 'Berlin'
-                ],
-                [
-                    'country' => 'France',
-                    'city' => 'Paris'
                 ],
             ],
             'systems' => [
