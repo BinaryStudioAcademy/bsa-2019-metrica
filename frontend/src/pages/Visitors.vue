@@ -100,6 +100,7 @@
         },
         data() {
             return {
+                chartData: this.chartData.items,
                 items: [
                     {
                         option: 'IE',
