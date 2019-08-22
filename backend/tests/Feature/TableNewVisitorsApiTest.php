@@ -122,7 +122,7 @@ class TableNewVisitorsApiTest extends TestCase
         }
 
         foreach ($geo_positions as $i => $geo_position) {
-            $visitorId = $i == 1 ? 1 : 2;
+            $visitorId = $i == 1 ? Visitor::min('id') : Visitor::min('id')+1;
             foreach ($sessions as $session) {
                 factory(Visit::class)->create(
                     [
