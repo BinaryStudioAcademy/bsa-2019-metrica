@@ -17,7 +17,6 @@ use App\Actions\Sessions\GetAvgSessionTimeByParameterAction;
 use App\Actions\Sessions\GetAvgSessionTimeByParameterRequest;
 use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Http\Response\ApiResponse;
-use App\Http\Resources\CountSessions;
 use App\Http\Requests\Api\CountSessionsHttpRequest;
 use App\Actions\Sessions\CountSessionsAction;
 use App\Actions\Sessions\CountSessionsRequest;
@@ -69,7 +68,7 @@ final class SessionController extends Controller
             new CountSessionsRequest($request->startDate(), $request->endDate())
         );
 
-        return ApiResponse::success(new CountSessions($response->countSessions()));
+        return ApiResponse::success(new ButtonResource($response));
     }
 
     public function getAverageSession(GetAvgSessionHttpRequest $request): ApiResponse

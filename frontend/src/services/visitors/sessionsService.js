@@ -5,7 +5,7 @@ import {buttonTransformer, chartTransformer} from './transformers';
 const resourceUrl = config.getApiUrl();
 
 const fetchButtonValue = (startDate, endDate) => {
-    return requestService.get(resourceUrl + '/sessions/average', {}, {
+    return requestService.get(resourceUrl + '/sessions/count', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))

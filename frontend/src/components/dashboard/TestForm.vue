@@ -30,7 +30,7 @@
             };
         },
         created() {
-            factoryVisitorsService.create(SESSIONS).fetchChartValues(1474221618, 1568829618,86000).then(res=>{
+            factoryVisitorsService.create(SESSIONS).fetchButtonValue(1474221618, 1568829618).then(res=>{
                 this.result = res;
             });
         }
