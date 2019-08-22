@@ -60,3 +60,5 @@ export const averageSessionService = {
     fetchChartValues,
     fetchTableValues
 };
+
+export default averageSessionService;

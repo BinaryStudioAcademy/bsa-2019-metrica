@@ -33,3 +33,5 @@ const create = (type) => {
 export const factoryVisitorsService = {
     create
 };
+
+export default factoryVisitorsService;

@@ -55,7 +55,7 @@ export default {
         getTimeByPeriod(context.state.selectedPeriod)
             .then(response => {
                 return factoryVisitorService.create(context.state.activeButton)
-                    .fetchLineChartValues(response.startDate, response.endDate, data.groupedParameter);
+                    .fetchChartValues(response.startDate, response.endDate, data.groupedParameter);
             })
             .then(response => {
                 context.commit(SET_LINE_CHART_DATA, response.data);

@@ -60,3 +60,5 @@ export const newVisitorsService = {
     fetchChartValues,
     fetchTableValues
 };
+
+export default newVisitorsService;

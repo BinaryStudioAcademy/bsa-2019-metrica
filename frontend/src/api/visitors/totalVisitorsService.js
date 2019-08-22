@@ -60,3 +60,5 @@ export const totalVisitorsService = {
     fetchChartValues,
     fetchTableValues
 };
+
+export default totalVisitorsService;
