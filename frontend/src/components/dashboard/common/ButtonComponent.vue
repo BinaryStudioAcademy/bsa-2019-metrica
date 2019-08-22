@@ -1,11 +1,10 @@
 <template>
-    <Spinner v-if="buttonData.isFetching" />
     <div
-        v-else
-        class="button-card bg-white d-inline-flex justify-content-start align-items-center"
-        :class="{ active: isActive }"
+        class="button-card bg-white d-inline-flex justify-content-start align-items-center position-relative"
+        :class="{ active: active }"
         @click="changeButton"
     >
+        <Spinner v-if="fetching" />
         <div
             class="card-image"
         >
@@ -20,7 +19,7 @@
             <div
                 class="character-text text-no-wrap headline"
             >
-                {{ buttonData.value }}
+                {{ value }}
             </div>
             <div
                 class="title-text text-no-wrap caption"
@@ -32,11 +31,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
     import Spinner from '../../utilites/Spinner';
-    import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON} from "@/store/modules/page_views/types/getters";
-    import {CHANGE_ACTIVE_BUTTON, CHANGE_FETCHED_BUTTON_STATE} from "@/store/modules/page_views/types/actions";
-
     export default {
         name: 'ButtonComponent',
         components: {
@@ -47,35 +42,31 @@
                 type:String,
                 required: true
             },
-            type: {
-                type:String,
-                required: true
+            active: {
+                type: Boolean,
+                default: false,
             },
             iconName: {
                 type:String,
                 required: true
-            }
-        },
-        computed: {
-            ...mapGetters('page_views', {
-                buttonsData: GET_BUTTON_DATA,
-                currentActiveButton: GET_ACTIVE_BUTTON
-            }),
-            isActive () {
-                return this.currentActiveButton === this.type;
             },
-            buttonData () {
-                return this.buttonsData[this.type];
-            }
+            fetching: {
+                type: Boolean,
+                default: false,
+            },
+            type: {
+                type:String,
+                required: true
+            },
+            value: {
+                type: [String, Number],
+                required: true,
+            },
         },
         methods: {
-            ...mapActions('page_views', {
-                changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE
-            }),
             changeButton () {
-                if (!this.isActive) {
-                    this.changeActiveButton(this.type);
+                if (!this.active) {
+                    this.$emit("change", this.type);
                 }
             }
         }

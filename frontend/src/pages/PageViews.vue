@@ -20,7 +20,10 @@
                         class="chart-container"
                     >
                         <LineChart :data="data" />
-                        <PeriodDropdown />
+                        <PeriodDropdown
+                            :value="getSelectedPeriod"
+                            @change="changePeriod"
+                        />
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -38,8 +41,12 @@
                     >
                         <ButtonComponent
                             :title="button.title"
+                            :active="isActive"
+                            :fetching="buttonsData[button.type].isFetching"
+                            :value="buttonsData[button.type].value"
                             :type="button.type"
                             :icon-name="button.icon"
+                            @change="changeButton"
                         />
                     </VFlex>
                 </VLayout>
@@ -55,6 +62,7 @@
             >
                 <GroupedTable
                     :items="tableData"
+                    @change="changeTable"
                 />
             </VFlex>
         </VLayout>
@@ -65,9 +73,15 @@
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/page_views/GroupedTable";
-    import ButtonComponent from "../components/dashboard/page_views/ButtonComponent";
-    import PeriodDropdown from "../components/dashboard/page_views/PeriodDropdown";
-    import {isWebsite} from '../mixins/isWebsite';
+    import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
+    import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
+    import {mapGetters, mapActions} from 'vuex';
+    import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON, GET_SELECTED_PERIOD} from "@/store/modules/page_views/types/getters";
+    import {
+        CHANGE_ACTIVE_BUTTON,
+        CHANGE_FETCHED_BUTTON_STATE,
+        CHANGE_SELECTED_PERIOD
+    } from "@/store/modules/page_views/types/actions";
     import {
         PAGE_VIEWS,
         UNIQUE_PAGE_VIEWS,
@@ -76,7 +90,6 @@
     } from '../configs/page_views/buttonTypes.js';
 
     export default {
-        mixins: [isWebsite],
         components: {
             LineChart,
             GroupedTable,
@@ -87,6 +100,7 @@
         data() {
             return {
                 data: [],
+                period: '',
                 items: [
                     {
                         page: 'www.figma.com/file/',
@@ -159,6 +173,17 @@
             },
             tableData () {
                 return this.items;
+            },
+            ...mapGetters('page_views', {
+                buttonsData: GET_BUTTON_DATA,
+                currentActiveButton: GET_ACTIVE_BUTTON,
+                getSelectedPeriod: GET_SELECTED_PERIOD
+            }),
+            isActive () {
+                return this.currentActiveButton === this.type;
+            },
+            buttonData () {
+                return this.buttonsData[this.type];
             }
         },
         mounted() {
@@ -172,8 +197,23 @@
                 this.data.push(item);
             }
         },
+        methods: {
+            ...mapActions('page_views', {
+                changeActiveButton: CHANGE_ACTIVE_BUTTON,
+                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+            }),
+            changeButton (data) {
+                this.changeActiveButton(data);
+            },
+            changeTable (parameter) {
+                this.items = this.tableItems[parameter];
+            },
+            changePeriod(data) {
+                this.changeSelectedPeriod(data);
+            }
+        }
     };
-
 </script>
 
 <style scoped>

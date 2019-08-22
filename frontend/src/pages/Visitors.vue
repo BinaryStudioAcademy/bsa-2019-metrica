@@ -20,7 +20,10 @@
                         class="chart-container"
                     >
                         <LineChart :data="data" />
-                        <PeriodDropdown />
+                        <PeriodDropdown
+                            :value="getSelectedPeriod"
+                            @change="changePeriod"
+                        />
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -32,8 +35,12 @@
             >
                 <ButtonComponent
                     :title="button.title"
+                    :active="isActive"
+                    :fetching="buttonsData[button.type].isFetching"
+                    :value="buttonsData[button.type].value"
                     :type="button.type"
                     :icon-name="button.icon"
+                    @change="changeButton"
                 />
             </VFlex>
         </VLayout>
@@ -70,10 +77,16 @@
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/visitors/GroupedTable";
-    import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
-    import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
+    import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
+    import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import PieChart from "../components/common/PieChart";
-    import {isWebsite} from '../mixins/isWebsite';
+    import {mapGetters, mapActions} from 'vuex';
+    import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON, GET_SELECTED_PERIOD} from "@/store/modules/visitors/types/getters";
+    import {
+        CHANGE_ACTIVE_BUTTON,
+        CHANGE_FETCHED_BUTTON_STATE,
+        CHANGE_SELECTED_PERIOD
+    } from "@/store/modules/visitors/types/actions";
     import {
         TOTAL_VISITORS,
         NEW_VISITORS,
@@ -84,7 +97,6 @@
     } from '../configs/visitors/buttonTypes.js';
 
     export default {
-        mixins: [isWebsite],
         components: {
             PieChart,
             LineChart,
@@ -96,6 +108,7 @@
         data() {
             return {
                 data: [],
+                period: '',
                 items: [
                     {
                         option: 'IE',
@@ -218,6 +231,17 @@
             },
             tableData () {
                 return this.items;
+            },
+            ...mapGetters('visitors', {
+                buttonsData: GET_BUTTON_DATA,
+                currentActiveButton: GET_ACTIVE_BUTTON,
+                getSelectedPeriod: GET_SELECTED_PERIOD
+            }),
+            isActive () {
+                return this.currentActiveButton === this.type;
+            },
+            buttonData () {
+                return this.buttonsData[this.type];
             }
         },
         mounted() {
@@ -232,8 +256,19 @@
             }
         },
         methods: {
+            ...mapActions('visitors', {
+                changeActiveButton: CHANGE_ACTIVE_BUTTON,
+                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+            }),
+            changeButton (data) {
+                this.changeActiveButton(data);
+            },
             changeTable (parameter) {
                 this.items = this.tableItems[parameter];
+            },
+            changePeriod(data) {
+                this.changeSelectedPeriod(data);
             }
         }
     };

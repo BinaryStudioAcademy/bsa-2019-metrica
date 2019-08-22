@@ -9,44 +9,38 @@
             item-text="title"
             item-value="value"
             class="option-select"
-            :value="getSelectedPeriod"
+            :value="value"
             solo
             return-object
-            @change="change"
+            @change="changePeriod"
         />
     </VCol>
 </template>
 
 <script>
-    import {CHANGE_SELECTED_PERIOD} from "@/store/modules/visitors/types/actions";
-    import {mapGetters, mapActions} from 'vuex';
-    import {GET_SELECTED_PERIOD} from "../../../store/modules/visitors/types/getters";
-
     export default {
         name: "PeriodDropdown",
+        props: {
+            value: {
+                type:String,
+                required: true
+            },
+        },
         data() {
             return {
                 items: [
                     {title: 'Today', value: 'today'},
                     {title: 'Yesterday', value: 'yesterday'},
                     {title: 'Last 7 days', value: 'last_week'},
-                    {title: 'Last month', value: 'last_month'},
-                    {title: 'Last quartal', value: 'last_quartal'},
+                    {title: 'Last 30', value: 'last_month'},
+                    {title: 'Last 90', value: 'last_quartal'},
                     {title: 'All period', value: 'all_period'}
                 ]
             };
         },
-        computed: {
-            ...mapGetters('visitors', {
-                getSelectedPeriod: GET_SELECTED_PERIOD
-            })
-        },
         methods: {
-            ...mapActions('visitors', {
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
-            }),
-            change(selectedItem) {
-                this.changeSelectedPeriod(selectedItem);
+            changePeriod(selectedItem) {
+                this.$emit("change", selectedItem);
             }
         }
     };
