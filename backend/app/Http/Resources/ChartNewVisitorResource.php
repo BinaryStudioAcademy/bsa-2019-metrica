@@ -10,8 +10,8 @@ class ChartNewVisitorResource extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            'period' => $this->getPeriod(),
-            'count' => $this->getCount()
+            'date' => $this->date(),
+            'value' => $this->value()
         ];
     }
 }

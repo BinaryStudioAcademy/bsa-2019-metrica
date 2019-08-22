@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Visitors;
+namespace App\Actions\Visits;
 
-final class GetNewestCountResponse
+final class GetPageViewsCountResponse
 {
     private $count;
 

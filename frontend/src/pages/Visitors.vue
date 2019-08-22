@@ -1,13 +1,8 @@
 <template>
-    <VContainer
-        fluid
-        class="content-container"
-    >
+    <ContentLayout :title="title">
         <VLayout
             wrap
-        >
-            <h5>{{ title }}</h5>
-        </VLayout>
+        />
         <VLayout>
             <VFlex
                 lg12
@@ -25,6 +20,7 @@
                         class="chart-container"
                     >
                         <LineChart :data="data" />
+                        <PeriodDropdown />
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -36,7 +32,7 @@
             >
                 <ButtonComponent
                     :title="button.title"
-                    :character="button.character"
+                    :type="button.type"
                     :icon-name="button.icon"
                 />
             </VFlex>
@@ -49,7 +45,10 @@
                 height="100%"
                 class="img-card"
             >
-                <UserTable />
+                <GroupedTable
+                    :items="tableData"
+                    @change="changeTable"
+                />
             </VFlex>
             <VFlex
                 lg5
@@ -64,57 +63,86 @@
                 />
             </VFlex>
         </VLayout>
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import UserTable from "../components/dashboard/visitors/UsersTable";
+    import GroupedTable from "../components/dashboard/visitors/GroupedTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
+    import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
     import PieChart from "../components/common/PieChart";
     import {isWebsite} from '../mixins/isWebsite';
+    import {
+        TOTAL_VISITORS,
+        NEW_VISITORS,
+        AVG_SESSION,
+        PAGE_VIEWS,
+        SESSIONS,
+        BOUNCE_RATE
+    } from '../configs/visitors/buttonTypes.js';
 
     export default {
         mixins: [isWebsite],
         components: {
             PieChart,
             LineChart,
-            UserTable,
-            ButtonComponent
+            GroupedTable,
+            ButtonComponent,
+            PeriodDropdown,
+            ContentLayout
         },
         data() {
             return {
                 data: [],
+                items: [
+                    {
+                        option: 'IE',
+                        users: 55,
+                        percentage: '34%'
+                    },
+                    {
+                        option: 'Edge',
+                        users: 77,
+                        percentage: '34%'
+                    },
+                    {
+                        option: 'Firefox',
+                        users: 45,
+                        percentage: '44%'
+                    },
+                ],
                 buttons: [
                     {
                         icon: 'person',
                         title: 'Total visitors',
-                        character: '120'
+                        type: TOTAL_VISITORS
                     },
                     {
                         icon: 'eye',
                         title: 'New visitors',
-                        character: '100'
+                        type: NEW_VISITORS
                     },
                     {
                         icon: 'clock',
                         title: 'Avg. session',
-                        character: '00:00:33'
+                        type: AVG_SESSION
                     },
                     {
                         icon: 'yellow_arrow',
                         title: 'Page views',
-                        character: '321'
+                        type: PAGE_VIEWS
                     },
                     {
                         icon: 'peach_arrow',
                         title: 'Sessions',
-                        character: '145'
+                        type: SESSIONS
                     },
                     {
                         icon: 'violet_arrow',
                         title: 'Bounce rate',
-                        character: '41%'
+                        type: BOUNCE_RATE
                     },
                 ],
                 pieData: [
@@ -136,12 +164,60 @@
                             color: '#1BC3DA',
                         },
                     }
+                },
+                tableItems: {
+                    'language': [
+                        {
+                            option: 'us',
+                            users: 67,
+                            percentage: '50%'
+                        },
+                        {
+                            option: 'en',
+                            users: 67,
+                            percentage: '50%'
+                        },
+                        {
+                            option: 'fr',
+                            users: 67,
+                            percentage: '50%'
+                        }
+                    ],
+                    'browser': [
+                        {
+                            option: 'IE',
+                            users: 55,
+                            percentage: '34%'
+                        },
+                        {
+                            option: 'Edge',
+                            users: 77,
+                            percentage: '34%'
+                        },
+                        {
+                            option: 'Firefox',
+                            users: 45,
+                            percentage: '44%'
+                        },
+                        {
+                            option: 'Chrome',
+                            users: 84,
+                            percentage: '34%'
+                        },
+                        {
+                            option: 'iOS Safari',
+                            users: 44,
+                            percentage: '55%'
+                        }]
                 }
             };
         },
         computed: {
             title () {
                 return this.$route.meta.title;
+            },
+            tableData () {
+                return this.items;
             }
         },
         mounted() {
@@ -154,6 +230,11 @@
                 };
                 this.data.push(item);
             }
+        },
+        methods: {
+            changeTable (parameter) {
+                this.items = this.tableItems[parameter];
+            }
         }
     };
 </script>
@@ -164,8 +245,5 @@
     }
     .chart-container {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
-    }
-    .content-container {
-        padding: 70px 66px 0 80px;
     }
 </style>

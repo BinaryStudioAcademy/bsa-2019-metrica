@@ -15,6 +15,7 @@ import WebsiteInfo from '../pages/WebsiteInfo.vue';
 import Default from '@/components/layout/Default.vue';
 import UserDataProviderPage from '../pages/UserDataProviderPage.vue';
 import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
+import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -60,7 +61,12 @@ export default new Router({
                     component: ResetPassword,
                 },
                 {
-                    path: '',
+                    path: '/auth/social/:provider',
+                    name: 'social-auth',
+                    component: SocialAuthPage
+                },
+        {
+            path: '',
                     component: LoginGuard,
                     children: [
                         {

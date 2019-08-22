@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\DataTransformer\Visitors;
 
-final class ChartNewVisitor
+use App\Contracts\ChartValue;
+
+final class ChartNewVisitor implements ChartValue
 {
     private $period;
     private $count;
@@ -14,13 +16,11 @@ final class ChartNewVisitor
         $this->period = $period;
         $this->count = $count;
     }
-
-    public function getPeriod(): string
+    public function date(): string
     {
         return $this->period;
     }
-
-    public function getCount(): int
+    public function value(): string
     {
         return $this->count;
     }

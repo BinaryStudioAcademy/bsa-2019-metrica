@@ -22,6 +22,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
         Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:api');
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'AuthController@redirect');
+            Route::get('/{provider}/callback', 'AuthController@oauthCallback');
+        });
     });
 
     Route::group([
@@ -56,6 +60,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'visits'
         ], function () {
+            Route::get('/by-table', 'VisitController@getPageViewsByParameter');
             Route::post('/', 'VisitController@createVisit');
         });
 
@@ -80,9 +85,23 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'chart-sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getSessions');
+        });
+
+        Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
+        });
+
+        Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
+
+        Route::group([
+            'prefix'=>'button-page-views'
+        ], function () {
+            Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');

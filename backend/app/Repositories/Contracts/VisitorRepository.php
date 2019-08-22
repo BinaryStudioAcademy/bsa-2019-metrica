@@ -17,7 +17,7 @@ interface VisitorRepository
 
     public function newest(): Collection;
 
-    public function newestCount(NewVisitorsCountFilterData $filterData): int;
+    public function newestCount(NewVisitorsCountFilterData $filterData, int $websiteId): int;
 
     public function countSinglePageInactiveSessionBetweenDate(DatePeriod $period): int;
 
