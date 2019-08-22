@@ -58,7 +58,7 @@
                 class="img-card"
             >
                 <PieChart
-                    :data="pieData"
+                    :data="pieChartData"
                     :legend="legend"
                 />
             </VFlex>
@@ -145,11 +145,11 @@
                         type: BOUNCE_RATE
                     },
                 ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 59],
-                ],
+                pieChartData: {
+                    newVisitors: 0,
+                    returnVisitors: 0,
+                    isFetching: false
+                },
                 legend: {
                     title: 'Outcome',
                     data: {
