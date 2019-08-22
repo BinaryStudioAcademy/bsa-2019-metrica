@@ -21,7 +21,7 @@
 
 <script>
     import factoryVisitorsService from "../../services/visitors/factoryVisitorsService";
-    import {BOUNCE_RATE} from "../../configs/visitors/buttonTypes";
+    import {AVG_SESSION} from "../../configs/visitors/buttonTypes";
     export default {
         name: "TestForm",
         data() {
@@ -30,7 +30,7 @@
             };
         },
         created() {
-            factoryVisitorsService.create(BOUNCE_RATE).fetchButtonValue(1474221618, 1568829618).then(res=>{
+            factoryVisitorsService.create(AVG_SESSION).fetchButtonValue(1474221618, 1568829618).then(res=>{
                 this.result = res;
             });
         }

@@ -1,6 +1,6 @@
 import requestService from "../requestService";
 import config from "@/config";
-import {buttonTransformer, chartTransformer, tableTransformer} from './transformers';
+import {buttonTransformer, chartTransformer} from './transformers';
 
 const resourceUrl = config.getApiUrl();
 
@@ -13,27 +13,29 @@ const fetchButtonValue = (startDate, endDate) => {
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
-    return requestService.get(resourceUrl + '/chart-total-visitors', {}, {
+    return requestService.get(resourceUrl + '/visitors/bounce-rate', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[period]': interval
+        'filter[timeFrame]': interval
     }).then(response => response.data.map(chartTransformer))
         .catch(err => alert(err));
 };
 
-const fetchTableValues = (startDate, endDate, groupBy) => {
-    return requestService.get(resourceUrl + '/visitors/by-table', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate,
-        'parameter': groupBy
-    }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
-        .catch(err => alert(err));
-};
+
+
+// const fetchTableValues = (startDate, endDate, groupBy) => {
+//     return requestService.get(resourceUrl + '/visitors/by-table', {}, {
+//         'filter[start_date]': startDate,
+//         'filter[end_date]': endDate,
+//         'parameter': groupBy
+//     }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
+//         .catch(err => alert(err));
+// };
 
 const bounceRateService = {
     fetchButtonValue,
     fetchChartValues,
-    fetchTableValues
+    // fetchTableValues
 };
 
 export default bounceRateService;
