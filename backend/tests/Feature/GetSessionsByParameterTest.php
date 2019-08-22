@@ -141,7 +141,6 @@ class GetSessionsByParameterTest extends TestCase
             ->assertStatus(200)
             ->json();
         $this->assertEquals(2, sizeof($result['data']));
-    
     }
 
     public function testFilteringByGeoPosition()
