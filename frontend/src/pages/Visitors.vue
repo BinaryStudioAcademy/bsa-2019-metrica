@@ -67,6 +67,8 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import {GET_PIE_CHART_DATA} from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/visitors/GroupedTable";
@@ -145,11 +147,6 @@
                         type: BOUNCE_RATE
                     },
                 ],
-                pieChartData: {
-                    newVisitors: 0,
-                    returnVisitors: 0,
-                    isFetching: false
-                },
                 legend: {
                     title: 'Outcome',
                     data: {
@@ -213,6 +210,9 @@
             };
         },
         computed: {
+            ...mapGetters('visitors', {
+                pieChartData: GET_PIE_CHART_DATA,
+            }),
             title () {
                 return this.$route.meta.title;
             },
