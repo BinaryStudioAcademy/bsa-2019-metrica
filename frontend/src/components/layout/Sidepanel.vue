@@ -108,7 +108,6 @@
 
         watch:{
             $route (to, from) {
-                console.log(this.$route.name, to, from);
                 this.links.map(item => {
                     if (item.route === 'settings') {
                         if (this.$route.name === 'websiteinfo' ||
