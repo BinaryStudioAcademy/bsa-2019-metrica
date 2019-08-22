@@ -54,8 +54,8 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select(DB::raw('COUNT(visitors.id) as total'),
-                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage"),
+            ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
                     'geo_positions.country as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -72,8 +72,8 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
-            ->select(DB::raw('COUNT(visitors.id) as total'),
-                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage"),
+            ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
                     'sessions.language as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -91,8 +91,8 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('COUNT(visitors.id) as total'),
-                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage"),
+            ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
                     'systems.browser as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -110,8 +110,8 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('COUNT(visitors.id) as total'),
-                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage"),
+            ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
                     'systems.os as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -129,8 +129,8 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('COUNT(visitors.id) as total'),
-                     DB::raw("COUNT(visitors.id) * 100 / $count AS percentage"),
+            ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
                      DB::raw('CONCAT(systems.resolution_height, \'x\', systems.resolution_width) as parameter_value'))
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
