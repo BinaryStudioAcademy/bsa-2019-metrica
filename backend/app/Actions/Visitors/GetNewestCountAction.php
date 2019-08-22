@@ -19,6 +19,6 @@ final class GetNewestCountAction
     public function execute(GetNewestCountRequest $request): ButtonValue
     {
         $websiteId = Auth::user()->website->id;
-        return new ButtonValue((string)$this->repository->newestCount($request->getFilterData(),$websiteId));
+        return new ButtonValue((string)$this->repository->newestCount($request->getFilterData(), $websiteId));
     }
 }
