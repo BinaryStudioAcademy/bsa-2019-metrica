@@ -13,7 +13,7 @@ use App\Actions\Visitors\GetVisitorsByParameterResponse;
 
 final class GetNewVisitorsByParameterAction
 {
-    private $tableVisitorsRepository;
+    private $tableNewVisitorsRepository;
 
     public function __construct(TableNewVisitorsRepository $tableNewVisitorsRepository)
     {
