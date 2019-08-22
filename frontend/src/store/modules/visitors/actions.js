@@ -1,5 +1,22 @@
-import {CHANGE_SELECTED_PERIOD, CHANGE_ACTIVE_BUTTON, CHANGE_FETCHED_BUTTON_STATE} from "./types/actions";
-import {SET_SELECTED_PERIOD, SET_ACTIVE_BUTTON, RESET_BUTTON_FETCHING, SET_BUTTON_FETCHING} from "./types/mutations";
+import {
+    CHANGE_SELECTED_PERIOD,
+    CHANGE_ACTIVE_BUTTON,
+    CHANGE_FETCHED_BUTTON_STATE,
+    GET_LINE_CHART_DATA
+} from "./types/actions";
+import {
+    SET_SELECTED_PERIOD,
+    SET_ACTIVE_BUTTON,
+    RESET_BUTTON_FETCHING,
+    SET_BUTTON_FETCHING,
+    SET_LINE_CHART_DATA,
+    GET_SELECTED_PERIOD,
+    SET_LINE_CHART_DATA_FETCHING,
+    RESET_LINE_CHART_DATA_FETCHING
+} from "./types/mutations";
+
+import factoryVisitorService from '@/services/visitors/factoryVisitorsService';
+import periodService from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -16,4 +33,27 @@ export default {
             context.commit(RESET_BUTTON_FETCHING, data.button);
         }
     },
+    [GET_LINE_CHART_DATA]: (context, data) => {
+        if (!data.value) {
+            return;
+        }
+
+        context.commit(SET_LINE_CHART_DATA_FETCHING);
+        context.commit(GET_SELECTED_PERIOD)
+            .then(response => {
+                periodService.getTimeByPeriod(response.data);
+            })
+            .then(response => {
+                factoryVisitorService.create(data.button)
+                    .fetchLineChartValue(response.startDate, response.endDate);
+            })
+            .then(response => {
+                context.commit(SET_LINE_CHART_DATA, response.data);
+            })
+            .catch(err => {
+                context.commit(RESET_LINE_CHART_DATA_FETCHING, data.button);
+                throw err;
+            });
+        context.commit(RESET_BUTTON_FETCHING);
+    }
 };
