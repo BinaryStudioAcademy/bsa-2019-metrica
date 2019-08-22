@@ -17,6 +17,7 @@ import {
 
 import factoryVisitorService from '@/services/visitors/factoryVisitorsService';
 import periodService from '@/services/periodService';
+import {GET_ACTIVE_BUTTON} from "./types/getters";
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -36,6 +37,10 @@ export default {
     [GET_TABLE_DATA]: (context, data) => {
         if (data.value) {
             context.commit(SET_TABLE_DATA_FETCHING);
+            context.commit(GET_ACTIVE_BUTTON)
+                .then(response => {
+                    data.button = response.data;
+                });
             context.commit(GET_SELECTED_PERIOD)
                 .then(response => {
                     periodService.getTimeByPeriod(response.data);
