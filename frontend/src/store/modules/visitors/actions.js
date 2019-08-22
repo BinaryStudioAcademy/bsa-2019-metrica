@@ -21,7 +21,7 @@ import {
 } from "./types/mutations";
 
 // import factoryVisitorService from '@/services/visitors/factoryVisitorsService';
-import periodService from '@/services/periodService';
+import { getTimeByPeriod } from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -52,7 +52,7 @@ export default {
         }
         context.commit(SET_LINE_CHART_FETCHING);
 
-        periodService.getTimeByPeriod(context.state.selectedPeriod)
+        getTimeByPeriod(context.state.selectedPeriod)
             .then(response => {
                 return factoryVisitorService.create(context.state.activeButton)
                     .fetchLineChartValues(response.startDate, response.endDate, data.groupedParameter);
