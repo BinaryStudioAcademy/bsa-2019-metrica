@@ -9,7 +9,7 @@ const fetchButtonValue = (startDate, endDate) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
-        .catch(err => throw err);
+        .catch(error => throw new Error(error.response.data));
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
@@ -18,7 +18,7 @@ const fetchChartValues = (startDate, endDate, interval) => {
         'filter[endDate]': endDate,
         'filter[period]': interval
     }).then(response => response.data.map(chartTransformer))
-        .catch(err => throw err);
+        .catch(error => throw new Error(error.response.data));
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
@@ -27,7 +27,7 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[end_date]': endDate,
         'parameter': groupBy
     }).then(response => response.data.map(tableTransformer))
-        .catch(err => throw err);
+        .catch(error => throw new Error(error.response.data));
 };
 
 const visitsService = {
