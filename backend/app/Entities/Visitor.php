@@ -17,8 +17,6 @@ final class Visitor extends Model
         'website_id',
     ];
 
-    protected $with = ['website'];
-
     public function website(): BelongsTo
     {
         return $this->belongsTo(Website::class);
