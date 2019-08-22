@@ -52,8 +52,6 @@ final class GetNewVisitorsByParameterAction
                 throw new InvalidArgumentException(sprintf('The parameter "%s" is not valid.', $parameter));
         }
 
-        print_r($visitors->all());
-
         $formattedVisitors = $visitors->map(function ($visitor) use ($parameter) {
             return new TableValue(
                 $parameter,
@@ -62,7 +60,6 @@ final class GetNewVisitorsByParameterAction
                 (float)$visitor->percentage
             );
         });
-
 
         return new GetVisitorsByParameterResponse($formattedVisitors);
     }
