@@ -1,6 +1,6 @@
 import requestService from "../requestService";
 import config from "@/config";
-import {buttonTransformer, chartTransformer} from './transformers';
+import {buttonTransformer, chartTransformer,tableTransformer} from './transformers';
 
 const resourceUrl = config.getApiUrl();
 
@@ -21,19 +21,19 @@ const fetchChartValues = (startDate, endDate, interval) => {
         .catch(err => alert(err));
 };
 
-// const fetchTableValues = (startDate, endDate, groupBy) => {
-//     return requestService.get(resourceUrl + '/table-sessions/avg-session-time', {}, {
-//         'filter[start_date]': startDate,
-//         'filter[end_date]': endDate,
-//         'filter[parameter]': groupBy
-//     }).then(response => response.data.map(tableTransformer))
-//         .catch(err => alert(err));
-// };
+const fetchTableValues = (startDate, endDate, groupBy) => {
+    return requestService.get(resourceUrl + '/sessions/param', {}, {
+        'filter[startDate]': startDate,
+        'filter[endDate]': endDate,
+        'filter[parameter]': groupBy
+    }).then(response => response.data.map(tableTransformer))
+        .catch(err => alert(err));
+};
 
 const sessionsService = {
     fetchButtonValue,
     fetchChartValues,
-    // fetchTableValues
+    fetchTableValues
 };
 
 export default sessionsService;
