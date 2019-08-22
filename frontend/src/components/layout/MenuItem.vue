@@ -34,12 +34,12 @@ $grey: rgba(18, 39, 55, 0.5);
     height: 34px;
     border-left: 3px solid transparent;
     fill-opacity: 0.5;
+    a {
+        width: 100%;
+    }
     .v-list-item__title {
         color: $grey;
         font-size: 14px;
-    }
-    a {
-        width: 100%;
     }
     .v-list-item__icon {
         fill: $grey;
