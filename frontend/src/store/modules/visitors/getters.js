@@ -4,7 +4,7 @@ import {
     GET_ACTIVE_BUTTON,
     GET_PIE_CHART_DATA,
     GET_LINE_CHART_DATA,
-    GET_TABLE_DATA
+    FETCH_TABLE_DATA
 } from "./types/getters";
 
 export default {
@@ -13,5 +13,5 @@ export default {
     [GET_ACTIVE_BUTTON]: (state) => state.activeButton,
     [GET_PIE_CHART_DATA]: (state) => state.pieChartData,
     [GET_LINE_CHART_DATA]: (state) => state.chartData,
-    [GET_TABLE_DATA]: (state) => state.tableData
+    [FETCH_TABLE_DATA]: (state) => state.tableData
 };

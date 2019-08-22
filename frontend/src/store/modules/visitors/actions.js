@@ -2,7 +2,7 @@ import {
     CHANGE_SELECTED_PERIOD,
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
-    GET_TABLE_DATA
+    FETCH_TABLE_DATA
 } from "./types/actions";
 import {
     SET_SELECTED_PERIOD,
@@ -34,7 +34,7 @@ export default {
             context.commit(RESET_BUTTON_FETCHING, data.button);
         }
     },
-    [GET_TABLE_DATA]: (context, data) => {
+    [FETCH_TABLE_DATA]: (context, data) => {
         if (data.value) {
             context.commit(SET_TABLE_DATA_FETCHING);
             context.commit(GET_ACTIVE_BUTTON)
