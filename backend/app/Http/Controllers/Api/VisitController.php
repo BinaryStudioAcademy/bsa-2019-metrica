@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Api\GetPageViewsFilterHttpRequest;
 use App\Http\Requests\Api\GetTableVisitsByParameterHttpRequest;
+use App\Http\Resources\ButtonResource;
 use App\Http\Resources\ChartResource;
 use App\Http\Resources\TableResource;
 use App\Http\Resources\VisitCountResource;
@@ -55,6 +56,6 @@ final class VisitController extends Controller
     public function getPageViewsCountForFilterData(GetPageViewsCountFilterHttpRequest $request): ApiResponse
     {
         $response = $this->getPageViewsCountAction->execute(GetPageViewsCountRequest::fromRequest($request));
-        return ApiResponse::success(new VisitCountResource($response->getCount()));
+        return ApiResponse::success(new ButtonResource($response));
     }
 }

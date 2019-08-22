@@ -44,7 +44,7 @@ class CountPageViewTest extends TestCase
 
         $expected = [
             'data' => [
-                'count' => 4
+                'value' => 4
             ],
             'meta' => []
         ];
