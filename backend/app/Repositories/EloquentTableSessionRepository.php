@@ -30,27 +30,109 @@ final class EloquentTableSessionRepository implements TableSessionRepository
             });
     }
 
-    public function groupByParameter(string $parameter, int $website_id, DatePeriod $datePeriod): Collection
+    public function groupByLanguage(int $website_id, DatePeriod $datePeriod): Collection
     {
         $sessions = Session::whereDateBetween($datePeriod)
-        ->forWebsite($website_id)
-        ->with([
-                'system:id,os,browser,resolution_width,resolution_height',
-                'visit.geo_position:id,country,city'
-            ])
-        ->get();
+            ->forWebsite($website_id)
+            ->get(['id', 'language']);
+        $session_count = $sessions->count();
+        return $sessions->groupBy('language')
+            ->map(function($item, $key) use ($session_count) {
+                return new TableValue(
+                    'language',
+                    $key,
+                    strval($item->count()),
+                    $item->count() / $session_count * 100
+                );
+            })->values();
+    }
+
+    public function groupByOs(int $website_id, DatePeriod $datePeriod): Collection
+    {
+        $sessions = Session::whereDateBetween($datePeriod)
+            ->forWebsite($website_id)
+            ->with(['system:id,os'])
+            ->get();
+        $session_count = $sessions->count();
+        return $sessions->groupBy('system.os')
+            ->map(function($item, $key) use ($session_count) {
+                return new TableValue(
+                    'operating_system',
+                    $key,
+                    strval($item->count()),
+                    $item->count() / $session_count * 100
+                );
+            })->values();
+    }
+
+    public function groupByBrowser(int $website_id, DatePeriod $datePeriod): Collection
+    {
+        $sessions = Session::whereDateBetween($datePeriod)
+            ->forWebsite($website_id)
+            ->with(['system:id,browser'])
+            ->get();
+        $session_count = $sessions->count();
+        return $sessions->groupBy('system.os')
+            ->map(function($item, $key) use ($session_count) {
+                return new TableValue(
+                    'browser',
+                    $key,
+                    strval($item->count()),
+                    $item->count() / $session_count * 100
+                );
+            })->values();
+    }
+
+    public function groupByResolution(int $website_id, DatePeriod $datePeriod): Collection
+    {
+        $sessions = Session::whereDateBetween($datePeriod)
+            ->forWebsite($website_id)
+            ->with(['system:id,resolution_width,resolution_height'])
+            ->get();
         $sessions->each(function($item) {
-            $item->setAttribute('city', $item->visit->geo_position->city);
-            $item->setAttribute('country', $item->visit->geo_position->country);
-            $item->setAttribute('screen_resolution', "{$item->system->resolution_width}x{$item->system->resolution_height}");
-            $item->setAttribute('browser', $item->system->browser);
-            $item->setAttribute('operating_system', $item->system->os);
+            $item->setAttribute('resolution', "{$item->system->resolution_width}x{$item->system->resolution_height}");
         });
         $session_count = $sessions->count();
-        return $sessions->groupBy($parameter)
-            ->map(function($item, $key) use ($session_count, $parameter) {
+        return $sessions->groupBy('resolution')
+            ->map(function($item, $key) use ($session_count) {
                 return new TableValue(
-                    $parameter,
+                    'screen_resolution',
+                    $key,
+                    strval($item->count()),
+                    $item->count() / $session_count * 100
+                );
+            })->values();
+    }
+
+    public function groupByCity(int $website_id, DatePeriod $datePeriod): Collection
+    {
+        $sessions = Session::whereDateBetween($datePeriod)
+            ->forWebsite($website_id)
+            ->with(['visit.geo_position:id,city'])
+            ->get();
+        $session_count = $sessions->count();
+        return $sessions->groupBy('visit.geo_position.city')
+            ->map(function($item, $key) use ($session_count) {
+                return new TableValue(
+                    'city',
+                    $key,
+                    strval($item->count()),
+                    $item->count() / $session_count * 100
+                );
+            })->values();
+    }
+
+    public function groupByCountry(int $website_id, DatePeriod $datePeriod): Collection
+    {
+        $sessions = Session::whereDateBetween($datePeriod)
+            ->forWebsite($website_id)
+            ->with(['visit.geo_position:id,country'])
+            ->get();
+        $session_count = $sessions->count();
+        return $sessions->groupBy('visit.geo_position.country')
+            ->map(function($item, $key) use ($session_count) {
+                return new TableValue(
+                    'country',
                     $key,
                     strval($item->count()),
                     $item->count() / $session_count * 100

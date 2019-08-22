@@ -17,12 +17,30 @@ class GetSessionsByParameterAction
 
     public function execute(GetSessionsByParameterRequest $request)
     {
-        $sessions = $this->repository->groupByParameter(
-            $request->parameter(),
-            Auth::user()->website->id,
-            $request->period()
-        );
-
+        $parameter = $request->parameter();
+        $period = $request->period();
+        $website_id = Auth::user()->website->id;
+        switch($parameter)
+        {
+            case 'language':
+                $sessions = $this->repository->groupByLanguage($website_id, $period);
+                break;
+            case 'browser':
+                $sessions = $this->repository->groupByBrowser($website_id, $period);
+                break;
+            case 'operating_system':
+                $sessions = $this->repository->groupByOs($website_id, $period);
+                break;
+            case 'screen_resolution':
+                $sessions = $this->repository->groupByResolution($website_id, $period);
+                break;
+            case 'city':
+                $sessions = $this->repository->groupByCity($website_id, $period);
+                break;
+            case 'country':
+                $sessions = $this->repository->groupByCountry($website_id, $period);
+                break;
+        }
         return new GetSessionsByParameterResponse($sessions);
     }
 }
