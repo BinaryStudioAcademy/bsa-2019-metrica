@@ -5,7 +5,8 @@ import {
     SET_BUTTON_FETCHING,
     RESET_BUTTON_FETCHING,
     SET_TABLE_FETCHING,
-    RESET_TABLE_FETCHING
+    RESET_TABLE_FETCHING,
+    SET_CHART_DATA
 } from "./types/mutations";
 
 export default {
@@ -29,5 +30,9 @@ export default {
     },
     [RESET_TABLE_FETCHING]: (state) => {
         state.tableData.isFetching = false;
+    },
+    [SET_CHART_DATA]: (state, data) => {
+        state.pieChartData.newVisitors = data.newVisitors;
+        state.pieChartData.returnVisitors = data.returnVisitors;
     },
 };

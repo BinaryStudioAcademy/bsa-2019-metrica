@@ -67,11 +67,12 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
     import {
         GET_PIE_CHART_DATA,
         GET_LINE_CHART_DATA,
     } from "@/store/modules/visitors/types/getters";
+    import { GET_CHART_DATA } from "@/store/modules/visitors/types/actions";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
@@ -97,6 +98,9 @@
             ButtonComponent,
             PeriodDropdown,
             ContentLayout
+        },
+        created() {
+            this.getChartData().then(e =>  console.log(e));
         },
         data() {
             return {
@@ -181,7 +185,12 @@
                     ['Return Visitors', this.pieChartData.returnVisitors],
                 ];
             }
-        }
+        },
+        methods: {
+            ...mapActions('visitors', {
+                getChartData: GET_CHART_DATA
+            })
+        },
     };
 </script>
 
