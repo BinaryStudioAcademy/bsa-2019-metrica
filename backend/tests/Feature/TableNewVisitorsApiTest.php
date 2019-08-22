@@ -133,7 +133,6 @@ class TableNewVisitorsApiTest extends TestCase
                 );
             }
         }
-
     }
 
 
@@ -200,5 +199,4 @@ class TableNewVisitorsApiTest extends TestCase
             ],
         ];
     }
-
 }

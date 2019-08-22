@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface TableNewVisitorsRepository
 {
-
     public function groupByCity(int $website_id, string $from, string $to): Collection;
 
     public function groupByCountry(int $website_id, string $from, string $to): Collection;
