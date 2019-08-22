@@ -21,18 +21,19 @@
     import {CHANGE_SELECTED_PERIOD} from "@/store/modules/visitors/types/actions";
     import {mapGetters, mapActions} from 'vuex';
     import {GET_SELECTED_PERIOD} from "../../../store/modules/visitors/types/getters";
+    import {period} from "@/services/periodService";
 
     export default {
         name: "PeriodDropdown",
         data() {
             return {
                 items: [
-                    {title: 'Today', value: 'today'},
-                    {title: 'Yesterday', value: 'yesterday'},
-                    {title: 'Last 7 days', value: 'last_week'},
-                    {title: 'Last month', value: 'last_month'},
-                    {title: 'Last quartal', value: 'last_quartal'},
-                    {title: 'All period', value: 'all_period'}
+                    {title: 'Today', value: period.PERIOD_TODAY},
+                    {title: 'Yesterday', value: period.PERIOD_YESTERDAY},
+                    {title: 'Last 7 days', value: period.PERIOD_LAST_WEEK},
+                    {title: 'Last month', value: period.PERIOD_LAST_MONTH},
+                    {title: 'Last quartal', value: period.PERIOD_LAST_QUARTAL},
+                    {title: 'All period', value: period.PERIOD_ALL}
                 ]
             };
         },
