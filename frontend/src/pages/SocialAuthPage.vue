@@ -28,7 +28,7 @@
             const data = this.$route.query;
             data.provider = this.$route.params.provider;
             this.socialLogin(data)
-                .then(() => this.$router.replace({ name: 'home' }))
+                .then(() => this.$router.replace({ name: 'dashboard' }))
                 .catch(() => this.$router.replace({ name: 'login' }));
         },
     };

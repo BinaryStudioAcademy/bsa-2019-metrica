@@ -19,7 +19,9 @@
                     <VFlex
                         class="chart-container"
                     >
-                        <LineChart :data="data" />
+                        <LineChart
+                            :data="chartData"
+                        />
                         <PeriodDropdown />
                     </VFlex>
                 </VLayout>
@@ -55,8 +57,9 @@
                 class="img-card"
             >
                 <PieChart
-                    :data="pieChartData"
+                    :data="pieData"
                     :legend="legend"
+                    :is-fetching="pieChartData.isFetching"
                 />
             </VFlex>
         </VLayout>
@@ -65,7 +68,10 @@
 
 <script>
     import {mapGetters} from 'vuex';
-    import {GET_PIE_CHART_DATA} from "@/store/modules/visitors/types/getters";
+    import {
+        GET_PIE_CHART_DATA,
+        GET_LINE_CHART_DATA,
+    } from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
@@ -94,7 +100,6 @@
         },
         data() {
             return {
-                data: [],
                 items: [
                     {
                         option: 'IE',
@@ -164,20 +169,17 @@
         computed: {
             ...mapGetters('visitors', {
                 pieChartData: GET_PIE_CHART_DATA,
+                chartData: GET_LINE_CHART_DATA,
             }),
             title () {
                 return this.$route.meta.title;
-            }
-        },
-        mounted() {
-            for (let i = 1; i < 20; i++) {
-                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
-                const item = {
-                    xLabel: x,
-                    value: Math.floor(Math.random() * 2000) + 1,
-                    indication: Math.floor(Math.random() * 200) + 1,
-                };
-                this.data.push(item);
+            },
+            pieData () {
+                return [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.pieChartData.newVisitors],
+                    ['Return Visitors', this.pieChartData.returnVisitors],
+                ];
             }
         }
     };
