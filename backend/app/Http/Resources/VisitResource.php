@@ -20,7 +20,7 @@ final class VisitResource extends ResourceCollection implements ApiResponse
     {
         return [
             'date' => $chartVisit->getDate(),
-            'visits' => $chartVisit->getVisits(),
+            'value' => $chartVisit->getVisits(),
         ];
     }
 

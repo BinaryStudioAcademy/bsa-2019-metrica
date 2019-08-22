@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
+use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Actions\Sessions\CountSessionsRequest;
 use App\Actions\Sessions\CountSessionsFilter;
-use App\Actions\Sessions\CountSessionsResponse;
 
 final class CountSessionsAction
 {
@@ -23,7 +23,7 @@ final class CountSessionsAction
         $this->visitorRepository = $visitorRepository;
     }
 
-    public function execute(CountSessionsRequest $request): CountSessionsResponse
+    public function execute(CountSessionsRequest $request): ButtonValue
     {
         $websiteId = auth()->user()->website->id;
 
@@ -34,6 +34,6 @@ final class CountSessionsAction
 
         $countSessions = $this->sessionRepository->countSessions($countSessionsFilter);
 
-        return new CountSessionsResponse($countSessions);
+        return new ButtonValue((string)$countSessions);
     }
 }
