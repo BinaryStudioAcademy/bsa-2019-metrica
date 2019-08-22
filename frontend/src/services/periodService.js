@@ -11,19 +11,19 @@ export const period = {
 
 
 const currentDate = () => {
-    return moment().format("DD-MM-YYYY HH:mm");
+    return moment();
 };
 
 const getSubtractStartDate = (day) => {
-    return moment().subtract('days', day).startOf('day').format("DD-MM-YYYY HH:mm");
+    return moment().subtract('days', day).startOf('day');
 };
 
 const getSubtractEndDate = (day) => {
-    return moment().subtract('days', day).endOf('day').format("DD-MM-YYYY HH:mm");
+    return moment().subtract('days', day).endOf('day');
 };
 
 const getSubtractStartMonth = (month) => {
-    return moment().subtract('months', month).startOf('day').format("DD-MM-YYYY HH:mm");
+    return moment().subtract('months', month).startOf('day');
 };
 
 const getHourInterval = (hour) => {
