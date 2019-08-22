@@ -44,5 +44,10 @@ export default {
         returnVisitors: 50,
         isFetching: false
     },
-    activeButton: TOTAL_VISITORS
+    activeButton: TOTAL_VISITORS,
+    tableData: {
+        items: [],
+        isFetching: false,
+        groupedParameter: 'browser'
+    }
 };
