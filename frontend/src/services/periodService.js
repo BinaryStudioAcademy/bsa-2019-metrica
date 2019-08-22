@@ -11,19 +11,19 @@ export const period = {
 
 
 const currentDate = () => {
-    return moment().format("DD-MM-YYYY HH:mm");
+    return moment();
 };
 
 const getSubtractStartDate = (day) => {
-    return moment().subtract('days', day).startOf('day').format("DD-MM-YYYY HH:mm");
+    return moment().subtract('days', day).startOf('day');
 };
 
 const getSubtractEndDate = (day) => {
-    return moment().subtract('days', day).endOf('day').format("DD-MM-YYYY HH:mm");
+    return moment().subtract('days', day).endOf('day');
 };
 
 const getSubtractStartMonth = (month) => {
-    return moment().subtract('months', month).startOf('day').format("DD-MM-YYYY HH:mm");
+    return moment().subtract('months', month).startOf('day');
 };
 
 const getHourInterval = (hour) => {
@@ -38,11 +38,11 @@ const getWeekInterval = (week) => {
     return moment.duration({w: week}).asSeconds();
 };
 
-export const getTimeByPeriod = (period) => {
+export const getTimeByPeriod = (value) => {
     let interval = null;
     let startDate = null;
     let endDate = null;
-    switch (period) {
+    switch (value) {
         case period.PERIOD_TODAY:
             interval = getHourInterval(1);
             startDate = getSubtractStartDate(0);

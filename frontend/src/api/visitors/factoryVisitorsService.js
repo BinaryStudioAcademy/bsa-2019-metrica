@@ -5,7 +5,7 @@ import {
     PAGE_VIEWS,
     SESSIONS,
     TOTAL_VISITORS
-} from "../../configs/visitors/buttonTypes";
+} from "@/configs/visitors/buttonTypes";
 import totalVisitorsService from "./totalVisitorsService";
 import newVisitorsService from "./newVisitorsService";
 import bounceRateService from "./bounceRateService";
@@ -30,8 +30,6 @@ const create = (type) => {
     }
 };
 
-const factoryVisitorsService = {
+export const factoryVisitorsService = {
     create
 };
-
-export default factoryVisitorsService;
