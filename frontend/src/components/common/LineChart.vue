@@ -1,16 +1,37 @@
 <template>
-    <GChart
-        type="LineChart"
-        :data="chartData"
-        :options="chartOptions"
-    />
+    <VContainer
+        class="position-relative"
+    >
+        <Spinner
+            v-if="data.isFetching"
+        />
+        <VFlex
+            v-if="!this.data.length"
+        >
+            <VCardTitle
+                primary-title
+                class="justify-center grey--text"
+            >
+                There is no data to display!
+            </VCardTitle>
+        </VFlex>
+        <GChart
+            type="LineChart"
+            v-else
+            :data="chartData"
+            :options="chartOptions"
+        />
+    </VContainer>
 </template>
 
 <script>
     import { GChart } from 'vue-google-charts';
+    import Spinner from '../utilites/Spinner';
+
     export default {
         components: {
             GChart,
+            Spinner,
         },
 
         props: {
@@ -82,6 +103,10 @@
 
         computed: {
             chartData(){
+                if (!this.data.length) {
+                    return [];
+                }
+
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
                 const pointStyle = 'point { stroke-color: #3C57DE; size: 5.5; shape-type: circle; fill-color: #FFFFFF; }';
                 let tmpData = this.data.map( element =>
