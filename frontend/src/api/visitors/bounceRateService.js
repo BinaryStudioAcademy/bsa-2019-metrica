@@ -60,5 +60,3 @@ export const bounceRateService = {
     fetchChartValues,
     fetchTableValues
 };
-
-export default bounceRateService;

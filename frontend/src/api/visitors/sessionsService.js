@@ -60,5 +60,3 @@ export const sessionsService = {
     fetchChartValues,
     fetchTableValues
 };
-
-export default sessionsService;

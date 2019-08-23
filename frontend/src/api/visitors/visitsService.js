@@ -60,5 +60,3 @@ export const visitsService = {
     fetchChartValues,
     fetchTableValues
 };
-
-export default visitsService;
