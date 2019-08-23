@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Entities\User;
 use App\Entities\Website;
 
-
 class CreateVisitorTest extends TestCase
 {
     use RefreshDatabase;
