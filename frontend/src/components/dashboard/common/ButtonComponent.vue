@@ -1,10 +1,10 @@
 <template>
     <div
         class="button-card bg-white d-inline-flex justify-content-start align-items-center position-relative"
-        :class="{ active: isActive }"
+        :class="{ active: active }"
         @click="changeButton"
     >
-        <Spinner v-if="buttonData.isFetching" />
+        <Spinner v-if="fetching" />
         <div
             class="card-image"
         >
@@ -19,7 +19,7 @@
             <div
                 class="character-text text-no-wrap headline"
             >
-                {{ buttonData.value }}
+                {{ value }}
             </div>
             <div
                 class="title-text text-no-wrap caption"
@@ -31,11 +31,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
     import Spinner from '../../utilites/Spinner';
-    import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON} from "@/store/modules/visitors/types/getters";
-    import {CHANGE_ACTIVE_BUTTON, CHANGE_FETCHED_BUTTON_STATE} from "@/store/modules/visitors/types/actions";
-
     export default {
         name: 'ButtonComponent',
         components: {
@@ -46,35 +42,31 @@
                 type:String,
                 required: true
             },
-            type: {
-                type:String,
-                required: true
+            active: {
+                type: Boolean,
+                default: false,
             },
             iconName: {
                 type:String,
                 required: true
-            }
-        },
-        computed: {
-            ...mapGetters('visitors', {
-                buttonsData: GET_BUTTON_DATA,
-                currentActiveButton: GET_ACTIVE_BUTTON
-            }),
-            isActive () {
-                return this.currentActiveButton === this.type;
             },
-            buttonData () {
-                return this.buttonsData[this.type];
-            }
+            fetching: {
+                type: Boolean,
+                default: false,
+            },
+            type: {
+                type:String,
+                required: true
+            },
+            value: {
+                type: [String, Number],
+                required: true,
+            },
         },
         methods: {
-            ...mapActions('visitors', {
-                changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE
-            }),
             changeButton () {
-                if (!this.isActive) {
-                    this.changeActiveButton(this.type);
+                if (!this.active) {
+                    this.$emit("change", this.type);
                 }
             }
         }
@@ -85,14 +77,15 @@
     .button-card {
         font-family: Gilroy;
         height: 100px;
-        min-width: 190px;
+        min-width: 140px;
         border-radius: 6px;
         padding-right: 40px;
         padding-left: 20px;
+        margin: 0 20px;
         transition: all .2s ease-in;
 
         .card-image {
-            margin-right: 30px;
+            margin-right: 15px;
 
             .button-icon {
                 height: 27px;
@@ -113,12 +106,19 @@
     .button-card:hover:not(.active) {
         cursor: pointer;
         border: 1px solid rgba(60, 87, 222, 0.52);
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 
     .button-card.active {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
         border: 1px solid rgba(60, 87, 222, 0.52);
-        transform: scale(1.19);
+        transform: scale(1.1);
     }
+
+    @media (max-width: 1199px) {
+        .button-card {
+            margin-bottom: 30px;
+        }
+    }
+
 </style>

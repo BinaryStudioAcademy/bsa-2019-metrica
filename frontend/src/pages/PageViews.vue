@@ -33,41 +33,38 @@
         </VLayout>
         <VLayout class="buttons-row">
             <VFlex
-                v-for="button in buttons"
-                :key="button.title"
+                xs12
+                sm8
+                offset-sm2
             >
-                <ButtonComponent
-                    :title="button.title"
-                    :active="isButtonActive(button.type)"
-                    :fetching="buttonsData[button.type].isFetching"
-                    :value="buttonsData[button.type].value"
-                    :type="button.type"
-                    :icon-name="button.icon"
-                    @change="changeButton"
-                />
+                <VLayout>
+                    <VFlex
+                        v-for="button in buttons"
+                        :key="button.title"
+                    >
+                        <ButtonComponent
+                            :title="button.title"
+                            :active="isButtonActive(button.type)"
+                            :fetching="buttonsData[button.type].isFetching"
+                            :value="buttonsData[button.type].value"
+                            :type="button.type"
+                            :icon-name="button.icon"
+                            @change="changeButton"
+                        />
+                    </VFlex>
+                </VLayout>
             </VFlex>
         </VLayout>
         <VLayout>
             <VFlex
-                lg6
-                md6
+                lg12
+                md12
                 hidden-sm-and-down
                 height="100%"
                 class="img-card"
             >
-                <VisitorsTable />
-            </VFlex>
-            <VFlex
-                lg5
-                md5
-                hidden-sm-and-down
-                height="100%"
-                class="img-card"
-            >
-                <PieChart
-                    :data="pieData"
-                    :legend="legend"
-                    :is-fetching="pieChartData.isFetching"
+                <GroupedTable
+                    :items="tableData"
                 />
             </VFlex>
         </VLayout>
@@ -77,37 +74,31 @@
 <script>
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable.vue";
+    import GroupedTable from "../components/dashboard/page_views/GroupedTable";
     import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
-    import PieChart from "../components/common/PieChart";
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_BUTTON_DATA,
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
-        GET_PIE_CHART_DATA,
         GET_LINE_CHART_DATA
-    } from "@/store/modules/visitors/types/getters";
+    } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
-        CHANGE_FETCHED_BUTTON_STATE,
         CHANGE_SELECTED_PERIOD
-    } from "@/store/modules/visitors/types/actions";
+    } from "@/store/modules/page_views/types/actions";
     import {
-        TOTAL_VISITORS,
-        NEW_VISITORS,
-        AVG_SESSION,
         PAGE_VIEWS,
-        SESSIONS,
+        UNIQUE_PAGE_VIEWS,
+        ACTIVE_USERS,
         BOUNCE_RATE
-    } from '../configs/visitors/buttonTypes.js';
+    } from '../configs/page_views/buttonTypes.js';
 
     export default {
         components: {
-            PieChart,
             LineChart,
-            VisitorsTable,
+            GroupedTable,
             ButtonComponent,
             PeriodDropdown,
             ContentLayout
@@ -118,73 +109,68 @@
                 period: '',
                 items: [
                     {
-                        option: 'IE',
-                        users: 55,
-                        percentage: '34%'
+                        page: 'www.figma.com/file/',
+                        title: 'Login',
+                        bounce_rate: '56',
+                        exit_rate: '45',
+                        page_views: '125',
+                        avg_time: '00:00:30'
                     },
                     {
-                        option: 'Edge',
-                        users: 77,
-                        percentage: '34%'
+                        page: 'www.figma.com/file/',
+                        title: 'Contacts',
+                        bounce_rate: '56',
+                        exit_rate: '45',
+                        page_views: '125',
+                        avg_time: '00:00:30'
                     },
                     {
-                        option: 'Firefox',
-                        users: 45,
-                        percentage: '44%'
+                        page: 'www.figma.com/file/',
+                        title: 'Home',
+                        bounce_rate: '56',
+                        exit_rate: '45',
+                        page_views: '125',
+                        avg_time: '00:00:30'
                     },
+                    {
+                        page: 'www.figma.com/file/',
+                        title: 'Sign in',
+                        bounce_rate: '56',
+                        exit_rate: '45',
+                        page_views: '125',
+                        avg_time: '00:00:30'
+                    },
+                    {
+                        page: 'www.figma.com/file/',
+                        title: 'About',
+                        bounce_rate: '56',
+                        exit_rate: '45',
+                        page_views: '125',
+                        avg_time: '00:00:30'
+                    }
                 ],
                 buttons: [
                     {
                         icon: 'person',
-                        title: 'Total visitors',
-                        type: TOTAL_VISITORS
-                    },
-                    {
-                        icon: 'eye',
-                        title: 'New visitors',
-                        type: NEW_VISITORS
-                    },
-                    {
-                        icon: 'clock',
-                        title: 'Avg. session',
-                        type: AVG_SESSION
-                    },
-                    {
-                        icon: 'yellow_arrow',
                         title: 'Page views',
                         type: PAGE_VIEWS
                     },
                     {
-                        icon: 'peach_arrow',
-                        title: 'Sessions',
-                        type: SESSIONS
+                        icon: 'eye',
+                        title: 'Unique page views',
+                        type: UNIQUE_PAGE_VIEWS
                     },
                     {
-                        icon: 'violet_arrow',
+                        icon: 'clock',
+                        title: 'Active users',
+                        type: ACTIVE_USERS
+                    },
+                    {
+                        icon: 'yellow_arrow',
                         title: 'Bounce rate',
                         type: BOUNCE_RATE
-                    },
-                ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', this.getPieData.newVisitors],
-                    ['Return Visitors',this.getPieData.returnVisitors],
-                ],
-                legend: {
-                    title: 'Outcome',
-                    data: {
-                        newVisitors: {
-                            title: 'New Visitors',
-                            percentageDiff: 41,
-                            color: '#3C57DE',
-                        },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: 49,
-                            color: '#1BC3DA',
-                        },
                     }
-                },
+                ],
             };
         },
         computed: {
@@ -194,11 +180,10 @@
             tableData () {
                 return this.items;
             },
-            ...mapGetters('visitors', {
+            ...mapGetters('page_views', {
                 buttonsData: GET_BUTTON_DATA,
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
-                pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
             }),
             buttonData () {
@@ -217,27 +202,20 @@
             }
         },
         methods: {
-            ...mapActions('visitors', {
+            ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD
             }),
             changeButton (data) {
                 this.changeActiveButton(data);
             },
-            changeTable (parameter) {
-                this.items = this.tableItems[parameter];
-            },
             changePeriod(data) {
                 this.changeSelectedPeriod(data);
-            },
-            getPieData(){
-                return this.pieChartData;
             },
             isButtonActive(type) {
                 return this.currentActiveButton === type;
             }
-        },
+        }
     };
 </script>
 
