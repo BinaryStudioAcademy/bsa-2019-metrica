@@ -20,6 +20,7 @@ import {
     SET_CHART_DATA_FETCHING,
     RESET_CHART_DATA_FETCHING
 } from "./types/mutations";
+
 import {newVisitorsService} from "@/api/visitors/newVisitorsService";
 import {totalVisitorsService} from "@/api/visitors/totalVisitorsService";
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
@@ -42,6 +43,7 @@ export default {
     },
     [CHANGE_GROUPED_PARAMETER]: (context, parameter) => {
         context.commit(SET_GROUPED_PARAMETER, parameter);
+        context.commit(FETCH_TABLE_DATA, parameter);
     },
     [CHANGE_FETCHED_TABLE_STATE]: (context, value) => {
 
