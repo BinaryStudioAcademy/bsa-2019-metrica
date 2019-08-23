@@ -25,7 +25,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
         $schedule->call(function () {
             DB::table('users')->where('is_activate', 0)
                 ->where('created_at', '<', Carbon::now()->subHours(12)->toDateTimeString())
@@ -35,7 +34,6 @@ class Kernel extends ConsoleKernel
         if (env('APP_ENV') !== 'production') {
             $schedule->command('telescope:prune')->daily();
         }
-
     }
 
     /**

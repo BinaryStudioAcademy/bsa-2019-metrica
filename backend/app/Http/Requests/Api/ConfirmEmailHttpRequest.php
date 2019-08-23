@@ -3,7 +3,6 @@
 
 namespace App\Http\Requests\Api;
 
-
 use App\Http\Request\ApiFormRequest;
 
 class ConfirmEmailHttpRequest extends ApiFormRequest

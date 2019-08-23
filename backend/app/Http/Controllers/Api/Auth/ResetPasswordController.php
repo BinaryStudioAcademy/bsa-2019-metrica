@@ -22,8 +22,7 @@ final class ResetPasswordController extends Controller
     public function __construct(
         SendResetPasswordLinkAction $sendLinkAction,
         ConfirmEmailAction $confirmEmailAction
-    )
-    {
+    ) {
         $this->sendLinkAction = $sendLinkAction;
         $this->confirmEmailAction = $confirmEmailAction;
     }

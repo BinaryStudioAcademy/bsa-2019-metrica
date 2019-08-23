@@ -3,7 +3,6 @@
 
 namespace App\Exceptions;
 
-
 use App\Contracts\ApiException;
 use Illuminate\Http\Response;
 
@@ -27,5 +26,4 @@ class UserActivatedException extends \Exception implements ApiException
             'message' => $this->message
         ];
     }
-
 }

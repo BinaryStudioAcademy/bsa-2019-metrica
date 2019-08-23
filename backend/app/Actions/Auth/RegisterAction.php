@@ -28,7 +28,7 @@ final class RegisterAction
         JWTAuth::factory()->setTTL(720);
         $token = JWTAuth::fromUser($user);
 
-        $user->sendSuccessRegistrationNotification($user,$token);
+        $user->sendSuccessRegistrationNotification($user, $token);
         return new RegisterResponse($user->email);
     }
 }
