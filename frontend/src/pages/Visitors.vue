@@ -71,7 +71,7 @@
     import {mapGetters} from 'vuex';
     import {
         GET_PIE_CHART_DATA,
-        FETCH_LINE_CHART_DATA,
+        GET_LINE_CHART_DATA,
     } from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
@@ -170,7 +170,7 @@
         computed: {
             ...mapGetters('visitors', {
                 pieChartData: GET_PIE_CHART_DATA,
-                chartData: FETCH_LINE_CHART_DATA,
+                chartData: GET_LINE_CHART_DATA,
             }),
             title () {
                 return this.$route.meta.title;

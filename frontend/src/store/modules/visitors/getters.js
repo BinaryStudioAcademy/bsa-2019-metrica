@@ -8,7 +8,7 @@ import {
     GET_GROUPED_PARAMETER,
     GET_LINE_CHART_ITEMS,
     GET_LINE_CHART_FETCHING,
-    FETCH_LINE_CHART_DATA,
+    GET_LINE_CHART_DATA,
     FETCH_TABLE_DATA,
 } from "./types/getters";
 
@@ -22,6 +22,6 @@ export default {
     [GET_GROUPED_PARAMETER]: (state) => state.tableData.groupedParameter,
     [GET_LINE_CHART_ITEMS]: (state) => state.chartData.items,
     [GET_LINE_CHART_FETCHING]: (state) => state.chartData.isFetching,
-    [FETCH_LINE_CHART_DATA]: (state) => state.chartData,
+    [GET_LINE_CHART_DATA]: (state) => state.chartData,
     [FETCH_TABLE_DATA]: (state) => state.tableData,
 };
