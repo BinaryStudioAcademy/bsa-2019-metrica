@@ -15,6 +15,7 @@ import WebsiteInfo from '../pages/WebsiteInfo.vue';
 import Default from '@/components/layout/Default.vue';
 import UserDataProviderPage from '../pages/UserDataProviderPage.vue';
 import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
+import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 import VerifyEmail from "../components/auth/VerifyEmail";
 
 const originalPush = Router.prototype.push;
@@ -22,8 +23,7 @@ Router.prototype.push = function push(location, onResolve, onReject) {
     if (onResolve || onReject) {
         return originalPush.call(this, location, onResolve, onReject);
     }
-    return originalPush.call(this, location).catch(() => {
-    });
+    return originalPush.call(this, location).catch(() => { });
 };
 
 Vue.use(Router);
@@ -33,12 +33,12 @@ export default new Router({
     base: '/',
     routes: [
         {
-            path: '/',
+            path:'/',
             component: UserDataProviderPage,
             children: [
                 {
                     path: '',
-                    redirect: {name: 'home'}
+                    redirect: { name: 'home' }
                 },
                 {
                     path: 'home',
@@ -67,7 +67,12 @@ export default new Router({
                     component: ResetPassword,
                 },
                 {
-                    path: '',
+                    path: '/auth/social/:provider',
+                    name: 'social-auth',
+                    component: SocialAuthPage
+                },
+        {
+            path: '',
                     component: LoginGuard,
                     children: [
                         {
@@ -147,7 +152,7 @@ export default new Router({
                                         {
                                             path: '',
                                             name: 'add_website',
-                                            redirect: {name: 'add_websites_step_1'},
+                                            redirect: { name: 'add_websites_step_1' },
                                         },
                                         {
                                             path: 'step-1',

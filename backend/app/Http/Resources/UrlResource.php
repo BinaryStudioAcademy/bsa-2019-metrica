@@ -7,12 +7,12 @@ namespace App\Http\Resources;
 use App\Contracts\ApiResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class VisitorCountResource extends JsonResource implements ApiResponse
+final class UrlResource extends JsonResource implements ApiResponse
 {
     public function toArray($request): array
     {
         return [
-            'count' => $this->resource
+            'url' => $this->url()
         ];
     }
 }

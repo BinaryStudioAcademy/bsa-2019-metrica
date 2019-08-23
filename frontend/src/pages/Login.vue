@@ -58,9 +58,11 @@
         methods: {
             onSuccess() {
                 if (this.redirectTo) {
-                    this.$router.replace({path: this.redirectTo});
+                    this.$router.replace({path: this.redirectTo})
+                        .catch(() => {});
                 } else {
-                    this.$router.replace({name: 'dashboard'});
+                    this.$router.replace({name: 'dashboard'})
+                        .catch(() => {});
                 }
             },
         },
@@ -85,7 +87,7 @@
 
     .form-wrapper{
         padding-top: 40px;
-        height: 100vh;
+        height: 100%;
         background: #F2F2F2;
     }
 </style>

@@ -1,6 +1,9 @@
 <template>
     <div class="text-center">
-        <VOverlay :value="true">
+        <VOverlay
+            class="position-absolute"
+            :value="true"
+        >
             <VProgressCircular
                 indeterminate
                 size="64"

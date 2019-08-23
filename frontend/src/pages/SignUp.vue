@@ -66,7 +66,7 @@ main{
 }
 
 .form-wrapper{
-    height: 89vh;
+    height: 100%;
     background: #f5f8fd;
 }
 

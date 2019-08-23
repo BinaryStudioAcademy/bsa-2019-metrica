@@ -14,7 +14,7 @@ final class AuthenticationResponse
         $this->token = $token;
     }
 
-    public function getToken(): string
+    public function token(): string
     {
         return $this->token;
     }

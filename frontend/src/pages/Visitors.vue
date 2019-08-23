@@ -1,13 +1,8 @@
 <template>
-    <VContainer
-        fluid
-        class="content-container"
-    >
+    <ContentLayout :title="title">
         <VLayout
             wrap
-        >
-            <h5>{{ title }}</h5>
-        </VLayout>
+        />
         <VLayout>
             <VFlex
                 lg12
@@ -24,7 +19,10 @@
                     <VFlex
                         class="chart-container"
                     >
-                        <LineChart :data="data" />
+                        <LineChart
+                            :data="chartData.items"
+                            :is-fetching="chartData.isFetching"
+                        />
                         <PeriodDropdown />
                     </VFlex>
                 </VLayout>
@@ -37,7 +35,7 @@
             >
                 <ButtonComponent
                     :title="button.title"
-                    :character="button.character"
+                    :type="button.type"
                     :icon-name="button.icon"
                 />
             </VFlex>
@@ -50,10 +48,7 @@
                 height="100%"
                 class="img-card"
             >
-                <GroupedTable
-                    :items="tableData"
-                    @change="changeTable"
-                />
+                <VisitorsTable />
             </VFlex>
             <VFlex
                 lg5
@@ -65,32 +60,47 @@
                 <PieChart
                     :data="pieData"
                     :legend="legend"
+                    :is-fetching="pieChartData.isFetching"
                 />
             </VFlex>
         </VLayout>
-    </VContainer>
+    </ContentLayout>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import {
+        GET_PIE_CHART_DATA,
+        GET_LINE_CHART_DATA,
+    } from "@/store/modules/visitors/types/getters";
+    import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import GroupedTable from "../components/dashboard/visitors/GroupedTable";
+    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
     import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
     import PieChart from "../components/common/PieChart";
     import {isWebsite} from '../mixins/isWebsite';
+    import {
+        TOTAL_VISITORS,
+        NEW_VISITORS,
+        AVG_SESSION,
+        PAGE_VIEWS,
+        SESSIONS,
+        BOUNCE_RATE
+    } from '../configs/visitors/buttonTypes.js';
 
     export default {
         mixins: [isWebsite],
         components: {
             PieChart,
             LineChart,
-            GroupedTable,
+            VisitorsTable,
             ButtonComponent,
-            PeriodDropdown
+            PeriodDropdown,
+            ContentLayout
         },
         data() {
             return {
-                data: [],
                 items: [
                     {
                         option: 'IE',
@@ -112,38 +122,33 @@
                     {
                         icon: 'person',
                         title: 'Total visitors',
-                        character: '120'
+                        type: TOTAL_VISITORS
                     },
                     {
                         icon: 'eye',
                         title: 'New visitors',
-                        character: '100'
+                        type: NEW_VISITORS
                     },
                     {
                         icon: 'clock',
                         title: 'Avg. session',
-                        character: '00:00:33'
+                        type: AVG_SESSION
                     },
                     {
                         icon: 'yellow_arrow',
                         title: 'Page views',
-                        character: '321'
+                        type: PAGE_VIEWS
                     },
                     {
                         icon: 'peach_arrow',
                         title: 'Sessions',
-                        character: '145'
+                        type: SESSIONS
                     },
                     {
                         icon: 'violet_arrow',
                         title: 'Bounce rate',
-                        character: '41%'
+                        type: BOUNCE_RATE
                     },
-                ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 59],
                 ],
                 legend: {
                     title: 'Outcome',
@@ -160,77 +165,24 @@
                         },
                     }
                 },
-                tableItems: {
-                    'language': [
-                        {
-                            option: 'us',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'en',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'fr',
-                            users: 67,
-                            percentage: '50%'
-                        }
-                    ],
-                    'browser': [
-                        {
-                            option: 'IE',
-                            users: 55,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Edge',
-                            users: 77,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Firefox',
-                            users: 45,
-                            percentage: '44%'
-                        },
-                        {
-                            option: 'Chrome',
-                            users: 84,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'iOS Safari',
-                            users: 44,
-                            percentage: '55%'
-                        }]
-                }
             };
         },
         computed: {
+            ...mapGetters('visitors', {
+                pieChartData: GET_PIE_CHART_DATA,
+                chartData: GET_LINE_CHART_DATA,
+            }),
             title () {
                 return this.$route.meta.title;
             },
-            tableData () {
-                return this.items;
+            pieData () {
+                return [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.pieChartData.newVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors],
+                ];
             }
         },
-        mounted() {
-            for (let i = 1; i < 20; i++) {
-                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
-                const item = {
-                    xLabel: x,
-                    value: Math.floor(Math.random() * 2000) + 1,
-                    indication: Math.floor(Math.random() * 200) + 1,
-                };
-                this.data.push(item);
-            }
-        },
-        methods: {
-            changeTable (parameter) {
-                this.items = this.tableItems[parameter];
-            }
-        }
     };
 </script>
 
@@ -240,8 +192,5 @@
     }
     .chart-container {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
-    }
-    .content-container {
-        padding: 70px 66px 0 80px;
     }
 </style>

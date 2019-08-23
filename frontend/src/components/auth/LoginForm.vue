@@ -71,6 +71,8 @@
                 </div>
             </div>
         </VForm>
+
+        <SocialAuth />
     </div>
 </template>
 
@@ -80,8 +82,13 @@
     import {SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
+    import SocialAuth from './SocialAuth';
 
     export default {
+        components: {
+            SocialAuth
+        },
+
         data() {
             return {
                 email: '',
