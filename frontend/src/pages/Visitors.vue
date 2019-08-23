@@ -73,7 +73,7 @@
         GET_PIE_CHART_DATA,
         GET_LINE_CHART_DATA,
     } from "@/store/modules/visitors/types/getters";
-    import { GET_CHART_DATA } from "@/store/modules/visitors/types/actions";
+    import { SET_CHART_PIE_DATA } from "@/store/modules/visitors/types/actions";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
@@ -101,7 +101,7 @@
             ContentLayout
         },
         beforeMount: async function() {
-            await this.getChartData().then().catch(e => console.log(e));
+            await this.setCharPieData().then().catch(e => console.log(e));
         },
         data() {
             return {
@@ -189,7 +189,7 @@
         },
         methods: {
             ...mapActions('visitors', {
-                getChartData: GET_CHART_DATA
+                setCharPieData: SET_CHART_PIE_DATA
             })
         },
     };

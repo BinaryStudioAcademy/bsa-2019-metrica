@@ -4,7 +4,7 @@ import {
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
     CHANGE_FETCHED_TABLE_STATE,
-    GET_CHART_DATA
+    SET_CHART_PIE_DATA
 } from "./types/actions";
 import {
     SET_SELECTED_PERIOD,
@@ -48,7 +48,7 @@ export default {
             context.commit(RESET_TABLE_FETCHING);
         }
     },
-    [GET_CHART_DATA]: (context) => {
+    [SET_CHART_PIE_DATA]: (context) => {
         context.commit(SET_CHART_DATA_FETCHING);
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
