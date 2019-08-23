@@ -9,6 +9,7 @@ class ChartNewVisitor implements ChartValue
 {
     private $period;
     private $count;
+
     public function __construct(string $period, int $count)
     {
         $this->period = $period;

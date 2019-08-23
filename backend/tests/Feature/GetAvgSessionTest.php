@@ -42,7 +42,7 @@ class GetAvgSessionTest extends TestCase
 
         $expected = [
                     'data' => [
-                        'avg_session' => 30
+                        'value' => 30
                     ],
                     'meta' => []
                ];

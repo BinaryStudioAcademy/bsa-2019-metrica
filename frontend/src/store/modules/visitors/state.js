@@ -35,5 +35,19 @@ export default {
             isFetching: false
         },
     },
-    activeButton: TOTAL_VISITORS
+    chartData: {
+        items: [],
+        isFetching: false
+    },
+    pieChartData: {
+        newVisitors: 50,
+        returnVisitors: 50,
+        isFetching: false
+    },
+    activeButton: TOTAL_VISITORS,
+    tableData: {
+        items: [],
+        isFetching: false,
+        groupedParameter: 'browser'
+    }
 };

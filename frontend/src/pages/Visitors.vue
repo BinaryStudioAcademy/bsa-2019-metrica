@@ -19,7 +19,10 @@
                     <VFlex
                         class="chart-container"
                     >
-                        <LineChart :data="data" />
+                        <LineChart
+                            :data="chartData.items"
+                            :is-fetching="chartData.isFetching"
+                        />
                         <PeriodDropdown />
                     </VFlex>
                 </VLayout>
@@ -45,10 +48,7 @@
                 height="100%"
                 class="img-card"
             >
-                <GroupedTable
-                    :items="tableData"
-                    @change="changeTable"
-                />
+                <VisitorsTable />
             </VFlex>
             <VFlex
                 lg5
@@ -60,6 +60,7 @@
                 <PieChart
                     :data="pieData"
                     :legend="legend"
+                    :is-fetching="pieChartData.isFetching"
                 />
             </VFlex>
         </VLayout>
@@ -67,9 +68,14 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import {
+        GET_PIE_CHART_DATA,
+        GET_LINE_CHART_DATA,
+    } from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import GroupedTable from "../components/dashboard/visitors/GroupedTable";
+    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
     import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
     import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
     import PieChart from "../components/common/PieChart";
@@ -88,14 +94,13 @@
         components: {
             PieChart,
             LineChart,
-            GroupedTable,
+            VisitorsTable,
             ButtonComponent,
             PeriodDropdown,
             ContentLayout
         },
         data() {
             return {
-                data: [],
                 items: [
                     {
                         option: 'IE',
@@ -145,11 +150,6 @@
                         type: BOUNCE_RATE
                     },
                 ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 59],
-                ],
                 legend: {
                     title: 'Outcome',
                     data: {
@@ -165,77 +165,24 @@
                         },
                     }
                 },
-                tableItems: {
-                    'language': [
-                        {
-                            option: 'us',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'en',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'fr',
-                            users: 67,
-                            percentage: '50%'
-                        }
-                    ],
-                    'browser': [
-                        {
-                            option: 'IE',
-                            users: 55,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Edge',
-                            users: 77,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Firefox',
-                            users: 45,
-                            percentage: '44%'
-                        },
-                        {
-                            option: 'Chrome',
-                            users: 84,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'iOS Safari',
-                            users: 44,
-                            percentage: '55%'
-                        }]
-                }
             };
         },
         computed: {
+            ...mapGetters('visitors', {
+                pieChartData: GET_PIE_CHART_DATA,
+                chartData: GET_LINE_CHART_DATA,
+            }),
             title () {
                 return this.$route.meta.title;
             },
-            tableData () {
-                return this.items;
+            pieData () {
+                return [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.pieChartData.newVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors],
+                ];
             }
         },
-        mounted() {
-            for (let i = 1; i < 20; i++) {
-                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
-                const item = {
-                    xLabel: x,
-                    value: Math.floor(Math.random() * 2000) + 1,
-                    indication: Math.floor(Math.random() * 200) + 1,
-                };
-                this.data.push(item);
-            }
-        },
-        methods: {
-            changeTable (parameter) {
-                this.items = this.tableItems[parameter];
-            }
-        }
     };
 </script>
 

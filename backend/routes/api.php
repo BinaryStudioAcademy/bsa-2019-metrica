@@ -62,6 +62,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
             Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
+            Route::get('/new-visitors-table', 'VisitorController@getNewVisitorsForTableByParameter');
         });
 
         Route::group([
@@ -76,6 +77,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'SessionController@getAllSessions');
             Route::get('/count', 'SessionController@getCountOfSessions');
             Route::get('/average', 'SessionController@getAverageSession');
+            Route::get('/param', 'SessionController@getSessionsByParameter');
         });
 
         Route::group([

@@ -10,6 +10,7 @@ use App\Actions\Sessions\GetAverageSessionByIntervalAction;
 use App\Actions\Sessions\GetSessionsAction;
 use App\Actions\Sessions\GetSessionsRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ButtonResource;
 use App\Http\Resources\SessionResourceCollection;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Api\GetSessionsFilterHttpRequest;
@@ -19,14 +20,17 @@ use App\Actions\Sessions\GetAvgSessionTimeByParameterRequest;
 use App\Actions\Sessions\GetAvgSessionRequest;
 use App\Http\Requests\Api\GetAverageSessionByDateIntervalHttpRequest;
 use App\Http\Response\ApiResponse;
-use App\Http\Resources\CountSessions;
 use App\Http\Requests\Api\CountSessionsHttpRequest;
 use App\Actions\Sessions\CountSessionsAction;
 use App\Actions\Sessions\CountSessionsRequest;
+use App\Actions\Sessions\GetSessionsByParameterAction;
+use App\Actions\Sessions\GetSessionsByParameterRequest;
+use App\Http\Requests\Api\GetSessionsByParameterHttpRequest;
 use App\Http\Resources\AvgSession;
 use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
 use App\Http\Requests\Api\GetAvgSessionHttpRequest;
 use App\Http\Resources\TableSessionResource;
+use App\Http\Resources\TableResource;
 
 final class SessionController extends Controller
 {
@@ -36,12 +40,15 @@ final class SessionController extends Controller
     private $getAvgSessionAction;
     private $getAvgSessionTimeByParameterAction;
     private $getAvgSessionByIntervalAction;
+    private $getSessionsByParameterAction;
 
     public function __construct(
         GetAllSessionsAction $getAllSessionsAction,
         GetSessionsAction $getSessionsAction,
         CountSessionsAction $countSessionsAction,
         GetAvgSessionAction $getAvgSessionAction,
+        GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction,
+        GetSessionsByParameterAction $getSessionsByParameterAction,
         GetAvgSessionTimeByParameterAction $getAvgSessionTimeByParameterAction,
         GetAverageSessionByIntervalAction $getAvgSessionByIntervalAction
     ) {
@@ -50,6 +57,7 @@ final class SessionController extends Controller
         $this->countSessionsAction = $countSessionsAction;
         $this->getAvgSessionAction = $getAvgSessionAction;
         $this->getAvgSessionTimeByParameterAction = $getAvgSessionTimeByParameterAction;
+        $this->getSessionsByParameterAction = $getSessionsByParameterAction;
         $this->getAvgSessionByIntervalAction = $getAvgSessionByIntervalAction;
     }
 
@@ -75,7 +83,7 @@ final class SessionController extends Controller
             new CountSessionsRequest($request->startDate(), $request->endDate())
         );
 
-        return ApiResponse::success(new CountSessions($response->countSessions()));
+        return ApiResponse::success(new ButtonResource($response));
     }
 
     public function getAverageSession(GetAvgSessionHttpRequest $request): ApiResponse
@@ -83,7 +91,7 @@ final class SessionController extends Controller
         $response = $this->getAvgSessionAction->execute(
             new GetAvgSessionRequest($request->startDate(), $request->endDate())
         );
-        return ApiResponse::success(new AvgSession($response->avgSession()));
+        return ApiResponse::success(new ButtonResource($response));
     }
 
     public function getAvgSessionTimeByParameter(GetAvgSessionsTimeByParameterHttpRequest $request)
@@ -102,5 +110,17 @@ final class SessionController extends Controller
         );
 
         return ApiResponse::success(new ChartResource($response->getSessionByIntervalCollection()));
+    }
+
+    public function getSessionsByParameter(
+        GetSessionsByParameterHttpRequest $request
+    ) {
+        $response = $this->getSessionsByParameterAction->execute(
+            GetSessionsByParameterRequest::fromRequest($request)
+        );
+
+        return ApiResponse::success(
+            new TableResource($response->getSessionsByParameter())
+        );
     }
 }
