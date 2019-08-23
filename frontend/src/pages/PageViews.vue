@@ -86,7 +86,6 @@
     } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
-        CHANGE_FETCHED_BUTTON_STATE,
         CHANGE_SELECTED_PERIOD
     } from "@/store/modules/page_views/types/actions";
     import {
