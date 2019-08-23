@@ -78,7 +78,7 @@
             }),
             changeSelect () {
                 this.$emit('change', this.selected);
-                this.items = this.getTableData({
+                this.getTableData({
                     groupedParameter: this.selected,
                 });
             }
