@@ -171,6 +171,7 @@ final class CreateVisitAction
         $session = new Session();
 
         $session->start_session = Carbon::now();
+        $session->end_session = Carbon::now();
         $session->visitor_id = $visitorId;
         $session->entrance_page_id = $pageId;
         $session->language = $language;
