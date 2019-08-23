@@ -20,31 +20,43 @@
 </template>
 
 <script>
-    import jwtService from "../../services/jwtService";
-    import requestService from "../../services/requestService";
+    import jwtService from "@/services/jwtService";
+    import requestService from "@/services/requestService";
     import config from "@/config";
+    import {mapActions} from 'vuex';
+    import {SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
+    import _ from 'lodash';
 
-    const resourceUrl = config.getApiUrl()+'/auth/confirm-email';
+    const resourceUrl = config.getApiUrl() + '/auth/confirm-email';
 
     export default {
         name: "VerifyEmail",
         data() {
             return {
-                token: '',
-                expr: '',
                 error: false,
-                curTime: ''
             };
         },
         created() {
-            this.token = jwtService.parse(this.$route.query.token);
-            if (this.token.exp < Date.now().valueOf() / 1000) {
+            let token = jwtService.parse(this.$route.query.token);
+            if (token.exp < Date.now().valueOf() / 1000) {
                 this.error = true;
             } else {
                 requestService.update(resourceUrl, {
                     token: this.$route.query.token
-                }).then(res=>alert(res));
+                }).then((response) => {
+                    this.showSuccessMessage(response.data.message);
+                    this.$router.push({name: 'login'});
+                }).catch(error => {
+                    this.showErrorMessage(_.get(error, 'response.data.error.message'));
+                    this.$router.push({name: 'login'});
+                });
             }
+        },
+        methods: {
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
+            }),
         }
     };
 </script>
