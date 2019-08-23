@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\OpenApi;
 
-
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\VisitorResource;
