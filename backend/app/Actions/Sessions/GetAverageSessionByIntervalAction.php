@@ -80,19 +80,7 @@ final class GetAverageSessionByIntervalAction
 
             $currentIntervalSessionsTime = $currentIntervalSessions->reduce(
                 function ($carry, ChartSessionValue $session) use ($date, $intervalEndDate) {
-                    $sessionStart = $session->getStartSession()->getTimestamp();
-                    $sessionEnd = $session->getEndSession()->getTimestamp();
-                    if ($sessionStart < $date && $sessionEnd >= $date && $sessionEnd <= $intervalEndDate) {
-                        $carry += $sessionEnd - $date;
-                    } elseif ($sessionStart >= $date && $sessionEnd <= $intervalEndDate) {
-                        $carry += $sessionEnd - $sessionStart;
-                    } elseif ($sessionStart >= $date && $sessionEnd > $intervalEndDate) {
-                        $carry += $intervalEndDate - $sessionStart;
-                    } elseif ($sessionStart <= $date && $sessionEnd >= $intervalEndDate) {
-                        $carry += $intervalEndDate - $date;
-                    }
-
-                    return $carry;
+                    return $this->calculateSessionTimeByInterval($session, $carry, $date, $intervalEndDate);
                 }, 0);
             $avgSessionTime = $currentIntervalSessionsTime / $currentIntervalSessions->count();
 
@@ -108,5 +96,26 @@ final class GetAverageSessionByIntervalAction
     private function getInterval(string $interval): int
     {
         return (int) $interval;
+    }
+
+    private function calculateSessionTimeByInterval(
+        ChartSessionValue $session,
+        int $carry,
+        int $date,
+        int $intervalEndDate
+    ) {
+        $sessionStart = $session->getStartSession()->getTimestamp();
+        $sessionEnd = $session->getEndSession()->getTimestamp();
+        if ($sessionStart < $date && $sessionEnd >= $date && $sessionEnd <= $intervalEndDate) {
+            $carry += $sessionEnd - $date;
+        } elseif ($sessionStart >= $date && $sessionEnd <= $intervalEndDate) {
+            $carry += $sessionEnd - $sessionStart;
+        } elseif ($sessionStart >= $date && $sessionEnd > $intervalEndDate) {
+            $carry += $intervalEndDate - $sessionStart;
+        } elseif ($sessionStart <= $date && $sessionEnd >= $intervalEndDate) {
+            $carry += $intervalEndDate - $date;
+        }
+
+        return $carry;
     }
 }
