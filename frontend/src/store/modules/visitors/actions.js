@@ -93,7 +93,7 @@ export default {
         }
         context.commit(SET_TABLE_FETCHING);
 
-        return getTimeByPeriod(context.state.selectedPeriod)
+        getTimeByPeriod(context.state.selectedPeriod)
             .then(response => {
                 return factoryVisitorsService.create(context.state.activeButton)
                     .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
