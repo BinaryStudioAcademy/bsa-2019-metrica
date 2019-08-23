@@ -111,7 +111,6 @@ Route::prefix('v1')->group(function () {
     Route::group([
         'namespace' => 'OpenApi'
     ], function () {
-
         Route::group([
             'prefix' => 'visits'
         ], function () {
