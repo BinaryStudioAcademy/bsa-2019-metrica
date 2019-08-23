@@ -78,7 +78,7 @@
     .button-card {
         font-family: Gilroy;
         height: 100px;
-        min-width: 190px;
+        min-width: 180px;
         border-radius: 6px;
         padding-right: 40px;
         padding-left: 20px;
