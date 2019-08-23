@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Exceptions\UserWebsiteNotFoundException;
 
 final class EloquentWebsiteRepository implements WebsiteRepository
 {
@@ -23,4 +23,15 @@ final class EloquentWebsiteRepository implements WebsiteRepository
     {
         return Website::findOrFail($id);
     }
+
+    public function getCurrentWebsite(): ?Website
+    {
+        try {
+            $websiteId = auth()->user()->website->id;
+            return Website::findOrFail($websiteId);
+        } catch (\Exception $e) {
+            throw new UserWebsiteNotFoundException;
+        }
+    }
+
 }
