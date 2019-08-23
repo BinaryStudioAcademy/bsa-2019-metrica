@@ -1,81 +1,101 @@
 <template>
-    <VContent>
-        <VFlex
-            lg6
-            md6
-            sm12
-            xs12
+    <div class="form">
+        <h3>Welcome to Metrica!</h3>
+        <VForm
+            lazy-validation
+            ref="form"
+            v-model="valid"
         >
-            <VContainer>
-                <VCardText
-                    class="login-container"
-                >
-                    <VSubheader
-                        class="login-form-header"
-                    >
-                        Welcome to Metrica!
-                    </VSubheader>
-                    <VForm
-                        ref="form"
-                    >
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Email
-                        </VSubheader>
-                        <VTextField
-                            name="email"
-                            class="login-form-input"
-                            v-model="email"
-                            solo
-                            type="text"
-                            :rules="emailRules"
-                            required
-                        />
+            <label
+                class="caption grey--text"
+            >
+                Email
+            </label>
+            <VTextField
+                class="no-underline"
+                solo
+                type="email"
+                name="email"
+                v-model="email"
+                :rules="emailRules"
+                required
+            />
+            <label
+                class="caption grey--text"
+            >
+                Password
+            </label>
+            <VTextField
+                class="no-underline password"
+                solo
+                name="password"
+                autocomplete="new-password"
+                v-model="password"
+                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                :counter="8"
+                :rules="passwordRules"
+                :type="showPassword ? 'text' : 'password'"
+                @click:append="showPassword = !showPassword"
+                required
+            />
 
-                        <VSubheader
-                            class="login-form-label"
-                        >
-                            Password
-                        </VSubheader>
-                        <VTextField
-                            name="password"
-                            class="login-form-input"
-                            v-model="password"
-                            solo
-                            type="password"
-                            :rules="passwordRules"
-                            required
-                        />
-                    </VForm>
-                </VCardText>
-                <VCardActions>
+            <div class="password-group">
+                <div class="btn-group">
                     <VBtn
+                        class="login-btn"
+                        min-width="100px"
+                        color="primary"
+                        :disabled="!valid"
                         @click="onLogin"
-                        class="login-form-button mt-3"
-                        color="#3C57DE"
                     >
-                        Login
+                        {{ signInText }}
                     </VBtn>
-                </VCardActions>
-            </VContainer>
-        </VFlex>
-    </VContent>
+
+                    <VBtn
+                        class="start"
+                        min-width="100px"
+                        :to="{name: 'signup'}"
+                        outlined
+                        :disabled="false"
+                    >
+                        SIGN UP
+                    </VBtn>
+                </div>
+                <div class="btn-group">
+                    <RouterLink
+                        class="forgot-password-link"
+                        :to="{name: 'reset-password'}"
+                    >
+                        Forgot password?
+                    </RouterLink>
+                </div>
+            </div>
+        </VForm>
+
+        <SocialAuth />
+    </div>
 </template>
 
 <script>
     import {mapActions} from 'vuex';
     import {LOGIN} from "@/store/modules/auth/types/actions";
-    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import {SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
+    import SocialAuth from './SocialAuth';
 
     export default {
+        components: {
+            SocialAuth
+        },
+
         data() {
             return {
                 email: '',
                 password: '',
+                showPassword: false,
                 valid: false,
+                isLoading: false,
                 emailRules: [
                     v => !!v || 'E-mail is required',
                     v => validateEmail(v) || 'E-mail must be valid',
@@ -96,52 +116,57 @@
             }),
             onLogin() {
                 if (this.$refs.form.validate()) {
+                    this.isLoading = true;
                     this.login({
                         email: this.email,
                         password: this.password
                     }).then(() => {
                         this.$emit("success");
                         this.showSuccessMessage('Logged in');
-                    }, err => {
-                        this.showErrorMessage(err.message);
+                    }).catch((error) => {
+                        this.showErrorMessage(error);
+                    }).finally(() => {
+                        this.isLoading = false;
                     });
                 }
+            }
+        },
+        computed: {
+            signInText() {
+                return this.isLoading ? 'Processing...' : 'SIGN IN';
             }
         }
     };
 </script>
 
 <style lang="scss" scoped>
-    .login-form-label {
-        padding: 0;
-        color: rgba(18, 39, 55, 0.5);
-        font-size: 12px;
-        height: 28px;
-        font-weight: bold;
-    }
+    .form {
+        width: 50%;
 
-    .login-form-header {
-        font-size: 16px;
-        line-height: 19px;
-        font-weight: bold;
-        color: #122737;
-        padding: 0;
-    }
+        .v-btn {
+            text-transform: none;
 
-    .login-container {
-        padding: 8px;
-    }
-
-    .login-form-button {
-        color: white;
-
-        ::v-deep {
-            span {
-                font-size: 12px;
-                line-height: 15px;
-                padding: 7px 21px 7px 21px;
-                font-weight: bold;
+            + .start {
+                background: #FFFFFF;
+                color: #3C57DE;
+                margin-left: 50px;
             }
+        }
+
+        h3 {
+            margin-bottom: 30px;
+            font-size: 19px;
+        }
+
+        .password-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-group {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
         }
     }
 </style>

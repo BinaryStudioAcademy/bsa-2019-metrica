@@ -1,27 +1,41 @@
-import {LOGIN, LOGOUT, SIGNUP, RESET_PASSWORD, UPDATE_USER, FETCH_CURRENT_USER} from './types/actions';
+import {
+    LOGIN,
+    LOGOUT,
+    SIGN_UP,
+    RESET_PASSWORD,
+    UPDATE_USER,
+    FETCH_CURRENT_USER,
+    SOCIAL_REDIRECT,
+    SOCIAL_LOGIN,
+} from './types/actions';
 import {
     SET_AUTHENTICATED_USER,
     USER_LOGIN,
     USER_LOGOUT,
 } from "./types/mutations";
 import {updateUser} from '@/api/users';
-import {authorize, getAuthUser, registerUser} from '@/api/auth';
+import {
+    authorize,
+    getAuthUser,
+    registerUser,
+    resetPassword,
+    getSocialRedirectUrl,
+    socialLogin
+} from '@/api/auth';
 import {HAS_TOKEN} from "./types/getters";
+import _ from 'lodash';
 
 export default {
     [LOGIN]: (context, user) => {
         return authorize(user)
             .then(response => {
                 context.commit(USER_LOGIN, response.data);
-
-                return getAuthUser()
-                    .then(response => {
-                        const user = response.data;
-                        context.commit(SET_AUTHENTICATED_USER, user);
-
-                        return user;
-                    });
+                return context.dispatch(FETCH_CURRENT_USER);
+            }).catch((response) => {
+                return Promise.reject(response.response.data.error.message);
             });
+
+
     },
 
     [LOGOUT]: (context) => {
@@ -38,22 +52,24 @@ export default {
             });
     },
 
-    [SIGNUP]: (context, newUser) => {
-        return registerUser(newUser);
+    [SIGN_UP]: (context, newUser) => {
+        return registerUser(newUser)
+            .catch((error) => {
+                throw new Error(_.get(error, 'response.data.error.message', 'Unknown error'));
+            });
     },
 
-    [RESET_PASSWORD]: () => {
-        return new Promise((resolve, reject) => {
-            const fakeResponse = 201;
-            switch (fakeResponse) {
-                case 201:
-                    resolve("Your reset password link was created. Check your email, please.");
-                    break;
+    [RESET_PASSWORD]: (context, payload) => {
+        return resetPassword(payload).then(() => {
+                return `Your reset password link was created. Check your email ${payload.email}, please.`;
+            }
+        ).catch((error) => {
+            switch (error.response.status) {
+                case 404:
+                    throw `It looks like there is no account associated with this email address.
+                             You can  <a href="/signup"> create an account</a> to access our services.`;
                 case 500:
-                    reject("Sorry, something wrong happened. Please, try again.");
-                    break;
-                default:
-                    reject("User with this email does not exist. Please, check if the password is correct.");
+                    throw 'Sorry, something wrong happened. Please, try again';
             }
         });
     },
@@ -67,6 +83,19 @@ export default {
         }).catch(() => {
             context.commit(USER_LOGOUT);
         });
+    },
+
+    [SOCIAL_LOGIN]: (context, data) => {
+        return socialLogin(data)
+            .then(response => {
+                context.commit(USER_LOGIN, response.data);
+                return context.dispatch(FETCH_CURRENT_USER);
+            });
+    },
+
+    [SOCIAL_REDIRECT]: (context, provider) => {
+        return getSocialRedirectUrl({ provider })
+            .then(response => response.data.url);
     },
 
 };

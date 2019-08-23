@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
@@ -15,8 +16,6 @@ final class Website extends Model
         'tracking_number',
     ];
 
-    protected $with = ['user'];
-
     public function getTrackingNumberAttribute($value)
     {
         return str_pad((string) $value, 8, '0', STR_PAD_LEFT);
@@ -25,5 +24,9 @@ final class Website extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
     }
 }

@@ -10,7 +10,7 @@
                 :class="firstStepClass"
             >
                 <div
-                    class="font-weight-bold step-name"
+                    class="step-name"
                 >
                     Add name
                 </div>
@@ -24,7 +24,7 @@
                 :class="secondStepClass"
             >
                 <div
-                    class="font-weight-bold step-name"
+                    class="step-name"
                 >
                     Add website
                 </div>
@@ -38,7 +38,7 @@
                 :class="thirdStepClass"
             >
                 <div
-                    class="font-weight-bold step-name"
+                    class="step-name"
                 >
                     Tracking info
                 </div>
@@ -99,7 +99,7 @@
         letter-spacing: 0.4px;
 
         .progress-step {
-            height: 50px;
+            height: 60px;
             line-height: 15px;
             color: rgba(18, 39, 55, 0.5);
             border-bottom: 3px solid rgba(0, 0, 0, 0.11);

@@ -1,95 +1,89 @@
 <template>
-    <VContent>
+    <ContentLayout>
         <VFlex
             lg6
             md6
             sm12
             xs12
         >
-            <VContainer>
-                <VCardText class="edit-container">
-                    <VSubheader class="edit-form-header">
-                        Profile
-                    </VSubheader>
-                    <VForm ref="form">
-                        <VSubheader class="edit-form-label">
-                            Full Name
-                        </VSubheader>
-                        <VTextField
-                            name="name"
-                            class="edit-form-input"
-                            v-model="editUser.name"
-                            solo
-                            type="text"
-                            :rules="nameRules"
-                            required
-                        />
-                        <VSubheader class="edit-form-label">
-                            Email
-                        </VSubheader>
-                        <VTextField
-                            name="email"
-                            class="edit-form-input"
-                            v-model="editUser.email"
-                            solo
-                            type="email"
-                            :rules="emailRules"
-                            required
-                        />
-                        <VSubheader class="edit-form-label">
-                            Password
-                        </VSubheader>
-                        <VTextField
-                            name="input-10-1"
-                            class="edit-form-input"
-                            v-model="editUser.password"
-                            :append-icon="passwordVisibility"
-                            solo
-                            :type="passwordType"
-                            counter
-                            :rules="passwordRules"
-                            required
-                            @click:append="showPassword = !showPassword"
-                        />
-                        <VSubheader class="edit-form-label">
-                            Repeat password
-                        </VSubheader>
-                        <VTextField
-                            name="input-10-1"
-                            class="edit-form-input"
-                            v-model="confirmPassword"
-                            :append-icon="confirmPasswordVisibility"
-                            solo
-                            :type="confirmPasswordType"
-                            counter
-                            :rules="confirmPasswordRules"
-                            required
-                            @click:append="showConfirmPassword = !showConfirmPassword"
-                        />
-                    </VForm>
-                </VCardText>
-                <VCardActions>
-                    <VBtn
-                        @click="onSave"
-                        class="editUser-form-button mt-3"
-                        color="#3C57DE"
-                    >
-                        Save
-                    </VBtn>
-                </VCardActions>
-            </VContainer>
+            <VSubheader class="body-1 grey--text text--darken-1 pa-0">
+                Profile
+            </VSubheader>
+            <VForm ref="form">
+                <label class="caption grey--text mt-2 mb-3">
+                    Full Name
+                </label>
+                <VTextField
+                    name="name"
+                    class="no-underline"
+                    v-model="editUser.name"
+                    type="text"
+                    :rules="nameRules"
+                    solo
+                />
+                <label class="caption grey--text mt-2 mb-3">
+                    Email
+                </label>
+                <VTextField
+                    name="email"
+                    class="no-underline"
+                    v-model="editUser.email"
+                    type="email"
+                    :rules="emailRules"
+                    solo
+                />
+                <label class="caption grey--text mt-2 mb-3">
+                    Password
+                </label>
+                <VTextField
+                    name="input-10-1"
+                    class="no-underline"
+                    v-model="editUser.password"
+                    :append-icon="passwordVisibility"
+                    :type="passwordType"
+                    counter
+                    :rules="passwordRules"
+                    solo
+                    @click:append="showPassword = !showPassword"
+                />
+                <label class="caption grey--text mt-2 mb-3">
+                    Repeat password
+                </label>
+                <VTextField
+                    name="input-10-1"
+                    class="no-underline"
+                    v-model="confirmPassword"
+                    :append-icon="confirmPasswordVisibility"
+                    :type="confirmPasswordType"
+                    counter
+                    :rules="confirmPasswordRules"
+                    solo
+                    @click:append="showConfirmPassword = !showConfirmPassword"
+                />
+            </VForm>
+            <VBtn
+                @click="onSave"
+                class="mt-9"
+                color="primary"
+            >
+                Save
+            </VBtn>
         </VFlex>
-    </VContent>
+    </ContentLayout>
 </template>
 
 <script>
+    import ContentLayout from '../layout/ContentLayout.vue';
     import {mapGetters, mapActions} from 'vuex';
+    import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
     import {UPDATE_USER} from '@/store/modules/auth/types/actions';
     import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
     import {validateEmail} from '@/services/validation';
     import {validatePassword} from '@/services/validation';
+    import _ from "lodash";
 
     export default {
+        components: {ContentLayout},
         data() {
             return {
                 editUser: {
@@ -102,19 +96,15 @@
                 showPassword: false,
                 showConfirmPassword: false,
                 nameRules: [
-                    v => !!v || 'Field full name is required',
-                    v => (v && v.length >= 3) || 'Enter the correct information'
+                    v => !!(_.trim(v)) || 'Field full name is required',
                 ],
                 emailRules: [
-                    v => !!v || 'E-mail is required',
                     v => validateEmail(v) || 'E-mail must be valid',
                 ],
                 passwordRules: [
-                    v => !!v || 'Password is required',
-                    v => validatePassword(v) || 'Password must be equal or more than 8 characters'
+                    v => (v.length === 0 || validatePassword(v)) || 'Password must be equal or more than 8 characters'
                 ],
                 confirmPasswordRules: [
-                    v => !!v || 'Password is required',
                     v => v === this.editUser.password || 'Password should match'
                 ]
             };
@@ -122,7 +112,8 @@
 
         created() {
             this.editUser = {
-                ...this.user
+                ...this.editUser,
+                ...this.user,
             };
         },
 
@@ -149,61 +140,21 @@
                 update: UPDATE_USER
             }),
 
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
+            }),
+
             onSave() {
                 if (this.$refs.form.validate()) {
-                    this.update(this.editUser)
-                        .catch((error) => {
-                            alert(error.message);
-                        });
+                    this.update(this.editUser).then(() => {
+                        this.$emit("success");
+                        this.showSuccessMessage('Profile has been successfully updated!');
+                    }).catch((error) => {
+                        this.showErrorMessage(error);
+                    });
                 }
             },
         }
     };
 </script>
-
-<style lang="scss" scoped>
-.edit-form-input {
-    background: #FFFFFF;
-    box-sizing: border-box;
-    border-radius: 3px;
-}
-
-.edit-form-label {
-    font-size: 12px;
-    line-height: 15px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.4px;
-
-    color: rgba(18, 39, 55, 0.5);
-}
-
-.edit-form-header {
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.4px;
-
-    color: #122737;
-}
-
-.edit-container {
-    padding: 8px;
-}
-
-.edit-form-button {
-    border-radius: 3px;
-
-    ::v-deep {
-        span {
-            font-size: 14px;
-            line-height: 17px;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            letter-spacing: 0.4px;
-        }
-    }
-}
-</style>

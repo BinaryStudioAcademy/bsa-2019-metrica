@@ -5,16 +5,18 @@ namespace Tests\Feature;
 use App\Entities\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserAuthTest extends TestCase
 {
     use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
         factory(User::class)->create([
             'name' => 'test',
-            'email'=>'test@gmail.com',
+            'email' => 'test@gmail.com',
             'password' => bcrypt('secret1234')
         ]);
     }
@@ -40,10 +42,30 @@ class UserAuthTest extends TestCase
             'email' => 'test@gmail.com11',
             'password' => 'secret1234',
         ]);
-        $response->assertStatus(404);
-        $this->assertEquals('User with this email not found', $response->json('error.message'));
+        $response->assertStatus(400);
+
+        $this->assertEquals('User doesn\'t exist', $response->json('error.message'));
         $response->assertJsonStructure([
-                'error'
+            'error'
+        ]);
+    }
+
+    public function testUpdateUser()
+    {
+        $user = factory(User::class)->create();
+        $token = JWTAuth::fromUser($user);
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $response = $this->actingAs($user)->put('api/v1/users/me', [
+            'name' => 'Test',
+            'email' => 'test@unique.com',
+            'password' => ''
+        ], $headers);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertDatabaseHas('users', [
+            'name' => 'Test',
+            'email' => 'test@unique.com'
         ]);
     }
 }

@@ -4,75 +4,50 @@
         clipped
         floating
         permanent
+        class="pt-11"
     >
-        <VList
-            class="mt-12"
-            flat
-        >
-            <RouterLink
+        <VList>
+            <VListGroup
                 v-for="link in links"
                 :key="link.text"
-                :to="{ name: link.route }"
+                no-action
+                append-icon=""
+                class="my-4"
             >
-                <VListItem
-                    class="pl-8 my-3"
-                    v-if="!link.sublinks"
-                >
-                    <VLayout flex>
-                        <VListItemIcon class="py-0 my-0 mr-7">
-                            <svg>
-                                <use :href="`${link.icon}#root`" />
-                            </svg>
-                        </VListItemIcon>
-                        <VListItemContent class="py-0">
+                <template v-slot:activator>
+                    <RouterLink
+                        :to="{ name: link.route }"
+                    >
+                        <VListItem>
+                            <VListItemIcon>
+                                <svg>
+                                    <use :href="`${link.icon}#root`" />
+                                </svg>
+                            </VListItemIcon>
                             <VListItemTitle>
                                 {{ link.text }}
                             </VListItemTitle>
+                        </VListItem>
+                    </RouterLink>
+                </template>
+                <VListItem
+                    v-for="sublink in link.sublinks"
+                    :key="sublink.text"
+                >
+                    <RouterLink
+                        :to="{ name: sublink.route }"
+                    >
+                        <VListItemContent>
+                            <VListItemTitle>
+                                {{ sublink.text }}
+                            </VListItemTitle>
                         </VListItemContent>
-                    </VLayout>
+                    </RouterLink>
                 </VListItem>
-                <VList v-else>
-                    <VListGroup>
-                        <template v-slot:activator>
-                            <VListItem>
-                                <VLayout flex>
-                                    <VListItemIcon class="py-0 my-0 mr-7">
-                                        <svg>
-                                            <use :href="`${link.icon}#root`" />
-                                        </svg>
-                                    </VListItemIcon>
-                                    <VListItemContent class="py-0">
-                                        <VListItemTitle>
-                                            {{ link.text }}
-                                        </VListItemTitle>
-                                    </VListItemContent>
-                                </VLayout>
-                            </VListItem>
-                        </template>
-                        <VList>
-                            <RouterLink
-                                v-for="sublink in link.sublinks"
-                                :key="sublink.text"
-                                :to="{ name: sublink.route }"
-                            >
-                                <VListItem>
-                                    <VLayout flex>
-                                        <VListItemContent>
-                                            <VListItemTitle>
-                                                {{ sublink.text }}
-                                            </VListItemTitle>
-                                        </VListItemContent>
-                                    </VLayout>
-                                </VListItem>
-                            </RouterLink>
-                        </VList>
-                    </VListGroup>
-                </VList>
-            </RouterLink>
+            </VListGroup>
         </VList>
     </VNavigationDrawer>
 </template>
-
 <script>
     export default {
         data: () => ({
@@ -93,11 +68,11 @@
                         },
                         {
                             text: 'Page Views',
-                            route: 'visitors',
+                            route: 'page-views',
                         },
                         {
                             text: 'Geo Location',
-                            route: 'visitors',
+                            route: 'geo-locations',
                         },
                     ]
                 },
@@ -114,7 +89,17 @@
                 {
                     icon: '/assets/icons/settings.svg',
                     text: 'Settings',
-                    route: 'settings'
+                    route: 'settings',
+                    sublinks: [
+                        {
+                            text: 'User',
+                            route: 'user-update',
+                        },
+                        {
+                            text: 'Website',
+                            route: 'websiteinfo',
+                        },
+                    ]
                 },
             ]
         })
@@ -131,44 +116,54 @@ svg {
     height: 25px;
 }
 
-a:hover{
-    text-decoration: none;
+a {
+    &:hover{
+        text-decoration: none;
+    }
 }
 
-a .v-list-item {
+.v-list-item {
     min-height: 34px;
     height: 34px;
-    font-family: 'Gilroy';
     border-left: 3px solid transparent;
     fill-opacity: 0.5;
     .v-list-item__title {
         color: $grey;
         font-size: 14px;
     }
+    a {
+        width: 100%;
+    }
     .v-list-item__icon {
         fill: $grey;
+        align-self: center;
     }
 }
 
-.router-link-active {
+.v-list-item--active
+{
     .v-list-item {
         border-left: 3px solid $blue;
         .v-list-item__title {
             color: $blue;
         }
         .v-list-item__icon {
-            fill: #3C57DE;
+            fill: $blue;
             fill-opacity: 1;
         }
     }
 }
 
-.router-link-active {
+::v-deep .v-list-group {
+    .v-list-group__header {
+        min-height: 34px;
+        padding: 0;
+    }
     .v-list-group__items {
-        .v-list-item {
-            border-left: none;
+        font-family: 'GilroySemiBold';
+        .router-link-active {
             .v-list-item__title {
-                color: $black;
+                color: $blue;
             }
         }
     }

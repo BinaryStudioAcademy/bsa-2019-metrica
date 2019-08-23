@@ -16,7 +16,10 @@
         <VToolbarTitle class="hidden-sm-and-down username mr-6">
             Hello, <span>{{ user.name }}</span>
         </VToolbarTitle>
-        <VAvatar>
+        <VAvatar
+            width="32"
+            height="auto"
+        >
             <img src="/assets/images/avatar.png">
         </VAvatar>
         <VMenu
@@ -54,6 +57,7 @@
     import {mapActions, mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER} from "@/store/modules/auth/types/getters";
     import {LOGOUT} from "@/store/modules/auth/types/actions";
+    import {RESET_DATA} from "@/store/modules/website/types/actions";
 
     export default {
         data: () => ({
@@ -71,8 +75,12 @@
             ...mapActions('auth', {
                 logout: LOGOUT
             }),
+            ...mapActions('website', {
+                resetData: RESET_DATA
+            }),
             endSession() {
                 this.logout();
+                this.resetData();
                 this.$router.push({ name: 'home' });
             }
         },

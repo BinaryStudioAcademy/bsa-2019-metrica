@@ -22,6 +22,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
         Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:api');
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'AuthController@redirect');
+            Route::get('/{provider}/callback', 'AuthController@oauthCallback');
+        });
     });
 
     Route::group([
@@ -41,26 +45,67 @@ Route::prefix('v1')->group(function () {
             Route::post('/', 'WebsiteController@add');
             Route::put('/{id}', 'WebsiteController@update');
         });
+
         Route::group([
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
+            Route::get('/by-table', 'VisitorController@getVisitorsByParameter');
             Route::get('/new', 'VisitorController@getNewVisitors');
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
+            Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
+            Route::get('/new-visitors-table', 'VisitorController@getNewVisitorsForTableByParameter');
+        });
+
+        Route::group([
+            'prefix' => 'visits'
+        ], function () {
+            Route::get('/by-table', 'VisitController@getPageViewsByParameter');
         });
 
         Route::group([
             'prefix' => 'sessions',
         ], function () {
             Route::get('/', 'SessionController@getAllSessions');
+            Route::get('/count', 'SessionController@getCountOfSessions');
+            Route::get('/average', 'SessionController@getAverageSession');
+            Route::get('/param', 'SessionController@getSessionsByParameter');
         });
 
         Route::group([
-           'prefix' => 'visits'
-        ], function() {
+            'prefix' => 'table-sessions'
+        ], function () {
+            Route::get('/avg-session-time', 'SessionController@getAvgSessionTimeByParameter');
+        });
+
+        Route::group([
+            'prefix' => 'chart-visits'
+        ], function () {
             Route::get('/', 'VisitController@getPageViews');
         });
+
+        Route::group([
+            'prefix' => 'chart-sessions',
+        ], function () {
+            Route::get('/', 'SessionController@getSessions');
+        });
+          
+        Route::group([
+            'prefix' => 'chart-new-visitors'
+        ], function () {
+            Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
+        });
+
+        Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
+
+        Route::group([
+            'prefix'=>'button-page-views'
+        ], function () {
+            Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
+        });
+
+        Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
     });
 });
 

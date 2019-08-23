@@ -1,28 +1,25 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class System extends Model
 {
     protected $fillable = [
-        'browser_id',
-        'os_id',
-        'screen_resolution',
+        'name',
+        'os',
+        'browser',
+        'device',
+        'resolution_width',
+        'resolution_height'
     ];
 
-    protected $with = ['browser', 'os'];
-
-    public function browser(): BelongsTo
+    public function sessions(): HasMany
     {
-        return $this->belongsTo(Browser::class);
-    }
-
-    public function os(): BelongsTo
-    {
-        return $this->belongsTo(Os::class);
+        return $this->hasMany(Session::class);
     }
 }

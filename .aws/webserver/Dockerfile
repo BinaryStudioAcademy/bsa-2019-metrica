@@ -1,3 +1,4 @@
-FROM 918681676479.dkr.ecr.eu-central-1.amazonaws.com/nginx:latest
+FROM lenchv/metrica-webserver:latest
 
 COPY ./frontend/dist /frontend/
+COPY ./backend/public/vendor/telescope /app/public/vendor/telescope

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
+use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\VisitorRepository;
 
 final class GetBounceRateAction
@@ -15,25 +16,23 @@ final class GetBounceRateAction
         $this->visitorRepository = $visitorRepository;
     }
 
-    public function execute(GetBounceRateRequest $request): GetBounceRateResponse
+    public function execute(GetBounceRateRequest $request): ButtonValue
     {
         $visitors = $this->visitorRepository
             ->countSinglePageInactiveSessionBetweenDate(
-                $request->startDate(),
-                $request->endDate()
+                $request->period()
             );
         $allVisitors = $this->visitorRepository
             ->countVisitorsBetweenDate(
-                $request->startDate(),
-                $request->endDate()
+                $request->period()
             );
 
         if ($allVisitors === 0) {
-            return new GetBounceRateResponse(0);
+            return new ButtonValue((string)0);
         }
 
-        $bounceRate = $visitors/$allVisitors * 100;
+        $bounceRate = round($visitors / $allVisitors * 100, 2);
 
-        return new GetBounceRateResponse($bounceRate);
+        return new ButtonValue((string)$bounceRate);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
@@ -14,8 +15,6 @@ final class Page extends Model
         'previews',
         'website_id',
     ];
-
-    protected $with = ['website'];
 
     public function website(): BelongsTo
     {
