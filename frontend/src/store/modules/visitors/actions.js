@@ -17,8 +17,8 @@ import {
     SET_TABLE_DATA,
 } from "./types/mutations";
 
-import factoryVisitorService from '@/api/visitors/factoryVisitorsService';
-import periodService from '@/services/periodService';
+import { factoryVisitorsService } from '@/api/visitors/factoryVisitorsService';
+import { getTimeByPeriod } from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -53,9 +53,9 @@ export default {
         }
         context.commit(SET_TABLE_FETCHING);
 
-        periodService.getTimeByPeriod(context.state.selectedPeriod)
+        getTimeByPeriod(context.state.selectedPeriod)
             .then(response => {
-                return factoryVisitorService.create(context.state.activeButton)
+                return factoryVisitorsService.create(context.state.activeButton)
                     .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
             })
             .then(response => {
