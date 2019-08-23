@@ -40,10 +40,10 @@ const fetchChartValues = (startDate, endDate, interval) => {
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
     return requestService.get(resourceUrl + '/visitors/by-table', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate,
-        'parameter': groupBy
-    }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
+        'filter[startDate]': startDate,
+        'filter[endDate]': endDate,
+        'filter[parameter]': groupBy
+    }).then(response => response.data.map(tableTransformer))
         .catch(error => Promise.reject(
             new Error(
                 _.get(
@@ -55,10 +55,8 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         ));
 };
 
-const totalVisitorsService = {
+export const totalVisitorsService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
-
-export default totalVisitorsService;
