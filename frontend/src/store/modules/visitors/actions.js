@@ -4,7 +4,6 @@ import {
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
     FETCH_BUTTON_DATA,
-    GET_EACH_BUTTON_DATA,
     CHANGE_FETCHED_TABLE_STATE,
     FETCH_TABLE_DATA,
     FETCH_CHART_PIE_DATA
@@ -64,13 +63,6 @@ export default {
                 throw err;
             });
 
-    },
-    [GET_EACH_BUTTON_DATA]: (context) => {
-        let allData = [];
-        buttonTypes.forEach(function (type) {
-            allData.push(context.commit(GET_BUTTON_DATA, type), type);
-        });
-        return allData;
     },
     [CHANGE_GROUPED_PARAMETER]: (context, parameter) => {
         context.commit(SET_GROUPED_PARAMETER, parameter);
