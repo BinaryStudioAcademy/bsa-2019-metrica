@@ -7,6 +7,8 @@ use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\VisitorRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Actions\Visitors\CreateVisitorResponse;
+use Tymon\JWTAuth\Facades\JWTFactory;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CreateVisitorAction
 {
@@ -23,6 +25,13 @@ class CreateVisitorAction
 
         $visitorId = $this->repository->save($websiteId)->id;
 
-        return new CreateVisitorResponse($visitorId);
+        $payload = JWTFactory::customClaims([
+            'sub' => env('API_ID'),
+            'visitor_id' => $visitorId
+        ])->make();
+
+        $token = JWTAuth::encode($payload);
+
+        return new CreateVisitorResponse($token);
     }
 }
