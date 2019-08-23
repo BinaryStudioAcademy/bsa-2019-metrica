@@ -20,10 +20,13 @@
                         class="chart-container"
                     >
                         <LineChart
-                            :data="chartData.items"
+                            :data="data"
                             :is-fetching="chartData.isFetching"
                         />
-                        <PeriodDropdown />
+                        <PeriodDropdown
+                            :value="getSelectedPeriod"
+                            @change="changePeriod"
+                        />
                     </VFlex>
                 </VLayout>
             </VFlex>
@@ -35,8 +38,12 @@
             >
                 <ButtonComponent
                     :title="button.title"
+                    :active="isButtonActive(button.type)"
+                    :fetching="buttonsData[button.type].isFetching"
+                    :value="buttonsData[button.type].value"
                     :type="button.type"
                     :icon-name="button.icon"
+                    @change="changeButton"
                 />
             </VFlex>
         </VLayout>
@@ -68,18 +75,25 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
-    import {
-        GET_PIE_CHART_DATA,
-        GET_LINE_CHART_DATA,
-    } from "@/store/modules/visitors/types/getters";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
-    import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
-    import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
+    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable.vue";
+    import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
+    import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import PieChart from "../components/common/PieChart";
-    import {isWebsite} from '../mixins/isWebsite';
+    import {mapGetters, mapActions} from 'vuex';
+    import {
+        GET_BUTTON_DATA,
+        GET_ACTIVE_BUTTON,
+        GET_SELECTED_PERIOD,
+        GET_PIE_CHART_DATA,
+        GET_LINE_CHART_DATA
+    } from "@/store/modules/visitors/types/getters";
+    import {
+        CHANGE_ACTIVE_BUTTON,
+        CHANGE_FETCHED_BUTTON_STATE,
+        CHANGE_SELECTED_PERIOD
+    } from "@/store/modules/visitors/types/actions";
     import {
         TOTAL_VISITORS,
         NEW_VISITORS,
@@ -90,7 +104,6 @@
     } from '../configs/visitors/buttonTypes.js';
 
     export default {
-        mixins: [isWebsite],
         components: {
             PieChart,
             LineChart,
@@ -101,6 +114,8 @@
         },
         data() {
             return {
+                data: [],
+                period: '',
                 items: [
                     {
                         option: 'IE',
@@ -150,6 +165,11 @@
                         type: BOUNCE_RATE
                     },
                 ],
+                pieData: [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.getPieData.newVisitors],
+                    ['Return Visitors',this.getPieData.returnVisitors],
+                ],
                 legend: {
                     title: 'Outcome',
                     data: {
@@ -168,19 +188,54 @@
             };
         },
         computed: {
-            ...mapGetters('visitors', {
-                pieChartData: GET_PIE_CHART_DATA,
-                chartData: GET_LINE_CHART_DATA,
-            }),
             title () {
                 return this.$route.meta.title;
             },
-            pieData () {
-                return [
-                    ['Type', 'Value'],
-                    ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors',this.pieChartData.returnVisitors],
-                ];
+            tableData () {
+                return this.items;
+            },
+            ...mapGetters('visitors', {
+                buttonsData: GET_BUTTON_DATA,
+                currentActiveButton: GET_ACTIVE_BUTTON,
+                getSelectedPeriod: GET_SELECTED_PERIOD,
+                pieChartData: GET_PIE_CHART_DATA,
+                chartData: GET_LINE_CHART_DATA,
+            }),
+            buttonData () {
+                return this.buttonsData[this.type];
+            }
+        },
+        mounted() {
+            for (let i = 1; i < 20; i++) {
+                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
+                const item = {
+                    xLabel: x,
+                    value: Math.floor(Math.random() * 2000) + 1,
+                    indication: Math.floor(Math.random() * 200) + 1,
+                };
+                this.data.push(item);
+            }
+        },
+        methods: {
+            ...mapActions('visitors', {
+                changeActiveButton: CHANGE_ACTIVE_BUTTON,
+                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+            }),
+            changeButton (data) {
+                this.changeActiveButton(data);
+            },
+            changeTable (parameter) {
+                this.items = this.tableItems[parameter];
+            },
+            changePeriod(data) {
+                this.changeSelectedPeriod(data);
+            },
+            getPieData(){
+                return this.pieChartData;
+            },
+            isButtonActive(type) {
+                return this.currentActiveButton === type;
             }
         },
     };

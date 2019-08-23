@@ -18,8 +18,16 @@
     import GroupedTable from "./GroupedTable";
     import {mapGetters, mapActions} from 'vuex';
     import Spinner from '../../utilites/Spinner';
-    import {GET_ACTIVE_BUTTON, GET_GROUPED_PARAMETER, GET_TABLE_DATA_ITEMS, GET_TABLE_DATA_FETCHING} from "@/store/modules/visitors/types/getters";
-    import {CHANGE_FETCHED_TABLE_STATE, CHANGE_GROUPED_PARAMETER} from "@/store/modules/visitors/types/actions";
+    import {
+        GET_ACTIVE_BUTTON,
+        GET_GROUPED_PARAMETER,
+        GET_TABLE_DATA_ITEMS,
+        GET_TABLE_DATA_FETCHING
+    } from "@/store/modules/visitors/types/getters";
+    import {
+        CHANGE_FETCHED_TABLE_STATE,
+        CHANGE_GROUPED_PARAMETER
+    } from "@/store/modules/visitors/types/actions";
     export default {
         name: 'VisitorsTable',
         components: {

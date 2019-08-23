@@ -1,8 +1,10 @@
 import {
     CHANGE_SELECTED_PERIOD,
-    CHANGE_GROUPED_PARAMETER,
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
+    CHANGE_FETCHED_LINE_CHART_STATE,
+    FETCH_LINE_CHART_DATA,
+    CHANGE_GROUPED_PARAMETER,
     CHANGE_FETCHED_TABLE_STATE,
     FETCH_TABLE_DATA,
     FETCH_CHART_PIE_DATA
@@ -15,11 +17,15 @@ import {
     SET_BUTTON_FETCHING,
     RESET_TABLE_FETCHING,
     SET_TABLE_FETCHING,
+    RESET_LINE_CHART_FETCHING,
+    SET_LINE_CHART_FETCHING,
+    SET_LINE_CHART_DATA,
     SET_TABLE_DATA,
     SET_CHART_PIE_DATA,
     SET_CHART_DATA_FETCHING,
     RESET_CHART_DATA_FETCHING
 } from "./types/mutations";
+
 import {newVisitorsService} from "@/api/visitors/newVisitorsService";
 import {totalVisitorsService} from "@/api/visitors/totalVisitorsService";
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
@@ -40,8 +46,37 @@ export default {
             context.commit(RESET_BUTTON_FETCHING, data.button);
         }
     },
+    [CHANGE_FETCHED_LINE_CHART_STATE]: (context, value) => {
+
+        if (value) {
+            context.commit(SET_LINE_CHART_FETCHING);
+        } else {
+            context.commit(RESET_LINE_CHART_FETCHING);
+        }
+    },
+    [FETCH_LINE_CHART_DATA]: (context, data) => {
+        if (!data.value) {
+            return;
+        }
+        context.commit(SET_LINE_CHART_FETCHING);
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+        const startDate = period.startDate;
+        const endDate = period.endDate;
+
+        return factoryVisitorsService.create(context.state.activeButton)
+            .fetchChartValues(startDate.unix(), endDate.unix(), data.groupedParameter)
+                .then(response => {
+                    context.commit(SET_LINE_CHART_DATA, response.data);
+                    context.commit(RESET_LINE_CHART_FETCHING);
+                })
+                .catch(err => {
+                    context.commit(RESET_LINE_CHART_FETCHING);
+                    throw err;
+                });
+    },
     [CHANGE_GROUPED_PARAMETER]: (context, parameter) => {
         context.commit(SET_GROUPED_PARAMETER, parameter);
+        context.commit(FETCH_TABLE_DATA, parameter);
     },
     [CHANGE_FETCHED_TABLE_STATE]: (context, value) => {
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Visits;
 
 use App\Actions\ChartDataRequest;
-use App\Http\Requests\Api\GetPageViewsFilterHttpRequest;
+use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 
 final class GetPageViewsRequest extends ChartDataRequest
 {

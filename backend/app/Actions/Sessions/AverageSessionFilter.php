@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
-use App\Actions\Sessions\GetAvgSessionRequest;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Carbon;
 
 final class AverageSessionFilter
 {

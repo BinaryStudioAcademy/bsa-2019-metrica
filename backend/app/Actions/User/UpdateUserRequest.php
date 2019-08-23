@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\User;
 
-use App\Http\Requests\Api\UpdateUserHttpRequest;
+use App\Http\Requests\Auth\UpdateUserHttpRequest;
 
 final class UpdateUserRequest
 {
