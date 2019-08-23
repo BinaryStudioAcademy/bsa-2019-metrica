@@ -111,20 +111,20 @@ export default {
             return;
         }
         context.commit(SET_TABLE_FETCHING);
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+        const startDate = period.startDate;
+        const endDate = period.endDate;
 
-        getTimeByPeriod(context.state.selectedPeriod)
-            .then(response => {
-                return factoryVisitorsService.create(context.state.activeButton)
-                    .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
-            })
-            .then(response => {
-                context.commit(SET_TABLE_DATA, response.data);
-                context.commit(RESET_TABLE_FETCHING);
-            })
-            .catch(err => {
-                context.commit(RESET_TABLE_FETCHING);
-                throw err;
-            });
+        return factoryVisitorsService.create(context.state.activeButton)
+            .fetchTableValues(startDate, endDate, data.groupedParameter)
+                .then(response => {
+                    context.commit(SET_TABLE_DATA, response.data);
+                    context.commit(RESET_TABLE_FETCHING);
+                })
+                .catch(err => {
+                    context.commit(RESET_TABLE_FETCHING);
+                    throw err;
+                });
     },
     [FETCH_CHART_PIE_DATA]: (context) => {
         context.commit(SET_CHART_DATA_FETCHING);
