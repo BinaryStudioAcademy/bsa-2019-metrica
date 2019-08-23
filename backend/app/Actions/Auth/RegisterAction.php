@@ -25,7 +25,7 @@ final class RegisterAction
         $user->email = $request->getEmail();
         $user->password = Hash::make($request->getPassword());
         $this->userRepository->save($user);
-        JWTAuth::factory()->setTTL(50);
+        JWTAuth::factory()->setTTL(720);
         $token = JWTAuth::fromUser($user);
 
         $user->sendSuccessRegistrationNotification($user,$token);

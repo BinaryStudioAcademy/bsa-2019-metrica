@@ -8,6 +8,7 @@
             :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
             <VContainer>
+                {{ errMsg }}
                 <VAlert
                     type="error"
                     v-if="error"

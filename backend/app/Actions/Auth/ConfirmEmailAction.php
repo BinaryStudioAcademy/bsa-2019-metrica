@@ -17,10 +17,14 @@ final class ConfirmEmailAction
 
     public function execute(ConfirmEmailRequest $request): ConfirmEmailResponse
     {
-        if ((bool)auth()->user()->is_activate) {
+        $user = auth()->user();
+        if (!$user) {
+            throw new UserActivatedException('Something wrong happened!');
+        }
+        if ((bool)$user->is_activate) {
             throw new UserActivatedException("This account has already activated");
         } else {
-            $this->repository->activateUser(auth()->user()->email);
+            $this->repository->activateUser($user->email);
             return new ConfirmEmailResponse();
         }
     }
