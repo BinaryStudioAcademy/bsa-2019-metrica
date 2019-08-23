@@ -42,7 +42,7 @@ const getTimeByPeriod = (period) => {
     let interval = null;
     let startDate = null;
     let endDate = null;
-    switch (value) {
+    switch (period) {
         case period.PERIOD_TODAY:
             interval = getHourInterval(1);
             startDate = getSubtractStartDate(0);
