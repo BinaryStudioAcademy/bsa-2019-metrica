@@ -15,7 +15,6 @@ import {
     RESET_BUTTON_FETCHING,
     SET_BUTTON_FETCHING,
     SET_BUTTON_DATA,
-    GET_BUTTON_DATA,
     RESET_TABLE_FETCHING,
     SET_TABLE_FETCHING,
     SET_TABLE_DATA,
@@ -24,7 +23,6 @@ import {
     RESET_CHART_DATA_FETCHING
 } from "./types/mutations";
 
-import {buttonTypes} from '@/configs/visitors/buttonTypes';
 import {newVisitorsService} from "@/api/visitors/newVisitorsService";
 import {totalVisitorsService} from "@/api/visitors/totalVisitorsService";
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';

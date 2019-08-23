@@ -83,9 +83,3 @@ export const getTimeByPeriod = (period) => {
         endDate
     };
 };
-
-const periodService = {
-    getTimeByPeriod
-};
-
-export default periodService;
