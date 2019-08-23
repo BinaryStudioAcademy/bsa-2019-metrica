@@ -56,6 +56,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
             Route::get('/new-visitors-table', 'VisitorController@getNewVisitorsForTableByParameter');
+            Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
         });
 
         Route::group([
@@ -90,7 +91,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'SessionController@getSessions');
         });
-          
+
         Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {
