@@ -108,7 +108,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
     });
 
-        Route::group([
+    Route::group([
             'namespace' => 'OpenApi'
         ], function () {
             Route::group([
@@ -117,7 +117,6 @@ Route::prefix('v1')->group(function () {
                 Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
             });
         });
-
 });
 
 Route::get('/v1/health', function () {
