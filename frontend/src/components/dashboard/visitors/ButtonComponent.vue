@@ -85,14 +85,13 @@
     .button-card {
         font-family: Gilroy;
         height: 100px;
-        min-width: 190px;
+        min-width: 140px;
         border-radius: 6px;
-        padding-right: 40px;
-        padding-left: 20px;
+        padding-left: 10px;
         transition: all .2s ease-in;
 
         .card-image {
-            margin-right: 30px;
+            margin-right: 15px;
 
             .button-icon {
                 height: 27px;
@@ -113,12 +112,19 @@
     .button-card:hover:not(.active) {
         cursor: pointer;
         border: 1px solid rgba(60, 87, 222, 0.52);
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 
     .button-card.active {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
         border: 1px solid rgba(60, 87, 222, 0.52);
-        transform: scale(1.19);
+        transform: scale(1.1);
     }
+
+    @media (max-width: 1199px) {
+        .button-card {
+            margin-bottom: 30px;
+        }
+    }
+
 </style>
