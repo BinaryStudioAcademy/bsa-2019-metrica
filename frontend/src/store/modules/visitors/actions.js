@@ -62,12 +62,10 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
-        let chartData = [];
 
         return factoryVisitorsService.create(context.state.activeButton)
             .fetchChartValues(startDate.unix(), endDate.unix(), data.groupedParameter)
                 .then(response => {
-                    chartData.items = response.data;
                     context.commit(SET_LINE_CHART_DATA, response.data);
                     context.commit(RESET_LINE_CHART_FETCHING);
                 })
