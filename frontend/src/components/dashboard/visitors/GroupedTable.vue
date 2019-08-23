@@ -39,9 +39,6 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
-    import {FETCH_TABLE_DATA} from "@/store/modules/visitors/types/actions";
-
     export default {
         name: 'GroupedTable',
         props: {
