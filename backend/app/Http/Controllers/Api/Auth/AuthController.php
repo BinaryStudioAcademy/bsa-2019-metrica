@@ -14,7 +14,7 @@ use App\Actions\Auth\SocialRedirectAction;
 use App\Actions\Auth\SocialAuthRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AuthenticatedHttpRequest;
-use App\Http\Requests\RegisterHttpRequest;
+use App\Http\Requests\Api\RegisterHttpRequest;
 use App\Http\Resources\TokenResource;
 use App\Http\Resources\UrlResource;
 use App\Http\Resources\UserResource;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
 use App\Http\Request\ApiFormRequest;
 use Illuminate\Support\Facades\Auth;
