@@ -18,7 +18,7 @@ class Xwebsite
 
     public function handle($request, Closure $next)
     {
-        if (!($trackNumber = (int)$request->header('x-website'))) {
+        if (!$request->header('x-website')) {
             return ApiResponse::error(new AppException('x-website header is required'));
         }
 
