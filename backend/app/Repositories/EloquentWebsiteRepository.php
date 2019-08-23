@@ -33,5 +33,4 @@ final class EloquentWebsiteRepository implements WebsiteRepository
             throw new UserWebsiteNotFoundException;
         }
     }
-
 }
