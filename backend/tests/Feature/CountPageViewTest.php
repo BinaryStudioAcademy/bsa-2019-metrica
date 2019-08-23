@@ -39,18 +39,18 @@ class CountPageViewTest extends TestCase
             'endDate' => Carbon::parse('2019-08-20 00:00:00')->timestamp,
         ];
         $this->createVisits();
-        $queryString = '?filter[startDate]='.$dateFilter['startDate'].
-            '&filter[endDate]='.$dateFilter['endDate'];
+        $queryString = '?filter[startDate]=' . $dateFilter['startDate'] .
+            '&filter[endDate]=' . $dateFilter['endDate'];
 
         $expected = [
             'data' => [
-                'count' => 4
+                'value' => 4
             ],
             'meta' => []
         ];
 
         $this->actingAs($this->user)
-            ->getJson('/api/v1/button-page-views/count/'.$queryString)
+            ->getJson('/api/v1/button-page-views/count/' . $queryString)
             ->assertJson($expected);
     }
 

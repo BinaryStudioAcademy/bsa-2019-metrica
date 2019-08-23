@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Repositories\Contracts\TableVisitorsRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\DataTransformer\TableValue;
 
 final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 {
@@ -30,7 +31,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('geo_positions.city')
             ->get();
 
-        return new Collection($visitors);
+        return $this->mapToTableValues($visitors, 'city');
     }
 
     public function groupByCountry(int $website_id, string $from, string $to): Collection
@@ -52,7 +53,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('geo_positions.country')
             ->get();
 
-        return new Collection($visitors);
+        return $this->mapToTableValues($visitors, 'country');
     }
 
     public function groupByLanguage(int $website_id, string $from, string $to): Collection
@@ -74,7 +75,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('sessions.language')
             ->get();
 
-        return new Collection($visitors);
+        return $this->mapToTableValues($visitors, 'language');
     }
 
     public function groupByBrowser(int $website_id, string $from, string $to): Collection
@@ -98,7 +99,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('systems.browser')
             ->get();
 
-        return new Collection($visitors);
+        return $this->mapToTableValues($visitors, 'browser');
     }
 
     public function groupByOperatingSystem(int $website_id, string $from, string $to): Collection
@@ -122,7 +123,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('systems.os')
             ->get();
 
-        return new Collection($visitors);
+        return $this->mapToTableValues($visitors, 'operating_system');
     }
 
     public function groupByScreenResolution(int $website_id, string $from, string $to): Collection
@@ -146,6 +147,18 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy(['systems.resolution_width','systems.resolution_height'])
             ->get();
 
-        return new Collection($visitors);
+        return $this->mapToTableValues($visitors, 'screen_resolution');
+    }
+
+    private function mapToTableValues(Collection $visitors, string $parameter)
+    {
+        return $visitors->map(function($item) use ($parameter) {
+            return new TableValue(
+                $parameter,
+                $item->parameter_value,
+                strval($item->count_visitors),
+                $item->count_visitors / $item->total_count * 100
+            );
+        });
     }
 }

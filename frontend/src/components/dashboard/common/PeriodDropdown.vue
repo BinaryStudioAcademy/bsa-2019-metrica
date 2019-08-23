@@ -32,8 +32,8 @@
                     {title: 'Today', value: 'today'},
                     {title: 'Yesterday', value: 'yesterday'},
                     {title: 'Last 7 days', value: 'last_week'},
-                    {title: 'Last 30', value: 'last_month'},
-                    {title: 'Last 90', value: 'last_quartal'},
+                    {title: 'Last month', value: 'last_month'},
+                    {title: 'Last quartal', value: 'last_quartal'},
                     {title: 'All period', value: 'all_period'}
                 ]
             };

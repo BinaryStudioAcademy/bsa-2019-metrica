@@ -25,5 +25,9 @@ export default {
             isFetching: false
         },
     },
-    activeButton: PAGE_VIEWS
+    activeButton: PAGE_VIEWS,
+    chartData: {
+        items: [],
+        isFetching: false
+    },
 };

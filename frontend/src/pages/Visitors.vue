@@ -19,7 +19,10 @@
                     <VFlex
                         class="chart-container"
                     >
-                        <LineChart :data="data" />
+                        <LineChart
+                            :data="data"
+                            :is-fetching="chartData.isFetching"
+                        />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
                             @change="changePeriod"
@@ -52,10 +55,7 @@
                 height="100%"
                 class="img-card"
             >
-                <GroupedTable
-                    :items="tableData"
-                    @change="changeTable"
-                />
+                <VisitorsTable />
             </VFlex>
             <VFlex
                 lg5
@@ -67,6 +67,7 @@
                 <PieChart
                     :data="pieData"
                     :legend="legend"
+                    :is-fetching="pieChartData.isFetching"
                 />
             </VFlex>
         </VLayout>
@@ -76,12 +77,18 @@
 <script>
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import GroupedTable from "../components/dashboard/visitors/GroupedTable";
+    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable.vue";
     import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import PieChart from "../components/common/PieChart";
     import {mapGetters, mapActions} from 'vuex';
-    import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON, GET_SELECTED_PERIOD} from "@/store/modules/visitors/types/getters";
+    import {
+        GET_BUTTON_DATA,
+        GET_ACTIVE_BUTTON,
+        GET_SELECTED_PERIOD,
+        GET_PIE_CHART_DATA,
+        GET_LINE_CHART_DATA
+    } from "@/store/modules/visitors/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_FETCHED_BUTTON_STATE,
@@ -100,7 +107,7 @@
         components: {
             PieChart,
             LineChart,
-            GroupedTable,
+            VisitorsTable,
             ButtonComponent,
             PeriodDropdown,
             ContentLayout
@@ -160,8 +167,8 @@
                 ],
                 pieData: [
                     ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 59],
+                    ['New Visitors', this.getPieData.newVisitors],
+                    ['Return Visitors',this.getPieData.returnVisitors],
                 ],
                 legend: {
                     title: 'Outcome',
@@ -178,51 +185,6 @@
                         },
                     }
                 },
-                tableItems: {
-                    'language': [
-                        {
-                            option: 'us',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'en',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'fr',
-                            users: 67,
-                            percentage: '50%'
-                        }
-                    ],
-                    'browser': [
-                        {
-                            option: 'IE',
-                            users: 55,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Edge',
-                            users: 77,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Firefox',
-                            users: 45,
-                            percentage: '44%'
-                        },
-                        {
-                            option: 'Chrome',
-                            users: 84,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'iOS Safari',
-                            users: 44,
-                            percentage: '55%'
-                        }]
-                }
             };
         },
         computed: {
@@ -235,7 +197,9 @@
             ...mapGetters('visitors', {
                 buttonsData: GET_BUTTON_DATA,
                 currentActiveButton: GET_ACTIVE_BUTTON,
-                getSelectedPeriod: GET_SELECTED_PERIOD
+                getSelectedPeriod: GET_SELECTED_PERIOD,
+                pieChartData: GET_PIE_CHART_DATA,
+                chartData: GET_LINE_CHART_DATA,
             }),
             isActive () {
                 return this.currentActiveButton === this.type;
@@ -269,8 +233,11 @@
             },
             changePeriod(data) {
                 this.changeSelectedPeriod(data);
+            },
+            getPieData(){
+                return this.pieChartData;
             }
-        }
+        },
     };
 </script>
 

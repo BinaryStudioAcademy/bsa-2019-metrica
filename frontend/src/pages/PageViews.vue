@@ -19,7 +19,10 @@
                     <VFlex
                         class="chart-container"
                     >
-                        <LineChart :data="data" />
+                        <LineChart
+                            :data="data"
+                            :is-fetching="chartData.isFetching"
+                        />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
                             @change="changePeriod"
@@ -76,7 +79,12 @@
     import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import {mapGetters, mapActions} from 'vuex';
-    import {GET_BUTTON_DATA, GET_ACTIVE_BUTTON, GET_SELECTED_PERIOD} from "@/store/modules/page_views/types/getters";
+    import {
+        GET_BUTTON_DATA,
+        GET_ACTIVE_BUTTON,
+        GET_SELECTED_PERIOD,
+        GET_LINE_CHART_DATA
+    } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_FETCHED_BUTTON_STATE,
@@ -177,7 +185,8 @@
             ...mapGetters('page_views', {
                 buttonsData: GET_BUTTON_DATA,
                 currentActiveButton: GET_ACTIVE_BUTTON,
-                getSelectedPeriod: GET_SELECTED_PERIOD
+                getSelectedPeriod: GET_SELECTED_PERIOD,
+                chartData: GET_LINE_CHART_DATA,
             }),
             isActive () {
                 return this.currentActiveButton === this.type;
