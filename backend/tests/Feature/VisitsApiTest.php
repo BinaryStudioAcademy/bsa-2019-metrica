@@ -236,7 +236,10 @@ class VisitsApiTest extends TestCase
 
         $this->actingAs($this->user)
             ->json('POST', $url, $data, $headers)
-            ->assertStatus(200)
-            ->assertJsonStructure([]);
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('visits', [
+            'ip_address' => $ip
+        ]);
     }
 }
