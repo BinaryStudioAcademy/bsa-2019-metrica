@@ -1,11 +1,14 @@
 import {
     SET_SELECTED_PERIOD,
+    SET_GROUPED_PARAMETER,
     SET_ACTIVE_BUTTON,
     SET_BUTTON_FETCHING,
     RESET_BUTTON_FETCHING,
     SET_BUTTON_DATA,
     GET_SELECTED_PERIOD,
-    GET_BUTTON_DATA
+    GET_BUTTON_DATA,
+    SET_TABLE_FETCHING,
+    RESET_TABLE_FETCHING
 } from "./types/mutations";
 
 export default {
@@ -29,5 +32,14 @@ export default {
     },
     [GET_BUTTON_DATA]: (state, type) => {
         return state.buttonData[type];
-    }
+    },
+    [SET_GROUPED_PARAMETER]: (state, parameter) => {
+        state.tableData.groupedParameter = parameter;
+    },
+    [SET_TABLE_FETCHING]: (state) => {
+        state.tableData.isFetching = true;
+    },
+    [RESET_TABLE_FETCHING]: (state) => {
+        state.tableData.isFetching = false;
+    },
 };

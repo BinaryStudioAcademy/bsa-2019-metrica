@@ -37,10 +37,10 @@ class TableVisitorsApiTest extends TestCase
         foreach (self::PARAMETERS as $parameter) {
             $query = [
                 'filter' => [
-                    'start_date' => self::DATE_FROM,
-                    'end_date' => self::DATE_TO
-                ],
-                'parameter' => $parameter
+                    'startDate' => self::DATE_FROM,
+                    'endDate' => self::DATE_TO,
+                    'parameter' => $parameter
+                ]
             ];
 
             $result = $this->actingAs($this->user)
@@ -48,23 +48,22 @@ class TableVisitorsApiTest extends TestCase
                 ->assertStatus(200)
                 ->assertJsonStructure([
                     'data' => [
-                        'visitors' => [
-                            '*' => [
-                                'parameter_value',
-                                'visitors',
-                                'percentage'
-                            ]
+                        '*' => [
+                            'parameter',
+                            'parameter_value',
+                            'total',
+                            'percentage'
                         ]
                     ],
                     'meta' => []
                 ])
-                ->assertJsonCount($this->getAssertedCount($parameter), 'data.visitors')
+                ->assertJsonCount($this->getAssertedCount($parameter), 'data')
                 ->json();
 
             $this->assertNotEmpty($result);
 
             $percentage = 0;
-            foreach ($result['data']['visitors'] as $item) {
+            foreach ($result['data'] as $item) {
                 $percentage += $item['percentage'];
             }
             $this->assertEquals(100, $percentage);
@@ -75,10 +74,10 @@ class TableVisitorsApiTest extends TestCase
     {
         $query = [
             'filter' => [
-                'start_date' => self::DATE_FROM,
-                'end_date' => self::DATE_TO
+                'startDate' => self::DATE_FROM,
+                'endDate' => self::DATE_TO,
+                'parameter' => 'wrong_parameter'
             ],
-            'parameter' => 'wrong_parameter'
         ];
 
         $result = $this->actingAs($this->user)
@@ -90,7 +89,7 @@ class TableVisitorsApiTest extends TestCase
                     ]
                 ])
             ->json();
-        $this->assertEquals('The selected parameter is invalid.', $result['error']['message']);
+        $this->assertEquals('The selected filter.parameter is invalid.', $result['error']['message']);
     }
 
     public function getAssertedCount(String $parameter): int

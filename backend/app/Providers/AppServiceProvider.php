@@ -18,6 +18,7 @@ use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentChartVisitorRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
 use App\Repositories\EloquentButtonDataPageViews;
+use App\Repositories\Contracts\TableNewVisitorsRepository;
 use App\Repositories\EloquentChartVisitorsRepository;
 use App\Repositories\EloquentSessionRepository;
 use App\Repositories\EloquentTableVisitorsRepository;
@@ -28,6 +29,7 @@ use App\Repositories\EloquentVisitorRepository;
 use App\Repositories\EloquentChartVisitRepository;
 use App\Repositories\EloquentChartSessionsRepository;
 use App\Repositories\EloquentWebsiteRepository;
+use App\Repositories\EloquentTableNewVisitorsRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -66,6 +68,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TableVisitRepository::class, EloquentTableVisitRepository::class);
 
         $this->app->bind(ButtonDataPageViews::class, EloquentButtonDataPageViews::class);
+
+        $this->app->bind(TableNewVisitorsRepository::class, EloquentTableNewVisitorsRepository::class);
     }
 
     /**

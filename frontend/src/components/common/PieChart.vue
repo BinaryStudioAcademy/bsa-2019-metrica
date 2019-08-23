@@ -14,7 +14,7 @@
                 height="100%"
                 class="img-card"
             >
-                <Spinner v-if="data.isFetching" />
+                <Spinner v-if="isFetching" />
                 <GChart
                     type="PieChart"
                     :data="chartData"
@@ -81,6 +81,10 @@
             },
             legend: {
                 type: Object,
+                required: true,
+            },
+            isFetching: {
+                type: Boolean,
                 required: true,
             }
         },
