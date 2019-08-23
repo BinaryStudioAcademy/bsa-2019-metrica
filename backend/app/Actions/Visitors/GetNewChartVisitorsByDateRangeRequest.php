@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
 use App\Actions\ChartDataRequest;
-use App\Http\Requests\Api\GetNewChartVisitorsHttpRequest;
+use App\Http\Requests\Visitor\GetNewChartVisitorsHttpRequest;
 
-class GetNewChartVisitorsByDateRangeRequest extends ChartDataRequest
+final class GetNewChartVisitorsByDateRangeRequest extends ChartDataRequest
 {
     public static function fromRequest(GetNewChartVisitorsHttpRequest $request)
     {

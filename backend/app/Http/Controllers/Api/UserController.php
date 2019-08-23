@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\User\UpdateUserAction;
 use App\Actions\User\UpdateUserRequest;
-use App\Http\Requests\UpdateUserHttpRequest;
+use App\Http\Requests\Auth\UpdateUserHttpRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;

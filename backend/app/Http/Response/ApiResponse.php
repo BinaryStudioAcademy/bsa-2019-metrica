@@ -18,6 +18,11 @@ final class ApiResponse extends JsonResponse
         ]);
     }
 
+    public static function emptySuccess(): self
+    {
+        return new static();
+    }
+
     public static function error(ApiExceptionContract $exception): self
     {
         return new static([

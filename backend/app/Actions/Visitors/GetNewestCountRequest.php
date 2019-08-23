@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
 use App\Contracts\Visitors\NewVisitorsCountFilterData;
-use App\Http\Requests\Api\GetNewVisitorCountFilterHttpRequest;
+use App\Http\Requests\Visitor\GetNewVisitorCountFilterHttpRequest;
 use App\Utils\DatePeriod;
 
 final class GetNewestCountRequest

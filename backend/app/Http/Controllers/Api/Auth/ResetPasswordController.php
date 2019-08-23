@@ -6,9 +6,8 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Actions\Auth\ConfirmEmailAction;
 use App\Actions\Auth\ConfirmEmailRequest;
-use App\Exceptions\UserActivatedException;
 use App\Http\Requests\Api\ConfirmEmailHttpRequest;
-use App\Http\Requests\ResetPasswordHttpRequest;
+use App\Http\Requests\Auth\ResetPasswordHttpRequest;
 use App\Http\Controllers\Controller;
 use App\Actions\Auth\SendResetPasswordLinkAction;
 use App\Actions\Auth\ResetPasswordRequest;
