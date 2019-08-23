@@ -3,27 +3,42 @@
 
 namespace App\Actions\Visitors;
 
-use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\VisitorRepository;
+use App\Repositories\Contracts\WebsiteRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Actions\Visitor\CreateVisitorRequest;
 use App\Actions\Visitors\CreateVisitorResponse;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Entities\Visitor;
 
 class CreateVisitorAction
 {
-    private $repository;
+    private $visitorRepository;
+    private $websiteRepository;
 
-    public function __construct(VisitorRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        VisitorRepository $visitorRepository,
+        WebsiteRepository $websiteRepository
+    ) {
+        $this->visitorRepository = $visitorRepository;
+        $this->websiteRepository = $websiteRepository;
     }
 
-    public function execute()
+    public function execute(CreateVisitorRequest $request)
     {
-        $websiteId = Auth::user()->website->id;
+        $websiteId = $this->websiteRepository
+                          ->getByTrackNumber($request->trackNumber())
+                          ->id;
 
-        $visitorId = $this->repository->save($websiteId)->id;
+        $visitorInstance = Visitor::make([
+            'website_id' => $websiteId,
+            'visitor_type'=> ''
+        ]);
+
+        $visitorId = $this->visitorRepository
+                          ->save($visitorInstance)
+                          ->id;
 
         $payload = JWTFactory::customClaims([
             'sub' => env('API_ID'),

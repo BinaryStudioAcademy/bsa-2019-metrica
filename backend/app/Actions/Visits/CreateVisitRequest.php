@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Visits;
+namespace App\Actions\Visitors;
 
 use App\Http\Requests\Visit\CreateVisitHttpRequest;
 

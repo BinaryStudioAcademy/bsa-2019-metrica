@@ -8,6 +8,8 @@ use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\VisitorResource;
 use App\Actions\Visitors\CreateVisitorAction;
+use App\Http\Requests\Visitor\CreateVisitorHttpRequest;
+use App\Actions\Visitor\CreateVisitorRequest;
 
 final class VisitorController extends Controller
 {
@@ -19,9 +21,11 @@ final class VisitorController extends Controller
         $this->createVisitorAction = $createVisitorAction;
     }
 
-    public function createVisitor(): ApiResponse
+    public function createVisitor(CreateVisitorHttpRequest $request): ApiResponse
     {
-        $response = $this->createVisitorAction->execute();
+        $response = $this->createVisitorAction->execute(
+            CreateVisitorRequest::fromRequest($request)
+        );
 
         return ApiResponse::success(new VisitorResource($response->token()))->setStatusCode(201);
     }

@@ -111,22 +111,19 @@ Route::prefix('v1')->group(function () {
     Route::group([
         'namespace' => 'OpenApi'
     ], function () {
+
         Route::group([
             'prefix' => 'visits'
         ], function () {
             Route::post('/', 'VisitController@createVisit');
         });
-    });
 
-    Route::group([
-            'namespace' => 'OpenApi'
+        Route::group([
+            'prefix' => 'visitors'
         ], function () {
-            Route::group([
-                'prefix' => 'visitors'
-            ], function () {
-                Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
-            });
+            Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
         });
+    });
 });
 
 Route::get('/v1/health', function () {

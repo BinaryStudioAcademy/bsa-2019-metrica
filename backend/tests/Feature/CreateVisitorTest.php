@@ -12,7 +12,6 @@ class CreateVisitorTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user;
     private $website;
 
     const VALID_TRACKING_NUMBER = '00000111';
@@ -22,7 +21,7 @@ class CreateVisitorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        factory(User::class)->create();
         $this->website = factory(Website::class)->create([
             'tracking_number' => 111
         ]);
@@ -30,8 +29,7 @@ class CreateVisitorTest extends TestCase
 
     public function test_create_visitor_no_header()
     {
-        $this->actingAs($this->user)
-            ->postJson(self::ENDPOINT)
+        $this->postJson(self::ENDPOINT)
             ->assertStatus(400)
             ->assertJson([
                 'error' => [
@@ -42,22 +40,20 @@ class CreateVisitorTest extends TestCase
 
     public function test_create_visitor_wrong_header()
     {
-        $this->actingAs($this->user)
-            ->postJson(self::ENDPOINT, [], [
+        $this->postJson(self::ENDPOINT, [], [
                 'x-website' => self::INVALID_TRACKING_NUMBER
             ])
-            ->assertStatus(400)
+            ->assertStatus(404)
             ->assertJson([
                 'error' => [
-                    'message' => 'wrong x-website value'
+                    'message' => 'Website not found.'
                 ]
             ]);
     }
 
     public function test_create_visitor_valid_header()
     {
-        $this->actingAs($this->user)
-            ->postJson(self::ENDPOINT, [], [
+        $this->postJson(self::ENDPOINT, [], [
                 'x-website' => self::VALID_TRACKING_NUMBER
             ])
             ->assertStatus(201)

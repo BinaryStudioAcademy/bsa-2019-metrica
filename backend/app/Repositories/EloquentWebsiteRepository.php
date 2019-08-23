@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
-use App\Exceptions\UserWebsiteNotFoundException;
+use App\Exceptions\WebsiteNotFoundException;
 
 final class EloquentWebsiteRepository implements WebsiteRepository
 {
@@ -24,13 +24,12 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         return Website::findOrFail($id);
     }
 
-    public function getCurrentWebsite(): ?Website
+    public function getByTrackNumber(int $trackNumber): ?Website
     {
         try {
-            $websiteId = auth()->user()->website->id;
-            return Website::findOrFail($websiteId);
+            return Website::where('tracking_number', $trackNumber)->firstOrFail();
         } catch (\Exception $e) {
-            throw new UserWebsiteNotFoundException;
+            throw new WebsiteNotFoundException;
         }
     }
 }

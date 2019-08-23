@@ -73,12 +73,4 @@ final class EloquentVisitorRepository implements VisitorRepository
     {
         return Visitor::where('website_id', $websiteId)->get();
     }
-
-    public function save(int $websiteId, string $type = ''): Visitor
-    {
-        return Visitor::create([
-            'website_id' => $websiteId,
-            'visitor_type' => $type
-        ]);
-    }
 }

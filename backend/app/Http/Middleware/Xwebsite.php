@@ -18,14 +18,8 @@ class Xwebsite
 
     public function handle($request, Closure $next)
     {
-        if (!($xWebsite = $request->header('x-website'))) {
+        if (!($trackNumber = (int)$request->header('x-website'))) {
             return ApiResponse::error(new AppException('x-website header is required'));
-        }
-
-        $currentWebsite = $this->repository->getCurrentWebsite();
-
-        if (!($xWebsite === $currentWebsite->tracking_number)) {
-            return ApiResponse::error(new AppException('wrong x-website value'));
         }
 
         return $next($request);
