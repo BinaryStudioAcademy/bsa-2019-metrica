@@ -14,10 +14,13 @@ import {
     SET_BUTTON_FETCHING,
     RESET_TABLE_FETCHING,
     SET_TABLE_FETCHING,
-    //SET_CHART_DATA
+    SET_CHART_DATA,
+    SET_CHART_DATA_FETCHING,
+    RESET_CHART_DATA_FETCHING
 } from "./types/mutations";
 import {getTimeByPeriod} from "../../../services/periodService";
 import {newVisitorsService} from "../../../api/visitors/newVisitorsService";
+import {totalVisitorsService} from "../../../api/visitors/totalVisitorsService";
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -46,16 +49,31 @@ export default {
         }
     },
     [GET_CHART_DATA]: (context) => {
+        context.commit(SET_CHART_DATA_FETCHING);
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
-        return newVisitorsService.fetchButtonValue(startDate, endDate)
+        let newVisitors = 0;
+        let returnVisitors = 0;
+
+        return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
             .then(response => {
-                return response;
-            }).catch((response) => {
+                newVisitors = response.value;
+                totalVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
+                    .then(response => {
+                        returnVisitors = response.value;
+                        newVisitors = (newVisitors/returnVisitors*100);
+                        returnVisitors = 100 - newVisitors;
+                        context.commit(SET_CHART_DATA, {newVisitors, returnVisitors});
+                        context.commit(RESET_CHART_DATA_FETCHING);
+                    }).catch((response) => {
+                        context.commit(RESET_CHART_DATA_FETCHING);
+                        return Promise.reject(response);
+                });
+            })
+            .catch((response) => {
+                context.commit(RESET_CHART_DATA_FETCHING);
                 return Promise.reject(response);
             });
-        //return context.state.selectedPeriod;
-        //context.commit(SET_CHART_DATA);
     },
 };

@@ -40,8 +40,8 @@ export default {
         isFetching: false
     },
     pieChartData: {
-        newVisitors: 50,
-        returnVisitors: 50,
+        newVisitors: 0,
+        returnVisitors: 0,
         isFetching: false
     },
     activeButton: TOTAL_VISITORS,

@@ -100,8 +100,8 @@
             PeriodDropdown,
             ContentLayout
         },
-        created() {
-            this.getChartData().then(e =>  console.log(e));
+        beforeMount: async function() {
+            await this.getChartData().then().catch(e => console.log(e));
         },
         data() {
             return {
@@ -183,7 +183,7 @@
                 return [
                     ['Type', 'Value'],
                     ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors', this.pieChartData.returnVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors],
                 ];
             }
         },
