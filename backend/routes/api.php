@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/register', 'AuthController@register');
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
+        Route::put('/confirm-email','ResetPasswordController@confirmEmail');
         Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:api');
         Route::group(['prefix' => '/social'], function () {
             Route::get('/{provider}/redirect', 'AuthController@redirect');
@@ -90,7 +91,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'SessionController@getSessions');
         });
-          
+
         Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {

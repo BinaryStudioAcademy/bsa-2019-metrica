@@ -8,20 +8,43 @@
             :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
             <VContainer>
-                <div>
-                    <h3> 'hello!'</h3>
-                    <div>Токен {{ $route.params.token }}</div>
-                </div>
+                <VAlert
+                    type="error"
+                    v-if="error"
+                >
+                    Sorry, your token was expired. Please, register again.
+                </VAlert>
             </VContainer>
         </VFlex>
     </VContent>
 </template>
 
 <script>
+    import jwtService from "../../services/jwtService";
+    import requestService from "../../services/requestService";
+    import config from "@/config";
+
+    const resourceUrl = config.getApiUrl()+'/auth/confirm-email';
+
     export default {
         name: "VerifyEmail",
-        data(){
-
+        data() {
+            return {
+                token: '',
+                expr: '',
+                error: false,
+                curTime: ''
+            };
+        },
+        created() {
+            this.token = jwtService.parse(this.$route.query.token);
+            if (this.token.exp < Date.now().valueOf() / 1000) {
+                this.error = true;
+            } else {
+                requestService.update(resourceUrl, {
+                    token: this.$route.query.token
+                }).then(res=>alert(res));
+            }
         }
     };
 </script>

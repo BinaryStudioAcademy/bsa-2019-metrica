@@ -40,7 +40,7 @@ class MailSuccessRegistrationNotification extends Notification implements Should
      */
     public function toMail($notifiable)
     {
-        $link = url("/signup/verify-email/token/{$this->token}");
+        $link = url("/signup/verify-email?token={$this->token}");
         return (new MailMessage)
             ->subject('Confirmation of registration')
             ->line("Dear {$this->user->name},")

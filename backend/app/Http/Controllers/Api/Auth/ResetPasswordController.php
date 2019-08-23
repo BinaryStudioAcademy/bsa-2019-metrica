@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Http\Requests\Api\ConfirmEmailHttpRequest;
 use App\Http\Requests\ResetPasswordHttpRequest;
 use App\Http\Controllers\Controller;
 use App\Actions\Auth\SendResetPasswordLinkAction;
@@ -29,5 +30,10 @@ final class ResetPasswordController extends Controller
         );
 
         return ApiResponse::success(new MessageResource($response));
+    }
+
+    public function confirmEmail(ConfirmEmailHttpRequest $request)
+    {
+        return $request->getToken();
     }
 }

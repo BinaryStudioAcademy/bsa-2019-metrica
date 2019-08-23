@@ -52,9 +52,10 @@ export default new Router({
                     props: true
                 },
                 {
-                    path: 'signup/verify-email/token',
+                    path: 'signup/verify-email/',
                     name: 'verify-email',
-                    component: VerifyEmail
+                    component: VerifyEmail,
+                    props: true
                 },
                 {
                     path: 'signup',

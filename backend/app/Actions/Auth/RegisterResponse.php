@@ -6,15 +6,15 @@ namespace App\Actions\Auth;
 
 final class RegisterResponse
 {
-    private $token;
+    private $email;
 
-    public function __construct(string $token)
+    public function __construct(string $email)
     {
-        $this->token = $token;
+        $this->email = $email;
     }
 
-    public function token(): string
+    public function getEmail(): string
     {
-        return $this->token;
+        return $this->email;
     }
 }
