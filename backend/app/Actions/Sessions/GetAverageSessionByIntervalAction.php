@@ -32,8 +32,7 @@ final class GetAverageSessionByIntervalAction
         try {
             $websiteId = Auth::user()->website->id;
         } catch (\Exception $exception) {
-            //throw new WebsiteNotFoundException();
-            $websiteId = 1;
+            throw new WebsiteNotFoundException();
         }
 
         $interval = $this->getInterval($request->interval());
