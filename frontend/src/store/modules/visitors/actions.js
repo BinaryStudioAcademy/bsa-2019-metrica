@@ -7,6 +7,7 @@ import {
     CHANGE_GROUPED_PARAMETER,
     CHANGE_FETCHED_TABLE_STATE,
     FETCH_TABLE_DATA,
+    FETCH_CHART_PIE_DATA
 } from "./types/actions";
 import {
     SET_SELECTED_PERIOD,
@@ -20,10 +21,15 @@ import {
     SET_LINE_CHART_FETCHING,
     SET_LINE_CHART_DATA,
     SET_TABLE_DATA,
+    SET_CHART_PIE_DATA,
+    SET_CHART_DATA_FETCHING,
+    RESET_CHART_DATA_FETCHING
 } from "./types/mutations";
 
-import { factoryVisitorsService } from '@/api/visitors/factoryVisitorsService';
-import { getTimeByPeriod } from '@/services/periodService';
+import {newVisitorsService} from "@/api/visitors/newVisitorsService";
+import {totalVisitorsService} from "@/api/visitors/totalVisitorsService";
+import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
+import {getTimeByPeriod} from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -98,5 +104,30 @@ export default {
                 context.commit(RESET_TABLE_FETCHING);
                 throw err;
             });
-    }
+    },
+    [FETCH_CHART_PIE_DATA]: (context) => {
+        context.commit(SET_CHART_DATA_FETCHING);
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+        const startDate = period.startDate;
+        const endDate = period.endDate;
+        let newVisitors = 0;
+        let returnVisitors = 0;
+
+        return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
+            .then(response => {
+                newVisitors = response.value;
+               return totalVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
+                    .then(response => {
+                        returnVisitors = response.value;
+                        newVisitors = (newVisitors/returnVisitors*100);
+                        returnVisitors = 100 - newVisitors;
+                        context.commit(SET_CHART_PIE_DATA, {newVisitors, returnVisitors});
+                        context.commit(RESET_CHART_DATA_FETCHING);
+                    });
+            })
+            .catch((response) => {
+                context.commit(RESET_CHART_DATA_FETCHING);
+                return Promise.reject(response);
+            });
+    },
 };
