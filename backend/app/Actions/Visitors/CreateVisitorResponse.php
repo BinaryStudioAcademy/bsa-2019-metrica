@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use App\Entities\Visitor;
-
 final class CreateVisitorResponse
 {
-    private $visitorId;
+    private $token;
 
-    public function __construct(int $visitorId)
+    public function __construct(string $token)
     {
-        $this->visitorId = $visitorId;
+        $this->token = $token;
     }
 
-    public function visitorId(): int
+    public function token(): string
     {
-        return $this->visitorId;
+        return $this->token;
     }
 }

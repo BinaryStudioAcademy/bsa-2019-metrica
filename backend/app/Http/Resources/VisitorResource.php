@@ -14,13 +14,7 @@ final class VisitorResource extends JsonResource implements ApiResponse
     public function toArray($request): array
     {
         return [
-            'id' => $this->resource,
-            'token' => $this->getJWTToken()
+            'token' => $this->resource,
         ];
-    }
-
-    private function getJWTToken(): string
-    {
-        return JWTAuth::fromUser(auth()->user());
     }
 }
