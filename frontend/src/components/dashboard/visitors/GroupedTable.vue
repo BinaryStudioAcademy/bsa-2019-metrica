@@ -73,14 +73,8 @@
             }
         },
         methods: {
-            ...mapActions('visitors', {
-                getTableData: FETCH_TABLE_DATA,
-            }),
             changeSelect () {
                 this.$emit('change', this.selected);
-                this.getTableData({
-                    groupedParameter: this.selected,
-                });
             }
         }
     };
