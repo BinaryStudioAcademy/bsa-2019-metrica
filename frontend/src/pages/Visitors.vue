@@ -31,40 +31,38 @@
                 </VLayout>
             </VFlex>
         </VLayout>
-        <VLayout class="buttons-row">
-            <VFlex
+        <VRow
+            class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
+        >
+            <ButtonComponent
                 v-for="button in buttons"
                 :key="button.title"
-            >
-                <ButtonComponent
-                    :title="button.title"
-                    :active="isButtonActive(button.type)"
-                    :fetching="buttonsData[button.type].isFetching"
-                    :value="buttonsData[button.type].value"
-                    :type="button.type"
-                    :icon-name="button.icon"
-                    @change="changeButton"
-                />
-            </VFlex>
-        </VLayout>
-        <VLayout
+                :title="button.title"
+                :active="isButtonActive(button.type)"
+                :fetching="buttonsData[button.type].isFetching"
+                :value="buttonsData[button.type].value"
+                :type="button.type"
+                :icon-name="button.icon"
+                @change="changeButton"
+            />
+        </VRow>
+        <VRow
+            flex
             wrap
         >
-            <VFlex
+            <VCol
                 lg6
-                md7
+                md-8
                 sm12
-                xs12
                 height="100%"
                 class="img-card"
             >
                 <VisitorsTable />
-            </VFlex>
-            <VFlex
+            </VCol>
+            <VCol
                 lg6
                 md5
                 sm12
-                xs12
                 height="100%"
                 class="img-card"
             >
@@ -73,8 +71,8 @@
                     :legend="legend"
                     :is-fetching="pieChartData.isFetching"
                 />
-            </VFlex>
-        </VLayout>
+            </VCol>
+        </VRow>
     </ContentLayout>
 </template>
 

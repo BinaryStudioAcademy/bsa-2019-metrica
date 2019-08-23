@@ -15,7 +15,7 @@
                 md10
                 sm4
                 height="100%"
-                class="img-card"
+                class="img-card chart-card"
             >
                 <Spinner v-if="isFetching" />
                 <GChart
@@ -33,7 +33,7 @@
             >
                 <VSubheader
                     v-text="legend.title"
-                    class="legend-title text-dark"
+                    class="legend-title text-dark justify-content-center"
                 />
                 <VList>
                     <VListItem
@@ -121,6 +121,10 @@
 <style scoped lang="scss">
 .pie-container {
     background-color: white;
+
+    .chart-card {
+        min-width: 165px;
+    }
 }
 .header {
     align-items: center;
