@@ -32,7 +32,6 @@
                 autocomplete="new-password"
                 v-model="password"
                 :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-                :counter="8"
                 :rules="passwordRules"
                 :type="showPassword ? 'text' : 'password'"
                 @click:append="showPassword = !showPassword"

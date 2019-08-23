@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Visitors;
 
 use App\Actions\ButtonDataRequest;
-use App\Http\Requests\Api\GetButtonCountVisitorsHttpRequest;
+use App\Http\Requests\Visitor\GetButtonCountVisitorsHttpRequest;
 
-class GetButtonCountVisitorsRequest extends ButtonDataRequest
+final class GetButtonCountVisitorsRequest extends ButtonDataRequest
 {
     public static function fromRequest(GetButtonCountVisitorsHttpRequest $request): self
     {

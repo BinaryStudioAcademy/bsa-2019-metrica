@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Repositories;
 
@@ -8,7 +9,7 @@ use App\Repositories\Contracts\ButtonVisitorsRepository;
 use App\Utils\DatePeriod;
 use Carbon\Carbon;
 
-class EloquentButtonVisitorsRepository implements ButtonVisitorsRepository
+final class EloquentButtonVisitorsRepository implements ButtonVisitorsRepository
 {
     public function getVisitorsCount(DatePeriod $period, int $websiteId, int $userId): int
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use App\Http\Requests\Api\GetBounceRateHttpRequest;
+use App\Http\Requests\Visitor\GetBounceRateHttpRequest;
 use App\Utils\DatePeriod;
 
 final class GetBounceRateRequest
