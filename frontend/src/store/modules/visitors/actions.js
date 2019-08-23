@@ -59,20 +59,22 @@ export default {
             return;
         }
         context.commit(SET_LINE_CHART_FETCHING);
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+        const startDate = period.startDate;
+        const endDate = period.endDate;
+        let chartData = [];
 
-        getTimeByPeriod(context.state.selectedPeriod)
-            .then(response => {
-                return factoryVisitorsService.create(context.state.activeButton)
-                    .fetchChartValues(response.startDate, response.endDate, data.groupedParameter);
-            })
-            .then(response => {
-                context.commit(SET_LINE_CHART_DATA, response.data);
-                context.commit(RESET_LINE_CHART_FETCHING);
-            })
-            .catch(err => {
-                context.commit(RESET_LINE_CHART_FETCHING);
-                throw err;
-            });
+        return factoryVisitorsService.create(context.state.activeButton)
+            .fetchChartValues(startDate.unix(), endDate.unix(), data.groupedParameter)
+                .then(response => {
+                    chartData.items = response.data;
+                    context.commit(SET_LINE_CHART_DATA, response.data);
+                    context.commit(RESET_LINE_CHART_FETCHING);
+                })
+                .catch(err => {
+                    context.commit(RESET_LINE_CHART_FETCHING);
+                    throw err;
+                });
     },
     [CHANGE_GROUPED_PARAMETER]: (context, parameter) => {
         context.commit(SET_GROUPED_PARAMETER, parameter);
