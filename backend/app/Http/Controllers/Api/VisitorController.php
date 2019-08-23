@@ -40,7 +40,6 @@ use App\Http\Resources\TableResource;
 use App\Http\Requests\Api\GetTableNewVisitorsByParameterHttpRequest;
 use App\Actions\Visitors\GetNewVisitorsByParameterRequest;
 use App\Http\Resources\VisitorResource;
-use App\Actions\Visitors\CreateVisitorAction;
 
 final class VisitorController extends Controller
 {
@@ -52,7 +51,6 @@ final class VisitorController extends Controller
     private $getVisitorsByParameterAction;
     private $getTotalVisitorsByDateRangeAction;
     private $getNewVisitorsByParameterAction;
-    private $createVisitorAction;
 
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
@@ -62,8 +60,7 @@ final class VisitorController extends Controller
         GetChartTotalVisitorsByDateRangeAction $getTotalVisitorsByDateRangeAction,
         GetButtonCountVisitorsAction $getButtonCountVisitorsAction,
         GetVisitorsByParameterAction $getVisitorsByParameterAction,
-        GetNewVisitorsByParameterAction $getNewVisitorsByParameterAction,
-        CreateVisitorAction $createVisitorAction
+        GetNewVisitorsByParameterAction $getNewVisitorsByParameterAction
     ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
@@ -73,7 +70,6 @@ final class VisitorController extends Controller
         $this->getVisitorsByParameterAction = $getVisitorsByParameterAction;
         $this->getTotalVisitorsByDateRangeAction = $getTotalVisitorsByDateRangeAction;
         $this->getNewVisitorsByParameterAction = $getNewVisitorsByParameterAction;
-        $this->createVisitorAction = $createVisitorAction;
     }
 
     public function getAllVisitors(): ApiResponse
@@ -147,12 +143,5 @@ final class VisitorController extends Controller
             GetNewVisitorsByParameterRequest::fromRequest($request));
 
         return ApiResponse::success(new TableResource($response->visitors()));
-    }
-
-    public function createVisitor(): ApiResponse
-    {
-        $response = $this->createVisitorAction->execute();
-
-        return ApiResponse::success(new VisitorResource($response->visitorId()))->setStatusCode(201);
     }
 }
