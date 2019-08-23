@@ -7,7 +7,10 @@ import {
     SET_TABLE_DATA,
     GET_SELECTED_PERIOD,
     SET_TABLE_FETCHING,
-    RESET_TABLE_FETCHING
+    RESET_TABLE_FETCHING,
+    SET_CHART_PIE_DATA,
+    SET_CHART_DATA_FETCHING,
+    RESET_CHART_DATA_FETCHING
 } from "./types/mutations";
 
 export default {
@@ -37,5 +40,15 @@ export default {
     },
     [RESET_TABLE_FETCHING]: (state) => {
         state.tableData.isFetching = false;
+    },
+    [SET_CHART_PIE_DATA]: (state, {newVisitors, returnVisitors}) => {
+        state.pieChartData.newVisitors = newVisitors;
+        state.pieChartData.returnVisitors = returnVisitors;
+    },
+    [SET_CHART_DATA_FETCHING]: (state) => {
+        state.pieChartData.isFetching = true;
+    },
+    [RESET_CHART_DATA_FETCHING]: (state) => {
+        state.pieChartData.isFetching = false;
     },
 };
