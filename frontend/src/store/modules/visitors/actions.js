@@ -4,6 +4,7 @@ import {
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
     CHANGE_FETCHED_TABLE_STATE,
+    FETCH_TABLE_DATA,
     SET_CHART_PIE_DATA
 } from "./types/actions";
 import {
@@ -14,6 +15,7 @@ import {
     SET_BUTTON_FETCHING,
     RESET_TABLE_FETCHING,
     SET_TABLE_FETCHING,
+    SET_TABLE_DATA,
     SET_CHART_DATA,
     SET_CHART_DATA_FETCHING,
     RESET_CHART_DATA_FETCHING
@@ -21,6 +23,9 @@ import {
 import {getTimeByPeriod} from "../../../services/periodService";
 import {newVisitorsService} from "../../../api/visitors/newVisitorsService";
 import {totalVisitorsService} from "../../../api/visitors/totalVisitorsService";
+
+import factoryVisitorService from '@/api/visitors/factoryVisitorsService';
+import periodService from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -48,6 +53,26 @@ export default {
             context.commit(RESET_TABLE_FETCHING);
         }
     },
+    [FETCH_TABLE_DATA]: (context, data) => {
+        if (!data.value) {
+            return;
+        }
+        context.commit(SET_TABLE_FETCHING);
+
+        periodService.getTimeByPeriod(context.state.selectedPeriod)
+            .then(response => {
+                return factoryVisitorService.create(context.state.activeButton)
+                    .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
+            })
+            .then(response => {
+                context.commit(SET_TABLE_DATA, response.data);
+                context.commit(RESET_TABLE_FETCHING);
+            })
+            .catch(err => {
+                context.commit(RESET_TABLE_FETCHING);
+                throw err;
+            });
+    }
     [SET_CHART_PIE_DATA]: (context) => {
         context.commit(SET_CHART_DATA_FETCHING);
         const period = getTimeByPeriod(context.state.selectedPeriod);
