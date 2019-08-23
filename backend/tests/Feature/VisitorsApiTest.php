@@ -72,8 +72,8 @@ class VisitorsApiTest extends TestCase
         ]);
         $filterData = [
             'filter' => [
-                'startDate' => (string) $secondDate->getTimestamp(),
-                'endDate' => (string) $thirdDate->getTimestamp()
+                'startDate' => (string)$secondDate->getTimestamp(),
+                'endDate' => (string)$thirdDate->getTimestamp()
             ]
         ];
 
@@ -124,11 +124,11 @@ class VisitorsApiTest extends TestCase
         $expectedData = [
             'data' => [
                 [
-                    'date' => (string) $startDate->getTimestamp(),
+                    'date' => (string)$startDate->getTimestamp(),
                     'value' => 0.5,
                 ],
                 [
-                    'date' => (string) ($startDate->getTimestamp() + $anHour),
+                    'date' => (string)($startDate->getTimestamp() + $anHour),
                     'value' => 0.25,
                 ]
             ],
@@ -164,14 +164,14 @@ class VisitorsApiTest extends TestCase
         $thirdDate = new DateTime('@1565734202');
         $filterData = [
             'filter' => [
-                'startDate' => (string) $thirdDate->getTimestamp(),
-                'endDate' => (string) $secondDate->getTimestamp()
+                'startDate' => (string)$thirdDate->getTimestamp(),
+                'endDate' => (string)$secondDate->getTimestamp()
             ]
         ];
 
         $expectedData = [
             'error' => [
-                'message' => 'The filter.end date must be a date after '. $thirdDate->getTimestamp() . '.',
+                'message' => 'The filter.end date must be a date after ' . $thirdDate->getTimestamp() . '.',
             ],
         ];
 
@@ -189,15 +189,15 @@ class VisitorsApiTest extends TestCase
 
         $query = [
             'filter' => [
-                'start_date' => (string) Carbon::yesterday()->subDay()->timestamp,
-                'end_date' => (string) Carbon::today()->timestamp
+                'start_date' => (string)Carbon::yesterday()->subDay()->timestamp,
+                'end_date' => (string)Carbon::today()->timestamp
             ]
         ];
         $endpoint = 'api/v1/visitors/bounce-rate/total';
 
         $expected = [
             'data' => [
-                'bounce_rate' => 1/6 * 100
+                'value' => round(1 / 6 * 100, 2)
             ],
             'meta' => []
         ];

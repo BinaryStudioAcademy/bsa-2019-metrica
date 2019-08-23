@@ -8,6 +8,7 @@ import {
     SET_ACTIVE_BUTTON,
     SET_BUTTON_FETCHING,
     RESET_BUTTON_FETCHING,
+    SET_TABLE_DATA,
     SET_TABLE_FETCHING,
     RESET_TABLE_FETCHING
 } from "./types/mutations";
@@ -39,6 +40,9 @@ export default {
     },
     [SET_GROUPED_PARAMETER]: (state, parameter) => {
         state.tableData.groupedParameter = parameter;
+    },
+    [SET_TABLE_DATA]: (state, value) => {
+        state.tableData.items = value;
     },
     [SET_TABLE_FETCHING]: (state) => {
         state.tableData.isFetching = true;

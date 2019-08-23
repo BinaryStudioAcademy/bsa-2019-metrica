@@ -5,7 +5,8 @@ import {
     CHANGE_FETCHED_LINE_CHART_STATE,
     FETCH_LINE_CHART_DATA,
     CHANGE_GROUPED_PARAMETER,
-    CHANGE_FETCHED_TABLE_STATE
+    CHANGE_FETCHED_TABLE_STATE,
+    FETCH_TABLE_DATA,
 } from "./types/actions";
 import {
     SET_SELECTED_PERIOD,
@@ -18,9 +19,10 @@ import {
     RESET_LINE_CHART_FETCHING,
     SET_LINE_CHART_FETCHING,
     SET_LINE_CHART_DATA,
+    SET_TABLE_DATA,
 } from "./types/mutations";
 
-import factoryVisitorService from '@/api/visitors/factoryVisitorsService';
+import { factoryVisitorsService } from '@/api/visitors/factoryVisitorsService';
 import { getTimeByPeriod } from '@/services/periodService';
 
 export default {
@@ -54,7 +56,7 @@ export default {
 
         getTimeByPeriod(context.state.selectedPeriod)
             .then(response => {
-                return factoryVisitorService.create(context.state.activeButton)
+                return factoryVisitorsService.create(context.state.activeButton)
                     .fetchChartValues(response.startDate, response.endDate, data.groupedParameter);
             })
             .then(response => {
@@ -77,4 +79,24 @@ export default {
             context.commit(RESET_TABLE_FETCHING);
         }
     },
+    [FETCH_TABLE_DATA]: (context, data) => {
+        if (!data.value) {
+            return;
+        }
+        context.commit(SET_TABLE_FETCHING);
+
+        getTimeByPeriod(context.state.selectedPeriod)
+            .then(response => {
+                return factoryVisitorsService.create(context.state.activeButton)
+                    .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
+            })
+            .then(response => {
+                context.commit(SET_TABLE_DATA, response.data);
+                context.commit(RESET_TABLE_FETCHING);
+            })
+            .catch(err => {
+                context.commit(RESET_TABLE_FETCHING);
+                throw err;
+            });
+    }
 };
