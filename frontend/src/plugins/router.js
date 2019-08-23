@@ -16,6 +16,8 @@ import Default from '@/components/layout/Default.vue';
 import UserDataProviderPage from '../pages/UserDataProviderPage.vue';
 import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
 import SocialAuthPage from '@/pages/SocialAuthPage.vue';
+import PageViews from "../pages/PageViews.vue";
+import Audience from "../pages/Audience.vue";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -82,12 +84,13 @@ export default new Router({
                                     },
                                 },
                                 {
-                                    path: 'visitors',
-                                    component: Visitors,
+                                    path: 'audience',
+                                    component: Audience,
                                     children: [
                                         {
-                                            path: 'main',
+                                            path: 'visitors',
                                             name: 'visitors',
+                                            component: Visitors,
                                             meta: {
                                                 title: 'Visitors'
                                             },
@@ -95,6 +98,7 @@ export default new Router({
                                         {
                                             path: 'page-views',
                                             name: 'page-views',
+                                            component: PageViews,
                                             meta: {
                                                 title: 'Page views'
                                             },

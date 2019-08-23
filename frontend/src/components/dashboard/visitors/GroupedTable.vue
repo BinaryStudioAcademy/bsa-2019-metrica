@@ -33,7 +33,7 @@
             hide-default-footer
             hide-default-header
             :headers="headers"
-            :items="tableData"
+            :items="items"
         />
     </VContainer>
 </template>
@@ -63,11 +63,6 @@
                     { text: '', align: 'center', value: 'percentage' },
                 ],
             };
-        },
-        computed: {
-            tableData () {
-                return this.items;
-            }
         },
         methods: {
             changeSelect () {
