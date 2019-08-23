@@ -6,11 +6,14 @@
         >
             Summary
         </VSubheader>
-        <VLayout class="pie-container position-relative">
+        <VLayout
+            class="pie-container position-relative"
+            wrap
+        >
             <VFlex
                 lg4
-                md4
-                hidden-sm-and-down
+                md10
+                sm4
                 height="100%"
                 class="img-card"
             >
@@ -22,9 +25,9 @@
                 />
             </VFlex>
             <VFlex
-                lg5
-                md5
-                hidden-sm-and-down
+                lg6
+                md10
+                sm6
                 height="100%"
                 class="img-card"
             >

@@ -39,20 +39,24 @@
                 />
             </VFlex>
         </VLayout>
-        <VLayout>
+        <VLayout
+            wrap
+        >
             <VFlex
                 lg6
-                md6
-                hidden-sm-and-down
+                md7
+                sm12
+                xs12
                 height="100%"
                 class="img-card"
             >
                 <VisitorsTable />
             </VFlex>
             <VFlex
-                lg5
+                lg6
                 md5
-                hidden-sm-and-down
+                sm12
+                xs12
                 height="100%"
                 class="img-card"
             >
