@@ -1,5 +1,9 @@
 import {
     SET_SELECTED_PERIOD,
+    SET_LINE_CHART_DATA,
+    GET_SELECTED_PERIOD,
+    SET_LINE_CHART_FETCHING,
+    RESET_LINE_CHART_FETCHING,
     SET_GROUPED_PARAMETER,
     SET_ACTIVE_BUTTON,
     SET_BUTTON_FETCHING,
@@ -36,6 +40,15 @@ export default {
     },
     [GET_BUTTON_DATA]: (state, type) => {
         return state.buttonData[type];
+    },
+    [SET_LINE_CHART_DATA]: (state, value) => {
+        state.chartData.items = value;
+    },
+    [SET_LINE_CHART_FETCHING]: (state) => {
+        state.chartData.isFetching = true;
+    },
+    [RESET_LINE_CHART_FETCHING]: (state) => {
+        state.chartData.isFetching = false;
     },
     [SET_GROUPED_PARAMETER]: (state, parameter) => {
         state.tableData.groupedParameter = parameter;
