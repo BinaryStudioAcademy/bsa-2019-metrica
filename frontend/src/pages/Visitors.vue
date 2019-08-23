@@ -179,10 +179,10 @@
                 return [
                     ['Type', 'Value'],
                     ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors', this.pieChartData.returnVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors],
                 ];
             }
-        }
+        },
     };
 </script>
 
