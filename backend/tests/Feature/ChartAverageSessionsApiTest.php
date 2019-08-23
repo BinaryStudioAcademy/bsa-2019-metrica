@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ChartSessionsApiTest extends TestCase
+class ChartAverageSessionsApiTest extends TestCase
 {
     use RefreshDatabase;
 
