@@ -17,7 +17,7 @@ import {
     SET_TABLE_DATA,
 } from "./types/mutations";
 
-import factoryVisitorService from '@/services/visitors/factoryVisitorsService';
+import factoryVisitorService from '@/api/visitors/factoryVisitorsService';
 import periodService from '@/services/periodService';
 
 export default {
