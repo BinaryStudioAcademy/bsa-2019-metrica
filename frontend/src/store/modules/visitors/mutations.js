@@ -4,7 +4,8 @@ import {
     SET_BUTTON_FETCHING,
     RESET_BUTTON_FETCHING,
     SET_BUTTON_DATA,
-    GET_SELECTED_PERIOD
+    GET_SELECTED_PERIOD,
+    GET_BUTTON_DATA
 } from "./types/mutations";
 
 export default {
@@ -25,5 +26,8 @@ export default {
     },
     [GET_SELECTED_PERIOD]: (state) => {
         return state.selectedPeriod;
+    },
+    [GET_BUTTON_DATA]: (state, type) => {
+        return state.buttonData[type];
     }
 };

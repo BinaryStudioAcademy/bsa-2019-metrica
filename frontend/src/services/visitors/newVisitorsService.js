@@ -27,7 +27,7 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[end_date]': endDate,
         'parameter': groupBy
     }).then(response => response.data.visitors.map(tableTransformer.bind(null, groupBy)))
-        .catch(err => alert(err));
+        .catch(err => throw err);
 };
 
 const newVisitorsService = {
