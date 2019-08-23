@@ -5,3 +5,5 @@ export const FETCH_BUTTON_DATA = 'fetchButtonData';
 export const GET_EACH_BUTTON_DATA = 'getEachButtonData';
 export const CHANGE_GROUPED_PARAMETER = 'changeGroupedParameter';
 export const CHANGE_FETCHED_TABLE_STATE = 'changeFetchedTableState';
+export const FETCH_CHART_PIE_DATA = 'fetchChartPieData';
+export const FETCH_TABLE_DATA = 'fetchTableData';
