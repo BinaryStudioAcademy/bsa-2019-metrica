@@ -7,7 +7,7 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
+final class GetTableNewVisitorsByParameterHttpRequest extends ApiFormRequest
 {
     public function rules()
     {

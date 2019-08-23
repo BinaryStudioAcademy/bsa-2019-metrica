@@ -18,7 +18,7 @@
                 />
             </VCol>
             <VCol>
-                <slot name="title">
+                <slot name="total">
                     Users
                 </slot>
             </VCol>

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 final class GetVisitorsByParameterResponse
 {
