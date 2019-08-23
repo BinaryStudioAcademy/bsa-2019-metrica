@@ -56,7 +56,6 @@ Route::prefix('v1')->group(function () {
             Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
             Route::get('/new-visitors-table', 'VisitorController@getNewVisitorsForTableByParameter');
-            Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
         });
 
         Route::group([
@@ -108,6 +107,17 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
     });
+
+        Route::group([
+            'namespace' => 'OpenApi'
+        ], function () {
+            Route::group([
+                'prefix' => 'visitors'
+            ], function () {
+                Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
+            });
+        });
+
 });
 
 Route::get('/v1/health', function () {
