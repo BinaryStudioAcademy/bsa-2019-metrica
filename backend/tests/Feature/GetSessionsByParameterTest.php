@@ -15,7 +15,6 @@ class GetSessionsByParameterTest extends TestCase
     private $user;
     private $from;
     private $to;
-    private $query;
 
     public function setUp(): void
     {
