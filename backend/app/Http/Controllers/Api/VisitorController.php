@@ -116,7 +116,7 @@ final class VisitorController extends Controller
             GetBounceRateRequest::fromRequest($request)
         );
 
-        return ApiResponse::success(new BounceRateResource($response));
+        return ApiResponse::success(new ButtonResource($response));
     }
 
     public function getVisitorsByParameter(GetTableVisitorsByParameterHttpRequest $request): ApiResponse

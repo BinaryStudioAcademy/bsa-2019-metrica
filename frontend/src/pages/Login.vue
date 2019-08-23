@@ -58,9 +58,11 @@
         methods: {
             onSuccess() {
                 if (this.redirectTo) {
-                    this.$router.replace({path: this.redirectTo});
+                    this.$router.replace({path: this.redirectTo})
+                        .catch(() => {});
                 } else {
-                    this.$router.replace({name: 'dashboard'});
+                    this.$router.replace({name: 'dashboard'})
+                        .catch(() => {});
                 }
             },
         },

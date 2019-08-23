@@ -3,7 +3,7 @@
         class="position-relative"
     >
         <Spinner
-            v-if="data.isFetching"
+            v-if="isFetching"
         />
         <VFlex
             v-if="!this.data.length"
@@ -38,6 +38,10 @@
             data: {
                 type: Array,
                 required: true
+            },
+            isFetching: {
+                type: Boolean,
+                required: true,
             }
         },
 

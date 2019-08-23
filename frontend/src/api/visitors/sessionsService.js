@@ -10,8 +10,15 @@ const fetchButtonValue = (startDate, endDate) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
-        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
-            'Something went wrong with getting sessions')));
+        .catch(error => Promise.reject(
+            new Error(
+                _.get(
+                    error,
+                    'response.data.error.message',
+                    'Something went wrong with getting sessions'
+                )
+            )
+        ));
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
@@ -20,8 +27,15 @@ const fetchChartValues = (startDate, endDate, interval) => {
         'filter[endDate]': endDate,
         'filter[period]': interval
     }).then(response => response.data.map(chartTransformer))
-        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
-            'Something went wrong with getting new visitors')));
+        .catch(error => Promise.reject(
+            new Error(
+                _.get(
+                    error,
+                    'response.data.error.message',
+                    'Something went wrong with getting sessions'
+                )
+            )
+        ));
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
@@ -30,14 +44,19 @@ const fetchTableValues = (startDate, endDate, groupBy) => {
         'filter[endDate]': endDate,
         'filter[parameter]': groupBy
     }).then(response => response.data.map(tableTransformer))
-        .catch(error => throw new Error(_.get(error, 'response.data.error.message',
-            'Something went wrong with getting new visitors')));
+        .catch(error => Promise.reject(
+            new Error(
+                _.get(
+                    error,
+                    'response.data.error.message',
+                    'Something went wrong with getting sessions'
+                )
+            )
+        ));
 };
 
-const sessionsService = {
+export const sessionsService = {
     fetchButtonValue,
     fetchChartValues,
     fetchTableValues
 };
-
-export default sessionsService;

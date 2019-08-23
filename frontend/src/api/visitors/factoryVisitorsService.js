@@ -6,12 +6,12 @@ import {
     SESSIONS,
     TOTAL_VISITORS
 } from "@/configs/visitors/buttonTypes";
-import totalVisitorsService from "./totalVisitorsService";
-import newVisitorsService from "./newVisitorsService";
-import bounceRateService from "./bounceRateService";
-import averageSessionService from "./averageSessionsService";
-import sessionsService from "./sessionsService";
-import visitsService from "./visitsService";
+import {totalVisitorsService} from "./totalVisitorsService";
+import {newVisitorsService} from "./newVisitorsService";
+import {bounceRateService} from "./bounceRateService";
+import {averageSessionService} from "./averageSessionsService";
+import {sessionsService} from "./sessionsService";
+import {visitsService} from "./visitsService";
 
 const create = (type) => {
     switch (type) {
@@ -30,8 +30,6 @@ const create = (type) => {
     }
 };
 
-const factoryVisitorsService = {
+export const factoryVisitorsService = {
     create
 };
-
-export default factoryVisitorsService;
