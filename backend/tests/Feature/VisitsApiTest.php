@@ -11,14 +11,20 @@ use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Entities\Website;
 use DateTime;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTFactory;
 
 class VisitsApiTest extends TestCase
 {
     use RefreshDatabase;
 
     private $user;
+    private $visitor;
+    private $page;
+    private $system;
     private $url = 'api/v1/chart-visits/';
 
     protected function setUp(): void
@@ -26,10 +32,10 @@ class VisitsApiTest extends TestCase
         parent::setUp();
         $this->user = factory(User::class)->create();
         factory(Website::class)->create();
-        factory(Visitor::class)->create();
-        factory(Page::class)->create();
+        $this->visitor = factory(Visitor::class)->create();
+        $this->page = factory(Page::class)->create();
         factory(GeoPosition::class)->create();
-        factory(System::class)->create();
+        $this->system = factory(System::class)->create();
         factory(Session::class)->create();
     }
 
@@ -197,5 +203,43 @@ class VisitsApiTest extends TestCase
             ->call('GET', $this->url, $filterData)
             ->assertStatus(400)
             ->assertJson($expectedData);
+    }
+
+    public function testCreateVisitAction()
+    {
+        $faker = Factory::create();
+        $language = $faker->languageCode;
+        $userAgent = $faker->userAgent;
+        $ip = $faker->ipv4;
+        $payload = JWTFactory::customClaims([
+            'sub' => env('API_ID'),
+            'visitor_id' => $this->visitor->id
+        ])->make();
+        $token = JWTAuth::encode($payload);
+
+        $data = [
+            'page' => $this->page->url,
+            'page_title' => $this->page->name,
+            'language' => $language,
+            'device' => $this->system->device,
+            'resolution_width' => $this->system->resolution_width,
+            'resolution_height' => $this->system->resolution_height
+        ];
+
+        $headers = [
+            'User-Agent' => $userAgent,
+            'REMOTE_ADDR' => $ip,
+            'X-Visitor' => 'Bearer ' . $token
+        ];
+
+        $url = 'api/v1/visits/';
+
+        $this->actingAs($this->user)
+            ->json('POST', $url, $data, $headers)
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('visits', [
+            'ip_address' => $ip
+        ]);
     }
 }

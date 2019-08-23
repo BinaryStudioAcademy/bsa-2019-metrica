@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
@@ -7,7 +8,7 @@ use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\ButtonVisitorsRepository;
 use Illuminate\Support\Facades\Auth;
 
-class GetButtonCountVisitorsAction
+final class GetButtonCountVisitorsAction
 {
     private $repository;
 
@@ -20,6 +21,6 @@ class GetButtonCountVisitorsAction
     {
         $websiteId = Auth::user()->website->id;
         $count = $this->repository->getVisitorsCount($request->period(), $websiteId, Auth::user()->id);
-        return new ButtonValue($count);
+        return new ButtonValue((string) $count);
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -63,6 +64,10 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof AuthenticationException) {
             return ApiResponse::error(new UnauthenticatedException());
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return ApiResponse::error(new EndpointNotFoundException());
         }
 
         return parent::render($request, $exception);

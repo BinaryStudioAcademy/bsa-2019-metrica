@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
 use Illuminate\Support\Collection;
 
-class GetNewChartVisitorsByDateRangeResponse
+final class GetNewChartVisitorsByDateRangeResponse
 {
     private $visitorsByDateRange;
 
