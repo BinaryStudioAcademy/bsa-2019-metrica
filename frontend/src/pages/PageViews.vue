@@ -44,7 +44,7 @@
                     >
                         <ButtonComponent
                             :title="button.title"
-                            :active="isActive"
+                            :active="isButtonActive(button.type)"
                             :fetching="buttonsData[button.type].isFetching"
                             :value="buttonsData[button.type].value"
                             :type="button.type"
@@ -65,7 +65,6 @@
             >
                 <GroupedTable
                     :items="tableData"
-                    @change="changeTable"
                 />
             </VFlex>
         </VLayout>
@@ -188,9 +187,6 @@
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
             }),
-            isActive () {
-                return this.currentActiveButton === this.type;
-            },
             buttonData () {
                 return this.buttonsData[this.type];
             }
@@ -209,17 +205,16 @@
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD
             }),
             changeButton (data) {
                 this.changeActiveButton(data);
             },
-            changeTable (parameter) {
-                this.items = this.tableItems[parameter];
-            },
             changePeriod(data) {
                 this.changeSelectedPeriod(data);
+            },
+            isButtonActive(type) {
+                return this.currentActiveButton === type;
             }
         }
     };

@@ -38,7 +38,7 @@
             >
                 <ButtonComponent
                     :title="button.title"
-                    :active="isActive"
+                    :active="isButtonActive(button.type)"
                     :fetching="buttonsData[button.type].isFetching"
                     :value="buttonsData[button.type].value"
                     :type="button.type"
@@ -201,9 +201,6 @@
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
             }),
-            isActive () {
-                return this.currentActiveButton === this.type;
-            },
             buttonData () {
                 return this.buttonsData[this.type];
             }
@@ -236,6 +233,9 @@
             },
             getPieData(){
                 return this.pieChartData;
+            },
+            isButtonActive(type) {
+                return this.currentActiveButton === type;
             }
         },
     };
