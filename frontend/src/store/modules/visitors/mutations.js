@@ -1,11 +1,16 @@
 import {
     SET_SELECTED_PERIOD,
+    SET_LINE_CHART_DATA,
+    GET_SELECTED_PERIOD,
+    SET_LINE_CHART_FETCHING,
+    RESET_LINE_CHART_FETCHING,
     SET_GROUPED_PARAMETER,
     SET_ACTIVE_BUTTON,
     SET_BUTTON_FETCHING,
     RESET_BUTTON_FETCHING,
+    SET_BUTTON_DATA,
+    GET_BUTTON_DATA,
     SET_TABLE_DATA,
-    GET_SELECTED_PERIOD,
     SET_TABLE_FETCHING,
     RESET_TABLE_FETCHING,
     SET_CHART_PIE_DATA,
@@ -26,8 +31,23 @@ export default {
     [RESET_BUTTON_FETCHING]: (state, button) => {
         state.buttonData[button].isFetching = false;
     },
+    [SET_BUTTON_DATA]: (state, button, value) => {
+        state.buttonData[button].value = value;
+    },
     [GET_SELECTED_PERIOD]: (state) => {
         return state.selectedPeriod;
+    },
+    [GET_BUTTON_DATA]: (state, type) => {
+        return state.buttonData[type];
+    },
+    [SET_LINE_CHART_DATA]: (state, value) => {
+        state.chartData.items = value;
+    },
+    [SET_LINE_CHART_FETCHING]: (state) => {
+        state.chartData.isFetching = true;
+    },
+    [RESET_LINE_CHART_FETCHING]: (state) => {
+        state.chartData.isFetching = false;
     },
     [SET_GROUPED_PARAMETER]: (state, parameter) => {
         state.tableData.groupedParameter = parameter;

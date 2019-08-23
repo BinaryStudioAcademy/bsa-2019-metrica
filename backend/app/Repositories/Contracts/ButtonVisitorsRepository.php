@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Repositories\Contracts;
 
 use App\Utils\DatePeriod;

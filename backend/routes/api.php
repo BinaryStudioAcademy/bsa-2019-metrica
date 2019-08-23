@@ -109,6 +109,16 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group([
+        'namespace' => 'OpenApi'
+    ], function () {
+        Route::group([
+            'prefix' => 'visits'
+        ], function () {
+            Route::post('/', 'VisitController@createVisit');
+        });
+    });
+
+    Route::group([
             'namespace' => 'OpenApi'
         ], function () {
             Route::group([
