@@ -14,7 +14,7 @@ import {
     GET_BUTTON_DATA
 } from "./types/mutations";
 
-import factoryVisitorService from '@/services/visitors/factoryVisitorsService';
+import factoryVisitorService from '../../../services/visitors/factoryVisitorsService';
 import periodService from '@/services/periodService';
 import buttonTypes from '@/configs/visitors/buttonTypes';
 
