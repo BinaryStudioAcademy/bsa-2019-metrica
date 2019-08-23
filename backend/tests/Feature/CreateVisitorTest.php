@@ -64,7 +64,6 @@ class CreateVisitorTest extends TestCase
             ->assertStatus(201)
             ->assertJsonStructure([
                 'data' => [
-                    'id',
                     'token'
                 ],
                 'meta' => []
