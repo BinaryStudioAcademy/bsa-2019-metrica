@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
-interface TableVisitorsRepository
+interface TableNewVisitorsRepository
 {
     public function groupByCity(int $website_id, string $from, string $to): Collection;
 
