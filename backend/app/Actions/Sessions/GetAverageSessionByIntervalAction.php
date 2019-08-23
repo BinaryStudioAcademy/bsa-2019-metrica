@@ -105,16 +105,36 @@ final class GetAverageSessionByIntervalAction
     ) {
         $sessionStart = $session->getStartSession()->getTimestamp();
         $sessionEnd = $session->getEndSession()->getTimestamp();
-        if ($sessionStart < $date && $sessionEnd >= $date && $sessionEnd <= $intervalEndDate) {
+        if ($this->isSessionEndInInterval($sessionStart, $sessionEnd, $date, $intervalEndDate)) {
             $carry += $sessionEnd - $date;
-        } elseif ($sessionStart >= $date && $sessionEnd <= $intervalEndDate) {
+        } elseif ($this->isSessionInInterval($sessionStart, $sessionEnd, $date, $intervalEndDate)) {
             $carry += $sessionEnd - $sessionStart;
-        } elseif ($sessionStart >= $date && $sessionEnd > $intervalEndDate) {
+        } elseif ($this->isSessionStartInInterval($sessionStart, $sessionEnd, $date, $intervalEndDate)) {
             $carry += $intervalEndDate - $sessionStart;
-        } elseif ($sessionStart <= $date && $sessionEnd >= $intervalEndDate) {
+        } elseif ($this->isSessionActiveDuringInterval($sessionStart, $sessionEnd, $date, $intervalEndDate)) {
             $carry += $intervalEndDate - $date;
         }
 
         return $carry;
+    }
+
+    private function isSessionEndInInterval(int $sessionStart, int $sessionEnd, int $date, int $intervalEndDate)
+    {
+        return $sessionStart < $date && $sessionEnd >= $date && $sessionEnd <= $intervalEndDate;
+    }
+
+    private function isSessionInInterval(int $sessionStart, int $sessionEnd, int $date, int $intervalEndDate)
+    {
+        return $sessionStart >= $date && $sessionEnd <= $intervalEndDate;
+    }
+
+    private function isSessionStartInInterval(int $sessionStart, int $sessionEnd, int $date, int $intervalEndDate)
+    {
+        return $sessionStart >= $date && $sessionEnd > $intervalEndDate;
+    }
+
+    private function isSessionActiveDuringInterval(int $sessionStart, int $sessionEnd, int $date, int $intervalEndDate)
+    {
+        return $sessionStart <= $date && $sessionEnd >= $intervalEndDate;
     }
 }
