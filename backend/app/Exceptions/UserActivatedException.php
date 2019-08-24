@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 
 class UserActivatedException extends \Exception implements ApiException
 {
-    protected $message = "This account has already activated";
+    protected $message = "This account has been already activated";
 
     public function __construct($message = "", $code = 0, \Throwable $previous = null)
     {

@@ -23,9 +23,9 @@ final class ConfirmEmailAction
         }
         if ((bool)$user->is_activate) {
             throw new UserActivatedException("This account has already activated");
-        } else {
-            $this->repository->activateUser($user->email);
-            return new ConfirmEmailResponse();
         }
+        $this->repository->activateUser($user->email);
+        return new ConfirmEmailResponse();
+
     }
 }

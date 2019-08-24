@@ -8,7 +8,6 @@
             :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
         >
             <VContainer>
-                {{ errMsg }}
                 <VAlert
                     type="error"
                     v-if="error"
@@ -35,8 +34,7 @@
             };
         },
         created() {
-            let token = jwtService.parse(this.$route.query.token);
-            if (token.exp < Date.now().valueOf() / 1000) {
+            if(jwtService.checkExpireToken(this.$route.query.token)){
                 this.error = true;
             } else {
                 confirmEmail({
