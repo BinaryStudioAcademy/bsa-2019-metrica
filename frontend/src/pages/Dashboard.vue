@@ -10,9 +10,7 @@
                 hidden-sm-and-down
                 height="100%"
                 class="img-card"
-            >
-                <VisitorsTable />
-            </VFlex>
+            />
             <VFlex
                 lg5
                 md5
@@ -48,25 +46,52 @@
         },
         data () {
             return {
-                devicesPieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 49],
-                ],
+                data: [],
+                period: '',
+                devicesPieData: {
+                    system: [
+                        ['Type', 'Value'],
+                        ['New Visitors', 20],
+                        ['Return Visitors', 60],
+                    ],
+                    device: [
+                        ['Type', 'Value'],
+                        ['New Visitors', 30],
+                        ['Return Visitors', 50],
+                    ],
+                    isFetching: true,
+                },
                 devicesLegend: {
-                    title: 'Outcome',
-                    data: {
-                        newVisitors: {
-                            title: 'New Visitors',
-                            percentageDiff: 41,
-                            color: '#3C57DE',
-                        },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: 49,
-                            color: '#1BC3DA',
-                        },
-                    }
+                    system: {
+                        title: 'System',
+                        data: {
+                            newVisitors: {
+                                title: 'New Visitors',
+                                percentageDiff: 41,
+                                color: '#3C57DE',
+                            },
+                            returnVisitors: {
+                                title: 'Return Visitors',
+                                percentageDiff: 49,
+                                color: '#1BC3DA',
+                            },
+                        }
+                    },
+                    device: {
+                        title: 'Device',
+                        data: {
+                            newVisitors: {
+                                title: 'New Visitors',
+                                percentageDiff: 41,
+                                color: '#F03357',
+                            },
+                            returnVisitors: {
+                                title: 'Return Visitors',
+                                percentageDiff: 49,
+                                color: '#FFD954',
+                            },
+                        }
+                    },
                 }
             };
         },

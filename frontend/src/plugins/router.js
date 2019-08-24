@@ -4,7 +4,6 @@ import Login from '../pages/Login.vue';
 import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
 import SignUp from "../pages/SignUp.vue";
-import Dashboard from '@/pages/Dashboard.vue';
 import UserUpdate from '../pages/UpdateProfile.vue';
 import AddWebsitePage from '../pages/AddWebsitePage.vue';
 import Visitors from "../pages/Visitors.vue";
@@ -19,7 +18,7 @@ import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
 import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 import PageViews from "../pages/PageViews.vue";
 import Audience from "../pages/Audience.vue";
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "@/pages/Dashboard";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
