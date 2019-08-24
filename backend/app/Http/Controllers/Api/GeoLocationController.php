@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Actions\GeoLocation\GetAllVisitorsCountAction;
 use App\Actions\GeoLocation\GetAllVisitorsCountRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\GeoLocationHttpRequest;
+use App\Http\Requests\GeoLocation\GeoLocationHttpRequest;
 use App\Http\Resources\GeoLocationResource;
 use App\Http\Resources\TableResource;
 use App\Http\Response\ApiResponse;
