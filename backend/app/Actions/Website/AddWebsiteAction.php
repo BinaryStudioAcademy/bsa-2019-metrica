@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Website;
@@ -8,7 +9,7 @@ use App\Repositories\Contracts\WebsiteRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class AddWebsiteAction
+final class AddWebsiteAction
 {
     private $websiteRepository;
 

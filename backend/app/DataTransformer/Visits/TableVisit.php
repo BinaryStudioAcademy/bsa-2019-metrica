@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\DataTransformer\Visits;
 
 use App\Contracts\TableValue;
+use App\DataTransformer\Traits\TableValueTrait;
 
 final class TableVisit implements TableValue
 {
+    use TableValueTrait;
+
     private $parameter;
     private $parameterValue;
     private $total;
@@ -23,25 +26,5 @@ final class TableVisit implements TableValue
         $this->parameterValue = $parameterValue;
         $this->total = $total;
         $this->percentage = $percentage;
-    }
-
-    public function parameter(): string
-    {
-        return $this->parameter;
-    }
-
-    public function parameterValue(): string
-    {
-        return $this->parameterValue;
-    }
-
-    public function total(): string
-    {
-        return $this->total;
-    }
-
-    public function percentage(): float
-    {
-        return $this->percentage;
     }
 }

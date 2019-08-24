@@ -14,6 +14,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class Session
+ * @package App\Entities
+ * @property int $id
+ * @property Carbon $start_session
+ * @property Carbon $end_session
+ * @property Visitor $visitor
+ * @property int $visitor_id
+ * @property Page $page
+ * @property int $entrance_page_id
+ * @property string $language
+ * @property System $system
+ * @property int $system_id
+ * @property Website $website
+ * @property int $website_id
+ */
 final class Session extends Model
 {
     protected $fillable = [

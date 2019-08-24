@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
-use App\Http\Requests\Api\GetVisitorsBounceRateHttpRequest;
+use App\Http\Requests\Visitor\GetVisitorsBounceRateHttpRequest;
 use App\Model\Visitors\VisitorsBounceRateFilterData;
 use App\Utils\DatePeriod;
 

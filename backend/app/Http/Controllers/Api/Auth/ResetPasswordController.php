@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Requests\ResetPasswordHttpRequest;
+use App\Http\Requests\Auth\ResetPasswordHttpRequest;
 use App\Http\Controllers\Controller;
 use App\Actions\Auth\SendResetPasswordLinkAction;
 use App\Actions\Auth\ResetPasswordRequest;

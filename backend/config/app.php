@@ -141,6 +141,8 @@ return [
          * Package Service Providers...
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Torann\GeoIP\GeoIPServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -198,5 +200,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
     ],
 ];

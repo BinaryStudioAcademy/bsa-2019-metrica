@@ -8,18 +8,16 @@ use App\Actions\Visits\GetPageViewsByParameterAction;
 use App\Actions\Visits\GetPageViewsByParameterRequest;
 use App\Actions\Visits\GetPageViewsCountAction;
 use App\Actions\Visits\GetPageViewsCountRequest;
+use App\Actions\Visits\CreateVisitAction;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
-use App\Contracts\ChartValue;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\GetPageViewsCountFilterHttpRequest;
-use App\Http\Requests\Api\GetPageViewsFilterHttpRequest;
-use App\Http\Requests\Api\GetTableVisitsByParameterHttpRequest;
-use App\Http\Resources\ButtonResource;
+use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 use App\Http\Resources\ChartResource;
+use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
+use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
+use App\Http\Resources\ButtonResource;
 use App\Http\Resources\TableResource;
-use App\Http\Resources\VisitCountResource;
-use App\Http\Resources\VisitResource;
 use App\Http\Response\ApiResponse;
 
 final class VisitController extends Controller
@@ -27,15 +25,18 @@ final class VisitController extends Controller
     private $getPageViewsAction;
     private $getPageViewsByParameterAction;
     private $getPageViewsCountAction;
+    private $createVisitAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
-        GetPageViewsCountAction $getPageViewsCountAction
+        GetPageViewsCountAction $getPageViewsCountAction,
+        CreateVisitAction $createVisitAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
+        $this->createVisitAction = $createVisitAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
