@@ -22,13 +22,10 @@
 
 <script>
     import jwtService from "@/services/jwtService";
-    import requestService from "@/services/requestService";
-    import config from "@/config";
     import {mapActions} from 'vuex';
     import {SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import _ from 'lodash';
-
-    const resourceUrl = config.getApiUrl() + '/auth/confirm-email';
+    import {confirmEmail} from "../../api/auth";
 
     export default {
         name: "VerifyEmail",
@@ -42,7 +39,7 @@
             if (token.exp < Date.now().valueOf() / 1000) {
                 this.error = true;
             } else {
-                requestService.update(resourceUrl, {
+                confirmEmail({
                     token: this.$route.query.token
                 }).then((response) => {
                     this.showSuccessMessage(response.data.message);
