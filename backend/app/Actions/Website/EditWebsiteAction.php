@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Website;
@@ -9,7 +10,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
-class EditWebsiteAction
+final class EditWebsiteAction
 {
     private $websiteRepository;
 

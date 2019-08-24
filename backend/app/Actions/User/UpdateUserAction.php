@@ -28,9 +28,7 @@ final class UpdateUserAction
 
         $user->email = $request->getEmail($user->email);
         $user->name = $request->getName($user->name);
-        if ($request->getPassword() !== "") {
-            $user->password = Hash::make($request->getPassword());
-        }
+        $user->password = $request->getPassword() ? Hash::make($request->getPassword()) : $user->password;
 
         $user = $this->userRepository->save($user);
 

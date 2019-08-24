@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
 use App\Actions\TableDataRequest;
-use App\Http\Requests\Api\GetSessionsByParameterHttpRequest;
-use Illuminate\Support\Carbon;
+use App\Http\Requests\Session\GetSessionsByParameterHttpRequest;
 
 class GetSessionsByParameterRequest extends TableDataRequest
 {

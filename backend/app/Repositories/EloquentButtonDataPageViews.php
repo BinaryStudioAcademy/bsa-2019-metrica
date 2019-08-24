@@ -12,9 +12,9 @@ class EloquentButtonDataPageViews implements ButtonDataPageViews
 {
     public function countBetweenDate(DatePeriod $filterData, int $websiteId): int
     {
-        return Visit::has('pages')->with(['pages' => function($query) use ($websiteId) {
+        return Visit::whereHas('page', function($query) use ($websiteId) {
             $query->where('website_id', '=', $websiteId);
-        }])
+        })
             ->whereBetween('visit_time', [$filterData->getStartDate(), $filterData->getEndDate()])
             ->count();
     }
