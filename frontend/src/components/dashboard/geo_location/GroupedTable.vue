@@ -43,7 +43,7 @@
             hide-default-footer
             hide-default-header
             :headers="headers"
-            :items="tableData"
+            :items="items"
         />
     </VContainer>
 </template>
@@ -68,12 +68,7 @@
                     { text: '', align: 'center', value: 'avg_session_time' },
                 ],
             };
-        },
-        computed: {
-            tableData () {
-                return this.items;
-            }
-        },
+        }
     };
 </script>
 

@@ -108,9 +108,6 @@ export default new Router({
                                             path: 'geo-location',
                                             name: 'geo-location',
                                             component: GeoLocation,
-                                            meta: {
-                                                title: 'Geo location'
-                                            },
                                         },
                                     ]
                                 },
