@@ -22,7 +22,7 @@ const fetchButtonValue = (startDate, endDate) => {
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
-    return requestService.get(resourceUrl + '/visitors/bounce-rate', {}, {
+    return requestService.get(resourceUrl + '/chart-average-sessions', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[timeFrame]': interval
