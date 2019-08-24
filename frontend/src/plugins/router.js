@@ -4,6 +4,7 @@ import Login from '../pages/Login.vue';
 import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
 import SignUp from "../pages/SignUp.vue";
+import Dashboard from '@/pages/Dashboard.vue';
 import UserUpdate from '../pages/UpdateProfile.vue';
 import AddWebsitePage from '../pages/AddWebsitePage.vue';
 import Visitors from "../pages/Visitors.vue";
@@ -78,7 +79,7 @@ export default new Router({
                                 {
                                     path: 'dashboard',
                                     name: 'dashboard',
-                                    component: Default,
+                                    component: Dashboard,
                                     meta: {
                                         title: 'Dashboard'
                                     },
