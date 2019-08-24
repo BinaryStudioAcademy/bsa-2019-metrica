@@ -117,6 +117,12 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::post('/', 'VisitController@createVisit');
         });
+
+        Route::group([
+            'prefix' => 'visitors'
+        ], function () {
+            Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
+        });
     });
 });
 
