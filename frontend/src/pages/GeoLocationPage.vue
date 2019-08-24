@@ -9,7 +9,7 @@
                 class="img-card"
             >
                 <GroupedTable
-                    :items="tableData"
+                    :items="items"
                 />
             </VFlex>
         </VLayout>
@@ -27,6 +27,7 @@
         },
         data() {
             return {
+                title: "Geo Location",
                 items: [
                     {
                         country: 'World',
@@ -70,14 +71,6 @@
                     },
                 ]
             };
-        },
-        computed: {
-            title () {
-                return this.$route.meta.title;
-            },
-            tableData () {
-                return this.items;
-            },
         }
     };
 </script>
