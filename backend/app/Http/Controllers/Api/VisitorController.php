@@ -39,6 +39,7 @@ use App\Actions\Visitors\GetNewVisitorsByParameterAction;
 use App\Http\Resources\TableResource;
 use App\Http\Requests\Api\GetTableNewVisitorsByParameterHttpRequest;
 use App\Actions\Visitors\GetNewVisitorsByParameterRequest;
+use App\Http\Resources\VisitorResource;
 
 final class VisitorController extends Controller
 {
