@@ -7,6 +7,7 @@ use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\System;
 use App\Entities\User;
+use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Entities\Website;
 use Carbon\Carbon;
@@ -43,11 +44,12 @@ class GeoLocationApiTest extends TestCase
         parent::setUp();
         $this->user = factory(User::class)->create();
         factory(Website::class)->create();
-        factory(Visitor::class)->create();
+        factory(Visitor::class, 3)->create();
         factory(Page::class)->create();
-        factory(GeoPosition::class)->create();
-        factory(System::class)->create();
-        factory(Session::class)->create();
+        factory(GeoPosition::class, 3)->create();
+        factory(System::class, 3)->create();
+        factory(Session::class, 3)->create();
+        factory(Visit::class, 6)->create();
     }
 
     public function testGeoLocation()
