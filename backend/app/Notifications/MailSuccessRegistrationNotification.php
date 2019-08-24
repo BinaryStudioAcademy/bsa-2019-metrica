@@ -21,12 +21,10 @@ class MailSuccessRegistrationNotification extends Notification implements Should
         $this->token = $token;
     }
 
-
     public function via($notifiable)
     {
         return ['mail'];
     }
-
 
     public function toMail($notifiable)
     {
@@ -39,5 +37,4 @@ class MailSuccessRegistrationNotification extends Notification implements Should
             ->action('Verify your account', $link)
             ->salutation("Thanks, Metrica Support");
     }
-
 }
