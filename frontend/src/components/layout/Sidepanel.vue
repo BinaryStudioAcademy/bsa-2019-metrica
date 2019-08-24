@@ -14,21 +14,27 @@
                 append-icon=""
                 class="my-4"
             >
-                <template v-slot:activator>
+                <template 
+                    v-if="!link.sublinks"
+                    v-slot:activator
+                >
                     <RouterLink
                         :to="{ name: link.route }"
                     >
-                        <VListItem>
-                            <VListItemIcon>
-                                <svg>
-                                    <use :href="`${link.icon}#root`" />
-                                </svg>
-                            </VListItemIcon>
-                            <VListItemTitle>
-                                {{ link.text }}
-                            </VListItemTitle>
-                        </VListItem>
+                        <MenuItem
+                            :icon="`${link.icon}#root`"
+                            :label="link.text"
+                        />
                     </RouterLink>
+                </template>
+                <template 
+                    v-else
+                    v-slot:activator
+                >
+                    <MenuItem
+                        :icon="`${link.icon}#root`"
+                        :label="link.text"
+                    />
                 </template>
                 <VListItem
                     v-for="sublink in link.sublinks"
@@ -48,8 +54,11 @@
         </VList>
     </VNavigationDrawer>
 </template>
+
 <script>
+    import MenuItem from './MenuItem.vue';
     export default {
+        components: { MenuItem },
         data: () => ({
             links: [
                 {
@@ -109,48 +118,11 @@
 <style scoped lang="scss">
 $blue: #3C57DE;
 $grey: rgba(18, 39, 55, 0.5);
-$black: black;
-
-svg {
-    width: 25px;
-    height: 25px;
-}
 
 a {
+    width: 100%;
     &:hover{
         text-decoration: none;
-    }
-}
-
-.v-list-item {
-    min-height: 34px;
-    height: 34px;
-    border-left: 3px solid transparent;
-    fill-opacity: 0.5;
-    .v-list-item__title {
-        color: $grey;
-        font-size: 14px;
-    }
-    a {
-        width: 100%;
-    }
-    .v-list-item__icon {
-        fill: $grey;
-        align-self: center;
-    }
-}
-
-.v-list-item--active
-{
-    .v-list-item {
-        border-left: 3px solid $blue;
-        .v-list-item__title {
-            color: $blue;
-        }
-        .v-list-item__icon {
-            fill: $blue;
-            fill-opacity: 1;
-        }
     }
 }
 
@@ -159,8 +131,17 @@ a {
         min-height: 34px;
         padding: 0;
     }
+    .v-list-item {
+        min-height: 34px;
+        height: 34px;
+    }
     .v-list-group__items {
         font-family: 'GilroySemiBold';
+        padding-left: 23px;
+        .v-list-item__title {
+        color: $grey;
+        font-size: 14px;
+        }
         .router-link-active {
             .v-list-item__title {
                 color: $blue;
