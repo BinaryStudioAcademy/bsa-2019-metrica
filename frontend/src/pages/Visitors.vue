@@ -1,8 +1,36 @@
 <template>
     <ContentLayout :title="title">
-        <VRow>
-            <Overview />
-        </VRow>
+        <VLayout
+            wrap
+        />
+        <VLayout>
+            <VFlex
+                lg12
+                md12
+                sm12
+                xs12
+                class="content-card"
+            >
+                <VLayout
+                    wrap
+                    align-center
+                    justify-center
+                >
+                    <VFlex
+                        class="chart-container"
+                    >
+                        <LineChart
+                            :data="data"
+                            :is-fetching="chartData.isFetching"
+                        />
+                        <PeriodDropdown
+                            :value="getSelectedPeriod"
+                            @change="changePeriod"
+                        />
+                    </VFlex>
+                </VLayout>
+            </VFlex>
+        </VLayout>
         <VLayout class="buttons-row">
             <VFlex
                 v-for="button in buttons"
@@ -48,9 +76,10 @@
 
 <script>
     import ContentLayout from '../components/layout/ContentLayout.vue';
-    import Overview from "../components/dashboard/visitors/Overview";
+    import LineChart from "../components/common/LineChart";
     import VisitorsTable from "../components/dashboard/visitors/VisitorsTable.vue";
     import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
+    import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import PieChart from "../components/common/PieChart";
     import {mapGetters, mapActions} from 'vuex';
     import {
@@ -77,10 +106,11 @@
     export default {
         components: {
             PieChart,
+            LineChart,
             VisitorsTable,
             ButtonComponent,
-            ContentLayout,
-            Overview
+            PeriodDropdown,
+            ContentLayout
         },
         data() {
             return {
@@ -211,8 +241,11 @@
     };
 </script>
 
-<style scoped lang="scss">
+<style scoped>
     .buttons-row {
         margin-top: 50px;
+    }
+    .chart-container {
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
     }
 </style>
