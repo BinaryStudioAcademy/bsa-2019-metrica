@@ -7,7 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmailResource extends JsonResource implements ApiResponse
 {
-
     public function toArray($request): array
     {
         return [

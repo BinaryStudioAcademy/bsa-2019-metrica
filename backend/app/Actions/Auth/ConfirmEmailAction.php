@@ -26,6 +26,5 @@ final class ConfirmEmailAction
         }
         $this->repository->activateUser($user->email);
         return new ConfirmEmailResponse();
-
     }
 }
