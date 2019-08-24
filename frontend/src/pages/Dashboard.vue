@@ -1,15 +1,18 @@
 <template>
-    <ContentLayout title="Dashboard">
-        dashboard text
-    </ContentLayout>
+    <ContentLayout :title="title" />
 </template>
 <script>
-    import ContentLayout from "../components/layout/ContentLayout";
+    import { isWebsite } from "@/mixins/isWebsite";
+    import ContentLayout from "@/components/layout/ContentLayout";
+
     export default {
         name: 'Dashboard',
-        components: { ContentLayout }
+        components: { ContentLayout },
+        mixins: [isWebsite],
+        computed: {
+            title () {
+                return this.$route.meta.title;
+            }
+        }
     };
 </script>
-<style>
-
-</style>
