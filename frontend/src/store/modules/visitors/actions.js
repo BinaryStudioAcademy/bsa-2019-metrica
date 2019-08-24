@@ -84,7 +84,7 @@ export default {
         const endDate = period.endDate;
 
         return factoryVisitorsService.create(context.state.activeButton)
-            .fetchChartValues(startDate.unix(), endDate.unix(), data.groupedParameter)
+            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval)
                 .then(response => {
                     context.commit(SET_LINE_CHART_DATA, response.data);
                     context.commit(RESET_LINE_CHART_FETCHING);
