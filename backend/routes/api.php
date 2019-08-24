@@ -90,7 +90,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'SessionController@getSessions');
         });
-          
+
         Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {
@@ -106,6 +106,22 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
+    });
+
+    Route::group([
+        'namespace' => 'OpenApi'
+    ], function () {
+        Route::group([
+            'prefix' => 'visits'
+        ], function () {
+            Route::post('/', 'VisitController@createVisit');
+        });
+
+        Route::group([
+            'prefix' => 'visitors'
+        ], function () {
+            Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
+        });
     });
 });
 

@@ -8,6 +8,7 @@ use App\Contracts\Visitors\NewVisitorsCountFilterData;
 use App\Entities\Visitor;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Utils\DatePeriod;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -16,6 +17,23 @@ final class EloquentVisitorRepository implements VisitorRepository
     public function all(): Collection
     {
         return Visitor::all();
+    }
+
+    public function getById(int $id): Visitor
+    {
+        return Visitor::findOrFail($id);
+    }
+
+    public function save(Visitor $visitor): Visitor
+    {
+        $visitor->save();
+        return $visitor;
+    }
+
+    public function updateLastActivity(Visitor $visitor): void
+    {
+        $visitor->last_activity = Carbon::now()->toDateTimeString();
+        $visitor->save();
     }
 
     public function countVisitorsBetweenDate(DatePeriod $period): int

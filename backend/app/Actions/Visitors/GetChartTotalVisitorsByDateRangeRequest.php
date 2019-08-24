@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Visitors;
 
 use App\Actions\ChartDataRequest;
-use App\Http\Requests\Api\GetChartTotalVisitorsByDateRangeHttpRequest;
+use App\Http\Requests\Visitor\GetChartTotalVisitorsByDateRangeHttpRequest;
 
 final class GetChartTotalVisitorsByDateRangeRequest extends ChartDataRequest
 {

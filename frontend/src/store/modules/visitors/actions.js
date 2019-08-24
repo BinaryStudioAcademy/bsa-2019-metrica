@@ -2,6 +2,7 @@ import {
     CHANGE_SELECTED_PERIOD,
     CHANGE_ACTIVE_BUTTON,
     CHANGE_FETCHED_BUTTON_STATE,
+    FETCH_BUTTON_DATA,
     CHANGE_FETCHED_LINE_CHART_STATE,
     FETCH_LINE_CHART_DATA,
     CHANGE_GROUPED_PARAMETER,
@@ -11,10 +12,11 @@ import {
 } from "./types/actions";
 import {
     SET_SELECTED_PERIOD,
-    SET_GROUPED_PARAMETER,
     SET_ACTIVE_BUTTON,
+    SET_GROUPED_PARAMETER,
     RESET_BUTTON_FETCHING,
     SET_BUTTON_FETCHING,
+    SET_BUTTON_DATA,
     RESET_TABLE_FETCHING,
     SET_TABLE_FETCHING,
     RESET_LINE_CHART_FETCHING,
@@ -39,12 +41,30 @@ export default {
         context.commit(SET_ACTIVE_BUTTON, button);
     },
     [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
-
         if (data.value) {
             context.commit(SET_BUTTON_FETCHING, data.button);
         } else {
             context.commit(RESET_BUTTON_FETCHING, data.button);
         }
+    },
+    [FETCH_BUTTON_DATA]: (context, data) => {
+        if (!data.value) {
+            return;
+        }
+        context.commit(SET_BUTTON_FETCHING, data.button);
+
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+
+        return factoryVisitorsService.create(data.button)
+            .fetchButtonValue(period.startDate, period.endDate)
+            .then(response => {
+                context.commit(SET_BUTTON_DATA, data.button, response.data);
+                context.commit(RESET_BUTTON_FETCHING, data.button);
+            })
+            .catch(err => {
+                context.commit(RESET_BUTTON_FETCHING, data.button);
+                throw err;
+            });
     },
     [CHANGE_FETCHED_LINE_CHART_STATE]: (context, value) => {
 
@@ -64,7 +84,7 @@ export default {
         const endDate = period.endDate;
 
         return factoryVisitorsService.create(context.state.activeButton)
-            .fetchChartValues(startDate.unix(), endDate.unix(), data.groupedParameter)
+            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval)
                 .then(response => {
                     context.commit(SET_LINE_CHART_DATA, response.data);
                     context.commit(RESET_LINE_CHART_FETCHING);
@@ -91,20 +111,20 @@ export default {
             return;
         }
         context.commit(SET_TABLE_FETCHING);
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+        const startDate = period.startDate;
+        const endDate = period.endDate;
 
-        getTimeByPeriod(context.state.selectedPeriod)
-            .then(response => {
-                return factoryVisitorsService.create(context.state.activeButton)
-                    .fetchTableValues(response.startDate, response.endDate, data.groupedParameter);
-            })
-            .then(response => {
-                context.commit(SET_TABLE_DATA, response.data);
-                context.commit(RESET_TABLE_FETCHING);
-            })
-            .catch(err => {
-                context.commit(RESET_TABLE_FETCHING);
-                throw err;
-            });
+        return factoryVisitorsService.create(context.state.activeButton)
+            .fetchTableValues(startDate, endDate, data.groupedParameter)
+                .then(response => {
+                    context.commit(SET_TABLE_DATA, response.data);
+                    context.commit(RESET_TABLE_FETCHING);
+                })
+                .catch(err => {
+                    context.commit(RESET_TABLE_FETCHING);
+                    throw err;
+                });
     },
     [FETCH_CHART_PIE_DATA]: (context) => {
         context.commit(SET_CHART_DATA_FETCHING);

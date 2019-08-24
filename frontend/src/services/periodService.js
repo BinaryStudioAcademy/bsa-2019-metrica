@@ -70,7 +70,7 @@ export const getTimeByPeriod = (value) => {
             break;
         case period.PERIOD_ALL:
             interval = getDayInterval(30);
-            startDate = undefined;
+            startDate = moment(0);
             endDate = currentDate();
             break;
         default:

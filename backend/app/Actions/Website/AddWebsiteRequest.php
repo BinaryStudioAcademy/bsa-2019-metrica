@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Website;
 
-use App\Http\Requests\Api\AddWebsiteHttpRequest;
+use App\Http\Requests\Website\AddWebsiteHttpRequest;
 
 final class AddWebsiteRequest
 {

@@ -18,6 +18,8 @@ import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
 import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 import PageViews from "../pages/PageViews.vue";
 import Audience from "../pages/Audience.vue";
+import Dashboard from "../pages/Dashboard";
+import GeoLocation from "../pages/GeoLocationPage";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -78,7 +80,7 @@ export default new Router({
                                 {
                                     path: 'dashboard',
                                     name: 'dashboard',
-                                    component: Default,
+                                    component: Dashboard,
                                     meta: {
                                         title: 'Dashboard'
                                     },
@@ -104,11 +106,9 @@ export default new Router({
                                             },
                                         },
                                         {
-                                            path: 'geo-locations',
-                                            name: 'geo-locations',
-                                            meta: {
-                                                title: 'Geo locations'
-                                            },
+                                            path: 'geo-location',
+                                            name: 'geo-location',
+                                            component: GeoLocation,
                                         },
                                     ]
                                 },

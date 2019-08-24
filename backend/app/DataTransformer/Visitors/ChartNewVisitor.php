@@ -1,26 +1,22 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\DataTransformer\Visitors;
 
 use App\Contracts\ChartValue;
+use App\DataTransformer\Traits\ChartValueTrait;
 
 class ChartNewVisitor implements ChartValue
 {
-    private $period;
-    private $count;
+    use ChartValueTrait;
 
-    public function __construct(string $period, int $count)
+    private $date;
+    private $value;
+
+    public function __construct(string $date, int $count)
     {
-        $this->period = $period;
-        $this->count = $count;
-    }
-    public function date(): string
-    {
-        return $this->period;
-    }
-    public function value(): string
-    {
-        return $this->count;
+        $this->date = $date;
+        $this->value = $count;
     }
 }
