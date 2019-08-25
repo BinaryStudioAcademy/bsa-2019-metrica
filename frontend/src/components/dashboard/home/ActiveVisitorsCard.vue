@@ -89,7 +89,7 @@
                     .groupBy('url')
                     .map((items, url) => {
                         return { url: url, count: items.length };
-                    });
+                    }).value();
                 if(result.length > 3) {
                     return result.slice(0, 2);
                 }
