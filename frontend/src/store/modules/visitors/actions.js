@@ -83,7 +83,6 @@ export default {
         const startDate = period.startDate;
         const endDate = period.endDate;
 
-        debugger;
         return factoryVisitorsService.create(context.state.activeButton)
             .fetchChartValues(startDate.unix(), endDate.unix(), period.interval)
                 .then(response => {

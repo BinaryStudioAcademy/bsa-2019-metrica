@@ -24,11 +24,11 @@
     import {
         GET_LINE_CHART_DATA,
         GET_SELECTED_PERIOD
-    } from "@/store/modules/visitors/types/getters";
+    } from "@/store/modules/dashboard/types/getters";
     import {
         CHANGE_SELECTED_PERIOD,
         FETCH_LINE_CHART_DATA
-    } from "@/store/modules/visitors/types/actions";
+    } from "@/store/modules/dashboard/types/actions";
     export default {
         data() {
             return {
@@ -41,20 +41,19 @@
             title () {
                 return this.$route.meta.title;
             },
-            ...mapGetters('visitors', {
+            ...mapGetters('dashboard', {
                 chartData: GET_LINE_CHART_DATA,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
             }),
         },
         methods: {
-            ...mapActions('visitors', {
+            ...mapActions('dashboard', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 getLineChartData: FETCH_LINE_CHART_DATA
             }),
             changePeriod(data) {
                 this.changeSelectedPeriod(data);
-                console.log(this.getSelectedPeriod);
-                this.getLineChartData(data);
+                console.log(this.data);
             },
         },
         name: "Overview",
