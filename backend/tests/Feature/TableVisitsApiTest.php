@@ -77,9 +77,9 @@ class TableVisitsApiTest extends TestCase
         $query = [
             'filter' => [
                 'startDate' => self::DATE_FROM,
-                'endDate' => self::DATE_TO
-            ],
-            'parameter' => 'wrong_parameter'
+                'endDate' => self::DATE_TO,
+                'parameter' => 'wrong_parameter'
+            ]
         ];
 
         $result = $this->actingAs($this->user)
