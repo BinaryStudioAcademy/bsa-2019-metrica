@@ -53,8 +53,8 @@ class GeoLocationApiTest extends TestCase
     {
         $data = [
             'filter' => [
-                'start_date' => (string) Carbon::create(2019)->timestamp,
-                'end_date' => (string) Carbon::now()->timestamp
+                'startDate' => (string) Carbon::create(2019)->timestamp,
+                'endDate' => (string) Carbon::now()->timestamp
             ]
         ];
 
