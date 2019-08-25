@@ -9,10 +9,9 @@
         <VContainer class="white pie-container position-relative">
             <Spinner v-if="isFetching" />
             <VContainer>
-                <VRow class="pa-0 justify-center">
+                <VRow class="justify-center">
                     <VCol class="pa-0 d-flex col-5 justify-center align-items-center">
                         <GChart
-                            class="transparent pa-0 ma-0"
                             type="PieChart"
                             :data="chartData.system"
                             :options="chartOptions.system"
@@ -21,7 +20,7 @@
                     <VCol>
                         <VSubheader
                             v-text="legend.system.title"
-                            class="legend-title text-dark"
+                            class="legend-title text-dark pl-0"
                         />
                         <VList>
                             <VListItem
@@ -49,9 +48,7 @@
                         </VList>
                     </VCol>
                 </VRow>
-            </VContainer>
-            <VContainer>
-                <VRow class="pa-0 justify-center">
+                <VRow class="justify-center">
                     <VCol class="pa-0 d-flex col-5 justify-center align-items-center">
                         <GChart
                             type="PieChart"
@@ -59,10 +56,10 @@
                             :options="chartOptions.device"
                         />
                     </VCol>
-                    <VCol>
+                    <VCol class="align-items-end">
                         <VSubheader
                             v-text="legend.device.title"
-                            class="legend-title text-dark"
+                            class="legend-title text-dark pl-0"
                         />
                         <VList>
                             <VListItem
@@ -189,6 +186,7 @@
 .pie-container {
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
     border-radius: 6px;
+    max-width: 400px;
 }
 .header {
     align-items: center;
@@ -209,9 +207,13 @@
 }
 
 .v-list-item {
+    height: 40px;
+    min-height: 20px;
     min-width: 120px;
 }
-
+.v-subheader {
+    height: 20px;
+}
 .v-label {
     font-size: 12px;
 }
