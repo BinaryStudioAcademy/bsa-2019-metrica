@@ -108,7 +108,7 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
             factory(Visit::class)->create([
                 'visit_time' => (new Carbon('2019-08-30'))->addHours($hours)
                                                           ->toDateTimeString(),
-                'session_id' => $secondSession->id
+                'session_id' => $outOfDateRangeSession->id
             ]);
         }
     }
