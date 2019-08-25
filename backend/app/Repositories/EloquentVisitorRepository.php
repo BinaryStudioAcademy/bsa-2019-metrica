@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Contracts\Visitors\NewVisitorsCountFilterData;
+use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Utils\DatePeriod;
@@ -75,13 +76,13 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::where('website_id', $websiteId)->get();
     }
 
-    public function countAllVisitorsGroupByCountry(DatePeriod $period): Collection
+    public function countAllVisitorsGroupByCountry(string $startDate, string $endDate): Collection
     {
         return Visitor::forUserWebsite()
                 ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
                 ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
                 ->select(DB::raw('count(visitors.id) as all_visitors_count, geo_positions.country as country'))
-                ->whereBetween('visits.visit_time', [$period->getEndDate(), $period->getEndDate()])
+                ->whereBetween('visits.visit_time', [$startDate, $endDate])
                 ->groupBy('geo_positions.country')
                 ->get();
     }
