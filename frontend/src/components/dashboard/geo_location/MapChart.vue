@@ -22,11 +22,14 @@
             dataItems: {
                 type: Array,
                 required: true,
+            },
+            parameter: {
+                type: String,
+                required: true,
             }
         },
         data() {
             return {
-                chartParameter: 'visitors',
                 chartOptions: {
                     tooltip: {
                         isHtml: true,
@@ -49,7 +52,7 @@
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
                 let dataArray = [['Country', '']];
                 dataArray = this.dataItems.map((item) =>
-                    [item.country, +item[this.chartParameter], this.tooltip(item.country, item[this.chartParameter])]
+                    [item.country, +item[this.parameter], this.tooltip(item.country, item[this.parameter])]
                 );
                 dataArray.unshift([{type: 'string', name: 'Country'},{type: 'number', name: 'value'}, tooltipObj]);
                 return dataArray;
@@ -73,24 +76,28 @@
 </script>
 
 <style lang="scss" scoped>
-    ::v-deep div.google-visualization-tooltip {
-        font-family: Gilroy;
+    .map {
+        padding-top: 45px;
 
-        .custom-google-map-chart-tooltip {
-            display: flex;
-            border: 1px solid rgba(60, 87, 222, 0.52);
-            box-shadow: 2px 10px 16px rgba(0, 0, 0, 0.16);
-            border-radius: 6px;
-            padding: 10px;
+        ::v-deep div.google-visualization-tooltip {
+            font-family: Gilroy;
 
-            .tooltip-country {
-                color: rgba(0, 0, 0, 0.5);
-                font-size: 14px;
-            }
-            .tooltip-value {
-                color: #000000;
-                font-size: 14px;
-                padding-left: 15px;
+            .custom-google-map-chart-tooltip {
+                display: flex;
+                border: 1px solid rgba(60, 87, 222, 0.52);
+                box-shadow: 2px 10px 16px rgba(0, 0, 0, 0.16);
+                border-radius: 6px;
+                padding: 10px;
+
+                .tooltip-country {
+                    color: rgba(0, 0, 0, 0.5);
+                    font-size: 14px;
+                }
+                .tooltip-value {
+                    color: #000000;
+                    font-size: 14px;
+                    padding-left: 15px;
+                }
             }
         }
     }
