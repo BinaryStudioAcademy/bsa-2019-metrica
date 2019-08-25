@@ -5,6 +5,7 @@ import {authPlugin} from "./plugins";
 import website from './modules/website';
 import notification from './modules/notification';
 import visitors from './modules/visitors';
+import dashboard from './modules/dashboard';
 import page_views from './modules/page_views';
 import geo_location from './modules/geo_location';
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
         notification,
         visitors,
         page_views,
+        dashboard,
         geo_location
     },
     plugins: [authPlugin]
