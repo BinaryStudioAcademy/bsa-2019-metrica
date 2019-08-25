@@ -1,6 +1,6 @@
 <template>
     <VContainer
-        class="overview px-7 py-6"
+        class="overview px-7 py-6 position-relative"
     >
         <WidgetButtons
             name="Visitors"

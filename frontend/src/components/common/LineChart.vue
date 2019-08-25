@@ -1,7 +1,5 @@
 <template>
-    <VContainer
-        class="position-relative"
-    >
+    <VContainer>
         <Spinner
             v-if="isFetching"
         />
