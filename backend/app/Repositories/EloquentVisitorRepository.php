@@ -90,7 +90,7 @@ final class EloquentVisitorRepository implements VisitorRepository
     public function countNewVisitorsGroupByCountry(string $startDate, string $endDate): Collection
     {
         return Visitor::forUserWebsite()
-            ->where('visitors.created_at', '>',  $startDate)
+            ->where('visitors.created_at', '>', $startDate)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('count(visitors.id) as new_visitors_count, geo_positions.country as country'))
