@@ -28,6 +28,7 @@
             return {
                 chartParameter: 'visitors',
                 chartOptions: {
+                    showInfoWindow: false,
                     tooltip: {
                         isHtml: true,
                         ignoreBounds: true,
@@ -46,27 +47,32 @@
                     return [];
                 }
 
-                const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
-                let dataArray = [['Country', '']];
-                dataArray = this.dataItems.map((item) =>
-                    [item.country, +item[this.chartParameter], this.tooltip(item.country, item[this.chartParameter])]
-                );
-                dataArray.unshift([{type: 'string', name: 'Country'},{type: 'number', name: 'value'}, tooltipObj]);
-                return dataArray;
+                const tooltipRow = this.getTooltipRow();
+                const tableRows = this.dataItems.map((item) => [
+                    item.country,
+                    Number(item[this.chartParameter]) || 0,
+                    `<span class='tooltip-value'>${item[this.chartParameter]}</span>`
+                ]);
+
+                return [
+                    tooltipRow
+                ].concat(tableRows);
             }
         },
         methods: {
-            tooltip(country, value) {
-                return ' <div class=\'custom-google-map-chart-tooltip\'>\n' +
-                    '        <div class=\'tooltip-country\'>\n' +
-                    `          ${country}\n` +
-                    '        </div>\n' +
-                    '        <div class=\'tooltip-value\'>\n' +
-                    `            ${value}\n` +
-                    '        </div>\n' +
-                    '</div>';
-            },
-
+            getTooltipRow() {
+                return [{
+                    type: 'string',
+                    name: 'Country'
+                }, {
+                    type: 'number',
+                    name: 'value'
+                }, {
+                    type: 'string',
+                    role: 'tooltip',
+                    p: { html: true }
+                }];
+            }
         }
     };
 
@@ -75,23 +81,31 @@
 <style lang="scss" scoped>
     ::v-deep div.google-visualization-tooltip {
         font-family: Gilroy;
+        border: 1px solid rgba(60, 87, 222, 0.52);
+        box-shadow: 2px 10px 16px rgba(0, 0, 0, 0.16);
+        border-radius: 6px;
+        padding: 10px;
+        width: auto!important;
 
-        .custom-google-map-chart-tooltip {
+        .google-visualization-tooltip-item-list {
             display: flex;
-            border: 1px solid rgba(60, 87, 222, 0.52);
-            box-shadow: 2px 10px 16px rgba(0, 0, 0, 0.16);
-            border-radius: 6px;
-            padding: 10px;
+            margin: 0;
+            padding: 0;
+        }
 
-            .tooltip-country {
-                color: rgba(0, 0, 0, 0.5);
-                font-size: 14px;
-            }
-            .tooltip-value {
-                color: #000000;
-                font-size: 14px;
-                padding-left: 15px;
-            }
+        .google-visualization-tooltip-item {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .google-visualization-tooltip-item > span:not(.tooltip-value){
+            color: rgba(0, 0, 0, 0.5)!important;
+        }
+
+        .google-visualization-tooltip-item > .tooltip-value {
+            color: #000000;
+            padding-left: 15px;
         }
     }
 </style>
