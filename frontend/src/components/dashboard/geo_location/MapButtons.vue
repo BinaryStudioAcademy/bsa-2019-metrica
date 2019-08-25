@@ -7,7 +7,6 @@
             <ButtonComponent
                 :type="button.type"
                 :label="button.label"
-                @change="changeParameter"
             />
         </VItem>
     </VItemGroup>
@@ -15,8 +14,6 @@
 
 <script>
     import ButtonComponent from "./ButtonComponent";
-    import {mapActions} from 'vuex';
-    import {CHANGE_SELECTED_PARAMETER} from "@/store/modules/geo_location/types/actions";
 
     export default {
         name: "MapButtons",
@@ -41,14 +38,6 @@
                 ]
             };
         },
-        methods: {
-            ...mapActions('geo_location', {
-                changeSelectedParameter: CHANGE_SELECTED_PARAMETER
-            }),
-            changeParameter(parameter) {
-                this.changeSelectedParameter(parameter);
-            }
-        }
     };
 </script>
 

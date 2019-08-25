@@ -40,6 +40,17 @@
                     colorAxis: {colors: ['#D4DAF8', '#3C57DE']},
                     datalessRegionColor: '#ECF3FF'
                 },
+                tooltipRow: [{
+                    type: 'string',
+                    name: 'Country'
+                }, {
+                    type: 'number',
+                    name: 'value'
+                }, {
+                    type: 'string',
+                    role: 'tooltip',
+                    p: { html: true }
+                }],
                 mapsApiKey: config.getGoogleMapsApiKey()
             };
         },
@@ -49,7 +60,7 @@
                     return [];
                 }
 
-                const tooltipRow = this.getTooltipRow();
+                const tooltipRow = this.tooltipRow;
                 const tableRows = this.dataItems.map((item) => [
                     item.country,
                     Number(item[this.parameter]) || 0,
@@ -61,21 +72,6 @@
                 ].concat(tableRows);
             }
         },
-        methods: {
-            getTooltipRow() {
-                return [{
-                    type: 'string',
-                    name: 'Country'
-                }, {
-                    type: 'number',
-                    name: 'value'
-                }, {
-                    type: 'string',
-                    role: 'tooltip',
-                    p: { html: true }
-                }];
-            }
-        }
     };
 
 </script>

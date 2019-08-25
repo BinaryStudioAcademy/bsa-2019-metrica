@@ -4,14 +4,15 @@
         text
         rounded
         :class="isActive ? 'cyan white--text active' : 'inactive'"
-        @click="changeParameter"
+        @click="changeParameter()"
     >
         {{ label }}
     </VBtn>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
+    import {CHANGE_SELECTED_PARAMETER} from "@/store/modules/geo_location/types/actions";
     import {GET_SELECTED_PARAMETER} from "@/store/modules/geo_location/types/getters";
 
     export default {
@@ -35,9 +36,12 @@
             }
         },
         methods: {
-            changeParameter() {
-                if (!this.active) {
-                    this.$emit("change", this.type);
+            ...mapActions('geo_location', {
+                changeSelectedParameter: CHANGE_SELECTED_PARAMETER
+            }),
+            changeParameter () {
+                if (!this.isActive) {
+                    this.changeSelectedParameter(this.type);
                 }
             }
         }

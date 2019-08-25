@@ -1,4 +1,6 @@
+import {period} from "@/services/periodService";
+
 export default {
-    selectedPeriod: 'last_week',
+    selectedPeriod: period.PERIOD_LAST_WEEK,
     selectedParameter: 'visitors'
 };

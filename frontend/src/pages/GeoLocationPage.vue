@@ -17,7 +17,7 @@
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
-                    @change="changePeriod"
+                    @change="changeSelectedPeriod"
                 />
             </VFlex>
         </VLayout>
@@ -120,9 +120,6 @@
             ...mapActions('geo_location', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD
             }),
-            changePeriod(data) {
-                this.changeSelectedPeriod(data);
-            }
         }
     };
 </script>
