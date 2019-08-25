@@ -4,46 +4,46 @@ import {SET_ACTIVITY_DATA_ITEMS, SET_ACTIVITY_CHART_DATA} from "./types/mutation
 export default {
     [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
        const items = [
-               {
-                   url:'link_1/juhy/kkk',
-                   visitorId:2,
-                   timeNotification:'2019-08-12 12:15:11'
-               },
-               {
-                   url:'link_2/juhy/kkk',
-                   visitorId:2,
-                   timeNotification:'2019-08-12 12:12:11'
-               },
-               {
-                   url:'link_2/juhy/kkk',
-                   visitorId:3,
-                   timeNotification:'2019-08-12 12:12:11'
-               },
-               {
-                   url:'link_1/juhy/kkk',
-                   visitorId:2,
-                   timeNotification:'2019-08-12 12:19:11'
-               },
-               {
-                   url:'link_2/juhy/kkk',
-                   visitorId:2,
-                   timeNotification:'2019-08-12 12:15:11'
-               },
-               {
-                   url:'link_2/juhy/kkk',
-                   visitorId:3,
-                   timeNotification:'2019-08-12 12:11:11'
-               },
-               {
-                   url:'link_1/juhy/kkk',
-                   visitorId:3,
-                   timeNotification:'2019-08-12 12:11:11'
-               },
-               {
-                   url:'link_1/juhy/kkk',
-                   visitorId:4,
-                   timeNotification:'2019-08-12 12:11:11'
-               },
+           {
+               url:'link_1/juhy/kkk',
+               visitorId:2,
+               timeNotification:'2019-08-12 12:15:11'
+           },
+           {
+               url:'link_2/juhy/kkk',
+               visitorId:2,
+               timeNotification:'2019-08-12 12:12:11'
+           },
+           {
+               url:'link_2/juhy/kkk',
+               visitorId:3,
+               timeNotification:'2019-08-12 12:12:11'
+           },
+           {
+               url:'link_1/juhy/kkk',
+               visitorId:2,
+               timeNotification:'2019-08-12 12:19:11'
+           },
+           {
+               url:'link_2/juhy/kkk',
+               visitorId:2,
+               timeNotification:'2019-08-12 12:15:11'
+           },
+           {
+               url:'link_2/juhy/kkk',
+               visitorId:3,
+               timeNotification:'2019-08-12 12:11:11'
+           },
+           {
+               url:'link_1/juhy/kkk',
+               visitorId:3,
+               timeNotification:'2019-08-12 12:11:11'
+           },
+           {
+               url:'link_1/juhy/kkk',
+               visitorId:4,
+               timeNotification:'2019-08-12 12:11:11'
+           },
            ].sort(function (a, b) {
             return  a.timeNotification - b.timeNotification || a.url - b.url || a.visitorId - b.visitorId;
        });
