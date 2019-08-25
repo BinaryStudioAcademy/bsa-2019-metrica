@@ -21,6 +21,9 @@ final class GeoLocationItem
         $this->country = $country;
         $this->allVisitorsCount = $allVisitorsCount;
         $this->newVisitorsCount = $newVisitorsCount;
+        $this->sessionsCount = 0;
+        $this->bounceRate = 0;
+        $this->avgSessionTime = 0;
     }
 
     public function country(): string
@@ -38,17 +41,17 @@ final class GeoLocationItem
         return $this->newVisitorsCount;
     }
 
-    public function sessionsCount()
+    public function sessionsCount(): int
     {
         return $this->sessionsCount;
     }
 
-    public function bounceRate()
+    public function bounceRate(): int
     {
         return $this->bounceRate;
     }
 
-    public function avgSessionTime()
+    public function avgSessionTime(): int
     {
         return $this->avgSessionTime;
     }
