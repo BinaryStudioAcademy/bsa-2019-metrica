@@ -13,10 +13,14 @@ final class GeoLocationItem
     private $bounceRate;
     private $avgSessionTime;
 
-    public function __construct(string $country, int $allVisitorsCount)
-    {
+    public function __construct(
+        string $country,
+        int $allVisitorsCount,
+        ?int $newVisitorsCount
+    ) {
         $this->country = $country;
         $this->allVisitorsCount = $allVisitorsCount;
+        $this->newVisitorsCount = $newVisitorsCount;
     }
 
     public function country(): string
@@ -29,7 +33,7 @@ final class GeoLocationItem
         return $this->allVisitorsCount;
     }
 
-    public function newVisitorsCount()
+    public function newVisitorsCount(): ?int
     {
         return $this->newVisitorsCount;
     }

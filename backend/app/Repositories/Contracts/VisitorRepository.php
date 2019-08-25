@@ -28,4 +28,6 @@ interface VisitorRepository
     public function getVisitorsOfWebsite(int $websiteId): Collection;
 
     public function countAllVisitorsGroupByCountry(string $startDate, string $endDate): Collection;
+
+    public function countNewVisitorsGroupByCountry(string $startDate, string $endDate): Collection;
 }
