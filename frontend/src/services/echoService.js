@@ -1,5 +1,5 @@
 import Echo from 'laravel-echo';
-import Storage from '@/services/Storage';
+import Storage from '@/services/storage';
 import config from "@/config";
 
 const configPusher = {
