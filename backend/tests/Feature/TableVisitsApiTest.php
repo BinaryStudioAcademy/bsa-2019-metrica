@@ -39,10 +39,10 @@ class TableVisitsApiTest extends TestCase
         foreach (self::PARAMETERS as $parameter) {
             $query = [
                 'filter' => [
-                    'start_date' => self::DATE_FROM,
-                    'end_date' => self::DATE_TO
-                ],
-                'parameter' => $parameter
+                    'startDate' => self::DATE_FROM,
+                    'endDate' => self::DATE_TO,
+                    'parameter' => $parameter
+                ]
             ];
 
             $response = $this->actingAs($this->user)
@@ -76,10 +76,10 @@ class TableVisitsApiTest extends TestCase
     {
         $query = [
             'filter' => [
-                'start_date' => self::DATE_FROM,
-                'end_date' => self::DATE_TO
-            ],
-            'parameter' => 'wrong_parameter'
+                'startDate' => self::DATE_FROM,
+                'endDate' => self::DATE_TO,
+                'parameter' => 'wrong_parameter'
+            ]
         ];
 
         $result = $this->actingAs($this->user)
@@ -91,7 +91,7 @@ class TableVisitsApiTest extends TestCase
                 ]
             ])
             ->json();
-        $this->assertEquals('The selected parameter is invalid.', $result['error']['message']);
+        $this->assertEquals('The selected filter.parameter is invalid.', $result['error']['message']);
     }
 
     public function getAssertedCount(String $parameter): int

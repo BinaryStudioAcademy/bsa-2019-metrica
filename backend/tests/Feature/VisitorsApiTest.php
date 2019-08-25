@@ -103,7 +103,7 @@ class VisitorsApiTest extends TestCase
             'filter' => [
                 'startDate' => $startDate->getTimestamp(),
                 'endDate' => $endDate->getTimestamp(),
-                'timeFrame' => $anHour,
+                'period' => $anHour,
             ]
         ];
 
@@ -189,8 +189,8 @@ class VisitorsApiTest extends TestCase
 
         $query = [
             'filter' => [
-                'start_date' => (string)Carbon::yesterday()->subDay()->timestamp,
-                'end_date' => (string)Carbon::today()->timestamp
+                'startDate' => (string)Carbon::yesterday()->subDay()->timestamp,
+                'endDate' => (string)Carbon::today()->timestamp
             ]
         ];
         $endpoint = 'api/v1/visitors/bounce-rate/total';
