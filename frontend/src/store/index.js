@@ -7,6 +7,7 @@ import notification from './modules/notification';
 import visitors from './modules/visitors';
 import dashboard from './modules/dashboard';
 import page_views from './modules/page_views';
+import geo_location from './modules/geo_location';
 
 Vue.use(Vuex);
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         notification,
         visitors,
         page_views,
-        dashboard
+        dashboard,
+        geo_location
     },
     plugins: [authPlugin]
 });
