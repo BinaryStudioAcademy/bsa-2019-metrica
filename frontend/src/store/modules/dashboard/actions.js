@@ -1,8 +1,8 @@
-import {CHANGE_ACTIVITY_DATA_ITEMS, CHANGE_ACTIVITY_CHART_DATA} from "./types/actions";
+import {FETCHING_ACTIVITY_DATA_ITEMS, FETCHING_ACTIVITY_CHART_DATA} from "./types/actions";
 import {SET_ACTIVITY_DATA_ITEMS, SET_ACTIVITY_CHART_DATA} from "./types/mutations";
 
 export default {
-    [CHANGE_ACTIVITY_DATA_ITEMS]: (context) => {
+    [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
        let items = [
                {
                    url:'link_1/juhy/kkk',
@@ -50,19 +50,19 @@ export default {
        });
 
        let result = [];
-       sortItems.forEach((e1) => {
+       sortItems.forEach((element) => {
             if(result.length > 0) {
-                if(!result.find( (p => p.url === e1.url && p.visitorId === e1.visitorId))) {
-                    result.push(e1);
+                if(!result.find( (item => item.url === element.url && item.visitorId === element.visitorId))) {
+                    result.push(element);
                 }
             } else {
-                result.push(e1);
+                result.push(element);
             }
         });
 
         context.commit(SET_ACTIVITY_DATA_ITEMS, result);
     },
-    [CHANGE_ACTIVITY_CHART_DATA]: (context) => {
+    [FETCHING_ACTIVITY_CHART_DATA]: (context) => {
         const data = [0, 10, 12, 5, 4, 0, 12];
         context.commit(SET_ACTIVITY_CHART_DATA, data);
     },

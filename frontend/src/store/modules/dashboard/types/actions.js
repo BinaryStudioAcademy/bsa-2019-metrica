@@ -1,2 +1,2 @@
-export const CHANGE_ACTIVITY_DATA_ITEMS = 'changeActivityDataItems';
-export const CHANGE_ACTIVITY_CHART_DATA = 'changeActivityChartData';
+export const FETCHING_ACTIVITY_DATA_ITEMS = 'fetchingActivityDataItems';
+export const FETCHING_ACTIVITY_CHART_DATA = 'fetchingActivityChartData';

@@ -22,20 +22,14 @@
         </div>
         <VContainer>
             <VSparkline
-                v-if="value.length > 0"
-                :value="value"
+                v-if="chartData.length > 0"
+                :value="chartData"
                 :gradient="gradient"
-                :smooth="radius || false"
+                :smooth="radius"
                 :padding="padding"
                 :line-width="lineWidth"
-                :stroke-linecap="lineCap"
                 :gradient-direction="gradientDirection"
-                :fill="fill"
-                :type="type"
-                :auto-line-width="autoLineWidth"
                 auto-draw
-                :show-labels="showLabels"
-                :label-size="labelSize"
             />
         </VContainer>
         <ul
@@ -80,38 +74,35 @@
                 type: Array,
                 required: true,
             },
+            activityChartData: {
+                type: Array,
+                required: true,
+            },
             isFetching: {
                 type: Boolean,
                 required: true,
             },
         },
         data: () => ({
-            showLabels: false,
             lineWidth: 5,
-            labelSize: 7,
             radius: 16,
             padding: 4,
-            lineCap: 'round',
             gradient: ['#3C57DE', '#1BC3DA'],
-            value: [],
             gradientDirection: 'left',
-            fill: false,
-            type: 'trend',
-            autoLineWidth: false,
-            activeUsersCount: 0,
-            pageViewsCount: 0,
-            topPages: []
         }),
-        methods: {
-            getActiveUsersCount() {
+        computed: {
+            chartData() {
+                return this.activityChartData;
+            },
+            activeUsersCount() {
                 return this.data.map(item => item.visitorId)
                     .filter((value, index, self) => self.indexOf(value) === index).length;
             },
-            getActivePageCount() {
+            pageViewsCount() {
                 return this.data.map(item => item.url)
                     .filter((value, index, self) => self.indexOf(value) === index).length;
             },
-            getTopPages() {
+            topPages() {
                 let mapGroups = this.data.reduce((obj, item) => {
                     obj.group[item.url] = obj.group[item.url] || {
                         url: item.url,
