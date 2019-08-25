@@ -14,25 +14,25 @@ final class GeoLocationHttpRequest extends ApiFormRequest
     {
         return [
             'filter' => 'required|array',
-            'filter.start_date' => [
+            'filter.startDate' => [
                 'required',
                 new Timestamp()
             ],
-            'filter.end_date' => [
+            'filter.endDate' => [
                 'required',
                 new Timestamp(),
-                new TimestampAfter($this->get('filter')['start_date'])
+                new TimestampAfter($this->get('filter')['startDate'])
             ]
         ];
     }
 
     public function startDate(): string
     {
-        return $this->get('filter')['start_date'];
+        return $this->get('filter')['startDate'];
     }
 
     public function endDate(): string
     {
-        return $this->get('filter')['end_date'];
+        return $this->get('filter')['endDate'];
     }
 }
