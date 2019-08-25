@@ -60,18 +60,18 @@
                 title: "Geo Location",
                 items: [
                     {
-                        country: 'Unated States',
-                        visitors: '25',
+                        country: 'US',
+                        visitors: '1',
                         new_visitors: '12',
-                        sessions: '45',
-                        bounce_rate: '14',
+                        sessions: '10',
+                        bounce_rate: '88',
                         avg_session_time: '00:30:00'
                     },
                     {
                         country: 'Canada',
                         visitors: '48',
                         new_visitors: '12',
-                        sessions: '45',
+                        sessions: '67',
                         bounce_rate: '14',
                         avg_session_time: '00:30:00'
                     },
@@ -79,7 +79,7 @@
                         country: 'Ukraine',
                         visitors: '32',
                         new_visitors: '10',
-                        sessions: '65',
+                        sessions: '32',
                         bounce_rate: '21',
                         avg_session_time: '00:37:00'
                     },
@@ -88,14 +88,14 @@
                         visitors: '87',
                         new_visitors: '23',
                         sessions: '175',
-                        bounce_rate: '5',
+                        bounce_rate: '45',
                         avg_session_time: '00:43:00'
                     },
                     {
                         country: 'Germany',
-                        visitors: '87',
+                        visitors: '65',
                         new_visitors: '23',
-                        sessions: '175',
+                        sessions: '10',
                         bounce_rate: '5',
                         avg_session_time: '00:43:00'
                     },
@@ -104,7 +104,7 @@
                         visitors: '31',
                         new_visitors: '5',
                         sessions: '46',
-                        bounce_rate: '49',
+                        bounce_rate: '12',
                         avg_session_time: '00:21:00'
                     },
                 ]
