@@ -39,10 +39,10 @@ class TableVisitsApiTest extends TestCase
         foreach (self::PARAMETERS as $parameter) {
             $query = [
                 'filter' => [
-                    'start_date' => self::DATE_FROM,
-                    'end_date' => self::DATE_TO
-                ],
-                'parameter' => $parameter
+                    'startDate' => self::DATE_FROM,
+                    'endDate' => self::DATE_TO,
+                    'parameter' => $parameter
+                ]
             ];
 
             $response = $this->actingAs($this->user)
@@ -76,8 +76,8 @@ class TableVisitsApiTest extends TestCase
     {
         $query = [
             'filter' => [
-                'start_date' => self::DATE_FROM,
-                'end_date' => self::DATE_TO
+                'startDate' => self::DATE_FROM,
+                'endDate' => self::DATE_TO
             ],
             'parameter' => 'wrong_parameter'
         ];
