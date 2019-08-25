@@ -27,5 +27,5 @@ interface VisitorRepository
 
     public function getVisitorsOfWebsite(int $websiteId): Collection;
 
-    public function groupByCountry(DatePeriod $period): Collection;
+    public function countAllVisitorsGroupByCountry(DatePeriod $period): Collection;
 }

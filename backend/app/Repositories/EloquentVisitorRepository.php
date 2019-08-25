@@ -75,13 +75,13 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::where('website_id', $websiteId)->get();
     }
 
-    public function groupByCountry(DatePeriod $period): Collection
+    public function countAllVisitorsGroupByCountry(DatePeriod $period): Collection
     {
         return Visitor::forUserWebsite()
                 ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
                 ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
                 ->select(DB::raw('count(visitors.id) as all_visitors_count, geo_positions.country as country'))
-                /*->whereBetween('visits.visit_time', [$period->getEndDate(), $period->getEndDate()])*/
+                ->whereBetween('visits.visit_time', [$period->getEndDate(), $period->getEndDate()])
                 ->groupBy('geo_positions.country')
                 ->get();
     }

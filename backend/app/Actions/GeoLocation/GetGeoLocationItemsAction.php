@@ -18,7 +18,7 @@ final class GetGeoLocationItemsAction
 
     public function execute(GetGeoLocationItemsRequest $request): GetGeoLocationItemsResponse
     {
-        $countAllVisitors = $this->visitorRepository->groupByCountry($request->period());
+        $countAllVisitors = $this->visitorRepository->countAllVisitorsGroupByCountry($request->period());
 
         $response = $countAllVisitors->map(function ($item) {
             return new GeoLocationItem($item->country, $item->all_visitors_count);
