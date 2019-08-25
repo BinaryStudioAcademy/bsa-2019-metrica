@@ -18,23 +18,21 @@ final class GetGeoLocationItemsAction
 
     public function execute(GetGeoLocationItemsRequest $request): GetGeoLocationItemsResponse
     {
-        $countAllVisitors = collect(
-            $this->visitorRepository->countAllVisitorsGroupByCountry(
-                    $request->startDate(),
-                    $request->endDate()
-                )
-                ->keyBy('country')
-                ->toArray()
-        );
+        $countAllVisitors = $this->visitorRepository
+            ->countAllVisitorsGroupByCountry(
+                $request->startDate(),
+                $request->endDate()
+            )
+            ->keyBy('country')
+            ->toBase();
 
-        $countNewVisitors = collect(
-            $this->visitorRepository->countNewVisitorsGroupByCountry(
-                    $request->startDate(),
-                    $request->endDate()
-                )
-                ->keyBy('country')
-                ->toArray()
-        );
+        $countNewVisitors = $this->visitorRepository
+            ->countNewVisitorsGroupByCountry(
+                $request->startDate(),
+                $request->endDate()
+            )
+            ->keyBy('country')
+            ->toBase();
 
         $collection = $countAllVisitors->mergeRecursive($countNewVisitors);
 
