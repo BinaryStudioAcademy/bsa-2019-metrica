@@ -6,39 +6,29 @@
         >
             Devices
         </VSubheader>
-        <VLayout class="pie-container position-relative">
+        <VContainer class="white pie-container position-relative">
             <Spinner v-if="isFetching" />
             <VContainer>
-                <VFlex
-                    lg4
-                    md4
-                    hidden-sm-and-down
-                    height="100%"
-                    class="img-card"
-                >
-                    <GChart
-                        type="PieChart"
-                        :data="chartData.system"
-                        :options="chartOptions.system"
-                    />
-                </VFlex>
-                <VFlex
-                    lg5
-                    md5
-                    hidden-sm-and-down
-                    height="100%"
-                    class="img-card"
-                >
-                    <VSubheader
-                        v-text="legend.system.title"
-                        class="legend-title text-dark"
-                    />
-                    <VList>
-                        <VListItem
-                            v-for="systems in legend.system.data"
-                            :key="systems.title"
-                        >
-                            <VRow class="align-center justify-content-between">
+                <VRow class="pa-0 justify-center">
+                    <VCol class="pa-0 d-flex col-5 justify-center align-items-center">
+                        <GChart
+                            class="transparent pa-0 ma-0"
+                            type="PieChart"
+                            :data="chartData.system"
+                            :options="chartOptions.system"
+                        />
+                    </VCol>
+                    <VCol>
+                        <VSubheader
+                            v-text="legend.system.title"
+                            class="legend-title text-dark"
+                        />
+                        <VList>
+                            <VListItem
+                                v-for="systems in legend.system.data"
+                                :key="systems.title"
+                                class="justify-space-between align-center pa-0"
+                            >
                                 <VIcon
                                     :color="systems.color"
                                     small
@@ -55,42 +45,31 @@
                                     </VIcon>
                                     {{ systems.percentageDiff }}%
                                 </VLabel>
-                            </VRow>
-                        </VListItem>
-                    </VList>
-                </VFlex>
+                            </VListItem>
+                        </VList>
+                    </VCol>
+                </VRow>
             </VContainer>
             <VContainer>
-                <VFlex
-                    lg4
-                    md4
-                    hidden-sm-and-down
-                    height="100%"
-                    class="img-card"
-                >
-                    <GChart
-                        type="PieChart"
-                        :data="chartData.device"
-                        :options="chartOptions.device"
-                    />
-                </VFlex>
-                <VFlex
-                    lg5
-                    md5
-                    hidden-sm-and-down
-                    height="100%"
-                    class="img-card"
-                >
-                    <VSubheader
-                        v-text="legend.device.title"
-                        class="legend-title text-dark"
-                    />
-                    <VList>
-                        <VListItem
-                            v-for="devices in legend.device.data"
-                            :key="devices.title"
-                        >
-                            <VRow class="align-center justify-content-between">
+                <VRow class="pa-0 justify-center">
+                    <VCol class="pa-0 d-flex col-5 justify-center align-items-center">
+                        <GChart
+                            type="PieChart"
+                            :data="chartData.device"
+                            :options="chartOptions.device"
+                        />
+                    </VCol>
+                    <VCol>
+                        <VSubheader
+                            v-text="legend.device.title"
+                            class="legend-title text-dark"
+                        />
+                        <VList>
+                            <VListItem
+                                class="justify-space-between align-center pa-0"
+                                v-for="devices in legend.device.data"
+                                :key="devices.title"
+                            >
                                 <VIcon
                                     :color="devices.color"
                                     small
@@ -107,12 +86,12 @@
                                     </VIcon>
                                     {{ devices.percentageDiff }}%
                                 </VLabel>
-                            </VRow>
-                        </VListItem>
-                    </VList>
-                </VFlex>
+                            </VListItem>
+                        </VList>
+                    </VCol>
+                </VRow>
             </VContainer>
-        </VLayout>
+        </VContainer>
     </VContainer>
 </template>
 
@@ -132,7 +111,7 @@
             },
             pieHole: {
                 type: Number,
-                default: 0.95
+                default: 0.87
             },
             legend: {
                 type: Object,
@@ -151,9 +130,15 @@
                 },
                 chartOptions: {
                     system: {
-                        width: 200,
-                        height: 200,
+                        chartArea: {
+                            backgroundColor: 'transparent',
+                            width: '85%',
+                            height: '85%'
+                        },
+                        width: 110,
+                        height: 110,
                         pieHole: this.pieHole,
+                        pieSliceBorderColor: 'none',
                         legend: 'none',
                         pieSliceText: 'none',
                         tooltip: {
@@ -165,14 +150,20 @@
                             },
                             1: {
                                 color: '#3C57DE',
-                                offset: 0.04,
+                                offset: 0,
                             },
                         }
                     },
                     device: {
-                        width: 200,
-                        height: 200,
+                        chartArea: {
+                            backgroundColor: 'transparent',
+                            width: '85%',
+                            height: '85%'
+                        },
+                        width: 110,
+                        height: 110,
                         pieHole: this.pieHole,
+                        pieSliceBorderColor: 'none',
                         legend: 'none',
                         pieSliceText: 'none',
                         tooltip: {
@@ -184,7 +175,7 @@
                             },
                             1: {
                                 color: '#F03357',
-                                offset: 0.04,
+                                offset: 0,
                             },
                         }
                     },
@@ -196,7 +187,8 @@
 
 <style scoped lang="scss">
 .pie-container {
-    background-color: white;
+    box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
+    border-radius: 6px;
 }
 .header {
     align-items: center;
@@ -213,14 +205,14 @@
     line-height: 16px;
 }
 .radio {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
     border-radius: 50%;
 }
-.dot {
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    display: inline-block;
+
+.v-list-item {
+    min-width: 120px;
+}
+
+.v-label {
+    font-size: 12px;
 }
 </style>

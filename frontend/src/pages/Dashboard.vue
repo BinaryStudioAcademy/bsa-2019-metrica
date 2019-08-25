@@ -1,41 +1,17 @@
 <template>
-    <ContentLayout :title="title">
-        <VLayout
-            wrap
-        />
-        <VLayout>
-            <VFlex
-                lg6
-                md6
-                hidden-sm-and-down
-                height="100%"
-                class="img-card"
-            />
-            <VFlex
-                lg5
-                md5
-                hidden-sm-and-down
-                height="100%"
-                class="img-card"
-            >
-                <DevicesPieChart
-                    :data="devicesPieData"
-                    :legend="devicesLegend"
-                    :is-fetching="devicesPieData.isFetching"
-                />
-            </VFlex>
-        </VLayout>
-    </ContentLayout>
+    <DevicesPieChart
+        :data="devicesPieData"
+        :legend="devicesLegend"
+        :is-fetching="devicesPieData.isFetching"
+    />
 </template>
 <script>
     import { isWebsite } from "@/mixins/isWebsite";
-    import ContentLayout from "@/components/layout/ContentLayout";
     import DevicesPieChart from "@/components/widgets/DevicesPieChart.vue";
 
     export default {
         name: 'Dashboard',
         components: {
-            ContentLayout,
             DevicesPieChart,
         },
         mixins: [isWebsite],
@@ -59,7 +35,7 @@
                         ['New Visitors', 30],
                         ['Return Visitors', 50],
                     ],
-                    isFetching: true,
+                    isFetching: false,
                 },
                 devicesLegend: {
                     system: {
