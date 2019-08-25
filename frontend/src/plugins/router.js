@@ -18,6 +18,7 @@ import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
 import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 import PageViews from "../pages/PageViews.vue";
 import Audience from "../pages/Audience.vue";
+import VerifyEmail from "../components/auth/VerifyEmail";
 import Dashboard from "../pages/Dashboard";
 import GeoLocation from "../pages/GeoLocationPage";
 
@@ -52,6 +53,12 @@ export default new Router({
                     path: 'login',
                     name: 'login',
                     component: Login,
+                    props: true
+                },
+                {
+                    path: 'signup/verify-email/',
+                    name: 'verify-email',
+                    component: VerifyEmail,
                     props: true
                 },
                 {
