@@ -84,6 +84,12 @@ final class Session extends Model
         return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
     }
 
+    public function scopeWhereSessionDateBetween(Builder $query, DatePeriod $datePeriod): Builder
+    {
+        return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
+            ->orWhereBetween('end_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
+    }
+
     public function scopeForWebsite(Builder $query, int $website_id): Builder
     {
         return $query->whereHas('page', function($query) use ($website_id) {

@@ -92,6 +92,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'chart-average-sessions'
+        ], function () {
+            Route::get('/', 'SessionController@getAverageSessionByInterval');
+        });
+          
+        Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
