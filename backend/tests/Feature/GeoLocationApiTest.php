@@ -20,19 +20,16 @@ class GeoLocationApiTest extends TestCase
 
     private const GEOLOCATION_RESPONSE_STRUCTURE = [
         'data' => [
-            'all_visitors_count' => [
-                '*' => self::TABLE_RESPONSE_STRUCTURE
-            ],
-            // 'newest_visitors_count'
+            '*' => [
+                'country',
+                'all_visitors_count',
+                'new_visitors_count',
+                'sessions_count',
+                'bounce_rate',
+                'avg_session_time'
+            ]
         ],
         'meta' => []
-    ];
-
-    private const TABLE_RESPONSE_STRUCTURE = [
-        'parameter',
-        'parameter_value',
-        'total',
-        'percentage'
     ];
 
     private const URL = 'api/v1/geo-location-items';
