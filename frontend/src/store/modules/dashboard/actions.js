@@ -44,7 +44,7 @@ export default {
                visitorId:4,
                timeNotification:'2019-08-12 12:11:11'
            },
-           ].sort(function (a, b) {
+           ].sort( (a, b) => {
             return  a.timeNotification - b.timeNotification || a.url - b.url || a.visitorId - b.visitorId;
        });
 
