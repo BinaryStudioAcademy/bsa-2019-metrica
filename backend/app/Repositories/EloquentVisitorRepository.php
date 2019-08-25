@@ -11,6 +11,7 @@ use App\Utils\DatePeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 final class EloquentVisitorRepository implements VisitorRepository
 {
@@ -72,5 +73,16 @@ final class EloquentVisitorRepository implements VisitorRepository
     public function getVisitorsOfWebsite(int $websiteId): Collection
     {
         return Visitor::where('website_id', $websiteId)->get();
+    }
+
+    public function groupByCountry(DatePeriod $period): Collection
+    {
+        return Visitor::forUserWebsite()
+                ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+                ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
+                ->select(DB::raw('count(visitors.id) as all_visitors_count, geo_positions.country as country'))
+                /*->whereBetween('visits.visit_time', [$period->getEndDate(), $period->getEndDate()])*/
+                ->groupBy('geo_positions.country')
+                ->get();
     }
 }

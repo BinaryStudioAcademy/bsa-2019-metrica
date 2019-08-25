@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\GeoLocation\GetAllVisitorsCountAction;
-use App\Actions\GeoLocation\GetAllVisitorsCountRequest;
+use App\Actions\GeoLocation\GetGeoLocationItemsAction;
+use App\Actions\GeoLocation\GetGeoLocationItemsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GeoLocation\GeoLocationHttpRequest;
 use App\Http\Resources\GeoLocationResource;
@@ -14,27 +14,23 @@ use App\Http\Response\ApiResponse;
 
 final class GeoLocationController extends Controller
 {
-    private $getAllVisitorsCountAction;
+    private $getGeoLocationItemsAction;
 
     public function __construct(
-        GetAllVisitorsCountAction $getAllVisitorsCountAction
+        GetGeoLocationItemsAction $getGeoLocationItemsAction
     ) {
-        $this->getAllVisitorsCountAction = $getAllVisitorsCountAction;
+        $this->getGeoLocationItemsAction = $getGeoLocationItemsAction;
     }
 
     public function __invoke(GeoLocationHttpRequest $request): ApiResponse
     {
-        $allVisitorsCount = $this->getAllVisitorsCountAction->execute(
-            new GetAllVisitorsCountRequest(
+        $response = $this->getGeoLocationItemsAction->execute(
+            new GetGeoLocationItemsRequest(
                $request->startDate(),
                $request->endDate()
             )
-        );
+        )->items();
 
-        $resource = collect([
-            'all_visitors_count' => new TableResource($allVisitorsCount->allVisitorsCount())
-        ]);
-
-        return ApiResponse::success(new GeoLocationResource($resource));
+        return ApiResponse::success(new GeoLocationResource($response));
     }
 }

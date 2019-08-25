@@ -26,4 +26,6 @@ interface VisitorRepository
     public function countSinglePageInactiveSessionBetweenDate(DatePeriod $period): int;
 
     public function getVisitorsOfWebsite(int $websiteId): Collection;
+
+    public function groupByCountry(DatePeriod $period): Collection;
 }
