@@ -60,6 +60,30 @@ Open browser:
 
 `http://localhost:3000`
 
+### Setup pusher
+
+Sign up [Pusher](https://pusher.com).
+
+Create application.
+
+Fill `backend/.env` variables:
+
+```bash
+BROADCAST_DRIVER=pusher
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=
+```
+
+Fill `frontend/.env` variables:
+
+```bash
+PUSHER_APP_KEY=
+PUSHER_CLUSTER=
+PUSHER_AUTH_ENDPOINT=/broadcasting/auth
+```
+
 ### Elasticsearch troubleshoot
 
 The vm.max_map_count kernel setting needs to be set to at least 262144 for production use. Depending on your platform:

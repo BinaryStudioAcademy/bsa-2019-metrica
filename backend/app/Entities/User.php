@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
+use App\Notifications\MailSuccessRegistrationNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -14,7 +15,7 @@ final class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'is_activate'
     ];
 
     protected $hidden = [
