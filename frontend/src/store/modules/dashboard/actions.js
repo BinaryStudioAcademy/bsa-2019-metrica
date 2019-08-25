@@ -3,7 +3,7 @@ import {SET_ACTIVITY_DATA_ITEMS, SET_ACTIVITY_CHART_DATA} from "./types/mutation
 
 export default {
     [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
-       let items = [
+       const items = [
                {
                    url:'link_1/juhy/kkk',
                    visitorId:2,
@@ -44,13 +44,12 @@ export default {
                    visitorId:4,
                    timeNotification:'2019-08-12 12:11:11'
                },
-           ];
-       let sortItems = items.sort(function (a, b) {
+           ].sort(function (a, b) {
             return  a.timeNotification - b.timeNotification || a.url - b.url || a.visitorId - b.visitorId;
        });
 
-       let result = [];
-       sortItems.forEach((element) => {
+       const result = [];
+        items.forEach((element) => {
             if(result.length > 0) {
                 if(!result.find( (item => item.url === element.url && item.visitorId === element.visitorId))) {
                     result.push(element);

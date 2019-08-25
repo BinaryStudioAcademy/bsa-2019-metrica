@@ -22,8 +22,8 @@
         </div>
         <VContainer>
             <VSparkline
-                v-if="chartData.length > 0"
-                :value="chartData"
+                v-if="activityChartData.length > 0"
+                :value="activityChartData"
                 :gradient="gradient"
                 :smooth="radius"
                 :padding="padding"
@@ -32,27 +32,9 @@
                 auto-draw
             />
         </VContainer>
-        <ul
-            class="links-list m-0 p-0"
-        >
-            <li class="card-title">
-                <p>Top active pages</p>
-                <p>Users</p>
-            </li>
-            <li
-                v-for="page in topPages"
-                class="mb-2 mt-1 px-0 py-1"
-                :key="page.url"
-            >
-                <a
-                    class="link-item"
-                    :href="page.url"
-                >
-                    {{ page.url }}
-                </a>
-                <p>{{ page.count }}</p>
-            </li>
-        </ul>
+        <TopActivePage
+            :top-pages="topPages"
+        />
         <div
             class="text-center"
         >
@@ -67,7 +49,12 @@
 </template>
 
 <script>
+    import _ from "lodash";
+    import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
+        components: {
+            TopActivePage
+        },
         name: 'ActiveVisitorsCard',
         props: {
             data: {
@@ -91,35 +78,22 @@
             gradientDirection: 'left',
         }),
         computed: {
-            chartData() {
-                return this.activityChartData;
-            },
             activeUsersCount() {
-                return this.data.map(item => item.visitorId)
-                    .filter((value, index, self) => self.indexOf(value) === index).length;
+                return _.uniqBy(this.data, 'visitorId').length;
             },
             pageViewsCount() {
-                return this.data.map(item => item.url)
-                    .filter((value, index, self) => self.indexOf(value) === index).length;
+                return _.uniqBy(this.data, 'url').length;
             },
             topPages() {
-                let mapGroups = this.data.reduce((obj, item) => {
-                    obj.group[item.url] = obj.group[item.url] || {
-                        url: item.url,
-                        count: 0
-                    };
-                    obj.group[item.url].count += 1;
-                    return obj;
-                }, {group: {}});
-
-                mapGroups = Object.values(mapGroups.group);
-                let mapGroupsSort = mapGroups.sort(function (a, b) {
-                    return  b.visitors - a.visitors;
-                });
-                if(mapGroupsSort.length > 3) {
-                    return mapGroupsSort.slice(0, 2);
+                const result = _(this.data)
+                    .groupBy('url')
+                    .map(function(items, url) {
+                        return { url: url, count: items.length };
+                    }).value();
+                if(result.length > 3) {
+                    return result.slice(0, 2);
                 }
-                return mapGroupsSort;
+                return result;
             }
         },
     };
@@ -143,19 +117,6 @@
                 font-size: 24px;
             }
         }
-
-        .links-list {
-            list-style: none;
-            li {
-                display: flex;
-                justify-content: space-between;
-            }
-            .link-item {
-                text-decoration:none;
-                color: rgba(18, 39, 55, 0.5);
-            }
-        }
-
         .card-button {
             height: 32px;
             width: 126px;
