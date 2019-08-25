@@ -17,22 +17,29 @@
         components: {
             GChart
         },
+        props: {
+            dataItems: {
+                type: Array,
+                required: true
+            }
+        },
         data() {
             return {
-                chartData: [
-                    ['Country', 'Popularity'],
-                    ['Germany', 200],
-                    ['United States', 300],
-                    ['Brazil', 400],
-                    ['Canada', 500],
-                    ['France', 600],
-                    ['UA', 700]
-                ],
+                chartParameter: 'visitors',
                 chartOptions: {
                     colorAxis: {colors: ['#D4DAF8', '#3C57DE']},
                     datalessRegionColor: '#ECF3FF'
                 }
             };
+        },
+        computed: {
+            chartData () {
+                let dataArray = [['Country', this.chartParameter]];
+                this.dataItems.map((item) => {
+                    dataArray.push([item.country, +item[this.chartParameter]]);
+                });
+                return dataArray;
+            }
         }
     };
 

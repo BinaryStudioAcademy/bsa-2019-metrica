@@ -1,0 +1,2 @@
+export const SET_SELECTED_PERIOD = 'SET_SELECTED_PERIOD';
+

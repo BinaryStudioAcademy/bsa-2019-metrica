@@ -1,5 +1,24 @@
 <template>
     <ContentLayout :title="title">
+        <VLayout
+            class="map-container"
+        >
+            <VFlex
+                xl8
+                lg8
+                md12
+                height="100%"
+                class="img-card"
+            >
+                <Map
+                    :data-items="items"
+                />
+                <PeriodDropdown
+                    :value="getSelectedPeriod"
+                    @change="changePeriod"
+                />
+            </VFlex>
+        </VLayout>
         <VLayout>
             <VFlex
                 lg12
@@ -19,24 +38,23 @@
 <script>
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import GroupedTable from '../components/dashboard/geo_location/GroupedTable';
+    import Map from '../components/dashboard/geo_location/Map';
+    import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
+    import {mapGetters, mapActions} from 'vuex';
+    import {GET_SELECTED_PERIOD} from "@/store/modules/geo_location/types/getters";
+    import {CHANGE_SELECTED_PERIOD} from "@/store/modules/geo_location/types/actions";
 
     export default {
         components: {
             GroupedTable,
-            ContentLayout
+            ContentLayout,
+            Map,
+            PeriodDropdown
         },
         data() {
             return {
                 title: "Geo Location",
                 items: [
-                    {
-                        country: 'World',
-                        visitors: '175',
-                        new_visitors: '50',
-                        sessions: '331',
-                        bounce_rate: '22.5%',
-                        avg_session_time: '00:32:45'
-                    },
                     {
                         country: 'USA',
                         visitors: '25',
@@ -71,10 +89,25 @@
                     },
                 ]
             };
+        },
+        computed: {
+            ...mapGetters('geo_location', {
+                getSelectedPeriod: GET_SELECTED_PERIOD,
+            }),
+        },
+        methods: {
+            ...mapActions('geo_location', {
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+            }),
+            changePeriod(data) {
+                this.changeSelectedPeriod(data);
+            }
         }
     };
 </script>
 
 <style scoped>
-
+    .map-container {
+        background-color: white;
+    }
 </style>
