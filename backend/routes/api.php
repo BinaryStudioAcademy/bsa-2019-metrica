@@ -103,6 +103,7 @@ Route::prefix('v1')->group(function () {
             'prefix'=>'button-page-views'
         ], function () {
             Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
+            Route::get('avg-time', 'VisitController@getPageViewsAvgTimeForFilterData');
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');

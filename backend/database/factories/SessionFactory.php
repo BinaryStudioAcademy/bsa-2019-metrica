@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 $factory->define(Session::class, function (Faker $faker) {
     return [
         'start_session' => (Carbon::yesterday())->toDateString(),
+        'end_session' => (Carbon::today())->toDateString(),
         'visitor_id' => Visitor::inRandomOrder()->first()->id,
         'entrance_page_id' => Page::inRandomOrder()->first()->id,
         'language' => $faker->languageCode,
