@@ -5,9 +5,9 @@
         <div class="d-flex justify-content-between">
             <div>chart</div>
             <ActiveVisitorsCard
-                :data="this.activityDataItems"
-                :is-fetching="this.activityDataFetching"
-                :activity-chart-data="this.activityChartData"
+                :data="activityDataItems"
+                :is-fetching="activityDataFetching"
+                :activity-chart-data="activityChartData"
             />
         </div>
     </ContentLayout>
