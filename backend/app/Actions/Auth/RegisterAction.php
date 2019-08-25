@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
+use App\Notifications\MailSuccessRegistrationNotification;
 use App\Repositories\Contracts\UserRepository;
 use App\Entities\User;
 use Illuminate\Support\Facades\Hash;
@@ -25,8 +26,11 @@ final class RegisterAction
         $user->email = $request->getEmail();
         $user->password = Hash::make($request->getPassword());
         $this->userRepository->save($user);
+        JWTAuth::factory()->setTTL(720);
         $token = JWTAuth::fromUser($user);
 
-        return new RegisterResponse($token);
+        $user->notify(new MailSuccessRegistrationNotification($user, $token));
+
+        return new RegisterResponse($user->email);
     }
 }
