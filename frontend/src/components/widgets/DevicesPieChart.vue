@@ -35,25 +35,25 @@
                     />
                     <VList>
                         <VListItem
-                            v-for="visitor in legend.system.data"
-                            :key="visitor.system.title"
+                            v-for="systems in legend.system.data"
+                            :key="systems.title"
                         >
                             <VRow class="align-center justify-content-between">
                                 <VIcon
-                                    :color="visitor.system.color"
+                                    :color="systems.color"
                                     small
                                 >
                                     mdi-circle
                                 </VIcon>
-                                <VLabel>{{ visitor.system.title }}</VLabel>
+                                <VLabel>{{ systems.title }}</VLabel>
                                 <VLabel>
                                     <VIcon
-                                        :color="visitor.system.color"
+                                        :color="systems.color"
                                         small
                                     >
                                         mdi-arrow-up
                                     </VIcon>
-                                    {{ visitor.system.percentageDiff }}%
+                                    {{ systems.percentageDiff }}%
                                 </VLabel>
                             </VRow>
                         </VListItem>
@@ -87,25 +87,25 @@
                     />
                     <VList>
                         <VListItem
-                            v-for="visitor in legend.device.data"
-                            :key="visitor.device.title"
+                            v-for="devices in legend.device.data"
+                            :key="devices.title"
                         >
                             <VRow class="align-center justify-content-between">
                                 <VIcon
-                                    :color="visitor.device.color"
+                                    :color="devices.color"
                                     small
                                 >
                                     mdi-circle
                                 </VIcon>
-                                <VLabel>{{ visitor.device.title }}</VLabel>
+                                <VLabel>{{ devices.title }}</VLabel>
                                 <VLabel>
                                     <VIcon
-                                        :color="visitor.device.color"
+                                        :color="devices.color"
                                         small
                                     >
                                         mdi-arrow-up
                                     </VIcon>
-                                    {{ visitor.device.percentageDiff }}%
+                                    {{ devices.percentageDiff }}%
                                 </VLabel>
                             </VRow>
                         </VListItem>
