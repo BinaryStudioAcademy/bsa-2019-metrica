@@ -100,7 +100,7 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
             ]);
         }
 
-        $outOfDateRangeSession = factory(Session::class, 2)->create([
+        $outOfDateRangeSession = factory(Session::class)->create([
                                     'start_session' => '2019-08-30 00:00:00',
                                     'end_session' =>  '2019-08-31 00:00:00'
                                 ]);
