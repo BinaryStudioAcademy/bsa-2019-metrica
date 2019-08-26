@@ -77,6 +77,9 @@ export const getTimeByPeriod = (value) => {
             throw 'This period is not defined';
     }
 
+    startDate = startDate.unix();
+    endDate = endDate.unix();
+
     return {
         interval,
         startDate,
