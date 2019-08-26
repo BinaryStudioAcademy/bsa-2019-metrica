@@ -8,7 +8,7 @@ use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ButtonDataPageViews;
 use Illuminate\Support\Facades\Auth;
 
-class GetUniquePageViewsAction
+class GetUniquePageViewsButtonAction
 {
     private $repository;
 
@@ -17,7 +17,7 @@ class GetUniquePageViewsAction
         $this->repository = $repository;
     }
 
-    public function execute(GetUniquePageViewsRequest $request): ButtonValue
+    public function execute(GetUniquePageViewsButtonRequest $request): ButtonValue
     {
         try {
             $websiteId = Auth::user()->website->id;

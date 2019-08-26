@@ -11,11 +11,11 @@ use App\Actions\Visits\GetPageViewsCountRequest;
 use App\Actions\Visits\CreateVisitAction;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
-use App\Actions\Visits\GetUniquePageViewsAction;
-use App\Actions\Visits\GetUniquePageViewsRequest;
+use App\Actions\Visits\GetUniquePageViewsButtonAction;
+use App\Actions\Visits\GetUniquePageViewsButtonRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
-use App\Http\Requests\Visit\GetUniquePageViewsHttpRequest;
+use App\Http\Requests\Visit\GetUniquePageViewsButtonHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
@@ -36,7 +36,7 @@ final class VisitController extends Controller
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
         GetPageViewsCountAction $getPageViewsCountAction,
         CreateVisitAction $createVisitAction,
-        GetUniquePageViewsAction $getUniquePageViewsAction
+        GetUniquePageViewsButtonAction $getUniquePageViewsAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
@@ -66,9 +66,9 @@ final class VisitController extends Controller
         return ApiResponse::success(new ButtonResource($response));
     }
 
-    public function getUniquePageViews(GetUniquePageViewsHttpRequest $request): ApiResponse
+    public function getUniquePageViewsButton(GetUniquePageViewsButtonHttpRequest $request): ApiResponse
     {
-        $response = $this->getUniquePageViewsAction->execute(GetUniquePageViewsRequest::fromRequest($request));
+        $response = $this->getUniquePageViewsAction->execute(GetUniquePageViewsButtonRequest::fromRequest($request));
         return ApiResponse::success(new ButtonResource($response));
     }
 }

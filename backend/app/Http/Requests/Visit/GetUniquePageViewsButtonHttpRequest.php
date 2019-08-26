@@ -7,7 +7,7 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-class GetUniquePageViewsHttpRequest extends ApiFormRequest
+class GetUniquePageViewsButtonHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {

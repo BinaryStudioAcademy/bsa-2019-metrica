@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace App\Actions\Visits;
 
 use App\Actions\ButtonDataRequest;
-use App\Http\Requests\Visit\GetUniquePageViewsHttpRequest;
+use App\Http\Requests\Visit\GetUniquePageViewsButtonHttpRequest;
 
-class GetUniquePageViewsRequest extends ButtonDataRequest
+class GetUniquePageViewsButtonRequest extends ButtonDataRequest
 {
-    public static function fromRequest(GetUniquePageViewsHttpRequest $request): self
+    public static function fromRequest(GetUniquePageViewsButtonHttpRequest $request): self
     {
         return new static(
             $request->getStartDate(),
