@@ -82,7 +82,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'table-visitors'
         ], function () {
-            Route::get('/count-total', 'VisitorController@getVisitorsByParameter');
+            Route::get('/count-total', 'VisitorController@getVisitorsCountByParameter');
         });
 
         Route::group([
