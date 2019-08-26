@@ -59,4 +59,9 @@ final class VisitController extends Controller
         $response = $this->getPageViewsCountAction->execute(GetPageViewsCountRequest::fromRequest($request));
         return ApiResponse::success(new ButtonResource($response));
     }
+
+    public function getUniquePageViewsChart()
+    {
+
+    }
 }
