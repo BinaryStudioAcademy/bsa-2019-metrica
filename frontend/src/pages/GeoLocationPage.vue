@@ -20,6 +20,16 @@
                     @change="changeSelectedPeriod"
                 />
             </VFlex>
+            <VFlex
+                xl4
+                lg4
+                md12
+            >
+                <MapList
+                    :displayed-parameter="getSelectedParameter"
+                    :data-items="items"
+                />
+            </VFlex>
         </VLayout>
         <VLayout>
             <VFlex
@@ -39,6 +49,7 @@
 
 <script>
     import MapButtons from "../components/dashboard/geo_location/MapButtons";
+    import MapList from "../components/dashboard/geo_location/MapList";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import GroupedTable from '../components/dashboard/geo_location/GroupedTable';
     import MapChart from '../components/dashboard/geo_location/MapChart';
@@ -53,7 +64,8 @@
             ContentLayout,
             MapChart,
             PeriodDropdown,
-            MapButtons
+            MapButtons,
+            MapList
         },
         data() {
             return {
