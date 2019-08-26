@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -72,6 +73,11 @@ final class Session extends Model
     public function visit(): HasOne
     {
         return $this->hasOne(Visit::class);
+    }
+
+    public function scopeForUserWebsite(Builder $query): Builder
+    {
+        return $query->whereWebsiteId(Auth::user()->website->id);
     }
 
     public function scopeInactive(Builder $query, DateTime $date): Builder
