@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
+use App\Rules\Parameter;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
@@ -25,7 +26,7 @@ final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
             ],
             'filter.parameter' => [
                 'required',
-                "in:city,country,language,browser,operating_system,screen_resolution"
+                new Parameter()
             ],
         ];
     }
