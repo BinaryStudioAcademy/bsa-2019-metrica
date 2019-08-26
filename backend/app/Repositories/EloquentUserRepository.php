@@ -25,4 +25,9 @@ final class EloquentUserRepository implements UserRepository
     {
         return User::where('email', $email)->first();
     }
+
+    public function activateUser(string $email): void
+    {
+        User::where('email', $email)->update(['is_activate' => 1]);
+    }
 }
