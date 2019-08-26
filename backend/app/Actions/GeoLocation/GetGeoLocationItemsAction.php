@@ -50,6 +50,15 @@ final class GetGeoLocationItemsAction
                 ->toArray()
         );
 
+        $countBouncedVisitors = collect(
+            $this->visitorRepository->countInactiveSessionGroupByCountry(
+                $request->startDate(),
+                $request->endDate()
+            )
+                ->keyBy('country')
+                ->toArray()
+        );
+
         $avgSessionTime = collect(
             $this->sessionRepository->getAvgSessionTimeGroupByCountry(
                 $request->startDate(),
@@ -61,6 +70,7 @@ final class GetGeoLocationItemsAction
 
         $collection = $countAllVisitors->mergeRecursive($countNewVisitors)
             ->mergeRecursive($countAllSessions)
+            ->mergeRecursive($countBouncedVisitors)
             ->mergeRecursive($avgSessionTime);
 
         $response = $collection->map(function ($item) {
@@ -69,7 +79,7 @@ final class GetGeoLocationItemsAction
                 $item['all_visitors_count'],
                 $item['new_visitors_count'],
                 $item['all_sessions_count'],
-                0,
+                $item['bounced_visitors_count']/$item['all_visitors_count'],
                 (int) $item['avg_session_time']
             );
         })->flatten();
