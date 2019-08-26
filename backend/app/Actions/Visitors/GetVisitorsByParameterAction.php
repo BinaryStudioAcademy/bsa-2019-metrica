@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Visitors;
 
 use App\Repositories\Contracts\TableVisitorsRepository;
-use http\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
 
 final class GetVisitorsByParameterAction
@@ -68,8 +67,6 @@ final class GetVisitorsByParameterAction
                         $request->endDate()
                     );
                 break;
-            default:
-                throw new InvalidArgumentException(sprintf('The parameter "%s" is not valid.', $request->parameter()));
         }
 
 
