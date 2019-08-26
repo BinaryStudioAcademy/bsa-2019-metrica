@@ -15,8 +15,8 @@ final class GetVisitorsByParameterRequest
 
     private function __construct(string $startDate, string $endDate, string $parameter)
     {
-        $this->startDate = Carbon::createFromTimestamp($startDate)->toDateString();
-        $this->endDate = Carbon::createFromTimestamp($endDate)->toDateString();
+        $this->startDate = Carbon::createFromTimestamp($startDate)->toDateTimeString();
+        $this->endDate = Carbon::createFromTimestamp($endDate)->toDateTimeString();
         $this->parameter = $parameter;
     }
 

@@ -118,7 +118,8 @@ final class VisitorController extends Controller
     public function getVisitorsByParameter(GetTableVisitorsByParameterHttpRequest $request): ApiResponse
     {
         $response = $this->getVisitorsByParameterAction->execute(
-            GetVisitorsByParameterRequest::fromRequest($request));
+            GetVisitorsByParameterRequest::fromRequest($request)
+        );
 
         return ApiResponse::success(new TableResource($response->visitors()));
     }
