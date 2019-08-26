@@ -17,7 +17,7 @@ final class GetNewVisitorsCountAction
         $this->tableNewVisitorsRepository = $tableNewVisitorsRepository;
     }
 
-    public function execute(GetNewVisitorsByParameterRequest $request): GetVisitorsCountByParameterResponse
+    public function execute(GetNewVisitorsCountRequest $request): GetVisitorsCountByParameterResponse
     {
         $parameter = $request->parameter();
         $arguments = [
