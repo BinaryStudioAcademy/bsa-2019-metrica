@@ -11,8 +11,11 @@ use App\Actions\Visits\GetPageViewsCountRequest;
 use App\Actions\Visits\CreateVisitAction;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
+use App\Actions\Visits\GetUniquePageViewsChartAction;
+use App\Actions\Visits\GetUniquePageViewsChartRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
+use App\Http\Requests\Visit\GetUniquePageViewsChartHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
@@ -26,17 +29,20 @@ final class VisitController extends Controller
     private $getPageViewsByParameterAction;
     private $getPageViewsCountAction;
     private $createVisitAction;
+    private $getUniquePageViewChartAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
         GetPageViewsCountAction $getPageViewsCountAction,
-        CreateVisitAction $createVisitAction
+        CreateVisitAction $createVisitAction,
+        GetUniquePageViewsChartAction $getUniquePageViewChartAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
         $this->createVisitAction = $createVisitAction;
+        $this->getUniquePageViewChartAction = $getUniquePageViewChartAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -60,8 +66,9 @@ final class VisitController extends Controller
         return ApiResponse::success(new ButtonResource($response));
     }
 
-    public function getUniquePageViewsChart()
+    public function getUniquePageViewsChart(GetUniquePageViewsChartHttpRequest $request)
     {
-
+        return $request;
+        $this->getUniquePageViewChartAction->execute(GetUniquePageViewsChartRequest::fromRequest($request));
     }
 }

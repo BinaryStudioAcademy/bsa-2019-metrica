@@ -48,4 +48,6 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
             return new ChartVisit($item->date, $item->visits);
         });
     }
+
+
 }
