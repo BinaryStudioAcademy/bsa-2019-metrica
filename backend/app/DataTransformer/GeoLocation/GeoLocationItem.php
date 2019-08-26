@@ -16,14 +16,17 @@ final class GeoLocationItem
     public function __construct(
         string $country,
         int $allVisitorsCount,
-        ?int $newVisitorsCount
+        ?int $newVisitorsCount,
+        int $sessionsCount,
+        int $bounceRate,
+        int $avgSessionTime
     ) {
         $this->country = $country;
         $this->allVisitorsCount = $allVisitorsCount;
         $this->newVisitorsCount = $newVisitorsCount;
-        $this->sessionsCount = 0;
-        $this->bounceRate = 0;
-        $this->avgSessionTime = 0;
+        $this->sessionsCount = $sessionsCount;
+        $this->bounceRate = $bounceRate;
+        $this->avgSessionTime = $avgSessionTime;
     }
 
     public function country(): string
