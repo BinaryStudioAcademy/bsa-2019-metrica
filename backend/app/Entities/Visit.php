@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Visit extends Model
 {
@@ -18,4 +18,9 @@ final class Visit extends Model
     ];
 
     protected $with = ['session', 'pages', 'visitors'];
+
+    public function session(): BelongsTo
+    {
+        return $this->belongsTo(Session::class);
+    }
 }
