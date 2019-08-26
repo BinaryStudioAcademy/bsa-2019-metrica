@@ -60,7 +60,6 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
         $subQueryFifth = "SELECT group_visits.count, (" . $this->roundDate('group_visits.start_session', $interval) .
             ") AS period FROM ($subQueryForth) AS group_visits";
         $query = DB::raw("SELECT COUNT(*), period FROM ($subQueryFifth) AS periods WHERE count < 2 GROUP BY period");
-        $test = "SELECT COUNT(*), period FROM ($subQueryFifth) AS periods WHERE count < 2 GROUP BY period;";
         $response = DB::select((string)$query, [
             'startDate' => $datePeriod->getStartDate(),
             'endDate' => $datePeriod->getEndDate(),
