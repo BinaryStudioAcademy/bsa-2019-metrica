@@ -110,28 +110,27 @@
                 }
 
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
-                const pointStyle = 'point { stroke-color: #3C57DE; size: 5.5; shape-type: circle; fill-color: #FFFFFF; }';
+                const pointStyle = 'point { stroke-color: #3C57DE; size: 5; shape-type: circle; fill-color: #FFFFFF; }';
                 let tmpData = this.data.map( element =>
-                    [element.xLabel, element.value, element.value, pointStyle, this.tooltip(element.value, element.indication)]
+                    [element.date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element.value, element.date)]
                 );
-                tmpData.unshift([{type: 'string', name: 'xLabel'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
+                tmpData.unshift([{type: 'string', name: 'date'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
                 return tmpData;
             }
         },
 
         methods: {
-            tooltip(value, indication) {
-                return ' <div class=\'custom-google-line-chart-tooltip\'>\n' +
-                    '        <div class=\'tooltip-first\'>\n' +
-                    `          ${value}\n` +
-                    '        </div>\n' +
-                    '        <div class=\'tooltip-second\'>\n' +
-                    '            <img class="tooltip-arrow" src="/assets/icons/arrow-up.svg#root" alt="arrow-up">\n' +
-                    `            ${indication}%\n` +
-                    '        </div>\n' +
-                    '</div>';
+            tooltip(value, date) {
+                let tooltip = `<div class='custom-google-line-chart-tooltip'>
+                    <div class='tooltip-first'>
+                        ${value}
+                    </div>
+                    <div class='tooltip-second'>
+                        ${date}
+                    </div>
+                </div>`;
+                return tooltip;
             },
-
         }
     };
 </script>

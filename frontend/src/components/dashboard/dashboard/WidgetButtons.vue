@@ -1,5 +1,8 @@
 <template>
-    <VItemGroup mandatory>
+    <VItemGroup
+        @change="refreshData"
+        mandatory
+    >
         <VItem
             v-for="button in buttons"
             :key="button.label"
@@ -9,6 +12,7 @@
                 :ripple="false"
                 text
                 rounded
+                :key="button.label"
                 :class="active ? 'cyan white--text active' : 'inactive'"
                 @click="toggle"
             >
@@ -19,17 +23,36 @@
 </template>
 
 <script>
+    import {mapActions, mapGetters} from 'vuex';
+    import {GET_DATA_TYPE} from "../../../store/modules/dashboard/types/getters";
+    import {CHANGE_DATA_TYPE, FETCH_LINE_CHART_DATA} from "../../../store/modules/dashboard/types/actions";
+
     export default {
         name: "WidgetButtons",
         data() {
             return {
                 buttons: [
-                    { label: 'Visitors' },
-                    { label: 'Pages' },
-                    { label: 'Bounce Rate' },
+                    { label: 'Visitors', value: 'total_visitors' },
+                    { label: 'Pages', value: 'page_views' },
+                    { label: 'Bounce Rate', value: 'bounce_rate' },
                 ]
             };
-        }
+        },
+        computed: {
+            ...mapGetters('dashboard', {
+                dataToFetch: GET_DATA_TYPE
+            })
+        },
+        methods: {
+            ...mapActions('dashboard', {
+                changeDataType: CHANGE_DATA_TYPE,
+                getChartData: FETCH_LINE_CHART_DATA,
+            }),
+            refreshData(index) {
+                this.changeDataType(this.buttons[index].value);
+                this.getChartData();
+            }
+        },
     };
 </script>
 

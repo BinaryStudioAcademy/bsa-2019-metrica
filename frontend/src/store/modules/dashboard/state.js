@@ -3,5 +3,6 @@ export default {
     chartData: {
         items: [],
         isFetching: false
-    }
+    },
+    dataToFetch: 'total_visitors'
 };

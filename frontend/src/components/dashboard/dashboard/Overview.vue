@@ -6,12 +6,12 @@
             name="Visitors"
         />
         <LineChart
-            :data="data"
+            :data="chartData.items"
             :is-fetching="chartData.isFetching"
         />
         <PeriodDropdown
-            :value="getSelectedPeriod"
-            @change="changePeriod"
+            :value="selectedPeriod"
+            @change="refreshData"
         />
     </VContainer>
 </template>
@@ -30,20 +30,13 @@
         FETCH_LINE_CHART_DATA
     } from "@/store/modules/dashboard/types/actions";
     export default {
-        data() {
-            return {
-                data: [],
-                period: '',
-
-            };
-        },
         computed: {
             title () {
                 return this.$route.meta.title;
             },
             ...mapGetters('dashboard', {
                 chartData: GET_LINE_CHART_DATA,
-                getSelectedPeriod: GET_SELECTED_PERIOD,
+                selectedPeriod: GET_SELECTED_PERIOD,
             }),
         },
         methods: {
@@ -51,10 +44,10 @@
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 getLineChartData: FETCH_LINE_CHART_DATA
             }),
-            changePeriod(data) {
+            refreshData(data) {
                 this.changeSelectedPeriod(data);
-                console.log(this.data);
-            },
+                this.getLineChartData();
+            }
         },
         name: "Overview",
         components: { WidgetButtons, LineChart, PeriodDropdown }
