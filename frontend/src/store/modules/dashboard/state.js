@@ -4,7 +4,7 @@ export default {
         items: [],
         isFetching: false
     },
-    dataToFetch: 'total_visitors'
+    dataToFetch: 'total_visitors',
     activityData:{
         items: [],
         isFetching: false

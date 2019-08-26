@@ -7,6 +7,7 @@
         />
         <LineChart
             :data="chartData.items"
+            :interval="selectedPeriod"
             :is-fetching="chartData.isFetching"
         />
         <PeriodDropdown
