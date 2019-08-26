@@ -8,8 +8,6 @@ use App\Repositories\Contracts\TableNewVisitorsRepository;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
 use App\DataTransformer\TableValue;
-use App\Actions\Visitors\GetNewVisitorsByParameterRequest;
-use App\Actions\Visitors\GetVisitorsByParameterResponse;
 
 final class GetNewVisitorsByParameterAction
 {
@@ -20,7 +18,7 @@ final class GetNewVisitorsByParameterAction
         $this->tableNewVisitorsRepository = $tableNewVisitorsRepository;
     }
 
-    public function execute(GetNewVisitorsByParameterRequest $request): GetVisitorsByParameterResponse
+    public function execute(GetNewVisitorsByParameterRequest $request): GetVisitorsCountByParameterResponse
     {
         $parameter = $request->parameter();
         $arguments = [
@@ -61,7 +59,7 @@ final class GetNewVisitorsByParameterAction
             );
         });
 
-        return new GetVisitorsByParameterResponse($formattedVisitors);
+        return new GetVisitorsCountByParameterResponse($formattedVisitors);
     }
 }
 
