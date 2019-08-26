@@ -7,7 +7,7 @@ namespace App\Actions\Visitors;
 use App\Http\Requests\Visitor\GetTableVisitorsByParameterHttpRequest;
 use Carbon\Carbon;
 
-final class GetVisitorsByParameterRequest
+final class GetVisitorsCountByParameterRequest
 {
     private $startDate;
     private $endDate;

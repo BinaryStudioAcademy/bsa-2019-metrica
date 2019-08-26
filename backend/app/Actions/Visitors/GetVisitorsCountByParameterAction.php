@@ -7,7 +7,7 @@ namespace App\Actions\Visitors;
 use App\Repositories\Contracts\TableVisitorsRepository;
 use Illuminate\Support\Facades\Auth;
 
-final class GetVisitorsByParameterAction
+final class GetVisitorsCountByParameterAction
 {
     private $tableVisitorsRepository;
 
@@ -16,7 +16,7 @@ final class GetVisitorsByParameterAction
         $this->tableVisitorsRepository = $tableVisitorsRepository;
     }
 
-    public function execute(GetVisitorsByParameterRequest $request): GetVisitorsByParameterResponse
+    public function execute(GetVisitorsCountByParameterRequest $request): GetVisitorsCountByParameterResponse
     {
         switch ($request->parameter()) {
             case 'city':
@@ -69,9 +69,7 @@ final class GetVisitorsByParameterAction
                 break;
         }
 
-
-
-        return new GetVisitorsByParameterResponse($visitors);
+        return new GetVisitorsCountByParameterResponse($visitors);
     }
 }
 
