@@ -9,8 +9,8 @@ use App\Actions\Website\AddWebsiteAction;
 use App\Actions\Website\AddWebsiteRequest;
 use App\Actions\Website\EditWebsiteAction;
 use App\Actions\Website\EditWebsiteRequest;
-use App\Http\Requests\Api\AddWebsiteHttpRequest;
-use App\Http\Requests\Api\EditWebsiteHttpRequest;
+use App\Http\Requests\Website\AddWebsiteHttpRequest;
+use App\Http\Requests\Website\EditWebsiteHttpRequest;
 use App\Http\Resources\WebsiteResource;
 use App\Http\Response\ApiResponse;
 

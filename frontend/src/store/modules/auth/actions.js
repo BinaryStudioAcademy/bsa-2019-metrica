@@ -30,14 +30,7 @@ export default {
         return authorize(user)
             .then(response => {
                 context.commit(USER_LOGIN, response.data);
-
-                return getAuthUser()
-                    .then(response => {
-                        const user = response.data;
-                        context.commit(SET_AUTHENTICATED_USER, user);
-
-                        return user;
-                    });
+                return context.dispatch(FETCH_CURRENT_USER);
             }).catch((response) => {
                 return Promise.reject(response.response.data.error.message);
             });
@@ -61,6 +54,9 @@ export default {
 
     [SIGN_UP]: (context, newUser) => {
         return registerUser(newUser)
+            .then(response => {
+                return response.data.email;
+            })
             .catch((error) => {
                 throw new Error(_.get(error, 'response.data.error.message', 'Unknown error'));
             });
@@ -96,12 +92,12 @@ export default {
         return socialLogin(data)
             .then(response => {
                 context.commit(USER_LOGIN, response.data);
-                context.dispatch(FETCH_CURRENT_USER);
+                return context.dispatch(FETCH_CURRENT_USER);
             });
     },
 
     [SOCIAL_REDIRECT]: (context, provider) => {
-        return getSocialRedirectUrl({ provider })
+        return getSocialRedirectUrl({provider})
             .then(response => response.data.url);
     },
 

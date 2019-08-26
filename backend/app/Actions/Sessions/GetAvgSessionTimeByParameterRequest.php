@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Sessions;
 
 use App\Actions\TableDataRequest;
-use App\Http\Requests\Api\GetAvgSessionsTimeByParameterHttpRequest;
+use App\Http\Requests\Session\GetAvgSessionsTimeByParameterHttpRequest;
 
 final class GetAvgSessionTimeByParameterRequest extends TableDataRequest
 {

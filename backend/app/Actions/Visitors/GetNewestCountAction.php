@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
+use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\VisitorRepository;
+use Illuminate\Support\Facades\Auth;
 
 final class GetNewestCountAction
 {
@@ -14,8 +17,9 @@ final class GetNewestCountAction
         $this->repository = $repository;
     }
 
-    public function execute(GetNewestCountRequest $request): GetNewestCountResponse
+    public function execute(GetNewestCountRequest $request): ButtonValue
     {
-        return new GetNewestCountResponse($this->repository->newestCount($request->getFilterData()));
+        $websiteId = Auth::user()->website->id;
+        return new ButtonValue((string)$this->repository->newestCount($request->getFilterData(), $websiteId));
     }
 }

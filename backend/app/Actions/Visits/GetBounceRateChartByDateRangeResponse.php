@@ -19,5 +19,4 @@ final class GetBounceRateChartByDateRangeResponse
     {
         return $this->collection;
     }
-
 }

@@ -1,25 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransformer\Visits;
 
-class ChartVisit
-{
-    private $date;
-    private $visits;
+use App\Contracts\ChartValue;
+use App\DataTransformer\Traits\ChartValueTrait;
 
-    public function __construct(string $date, int $visits)
+final class ChartVisit implements ChartValue
+{
+    use ChartValueTrait;
+
+    private $date;
+    private $value;
+
+    public function __construct(string $date, int $value)
     {
         $this->date = $date;
-        $this->visits = $visits;
-    }
-
-    public function getDate(): string
-    {
-        return $this->date;
-    }
-
-    public function getVisits(): int
-    {
-        return $this->visits;
+        $this->value = $value;
     }
 }

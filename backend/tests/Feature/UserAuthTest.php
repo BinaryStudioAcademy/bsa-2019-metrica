@@ -16,7 +16,7 @@ class UserAuthTest extends TestCase
         parent::setUp();
         factory(User::class)->create([
             'name' => 'test',
-            'email'=>'test@gmail.com',
+            'email' => 'test@gmail.com',
             'password' => bcrypt('secret1234')
         ]);
     }
@@ -46,7 +46,7 @@ class UserAuthTest extends TestCase
 
         $this->assertEquals('User doesn\'t exist', $response->json('error.message'));
         $response->assertJsonStructure([
-                'error'
+            'error'
         ]);
     }
 

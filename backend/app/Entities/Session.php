@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entities;
@@ -10,8 +11,26 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class Session
+ * @package App\Entities
+ * @property int $id
+ * @property Carbon $start_session
+ * @property Carbon $end_session
+ * @property Visitor $visitor
+ * @property int $visitor_id
+ * @property Page $page
+ * @property int $entrance_page_id
+ * @property string $language
+ * @property System $system
+ * @property int $system_id
+ * @property Website $website
+ * @property int $website_id
+ */
 final class Session extends Model
 {
     protected $fillable = [
@@ -21,9 +40,8 @@ final class Session extends Model
         'entrance_page_id',
         'language',
         'system_id',
+        'website_id',
     ];
-
-    protected $with = ['visitor', 'page', 'system'];
 
     protected $dates = ['start_session', 'end_session'];
 
@@ -34,7 +52,7 @@ final class Session extends Model
 
     public function page(): BelongsTo
     {
-        return $this->belongsTo(Page::class);
+        return $this->belongsTo(Page::class, 'entrance_page_id');
     }
 
     public function system(): BelongsTo
@@ -42,9 +60,24 @@ final class Session extends Model
         return $this->belongsTo(System::class);
     }
 
+    public function website(): BelongsTo
+    {
+        return $this->belongsTo(Website::class);
+    }
+
     public function visits(): HasMany
     {
         return $this->hasMany(Visit::class);
+    }
+
+    public function visit(): HasOne
+    {
+        return $this->hasOne(Visit::class);
+    }
+
+    public function scopeForUserWebsite(Builder $query): Builder
+    {
+        return $query->whereWebsiteId(Auth::user()->website->id);
     }
 
     public function scopeInactive(Builder $query, DateTime $date): Builder
@@ -55,6 +88,19 @@ final class Session extends Model
     public function scopeWhereDateBetween(Builder $query, DatePeriod $datePeriod): Builder
     {
         return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
+    }
+
+    public function scopeWhereSessionDateBetween(Builder $query, DatePeriod $datePeriod): Builder
+    {
+        return $query->whereBetween('start_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
+            ->orWhereBetween('end_session', [$datePeriod->getStartDate(), $datePeriod->getEndDate()]);
+    }
+
+    public function scopeForWebsite(Builder $query, int $website_id): Builder
+    {
+        return $query->whereHas('page', function($query) use ($website_id) {
+            $query->where('website_id', $website_id);
+        });
     }
 
     public function scopeAvgSessionTime(Builder $query): Builder

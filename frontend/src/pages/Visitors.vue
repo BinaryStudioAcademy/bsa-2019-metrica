@@ -19,68 +19,97 @@
                     <VFlex
                         class="chart-container"
                     >
-                        <LineChart :data="data" />
-                        <PeriodDropdown />
+                        <LineChart
+                            :data="data"
+                            :is-fetching="chartData.isFetching"
+                        />
+                        <PeriodDropdown
+                            :value="getSelectedPeriod"
+                            @change="changePeriod"
+                        />
                     </VFlex>
                 </VLayout>
             </VFlex>
         </VLayout>
-        <VLayout class="buttons-row">
-            <VFlex
+        <VRow
+            class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
+        >
+            <ButtonComponent
                 v-for="button in buttons"
                 :key="button.title"
-            >
-                <ButtonComponent
-                    :title="button.title"
-                    :character="button.character"
-                    :icon-name="button.icon"
-                />
-            </VFlex>
-        </VLayout>
-        <VLayout>
-            <VFlex
+                :title="button.title"
+                :active="isButtonActive(button.type)"
+                :fetching="buttonsData[button.type].isFetching"
+                :value="buttonsData[button.type].value"
+                :type="button.type"
+                :icon-name="button.icon"
+                @change="changeButton"
+            />
+        </VRow>
+        <VRow
+            flex
+            wrap
+        >
+            <VCol
                 lg6
-                md6
-                hidden-sm-and-down
+                md-8
+                sm12
                 height="100%"
                 class="img-card"
             >
-                <GroupedTable
-                    :items="tableData"
-                    @change="changeTable"
-                />
-            </VFlex>
-            <VFlex
-                lg5
+                <VisitorsTable />
+            </VCol>
+            <VCol
+                lg6
                 md5
-                hidden-sm-and-down
+                sm12
                 height="100%"
                 class="img-card"
             >
                 <PieChart
                     :data="pieData"
                     :legend="legend"
+                    :is-fetching="pieChartData.isFetching"
                 />
-            </VFlex>
-        </VLayout>
+            </VCol>
+        </VRow>
     </ContentLayout>
 </template>
 
 <script>
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
-    import GroupedTable from "../components/dashboard/visitors/GroupedTable";
-    import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
-    import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
+    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable.vue";
+    import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
+    import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import PieChart from "../components/common/PieChart";
-    import {isWebsite} from '../mixins/isWebsite';
+    import {mapGetters, mapActions} from 'vuex';
+    import {
+        GET_BUTTON_DATA,
+        GET_ACTIVE_BUTTON,
+        GET_SELECTED_PERIOD,
+        GET_PIE_CHART_DATA,
+        GET_LINE_CHART_DATA
+    } from "@/store/modules/visitors/types/getters";
+    import {
+        CHANGE_ACTIVE_BUTTON,
+        CHANGE_FETCHED_BUTTON_STATE,
+        CHANGE_SELECTED_PERIOD
+    } from "@/store/modules/visitors/types/actions";
+    import {
+        TOTAL_VISITORS,
+        NEW_VISITORS,
+        AVG_SESSION,
+        PAGE_VIEWS,
+        SESSIONS,
+        BOUNCE_RATE
+    } from '../configs/visitors/buttonTypes.js';
 
     export default {
-        mixins: [isWebsite],
         components: {
             PieChart,
             LineChart,
-            GroupedTable,
+            VisitorsTable,
             ButtonComponent,
             PeriodDropdown,
             ContentLayout
@@ -88,6 +117,7 @@
         data() {
             return {
                 data: [],
+                period: '',
                 items: [
                     {
                         option: 'IE',
@@ -109,38 +139,38 @@
                     {
                         icon: 'person',
                         title: 'Total visitors',
-                        character: '120'
+                        type: TOTAL_VISITORS
                     },
                     {
                         icon: 'eye',
                         title: 'New visitors',
-                        character: '100'
+                        type: NEW_VISITORS
                     },
                     {
                         icon: 'clock',
                         title: 'Avg. session',
-                        character: '00:00:33'
+                        type: AVG_SESSION
                     },
                     {
                         icon: 'yellow_arrow',
                         title: 'Page views',
-                        character: '321'
+                        type: PAGE_VIEWS
                     },
                     {
                         icon: 'peach_arrow',
                         title: 'Sessions',
-                        character: '145'
+                        type: SESSIONS
                     },
                     {
                         icon: 'violet_arrow',
                         title: 'Bounce rate',
-                        character: '41%'
+                        type: BOUNCE_RATE
                     },
                 ],
                 pieData: [
                     ['Type', 'Value'],
-                    ['New Visitors', 41],
-                    ['Return Visitors', 59],
+                    ['New Visitors', this.getPieData.newVisitors],
+                    ['Return Visitors',this.getPieData.returnVisitors],
                 ],
                 legend: {
                     title: 'Outcome',
@@ -157,51 +187,6 @@
                         },
                     }
                 },
-                tableItems: {
-                    'language': [
-                        {
-                            option: 'us',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'en',
-                            users: 67,
-                            percentage: '50%'
-                        },
-                        {
-                            option: 'fr',
-                            users: 67,
-                            percentage: '50%'
-                        }
-                    ],
-                    'browser': [
-                        {
-                            option: 'IE',
-                            users: 55,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Edge',
-                            users: 77,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'Firefox',
-                            users: 45,
-                            percentage: '44%'
-                        },
-                        {
-                            option: 'Chrome',
-                            users: 84,
-                            percentage: '34%'
-                        },
-                        {
-                            option: 'iOS Safari',
-                            users: 44,
-                            percentage: '55%'
-                        }]
-                }
             };
         },
         computed: {
@@ -210,6 +195,16 @@
             },
             tableData () {
                 return this.items;
+            },
+            ...mapGetters('visitors', {
+                buttonsData: GET_BUTTON_DATA,
+                currentActiveButton: GET_ACTIVE_BUTTON,
+                getSelectedPeriod: GET_SELECTED_PERIOD,
+                pieChartData: GET_PIE_CHART_DATA,
+                chartData: GET_LINE_CHART_DATA,
+            }),
+            buttonData () {
+                return this.buttonsData[this.type];
             }
         },
         mounted() {
@@ -224,10 +219,27 @@
             }
         },
         methods: {
+            ...mapActions('visitors', {
+                changeActiveButton: CHANGE_ACTIVE_BUTTON,
+                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+            }),
+            changeButton (data) {
+                this.changeActiveButton(data);
+            },
             changeTable (parameter) {
                 this.items = this.tableItems[parameter];
+            },
+            changePeriod(data) {
+                this.changeSelectedPeriod(data);
+            },
+            getPieData(){
+                return this.pieChartData;
+            },
+            isButtonActive(type) {
+                return this.currentActiveButton === type;
             }
-        }
+        },
     };
 </script>
 

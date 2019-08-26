@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Sessions;
 
+use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\VisitorRepository;
-use App\Actions\Sessions\GetAvgSessionRequest;
-use App\Actions\Sessions\AverageSessionFilter;
 
 final class GetAvgSessionAction
 {
@@ -22,7 +21,7 @@ final class GetAvgSessionAction
         $this->visitorRepository = $visitorRepository;
     }
 
-    public function execute(GetAvgSessionRequest $request): GetAvgSessionResponse
+    public function execute(GetAvgSessionRequest $request): ButtonValue
     {
         $websiteId = auth()->user()->website->id;
 
@@ -35,6 +34,6 @@ final class GetAvgSessionAction
                                                        ->first()
                                                        ->avg;
 
-        return new GetAvgSessionResponse($avgSessionInSeconds);
+        return new ButtonValue((string)$avgSessionInSeconds);
     }
 }

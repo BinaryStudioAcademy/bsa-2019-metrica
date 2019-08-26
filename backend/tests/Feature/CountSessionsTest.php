@@ -42,7 +42,7 @@ class CountSessionsTest extends TestCase
 
         $expected = [
                     'data' => [
-                        'quantity_sessions' => 4
+                        'value' => 4
                     ],
                     'meta' => []
                ];
