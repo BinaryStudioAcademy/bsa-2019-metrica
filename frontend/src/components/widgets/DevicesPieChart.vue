@@ -37,12 +37,6 @@
                                 </VIcon>
                                 <VLabel>{{ systems.title }}</VLabel>
                                 <VLabel>
-                                    <VIcon
-                                        :color="systems.color"
-                                        small
-                                    >
-                                        mdi-arrow-up
-                                    </VIcon>
                                     {{ systems.percentageDiff }}%
                                 </VLabel>
                             </VListItem>
@@ -78,12 +72,6 @@
                                 </VIcon>
                                 <VLabel>{{ devices.title }}</VLabel>
                                 <VLabel>
-                                    <VIcon
-                                        :color="devices.color"
-                                        small
-                                    >
-                                        mdi-arrow-up
-                                    </VIcon>
                                     {{ devices.percentageDiff }}%
                                 </VLabel>
                             </VListItem>
@@ -146,10 +134,14 @@
                         },
                         slices: {
                             0: {
-                                color: '#1BC3DA',
+                                color: '#3C57DE',
                             },
                             1: {
-                                color: '#3C57DE',
+                                color: '#1BC3DA',
+                                offset: 0,
+                            },
+                            2: {
+                                color: '#FF9900',
                                 offset: 0,
                             },
                         }
@@ -171,10 +163,14 @@
                         },
                         slices: {
                             0: {
-                                color: '#FFD954',
+                                color: '#F03357',
                             },
                             1: {
-                                color: '#F03357',
+                                color: '#67C208',
+                                offset: 0,
+                            },
+                            2: {
+                                color: '#FFD954',
                                 offset: 0,
                             },
                         }

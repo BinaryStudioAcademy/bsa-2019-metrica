@@ -27,13 +27,15 @@
                 devicesPieData: {
                     system: [
                         ['Type', 'Value'],
-                        ['New Visitors', 20],
-                        ['Return Visitors', 60],
+                        ['Mac  ', 25],
+                        ['Windows', 65],
+                        ['Others', 10],
                     ],
                     device: [
                         ['Type', 'Value'],
-                        ['New Visitors', 30],
-                        ['Return Visitors', 50],
+                        ['Desktop', 25],
+                        ['Mobile', 65],
+                        ['Tablet', 10],
                     ],
                     isFetching: false,
                 },
@@ -41,29 +43,39 @@
                     system: {
                         title: 'System',
                         data: {
-                            newVisitors: {
-                                title: 'New Visitors',
-                                percentageDiff: 41,
+                            mac: {
+                                title: 'Mac',
+                                percentageDiff: 25,
                                 color: '#3C57DE',
                             },
-                            returnVisitors: {
-                                title: 'Return Visitors',
-                                percentageDiff: 49,
+                            windows: {
+                                title: 'Windows',
+                                percentageDiff: 65,
                                 color: '#1BC3DA',
+                            },
+                            others: {
+                                title: 'Others',
+                                percentageDiff: 10,
+                                color: '#FF9900',
                             },
                         }
                     },
                     device: {
                         title: 'Device',
                         data: {
-                            newVisitors: {
-                                title: 'New Visitors',
-                                percentageDiff: 41,
+                            desktop: {
+                                title: 'Desktop',
+                                percentageDiff: 25,
                                 color: '#F03357',
                             },
-                            returnVisitors: {
-                                title: 'Return Visitors',
-                                percentageDiff: 49,
+                            mobile: {
+                                title: 'Mobile',
+                                percentageDiff: 65,
+                                color: '#67C208',
+                            },
+                            tablet: {
+                                title: 'Tablet',
+                                percentageDiff: 10,
                                 color: '#FFD954',
                             },
                         }
