@@ -14,12 +14,12 @@ $factory->define(Session::class, function (Faker $faker) {
     $visitor = Visitor::inRandomOrder()->first();
 
     return [
-        'start_session' => (Carbon::yesterday())->toDateTimeString(),
+        'start_session' => Carbon::yesterday()->toDateTimeString(),
         'visitor_id' => $visitor->id,
         'entrance_page_id' => Page::inRandomOrder()->first()->id,
         'language' => $faker->languageCode,
         'system_id' => System::inRandomOrder()->first()->id,
         'website_id' => $visitor->website->id,
-        'end_session' => (Carbon::today())->toDateTimeString(),
+        'end_session' => Carbon::now()->toDateTimeString(),
     ];
 });
