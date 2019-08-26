@@ -33,7 +33,7 @@
                 type: Array,
                 required: true,
             },
-            parameter: {
+            displayedParameter: {
                 type: String,
                 required: true,
             }
@@ -45,14 +45,14 @@
                 }
                 let totalSum = 0;
 
-                this.dataItems.map((item) => {
-                    totalSum += Number(item[this.parameter]) || 0;
+                this.dataItems.forEach(item => {
+                    totalSum += Number(item[this.displayedParameter]) || 0;
                 });
 
                 return this.dataItems.map((item) => {
                     return {
                         country: item.country,
-                        percentage: Math.round(Number(item[this.parameter])*100/totalSum)
+                        percentage: Math.round(Number(item[this.displayedParameter])*100/totalSum)
                     };
                 });
             }

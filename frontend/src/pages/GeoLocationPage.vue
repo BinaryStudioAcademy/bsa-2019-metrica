@@ -26,7 +26,7 @@
                 md12
             >
                 <MapList
-                    :parameter="getSelectedParameter"
+                    :displayed-parameter="getSelectedParameter"
                     :data-items="items"
                 />
             </VFlex>
