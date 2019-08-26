@@ -13,7 +13,7 @@ class TableVisitorsApiTest extends TestCase
 
     const DATE_FROM = '1563148800';
     const DATE_TO = '1566049604';
-    const ENDPOINT = 'api/v1/visitors/by-table';
+    const ENDPOINT = 'api/v1/table-visitors/count-total';
     const PARAMETERS = [
         'city',
         'country',
