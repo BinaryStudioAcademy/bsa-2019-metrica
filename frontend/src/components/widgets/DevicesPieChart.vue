@@ -184,7 +184,9 @@
 <style scoped lang="scss">
 .pie-container {
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
-    border-radius: 6px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #18A0FB !important;
 }
 .header {
     align-items: center;
