@@ -130,7 +130,7 @@
                         legend: 'none',
                         pieSliceText: 'none',
                         tooltip: {
-                            trigger: 'none',
+                            trigger: 'hover'
                         },
                         slices: {
                             0: {
@@ -159,7 +159,7 @@
                         legend: 'none',
                         pieSliceText: 'none',
                         tooltip: {
-                            trigger: 'none',
+                            trigger: 'hover',
                         },
                         slices: {
                             0: {
