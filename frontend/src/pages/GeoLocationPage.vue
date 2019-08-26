@@ -13,7 +13,7 @@
                 <MapButtons />
                 <MapChart
                     :parameter="getSelectedParameter"
-                    :data-items="items"
+                    :data-items="geoLocationItems"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -27,7 +27,7 @@
             >
                 <MapList
                     :displayed-parameter="getSelectedParameter"
-                    :data-items="items"
+                    :data-items="geoLocationItems"
                 />
             </VFlex>
         </VLayout>
@@ -40,7 +40,7 @@
                 class="img-card"
             >
                 <GroupedTable
-                    :items="items"
+                    :items="geoLocationItems"
                 />
             </VFlex>
         </VLayout>
@@ -57,6 +57,8 @@
     import {mapGetters, mapActions} from 'vuex';
     import {GET_SELECTED_PERIOD, GET_SELECTED_PARAMETER} from "@/store/modules/geo_location/types/getters";
     import {CHANGE_SELECTED_PERIOD} from "@/store/modules/geo_location/types/actions";
+    import {FETCH_GEO_LOCATION_ITEMS} from "@/store/modules/geo_location/types/actions";
+    import {GET_GEO_LOCATION_ITEMS} from "@/store/modules/geo_location/types/getters";
 
     export default {
         components: {
@@ -67,10 +69,13 @@
             MapButtons,
             MapList
         },
+        created() {
+            this.fetchGeoLocationItems();
+        },
         data() {
             return {
                 title: "Geo Location",
-                items: [
+                /*items: [
                     {
                         country: 'US',
                         visitors: '1',
@@ -119,18 +124,21 @@
                         bounce_rate: '12',
                         avg_session_time: '00:21:00'
                     },
-                ]
+                ]*/
             };
         },
         computed: {
             ...mapGetters('geo_location', {
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 getSelectedParameter: GET_SELECTED_PARAMETER,
+                getGeoLocationItems: GET_GEO_LOCATION_ITEMS
             }),
+            geoLocationItems: () => this.getGeoLocationItems()
         },
         methods: {
             ...mapActions('geo_location', {
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchGeoLocationItems: FETCH_GEO_LOCATION_ITEMS
             }),
         }
     };
