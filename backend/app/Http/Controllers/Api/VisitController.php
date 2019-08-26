@@ -11,8 +11,11 @@ use App\Actions\Visits\GetPageViewsCountRequest;
 use App\Actions\Visits\CreateVisitAction;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
+use App\Actions\Visits\GetUniquePageViewsAction;
+use App\Actions\Visits\GetUniquePageViewsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
+use App\Http\Requests\Visit\GetUniquePageViewsHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
@@ -26,17 +29,21 @@ final class VisitController extends Controller
     private $getPageViewsByParameterAction;
     private $getPageViewsCountAction;
     private $createVisitAction;
+    private $getUniquePageViewsAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
         GetPageViewsCountAction $getPageViewsCountAction,
-        CreateVisitAction $createVisitAction
-    ) {
+        CreateVisitAction $createVisitAction,
+        GetUniquePageViewsAction $getUniquePageViewsAction
+    )
+    {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
         $this->createVisitAction = $createVisitAction;
+        $this->getUniquePageViewsAction = $getUniquePageViewsAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -57,6 +64,12 @@ final class VisitController extends Controller
     public function getPageViewsCountForFilterData(GetPageViewsCountFilterHttpRequest $request): ApiResponse
     {
         $response = $this->getPageViewsCountAction->execute(GetPageViewsCountRequest::fromRequest($request));
+        return ApiResponse::success(new ButtonResource($response));
+    }
+
+    public function getUniquePageViews(GetUniquePageViewsHttpRequest $request): ApiResponse
+    {
+        $response = $this->getUniquePageViewsAction->execute(GetUniquePageViewsRequest::fromRequest($request));
         return ApiResponse::success(new ButtonResource($response));
     }
 }
