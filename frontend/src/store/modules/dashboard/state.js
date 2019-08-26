@@ -5,4 +5,9 @@ export default {
         isFetching: false
     },
     dataToFetch: 'total_visitors'
+    activityData:{
+        items: [],
+        isFetching: false
+    },
+    activityChartData:[]
 };

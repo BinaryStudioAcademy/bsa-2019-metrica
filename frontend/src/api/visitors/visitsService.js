@@ -40,9 +40,9 @@ const fetchChartValues = (startDate, endDate, interval) => {
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
     return requestService.get(resourceUrl + '/visits/by-table', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate,
-        'parameter': groupBy
+        'filter[startDate]': startDate,
+        'filter[endDate]': endDate,
+        'filter[parameter]': groupBy
     }).then(response => response.data.map(tableTransformer))
         .catch(error => Promise.reject(
             new Error(

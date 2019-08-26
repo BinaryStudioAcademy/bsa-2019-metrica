@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Visit;
+namespace App\Http\Requests\GeoLocation;
 
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-final class GetTableVisitsByParameterHttpRequest extends ApiFormRequest
+final class GeoLocationHttpRequest extends ApiFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'filter' => 'required|array',
@@ -22,11 +22,7 @@ final class GetTableVisitsByParameterHttpRequest extends ApiFormRequest
                 'required',
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
-            ],
-            'filter.parameter' => [
-                'required',
-                "in:city,country,language,browser,operating_system,screen_resolution"
-            ],
+            ]
         ];
     }
 
@@ -38,10 +34,5 @@ final class GetTableVisitsByParameterHttpRequest extends ApiFormRequest
     public function endDate(): string
     {
         return $this->get('filter')['endDate'];
-    }
-
-    public function parameter(): string
-    {
-        return $this->get('filter')['parameter'];
     }
 }
