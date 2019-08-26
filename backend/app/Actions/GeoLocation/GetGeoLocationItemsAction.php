@@ -7,7 +7,6 @@ namespace App\Actions\GeoLocation;
 use App\DataTransformer\GeoLocation\GeoLocationItem;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\VisitorRepository;
-use Illuminate\Support\Facades\Auth;
 
 final class GetGeoLocationItemsAction
 {
