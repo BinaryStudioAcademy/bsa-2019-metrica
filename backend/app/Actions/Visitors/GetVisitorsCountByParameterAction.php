@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Actions\Visitors;
 
 use App\Repositories\Contracts\TableVisitorsRepository;
-use http\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
 
-final class GetVisitorsByParameterAction
+final class GetVisitorsCountByParameterAction
 {
     private $tableVisitorsRepository;
 
@@ -17,7 +16,7 @@ final class GetVisitorsByParameterAction
         $this->tableVisitorsRepository = $tableVisitorsRepository;
     }
 
-    public function execute(GetVisitorsByParameterRequest $request): GetVisitorsByParameterResponse
+    public function execute(GetVisitorsCountByParameterRequest $request): GetVisitorsCountByParameterResponse
     {
         switch ($request->parameter()) {
             case 'city':
@@ -68,13 +67,9 @@ final class GetVisitorsByParameterAction
                         $request->endDate()
                     );
                 break;
-            default:
-                throw new InvalidArgumentException(sprintf('The parameter "%s" is not valid.', $request->parameter()));
         }
 
-
-
-        return new GetVisitorsByParameterResponse($visitors);
+        return new GetVisitorsCountByParameterResponse($visitors);
     }
 }
 
