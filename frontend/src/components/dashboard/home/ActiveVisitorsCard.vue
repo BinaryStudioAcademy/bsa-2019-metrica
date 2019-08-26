@@ -50,6 +50,14 @@
 
 <script>
     import _ from "lodash";
+    import {mapGetters, mapActions} from 'vuex';
+    import moment from 'moment';
+    import {
+        GET_ACTIVITY_DATA_ITEMS,
+    } from "@/store/modules/dashboard/types/getters";
+    import {
+        FETCHING_ACTIVITY_DATA_ITEMS,
+    } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
         components: {
@@ -57,10 +65,6 @@
         },
         name: 'ActiveVisitorsCard',
         props: {
-            data: {
-                type: Array,
-                required: true,
-            },
             activityChartData: {
                 type: Array,
                 required: true,
@@ -70,22 +74,46 @@
                 required: true,
             },
         },
+        created() {
+            this.fetchingActivityDataItems();
+            this.updateDataActivity();
+        },
+        beforeDestroy () {
+            clearInterval(this.polling);
+        },
         data: () => ({
             lineWidth: 5,
             radius: 16,
             padding: 4,
             gradient: ['#3C57DE', '#1BC3DA'],
             gradientDirection: 'left',
+            localDataActivity: {
+                dataActivity: undefined
+            }
         }),
         computed: {
+            ...mapGetters('dashboard', {
+                activityDataItems: GET_ACTIVITY_DATA_ITEMS,
+            }),
+            dataActivity: {
+                set(value) {
+                    this.localDataActivity.dataActivity = value;
+                },
+                get() {
+                    if (this.localDataActivity.dataActivity === undefined) {
+                        return this.activityDataItems;
+                    }
+                    return this.localDataActivity.dataActivity;
+                },
+            },
             activeUsersCount() {
-                return _.uniqBy(this.data, 'visitorId').length;
+                return _.uniqBy(this.dataActivity, 'visitorId').length;
             },
             pageViewsCount() {
-                return _.uniqBy(this.data, 'url').length;
+                return _.uniqBy(this.dataActivity, 'url').length;
             },
             topPages() {
-                const result = _(this.data)
+                const result = _(this.dataActivity)
                     .groupBy('url')
                     .map((items, url) => {
                         return { url: url, count: items.length };
@@ -96,6 +124,18 @@
                 return result;
             }
         },
+        methods: {
+            ...mapActions('dashboard', {
+                fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
+            }),
+            updateDataActivity () {
+                this.polling = setInterval(() => {
+                    this.dataActivity = this.activityDataItems.filter(item =>
+                        moment().diff(moment(item.timeNotification), 'minutes') < 5
+                    );
+                }, 300000);
+            }
+        }
     };
 </script>
 
