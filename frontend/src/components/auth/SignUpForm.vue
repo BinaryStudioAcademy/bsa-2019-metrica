@@ -152,9 +152,9 @@
                         name: this.newUser.name,
                         email: this.newUser.email,
                         password: this.newUser.password,
-                    }).then(() => {
-                        this.$emit("success");
-                        this.showSuccessMessage('You have been successfully registered! Please log in!');
+                    }).then((email) => {
+                        this.showSuccessMessage(`You have been successfully registered! We sent account confirmation
+                         on your email ${email}. Please, check your email`);
                         this.$router.push({name: 'login'});
                     }).catch((error) => {
                         this.showErrorMessage(error);

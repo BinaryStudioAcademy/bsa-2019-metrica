@@ -1,5 +1,6 @@
 import axios from 'axios';
 import storage from '@/services/storage';
+import {getSocketId} from '@/services/echoService';
 
 const axiosInstance = axios.create();
 
@@ -11,6 +12,10 @@ axiosInstance.interceptors.request.use((config) => {
 
     if (storage.hasToken()) {
         config.headers.Authorization = 'Bearer ' + storage.getToken();
+    }
+
+    if (getSocketId()) {
+        config.headers['X-Socket-ID'] = getSocketId();
     }
 
     return config;

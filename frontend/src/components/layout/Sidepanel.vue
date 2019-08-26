@@ -81,7 +81,7 @@
                         },
                         {
                             text: 'Geo Location',
-                            route: 'geo-locations',
+                            route: 'geo-location',
                         },
                     ]
                 },

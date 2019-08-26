@@ -7,8 +7,8 @@ const resourceUrl = config.getApiUrl();
 
 const fetchButtonValue = (startDate, endDate) => {
     return requestService.get(resourceUrl + '/visitors/bounce-rate/total', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate
+        'filter[startDate]': startDate,
+        'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
         .catch(error => Promise.reject(
             new Error(
@@ -25,7 +25,7 @@ const fetchChartValues = (startDate, endDate, interval) => {
     return requestService.get(resourceUrl + '/visitors/bounce-rate', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[timeFrame]': interval
+        'filter[period]': interval
     }).then(response => response.data.map(chartTransformer))
         .catch(error => Promise.reject(
             new Error(
@@ -40,9 +40,9 @@ const fetchChartValues = (startDate, endDate, interval) => {
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
     return requestService.get(resourceUrl + '/visitors/by-table', {}, {
-        'filter[start_date]': startDate,
-        'filter[end_date]': endDate,
-        'parameter': groupBy
+        'filter[startDate]': startDate,
+        'filter[endDate]': endDate,
+        'filter[parameter]': groupBy
     }).then(response => response.data.map(tableTransformer))
         .catch(error => Promise.reject(
             new Error(

@@ -11,7 +11,7 @@ const getSocialRedirectUrl = params => requestService.get(resourceUrl + `/social
 const socialLogin = params => {
     return requestService.get(resourceUrl + `/social/${params.provider}/callback?`, {}, {code: params.code});
 };
-
+const confirmEmail = params => requestService.update(resourceUrl + '/confirm-email', params);
 
 export {
     authorize,
@@ -19,5 +19,6 @@ export {
     registerUser,
     resetPassword,
     getSocialRedirectUrl,
-    socialLogin
+    socialLogin,
+    confirmEmail
 };
