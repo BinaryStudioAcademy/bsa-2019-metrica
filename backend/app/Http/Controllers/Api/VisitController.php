@@ -37,8 +37,7 @@ final class VisitController extends Controller
         GetPageViewsCountAction $getPageViewsCountAction,
         CreateVisitAction $createVisitAction,
         GetUniquePageViewsAction $getUniquePageViewsAction
-    )
-    {
+    ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;

@@ -21,17 +21,38 @@ class ButtonVisitsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
-    private $website;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        $this->website = factory(Website::class)->create();
     }
 
     public function testGetUniquePageViews()
     {
+        $this->getUniquePageViewsSeed();
+        $filterData = [
+            'filter' => [
+                'startDate' => (string)Carbon::parse('2019-08-21 00:00:00', 'UTC')->getTimestamp(),
+                'endDate' => (string)Carbon::parse('2019-08-22 00:00:00', ' UTC')->getTimestamp(),
+            ]
+        ];
+        $expectedData = [
+            'data' => [
+                'value' => '7'
+            ],
+            'meta' => []
+        ];
+
+        $this->actingAs($this->user)
+            ->call('GET', 'api/v1/button-page-views/unique', $filterData)
+            ->assertStatus(200)
+            ->assertJson($expectedData);
+    }
+
+    private function getUniquePageViewsSeed()
+    {
+        factory(Website::class)->create();
         factory(Visitor::class, 5)->create();
         factory(System::class)->create();
         factory(Page::class, 6)->create();
@@ -84,25 +105,7 @@ class ButtonVisitsApiTest extends TestCase
                 'page_id' => $pageIds[$i]
             ]);
         }
-
-
-        $filterData = [
-            'filter' => [
-                'startDate' => (string)Carbon::parse('2019-08-21 00:00:00', 'UTC')->getTimestamp(),
-                'endDate' => (string)Carbon::parse('2019-08-22 00:00:00', ' UTC')->getTimestamp(),
-            ]
-        ];
-        $expectedData = [
-            'data' => [
-                'value' => '7'
-            ],
-            'meta' => []
-        ];
-
-        $this->actingAs($this->user)
-            ->call('GET', 'api/v1/button-page-views/unique', $filterData)
-            ->assertStatus(200)
-            ->assertJson($expectedData);
     }
-
 }
+
+
