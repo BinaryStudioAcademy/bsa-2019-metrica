@@ -89,7 +89,7 @@ class TableVisitorsApiTest extends TestCase
                     ]
                 ])
             ->json();
-        $this->assertEquals('The selected filter.parameter is invalid.', $result['error']['message']);
+        $this->assertEquals('The filter.parameter must be one of available parameters.', $result['error']['message']);
     }
 
     public function getAssertedCount(String $parameter): int
