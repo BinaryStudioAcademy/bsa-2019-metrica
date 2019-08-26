@@ -21,7 +21,7 @@ final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
                     'required',
                     'integer',
                 ],
-                'filter.timeFrame' => [
+                'filter.period' => [
                     'required',
                     'integer',
                 ],
@@ -41,6 +41,6 @@ final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
 
     public function getTimeFrame(): int
     {
-        return (int) $this->get('filter')['timeFrame'];
+        return (int) $this->get('filter')['period'];
     }
 }

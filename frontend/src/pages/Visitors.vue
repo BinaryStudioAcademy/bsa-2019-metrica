@@ -31,36 +31,38 @@
                 </VLayout>
             </VFlex>
         </VLayout>
-        <VLayout class="buttons-row">
-            <VFlex
+        <VRow
+            class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
+        >
+            <ButtonComponent
                 v-for="button in buttons"
                 :key="button.title"
-            >
-                <ButtonComponent
-                    :title="button.title"
-                    :active="isButtonActive(button.type)"
-                    :fetching="buttonsData[button.type].isFetching"
-                    :value="buttonsData[button.type].value"
-                    :type="button.type"
-                    :icon-name="button.icon"
-                    @change="changeButton"
-                />
-            </VFlex>
-        </VLayout>
-        <VLayout>
-            <VFlex
+                :title="button.title"
+                :active="isButtonActive(button.type)"
+                :fetching="buttonsData[button.type].isFetching"
+                :value="buttonsData[button.type].value"
+                :type="button.type"
+                :icon-name="button.icon"
+                @change="changeButton"
+            />
+        </VRow>
+        <VRow
+            flex
+            wrap
+        >
+            <VCol
                 lg6
-                md6
-                hidden-sm-and-down
+                md-8
+                sm12
                 height="100%"
                 class="img-card"
             >
                 <VisitorsTable />
-            </VFlex>
-            <VFlex
-                lg5
+            </VCol>
+            <VCol
+                lg6
                 md5
-                hidden-sm-and-down
+                sm12
                 height="100%"
                 class="img-card"
             >
@@ -69,8 +71,8 @@
                     :legend="legend"
                     :is-fetching="pieChartData.isFetching"
                 />
-            </VFlex>
-        </VLayout>
+            </VCol>
+        </VRow>
     </ContentLayout>
 </template>
 
