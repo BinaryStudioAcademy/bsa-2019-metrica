@@ -1,4 +1,5 @@
 const tokenKeyName = 'auth.access_token';
+const tokenTypeName = 'Bearer';
 class Storage {
     constructor(type = 'localStorage') {
         this.store = window[type];
@@ -22,6 +23,10 @@ class Storage {
 
     setToken(token) {
         return this.set(tokenKeyName, token);
+    }
+
+    getTokenType() {
+        return this.get(tokenTypeName);
     }
 
     hasToken() {
