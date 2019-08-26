@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
@@ -16,7 +16,8 @@ final class AuthenticatedUserAction
         try {
             $token = JWTAuth::attempt([
                 'email' => $request->getEmail(),
-                'password' => $request->getPassword()
+                'password' => $request->getPassword(),
+                'is_activate' => 1
             ]);
 
             if (!$token) {

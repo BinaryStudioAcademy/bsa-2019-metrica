@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Repositories\Contracts\SessionRepository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent;
 use Illuminate\Support\Collection;
 use App\Entities\Session;
 use Illuminate\Support\Facades\DB;
@@ -53,5 +54,28 @@ final class EloquentSessionRepository implements SessionRepository
     {
         $session->end_session = Carbon::now()->toDateTimeString();
         $session->save();
+    }
+
+    public function getAvgSessionTimeGroupByCountry(string $startDate, string $endDate): Eloquent\Collection
+    {
+        return Session::forUserWebsite()
+            ->whereBetween('sessions.start_session', [$startDate, $endDate])
+            ->avgSessionTime()
+            ->join('visits', 'sessions.id', '=', 'visits.session_id')
+            ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
+            ->groupBy('geo_positions.country')
+            ->addSelect('geo_positions.country as country')
+            ->get();
+    }
+
+    public function getCountSessionsGroupByCountry(string $startDate, string $endDate): Eloquent\Collection
+    {
+        return Session::forUserWebsite()
+            ->whereBetween('sessions.start_session', [$startDate, $endDate])
+            ->join('visits', 'sessions.id', '=', 'visits.session_id')
+            ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
+            ->select(DB::raw('count(sessions.id) as all_sessions_count, geo_positions.country as country'))
+            ->groupBy('geo_positions.country')
+            ->get();
     }
 }

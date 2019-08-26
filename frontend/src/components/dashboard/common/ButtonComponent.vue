@@ -1,5 +1,6 @@
 <template>
     <div
+        my-6
         class="button-card bg-white d-inline-flex justify-content-start align-items-center position-relative"
         :class="{ active: active }"
         @click="changeButton"
@@ -77,11 +78,11 @@
     .button-card {
         font-family: Gilroy;
         height: 100px;
-        min-width: 140px;
+        min-width: 180px;
         border-radius: 6px;
         padding-right: 40px;
         padding-left: 20px;
-        margin: 0 20px;
+        margin: 0 20px 35px;
         transition: all .2s ease-in;
 
         .card-image {

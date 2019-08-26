@@ -6,13 +6,16 @@
         >
             Summary
         </VSubheader>
-        <VLayout class="pie-container position-relative">
+        <VLayout
+            class="pie-container position-relative"
+            wrap
+        >
             <VFlex
                 lg4
-                md4
-                hidden-sm-and-down
+                md10
+                sm4
                 height="100%"
-                class="img-card"
+                class="img-card chart-card"
             >
                 <Spinner v-if="isFetching" />
                 <GChart
@@ -22,15 +25,15 @@
                 />
             </VFlex>
             <VFlex
-                lg5
-                md5
-                hidden-sm-and-down
+                lg6
+                md10
+                sm6
                 height="100%"
                 class="img-card"
             >
                 <VSubheader
                     v-text="legend.title"
-                    class="legend-title text-dark"
+                    class="legend-title text-dark justify-content-center"
                 />
                 <VList>
                     <VListItem
@@ -118,6 +121,10 @@
 <style scoped lang="scss">
 .pie-container {
     background-color: white;
+
+    .chart-card {
+        min-width: 165px;
+    }
 }
 .header {
     align-items: center;

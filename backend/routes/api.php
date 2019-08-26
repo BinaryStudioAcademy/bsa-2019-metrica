@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/register', 'AuthController@register');
         Route::post('/login', 'AuthController@login');
         Route::post('/reset-password', 'ResetPasswordController@sendPasswordResetLink');
+        Route::put('/confirm-email', 'ResetPasswordController@confirmEmail');
         Route::get('/me', 'AuthController@getCurrentUser')->middleware('auth:api');
         Route::group(['prefix' => '/social'], function () {
             Route::get('/{provider}/redirect', 'AuthController@redirect');
@@ -50,7 +51,6 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
-            Route::get('/by-table', 'VisitorController@getVisitorsByParameter');
             Route::get('/new', 'VisitorController@getNewVisitors');
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
             Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
@@ -80,6 +80,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'table-visitors'
+        ], function () {
+            Route::get('/count-total', 'VisitorController@getVisitorsCountByParameter');
+        });
+
+        Route::group([
             'prefix' => 'chart-visits'
         ], function () {
             Route::get('/', 'VisitController@getPageViews');
@@ -106,13 +112,15 @@ Route::prefix('v1')->group(function () {
         Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
 
         Route::group([
-            'prefix'=>'button-page-views'
+            'prefix' => 'button-page-views'
         ], function () {
             Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
             Route::get('avg-time', 'VisitController@getPageViewsAvgTimeForFilterData');
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
+
+        Route::get('/geo-location-items', 'GeoLocationController');
     });
 
     Route::group([
