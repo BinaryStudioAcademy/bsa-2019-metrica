@@ -3,32 +3,39 @@ import Storage from '@/services/storage';
 import config from "@/config";
 import Pusher from 'pusher-js';
 
+const tokenTypeName = 'Bearer';
+
 const configPusher = {
-    broadcaster: 'pusher',
-    key: config.getPusherApiKey(),
-    client: Pusher,
+    client: pusher,
     authEndpoint: config.getPusherAppAuthEndpoint(),
     cluster: config.getPusherCluster(),
-    encrypted: true,
+    forceTLS: true,
     auth: {
         headers: {},
     },
 };
 
 if (Storage.hasToken()) {
-    config.auth.headers = {
-        Authorization: `${Storage.getTokenType()} ${Storage.getToken()}`
+    configPusher.auth.headers = {
+        Authorization: `${tokenTypeName} ${Storage.getToken()}`
     };
 }
 
-export const pusher = new Echo(configPusher);
+const pusher = new Pusher(config.getPusherApiKey(), configPusher);
+
+export const echoInstance = new Echo({
+    broadcaster: 'pusher',
+    key: config.getPusherApiKey(),
+    encrypted: true,
+    client: pusher
+});
 
 export const updateSocketAuthToken = (token) => {
-    pusher.config.auth.headers.Authorization = `${Storage.getTokenType()} ${token}`;
+    echoInstance.options.client.config.auth.headers.Authorization = `${tokenTypeName} ${token}`;
 };
 
 export const removeSocketAuthToken = () => {
-    pusher.config.auth.headers = {};
+    echoInstance.options.client.config.auth.headers = {};
 };
 
-export const getSocketId = () => pusher.socketId();
+export const getSocketId = () => echoInstance.socketId();
