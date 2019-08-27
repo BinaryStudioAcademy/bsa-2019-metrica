@@ -51,12 +51,10 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'visitors'
         ], function () {
             Route::get('/', 'VisitorController@getAllVisitors');
-            Route::get('/by-table', 'VisitorController@getVisitorsByParameter');
             Route::get('/new', 'VisitorController@getNewVisitors');
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
             Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
-            Route::get('/new-visitors-table', 'VisitorController@getNewVisitorsForTableByParameter');
         });
 
         Route::group([
@@ -78,6 +76,13 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'table-sessions'
         ], function () {
             Route::get('/avg-session-time', 'SessionController@getAvgSessionTimeByParameter');
+        });
+
+        Route::group([
+            'prefix' => 'table-visitors'
+        ], function () {
+            Route::get('/count-total', 'VisitorController@getVisitorsCountByParameter');
+            Route::get('/count-new', 'VisitorController@getNewVisitorsCountByParameter');
         });
 
         Route::group([
