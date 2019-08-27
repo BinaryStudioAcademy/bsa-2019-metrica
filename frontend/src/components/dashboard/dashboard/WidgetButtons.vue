@@ -1,6 +1,6 @@
 <template>
     <VItemGroup
-        @change="changeDataTypeToFetch"
+        @change="changeDataType"
         mandatory
         :value="dataToFetch"
     >
@@ -49,9 +49,6 @@
             ...mapActions('dashboard', {
                 changeDataType: CHANGE_DATA_TYPE
             }),
-            changeDataTypeToFetch(value) {
-                this.changeDataType(value);
-            }
         },
     };
 </script>

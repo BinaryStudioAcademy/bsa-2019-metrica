@@ -12,7 +12,7 @@
         />
         <PeriodDropdown
             :value="selectedPeriod"
-            @change="changePeriod"
+            @change="changeSelectedPeriod"
         />
     </VContainer>
 </template>
@@ -42,9 +42,6 @@
             ...mapActions('dashboard', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
             }),
-            changePeriod(data) {
-                this.changeSelectedPeriod(data);
-            }
         }
     };
 </script>
