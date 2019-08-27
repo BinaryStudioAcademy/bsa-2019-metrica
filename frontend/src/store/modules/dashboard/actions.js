@@ -1,4 +1,4 @@
-import {FETCHING_ACTIVITY_DATA_ITEMS, FETCHING_ACTIVITY_CHART_DATA} from "./types/actions";
+import {FETCHING_ACTIVITY_DATA_ITEMS, FETCHING_ACTIVITY_CHART_DATA, RELOAD_ACTIVITY_DATA_ITEMS} from "./types/actions";
 import {SET_ACTIVITY_DATA_ITEMS, SET_ACTIVITY_CHART_DATA} from "./types/mutations";
 
 export default {
@@ -64,6 +64,10 @@ export default {
     [FETCHING_ACTIVITY_CHART_DATA]: (context) => {
         const data = [0, 10, 12, 5, 4, 0, 12];
         context.commit(SET_ACTIVITY_CHART_DATA, data);
+    },
+
+    [RELOAD_ACTIVITY_DATA_ITEMS]: (context, data) => {
+        context.commit(SET_ACTIVITY_DATA_ITEMS, data);
     },
 
 };

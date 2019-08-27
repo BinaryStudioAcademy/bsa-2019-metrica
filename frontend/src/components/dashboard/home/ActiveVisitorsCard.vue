@@ -57,6 +57,7 @@
     } from "@/store/modules/dashboard/types/getters";
     import {
         FETCHING_ACTIVITY_DATA_ITEMS,
+        RELOAD_ACTIVITY_DATA_ITEMS
     } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
@@ -87,33 +88,20 @@
             padding: 4,
             gradient: ['#3C57DE', '#1BC3DA'],
             gradientDirection: 'left',
-            localDataActivity: {
-                dataActivity: undefined
-            }
+            polling: null,
         }),
         computed: {
             ...mapGetters('dashboard', {
                 activityDataItems: GET_ACTIVITY_DATA_ITEMS,
             }),
-            dataActivity: {
-                set(value) {
-                    this.localDataActivity.dataActivity = value;
-                },
-                get() {
-                    if (this.localDataActivity.dataActivity === undefined) {
-                        return this.activityDataItems;
-                    }
-                    return this.localDataActivity.dataActivity;
-                },
-            },
             activeUsersCount() {
-                return _.uniqBy(this.dataActivity, 'visitorId').length;
+                return _.uniqBy(this.activityDataItems, 'visitorId').length;
             },
             pageViewsCount() {
-                return _.uniqBy(this.dataActivity, 'url').length;
+                return _.uniqBy(this.activityDataItems, 'url').length;
             },
             topPages() {
-                const result = _(this.dataActivity)
+                const result = _(this.activityDataItems)
                     .groupBy('url')
                     .map((items, url) => {
                         return { url: url, count: items.length };
@@ -127,12 +115,13 @@
         methods: {
             ...mapActions('dashboard', {
                 fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
+                reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
             }),
             updateDataActivity () {
                 this.polling = setInterval(() => {
-                    this.dataActivity = this.activityDataItems.filter(item =>
+                    this.reloadActivityDataItems(this.activityDataItems.filter(item =>
                         moment().diff(moment(item.timeNotification), 'minutes') < 5
-                    );
+                    ));
                 }, 300000);
             }
         }

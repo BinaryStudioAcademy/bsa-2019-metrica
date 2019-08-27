@@ -27,11 +27,6 @@
         name: 'Dashboard',
         components: { ContentLayout, ActiveVisitorsCard },
         mixins: [isWebsite],
-        data() {
-            return {
-                polling: null,
-            };
-        },
         created() {
             this.fetchingActivityChartData();
         },
