@@ -68,7 +68,6 @@ final class VisitController extends Controller
 
     public function getUniquePageViewsChart(GetUniquePageViewsChartHttpRequest $request)
     {
-        return $request;
         $this->getUniquePageViewChartAction->execute(GetUniquePageViewsChartRequest::fromRequest($request));
     }
 }
