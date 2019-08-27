@@ -9,14 +9,18 @@ use App\Actions\Visits\GetPageViewsByParameterRequest;
 use App\Actions\Visits\GetPageViewsCountAction;
 use App\Actions\Visits\GetPageViewsCountRequest;
 use App\Actions\Visits\CreateVisitAction;
+use App\Actions\Visits\GetPageViewsItemsAction;
+use App\Actions\Visits\GetPageViewsItemsRequest;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
+use App\Http\Requests\Visit\TablePageViewsHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
 use App\Http\Resources\ButtonResource;
+use App\Http\Resources\TablePageViewsResource;
 use App\Http\Resources\TableResource;
 use App\Http\Response\ApiResponse;
 
@@ -26,17 +30,20 @@ final class VisitController extends Controller
     private $getPageViewsByParameterAction;
     private $getPageViewsCountAction;
     private $createVisitAction;
+    private $getPageViewsItemsAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
         GetPageViewsCountAction $getPageViewsCountAction,
-        CreateVisitAction $createVisitAction
+        CreateVisitAction $createVisitAction,
+        GetPageViewsItemsAction $getPageViewsItemsAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
         $this->createVisitAction = $createVisitAction;
+        $this->getPageViewsItemsAction = $getPageViewsItemsAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -58,5 +65,17 @@ final class VisitController extends Controller
     {
         $response = $this->getPageViewsCountAction->execute(GetPageViewsCountRequest::fromRequest($request));
         return ApiResponse::success(new ButtonResource($response));
+    }
+
+    public function getPageViewsItems(TablePageViewsHttpRequest $request): ApiResponse
+    {
+        $response = $this->getPageViewsItemsAction->execute(
+            new GetPageViewsItemsRequest(
+                $request->startDate(),
+                $request->endDate()
+            )
+        )->items();
+
+        return ApiResponse::success(new TablePageViewsResource($response));
     }
 }
