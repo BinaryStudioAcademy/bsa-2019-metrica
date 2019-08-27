@@ -123,6 +123,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
             Route::get('/unique', 'VisitController@getUniquePageViewsButton');
+            Route::get('avg-time', 'VisitController@getPageViewsAvgTimeForFilterData');
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
