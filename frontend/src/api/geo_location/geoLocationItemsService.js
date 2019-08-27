@@ -16,7 +16,7 @@ const getGeoLocationItems = (startDate, endDate) => requestService.get(resourceU
                 error,
                 'response.data.error.message',
                 'Something went wrong with getting geo location data'
-                )
+            )
         )
     ));
 
