@@ -22,6 +22,7 @@ use App\Http\Response\ApiResponse;
 use App\Http\Requests\Visit\GetPageViewsAvgTimeHttpRequest;
 use App\Actions\Visits\GetPageViewsAvgTimeRequest;
 use App\Actions\Visits\GetPageViewsAvgTimeAction;
+use App\Actions\Visits\GetPageViewsChartAvgTimeAction;
 
 final class VisitController extends Controller
 {
@@ -30,19 +31,22 @@ final class VisitController extends Controller
     private $getPageViewsCountAction;
     private $createVisitAction;
     private $getPageViewsAvgTimeAction;
+    private $getPageViewsChartAvgTimeAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
         GetPageViewsCountAction $getPageViewsCountAction,
         CreateVisitAction $createVisitAction,
-        GetPageViewsAvgTimeAction $getPageViewsAvgTimeAction
+        GetPageViewsAvgTimeAction $getPageViewsAvgTimeAction,
+        GetPageViewsChartAvgTimeAction $getPageViewsChartAvgTimeAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
         $this->createVisitAction = $createVisitAction;
         $this->getPageViewsAvgTimeAction = $getPageViewsAvgTimeAction;
+        $this->getPageViewsChartAvgTimeAction = $getPageViewsChartAvgTimeAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -71,4 +75,12 @@ final class VisitController extends Controller
         $response = $this->getPageViewsAvgTimeAction->execute(GetPageViewsAvgTimeRequest::fromRequest($request));
         return ApiResponse::success(new ButtonResource($response));
     }
+
+    public function getPageViewsChartAvgTimeForFilterData(GetPageViewsAvgTimeHttpRequest $request)
+    {
+        $response = $this->getPageViewsChartAvgTimeAction->execute(GetPageViewsAvgTimeRequest::fromRequest($request));
+
+        return ApiResponse::success(new ChartResource($response->chartData()));
+    }
+
 }
