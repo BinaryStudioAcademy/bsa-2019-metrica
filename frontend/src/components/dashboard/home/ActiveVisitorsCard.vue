@@ -51,7 +51,6 @@
 <script>
     import _ from "lodash";
     import {mapGetters, mapActions} from 'vuex';
-    import moment from 'moment';
     import {
         GET_ACTIVITY_DATA_ITEMS,
     } from "@/store/modules/dashboard/types/getters";
@@ -61,10 +60,10 @@
     } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
+        name: 'ActiveVisitorsCard',
         components: {
             TopActivePage
         },
-        name: 'ActiveVisitorsCard',
         props: {
             activityChartData: {
                 type: Array,
@@ -74,13 +73,6 @@
                 type: Boolean,
                 required: true,
             },
-        },
-        created() {
-            this.fetchingActivityDataItems();
-            this.updateDataActivity();
-        },
-        beforeDestroy () {
-            clearInterval(this.polling);
         },
         data: () => ({
             lineWidth: 5,
@@ -112,16 +104,21 @@
                 return result;
             }
         },
+        created() {
+            this.fetchingActivityDataItems();
+            this.filterDataActivity();
+        },
+        beforeDestroy () {
+            clearInterval(this.polling);
+        },
         methods: {
             ...mapActions('dashboard', {
                 fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
                 reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
             }),
-            updateDataActivity () {
+            filterDataActivity () {
                 this.polling = setInterval(() => {
-                    this.reloadActivityDataItems(this.activityDataItems.filter(item =>
-                        moment().diff(moment(item.timeNotification), 'minutes') < 5
-                    ));
+                    this.reloadActivityDataItems();
                 }, 300000);
             }
         }

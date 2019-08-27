@@ -1,6 +1,6 @@
 import {FETCHING_ACTIVITY_DATA_ITEMS, FETCHING_ACTIVITY_CHART_DATA, RELOAD_ACTIVITY_DATA_ITEMS} from "./types/actions";
 import {SET_ACTIVITY_DATA_ITEMS, SET_ACTIVITY_CHART_DATA} from "./types/mutations";
-
+import moment from 'moment';
 export default {
     [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
        const items = [
@@ -66,7 +66,10 @@ export default {
         context.commit(SET_ACTIVITY_CHART_DATA, data);
     },
 
-    [RELOAD_ACTIVITY_DATA_ITEMS]: (context, data) => {
+    [RELOAD_ACTIVITY_DATA_ITEMS]: (context) => {
+        const data = context.state.activityData.items.filter(item =>
+            moment().diff(moment(item.timeNotification), 'minutes') < 5
+        );
         context.commit(SET_ACTIVITY_DATA_ITEMS, data);
     },
 
