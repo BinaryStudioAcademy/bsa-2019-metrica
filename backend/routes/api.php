@@ -122,6 +122,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'button-page-views'
         ], function () {
             Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
+            Route::get('/unique', 'VisitController@getUniquePageViewsButton');
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
