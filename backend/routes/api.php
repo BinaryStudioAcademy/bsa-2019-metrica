@@ -109,6 +109,12 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
         });
 
+        Route::group([
+            'prefix' => 'page-views'
+        ], function () {
+            Route::get('/bounce-rate', 'VisitController@getChartBounceRate');
+        });
+
         Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
 
         Route::group([

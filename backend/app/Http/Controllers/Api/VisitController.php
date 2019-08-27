@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Visits\GetBounceRateChartByDateRangeAction;
+use App\Actions\Visits\GetBounceRateChartByDateRangeRequest;
+use App\Http\Requests\Api\GetBounceRateChartHttpRequest;
+use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 use App\Actions\Visits\GetPageViewsByParameterAction;
 use App\Actions\Visits\GetPageViewsByParameterRequest;
 use App\Actions\Visits\GetPageViewsCountAction;
@@ -12,7 +16,6 @@ use App\Actions\Visits\CreateVisitAction;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
@@ -26,17 +29,20 @@ final class VisitController extends Controller
     private $getPageViewsByParameterAction;
     private $getPageViewsCountAction;
     private $createVisitAction;
+    private $getChartBounceRateAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
         GetPageViewsCountAction $getPageViewsCountAction,
-        CreateVisitAction $createVisitAction
+        CreateVisitAction $createVisitAction,
+        GetBounceRateChartByDateRangeAction $getChartBounceRateAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
         $this->createVisitAction = $createVisitAction;
+        $this->getChartBounceRateAction = $getChartBounceRateAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -58,5 +64,12 @@ final class VisitController extends Controller
     {
         $response = $this->getPageViewsCountAction->execute(GetPageViewsCountRequest::fromRequest($request));
         return ApiResponse::success(new ButtonResource($response));
+    }
+
+    public function getChartBounceRate(GetBounceRateChartHttpRequest $request): ApiResponse
+    {
+        $response = $this->getChartBounceRateAction->execute(GetBounceRateChartByDateRangeRequest::fromRequest($request));
+
+        return ApiResponse::success(new ChartResource($response->getVisitsBounceRateCollection()));
     }
 }
