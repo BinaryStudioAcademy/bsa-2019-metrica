@@ -11,3 +11,9 @@
         </VOverlay>
     </div>
 </template>
+
+<style scoped lang="scss">
+    .v-overlay {
+        border-radius: 6px;
+    }
+</style>

@@ -21,8 +21,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Visitor $visitor
  * @property int $visitor_id
  * @property GeoPosition $geo_position
- * @property int $geo_position_id
+ * * @property int $geo_position_id
  */
+
 final class Visit extends Model
 {
     protected $fillable = [
