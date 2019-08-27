@@ -1,8 +1,7 @@
 <template>
-    <VContainer>
+    <VContainer class="wrapper">
         <VSubheader
             class="header my-3 text-dark"
-            fluid
         >
             Devices
         </VSubheader>
@@ -196,20 +195,19 @@
 </script>
 
 <style scoped lang="scss">
+.wrapper {
+    width: max-content !important;
+    margin: 0;
+}
 .pie-container {
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
     border-radius: 6px;
-    border-style: solid;
     max-width: 312px;
-    text-align: end;
 }
 .header {
-    align-items: center;
-    text-align: center;
-    text-transform: capitalize;
-    padding-bottom: 10px;
     font-size: 16px;
     line-height: 19px;
+    width: max-content;
 }
 .legend-title {
     font-size: 14px;
