@@ -142,6 +142,7 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
+        Cviebrock\LaravelElasticsearch\ServiceProvider::class,
 
         /*
          * Application Service Providers...
