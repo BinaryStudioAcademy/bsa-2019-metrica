@@ -1,7 +1,6 @@
 <template>
-    <ContentLayout
-        :title="title"
-    >
+    <ContentLayout :title="title">
+        <Overview />
         <div class="d-flex justify-content-between">
             <div>chart</div>
             <ActiveVisitorsCard
@@ -15,6 +14,7 @@
     import { isWebsite } from "@/mixins/isWebsite";
     import ActiveVisitorsCard from "../components/dashboard/home/ActiveVisitorsCard";
     import ContentLayout from "@/components/layout/ContentLayout";
+    import Overview from "@/components/dashboard/dashboard/Overview";
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_ACTIVITY_DATA_FETCHING,
@@ -25,7 +25,7 @@
     } from "../store/modules/dashboard/types/actions";
     export default {
         name: 'Dashboard',
-        components: { ContentLayout, ActiveVisitorsCard },
+        components: { ContentLayout, ActiveVisitorsCard, Overview },
         mixins: [isWebsite],
         created() {
             this.fetchingActivityChartData();
