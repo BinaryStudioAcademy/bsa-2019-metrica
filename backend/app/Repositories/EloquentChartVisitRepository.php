@@ -32,16 +32,16 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
     public function findByFilter(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
         $subQuery = "SELECT v.*, (" . $this->roundDate('v.created_at', $interval) . ") as date " .
-            "FROM visits AS v LEFT JOIN pages AS p ON p.id = v.page_id WHERE p.website_id = " . "$websiteId ".
+            "FROM visits AS v LEFT JOIN pages AS p ON p.id = v.page_id WHERE p.website_id = " . "$websiteId " .
             "AND " . $this->toTimestamp('v.created_at') . " >= :start_date" .
             " AND " .
             $this->toTimestamp('v.created_at') . " <= :end_date";
 
         $query = DB::raw("SELECT COUNT(*) as visits, date FROM ($subQuery) AS periods GROUP BY date");
 
-        $result =  DB::select((string)$query, [
+        $result = DB::select((string)$query, [
             'start_date' => $filterData->getStartDate()->getTimestamp(),
-            'end_date' =>  $filterData->getEndDate()->getTimestamp(),
+            'end_date' => $filterData->getEndDate()->getTimestamp(),
         ]);
 
         return collect($result)->map(function ($item) {
@@ -86,4 +86,28 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
 
         return array_column($response, 'count', 'period');
     }
+
+    public function getUniquePageViews(DatePeriod $datePeriod, int $interval, int $websiteId): Collection
+    {
+        $result = DB::select("SELECT COUNT(page_id) as count,period
+ FROM(
+     SELECT COUNT(p.id) as page_id,
+        (extract(epoch from v.visit_time)::numeric-(extract(epoch from v.visit_time)::numeric % 86400)
+        ) as period
+       FROM \"sessions\" s
+         INNER JOIN \"visits\" v ON s.id=v.session_id
+         INNER JOIN \"pages\" p ON v.page_id=p.id  
+      WHERE s.website_id=:website_id
+   GROUP BY s.id,p.id,period
+) as periods
+GROUP BY period", [
+            'startDate' => $datePeriod->getStartDate(),
+            'endDate' => $datePeriod->getEndDate(),
+            'website_id' => $websiteId
+        ]);
+        return collect($result)->map(function ($item) {
+            return new ChartVisit($item->period, $item->count);
+        });
+    }
+
 }

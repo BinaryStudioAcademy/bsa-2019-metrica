@@ -17,6 +17,7 @@ class GetUniquePageViewsChartAction
 
     public function execute(GetUniquePageViewsChartRequest $request)
     {
-
+        $websiteId = auth()->user()->website->id;
+//        $response = $this->repository->getUniquePageViews($request->period(),$request->interval(),$websiteId)
     }
 }
