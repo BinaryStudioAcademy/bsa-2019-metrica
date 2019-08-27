@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Actions\Visitors;
 
 use App\Repositories\Contracts\TableNewVisitorsRepository;
-use http\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
 use App\DataTransformer\TableValue;
 
-final class GetNewVisitorsByParameterAction
+final class GetNewVisitorsCountAction
 {
     private $tableNewVisitorsRepository;
 
@@ -18,7 +17,7 @@ final class GetNewVisitorsByParameterAction
         $this->tableNewVisitorsRepository = $tableNewVisitorsRepository;
     }
 
-    public function execute(GetNewVisitorsByParameterRequest $request): GetVisitorsCountByParameterResponse
+    public function execute(GetNewVisitorsCountRequest $request): GetVisitorsCountByParameterResponse
     {
         $parameter = $request->parameter();
         $arguments = [
@@ -46,8 +45,6 @@ final class GetNewVisitorsByParameterAction
             case 'screen_resolution':
                 $visitors = $this->tableNewVisitorsRepository->groupByScreenResolution(...$arguments);
                 break;
-            default:
-                throw new InvalidArgumentException(sprintf('The parameter "%s" is not valid.', $parameter));
         }
 
         $formattedVisitors = $visitors->map(function ($visitor) use ($parameter) {
