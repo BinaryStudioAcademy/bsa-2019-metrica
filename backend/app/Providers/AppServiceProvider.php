@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\ChartVisitorRepository;
 use App\Repositories\Contracts\ButtonVisitorsRepository;
-use App\Repositories\Contracts\ButtonDataPageViews;
+use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use App\Repositories\Contracts\ChartVisitorsRepository;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
@@ -21,7 +21,7 @@ use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\EloquentChartVisitorRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
-use App\Repositories\EloquentButtonDataPageViews;
+use App\Repositories\PageViews\EloquentButtonDataRepository;
 use App\Repositories\Contracts\TableNewVisitorsRepository;
 use App\Repositories\EloquentChartVisitorsRepository;
 use App\Repositories\EloquentGeoPositionRepository;
@@ -75,7 +75,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(TableVisitRepository::class, EloquentTableVisitRepository::class);
 
-        $this->app->bind(ButtonDataPageViews::class, EloquentButtonDataPageViews::class);
+        $this->app->bind(ButtonDataRepository::class, EloquentButtonDataRepository::class);
 
         $this->app->bind(TableNewVisitorsRepository::class, EloquentTableNewVisitorsRepository::class);
 
