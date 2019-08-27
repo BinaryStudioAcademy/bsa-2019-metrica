@@ -43,7 +43,7 @@ class EloquentButtonDataRepository implements ButtonDataRepository
 
         $visitsGrpoupedBySessionSubQuery = "(SELECT p.id, $visitDayColumn as visit_day, $avgVisitTimeColumn
                                             FROM $sessionsAndVisitsSubQuery
-                                            GROUP BY $visitDayColumn p.id) AS grouped";
+                                            GROUP BY $visitDayColumn, p.id) AS grouped";
 
         $sql = "SELECT AVG(grouped.avg_by_session) AS avg_time
                               FROM $visitsGrpoupedBySessionSubQuery";
