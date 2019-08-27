@@ -76,11 +76,11 @@ final class GetGeoLocationItemsAction
         $response = $collection->map(function ($item) {
             return new GeoLocationItem(
                 $item['country'][0],
-                $item['all_visitors_count'],
-                $item['new_visitors_count'],
-                $item['all_sessions_count'],
-                $item['bounced_visitors_count']/$item['all_visitors_count'],
-                (int) $item['avg_session_time']
+                $item['all_visitors_count'] ?? 0,
+                $item['new_visitors_count'] ?? 0,
+                $item['all_sessions_count'] ?? 0,
+                $item['bounced_visitors_count'] ?? 0 / $item['all_visitors_count'] ?? 1,
+                (int) $item['avg_session_time'] ?? 0
             );
         })->flatten();
 
