@@ -19,7 +19,7 @@ cp .env.example .env
 
 docker-compose run --rm frontend npm install
 
-ccc
+docker-compose up -d
 
 cp backend/.env.example backend/.env
 docker-compose exec app composer install
