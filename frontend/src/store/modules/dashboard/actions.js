@@ -24,6 +24,9 @@ export default {
         context.dispatch(FETCH_LINE_CHART_DATA);
     },
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
+        if (context.state.selectedPeriod === payload.value) {
+            return;
+        }
         context.commit(SET_SELECTED_PERIOD, payload.value);
         context.dispatch(FETCH_LINE_CHART_DATA);
     },
