@@ -108,5 +108,4 @@ final class VisitController extends Controller
 
         return ApiResponse::success(new ChartResource($response->chartData()));
     }
-
 }
