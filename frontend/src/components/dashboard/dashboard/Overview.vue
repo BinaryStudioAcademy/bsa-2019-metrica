@@ -33,9 +33,6 @@
         name: "Overview",
         components: { WidgetButtons, LineChart, PeriodDropdown },
         computed: {
-            title () {
-                return this.$route.meta.title;
-            },
             ...mapGetters('dashboard', {
                 chartData: GET_LINE_CHART_DATA,
                 selectedPeriod: GET_SELECTED_PERIOD,

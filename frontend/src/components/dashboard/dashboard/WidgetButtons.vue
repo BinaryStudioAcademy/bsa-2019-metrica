@@ -2,11 +2,13 @@
     <VItemGroup
         @change="changeDataTypeToFetch"
         mandatory
+        :value="dataToFetch"
     >
         <VItem
             v-for="button in buttons"
             :key="button.label"
             v-slot:default="{ active, toggle }"
+            :value="button.value"
         >
             <VBtn
                 :ripple="false"
@@ -47,8 +49,8 @@
             ...mapActions('dashboard', {
                 changeDataType: CHANGE_DATA_TYPE
             }),
-            changeDataTypeToFetch(index) {
-                this.changeDataType(this.buttons[index].value);
+            changeDataTypeToFetch(value) {
+                this.changeDataType(value);
             }
         },
     };
