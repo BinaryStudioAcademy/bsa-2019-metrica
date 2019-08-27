@@ -102,4 +102,20 @@ final class EloquentVisitorRepository implements VisitorRepository
             ->groupBy('geo_positions.country')
             ->get();
     }
+
+    public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate): Collection
+    {
+        return Visitor::has('sessions', '=', '1')
+            ->whereHas('sessions', function (Builder $query) use ($startDate, $endDate) {
+                $query->has('visits', '=', '1')
+                    ->where('updated_at', '<', (new Carbon($endDate))->subMinutes(30)->toDateTimeString())
+                    ->whereBetween('start_session', [$startDate, $endDate]);
+            })
+            ->forUserWebsite()
+            ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
+            ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.country as country'))
+            ->groupBy('geo_positions.country')
+            ->get();
+    }
 }
