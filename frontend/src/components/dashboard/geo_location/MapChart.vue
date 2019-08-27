@@ -2,6 +2,7 @@
     <div class="container">
         <GChart
             type="GeoChart"
+            :settings="settings"
             :data="chartData"
             :options="chartOptions"
             class="map"
@@ -51,7 +52,10 @@
                     role: 'tooltip',
                     p: { html: true }
                 }],
-                mapsApiKey: config.getGoogleMapsApiKey()
+                settings: {
+                    packages: ['corechart', 'table', 'map'],
+                    mapsApiKey: config.getGoogleMapsApiKey()
+                }
             };
         },
         computed: {
