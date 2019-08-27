@@ -93,7 +93,7 @@
                             others: {
                                 title: 'Others',
                                 percentageDiff: 10,
-                                color: '#FF9900',
+                                color: '#67C208',
                             },
                         }
                     },
@@ -108,7 +108,7 @@
                             mobile: {
                                 title: 'Mobile',
                                 percentageDiff: 65,
-                                color: '#67C208',
+                                color: '#ff9900',
                             },
                             tablet: {
                                 title: 'Tablet',

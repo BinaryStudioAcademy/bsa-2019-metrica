@@ -10,8 +10,9 @@
             <Spinner v-if="isFetching" />
             <VContainer>
                 <VRow class="justify-center">
-                    <VCol class="pa-0 d-flex col-5 justify-center align-items-center">
+                    <VCol class="d-flex col-5 justify-center align-items-center">
                         <GChart
+                            class="pb-3 align-self-end"
                             type="PieChart"
                             :data="chartData.system"
                             :options="chartOptions.system"
@@ -20,7 +21,7 @@
                     <VCol>
                         <VSubheader
                             v-text="legend.system.title"
-                            class="legend-title text-dark pl-0"
+                            class="legend-title grey--text text--darken-1 pl-0"
                         />
                         <VList>
                             <VListItem
@@ -30,21 +31,28 @@
                             >
                                 <VIcon
                                     :color="systems.color"
-                                    small
+                                    size="8"
                                 >
                                     mdi-circle
                                 </VIcon>
-                                <VLabel>{{ systems.title }}</VLabel>
-                                <VLabel>
+                                <VListItemTitle
+                                    class="pl-2 grey--text"
+                                >
+                                    {{ systems.title }}
+                                </VListItemTitle>
+                                <VListItemSubTitle
+                                    class="grey--text"
+                                >
                                     {{ systems.percentageDiff }}%
-                                </VLabel>
+                                </VListItemSubTitle>
                             </VListItem>
                         </VList>
                     </VCol>
                 </VRow>
                 <VRow class="justify-center">
-                    <VCol class="pa-0 d-flex col-5 justify-center align-items-center">
+                    <VCol class="d-flex col-5 justify-center align-items-center">
                         <GChart
+                            class="align-self-end pb-4"
                             type="PieChart"
                             :data="chartData.device"
                             :options="chartOptions.device"
@@ -53,7 +61,7 @@
                     <VCol class="align-items-end">
                         <VSubheader
                             v-text="legend.device.title"
-                            class="legend-title text-dark pl-0"
+                            class="legend-title grey--text text--darken-1 pl-0"
                         />
                         <VList>
                             <VListItem
@@ -63,19 +71,26 @@
                             >
                                 <VIcon
                                     :color="devices.color"
-                                    small
+                                    size="8"
                                 >
                                     mdi-circle
                                 </VIcon>
-                                <VLabel>{{ devices.title }}</VLabel>
-                                <VLabel>
+                                <VListItemTitle
+                                    class="pl-2 grey--text"
+                                >
+                                    {{ devices.title }}
+                                </VListItemTitle>
+                                <VListItemSubTitle
+                                    class="grey--text"
+                                >
                                     {{ devices.percentageDiff }}%
-                                </VLabel>
+                                </VListItemSubTitle>
                             </VListItem>
                         </VList>
                     </VCol>
                 </VRow>
             </VContainer>
+            <PeriodDropdown />
         </VContainer>
     </VContainer>
 </template>
@@ -83,11 +98,13 @@
 <script>
     import {GChart} from 'vue-google-charts';
     import Spinner from '@/components/utilites/Spinner';
+    import PeriodDropdown from "../dashboard/common/PeriodDropdown";
 
     export default {
         components: {
             GChart,
-            Spinner
+            Spinner,
+            PeriodDropdown
         },
         props: {
             data: {
@@ -138,7 +155,7 @@
                                 offset: 0,
                             },
                             2: {
-                                color: '#FF9900',
+                                color: '#67C208',
                                 offset: 0,
                             },
                         }
@@ -163,7 +180,7 @@
                                 color: '#F03357',
                             },
                             1: {
-                                color: '#67C208',
+                                color: '#ff9900',
                                 offset: 0,
                             },
                             2: {
@@ -181,38 +198,38 @@
 <style scoped lang="scss">
 .pie-container {
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
-    border-radius: 10px;
+    border-radius: 6px;
     border-style: solid;
-    border-color: #18A0FB !important;
-    max-width: 400px;
+    max-width: 312px;
+    text-align: end;
 }
 .header {
     align-items: center;
     text-align: center;
     text-transform: capitalize;
-    font-family: 'Gilroy';
     padding-bottom: 10px;
     font-size: 16px;
     line-height: 19px;
 }
 .legend-title {
-    font-family: Gilroy;
     font-size: 14px;
     line-height: 16px;
-}
-.radio {
-    border-radius: 50%;
 }
 
 .v-list-item {
     height: 40px;
     min-height: 20px;
     min-width: 120px;
+    .v-list-item__title,
+    vlistitemsubtitle {
+        font-size: 12px;
+        font-family: 'GilroySemiBold';
+    }
 }
 .v-subheader {
     height: 20px;
 }
-.v-label {
-    font-size: 12px;
+.v-list-item__title {
+    text-align: start;
 }
 </style>
