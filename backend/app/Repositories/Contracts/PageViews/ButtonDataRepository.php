@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Contracts;
+namespace App\Repositories\Contracts\PageViews;
 
 use App\Contracts\Common\DatePeriod;
 
-interface ButtonDataPageViews
+interface ButtonDataRepository
 {
     public function countBetweenDate(DatePeriod $filterData, int $websiteId): int;
 

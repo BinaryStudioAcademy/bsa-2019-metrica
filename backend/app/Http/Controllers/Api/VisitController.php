@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Visits\GetBounceRateChartByDateRangeAction;
 use App\Actions\Visits\GetBounceRateChartByDateRangeRequest;
+use App\Actions\Visits\GetUniquePageViewsButtonAction;
+use App\Actions\Visits\GetUniquePageViewsButtonRequest;
 use App\Http\Requests\Api\GetBounceRateChartHttpRequest;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 use App\Actions\Visits\GetPageViewsByParameterAction;
@@ -16,7 +18,6 @@ use App\Actions\Visits\CreateVisitAction;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 use App\Http\Requests\Visit\GetUniquePageViewsButtonHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
@@ -31,7 +32,7 @@ final class VisitController extends Controller
     private $getPageViewsByParameterAction;
     private $getPageViewsCountAction;
     private $createVisitAction;
-    private $getUniquePageViewsAction;
+    private $getUniquePageViewsButtonAction;
     private $getChartBounceRateAction;
 
     public function __construct(
@@ -39,14 +40,14 @@ final class VisitController extends Controller
         GetPageViewsByParameterAction $getPageViewsByParameterAction,
         GetPageViewsCountAction $getPageViewsCountAction,
         CreateVisitAction $createVisitAction,
-        GetUniquePageViewsButtonAction $getUniquePageViewsAction,
+        GetUniquePageViewsButtonAction $getUniquePageViewsButtonAction,
         GetBounceRateChartByDateRangeAction $getChartBounceRateAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
         $this->createVisitAction = $createVisitAction;
-        $this->getUniquePageViewsAction = $getUniquePageViewsAction;
+        $this->getUniquePageViewsButtonAction = $getUniquePageViewsButtonAction;
         $this->getChartBounceRateAction = $getChartBounceRateAction;
     }
 
@@ -80,7 +81,7 @@ final class VisitController extends Controller
 
     public function getUniquePageViewsButton(GetUniquePageViewsButtonHttpRequest $request): ApiResponse
     {
-        $response = $this->getUniquePageViewsAction->execute(GetUniquePageViewsButtonRequest::fromRequest($request));
+        $response = $this->getUniquePageViewsButtonAction->execute(GetUniquePageViewsButtonRequest::fromRequest($request));
         return ApiResponse::success(new ButtonResource($response));
     }
 }

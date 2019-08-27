@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Repositories\PageViews;
 
 use App\Contracts\Common\DatePeriod;
 use App\Entities\Visit;
-use App\Repositories\Contracts\ButtonDataPageViews;
+use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use Illuminate\Support\Facades\DB;
 
-class EloquentButtonDataPageViews implements ButtonDataPageViews
+class EloquentButtonDataRepository implements ButtonDataRepository
 {
     public function countBetweenDate(DatePeriod $filterData, int $websiteId): int
     {
