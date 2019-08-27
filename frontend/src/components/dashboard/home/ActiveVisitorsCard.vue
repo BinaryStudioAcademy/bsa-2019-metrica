@@ -50,17 +50,21 @@
 
 <script>
     import _ from "lodash";
+    import {mapGetters, mapActions} from 'vuex';
+    import {
+        GET_ACTIVITY_DATA_ITEMS,
+    } from "@/store/modules/dashboard/types/getters";
+    import {
+        FETCHING_ACTIVITY_DATA_ITEMS,
+        RELOAD_ACTIVITY_DATA_ITEMS
+    } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
+        name: 'ActiveVisitorsCard',
         components: {
             TopActivePage
         },
-        name: 'ActiveVisitorsCard',
         props: {
-            data: {
-                type: Array,
-                required: true,
-            },
             activityChartData: {
                 type: Array,
                 required: true,
@@ -76,16 +80,20 @@
             padding: 4,
             gradient: ['#3C57DE', '#1BC3DA'],
             gradientDirection: 'left',
+            polling: null,
         }),
         computed: {
+            ...mapGetters('dashboard', {
+                activityDataItems: GET_ACTIVITY_DATA_ITEMS,
+            }),
             activeUsersCount() {
-                return _.uniqBy(this.data, 'visitorId').length;
+                return _.uniqBy(this.activityDataItems, 'visitorId').length;
             },
             pageViewsCount() {
-                return _.uniqBy(this.data, 'url').length;
+                return _.uniqBy(this.activityDataItems, 'url').length;
             },
             topPages() {
-                const result = _(this.data)
+                const result = _(this.activityDataItems)
                     .groupBy('url')
                     .map((items, url) => {
                         return { url: url, count: items.length };
@@ -96,6 +104,24 @@
                 return result;
             }
         },
+        created() {
+            this.fetchingActivityDataItems();
+            this.filterDataActivity();
+        },
+        beforeDestroy () {
+            clearInterval(this.polling);
+        },
+        methods: {
+            ...mapActions('dashboard', {
+                fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
+                reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
+            }),
+            filterDataActivity () {
+                this.polling = setInterval(() => {
+                    this.reloadActivityDataItems();
+                }, 300000);
+            }
+        }
     };
 </script>
 

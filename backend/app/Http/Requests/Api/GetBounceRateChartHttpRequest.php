@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Visitor;
+namespace App\Http\Requests\Api;
 
 use App\Http\Request\ApiFormRequest;
-use App\Rules\Parameter;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
+final class GetBounceRateChartHttpRequest extends ApiFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'filter' => 'required|array',
@@ -24,23 +23,25 @@ final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
             ],
-            'filter.parameter' => [
+            'filter.period' => [
                 'required',
-                new Parameter()
-            ],
+                'integer'
+            ]
         ];
     }
-    public function startDate(): string
+
+    public function getStartDate(): string
     {
         return $this->get('filter')['startDate'];
     }
-    public function endDate(): string
+
+    public function getEndDate(): string
     {
         return $this->get('filter')['endDate'];
     }
 
-    public function parameter(): string
+    public function getPeriod(): string
     {
-        return $this->get('filter')['parameter'];
+        return $this->get('filter')['period'];
     }
 }

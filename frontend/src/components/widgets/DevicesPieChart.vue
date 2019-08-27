@@ -1,13 +1,13 @@
 <template>
-    <VContainer class="wrapper">
+    <VContainer class="wrapper pa-0">
         <VSubheader
             class="header my-3 text-dark"
         >
             Devices
         </VSubheader>
-        <VContainer class="white pie-container position-relative">
+        <VContainer class="white pt-0 pie-container position-relative">
             <Spinner v-if="isFetching" />
-            <VContainer>
+            <VContainer class="pb-0">
                 <VRow class="justify-center">
                     <VCol class="d-flex col-5 justify-center align-items-center">
                         <GChart
@@ -88,8 +88,12 @@
                         </VList>
                     </VCol>
                 </VRow>
+                <VRow class="pb-3 pl-3">
+                    <PeriodDropdown
+                        :value="selectedPeriod"
+                    />
+                </VRow>
             </VContainer>
-            <PeriodDropdown />
         </VContainer>
     </VContainer>
 </template>
@@ -125,6 +129,7 @@
         },
         data() {
             return {
+                selectedPeriod: 'last_week',
                 chartData: {
                     system: this.data.system,
                     device: this.data.device,

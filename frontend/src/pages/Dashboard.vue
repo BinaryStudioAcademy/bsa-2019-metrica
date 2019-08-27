@@ -1,9 +1,9 @@
 <template>
-    <VContainer>
+    <ContentLayout :title="title">
+        <Overview />
         <div class="d-flex justify-content-between">
             <div>chart</div>
             <ActiveVisitorsCard
-                :data="activityDataItems"
                 :is-fetching="activityDataFetching"
                 :activity-chart-data="activityChartData"
             />
@@ -13,32 +13,32 @@
             :legend="devicesLegend"
             :is-fetching="devicesPieData.isFetching"
         />
-    </VContainer>
+    </ContentLayout>
 </template>
 <script>
     import { isWebsite } from "@/mixins/isWebsite";
     import DevicesPieChart from "@/components/widgets/DevicesPieChart.vue";
     import ActiveVisitorsCard from "../components/dashboard/home/ActiveVisitorsCard";
+    import ContentLayout from "@/components/layout/ContentLayout";
+    import Overview from "@/components/dashboard/dashboard/Overview";
     import {mapGetters, mapActions} from 'vuex';
     import {
-        GET_ACTIVITY_DATA_ITEMS,
         GET_ACTIVITY_DATA_FETCHING,
         GET_ACTIVITY_CHART_DATA,
     } from "../store/modules/dashboard/types/getters";
     import {
         FETCHING_ACTIVITY_CHART_DATA,
-        FETCHING_ACTIVITY_DATA_ITEMS,
     } from "../store/modules/dashboard/types/actions";
-
     export default {
         name: 'Dashboard',
         components: {
             DevicesPieChart,
             ActiveVisitorsCard,
+            ContentLayout,
+            Overview
         },
         mixins: [isWebsite],
         created() {
-            this.fetchingActivityDataItems();
             this.fetchingActivityChartData();
         },
         computed: {
@@ -46,14 +46,12 @@
                 return this.$route.meta.title;
             },
             ...mapGetters('dashboard', {
-                activityDataItems: GET_ACTIVITY_DATA_ITEMS,
                 activityDataFetching: GET_ACTIVITY_DATA_FETCHING,
                 activityChartData: GET_ACTIVITY_CHART_DATA,
-            }),
+            })
         },
         methods: {
             ...mapActions('dashboard', {
-                fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
                 fetchingActivityChartData: FETCHING_ACTIVITY_CHART_DATA,
             }),
         },

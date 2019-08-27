@@ -22,7 +22,7 @@ class TableNewVisitorsApiTest extends TestCase
 
     const DATE_FROM = '2019-08-20 00:00:00';
     const DATE_TO = '2019-08-24 23:59:59';
-    const ENDPOINT = '/api/v1/visitors/new-visitors-table/';
+    const ENDPOINT = '/api/v1/table-visitors/count-new';
     const PARAMETERS = [
         'city',
         'country',
