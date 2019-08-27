@@ -12,7 +12,7 @@
         />
         <PeriodDropdown
             :value="selectedPeriod"
-            @change="refreshData"
+            @change="changePeriod"
         />
     </VContainer>
 </template>
@@ -28,9 +28,10 @@
     } from "@/store/modules/dashboard/types/getters";
     import {
         CHANGE_SELECTED_PERIOD,
-        FETCH_LINE_CHART_DATA
     } from "@/store/modules/dashboard/types/actions";
     export default {
+        name: "Overview",
+        components: { WidgetButtons, LineChart, PeriodDropdown },
         computed: {
             title () {
                 return this.$route.meta.title;
@@ -43,15 +44,11 @@
         methods: {
             ...mapActions('dashboard', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
-                getLineChartData: FETCH_LINE_CHART_DATA
             }),
-            refreshData(data) {
+            changePeriod(data) {
                 this.changeSelectedPeriod(data);
-                this.getLineChartData();
             }
-        },
-        name: "Overview",
-        components: { WidgetButtons, LineChart, PeriodDropdown }
+        }
     };
 </script>
 

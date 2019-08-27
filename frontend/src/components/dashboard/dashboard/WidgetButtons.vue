@@ -1,6 +1,6 @@
 <template>
     <VItemGroup
-        @change="refreshData"
+        @change="changeDataTypeToFetch"
         mandatory
     >
         <VItem
@@ -23,9 +23,9 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
-    import {GET_DATA_TYPE} from "../../../store/modules/dashboard/types/getters";
-    import {CHANGE_DATA_TYPE, FETCH_LINE_CHART_DATA} from "../../../store/modules/dashboard/types/actions";
+    import { mapActions, mapGetters } from 'vuex';
+    import { GET_DATA_TYPE } from "../../../store/modules/dashboard/types/getters";
+    import { CHANGE_DATA_TYPE } from "../../../store/modules/dashboard/types/actions";
 
     export default {
         name: "WidgetButtons",
@@ -45,12 +45,10 @@
         },
         methods: {
             ...mapActions('dashboard', {
-                changeDataType: CHANGE_DATA_TYPE,
-                getChartData: FETCH_LINE_CHART_DATA,
+                changeDataType: CHANGE_DATA_TYPE
             }),
-            refreshData(index) {
+            changeDataTypeToFetch(index) {
                 this.changeDataType(this.buttons[index].value);
-                this.getChartData();
             }
         },
     };

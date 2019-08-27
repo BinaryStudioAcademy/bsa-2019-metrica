@@ -7,9 +7,7 @@ const buttonTransformer = (item) => {
 const chartTransformer = (item) => {
     return {
         date: moment.unix(item.date).format("DD/MM/YYYY H:mm:ss"),
-        value: item.value,
-        day: moment.unix(item.date).format("DD/MM/YY"),
-        time: moment.unix(item.date).format("HH:mm"),
+        value: item.value
     };
 };
 

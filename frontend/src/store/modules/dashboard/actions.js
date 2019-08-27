@@ -1,6 +1,5 @@
 import {
     CHANGE_SELECTED_PERIOD,
-    CHANGE_FETCHED_LINE_CHART_STATE,
     FETCH_LINE_CHART_DATA,
     CHANGE_DATA_TYPE,
     FETCHING_ACTIVITY_DATA_ITEMS,
@@ -22,17 +21,11 @@ import {getTimeByPeriod} from '@/services/periodService';
 export default {
     [CHANGE_DATA_TYPE]: (context, payload) => {
         context.commit(SET_DATA_TYPE, payload);
+        context.dispatch(FETCH_LINE_CHART_DATA);
     },
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
         context.commit(SET_SELECTED_PERIOD, payload.value);
-    },
-    [CHANGE_FETCHED_LINE_CHART_STATE]: (context, value) => {
-
-        if (value) {
-            context.commit(SET_LINE_CHART_FETCHING);
-        } else {
-            context.commit(RESET_LINE_CHART_FETCHING);
-        }
+        context.dispatch(FETCH_LINE_CHART_DATA);
     },
     [FETCH_LINE_CHART_DATA]: (context) => {
         context.commit(SET_LINE_CHART_FETCHING);
@@ -45,11 +38,9 @@ export default {
             .fetchChartValues(startDate.unix(), endDate.unix(), period.interval)
             .then(response => {
                 context.commit(SET_LINE_CHART_DATA, response);
-                context.commit(RESET_LINE_CHART_FETCHING);
             })
-            .catch(err => {
+            .finally(() => {
                 context.commit(RESET_LINE_CHART_FETCHING);
-                throw err;
             });
     },
     [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
