@@ -89,7 +89,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'chart-visits'
         ], function () {
             Route::get('/', 'VisitController@getPageViews');
-            Route::get('/unique','VisitController@getUniquePageViewsChart');
+            Route::get('/unique', 'VisitController@getUniquePageViewsChart');
         });
 
         Route::group([

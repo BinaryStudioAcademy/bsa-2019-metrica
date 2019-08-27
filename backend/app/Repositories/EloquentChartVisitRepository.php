@@ -107,5 +107,4 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
             return new ChartVisit($item->period, $item->count);
         });
     }
-
 }

@@ -47,8 +47,7 @@ final class VisitController extends Controller
         GetUniquePageViewsButtonAction $getUniquePageViewsButtonAction,
         GetUniquePageViewsChartAction $getUniquePageViewChartAction,
         GetBounceRateChartByDateRangeAction $getChartBounceRateAction
-    )
-    {
+    ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
