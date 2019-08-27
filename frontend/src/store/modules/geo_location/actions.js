@@ -8,7 +8,7 @@ import {
     SET_SELECTED_PARAMETER,
     SET_GEO_LOCATION_ITEMS
 } from "./types/mutations";
-import {getGeoLocationItems} from '@/api/geoLocation';
+import {getGeoLocationItems} from '@/api/geo_location/geoLocationItemsService';
 import {getTimeByPeriod} from '@/services/periodService';
 
 export default {
@@ -22,8 +22,8 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
 
         return getGeoLocationItems(period.startDate, period.endDate)
-            .then(response => {
-                context.commit(SET_GEO_LOCATION_ITEMS, response.data);
+            .then(geoLocationItems => {
+                context.commit(SET_GEO_LOCATION_ITEMS, geoLocationItems);
             })
             .catch(err => {
                 throw err;
