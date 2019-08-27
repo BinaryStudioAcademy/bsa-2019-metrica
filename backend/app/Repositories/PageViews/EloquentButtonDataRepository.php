@@ -69,5 +69,5 @@ class EloquentButtonDataRepository implements ButtonDataRepository
         $avgTime = DB::select($sql, $bindings)[0]->avg_time;
 
         return (int)$avgTime;
-    }    
+    }
 }
