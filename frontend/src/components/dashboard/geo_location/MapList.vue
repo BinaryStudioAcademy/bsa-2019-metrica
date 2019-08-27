@@ -26,6 +26,7 @@
         </VListItem>
     </VContainer>
 </template>
+
 <script>
     export default {
         props: {

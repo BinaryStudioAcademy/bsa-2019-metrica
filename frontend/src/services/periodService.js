@@ -9,7 +9,6 @@ export const period = {
     PERIOD_ALL: 'all_period',
 };
 
-
 const currentDate = () => {
     return moment();
 };
@@ -76,9 +75,6 @@ export const getTimeByPeriod = (value) => {
         default:
             throw 'This period is not defined';
     }
-
-    startDate = startDate.unix();
-    endDate = endDate.unix();
 
     return {
         interval,

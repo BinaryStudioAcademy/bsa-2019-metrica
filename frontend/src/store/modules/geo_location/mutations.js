@@ -2,7 +2,8 @@ import {
     SET_SELECTED_PERIOD,
     SET_SELECTED_PARAMETER,
     SET_GEO_LOCATION_ITEMS,
-    RESET_GEO_LOCATION_ITEMS
+    SET_IS_FETCHING,
+    RESET_IS_FETCHING
 } from "./types/mutations";
 
 export default {
@@ -13,9 +14,12 @@ export default {
         state.selectedParameter = parameter;
     },
     [SET_GEO_LOCATION_ITEMS]: (state, geoLocationItems) => {
-        state.geoLocationItems = geoLocationItems;
+        state.geoLocationItems.items = geoLocationItems;
     },
-    [RESET_GEO_LOCATION_ITEMS]: state => {
-        state.geoLocationItems = [];
+    [SET_IS_FETCHING]: (state) => {
+        state.geoLocationItems.isFetching = true;
+    },
+    [RESET_IS_FETCHING]: (state) => {
+        state.geoLocationItems.isFetching = false;
     }
 };

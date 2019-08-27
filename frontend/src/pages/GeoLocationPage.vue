@@ -1,5 +1,8 @@
 <template>
     <ContentLayout :title="title">
+        <Spinner
+            v-if="isFetching"
+        />
         <VLayout
             class="map-container"
         >
@@ -13,7 +16,7 @@
                 <MapButtons />
                 <MapChart
                     :parameter="getSelectedParameter"
-                    :data-items="geoLocationItems"
+                    :data-items="getGeoLocationItems"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -27,7 +30,7 @@
             >
                 <MapList
                     :displayed-parameter="getSelectedParameter"
-                    :data-items="geoLocationItems"
+                    :data-items="getGeoLocationItems"
                 />
             </VFlex>
         </VLayout>
@@ -40,7 +43,7 @@
                 class="img-card"
             >
                 <GroupedTable
-                    :items="geoLocationItems"
+                    :items="getGeoLocationItems"
                 />
             </VFlex>
         </VLayout>
@@ -55,10 +58,15 @@
     import MapChart from '../components/dashboard/geo_location/MapChart';
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import {mapGetters, mapActions} from 'vuex';
-    import {GET_SELECTED_PERIOD, GET_SELECTED_PARAMETER} from "@/store/modules/geo_location/types/getters";
+    import {
+        GET_SELECTED_PERIOD,
+        GET_SELECTED_PARAMETER,
+        IS_FETCHING
+    } from "@/store/modules/geo_location/types/getters";
     import {CHANGE_SELECTED_PERIOD} from "@/store/modules/geo_location/types/actions";
     import {FETCH_GEO_LOCATION_ITEMS} from "@/store/modules/geo_location/types/actions";
     import {GET_GEO_LOCATION_ITEMS} from "@/store/modules/geo_location/types/getters";
+    import Spinner from "@/components/utilites/Spinner";
 
     export default {
         components: {
@@ -67,10 +75,8 @@
             MapChart,
             PeriodDropdown,
             MapButtons,
-            MapList
-        },
-        created() {
-            this.fetchGeoLocationItems();
+            MapList,
+            Spinner
         },
         data() {
             return {
@@ -81,11 +87,12 @@
             ...mapGetters('geo_location', {
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 getSelectedParameter: GET_SELECTED_PARAMETER,
-                getGeoLocationItems: GET_GEO_LOCATION_ITEMS
-            }),
-            geoLocationItems() {
-                return this.getGeoLocationItems;
-            }
+                getGeoLocationItems: GET_GEO_LOCATION_ITEMS,
+                isFetching: IS_FETCHING
+            })
+        },
+        created() {
+            this.fetchGeoLocationItems();
         },
         methods: {
             ...mapActions('geo_location', {

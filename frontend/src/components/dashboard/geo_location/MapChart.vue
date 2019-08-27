@@ -10,7 +10,6 @@
     </div>
 </template>
 
-
 <script>
     import { GChart } from 'vue-google-charts';
     import config from "@/config";
@@ -60,10 +59,6 @@
         },
         computed: {
             chartData () {
-                if (!this.dataItems.length) {
-                    return [];
-                }
-
                 const tooltipRow = this.tooltipRow;
                 const tableRows = this.dataItems.map((item) => [
                     item.country,
