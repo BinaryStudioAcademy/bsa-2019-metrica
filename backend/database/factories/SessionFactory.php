@@ -6,7 +6,6 @@ use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\System;
 use App\Entities\Visitor;
-use App\Entities\Website;
 use Faker\Generator as Faker;
 use Illuminate\Support\Carbon;
 

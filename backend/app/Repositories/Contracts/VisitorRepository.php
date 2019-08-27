@@ -30,4 +30,6 @@ interface VisitorRepository
     public function countAllVisitorsGroupByCountry(string $startDate, string $endDate): Collection;
 
     public function countNewVisitorsGroupByCountry(string $startDate, string $endDate): Collection;
+
+    public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate): Collection;
 }
