@@ -50,7 +50,7 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
 
         $expected = [
             'data' => [
-                'value' => '4350'
+                'value' => '4500'
             ],
             'meta' => []
         ];
@@ -99,6 +99,20 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
                 'session_id' => $secondSession->id
             ]);
         }
+
+        $thirdSession = factory(Session::class)->create([
+                            'start_session' => '2019-08-21 15:00:00',
+                            'end_session' =>  '2019-08-21 21:00:00'
+                        ]);
+        for ($i = 0, $hours = 0; $i < 3; $i++, $hours += 2) {
+            factory(Visit::class)->create([
+                'visit_time' => (new Carbon('2019-08-21 15:00:00'))->addHours($hours)
+                                                          ->toDateTimeString(),
+                'session_id' => $thirdSession->id
+            ]);
+        }
+
+
 
         $outOfDateRangeSession = factory(Session::class)->create([
                                     'start_session' => '2019-08-30 00:00:00',
