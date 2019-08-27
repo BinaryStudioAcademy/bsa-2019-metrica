@@ -61,9 +61,9 @@
             return {
                 headers: [
                     { text: '', align: 'center', value: 'country' },
-                    { text: '', align: 'center', value: 'visitors' },
-                    { text: '', align: 'center', value: 'new_visitors' },
-                    { text: '', align: 'center', value: 'sessions' },
+                    { text: '', align: 'center', value: 'all_visitors_count' },
+                    { text: '', align: 'center', value: 'new_visitors_count' },
+                    { text: '', align: 'center', value: 'sessions_count' },
                     { text: '', align: 'center', value: 'bounce_rate' },
                     { text: '', align: 'center', value: 'avg_session_time' },
                 ],
