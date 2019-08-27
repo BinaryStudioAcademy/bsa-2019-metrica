@@ -19,7 +19,7 @@ import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 import PageViews from "../pages/PageViews.vue";
 import Audience from "../pages/Audience.vue";
 import VerifyEmail from "../components/auth/VerifyEmail";
-import Dashboard from "@/pages/Dashboard";
+import Dashboard from "../pages/Dashboard";
 import GeoLocation from "../pages/GeoLocationPage";
 
 const originalPush = Router.prototype.push;

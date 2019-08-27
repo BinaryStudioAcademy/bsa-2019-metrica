@@ -2,13 +2,15 @@ export default {
     selectedPeriod: 'last_week',
     devicesPieData: {
         system: {
-            newVisitors: 20,
-            returnVisitors: 80,
+            mac: 25,
+            windows: 65,
+            others: 10,
         },
         device: {
-            newVisitors: 40,
-            returnVisitors: 60,
+            desktop: 25,
+            mobile: 65,
+            tablet: 10,
         },
-        isFetching: true
+        isFetching: false
     },
 };
