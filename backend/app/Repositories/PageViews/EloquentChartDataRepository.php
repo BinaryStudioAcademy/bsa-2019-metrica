@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 use App\DataTransformer\ChartValue;
 use Illuminate\Support\Collection;
 
-
 class EloquentChartDataRepository implements ChartDataRepository
 {
     public function getChartAvgTimeOnPageBetweenDate(
@@ -46,7 +45,7 @@ class EloquentChartDataRepository implements ChartDataRepository
 
         $chartData = DB::select($sql, $bindings);
 
-        return collect($chartData)->map(function($item){
+        return collect($chartData)->map(function($item) {
             return new ChartValue($item->visit_day, $item->avg_time);
         });
     }
