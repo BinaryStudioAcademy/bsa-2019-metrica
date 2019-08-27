@@ -24,7 +24,6 @@ final class PageViewsItem
         $this->pageUrl = $pageUrl;
         $this->pageViewsCount = $pageViewsCount;
         $this->title = $title;
-
     }
 
     public function pageUrl(): string
@@ -51,5 +50,4 @@ final class PageViewsItem
     {
         return $this->exitRate;
     }
-
 }

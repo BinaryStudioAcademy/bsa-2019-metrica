@@ -38,7 +38,7 @@ final class GetPageViewsItemsAction
         }
 
         $collection = new Collection();
-        foreach ($items as $item){
+        foreach ($items as $item) {
             $collection->add(new PageViewsItem(
                 '',
                 '',
