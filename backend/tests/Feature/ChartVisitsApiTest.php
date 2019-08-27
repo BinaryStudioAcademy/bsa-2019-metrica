@@ -13,6 +13,7 @@ use App\Entities\Visitor;
 use App\Entities\Website;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class ChartVisitsApiTest extends TestCase
@@ -62,18 +63,20 @@ class ChartVisitsApiTest extends TestCase
     private function getUniquePageViewsChartSeed()
     {
         factory(Website::class)->create();
+        factory(Page::class, 4)->create();
         factory(Visitor::class, 5)->create();
         factory(System::class)->create();
-        factory(Page::class, 4)->create();
+
         factory(GeoPosition::class)->create();
 
+        $pageIds = DB::select("SELECT id FROM \"pages\"");
+        [$page1,$page2,$page3,$page4] = $pageIds;
         $firstSession = factory(Session::class)->create([
             'start_session' => '2019-08-21 00:00:00',
             'end_session' => '2019-08-22 00:00:00',
-            'entrance_page_id' => 1
         ]);
 
-        $pageIds = [1, 2, 3];
+        $pageIds = [$page1->id, $page2->id, $page3->id];
         for ($i = 0, $hours = 0; $i < 6; $i++, $hours += 1) {
             factory(Visit::class)->create([
                 'visit_time' => (new Carbon('2019-08-21'))->addHours($hours)
@@ -86,10 +89,9 @@ class ChartVisitsApiTest extends TestCase
         $secondSession = factory(Session::class)->create([
             'start_session' => '2019-08-21 00:00:00',
             'end_session' => '2019-08-22 00:00:00',
-            'entrance_page_id' => 2
         ]);
 
-        $pageIds = [2, 3, 4];
+        $pageIds = [$page2->id, $page3->id, $page4->id];
         for ($i = 0, $hours = 0; $i < 6; $i++, $hours += 2) {
             factory(Visit::class)->create([
                 'visit_time' => (new Carbon('2019-08-21'))->addHours($hours)
@@ -102,10 +104,9 @@ class ChartVisitsApiTest extends TestCase
         $thirdSession = factory(Session::class)->create([
             'start_session' => '2019-08-20 00:00:00',
             'end_session' => '2019-08-24 00:00:00',
-            'entrance_page_id' => 2
         ]);
 
-        $pageIds = [1, 2, 3, 4];
+        $pageIds = [$page1->id,$page2->id,$page3->id,$page4->id];
         for ($i = 0, $days = 0; $i < 4; $i++, $days++) {
             factory(Visit::class)->create([
                 'visit_time' => (Carbon::parse('2019-08-20 00:00:00', 'UTC'))->addDays($days)
