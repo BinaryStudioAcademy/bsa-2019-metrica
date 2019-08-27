@@ -13,7 +13,7 @@ $factory->define(Visit::class, function (Faker $faker) {
     $session = Session::inRandomOrder()->first();
 
     return [
-        'visit_time' => $faker->dateTimeBetween('-1 year', 'now'),
+        'visit_time' => $session->start_session,
         'ip_address' => $faker->ipv4,
         'session_id' => $session->id,
         'page_id' => Page::inRandomOrder()->first()->id,

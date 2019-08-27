@@ -1,7 +1,5 @@
 <template>
-    <VContainer
-        class="position-relative"
-    >
+    <VContainer>
         <Spinner
             v-if="isFetching"
         />
@@ -27,6 +25,8 @@
 <script>
     import { GChart } from 'vue-google-charts';
     import Spinner from '../utilites/Spinner';
+    import { period } from '@/services/periodService';
+    import moment from 'moment';
 
     export default {
         components: {
@@ -42,7 +42,8 @@
             isFetching: {
                 type: Boolean,
                 required: true,
-            }
+            },
+            interval: { type: String, required: true }
         },
 
         data() {
@@ -112,28 +113,35 @@
                 }
 
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
-                const pointStyle = 'point { stroke-color: #3C57DE; size: 5.5; shape-type: circle; fill-color: #FFFFFF; }';
+                const pointStyle = 'point { stroke-color: #3C57DE; size: 5; shape-type: circle; fill-color: #FFFFFF; }';
                 let tmpData = this.data.map( element =>
-                    [element.xLabel, element.value, element.value, pointStyle, this.tooltip(element.value, element.indication)]
+                    [element.date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)]
                 );
-                tmpData.unshift([{type: 'string', name: 'xLabel'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
+                tmpData.unshift([{type: 'string', name: 'date'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
                 return tmpData;
             }
         },
 
         methods: {
-            tooltip(value, indication) {
-                return ' <div class=\'custom-google-line-chart-tooltip\'>\n' +
-                    '        <div class=\'tooltip-first\'>\n' +
-                    `          ${value}\n` +
-                    '        </div>\n' +
-                    '        <div class=\'tooltip-second\'>\n' +
-                    '            <img class="tooltip-arrow" src="/assets/icons/arrow-up.svg#root" alt="arrow-up">\n' +
-                    `            ${indication}%\n` +
-                    '        </div>\n' +
-                    '</div>';
+            tooltip(element) {
+                return `<div class='custom-google-line-chart-tooltip white--text'>
+                    <div class='tooltip-first primary lighten-1'>
+                        ${element.value}
+                    </div>
+                    <div class='tooltip-second'>
+                        ${this.tooltipDate(element.date)}
+                    </div>
+                </div>`;
             },
-
+            tooltipDate(date) {
+                let d = moment(date, "DD/MM/YYYY H:mm:ss");
+                switch(this.interval) {
+                case period.PERIOD_TODAY:
+                case period.PERIOD_YESTERDAY:
+                    return d.format('HH:mm');
+                }
+                return d.format('DD/MM/YY');
+            }
         }
     };
 </script>
@@ -145,42 +153,35 @@
 
     ::v-deep div.google-visualization-tooltip {
         margin-left: -100px;
-        width: auto;
-        height:auto;
         font-family: Gilroy;
         font-size: 18px;
         line-height: 21px;
-        align-items: center;
-        text-align: center;
         letter-spacing: 0.533333px;
-        color: #FFFFFF;
         border: 0;
         border-radius: 6px;
 
         .custom-google-line-chart-tooltip {
             box-sizing: border-box;
             border-radius: 6px;
-            min-width: 175px;
+            min-width: 176px;
+            height: 48px;
+            display: flex;
+            align-items: center;
             background: #3C57DE;
 
             .tooltip-first {
-                left: 0;
-                width: 47%;
-                display: inline-block;
-                background: #4966F2;
-                padding: 15px 10px;
+                flex: 1;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 border-radius: 6px 0 0 6px;
             }
 
             .tooltip-second {
-                width: 49%;
-                display: inline-block;
-                padding: 15px 10px;
-
-                .tooltip-arrow {
-                    width: 8px;
-                    height: 18px;
-                }
+                text-align: center;
+                padding: 0 8px;
+                flex: 1;
             }
         }
     }
