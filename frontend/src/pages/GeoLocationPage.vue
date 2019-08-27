@@ -75,56 +75,6 @@
         data() {
             return {
                 title: "Geo Location",
-                /*items: [
-                    {
-                        country: 'US',
-                        visitors: '1',
-                        new_visitors: '12',
-                        sessions: '10',
-                        bounce_rate: '88',
-                        avg_session_time: '00:30:00'
-                    },
-                    {
-                        country: 'Canada',
-                        visitors: '48',
-                        new_visitors: '12',
-                        sessions: '67',
-                        bounce_rate: '14',
-                        avg_session_time: '00:30:00'
-                    },
-                    {
-                        country: 'Ukraine',
-                        visitors: '32',
-                        new_visitors: '10',
-                        sessions: '32',
-                        bounce_rate: '21',
-                        avg_session_time: '00:37:00'
-                    },
-                    {
-                        country: 'Brazil',
-                        visitors: '87',
-                        new_visitors: '23',
-                        sessions: '175',
-                        bounce_rate: '45',
-                        avg_session_time: '00:43:00'
-                    },
-                    {
-                        country: 'Germany',
-                        visitors: '65',
-                        new_visitors: '23',
-                        sessions: '10',
-                        bounce_rate: '5',
-                        avg_session_time: '00:43:00'
-                    },
-                    {
-                        country: 'Japan',
-                        visitors: '31',
-                        new_visitors: '5',
-                        sessions: '46',
-                        bounce_rate: '12',
-                        avg_session_time: '00:21:00'
-                    },
-                ]*/
             };
         },
         computed: {
@@ -133,7 +83,9 @@
                 getSelectedParameter: GET_SELECTED_PARAMETER,
                 getGeoLocationItems: GET_GEO_LOCATION_ITEMS
             }),
-            geoLocationItems: () => this.getGeoLocationItems()
+            geoLocationItems() {
+                return this.getGeoLocationItems;
+            }
         },
         methods: {
             ...mapActions('geo_location', {
