@@ -49,10 +49,12 @@
                     totalSum += Number(item[this.displayedParameter]) || 0;
                 });
 
+                totalSum = totalSum === 0 ? 1: totalSum;
+
                 return this.dataItems.map((item) => {
                     return {
                         country: item.country,
-                        percentage: Math.round(Number(item[this.displayedParameter])*100/totalSum)
+                        percentage: Math.round(parseInt(item[this.displayedParameter])*100/totalSum)
                     };
                 });
             }
