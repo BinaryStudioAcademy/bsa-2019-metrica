@@ -39,11 +39,11 @@
                                 >
                                     {{ systems.title }}
                                 </VListItemTitle>
-                                <VListItemSubTitle
+                                <VListItemSubtitle
                                     class="grey--text"
                                 >
                                     {{ systems.percentageDiff }}%
-                                </VListItemSubTitle>
+                                </VListItemSubtitle>
                             </VListItem>
                         </VList>
                     </VCol>
@@ -79,11 +79,11 @@
                                 >
                                     {{ devices.title }}
                                 </VListItemTitle>
-                                <VListItemSubTitle
+                                <VListItemSubtitle
                                     class="grey--text"
                                 >
                                     {{ devices.percentageDiff }}%
-                                </VListItemSubTitle>
+                                </VListItemSubtitle>
                             </VListItem>
                         </VList>
                     </VCol>
@@ -101,7 +101,7 @@
 <script>
     import {GChart} from 'vue-google-charts';
     import Spinner from '@/components/utilites/Spinner';
-    import PeriodDropdown from "../dashboard/common/PeriodDropdown";
+    import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown";
 
     export default {
         components: {
@@ -200,40 +200,41 @@
 </script>
 
 <style scoped lang="scss">
-.wrapper {
-    width: max-content !important;
-    margin: 0;
-}
-.pie-container {
-    box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
-    border-radius: 6px;
-    width: 307px;
-    height: 394px;
-}
-.header {
-    font-size: 16px;
-    line-height: 19px;
-    width: max-content;
-}
-.legend-title {
-    font-size: 14px;
-    line-height: 16px;
-}
-
-.v-list-item {
-    height: 32px;
-    min-height: 20px;
-    min-width: 120px;
-    .v-list-item__title,
-    vlistitemsubtitle {
-        font-size: 12px;
-        font-family: 'GilroySemiBold';
+    .wrapper {
+        width: max-content !important;
+        margin: 0;
     }
-}
-.v-subheader {
-    height: 20px;
-}
-.v-list-item__title {
-    text-align: start;
-}
+    .pie-container {
+        box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
+        border-radius: 6px;
+        width: 307px;
+        height: 394px;
+    }
+    .header {
+        font-size: 16px;
+        line-height: 19px;
+        width: max-content;
+    }
+    .legend-title {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .v-list-item {
+        text-align: end;
+        height: 32px;
+        min-height: 20px;
+        min-width: 120px;
+        .v-list-item__title,
+        .v-list-item__subtitle {
+            font-size: 12px;
+            font-family: 'GilroySemiBold';
+        }
+    }
+    .v-subheader {
+        height: 20px;
+    }
+    .v-list-item__title {
+        text-align: start;
+    }
 </style>
