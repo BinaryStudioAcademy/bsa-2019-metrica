@@ -102,11 +102,17 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'SessionController@getAverageSessionByInterval');
         });
-          
+
         Route::group([
             'prefix' => 'chart-new-visitors'
         ], function () {
             Route::get('/', 'VisitorController@getNewVisitorsByDateRange');
+        });
+
+        Route::group([
+            'prefix' => 'page-views'
+        ], function () {
+            Route::get('/bounce-rate', 'VisitController@getChartBounceRate');
         });
 
         Route::get('/chart-total-visitors', 'VisitorController@getTotalVisitorsByDateRange');
@@ -115,6 +121,8 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'button-page-views'
         ], function () {
             Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
+            Route::get('/unique', 'VisitController@getUniquePageViewsButton');
+            Route::get('avg-time', 'VisitController@getPageViewsAvgTimeForFilterData');
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
