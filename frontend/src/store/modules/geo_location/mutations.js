@@ -1,7 +1,8 @@
 import {
     SET_SELECTED_PERIOD,
     SET_SELECTED_PARAMETER,
-    SET_GEO_LOCATION_ITEMS
+    SET_GEO_LOCATION_ITEMS,
+    RESET_GEO_LOCATION_ITEMS
 } from "./types/mutations";
 
 export default {
@@ -13,5 +14,8 @@ export default {
     },
     [SET_GEO_LOCATION_ITEMS]: (state, geoLocationItems) => {
         state.geoLocationItems = geoLocationItems;
+    },
+    [RESET_GEO_LOCATION_ITEMS]: state => {
+        state.geoLocationItems = [];
     }
 };
