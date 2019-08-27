@@ -47,7 +47,8 @@ final class VisitController extends Controller
         GetUniquePageViewsButtonAction $getUniquePageViewsButtonAction,
         GetUniquePageViewsChartAction $getUniquePageViewChartAction,
         GetBounceRateChartByDateRangeAction $getChartBounceRateAction
-    ) {
+    )
+    {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
@@ -91,8 +92,9 @@ final class VisitController extends Controller
         return ApiResponse::success(new ButtonResource($response));
     }
 
-    public function getUniquePageViewsChart(GetUniquePageViewsChartHttpRequest $request)
+    public function getUniquePageViewsChart(GetUniquePageViewsChartHttpRequest $request): ApiResponse
     {
-        $this->getUniquePageViewChartAction->execute(GetUniquePageViewsChartRequest::fromRequest($request));
+        $response = $this->getUniquePageViewChartAction->execute(GetUniquePageViewsChartRequest::fromRequest($request));
+        return ApiResponse::success(new ChartResource($response->getUniquePageViewsCollection()));
     }
 }

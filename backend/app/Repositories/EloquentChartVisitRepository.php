@@ -90,17 +90,17 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
     public function getUniquePageViews(DatePeriod $datePeriod, int $interval, int $websiteId): Collection
     {
         $result = DB::select("SELECT COUNT(page_id) as count,period
- FROM(
-     SELECT COUNT(p.id) as page_id,
-        (extract(epoch from v.visit_time)::numeric-(extract(epoch from v.visit_time)::numeric % 86400)
-        ) as period
-       FROM \"sessions\" s
-         INNER JOIN \"visits\" v ON s.id=v.session_id
-         INNER JOIN \"pages\" p ON v.page_id=p.id  
-      WHERE s.website_id=:website_id
-   GROUP BY s.id,p.id,period
-) as periods
-GROUP BY period", [
+             FROM(
+                 SELECT COUNT(p.id) as page_id,
+                    (extract(epoch from v.visit_time)::numeric-(extract(epoch from v.visit_time)::numeric % 86400)
+                    ) as period
+                   FROM \"sessions\" s
+                     INNER JOIN \"visits\" v ON s.id=v.session_id
+                     INNER JOIN \"pages\" p ON v.page_id=p.id  
+                  WHERE s.website_id=:website_id AND (v.visit_time BETWEEN :startDate AND :endDate)
+               GROUP BY s.id,p.id,period
+            ) as periods
+            GROUP BY period", [
             'startDate' => $datePeriod->getStartDate(),
             'endDate' => $datePeriod->getEndDate(),
             'website_id' => $websiteId

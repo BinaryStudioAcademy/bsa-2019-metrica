@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Visits;
 
-
+use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\ChartVisitRepository;
+use Illuminate\Support\Facades\Auth;
 
 class GetUniquePageViewsChartAction
 {
@@ -15,9 +16,18 @@ class GetUniquePageViewsChartAction
         $this->repository = $repository;
     }
 
-    public function execute(GetUniquePageViewsChartRequest $request)
+    public function execute(GetUniquePageViewsChartRequest $request): GetUniquePageViewsChartResponse
     {
-        $websiteId = auth()->user()->website->id;
-//        $response = $this->repository->getUniquePageViews($request->period(),$request->interval(),$websiteId)
+        try {
+            $websiteId = Auth::user()->website->id;
+        } catch (\Exception $exception) {
+            throw new WebsiteNotFoundException();
+        }
+        $response = $this->repository->getUniquePageViews(
+            $request->period(),
+            (int)$request->interval(),
+            $websiteId);
+
+        return new GetUniquePageViewsChartResponse($response);
     }
 }
