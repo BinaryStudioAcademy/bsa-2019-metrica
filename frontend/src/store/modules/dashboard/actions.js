@@ -1,18 +1,18 @@
-import {FETCHING_ACTIVITY_DATA_ITEMS, FETCHING_ACTIVITY_CHART_DATA} from "./types/actions";
+import {FETCHING_ACTIVITY_DATA_ITEMS, FETCHING_ACTIVITY_CHART_DATA, RELOAD_ACTIVITY_DATA_ITEMS} from "./types/actions";
 import {SET_ACTIVITY_DATA_ITEMS, SET_ACTIVITY_CHART_DATA} from "./types/mutations";
-
+import moment from 'moment';
 export default {
     [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
        const items = [
            {
                url:'link_1/juhy/kkk',
                visitorId:2,
-               timeNotification:'2019-08-12 12:15:11'
+               timeNotification:'2019-08-26 22:15:11'
            },
            {
                url:'link_2/juhy/kkk',
                visitorId:2,
-               timeNotification:'2019-08-12 12:12:11'
+               timeNotification:'2019-08-26 23:25:11'
            },
            {
                url:'link_2/juhy/kkk',
@@ -64,6 +64,13 @@ export default {
     [FETCHING_ACTIVITY_CHART_DATA]: (context) => {
         const data = [0, 10, 12, 5, 4, 0, 12];
         context.commit(SET_ACTIVITY_CHART_DATA, data);
+    },
+
+    [RELOAD_ACTIVITY_DATA_ITEMS]: (context) => {
+        const data = context.state.activityData.items.filter(item =>
+            moment().diff(moment(item.timeNotification), 'minutes') < 5
+        );
+        context.commit(SET_ACTIVITY_DATA_ITEMS, data);
     },
 
 };
