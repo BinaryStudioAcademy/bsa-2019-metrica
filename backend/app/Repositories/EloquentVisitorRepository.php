@@ -99,12 +99,12 @@ final class EloquentVisitorRepository implements VisitorRepository
             ->get();
     }
 
-    public function countInactiveSessionGroupByCountry(string $startDate, string $endDate): Collection
+    public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($startDate, $endDate) {
                 $query->has('visits', '=', '1')
-                    ->where('updated_at', '<', $endDate)
+                    ->where('updated_at', '<', (new Carbon($endDate))->subMinutes(30)->toDateTimeString())
                     ->whereBetween('start_session', [$startDate, $endDate]);
             })
             ->forUserWebsite()
