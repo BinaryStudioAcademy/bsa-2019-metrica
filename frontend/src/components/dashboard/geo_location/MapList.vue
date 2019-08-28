@@ -52,22 +52,22 @@
                             percentage: Math.round(Number(item[this.displayedParameter])*100)
                         };
                     });
-                } else {
-                    let totalSum = 0;
-
-                    this.dataItems.forEach(item => {
-                        totalSum += Number(item[this.displayedParameter]) || 0;
-                    });
-
-                    totalSum = totalSum === 0 ? 1: totalSum;
-
-                    return this.dataItems.map((item) => {
-                        return {
-                            country: item.country,
-                            percentage: Math.round(Number(item[this.displayedParameter])*100/totalSum)
-                        };
-                    });
                 }
+
+                let totalSum = 0;
+
+                this.dataItems.forEach(item => {
+                    totalSum += Number(item[this.displayedParameter]) || 0;
+                });
+
+                totalSum = totalSum === 0 ? 1: totalSum;
+
+                return this.dataItems.map((item) => {
+                    return {
+                        country: item.country,
+                        percentage: Math.round(Number(item[this.displayedParameter])*100/totalSum)
+                    };
+                });
             }
         },
     };
