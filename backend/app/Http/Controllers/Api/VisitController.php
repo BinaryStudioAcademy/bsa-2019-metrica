@@ -32,6 +32,8 @@ use App\Http\Requests\Visit\GetPageViewsAvgTimeHttpRequest;
 use App\Actions\Visits\GetPageViewsAvgTimeRequest;
 use App\Actions\Visits\GetPageViewsAvgTimeAction;
 use App\Actions\Visits\GetPageViewsChartAvgTimeAction;
+use App\Http\Requests\Visit\GetPageViewsChartAvgTimeHttpRequest;
+use App\Actions\Visits\GetPageViewsChartAvgTimeRequest;
 
 final class VisitController extends Controller
 {
@@ -113,9 +115,9 @@ final class VisitController extends Controller
         return ApiResponse::success(new ChartResource($response->getUniquePageViewsCollection()));
     }
 
-    public function getPageViewsChartAvgTimeForFilterData(GetPageViewsAvgTimeHttpRequest $request)
+    public function getPageViewsChartAvgTimeForFilterData(GetPageViewsChartAvgTimeHttpRequest $request)
     {
-        $response = $this->getPageViewsChartAvgTimeAction->execute(GetPageViewsAvgTimeRequest::fromRequest($request));
+        $response = $this->getPageViewsChartAvgTimeAction->execute(GetPageViewsChartAvgTimeRequest::fromRequest($request));
 
         return ApiResponse::success(new ChartResource($response->chartData()));
     }

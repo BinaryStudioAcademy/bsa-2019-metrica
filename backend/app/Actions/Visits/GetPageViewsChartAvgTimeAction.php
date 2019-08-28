@@ -8,6 +8,7 @@ use App\Repositories\Contracts\PageViews\ChartDataRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use App\Actions\Visits\GetPageViewsChartResponse;
+use App\Actions\Visits\GetPageViewsChartAvgTimeRequest;
 
 final class GetPageViewsChartAvgTimeAction
 {
@@ -18,7 +19,7 @@ final class GetPageViewsChartAvgTimeAction
         $this->repository = $repository;
     }
 
-    public function execute(GetPageViewsAvgTimeRequest $request): GetPageViewsChartResponse
+    public function execute(GetPageViewsChartAvgTimeRequest $request): GetPageViewsChartResponse
     {
         try {
             $websiteId = Auth::user()->website->id;
