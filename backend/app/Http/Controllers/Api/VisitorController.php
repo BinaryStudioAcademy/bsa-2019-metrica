@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Visitors\GetVisitorsBounseRateByParameterRequest;
 use App\Actions\Visitors\BounceRateAction;
 use App\Actions\Visitors\BounceRateRequest;
 use App\Actions\Visitors\GetAllVisitorsAction;
@@ -16,6 +17,7 @@ use App\Actions\Visitors\GetBounceRateRequest;
 use App\Actions\Visitors\GetNewVisitorsAction;
 use App\Actions\Visitors\GetChartTotalVisitorsByDateRangeAction;
 use App\Actions\Visitors\GetChartTotalVisitorsByDateRangeRequest;
+use App\Actions\Visitors\GetVisitorsBounceRateByParameterAction;
 use App\Http\Requests\Visitor\GetChartTotalVisitorsByDateRangeHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visitor\GetButtonCountVisitorsHttpRequest;
@@ -28,6 +30,7 @@ use App\Actions\Visitors\GetVisitorsCountByParameterAction;
 use App\Actions\Visitors\GetVisitorsCountByParameterRequest;
 use App\Http\Requests\Visitor\GetTableVisitorsByParameterHttpRequest;
 use App\Http\Resources\VisitorResourceCollection;
+use App\Http\Resources\VisitorsBounceRateResource;
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ChartNewVisitorResourceCollection;
@@ -48,6 +51,7 @@ final class VisitorController extends Controller
     private $getVisitorsCountByParameterAction;
     private $getTotalVisitorsByDateRangeAction;
     private $getNewVisitorsCountAction;
+    private $getVisitorsBounceRateByParameterAction;
 
     public function __construct(
         GetAllVisitorsAction $getAllVisitorsAction,
@@ -57,7 +61,8 @@ final class VisitorController extends Controller
         GetChartTotalVisitorsByDateRangeAction $getTotalVisitorsByDateRangeAction,
         GetButtonCountVisitorsAction $getButtonCountVisitorsAction,
         GetVisitorsCountByParameterAction $getVisitorsCountByParameterAction,
-        GetNewVisitorsCountAction $getNewVisitorsCountAction
+        GetNewVisitorsCountAction $getNewVisitorsCountAction,
+        GetVisitorsBounceRateByParameterAction $getVisitorsBounceRateByParameterAction
     ) {
         $this->getAllVisitorsAction = $getAllVisitorsAction;
         $this->getNewVisitorsAction = $getNewVisitorsAction;
@@ -67,6 +72,7 @@ final class VisitorController extends Controller
         $this->getVisitorsCountByParameterAction = $getVisitorsCountByParameterAction;
         $this->getTotalVisitorsByDateRangeAction = $getTotalVisitorsByDateRangeAction;
         $this->getNewVisitorsCountAction = $getNewVisitorsCountAction;
+        $this->getVisitorsBounceRateByParameterAction = $getVisitorsBounceRateByParameterAction;
     }
 
     public function getAllVisitors(): ApiResponse
@@ -142,5 +148,15 @@ final class VisitorController extends Controller
         );
 
         return ApiResponse::success(new TableResource($response->visitors()));
+    }
+
+    public function getVisitorsBounceRateByParameter(GetTableVisitorsByParameterHttpRequest $request): ApiResponse
+    {
+        $response = $this->getVisitorsBounceRateByParameterAction->execute(
+            GetVisitorsBounseRateByParameterRequest::fromRequest($request)
+        );
+
+        return ApiResponse::success(new VisitorsBounceRateResource($response->getVisitorsBounceRateCollection()));
+
     }
 }
