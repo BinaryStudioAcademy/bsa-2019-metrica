@@ -44,4 +44,23 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 
         return array_column($response, 'count', 'page_id');
     }
+
+    public function getCountExitRateByPage(string $from, string $to, int $websiteId): array
+    {
+        $subQueryFirst = '(SELECT MAX(v.visit_time), v.page_id, v.session_id
+                            FROM visits AS v
+                            JOIN sessions AS s ON v.session_id = s.id
+                            WHERE s.start_session BETWEEN ? AND ?
+                                AND s.website_id = ?
+                            GROUP BY v.session_id, v.page_id)';
+
+        $sql = "SELECT COUNT(page_id) as count, page_id
+                FROM $subQueryFirst as p
+                GROUP BY page_id";
+
+        $response = DB::select($sql, [$from, $to, $websiteId]);
+
+        return array_column($response, 'count', 'page_id');
+    }
+
 }
