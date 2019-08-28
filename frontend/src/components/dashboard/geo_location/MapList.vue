@@ -26,6 +26,7 @@
         </VListItem>
     </VContainer>
 </template>
+
 <script>
     export default {
         props: {
@@ -48,6 +49,8 @@
                 this.dataItems.forEach(item => {
                     totalSum += Number(item[this.displayedParameter]) || 0;
                 });
+
+                totalSum = totalSum === 0 ? 1: totalSum;
 
                 return this.dataItems.map((item) => {
                     return {
