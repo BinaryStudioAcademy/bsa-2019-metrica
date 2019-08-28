@@ -9,30 +9,38 @@ use Illuminate\Support\Facades\DB;
 
 final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 {
-    public function getCountPageViewsByPage(string $from, string $to, int $pageId): int
-    {
-        return DB::table('visits')
-            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
-            ->whereBetween('sessions.start_session', [$from, $to])
-            ->where('visits.page_id', '=', $pageId)
-            ->count();
-    }
-
-    public function getCountBounceRateByPage(string $from, string $to, int $pageId): int
+    public function getCountPageViewsByPage(string $from, string $to, int $websiteId): array
     {
         $subQueryFirst = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
-        $subQuerySecond = "SELECT page_id, session_id, start_session FROM ($subQueryFirst) AS visits " .
-            "WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id = :page_id";
-        $subQueryThird = "SELECT group_visits.page_id, group_visits.session_id, COUNT(*) FROM ($subQuerySecond) " .
-            "AS group_visits GROUP BY group_visits.page_id, group_visits.session_id";
-        $query = DB::raw("SELECT COUNT(*) FROM ($subQueryThird) AS group_count WHERE count < 2");
+        $subQuerySecond = "SELECT id FROM pages WHERE website_id = :website_id";
+        $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQueryFirst) AS visits" .
+            " WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQuerySecond)";
+        $query = DB::raw("SELECT v.page_id, COUNT(*) FROM ($subQueryThird) AS v GROUP BY v.page_id");
 
         $response = DB::select((string)$query, [
             'startDate' => $from,
             'endDate' => $to,
-            'page_id' => $pageId
+            'website_id' => $websiteId
         ]);
 
-        return array_column($response, 'count')[0];
+        return array_column($response, 'count', 'page_id');
+    }
+
+    public function getCountBounceRateByPage(string $from, string $to, int $websiteId): array
+    {
+        $subQueryFirst = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
+        $subQuerySecond = "SELECT id FROM pages WHERE website_id = :website_id";
+        $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQueryFirst) AS visits" .
+            " WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQuerySecond)";
+        $subQueryForth = "SELECT v.page_id, COUNT(*) FROM ($subQueryThird) AS v GROUP BY v.page_id, v.session_id";
+        $query = DB::raw("SELECT c.page_id, COUNT(*) FROM ($subQueryForth) AS c WHERE count < 2 GROUP BY c.page_id;");
+
+        $response = DB::select((string)$query, [
+            'startDate' => $from,
+            'endDate' => $to,
+            'website_id' => $websiteId
+        ]);
+
+        return array_column($response, 'count', 'page_id');
     }
 }

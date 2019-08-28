@@ -23,27 +23,18 @@ final class GetPageViewsItemsAction
     {
         $from = $request->startDate();
         $to = $request->endDate();
-        $pagesId = Page::where('website_id', Auth::user()->website->id)->pluck('id')->toArray();
+        $websiteId = Auth::user()->website->id;
 
-        $items = [];
-
-        foreach ($pagesId as $id) {
-            $all = $this->visitRepository->getCountPageViewsByPage($from, $to, $id);
-            $bounced = $this->visitRepository->getCountBounceRateByPage($from, $to, $id);
-            $bounceRate = ($all === 0) ? 0 : ($bounced/$all*100);
-            $items[$id] = [
-                'count_page_views' => $all,
-                'bounce_rate' => $bounceRate
-            ];
-        }
+        $all = $this->visitRepository->getCountPageViewsByPage($from, $to, $websiteId);
+        $bounced = $this->visitRepository->getCountBounceRateByPage($from, $to, $websiteId);
 
         $collection = new Collection();
-        foreach ($items as $item) {
+        foreach ($all as $key => $item) {
             $collection->add(new PageViewsItem(
                 '',
                 '',
-                $item['count_page_views'],
-                (int)$item['bounce_rate'],
+                $item,
+                (int)(($item === 0) ? 0 : ($bounced[$key]/$item*100)),
                 0
             ));
         }
