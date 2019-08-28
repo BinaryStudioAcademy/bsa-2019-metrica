@@ -10,26 +10,12 @@ use App\Entities\User;
 use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Entities\Website;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TablePageViewsApiTest extends TestCase
 {
     use RefreshDatabase;
-
-    private const RESPONSE_STRUCTURE = [
-        'data' => [
-            '*' => [
-                'page_url',
-                'page_title',
-                'count_page_views',
-                'bounce_rate',
-                'exit_rate'
-            ]
-        ],
-        'meta' => []
-    ];
 
     private const URL = 'api/v1/table-page-views';
 
@@ -41,25 +27,84 @@ class TablePageViewsApiTest extends TestCase
         $this->user = factory(User::class)->create();
         factory(Website::class)->create();
         factory(Visitor::class, 3)->create();
-        factory(Page::class, 3)->create();
         factory(GeoPosition::class)->create();
         factory(System::class)->create();
-        factory(Session::class, 3)->create();
-        factory(Visit::class, 5)->create();
     }
 
     public function testGetTablePageViewsItems()
     {
-        $data = [
+        factory(Page::class)->create(['id' => 1]);
+        factory(Page::class)->create(['id' => 2]);
+        factory(Page::class)->create(['id' => 3]);
+        factory(Page::class)->create(['id' => 4]);
+
+        $startDate = new \DateTime('2019-08-20 06:00:00');
+        $endDate = new \DateTime('2019-08-20 07:30:00');
+
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 05:30:00'), 2, 1);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:10:00'), 1, 2);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:20:00'), 3, 4);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:30:00'), 2, 1);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 07:00:00'), 1, 2);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 07:20:00'), 1, 3);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 08:00:00'), 3, 4);
+
+        $filterData = [
             'filter' => [
-                'startDate' => (string) Carbon::create(2019)->timestamp,
-                'endDate' => (string) Carbon::now()->timestamp
+                'startDate' => (string)$startDate->getTimestamp(),
+                'endDate' => (string)$endDate->getTimestamp(),
             ]
         ];
 
+        $expectedData = [
+            "data" => [
+                0 => [
+                    "page_url" => "",
+                    "page_title" => "",
+                    "count_page_views" => 2,
+                    "bounce_rate" => 50,
+                    "exit_rate" => 0
+                ],
+                1 => [
+                    "page_url" => "",
+                    "page_title" => "",
+                    "count_page_views" => 2,
+                    "bounce_rate" => 100,
+                    "exit_rate" => 0
+                ],
+                2 => [
+                    "page_url" => "",
+                    "page_title" => "",
+                    "count_page_views" => 1,
+                    "bounce_rate" => 100,
+                    "exit_rate" => 0
+                ],
+                3 => [
+                    "page_url" => "",
+                    "page_title" => "",
+                    "count_page_views" => 3,
+                    "bounce_rate" => 33,
+                    "exit_rate" => 0
+                ]
+            ],
+            'meta' => [],
+        ];
+
         $this->actingAs($this->user)
-            ->json('GET', self::URL, $data)
+            ->json('GET', self::URL, $filterData)
             ->assertStatus(200)
-            ->assertJsonStructure(self::RESPONSE_STRUCTURE);
+            ->assertJson($expectedData);
+    }
+
+    private function createVisitWithSessions(\DateTime $createdDate, int $countVisits, int $pageId)
+    {
+        $session = factory(Session::class)->create([
+            'start_session' => $createdDate
+        ]);
+        $visit = factory(Visit::class, $countVisits)->create([
+            'session_id' => $session->id,
+            'page_id' => $pageId
+        ]);
+        return $visit;
     }
 }

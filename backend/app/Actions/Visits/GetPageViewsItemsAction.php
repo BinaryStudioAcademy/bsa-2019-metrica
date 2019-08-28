@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Visits;
 
 use App\DataTransformer\Visits\PageViewsItem;
-use App\Entities\Page;
 use App\Repositories\Contracts\TablePageViewsRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -34,10 +33,11 @@ final class GetPageViewsItemsAction
                 '',
                 '',
                 $item,
-                (int)(($item === 0) ? 0 : ($bounced[$key]/$item*100)),
+                (int)(($item === 0 || !array_key_exists($key, $bounced)) ? 0 : ($bounced[$key]/$item*100)),
                 0
             ));
         }
+//        (int)(($item === 0 || !array_key_exists($key, $bounced)) ? 0 : ($bounced[$key]/$item*100))
 
         return new GetPageViewsItemsResponse($collection);
     }
