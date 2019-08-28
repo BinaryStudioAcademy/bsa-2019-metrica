@@ -39,6 +39,8 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
+        context.dispatch(FETCH_LINE_CHART_DATA);
+        context.dispatch(FETCH_TABLE_DATA);
 
     },
     [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
@@ -94,7 +96,7 @@ export default {
     },
     [CHANGE_GROUPED_PARAMETER]: (context, parameter) => {
         context.commit(SET_GROUPED_PARAMETER, parameter);
-        context.commit(FETCH_TABLE_DATA, parameter);
+        context.commit(FETCH_TABLE_DATA);
     },
     [CHANGE_FETCHED_TABLE_STATE]: (context, value) => {
 
@@ -111,7 +113,7 @@ export default {
         const endDate = period.endDate;
 
         return factoryVisitorsService.create(context.state.activeButton)
-            .fetchTableValues(startDate, endDate, data.groupedParameter)
+            .fetchTableValues(startDate.unix(), endDate.unix(), context.state.tableData.groupedParameter)
                 .then(response => {
                     context.commit(SET_TABLE_DATA, response.data);
                     context.commit(RESET_TABLE_FETCHING);
