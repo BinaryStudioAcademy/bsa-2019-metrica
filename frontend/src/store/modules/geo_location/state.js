@@ -5,6 +5,6 @@ export default {
     selectedParameter: 'all_visitors_count',
     geoLocationItems: {
         items: [],
-        isFetching: false
+        isFetching: true
     }
 };

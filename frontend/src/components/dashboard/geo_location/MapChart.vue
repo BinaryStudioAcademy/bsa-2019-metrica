@@ -52,7 +52,7 @@
                     p: { html: true }
                 }],
                 settings: {
-                    packages: ['corechart', 'table', 'map'],
+                    packages: ['map'],
                     mapsApiKey: config.getGoogleMapsApiKey()
                 }
             };

@@ -16,22 +16,18 @@ import {getTimeByPeriod} from '@/services/periodService';
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
         context.commit(SET_SELECTED_PERIOD, payload.value);
-        context.commit(SET_IS_FETCHING);
         context.dispatch(FETCH_GEO_LOCATION_ITEMS);
     },
     [CHANGE_SELECTED_PARAMETER]: (context, parameter) => {
         context.commit(SET_SELECTED_PARAMETER, parameter);
     },
     [FETCH_GEO_LOCATION_ITEMS]: context => {
+        context.commit(SET_IS_FETCHING);
+
         const period = getTimeByPeriod(context.state.selectedPeriod);
 
-        period.startDate = period.startDate.unix();
-        period.endDate = period.endDate.unix();
-
-        return getGeoLocationItems(period.startDate, period.endDate)
-            .then(geoLocationItems => {
-                context.commit(SET_GEO_LOCATION_ITEMS, geoLocationItems);
-                context.commit(RESET_IS_FETCHING);
-            });
+        return getGeoLocationItems(period.startDate.unix(), period.endDate.unix())
+            .then(geoLocationItems => context.commit(SET_GEO_LOCATION_ITEMS, geoLocationItems))
+            .finally(() => context.commit(RESET_IS_FETCHING));
     }
 };
