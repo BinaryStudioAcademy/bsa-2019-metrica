@@ -28,109 +28,73 @@ final class GetVisitorsBounceRateByParameterAction
         $parameter = $request->parameter();
         switch ($parameter) {
             case self::CITY:
-                $visitorsCountCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByCity(
-                        $request->period()
-                    )
+                $visitorsCountCollection = collect($this->tableVisitorsRepository
+                    ->getCountVisitorsGroupByCity($request->period())
                     ->keyBy(self::CITY)
                     ->toArray()
                 );
-                $bounceRateCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getBounceRateGroupByCity(
-                        $request->period()
-                    )
+                $bounceRateCollection = collect($this->tableVisitorsRepository
+                    ->getBounceRateGroupByCity($request->period())
                     ->keyBy(self::CITY)
                     ->toArray()
                 );
                 break;
             case self::COUNTRY:
-                $visitorsCountCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByCountry(
-                        $request->period()
-                    )
+                $visitorsCountCollection = collect($this->tableVisitorsRepository
+                    ->getCountVisitorsGroupByCountry($request->period())
                     ->keyBy(self::COUNTRY)
                     ->toArray()
                 );
-                $bounceRateCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getBounceRateGroupByCountry(
-                        $request->period()
-                    )
+                $bounceRateCollection = collect($this->tableVisitorsRepository
+                    ->getBounceRateGroupByCountry($request->period())
                     ->keyBy(self::COUNTRY)
                     ->toArray()
                 );
                 break;
             case self::LANGUAGE:
-                $visitorsCountCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByLanguage(
-                        $request->period()
-                    )
+                $visitorsCountCollection = collect($this->tableVisitorsRepository
+                    ->getCountVisitorsGroupByLanguage($request->period())
                     ->keyBy(self::LANGUAGE)
                     ->toArray()
                 );
-                $bounceRateCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getBounceRateRateGroupByLanguage(
-                        $request->period()
-                    )
+                $bounceRateCollection = collect($this->tableVisitorsRepository
+                    ->getBounceRateRateGroupByLanguage($request->period())
                     ->keyBy(self::LANGUAGE)
                     ->toArray()
                 );
                 break;
             case self::BROWSER:
-                $visitorsCountCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByBrowser(
-                        $request->period()
-                    )
+                $visitorsCountCollection = collect($this->tableVisitorsRepository
+                    ->getCountVisitorsGroupByBrowser($request->period())
                     ->keyBy(self::BROWSER)
                     ->toArray()
                 );
-                $bounceRateCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getBounceRateGroupByBrowser(
-                        $request->period()
-                    )
+                $bounceRateCollection = collect($this->tableVisitorsRepository
+                    ->getBounceRateGroupByBrowser($request->period())
                     ->keyBy(self::BROWSER)
                     ->toArray()
                 );
                 break;
             case self::OS:
-                $visitorsCountCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByOperatingSystem(
-                        $request->period()
-                    )
+                $visitorsCountCollection = collect($this->tableVisitorsRepository
+                        ->getCountVisitorsGroupByOperatingSystem($request->period())
                     ->keyBy(self::OS)
                     ->toArray()
                 );
-                $bounceRateCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getBounceRateGroupByOperatingSystem(
-                        $request->period()
-                    )
+                $bounceRateCollection = collect($this->tableVisitorsRepository
+                    ->getBounceRateGroupByOperatingSystem($request->period())
                     ->keyBy(self::OS)
                     ->toArray()
                 );
                 break;
             case self::SCREEN_RESOLUTION:
-                $visitorsCountCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getCountVisitorsRateGroupByScreenResolution(
-                        $request->period()
-                    )
+                $visitorsCountCollection = collect($this->tableVisitorsRepository
+                    ->getCountVisitorsRateGroupByScreenResolution($request->period())
                     ->keyBy(self::SCREEN_RESOLUTION)
                     ->toArray()
                 );
-                $bounceRateCollection = collect(
-                    $this->tableVisitorsRepository
-                    ->getBounceRateGroupByScreenResolution(
-                        $request->period()
-                    )
+                $bounceRateCollection = collect($this->tableVisitorsRepository
+                    ->getBounceRateGroupByScreenResolution($request->period())
                     ->keyBy(self::SCREEN_RESOLUTION)
                     ->toArray()
                 );
