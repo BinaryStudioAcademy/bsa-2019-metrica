@@ -6,7 +6,7 @@ import _ from "lodash";
 const resourceUrl = config.getApiUrl();
 
 const fetchButtonValue = (startDate, endDate) => {
-    return requestService.get(resourceUrl + '/****************', {}, {
+    return requestService.get(resourceUrl + '/button-page-views/bounce-rate', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
     }).then(response => buttonTransformer(response.data))
