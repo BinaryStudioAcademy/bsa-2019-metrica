@@ -31,6 +31,9 @@ use App\Http\Response\ApiResponse;
 use App\Http\Requests\Visit\GetPageViewsAvgTimeHttpRequest;
 use App\Actions\Visits\GetPageViewsAvgTimeRequest;
 use App\Actions\Visits\GetPageViewsAvgTimeAction;
+use App\Actions\Visits\GetPageViewsChartAvgTimeAction;
+use App\Http\Requests\Visit\GetPageViewsChartAvgTimeHttpRequest;
+use App\Actions\Visits\GetPageViewsChartAvgTimeRequest;
 
 final class VisitController extends Controller
 {
@@ -42,6 +45,7 @@ final class VisitController extends Controller
     private $getUniquePageViewChartAction;
     private $getChartBounceRateAction;
     private $getPageViewsAvgTimeAction;
+    private $getPageViewsChartAvgTimeAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
@@ -51,7 +55,8 @@ final class VisitController extends Controller
         GetUniquePageViewsButtonAction $getUniquePageViewsButtonAction,
         GetUniquePageViewsChartAction $getUniquePageViewChartAction,
         GetBounceRateChartByDateRangeAction $getChartBounceRateAction,
-        GetPageViewsAvgTimeAction $getPageViewsAvgTimeAction
+        GetPageViewsAvgTimeAction $getPageViewsAvgTimeAction,
+        GetPageViewsChartAvgTimeAction $getPageViewsChartAvgTimeAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
@@ -61,6 +66,7 @@ final class VisitController extends Controller
         $this->getUniquePageViewChartAction = $getUniquePageViewChartAction;
         $this->getChartBounceRateAction = $getChartBounceRateAction;
         $this->getPageViewsAvgTimeAction = $getPageViewsAvgTimeAction;
+        $this->getPageViewsChartAvgTimeAction = $getPageViewsChartAvgTimeAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -107,5 +113,12 @@ final class VisitController extends Controller
     {
         $response = $this->getUniquePageViewChartAction->execute(GetUniquePageViewsChartRequest::fromRequest($request));
         return ApiResponse::success(new ChartResource($response->getUniquePageViewsCollection()));
+    }
+
+    public function getPageViewsChartAvgTimeForFilterData(GetPageViewsChartAvgTimeHttpRequest $request)
+    {
+        $response = $this->getPageViewsChartAvgTimeAction->execute(GetPageViewsChartAvgTimeRequest::fromRequest($request));
+
+        return ApiResponse::success(new ChartResource($response->chartData()));
     }
 }
