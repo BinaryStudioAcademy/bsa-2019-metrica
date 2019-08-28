@@ -195,7 +195,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 
     public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod): Collection
     {
-        return DB::table('visitors')
+        return Visitor::forUserWebsite()
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('count(visitors.id) as visitors_count, geo_positions.country as country'))
@@ -222,7 +222,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 
     public function getCountVisitorsGroupByLanguage(DatePeriod $datePeriod): Collection
     {
-        return DB::table('visitors')
+        return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->select(DB::raw('count(visitors.id) as visitors_count, sessions.language as language'))
@@ -252,7 +252,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 
     public function getCountVisitorsGroupByBrowser(DatePeriod $datePeriod): Collection
     {
-        return DB::table('visitors')
+        return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
@@ -282,7 +282,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 
     public function getCountVisitorsGroupByOperatingSystem(DatePeriod $datePeriod): Collection
     {
-        return DB::table('visitors')
+        return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
@@ -314,7 +314,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
 
     public function getCountVisitorsRateGroupByScreenResolution(DatePeriod $datePeriod): Collection
     {
-        return DB::table('visitors')
+        return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
