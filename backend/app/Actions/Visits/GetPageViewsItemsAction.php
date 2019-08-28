@@ -27,12 +27,13 @@ final class GetPageViewsItemsAction
         $all = $this->visitRepository->getCountPageViewsByPage($from, $to, $websiteId);
         $bounced = $this->visitRepository->getCountBounceRateByPage($from, $to, $websiteId);
         $exitRates = $this->visitRepository->getCountExitRateByPage($from, $to, $websiteId);
+        $pageNamesAndTitles = $this->visitRepository->getPageNamesAndTitles($from, $to, $websiteId);
 
         $collection = new Collection();
         foreach ($all as $key => $item) {
             $collection->add(new PageViewsItem(
-                '',
-                '',
+                $pageNamesAndTitles[$key]['url'],
+                $pageNamesAndTitles[$key]['title'],
                 $item,
                 (int)(($item === 0 || !array_key_exists($key, $bounced)) ? 0 : ($bounced[$key]/$item*100)),
                 array_key_exists($key, $exitRates) ? (int)$exitRates[$key] : 0

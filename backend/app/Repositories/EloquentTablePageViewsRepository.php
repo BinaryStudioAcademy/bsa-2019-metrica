@@ -62,4 +62,34 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 
         return array_column($response, 'count', 'page_id');
     }
+
+    public function getPageNamesAndTitles(string $from, string $to, int $websiteId): array
+    {
+
+        $subQueryFirst = "(SELECT v.*, s.start_session, p.*
+                           FROM visits v
+                           JOIN sessions s ON v.session_id = s.id
+                           JOIN pages p ON v.page_id = p.id)";
+
+        $subQuerySecond = "(SELECT page_id, session_id, start_session, url, name
+                            FROM $subQueryFirst AS n
+                            WHERE n.start_session BETWEEN ? AND ?
+                                AND n.website_id = ?)";
+
+        $sql = "SELECT DISTINCT(page_id), url, name
+                FROM $subQuerySecond AS q";
+
+        $result = DB::select($sql, [$from, $to, $websiteId]);
+
+        $response = [];
+
+        foreach ($result as $page) {
+            $response[$page->page_id] = [
+                'title' => $page->name,
+                'url' => $page->url,
+            ];
+        }
+
+        return $response;
+    }
 }
