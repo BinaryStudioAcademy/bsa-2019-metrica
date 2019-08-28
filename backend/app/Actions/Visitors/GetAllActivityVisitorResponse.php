@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\ActiveUsers;
+namespace App\Actions\Visitors;
 
 use Illuminate\Support\Collection;
 
-final class GetActiveUserItemsResponse
+final class GetAllActivityVisitorResponse
 {
     private $items;
 
