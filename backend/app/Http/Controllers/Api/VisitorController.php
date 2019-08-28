@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Visitors\GetAllActivityVisitorAction;
-use App\Actions\Visitors\GetVisitorsBounseRateByParameterRequest;
+use App\Actions\Visitors\GetVisitorsBounceRateByParameterRequest;
 use App\Actions\Visitors\BounceRateAction;
 use App\Actions\Visitors\BounceRateRequest;
 use App\Actions\Visitors\GetAllVisitorsAction;
@@ -164,7 +164,7 @@ final class VisitorController extends Controller
     public function getVisitorsBounceRateByParameter(GetTableVisitorsByParameterHttpRequest $request): ApiResponse
     {
         $response = $this->getVisitorsBounceRateByParameterAction->execute(
-            GetVisitorsBounseRateByParameterRequest::fromRequest($request)
+            GetVisitorsBounceRateByParameterRequest::fromRequest($request)
         );
 
         return ApiResponse::success(new VisitorsBounceRateResource($response->getVisitorsBounceRateCollection()));

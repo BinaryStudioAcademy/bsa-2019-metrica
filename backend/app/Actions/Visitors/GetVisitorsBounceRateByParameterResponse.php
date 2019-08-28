@@ -6,7 +6,7 @@ namespace App\Actions\Visitors;
 
 use Illuminate\Support\Collection;
 
-final class GetVisitorsBounseRateByParameterResponce
+final class GetVisitorsBounceRateByParameterResponse
 {
     private $collection;
 

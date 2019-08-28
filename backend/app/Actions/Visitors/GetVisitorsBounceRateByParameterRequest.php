@@ -7,7 +7,7 @@ namespace App\Actions\Visitors;
 use App\Actions\TableDataRequest;
 use App\Http\Requests\Visitor\GetTableVisitorsByParameterHttpRequest;
 
-class GetVisitorsBounseRateByParameterRequest extends TableDataRequest
+class GetVisitorsBounceRateByParameterRequest extends TableDataRequest
 {
     public static function fromRequest(GetTableVisitorsByParameterHttpRequest $request)
     {

@@ -23,7 +23,7 @@ final class GetVisitorsBounceRateByParameterAction
         $this->tableVisitorsRepository = $tableVisitorsRepository;
     }
 
-    public function execute(GetVisitorsBounseRateByParameterRequest $request): GetVisitorsBounseRateByParameterResponce
+    public function execute(GetVisitorsBounceRateByParameterRequest $request): GetVisitorsBounceRateByParameterResponse
     {
         $parameter = $request->parameter();
         switch ($parameter) {
@@ -112,7 +112,7 @@ final class GetVisitorsBounceRateByParameterAction
             );
         })->flatten();
 
-        return new GetVisitorsBounseRateByParameterResponce($response);
+        return new GetVisitorsBounceRateByParameterResponse($response);
     }
 }
 
