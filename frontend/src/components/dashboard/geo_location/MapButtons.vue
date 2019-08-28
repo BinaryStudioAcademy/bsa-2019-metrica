@@ -25,11 +25,11 @@
                 buttons: [
                     {
                         label: 'Visitors',
-                        type: 'visitors',
+                        type: 'all_visitors_count',
                     },
                     {
                         label: 'Sessions',
-                        type: 'sessions'
+                        type: 'sessions_count'
                     },
                     {
                         label: 'Bounce Rate',
