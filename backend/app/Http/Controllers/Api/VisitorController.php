@@ -157,6 +157,5 @@ final class VisitorController extends Controller
         );
 
         return ApiResponse::success(new VisitorsBounceRateResource($response->getVisitorsBounceRateCollection()));
-
     }
 }
