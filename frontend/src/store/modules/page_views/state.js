@@ -1,7 +1,7 @@
 import {
     PAGE_VIEWS,
     UNIQUE_PAGE_VIEWS,
-    ACTIVE_USERS,
+    AVERAGE_TIME,
     BOUNCE_RATE
 } from '../../../configs/page_views/buttonTypes.js';
 
@@ -16,7 +16,7 @@ export default {
             value: 0,
             isFetching: false
         },
-        [ACTIVE_USERS]: {
+        [AVERAGE_TIME]: {
             value: 0,
             isFetching: false
         },
