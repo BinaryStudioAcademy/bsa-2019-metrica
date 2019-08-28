@@ -8,7 +8,7 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-final class GetPageViewsAvgTimeHttpRequest extends ApiFormRequest
+final class GetBouncePageViewsHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
