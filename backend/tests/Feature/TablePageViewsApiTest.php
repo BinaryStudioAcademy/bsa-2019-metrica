@@ -43,7 +43,7 @@ class TablePageViewsApiTest extends TestCase
 
         $this->createVisitWithSessions(new \DateTime('2019-08-20 05:30:00'), 2, 1);
         $this->createVisitWithSessions(new \DateTime('2019-08-20 06:10:00'), 1, 2);
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:20:00'), 3, 4);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:20:00'), 3, 2);
         $this->createVisitWithSessions(new \DateTime('2019-08-20 06:30:00'), 2, 1);
         $this->createVisitWithSessions(new \DateTime('2019-08-20 07:00:00'), 1, 2);
         $this->createVisitWithSessions(new \DateTime('2019-08-20 07:20:00'), 1, 3);
@@ -62,14 +62,14 @@ class TablePageViewsApiTest extends TestCase
                     "page_url" => "",
                     "page_title" => "",
                     "count_page_views" => 2,
-                    "bounce_rate" => 50,
+                    "bounce_rate" => 0,
                     "exit_rate" => 0
                 ],
                 1 => [
                     "page_url" => "",
                     "page_title" => "",
-                    "count_page_views" => 2,
-                    "bounce_rate" => 100,
+                    "count_page_views" => 5,
+                    "bounce_rate" => 40,
                     "exit_rate" => 0
                 ],
                 2 => [
@@ -79,13 +79,6 @@ class TablePageViewsApiTest extends TestCase
                     "bounce_rate" => 100,
                     "exit_rate" => 0
                 ],
-                3 => [
-                    "page_url" => "",
-                    "page_title" => "",
-                    "count_page_views" => 3,
-                    "bounce_rate" => 33,
-                    "exit_rate" => 0
-                ]
             ],
             'meta' => [],
         ];

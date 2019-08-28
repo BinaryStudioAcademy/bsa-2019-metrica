@@ -33,8 +33,8 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
         $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQueryFirst) AS visits" .
             " WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQuerySecond)";
         $subQueryForth = "SELECT v.page_id, COUNT(*) FROM ($subQueryThird) AS v GROUP BY v.page_id, v.session_id";
-        $subQueryFifth= "SELECT p.page_id FROM ($subQueryThird) AS p WHERE count < 2";
-        $query = DB::raw("SELECT p.page_id, COUNT(*) FROM ($subQueryForth) AS p GROUP BY p.page_id;");
+        $subQueryFifth= "SELECT p.page_id FROM ($subQueryForth) AS p WHERE count < 2";
+        $query = DB::raw("SELECT p.page_id, COUNT(*) FROM ($subQueryFifth) AS p GROUP BY p.page_id;");
 
         $response = DB::select((string)$query, [
             'startDate' => $from,
