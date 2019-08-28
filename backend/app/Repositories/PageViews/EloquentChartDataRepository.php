@@ -23,7 +23,7 @@ class EloquentChartDataRepository implements ChartDataRepository
         return "(CAST ($expression AS INTEGER))";
     }
 
-    private function roundDate(string $columnName,  float $period): string
+    private function roundDate(string $columnName, float $period): string
     {
         return
             $this->toTimestamp($columnName) .
