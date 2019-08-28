@@ -8,7 +8,7 @@ use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use Illuminate\Support\Facades\Auth;
 
-final class GetPageViewsCountAction
+class GetUniquePageViewsButtonAction
 {
     private $repository;
 
@@ -17,14 +17,14 @@ final class GetPageViewsCountAction
         $this->repository = $repository;
     }
 
-    public function execute(GetPageViewsCountRequest $request): ButtonValue
+    public function execute(GetUniquePageViewsButtonRequest $request): ButtonValue
     {
         try {
             $websiteId = Auth::user()->website->id;
         } catch (\Exception $exception) {
             throw new WebsiteNotFoundException();
         }
-
-        return new ButtonValue((string)$this->repository->countBetweenDate($request->period(), $websiteId));
+        $response = $this->repository->uniqueCount($request->period(), $websiteId);
+        return new ButtonValue((string)$response);
     }
 }

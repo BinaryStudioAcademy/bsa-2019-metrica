@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Visits\GetBounceRateChartByDateRangeAction;
 use App\Actions\Visits\GetBounceRateChartByDateRangeRequest;
+use App\Actions\Visits\GetUniquePageViewsButtonAction;
+use App\Actions\Visits\GetUniquePageViewsButtonRequest;
 use App\Http\Requests\Api\GetBounceRateChartHttpRequest;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 use App\Actions\Visits\GetPageViewsByParameterAction;
@@ -17,8 +19,12 @@ use App\Actions\Visits\GetPageViewsItemsAction;
 use App\Actions\Visits\GetPageViewsItemsRequest;
 use App\Actions\Visits\GetPageViewsRequest;
 use App\Actions\Visits\GetPageViewsAction;
+use App\Actions\Visits\GetUniquePageViewsChartAction;
+use App\Actions\Visits\GetUniquePageViewsChartRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visit\TablePageViewsHttpRequest;
+use App\Http\Requests\Visit\GetUniquePageViewsButtonHttpRequest;
+use App\Http\Requests\Visit\GetUniquePageViewsChartHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
@@ -26,6 +32,9 @@ use App\Http\Resources\ButtonResource;
 use App\Http\Resources\TablePageViewsResource;
 use App\Http\Resources\TableResource;
 use App\Http\Response\ApiResponse;
+use App\Http\Requests\Visit\GetPageViewsAvgTimeHttpRequest;
+use App\Actions\Visits\GetPageViewsAvgTimeRequest;
+use App\Actions\Visits\GetPageViewsAvgTimeAction;
 
 final class VisitController extends Controller
 {
@@ -34,7 +43,10 @@ final class VisitController extends Controller
     private $getPageViewsCountAction;
     private $createVisitAction;
     private $getPageViewsItemsAction;
+    private $getUniquePageViewsButtonAction;
+    private $getUniquePageViewChartAction;
     private $getChartBounceRateAction;
+    private $getPageViewsAvgTimeAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
@@ -42,14 +54,20 @@ final class VisitController extends Controller
         GetPageViewsCountAction $getPageViewsCountAction,
         CreateVisitAction $createVisitAction,
         GetPageViewsItemsAction $getPageViewsItemsAction,
-        GetBounceRateChartByDateRangeAction $getChartBounceRateAction
+        GetBounceRateChartByDateRangeAction $getChartBounceRateAction,
+        GetUniquePageViewsButtonAction $getUniquePageViewsButtonAction,
+        GetUniquePageViewsChartAction $getUniquePageViewChartAction,
+        GetPageViewsAvgTimeAction $getPageViewsAvgTimeAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
         $this->getPageViewsCountAction = $getPageViewsCountAction;
         $this->createVisitAction = $createVisitAction;
         $this->getPageViewsItemsAction = $getPageViewsItemsAction;
+        $this->getUniquePageViewsButtonAction = $getUniquePageViewsButtonAction;
+        $this->getUniquePageViewChartAction = $getUniquePageViewChartAction;
         $this->getChartBounceRateAction = $getChartBounceRateAction;
+        $this->getPageViewsAvgTimeAction = $getPageViewsAvgTimeAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -90,5 +108,23 @@ final class VisitController extends Controller
         $response = $this->getChartBounceRateAction->execute(GetBounceRateChartByDateRangeRequest::fromRequest($request));
 
         return ApiResponse::success(new ChartResource($response->getVisitsBounceRateCollection()));
+    }
+
+    public function getUniquePageViewsButton(GetUniquePageViewsButtonHttpRequest $request): ApiResponse
+    {
+        $response = $this->getUniquePageViewsButtonAction->execute(GetUniquePageViewsButtonRequest::fromRequest($request));
+        return ApiResponse::success(new ButtonResource($response));
+    }
+
+    public function getPageViewsAvgTimeForFilterData(GetPageViewsAvgTimeHttpRequest $request): ApiResponse
+    {
+        $response = $this->getPageViewsAvgTimeAction->execute(GetPageViewsAvgTimeRequest::fromRequest($request));
+        return ApiResponse::success(new ButtonResource($response));
+    }
+
+    public function getUniquePageViewsChart(GetUniquePageViewsChartHttpRequest $request): ApiResponse
+    {
+        $response = $this->getUniquePageViewChartAction->execute(GetUniquePageViewsChartRequest::fromRequest($request));
+        return ApiResponse::success(new ChartResource($response->getUniquePageViewsCollection()));
     }
 }
