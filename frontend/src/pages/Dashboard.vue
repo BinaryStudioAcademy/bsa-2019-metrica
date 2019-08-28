@@ -8,11 +8,7 @@
                 :activity-chart-data="activityChartData"
             />
         </div>
-        <DevicesPieChart
-            :data="devicesPieData"
-            :legend="devicesLegend"
-            :is-fetching="devicesPieData.isFetching"
-        />
+        <DevicesPieChart />
     </ContentLayout>
 </template>
 <script>
@@ -59,63 +55,6 @@
             return {
                 data: [],
                 period: '',
-                devicesPieData: {
-                    system: [
-                        ['Type', 'Value'],
-                        ['Mac  ', 25],
-                        ['Windows', 65],
-                        ['Others', 10],
-                    ],
-                    device: [
-                        ['Type', 'Value'],
-                        ['Desktop', 25],
-                        ['Mobile', 65],
-                        ['Tablet', 10],
-                    ],
-                    isFetching: false,
-                },
-                devicesLegend: {
-                    system: {
-                        title: 'System',
-                        data: {
-                            mac: {
-                                title: 'Mac',
-                                percentageDiff: 25,
-                                color: '#3C57DE',
-                            },
-                            windows: {
-                                title: 'Windows',
-                                percentageDiff: 65,
-                                color: '#1BC3DA',
-                            },
-                            others: {
-                                title: 'Others',
-                                percentageDiff: 10,
-                                color: '#67C208',
-                            },
-                        }
-                    },
-                    device: {
-                        title: 'Device',
-                        data: {
-                            desktop: {
-                                title: 'Desktop',
-                                percentageDiff: 25,
-                                color: '#F03357',
-                            },
-                            mobile: {
-                                title: 'Mobile',
-                                percentageDiff: 65,
-                                color: '#ff9900',
-                            },
-                            tablet: {
-                                title: 'Tablet',
-                                percentageDiff: 10,
-                                color: '#FFD954',
-                            },
-                        }
-                    },
-                },
             };
         },
     };

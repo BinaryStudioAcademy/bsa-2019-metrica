@@ -36,18 +36,9 @@
             PeriodDropdown,
             PieChartItem
         },
-        props: {
-            data: {
-                type: Object,
-                required: true,
-            },
-            isFetching: {
-                type: Boolean,
-                required: true,
-            }
-        },
         data() {
             return {
+                isFetching: false,
                 selectedPeriod: 'last_week',
                 chartData: {
                     systems: {
@@ -62,7 +53,12 @@
                                 color: '#67C208',
                             },
                         },
-                        data: this.data.system,
+                        data: [
+                            ['Type', 'Value'],
+                            ['Mac  ', 25],
+                            ['Windows', 65],
+                            ['Others', 10],
+                        ],
                         legend: {
                             title: 'System',
                             data: {
@@ -96,7 +92,12 @@
                                 color: '#FFD954',
                             },
                         },
-                        data: this.data.device,
+                        data: [
+                            ['Type', 'Value'],
+                            ['Desktop', 25],
+                            ['Mobile', 65],
+                            ['Tablet', 10],
+                        ],
                         legend: {
                             title: 'Device',
                             data: {
