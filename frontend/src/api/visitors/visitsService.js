@@ -22,7 +22,7 @@ const fetchButtonValue = (startDate, endDate) => {
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
-    return requestService.get(resourceUrl + '/chart-visits', {}, {
+    return requestService.get(resourceUrl + '/chart-visits/page-views', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[period]': interval

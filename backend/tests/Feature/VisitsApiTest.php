@@ -25,7 +25,7 @@ class VisitsApiTest extends TestCase
     private $visitor;
     private $page;
     private $system;
-    private $url = 'api/v1/chart-visits/';
+    private $url = 'api/v1/chart-visits/page-views';
 
     protected function setUp(): void
     {
