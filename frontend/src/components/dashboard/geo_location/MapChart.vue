@@ -2,13 +2,13 @@
     <div class="container">
         <GChart
             type="GeoChart"
+            :settings="settings"
             :data="chartData"
             :options="chartOptions"
             class="map"
         />
     </div>
 </template>
-
 
 <script>
     import { GChart } from 'vue-google-charts';
@@ -51,15 +51,14 @@
                     role: 'tooltip',
                     p: { html: true }
                 }],
-                mapsApiKey: config.getGoogleMapsApiKey()
+                settings: {
+                    packages: ['map'],
+                    mapsApiKey: config.getGoogleMapsApiKey()
+                }
             };
         },
         computed: {
             chartData () {
-                if (!this.dataItems.length) {
-                    return [];
-                }
-
                 const tooltipRow = this.tooltipRow;
                 const tableRows = this.dataItems.map((item) => [
                     item.country,
