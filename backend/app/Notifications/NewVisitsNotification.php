@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Entities\Visit;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -33,6 +34,11 @@ class NewVisitsNotification extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         return ['broadcast'];
+    }
+
+    public function broadcastOn()
+    {
+        return new PrivateChannel('active-users.' . $this->visit->page->website_id);
     }
 
     /**
