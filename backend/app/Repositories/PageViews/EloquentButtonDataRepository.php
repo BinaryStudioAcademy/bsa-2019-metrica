@@ -103,5 +103,4 @@ class EloquentButtonDataRepository implements ButtonDataRepository
 
         return $response[0]->count;
     }
-
 }
