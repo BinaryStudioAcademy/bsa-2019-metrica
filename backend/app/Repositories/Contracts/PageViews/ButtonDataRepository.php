@@ -11,4 +11,8 @@ interface ButtonDataRepository
     public function countBetweenDate(DatePeriod $filterData, int $websiteId): int;
 
     public function uniqueCount(DatePeriod $period, int $websiteId): int;
+
+    public function getCountPageViewsPageBetweenDate(DatePeriod $filterData, int $websiteId): int;
+
+    public function getBouncedPagePageBetweenDate(DatePeriod $filterData, int $websiteId): int;
 }
