@@ -139,7 +139,7 @@ final class GetVisitorsBounceRateByParameterAction
 
         $collection = $visitorsCountCollection->mergeRecursive($bounceRateCollection);
 
-        $response = $collection->map(function ($item) use ($parameter){
+        $response = $collection->map(function ($item) use ($parameter) {
             return new BounceRateVisitors(
                 $parameter,
                 $item[$parameter],
