@@ -44,20 +44,30 @@
                 if (!this.dataItems.length) {
                     return [];
                 }
-                let totalSum = 0;
 
-                this.dataItems.forEach(item => {
-                    totalSum += Number(item[this.displayedParameter]) || 0;
-                });
+                if(this.displayedParameter === 'bounce_rate') {
+                    return this.dataItems.map((item) => {
+                        return {
+                            country: item.country,
+                            percentage: Math.round(Number(item[this.displayedParameter])*100)
+                        };
+                    });
+                } else {
+                    let totalSum = 0;
 
-                totalSum = totalSum === 0 ? 1: totalSum;
+                    this.dataItems.forEach(item => {
+                        totalSum += Number(item[this.displayedParameter]) || 0;
+                    });
 
-                return this.dataItems.map((item) => {
-                    return {
-                        country: item.country,
-                        percentage: Math.round(Number(item[this.displayedParameter])*100/totalSum)
-                    };
-                });
+                    totalSum = totalSum === 0 ? 1: totalSum;
+
+                    return this.dataItems.map((item) => {
+                        return {
+                            country: item.country,
+                            percentage: Math.round(Number(item[this.displayedParameter])*100/totalSum)
+                        };
+                    });
+                }
             }
         },
     };
