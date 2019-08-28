@@ -49,15 +49,12 @@
 </template>
 
 <script>
-    import _ from "lodash";
     import {mapGetters, mapActions} from 'vuex';
-    import {
-        GET_ACTIVITY_DATA_ITEMS,
-    } from "@/store/modules/dashboard/types/getters";
-    import {
-        FETCHING_ACTIVITY_DATA_ITEMS,
-        RELOAD_ACTIVITY_DATA_ITEMS
-    } from "@/store/modules/dashboard/types/actions";
+    import _ from "lodash";
+    import {echoInstance} from '../../../services/echoService';
+    import {GET_ACTIVITY_DATA_ITEMS} from "@/store/modules/dashboard/types/getters";
+    import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
+    import {FETCHING_ACTIVITY_DATA_ITEMS, RELOAD_ACTIVITY_DATA_ITEMS} from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
         name: 'ActiveVisitorsCard',
@@ -82,9 +79,18 @@
             gradientDirection: 'left',
             polling: null,
         }),
+        mounted() {
+            echoInstance.private('App.Entities.User.' + 52).notification((notification) => {
+                console.log(notification);
+            });
+            console.log(echoInstance);
+        },
         computed: {
             ...mapGetters('dashboard', {
                 activityDataItems: GET_ACTIVITY_DATA_ITEMS,
+            }),
+            ...mapGetters('auth', {
+                user: GET_AUTHENTICATED_USER
             }),
             activeUsersCount() {
                 return _.uniqBy(this.activityDataItems, 'visitorId').length;
@@ -107,6 +113,7 @@
         created() {
             this.fetchingActivityDataItems();
             this.filterDataActivity();
+            console.log(this.user);
         },
         beforeDestroy () {
             clearInterval(this.polling);
