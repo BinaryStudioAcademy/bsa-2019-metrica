@@ -16,13 +16,13 @@ use App\Entities\System;
 use App\Entities\Page;
 use App\Entities\Visitor;
 
-class GetPageViewsAvgTimeByDateRangeTest extends TestCase
+class GetPageViewsChartAvgTimeByDateRangeTest extends TestCase
 {
     use RefreshDatabase;
 
     const DATE_FROM = '2019-08-20 00:00:00';
     const DATE_TO = '2019-08-24 23:59:59';
-    const ENDPOINT = '/api/v1/button-page-views/avg-time/';
+    const ENDPOINT = '/api/v1/chart-page-views/avg-time/';
 
     private $user;
     private $fromTimeStamp;
@@ -42,14 +42,35 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
         $requestData = [
             'startDate' => $this->fromTimeStamp,
             'endDate' => $this->toTimeStamp,
+            'period' => 21600
         ];
 
         $queryString = '?filter[startDate]='.$requestData['startDate'].
-                         '&filter[endDate]='.$requestData['endDate'];
+                         '&filter[endDate]='.$requestData['endDate'].
+                         '&filter[period]='.$requestData['period'];
 
         $expected = [
             'data' => [
-                'value' => 4500
+                [
+                    "date" => "1566345600",
+                    "value" => "2700"
+                ],
+                [
+                    "date" => "1566388800",
+                    "value" => "3600"
+                ],
+                [
+                    "date" => "1566410400",
+                    "value" => "0"
+                ],
+                [
+                    "date" => "1566432000",
+                    "value" => "4800"
+                ],
+                [
+                    "date" => "1566453600",
+                    "value" => "4800"
+                ]
             ],
             'meta' => []
         ];
@@ -110,9 +131,6 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
                 'session_id' => $thirdSession->id
             ]);
         }
-
-
-
 
         $outOfDateRangeSession = factory(Session::class)->create([
                                     'start_session' => '2019-08-30 00:00:00',

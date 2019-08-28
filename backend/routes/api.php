@@ -55,6 +55,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/new/count', 'VisitorController@getNewVisitorsCountForFilterData');
             Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRate');
             Route::get('/bounce-rate/total', 'VisitorController@getBounceRate');
+            Route::get('/activity-visitors', 'VisitorController@getActivityVisitors');
         });
 
         Route::group([
@@ -127,9 +128,19 @@ Route::prefix('v1')->group(function () {
             Route::get('/bounce-rate', 'VisitController@getPageViewsBounceRateForFilterData');
         });
 
+        Route::group([
+            'prefix' => 'chart-page-views'
+        ], function () {
+            Route::get('/avg-time', 'VisitController@getPageViewsChartAvgTimeForFilterData');
+        });
+
+
+
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
 
         Route::get('/geo-location-items', 'GeoLocationController');
+
+        Route::get('/table-page-views', 'VisitController@getPageViewsItems');
     });
 
     Route::group([
