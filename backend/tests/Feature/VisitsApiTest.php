@@ -310,7 +310,7 @@ class VisitsApiTest extends TestCase
         Notification::assertSentTo(
             $this->user,
             NewVisitsNotification::class,
-            function ($notification, $channels) use ($visit, $user) {
+            function ($notification) use ($visit, $user) {
                 $broadcastData = $notification->toBroadcast($user)->data;
                 $this->assertContains($visit->page->url, $broadcastData["page"]);
                 $this->assertEquals($visit->visitor_id, $broadcastData["visitor"]);
