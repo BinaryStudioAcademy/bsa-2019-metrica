@@ -9,6 +9,7 @@ use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\System;
 use App\Entities\Visit;
+use App\Notifications\NewVisitsNotification;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\SessionRepository;
@@ -16,6 +17,7 @@ use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\VisitRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Agent;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -88,6 +90,9 @@ final class CreateVisitAction
         $visit->geo_position_id = $geoPosition->id;
 
         $this->visitRepository->save($visit);
+
+        $user = $visit->visitor->website->user;
+        Notification::send($user, new NewVisitsNotification($visit));
     }
 
     private function getOrCreatePage(int $websiteId, string $pageTitle, string $pageUrl): Page
