@@ -91,7 +91,7 @@
     import {
         PAGE_VIEWS,
         UNIQUE_PAGE_VIEWS,
-        ACTIVE_USERS,
+        AVERAGE_TIME,
         BOUNCE_RATE
     } from '../configs/page_views/buttonTypes.js';
 
@@ -162,8 +162,8 @@
                     },
                     {
                         icon: 'clock',
-                        title: 'Active users',
-                        type: ACTIVE_USERS
+                        title: 'Average time',
+                        type: AVERAGE_TIME
                     },
                     {
                         icon: 'yellow_arrow',

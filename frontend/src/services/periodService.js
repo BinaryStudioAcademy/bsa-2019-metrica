@@ -9,7 +9,6 @@ export const period = {
     PERIOD_ALL: 'all_period',
 };
 
-
 const currentDate = () => {
     return moment();
 };
