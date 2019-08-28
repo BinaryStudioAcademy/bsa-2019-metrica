@@ -190,7 +190,6 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.city as city'))
             ->groupBy('geo_positions.city')
             ->get();
-
     }
 
     public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod): Collection
@@ -247,7 +246,6 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('sessions.language')
             ->where('sessions.website_id', '=', Auth::user()->website->id)
             ->get();
-
     }
 
     public function getCountVisitorsGroupByBrowser(DatePeriod $datePeriod): Collection
@@ -291,7 +289,6 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('systems.os')
             ->where('sessions.website_id', '=', Auth::user()->website->id)
             ->get();
-
     }
 
     public function getBounceRateGroupByOperatingSystem(DatePeriod $datePeriod): Collection
@@ -309,7 +306,6 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy('systems.os')
             ->where('sessions.website_id', '=', Auth::user()->website->id)
             ->get();
-
     }
 
     public function getCountVisitorsRateGroupByScreenResolution(DatePeriod $datePeriod): Collection
@@ -323,7 +319,6 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->groupBy(['systems.resolution_width','systems.resolution_height'])
             ->where('sessions.website_id', '=', Auth::user()->website->id)
             ->get();
-
     }
 
     public function getBounceRateGroupByScreenResolution(DatePeriod $datePeriod): Collection
