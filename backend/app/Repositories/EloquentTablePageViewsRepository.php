@@ -65,7 +65,6 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 
     public function getPageNamesAndTitles(string $from, string $to, int $websiteId): array
     {
-
         $subQueryFirst = "(SELECT v.*, s.start_session, p.*
                            FROM visits v
                            JOIN sessions s ON v.session_id = s.id
