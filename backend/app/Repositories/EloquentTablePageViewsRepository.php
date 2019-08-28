@@ -62,5 +62,4 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 
         return array_column($response, 'count', 'page_id');
     }
-
 }
