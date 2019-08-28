@@ -8,7 +8,7 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-final class GetPageViewsAvgTimeHttpRequest extends ApiFormRequest
+final class TablePageViewsHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
@@ -22,17 +22,17 @@ final class GetPageViewsAvgTimeHttpRequest extends ApiFormRequest
                 'required',
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
-            ],
+            ]
         ];
     }
 
-    public function getStartDate(): string
+    public function startDate(): string
     {
-        return (string)$this->get('filter')['startDate'];
+        return $this->get('filter')['startDate'];
     }
 
-    public function getEndDate(): string
+    public function endDate(): string
     {
-        return (string)$this->get('filter')['endDate'];
+        return $this->get('filter')['endDate'];
     }
 }

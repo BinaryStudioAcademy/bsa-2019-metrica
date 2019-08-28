@@ -6,6 +6,7 @@ use App\Contracts\Visitors\NewVisitorsCountFilterData;
 use App\Entities\Visitor;
 use App\Utils\DatePeriod;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 interface VisitorRepository
 {
@@ -32,4 +33,6 @@ interface VisitorRepository
     public function countNewVisitorsGroupByCountry(string $startDate, string $endDate): Collection;
 
     public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate): Collection;
+
+    public function getAllActivityVisitors(int $websiteId): SupportCollection;
 }
