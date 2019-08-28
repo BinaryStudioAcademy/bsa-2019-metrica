@@ -23,10 +23,7 @@ final class GetPageViewsFilterHttpRequest extends ApiFormRequest
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
             ],
-            "filter.period" => [
-                'required',
-                'integer',
-            ],
+            'filter.period' => 'required|integer|min:1'
         ];
     }
 
