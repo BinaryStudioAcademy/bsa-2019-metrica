@@ -74,12 +74,13 @@ final class GetGeoLocationItemsAction
             ->mergeRecursive($avgSessionTime);
 
         $response = $collection->map(function ($item) {
+            $bounce_rate = isset($item['bounced_visitors_count'])? $item['bounced_visitors_count'] / $item['all_visitors_count'] : 0;
             return new GeoLocationItem(
                 $item['country'][0],
                 $item['all_visitors_count'],
                 $item['new_visitors_count'] ?? 0,
                 $item['all_sessions_count'],
-                isset($item['bounced_visitors_count'])? $item['all_visitors_count'] / $item['bounced_visitors_count'] : 0,
+                $bounce_rate,
                 (int) $item['avg_session_time']
             );
         })->flatten();

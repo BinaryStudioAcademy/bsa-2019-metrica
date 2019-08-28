@@ -140,10 +140,11 @@ final class GetVisitorsBounceRateByParameterAction
         $collection = $visitorsCountCollection->mergeRecursive($bounceRateCollection);
 
         $response = $collection->map(function ($item) use ($parameter) {
+            $bounce_rate = isset($item['bounced_visitors_count']) ? $item['bounced_visitors_count'] / $item['visitors_count'] : 0;
             return new BounceRateVisitors(
                 $parameter,
                 $item[$parameter],
-                isset($item['bounced_visitors_count']) ? $item['visitors_count'] / $item['bounced_visitors_count'] : 0
+                $bounce_rate
             );
         })->flatten();
 
