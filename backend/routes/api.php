@@ -84,6 +84,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/count-total', 'VisitorController@getVisitorsCountByParameter');
             Route::get('/count-new', 'VisitorController@getNewVisitorsCountByParameter');
+            Route::get('/bounce-rate', 'VisitorController@getVisitorsBounceRateByParameter');
         });
 
         Route::group([
@@ -163,3 +164,5 @@ Route::prefix('v1')->group(function () {
 Route::get('/v1/health', function () {
     return "healthy";
 });
+
+
