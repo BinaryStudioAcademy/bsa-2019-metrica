@@ -8,86 +8,13 @@
         <VContainer class="white pie-container position-relative">
             <Spinner v-if="isFetching" />
             <VContainer class="pt-1">
-                <VRow class="justify-center">
-                    <VCol class="d-flex col-5 justify-center align-items-center">
-                        <GChart
-                            class="pb-2 align-self-end"
-                            type="PieChart"
-                            :data="chartData.system"
-                            :options="chartOptions.system"
-                        />
-                    </VCol>
-                    <VCol>
-                        <VSubheader
-                            v-text="legend.system.title"
-                            class="legend-title grey--text text--darken-1 pl-0"
-                        />
-                        <VList>
-                            <VListItem
-                                v-for="systems in legend.system.data"
-                                :key="systems.title"
-                                class="justify-space-between align-center pa-0"
-                            >
-                                <VIcon
-                                    :color="systems.color"
-                                    size="8"
-                                >
-                                    mdi-circle
-                                </VIcon>
-                                <VListItemTitle
-                                    class="pl-2 grey--text"
-                                >
-                                    {{ systems.title }}
-                                </VListItemTitle>
-                                <VListItemSubtitle
-                                    class="grey--text"
-                                >
-                                    {{ systems.percentageDiff }}%
-                                </VListItemSubtitle>
-                            </VListItem>
-                        </VList>
-                    </VCol>
-                </VRow>
-                <VRow class="justify-center mb-2">
-                    <VCol class="d-flex col-5 justify-center align-items-center">
-                        <GChart
-                            class="align-self-end pb-2"
-                            type="PieChart"
-                            :data="chartData.device"
-                            :options="chartOptions.device"
-                        />
-                    </VCol>
-                    <VCol class="align-items-end">
-                        <VSubheader
-                            v-text="legend.device.title"
-                            class="legend-title grey--text text--darken-1 pl-0"
-                        />
-                        <VList>
-                            <VListItem
-                                class="justify-space-between align-center pa-0"
-                                v-for="devices in legend.device.data"
-                                :key="devices.title"
-                            >
-                                <VIcon
-                                    :color="devices.color"
-                                    size="8"
-                                >
-                                    mdi-circle
-                                </VIcon>
-                                <VListItemTitle
-                                    class="pl-2 grey--text"
-                                >
-                                    {{ devices.title }}
-                                </VListItemTitle>
-                                <VListItemSubtitle
-                                    class="grey--text"
-                                >
-                                    {{ devices.percentageDiff }}%
-                                </VListItemSubtitle>
-                            </VListItem>
-                        </VList>
-                    </VCol>
-                </VRow>
+                <PieChartItem
+                    v-for="(item, key) in chartData"
+                    :data="item.data"
+                    :slices="item.slices"
+                    :legend="item.legend"
+                    :key="key"
+                />
                 <VRow class="pl-3">
                     <PeriodDropdown
                         :value="selectedPeriod"
@@ -99,26 +26,18 @@
 </template>
 
 <script>
-    import {GChart} from 'vue-google-charts';
     import Spinner from '@/components/utilites/Spinner';
     import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown";
+    import PieChartItem from "@/components/widgets/PieChartItem";
 
     export default {
         components: {
-            GChart,
             Spinner,
-            PeriodDropdown
+            PeriodDropdown,
+            PieChartItem
         },
         props: {
             data: {
-                type: Object,
-                required: true,
-            },
-            pieHole: {
-                type: Number,
-                default: 0.87
-            },
-            legend: {
                 type: Object,
                 required: true,
             },
@@ -131,110 +50,94 @@
             return {
                 selectedPeriod: 'last_week',
                 chartData: {
-                    system: this.data.system,
-                    device: this.data.device,
-                },
-                chartOptions: {
-                    system: {
-                        chartArea: {
-                            backgroundColor: 'transparent',
-                            width: '85%',
-                            height: '85%'
-                        },
-                        width: 110,
-                        height: 110,
-                        pieHole: this.pieHole,
-                        pieSliceBorderColor: 'none',
-                        legend: 'none',
-                        pieSliceText: 'none',
-                        tooltip: {
-                            trigger: 'hover'
-                        },
+                    systems: {
                         slices: {
                             0: {
                                 color: '#3C57DE',
                             },
                             1: {
                                 color: '#1BC3DA',
-                                offset: 0,
                             },
                             2: {
                                 color: '#67C208',
-                                offset: 0,
                             },
+                        },
+                        data: this.data.system,
+                        legend: {
+                            title: 'System',
+                            data: {
+                                mac: {
+                                    title: 'Mac',
+                                    percentageDiff: 25,
+                                    color: '#3C57DE',
+                                },
+                                windows: {
+                                    title: 'Windows',
+                                    percentageDiff: 65,
+                                    color: '#1BC3DA',
+                                },
+                                others: {
+                                    title: 'Others',
+                                    percentageDiff: 10,
+                                    color: '#67C208',
+                                },
+                            }
                         }
                     },
-                    device: {
-                        chartArea: {
-                            backgroundColor: 'transparent',
-                            width: '85%',
-                            height: '85%'
-                        },
-                        width: 110,
-                        height: 110,
-                        pieHole: this.pieHole,
-                        pieSliceBorderColor: 'none',
-                        legend: 'none',
-                        pieSliceText: 'none',
-                        tooltip: {
-                            trigger: 'hover',
-                        },
+                    devices: {
                         slices: {
                             0: {
                                 color: '#F03357',
                             },
                             1: {
                                 color: '#ff9900',
-                                offset: 0,
                             },
                             2: {
                                 color: '#FFD954',
-                                offset: 0,
                             },
+                        },
+                        data: this.data.device,
+                        legend: {
+                            title: 'Device',
+                            data: {
+                                desktop: {
+                                    title: 'Desktop',
+                                    percentageDiff: 25,
+                                    color: '#F03357',
+                                },
+                                mobile: {
+                                    title: 'Mobile',
+                                    percentageDiff: 65,
+                                    color: '#ff9900',
+                                },
+                                tablet: {
+                                    title: 'Tablet',
+                                    percentageDiff: 10,
+                                    color: '#FFD954',
+                                },
+                            }
                         }
-                    },
-                }
+                    }
+                },
             };
         }
     };
 </script>
 
 <style scoped lang="scss">
-    .wrapper {
-        width: max-content !important;
-        margin: 0;
-    }
-    .pie-container {
-        box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
-        border-radius: 6px;
-        width: 307px;
-        height: 394px;
-    }
-    .header {
-        font-size: 16px;
-        line-height: 19px;
-        width: max-content;
-    }
-    .legend-title {
-        font-size: 14px;
-        line-height: 16px;
-    }
-
-    .v-list-item {
-        text-align: end;
-        height: 32px;
-        min-height: 20px;
-        min-width: 120px;
-        .v-list-item__title,
-        .v-list-item__subtitle {
-            font-size: 12px;
-            font-family: 'GilroySemiBold';
-        }
-    }
-    .v-subheader {
-        height: 20px;
-    }
-    .v-list-item__title {
-        text-align: start;
-    }
+.wrapper {
+    width: max-content !important;
+    margin: 0;
+}
+.pie-container {
+    box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
+    border-radius: 6px;
+    width: 307px;
+    height: 394px;
+}
+.header {
+    font-size: 16px;
+    line-height: 19px;
+    width: max-content;
+}
 </style>
