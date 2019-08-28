@@ -1,7 +1,6 @@
 import {
     SET_SELECTED_PERIOD,
     SET_LINE_CHART_DATA,
-    GET_SELECTED_PERIOD,
     SET_LINE_CHART_FETCHING,
     RESET_LINE_CHART_FETCHING,
     SET_GROUPED_PARAMETER,
@@ -9,7 +8,6 @@ import {
     SET_BUTTON_FETCHING,
     RESET_BUTTON_FETCHING,
     SET_BUTTON_DATA,
-    GET_BUTTON_DATA,
     SET_TABLE_DATA,
     SET_TABLE_FETCHING,
     RESET_TABLE_FETCHING,
@@ -33,12 +31,6 @@ export default {
     },
     [SET_BUTTON_DATA]: (state, button, value) => {
         state.buttonData[button].value = value;
-    },
-    [GET_SELECTED_PERIOD]: (state) => {
-        return state.selectedPeriod;
-    },
-    [GET_BUTTON_DATA]: (state, type) => {
-        return state.buttonData[type];
     },
     [SET_LINE_CHART_DATA]: (state, value) => {
         state.chartData.items = value;

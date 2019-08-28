@@ -39,6 +39,7 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
+
     },
     [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
         if (data.value) {
@@ -74,10 +75,7 @@ export default {
             context.commit(RESET_LINE_CHART_FETCHING);
         }
     },
-    [FETCH_LINE_CHART_DATA]: (context, data) => {
-        if (!data.value) {
-            return;
-        }
+    [FETCH_LINE_CHART_DATA]: (context) => {
         context.commit(SET_LINE_CHART_FETCHING);
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
@@ -106,10 +104,7 @@ export default {
             context.commit(RESET_TABLE_FETCHING);
         }
     },
-    [FETCH_TABLE_DATA]: (context, data) => {
-        if (!data.value) {
-            return;
-        }
+    [FETCH_TABLE_DATA]: (context) => {
         context.commit(SET_TABLE_FETCHING);
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
