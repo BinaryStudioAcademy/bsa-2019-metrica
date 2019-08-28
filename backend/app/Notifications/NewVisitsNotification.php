@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class NewVisitsNotification  extends Notification implements ShouldQueue
+class NewVisitsNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
