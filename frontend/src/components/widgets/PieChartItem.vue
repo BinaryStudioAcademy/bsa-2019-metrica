@@ -4,20 +4,22 @@
             <GChart
                 class="pb-2 align-self-end"
                 type="PieChart"
-                :data="data"
-                :options="options"
+                :data="chartData"
+                :options="chartOptions"
             />
         </VCol>
         <VCol>
             <VSubheader
-                v-text="legend.title"
+                v-text="dataType"
                 class="legend-title grey--text text--darken-1 pl-0"
             />
             <VList>
                 <LegendItem
-                    v-for="(item, key) in legend.data"
+                    v-for="(item, key) in data"
                     :key="key"
-                    :item="item"
+                    :color="item.color"
+                    :title="item.title"
+                    :percent="item.percent"
                 />
             </VList>
         </VCol>
@@ -35,22 +37,14 @@
                 type: Array,
                 required: true
             },
-            slices: {
-                type: Object,
-                required: true
-            },
-            legend: {
-                type: Object,
+            dataType: {
+                type: String,
                 required: true
             }
         },
-        mounted() {
-            console.log(this.data);
-        },
-        data() {
-            return {
-                options: {
-                    slices: this.slices,
+        computed: {
+            chartOptions() {
+                return {
                     chartArea: {
                         backgroundColor: 'transparent',
                         width: '85%',
@@ -65,9 +59,20 @@
                     tooltip: {
                         trigger: 'hover'
                     },
-                },
-            };
-        }
+                    slices: Object.assign({}, this.data.map(item => {
+                        return { color: item.color };
+                    }))
+                };
+            },
+            chartData() {
+                let data =
+                    this.data.map(item => {
+                        return [item.title, item.percent];
+                    });
+                data.unshift(['Value', 'Type']);
+                return data;
+            }
+        },
     };
 </script>
 

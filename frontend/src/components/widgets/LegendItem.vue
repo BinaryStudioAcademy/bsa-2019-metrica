@@ -3,7 +3,7 @@
         class="justify-space-between align-center pa-0"
     >
         <VIcon
-            :color="item.color"
+            :color="color"
             size="8"
         >
             mdi-circle
@@ -11,12 +11,12 @@
         <VListItemTitle
             class="pl-2 grey--text"
         >
-            {{ item.title }}
+            {{ title }}
         </VListItemTitle>
         <VListItemSubtitle
             class="grey--text"
         >
-            {{ item.percentageDiff }}%
+            {{ percent }}%
         </VListItemSubtitle>
     </VListItem>
 </template>
@@ -25,8 +25,16 @@
     export default {
         name: "LegendItem",
         props: {
-            item: {
-                type: Object,
+            color: {
+                type: String,
+                required: true
+            },
+            title: {
+                type: String,
+                required: true
+            },
+            percent: {
+                type: Number,
                 required: true
             }
         }

@@ -9,15 +9,15 @@
             <Spinner v-if="isFetching" />
             <VContainer class="pt-1">
                 <PieChartItem
-                    v-for="(item, key) in chartData"
+                    v-for="(item, key) in data"
+                    :data-type="item.type"
                     :data="item.data"
-                    :slices="item.slices"
-                    :legend="item.legend"
                     :key="key"
                 />
                 <VRow class="pl-3">
                     <PeriodDropdown
                         :value="selectedPeriod"
+                        @change="changeSelectedPeriod"
                     />
                 </VRow>
             </VContainer>
@@ -29,6 +29,13 @@
     import Spinner from '@/components/utilites/Spinner';
     import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown";
     import PieChartItem from "@/components/widgets/PieChartItem";
+    import { mapGetters, mapActions } from "vuex";
+    import {
+        GET_SELECTED_PERIOD,
+        GET_WIDGET_DATA,
+        GET_FETCHING_STATUS
+    } from "@/store/modules/devices/types/getters";
+    import { CHANGE_SELECTED_PERIOD } from "@/store/modules/devices/types/actions";
 
     export default {
         components: {
@@ -36,91 +43,17 @@
             PeriodDropdown,
             PieChartItem
         },
-        data() {
-            return {
-                isFetching: false,
-                selectedPeriod: 'last_week',
-                chartData: {
-                    systems: {
-                        slices: {
-                            0: {
-                                color: '#3C57DE',
-                            },
-                            1: {
-                                color: '#1BC3DA',
-                            },
-                            2: {
-                                color: '#67C208',
-                            },
-                        },
-                        data: [
-                            ['Type', 'Value'],
-                            ['Mac  ', 25],
-                            ['Windows', 65],
-                            ['Others', 10],
-                        ],
-                        legend: {
-                            title: 'System',
-                            data: {
-                                mac: {
-                                    title: 'Mac',
-                                    percentageDiff: 25,
-                                    color: '#3C57DE',
-                                },
-                                windows: {
-                                    title: 'Windows',
-                                    percentageDiff: 65,
-                                    color: '#1BC3DA',
-                                },
-                                others: {
-                                    title: 'Others',
-                                    percentageDiff: 10,
-                                    color: '#67C208',
-                                },
-                            }
-                        }
-                    },
-                    devices: {
-                        slices: {
-                            0: {
-                                color: '#F03357',
-                            },
-                            1: {
-                                color: '#ff9900',
-                            },
-                            2: {
-                                color: '#FFD954',
-                            },
-                        },
-                        data: [
-                            ['Type', 'Value'],
-                            ['Desktop', 25],
-                            ['Mobile', 65],
-                            ['Tablet', 10],
-                        ],
-                        legend: {
-                            title: 'Device',
-                            data: {
-                                desktop: {
-                                    title: 'Desktop',
-                                    percentageDiff: 25,
-                                    color: '#F03357',
-                                },
-                                mobile: {
-                                    title: 'Mobile',
-                                    percentageDiff: 65,
-                                    color: '#ff9900',
-                                },
-                                tablet: {
-                                    title: 'Tablet',
-                                    percentageDiff: 10,
-                                    color: '#FFD954',
-                                },
-                            }
-                        }
-                    }
-                },
-            };
+        computed: {
+            ...mapGetters('devices', {
+                selectedPeriod: GET_SELECTED_PERIOD,
+                data: GET_WIDGET_DATA,
+                isFetching: GET_FETCHING_STATUS
+            })
+        },
+        methods: {
+            ...mapActions('devices', {
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+            })
         }
     };
 </script>
