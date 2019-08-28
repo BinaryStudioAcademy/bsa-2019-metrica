@@ -31,7 +31,6 @@ class ActivityVisitorTest extends TestCase
         $this->firstDate = $firstDate;
         $this->thirdDate = $thirdDate;
         $this->seedDataBase();
-
     }
 
     public function testGetActivityUsersAction()
