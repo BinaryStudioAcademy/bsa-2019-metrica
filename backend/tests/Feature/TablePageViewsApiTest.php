@@ -63,21 +63,21 @@ class TablePageViewsApiTest extends TestCase
                     "page_title" => "",
                     "count_page_views" => 2,
                     "bounce_rate" => 0,
-                    "exit_rate" => 0
+                    "exit_rate" => 1
                 ],
                 1 => [
                     "page_url" => "",
                     "page_title" => "",
                     "count_page_views" => 5,
                     "bounce_rate" => 40,
-                    "exit_rate" => 0
+                    "exit_rate" => 3
                 ],
                 2 => [
                     "page_url" => "",
                     "page_title" => "",
                     "count_page_views" => 1,
                     "bounce_rate" => 100,
-                    "exit_rate" => 0
+                    "exit_rate" => 1
                 ],
             ],
             'meta' => [],
