@@ -90,6 +90,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'chart-visits'
         ], function () {
             Route::get('/', 'VisitController@getPageViews');
+            Route::get('/unique', 'VisitController@getUniquePageViewsChart');
         });
 
         Route::group([
@@ -123,6 +124,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
             Route::get('/unique', 'VisitController@getUniquePageViewsButton');
+            Route::get('avg-time', 'VisitController@getPageViewsAvgTimeForFilterData');
         });
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
