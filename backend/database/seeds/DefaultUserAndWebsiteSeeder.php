@@ -8,7 +8,7 @@ class DefaultUserAndWebsiteSeeder extends Seeder
 {
     public function run()
     {
-        try{
+        try {
             $user = factory(User::class)->create([
                 'email' => 'info@metrica.fun',
                 'is_activate' => 1,
@@ -21,9 +21,8 @@ class DefaultUserAndWebsiteSeeder extends Seeder
                 'name' => 'Metrica',
                 'domain' => "https://metrica.fun"
             ]);
-        }catch (\Illuminate\Database\QueryException $exception){
+        } catch (\Illuminate\Database\QueryException $exception) {
             //skip duplicate exception
         }
-
     }
 }
