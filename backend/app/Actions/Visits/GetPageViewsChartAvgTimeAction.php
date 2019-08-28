@@ -27,7 +27,7 @@ final class GetPageViewsChartAvgTimeAction
         }
 
         $chartData = $this->repository->getChartAvgTimeOnPageBetweenDate(
-            $request->period(), $websiteId
+            $request->period(), (int)$request->interval(), $websiteId
         );
 
         return new GetPageViewsChartResponse($chartData);

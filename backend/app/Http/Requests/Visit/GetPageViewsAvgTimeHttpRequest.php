@@ -12,7 +12,7 @@ final class GetPageViewsAvgTimeHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
-        return  [
+        return [
             'filter' => 'required|array',
             'filter.startDate' => [
                 'required',
@@ -23,21 +23,25 @@ final class GetPageViewsAvgTimeHttpRequest extends ApiFormRequest
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
             ],
+            'filter.period' => [
+                'required',
+                'integer',
+            ],
         ];
-    }
-
-    public function getFilterArray(): array
-    {
-        return $this->get('filter');
     }
 
     public function getStartDate(): string
     {
-        return (string) $this->get('filter')['startDate'];
+        return (string)$this->get('filter')['startDate'];
     }
 
     public function getEndDate(): string
     {
-        return (string) $this->get('filter')['endDate'];
+        return (string)$this->get('filter')['endDate'];
+    }
+
+    public function getInterval(): string
+    {
+        return (string)$this->get('filter')['period'];
     }
 }

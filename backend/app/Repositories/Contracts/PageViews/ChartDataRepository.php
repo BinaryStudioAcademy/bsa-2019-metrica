@@ -9,5 +9,5 @@ use Illuminate\Support\Collection;
 
 interface ChartDataRepository
 {
-    public function getChartAvgTimeOnPageBetweenDate(DatePeriod $filterData, int $websiteId): Collection;
+    public function getChartAvgTimeOnPageBetweenDate(DatePeriod $filterData, int $interval, int $websiteId): Collection;
 }

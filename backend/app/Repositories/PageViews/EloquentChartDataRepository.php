@@ -13,8 +13,26 @@ use Illuminate\Support\Collection;
 
 class EloquentChartDataRepository implements ChartDataRepository
 {
+    private function toTimestamp(string $columnName): string
+    {
+        return "extract(epoch FROM $columnName)";
+    }
+
+    private function toInteger(string $expression): string
+    {
+        return "(CAST ($expression AS INTEGER))";
+    }
+
+    private function roundDate(string $columnName,  float $period): string
+    {
+        return
+            $this->toTimestamp($columnName) .
+            " - MOD(" . $this->toInteger($this->toTimestamp($columnName)) . " , " . $period . ")";
+    }
+
+
     public function getChartAvgTimeOnPageBetweenDate(
-        DatePeriod $filterData, int $websiteId): Collection
+        DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
         $bindings = [
             $websiteId,
@@ -22,31 +40,27 @@ class EloquentChartDataRepository implements ChartDataRepository
             $filterData->getEndDate()
         ];
 
-        $sessionsAndVisitsSubQuery = '(SELECT s.id, v.visit_time, s.start_session
+        $sessionsAndVisitsSubQuery = "(SELECT s.id, v.visit_time, s.start_session,
+                                        (" . $this->roundDate('v.visit_time', $interval) . " ) as period
                                         FROM sessions s
                                         JOIN visits v ON v.session_id = s.id
                                         JOIN websites w ON w.id = s.website_id
                                         WHERE s.website_id = ?
                                               AND
                                               v.visit_time BETWEEN ? AND ?
-                                      ) AS p';
+                                      ) AS p";
 
-        $avgVisitTimeColumn = 'EXTRACT(EPOCH FROM (MAX(p.visit_time) - MIN(p.visit_time))) / COUNT(p.id) as avg_by_session';
+        $avgVisitTimeColumn = 'EXTRACT(EPOCH FROM (MAX(p.visit_time) - MIN(p.visit_time))) / COUNT(p.id) as avg_time';
 
-        $visitDayColumn = "date_trunc('day', p.visit_time)";
 
-        $visitsGrpoupedBySessionAndVisitDaySubQuery = "(SELECT p.id, $visitDayColumn as visit_day, $avgVisitTimeColumn
-                                            FROM $sessionsAndVisitsSubQuery
-                                            GROUP BY $visitDayColumn, p.id) AS chart";
-
-        $sql = "SELECT chart.visit_day, AVG(chart.avg_by_session) as avg_time
-                              FROM $visitsGrpoupedBySessionAndVisitDaySubQuery
-                              GROUP BY chart.visit_day";
+        $sql = "SELECT $avgVisitTimeColumn , p.period
+                              FROM $sessionsAndVisitsSubQuery
+                              GROUP BY p.period";
 
         $chartData = DB::select($sql, $bindings);
 
         return collect($chartData)->map(function($item) {
-            return new ChartValue($item->visit_day, $item->avg_time);
+            return new ChartValue($item->period, $item->avg_time);
         });
     }
 }

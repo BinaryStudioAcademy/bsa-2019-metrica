@@ -123,13 +123,13 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/count', 'VisitController@getPageViewsCountForFilterData');
             Route::get('/unique', 'VisitController@getUniquePageViewsButton');
-            Route::get('avg-time', 'VisitController@getPageViewsAvgTimeForFilterData');
+            Route::get('/avg-time', 'VisitController@getPageViewsAvgTimeForFilterData');
         });
 
         Route::group([
             'prefix' => 'chart-page-views'
         ], function () {
-            Route::get('avg-time', 'VisitController@getPageViewsChartAvgTimeForFilterData');
+            Route::get('/avg-time', 'VisitController@getPageViewsChartAvgTimeForFilterData');
         });
 
 

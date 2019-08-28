@@ -42,21 +42,34 @@ class GetPageViewsChartAvgTimeByDateRangeTest extends TestCase
         $requestData = [
             'startDate' => $this->fromTimeStamp,
             'endDate' => $this->toTimeStamp,
+            'period' => 21600
         ];
 
         $queryString = '?filter[startDate]='.$requestData['startDate'].
                          '&filter[endDate]='.$requestData['endDate'].
-                         '&filter[parameter]=';
+                         '&filter[period]='.$requestData['period'];
 
         $expected = [
             'data' => [
                 [
-                    "date"  =>  "2019-08-21 00:00:00",
-                    "value" =>  3750
+                    "date" => "1566345600",
+                    "value" => "2700"
                 ],
                 [
-                    "date"  =>  "2019-08-22 00:00:00",
-                    "value" =>  6000
+                    "date" => "1566388800",
+                    "value" => "3600"
+                ],
+                [
+                    "date" => "1566410400",
+                    "value" => "0"
+                ],
+                [
+                    "date" => "1566432000",
+                    "value" => "4800"
+                ],
+                [
+                    "date" => "1566453600",
+                    "value" => "4800"
                 ]
             ],
             'meta' => []
