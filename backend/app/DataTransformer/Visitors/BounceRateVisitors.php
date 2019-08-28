@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\DataTransformer\Visitors;
 
-use App\Contracts;
 use App\DataTransformer\Traits\TableValueTrait;
 
-final class BounceRateVisitors implements Contracts\VisitorsBounceRateByParameter
+final class BounceRateVisitors
 {
     use TableValueTrait;
 

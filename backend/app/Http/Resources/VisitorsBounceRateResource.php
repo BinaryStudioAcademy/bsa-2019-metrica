@@ -7,7 +7,7 @@ namespace App\Http\Resources;
 use App\Contracts\ApiResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
-use App\Contracts\VisitorsBounceRateByParameter;
+use App\DataTransformer\Visitors\BounceRateVisitors;
 
 final class VisitorsBounceRateResource extends ResourceCollection implements ApiResponse
 {
@@ -16,7 +16,7 @@ final class VisitorsBounceRateResource extends ResourceCollection implements Api
         return $this->presentCollection($this->collection);
     }
 
-    public function present(VisitorsBounceRateByParameter $table): array
+    public function present(BounceRateVisitors $table): array
     {
         return [
             'parameter' => $table->parameter(),
@@ -29,7 +29,7 @@ final class VisitorsBounceRateResource extends ResourceCollection implements Api
     {
         return $collection
             ->map(
-                function (VisitorsBounceRateByParameter $table) {
+                function (BounceRateVisitors $table) {
                     return $this->present($table);
                 }
             )
