@@ -94,6 +94,7 @@
         AVERAGE_TIME,
         BOUNCE_RATE
     } from '../configs/page_views/buttonTypes.js';
+    import {getTimeByPeriod} from "../services/periodService";
 
     export default {
         components: {
@@ -190,6 +191,14 @@
                 return this.buttonsData[this.type];
             }
         },
+        created(){
+            let params = {
+                'activeButton':this.currentActiveButton,
+                'time':getTimeByPeriod(this.getSelectedPeriod),
+                'buttonTypes':Object.keys(this.buttonsData)
+            };
+            this.getButtonData(params);
+        },
         mounted() {
             for (let i = 1; i < 20; i++) {
                 const x = new Date(2019, 9, 5, i).toLocaleTimeString();
@@ -204,7 +213,8 @@
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                getButtonData:GET_BUTTON_DATA
             }),
             changeButton (data) {
                 this.changeActiveButton(data);
