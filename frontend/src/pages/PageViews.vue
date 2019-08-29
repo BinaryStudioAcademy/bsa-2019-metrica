@@ -1,5 +1,8 @@
 <template>
     <ContentLayout :title="title">
+        <Spinner
+            v-if="isFetching"
+        />
         <VLayout
             wrap
         />
@@ -64,7 +67,7 @@
                 class="img-card"
             >
                 <GroupedTable
-                    :items="tableData"
+                    :items="getTableData"
                 />
             </VFlex>
         </VLayout>
@@ -77,18 +80,22 @@
     import GroupedTable from "../components/dashboard/page_views/GroupedTable";
     import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
+    import Spinner from "@/components/utilites/Spinner";
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_BUTTON_DATA,
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
         GET_LINE_CHART_DATA,
-        GET_FORMAT_LINE_CHART_DATA
+        GET_FORMAT_LINE_CHART_DATA,
+        GET_PAGE_VIEWS_TABLE_DATA,
+        IS_FETCHING
     } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_SELECTED_PERIOD,
-        FETCH_PAGE_DATA
+        FETCH_PAGE_DATA,
+        FETCH_PAGE_VIEWS_TABLE_DATA
     } from "@/store/modules/page_views/types/actions";
     import {
         PAGE_VIEWS,
@@ -103,54 +110,13 @@
             GroupedTable,
             ButtonComponent,
             PeriodDropdown,
-            ContentLayout
+            ContentLayout,
+            Spinner
         },
         data() {
             return {
                 data: [],
                 period: '',
-                items: [
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Login',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Contacts',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Home',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Sign in',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'About',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    }
-                ],
                 buttons: [
                     {
                         icon: 'person',
@@ -179,15 +145,14 @@
             title() {
                 return this.$route.meta.title;
             },
-            tableData() {
-                return this.items;
-            },
             ...mapGetters('page_views', {
                 buttonsData: GET_BUTTON_DATA,
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
-                formatLineChartData:GET_FORMAT_LINE_CHART_DATA
+                formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
+                getTableData: GET_PAGE_VIEWS_TABLE_DATA,
+                isFetching: IS_FETCHING
             }),
             buttonData() {
                 return this.buttonsData[this.type];
@@ -195,12 +160,14 @@
         },
         created() {
             this.fetchPageData();
+            this.fetchTableData();
         },
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA
+                fetchTableData: FETCH_PAGE_VIEWS_TABLE_DATA,
             }),
             changeButton(data) {
                 this.changeActiveButton(data);

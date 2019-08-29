@@ -5,12 +5,12 @@ import {
     FETCH_PAGE_DATA,
     FETCH_BUTTONS_DATA,
     FETCH_CHART_DATA,
-    FETCH_BUTTON_DATA
+    FETCH_BUTTON_DATA,
+    FETCH_PAGE_VIEWS_TABLE_DATA
 } from "./types/actions";
 
 import {getTimeByPeriod} from "@/services/periodService";
-
-
+import {fetchTableValues} from '@/api/page_views/tablePageViewsService';
 import {factoryPageViewsService} from "../../../api/page_views/factoryPageViewsService";
 
 import {
@@ -19,13 +19,19 @@ import {
     RESET_BUTTON_FETCHING,
     SET_BUTTON_FETCHING,
     SET_BUTTON_VALUE,
-    SET_CHART_VALUES, SET_CHART_FETCHING, RESET_CHART_FETCHING
+    SET_CHART_VALUES,
+    SET_CHART_FETCHING,
+    RESET_CHART_FETCHING,
+    SET_IS_FETCHING,
+    RESET_IS_FETCHING,
+    SET_PAGE_VIEWS_TABLE_DATA
 } from "./types/mutations";
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
         context.commit(SET_SELECTED_PERIOD, payload.value);
         context.dispatch(FETCH_PAGE_DATA);
+        context.dispatch(FETCH_PAGE_VIEWS_TABLE_DATA);
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
@@ -87,5 +93,15 @@ export default {
         ).catch(error => {
             throw  error;
         }).finally(() => context.commit(RESET_CHART_FETCHING));
+    },
+
+    [FETCH_PAGE_VIEWS_TABLE_DATA]: (context) => {
+        context.commit(SET_IS_FETCHING);
+
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+
+        return fetchTableValues(period.startDate.unix(), period.endDate.unix())
+            .then(response => context.commit(SET_PAGE_VIEWS_TABLE_DATA, response))
+            .finally(() => context.commit(RESET_IS_FETCHING));
     }
 };
