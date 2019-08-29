@@ -12,10 +12,11 @@ const chartTransformer = (item) => {
 
 const tableTransformer = (item) => {
     return {
-        'parameter': item.parameter,
-        'parameter_value': item.parameter_value,
-        'total': item.total,
-        'percentage': item.percentage
+        'page_url': item.page_url,
+        'page_title': item.page_title,
+        'count_page_views': item.count_page_views,
+        'bounce_rate': item.bounce_rate,
+        'exit_rate': item.exit_rate
     };
 };
 export {

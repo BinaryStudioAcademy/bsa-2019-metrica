@@ -21,19 +21,14 @@
         />
     </VContainer>
 </template>
-
 <script>
     import { GChart } from 'vue-google-charts';
     import Spinner from '../utilites/Spinner';
-    import { period } from '@/services/periodService';
-    import moment from 'moment';
-
     export default {
         components: {
             GChart,
             Spinner,
         },
-
         props: {
             data: {
                 type: Array,
@@ -43,9 +38,7 @@
                 type: Boolean,
                 required: true,
             },
-            interval: { type: String, required: true }
         },
-
         data() {
             return {
                 chartOptions: {
@@ -105,24 +98,20 @@
                 },
             };
         },
-
         computed: {
             chartData(){
                 if (!this.data.length) {
                     return [];
                 }
-
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
                 const pointStyle = 'point { stroke-color: #3C57DE; size: 5; shape-type: circle; fill-color: #FFFFFF; }';
-                let tmpData = this.data.map( element => {
-                    let date = this.transformDate(element.date);
-                    return  [date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)];
+                let tmpData = this.data.map( element  => {
+                    return  [element.date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)];
                 });
                 tmpData.unshift([{type: 'string', name: 'date'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
                 return tmpData;
             }
         },
-
         methods: {
             tooltip(element) {
                 return `<div class='custom-google-line-chart-tooltip white--text'>
@@ -130,31 +119,17 @@
                         ${element.value}
                     </div>
                     <div class='tooltip-second'>
-                        ${this.tooltipDate(element.date)}
+                        ${element.date}
                     </div>
                 </div>`;
             },
-            tooltipDate(date) {
-                return this.transformDate(date);
-            },
-            transformDate(date){
-                switch(this.interval) {
-                case period.PERIOD_TODAY:
-                case period.PERIOD_YESTERDAY:
-                    return moment.unix(date).format("HH:mm");
-                default:
-                    return moment.unix(date).format("MM/DD/YYYY");
-                }
-            }
         }
     };
 </script>
-
 <style lang="scss" scoped>
     ::v-deep svg path {
         fill: none;
     }
-
     ::v-deep div.google-visualization-tooltip {
         margin-left: -100px;
         font-family: Gilroy;
@@ -163,7 +138,6 @@
         letter-spacing: 0.533333px;
         border: 0;
         border-radius: 6px;
-
         .custom-google-line-chart-tooltip {
             box-sizing: border-box;
             border-radius: 6px;
@@ -172,7 +146,6 @@
             display: flex;
             align-items: center;
             background: #3C57DE;
-
             .tooltip-first {
                 flex: 1;
                 height: 100%;
@@ -181,7 +154,6 @@
                 justify-content: center;
                 border-radius: 6px 0 0 6px;
             }
-
             .tooltip-second {
                 text-align: center;
                 padding: 0 8px;
