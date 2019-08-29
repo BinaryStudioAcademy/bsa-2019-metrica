@@ -26,6 +26,7 @@
         </VListItem>
     </VContainer>
 </template>
+
 <script>
     export default {
         props: {
@@ -43,11 +44,23 @@
                 if (!this.dataItems.length) {
                     return [];
                 }
+
+                if(this.displayedParameter === 'bounce_rate') {
+                    return this.dataItems.map((item) => {
+                        return {
+                            country: item.country,
+                            percentage: Math.round(Number(item[this.displayedParameter])*100)
+                        };
+                    });
+                }
+
                 let totalSum = 0;
 
                 this.dataItems.forEach(item => {
                     totalSum += Number(item[this.displayedParameter]) || 0;
                 });
+
+                totalSum = totalSum === 0 ? 1: totalSum;
 
                 return this.dataItems.map((item) => {
                     return {

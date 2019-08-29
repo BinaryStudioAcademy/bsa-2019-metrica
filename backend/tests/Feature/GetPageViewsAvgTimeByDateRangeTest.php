@@ -45,12 +45,11 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
         ];
 
         $queryString = '?filter[startDate]='.$requestData['startDate'].
-                         '&filter[endDate]='.$requestData['endDate'].
-                         '&filter[parameter]=';
+                         '&filter[endDate]='.$requestData['endDate'];
 
         $expected = [
             'data' => [
-                'value' => '4500'
+                'value' => 4500
             ],
             'meta' => []
         ];
