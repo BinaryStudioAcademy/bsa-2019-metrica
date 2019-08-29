@@ -23,7 +23,7 @@ export default {
         const endDate = period.endDate;
 
         context.commit(SET_DATA_FETCHING);
-        return fetchDevicesAndSystemsData(startDate.unix(), endDate())
+        return fetchDevicesAndSystemsData(startDate.unix(), endDate.unix())
             .then(response => {
                 context.commit(SET_WIDGET_DATA, response);
             })

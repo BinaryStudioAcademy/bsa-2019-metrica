@@ -9,7 +9,7 @@ const fetchDevicesAndSystemsData = (startDate, endDate) => {
     return requestService.get(resourceUrl + '/widget/devices', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
-    }).then(response => devicesAndSystemsTransformer(response.data))
+    }).then(response => devicesAndSystemsTransformer(response.data.devices))
         .catch(error => Promise.reject(
             new Error(
                 _.get(
