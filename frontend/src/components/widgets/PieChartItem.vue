@@ -59,10 +59,13 @@
                     tooltip: {
                         trigger: 'hover'
                     },
-                    slices: Object.assign({}, this.data.map(item => {
-                        return { color: item.color };
-                    }))
+                    slices: this.slices
                 };
+            },
+            slices() {
+                return this.data.map(item => {
+                    return { color: item.color };
+                });
             },
             chartData() {
                 let data =
