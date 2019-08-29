@@ -25,6 +25,7 @@ import {
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
         context.commit(SET_SELECTED_PERIOD, payload.value);
+        context.dispatch(FETCH_PAGE_DATA);
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
@@ -40,6 +41,7 @@ export default {
         }
     },
     [FETCH_PAGE_DATA]: (context) => {
+        alert(context.state.selectedPeriod);
         const time = getTimeByPeriod(context.state.selectedPeriod);
         context.dispatch(FETCH_BUTTONS_DATA, time);
         context.dispatch(FETCH_CHART_DATA, time);
