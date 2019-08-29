@@ -1,4 +1,10 @@
-import {SET_SELECTED_PERIOD, SET_ACTIVE_BUTTON, SET_BUTTON_FETCHING, RESET_BUTTON_FETCHING} from "./types/mutations";
+import {
+    SET_SELECTED_PERIOD,
+    SET_ACTIVE_BUTTON,
+    SET_BUTTON_FETCHING,
+    RESET_BUTTON_FETCHING,
+    SET_BUTTON_VALUE, SET_CHART_VALUES
+} from "./types/mutations";
 
 export default {
     [SET_SELECTED_PERIOD]: (state, period) => {
@@ -13,4 +19,10 @@ export default {
     [RESET_BUTTON_FETCHING]: (state, button) => {
         state.buttonData[button].isFetching = false;
     },
+    [SET_BUTTON_VALUE]: (state, payload) => {
+        state.buttonData[payload.buttonType].value = payload.value;
+    },
+    [SET_CHART_VALUES]: (state, items) => {
+        state.chartData.items = items;
+    }
 };

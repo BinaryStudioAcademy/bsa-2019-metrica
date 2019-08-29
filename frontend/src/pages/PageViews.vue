@@ -22,6 +22,7 @@
                         <LineChart
                             :data="data"
                             :is-fetching="chartData.isFetching"
+                            :interval="getSelectedPeriod"
                         />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
@@ -175,10 +176,10 @@
             };
         },
         computed: {
-            title () {
+            title() {
                 return this.$route.meta.title;
             },
-            tableData () {
+            tableData() {
                 return this.items;
             },
             ...mapGetters('page_views', {
@@ -187,36 +188,28 @@
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
             }),
-            buttonData () {
+            buttonData() {
                 return this.buttonsData[this.type];
             }
         },
-        created(){
+        created() {
             let params = {
-                'activeButton':this.currentActiveButton,
-                'time':getTimeByPeriod(this.getSelectedPeriod),
-                'buttonTypes':Object.keys(this.buttonsData)
+                activeButton: this.currentActiveButton,
+                interval: this.getSelectedPeriod,
+                time: getTimeByPeriod(this.getSelectedPeriod),
+                buttonTypes: Object.keys(this.buttonsData)
             };
-            this.getButtonData(params);
-        },
-        mounted() {
-            for (let i = 1; i < 20; i++) {
-                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
-                const item = {
-                    xLabel: x,
-                    value: Math.floor(Math.random() * 2000) + 1,
-                    indication: Math.floor(Math.random() * 200) + 1,
-                };
-                this.data.push(item);
-            }
+            this.getButtonData(params).then(response => {
+                this.data = response;
+            });
         },
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
-                getButtonData:GET_BUTTON_DATA
+                getButtonData: GET_BUTTON_DATA
             }),
-            changeButton (data) {
+            changeButton(data) {
                 this.changeActiveButton(data);
             },
             changePeriod(data) {
@@ -233,6 +226,7 @@
     .buttons-row {
         margin-top: 50px;
     }
+
     .chart-container {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
     }

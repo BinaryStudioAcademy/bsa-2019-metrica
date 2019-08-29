@@ -7,7 +7,14 @@ import {
 
 import {factoryPageViewsService} from "../../../api/page_views/factoryPageViewsService";
 
-import {SET_SELECTED_PERIOD, SET_ACTIVE_BUTTON, RESET_BUTTON_FETCHING, SET_BUTTON_FETCHING} from "./types/mutations";
+import {
+    SET_SELECTED_PERIOD,
+    SET_ACTIVE_BUTTON,
+    RESET_BUTTON_FETCHING,
+    SET_BUTTON_FETCHING,
+    SET_BUTTON_VALUE,
+    SET_CHART_VALUES
+} from "./types/mutations";
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -25,11 +32,27 @@ export default {
         }
     },
     [GET_BUTTON_DATA]: (context, data) => {
-        //1. фетчим дял всех кнопок
         data.buttonTypes.map((type) => {
-            alert(type);
-                factoryPageViewsService.create(type).fetchButtonValue();
+            factoryPageViewsService.create(type).fetchButtonValue(
+                data.time.startDate.unix(),
+                data.time.endDate.unix()
+            ).then(response => {
+                let payload = {
+                    buttonType: type,
+                    value: response.value
+                };
+                context.commit(SET_BUTTON_VALUE, payload);
+            });
         });
 
+        return factoryPageViewsService.create(data.activeButton).fetchChartValues(
+            data.time.startDate.unix(),
+            data.time.endDate.unix(),
+            data.time.interval
+        ).then(response => {
+                context.commit(SET_CHART_VALUES, response);
+                return response;
+            }
+        );
     }
 };
