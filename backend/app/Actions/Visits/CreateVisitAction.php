@@ -172,6 +172,8 @@ final class CreateVisitAction
             return $session;
         }
 
+        $websiteId = $this->pageRepository->getById($pageId)->website_id;
+
         $session = new Session();
 
         $session->start_session = Carbon::now();
@@ -180,6 +182,7 @@ final class CreateVisitAction
         $session->entrance_page_id = $pageId;
         $session->language = $language;
         $session->system_id = $systemId;
+        $session->website_id = $websiteId;
 
         return $this->sessionRepository->save($session);
     }
