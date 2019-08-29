@@ -21,7 +21,6 @@
         />
     </VContainer>
 </template>
-
 <script>
     import { GChart } from 'vue-google-charts';
     import Spinner from '../utilites/Spinner';
@@ -31,7 +30,6 @@
             GChart,
             Spinner,
         },
-
         props: {
             data: {
                 type: Array,
@@ -42,7 +40,6 @@
                 required: true,
             },
         },
-
         data() {
             return {
                 chartOptions: {
@@ -102,13 +99,11 @@
                 },
             };
         },
-
         computed: {
             chartData(){
                 if (!this.data.length) {
                     return [];
                 }
-
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
                 const pointStyle = 'point { stroke-color: #3C57DE; size: 5; shape-type: circle; fill-color: #FFFFFF; }';
                 let tmpData = this.data.map( element  => {
@@ -118,7 +113,6 @@
                 return tmpData;
             }
         },
-
         methods: {
             tooltip(element) {
                 return `<div class='custom-google-line-chart-tooltip white--text'>
@@ -133,12 +127,10 @@
         }
     };
 </script>
-
 <style lang="scss" scoped>
     ::v-deep svg path {
         fill: none;
     }
-
     ::v-deep div.google-visualization-tooltip {
         margin-left: -100px;
         font-family: Gilroy;
@@ -147,7 +139,6 @@
         letter-spacing: 0.533333px;
         border: 0;
         border-radius: 6px;
-
         .custom-google-line-chart-tooltip {
             box-sizing: border-box;
             border-radius: 6px;
@@ -156,7 +147,6 @@
             display: flex;
             align-items: center;
             background: #3C57DE;
-
             .tooltip-first {
                 flex: 1;
                 height: 100%;
@@ -165,7 +155,6 @@
                 justify-content: center;
                 border-radius: 6px 0 0 6px;
             }
-
             .tooltip-second {
                 text-align: center;
                 padding: 0 8px;
