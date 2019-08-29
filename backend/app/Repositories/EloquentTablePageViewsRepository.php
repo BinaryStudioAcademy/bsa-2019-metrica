@@ -6,10 +6,12 @@ namespace App\Repositories;
 
 use App\Repositories\Contracts\TablePageViewsRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use App\DataTransformer\Visits\PageViewsItem;
 
 final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 {
-    public function getCountPageViewsByPage(string $from, string $to, int $websiteId): array
+    private function getCountPageViewsByPage(string $from, string $to, int $websiteId): array
     {
         $subQueryFirst = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQuerySecond = "SELECT id FROM pages WHERE website_id = :website_id";
@@ -26,7 +28,7 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
         return array_column($response, 'count', 'page_id');
     }
 
-    public function getCountBounceRateByPage(string $from, string $to, int $websiteId): array
+    private function getCountBounceRateByPage(string $from, string $to, int $websiteId): array
     {
         $subQueryFirst = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQuerySecond = "SELECT id FROM pages WHERE website_id = :website_id";
@@ -45,7 +47,7 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
         return array_column($response, 'count', 'page_id');
     }
 
-    public function getCountExitRateByPage(string $from, string $to, int $websiteId): array
+    private function getCountExitRateByPage(string $from, string $to, int $websiteId): array
     {
         $subQueryFirst = '(SELECT MAX(v.visit_time), v.page_id, v.session_id
                             FROM visits AS v
@@ -63,7 +65,7 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
         return array_column($response, 'count', 'page_id');
     }
 
-    public function getPageNamesAndTitles(string $from, string $to, int $websiteId): array
+    private function getPageNamesAndTitles(string $from, string $to, int $websiteId): array
     {
 
         $subQueryFirst = "(SELECT v.*, s.start_session, p.*
@@ -92,4 +94,27 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 
         return $response;
     }
+
+
+    public function getPageViewsTableData(string $from, string $to, int $websiteId): Collection
+    {
+        $allViews = $this->getCountPageViewsByPage($from, $to, $websiteId);
+        $bounced = $this->getCountBounceRateByPage($from, $to, $websiteId);
+        $exitRates = $this->getCountExitRateByPage($from, $to, $websiteId);
+        $namesAndtitles = $this->getPageNamesAndTitles($from, $to, $websiteId);
+
+        $tableData = new Collection();
+        foreach ($allViews as $pageId => $totalViews) {
+            $tableData->add(new PageViewsItem(
+                $namesAndtitles[$pageId]['url'],
+                $namesAndtitles[$pageId]['title'],
+                $totalViews,
+                array_key_exists($pageId, $bounced) ? (int)($bounced[$pageId]/$totalViews*100) : 0,
+                array_key_exists($pageId, $exitRates) ? (int)$exitRates[$pageId] : 0
+            ));
+        }
+
+        return $tableData;
+    }
+
 }
