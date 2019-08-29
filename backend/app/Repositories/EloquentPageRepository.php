@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Entities\Page;
 use App\Repositories\Contracts\PageRepository;
+use App\Exceptions\PageNotFoundException;
 
 final class EloquentPageRepository implements PageRepository
 {
@@ -22,5 +23,14 @@ final class EloquentPageRepository implements PageRepository
     {
         $page->save();
         return $page;
+    }
+
+    public function getById(int $id): Page
+    {
+        try {
+            return Page::find($id);
+        } catch (\Exception $e) {
+            throw new PageNotFoundException;
+        }
     }
 }
