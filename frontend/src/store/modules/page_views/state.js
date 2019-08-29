@@ -4,9 +4,10 @@ import {
     AVERAGE_TIME,
     BOUNCE_RATE
 } from '../../../configs/page_views/buttonTypes.js';
+import {period} from "@/services/periodService";
 
 export default {
-    selectedPeriod: 'last_week',
+    selectedPeriod: period.PERIOD_LAST_WEEK,
     buttonData: {
         [PAGE_VIEWS]: {
             value: 0,
@@ -30,4 +31,8 @@ export default {
         items: [],
         isFetching: false
     },
+    pageViewsTableData: {
+        items: [],
+        isFetching: true
+    }
 };
