@@ -37,7 +37,6 @@ final class GetPageViewsItemsAction
                 0
             ));
         }
-//        (int)(($item === 0 || !array_key_exists($key, $bounced)) ? 0 : ($bounced[$key]/$item*100))
 
         return new GetPageViewsItemsResponse($collection);
     }

@@ -212,11 +212,11 @@ class VisitsApiTest extends TestCase
         $startDate = new DateTime('2019-08-20 06:00:00');
         $endDate = new DateTime('2019-08-20 07:30:00');
 
-        factory(Page::class)->create(['id' => 1]);
-        factory(Page::class)->create(['id' => 2]);
-        factory(Page::class)->create(['id' => 3]);
-        factory(Page::class)->create(['id' => 4]);
-        factory(Page::class)->create(['id' => 5]);
+        factory(Page::class)->create(['id' => 11]);
+        factory(Page::class)->create(['id' => 12]);
+        factory(Page::class)->create(['id' => 13]);
+        factory(Page::class)->create(['id' => 14]);
+        factory(Page::class)->create(['id' => 15]);
 
         $filterData = [
             'filter' => [
@@ -226,25 +226,25 @@ class VisitsApiTest extends TestCase
             ]
         ];
 
-        $this->createVisitWithSessions(new DateTime('2019-08-20 05:30:00'), 2, 4);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:00:00'), 1, 2);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:20:00'), 1, 5);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 1, 2);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 2, 1);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 07:00:00'), 1, 4);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 07:20:00'), 1, 1);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 07:30:00'), 1, 3);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 08:00:00'), 3, 5);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 05:30:00'), 2, 14);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:00:00'), 1, 12);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:20:00'), 1, 15);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 1, 12);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 2, 11);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:00:00'), 1, 14);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:20:00'), 1, 11);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:30:00'), 1, 13);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 08:00:00'), 3, 15);
 
         $expectedData = [
             'data' => [
                 [
                     'date' => (string) $startDate->getTimestamp(),
-                    'value' => "0.5",
+                    'value' => "50",
                 ],
                 [
                     'date' => (string) ($startDate->getTimestamp() + 3600),
-                    'value' => "1",
+                    'value' => "100",
                 ]
             ],
             'meta' => [],
