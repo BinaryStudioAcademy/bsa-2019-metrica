@@ -20,9 +20,8 @@
                         class="chart-container"
                     >
                         <LineChart
-                            :data="getFormatLineChartData"
+                            :data="formatLineChartData"
                             :is-fetching="chartData.isFetching"
-                            :interval="getSelectedPeriod"
                         />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
@@ -88,7 +87,8 @@
     } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
-        CHANGE_SELECTED_PERIOD
+        CHANGE_SELECTED_PERIOD,
+        FETCH_PAGE_DATA
     } from "@/store/modules/page_views/types/actions";
     import {
         PAGE_VIEWS,
@@ -188,7 +188,7 @@
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
-                getFormatLineChartData:GET_FORMAT_LINE_CHART_DATA
+                formatLineChartData:GET_FORMAT_LINE_CHART_DATA
             }),
             buttonData() {
                 return this.buttonsData[this.type];
@@ -201,13 +201,13 @@
                 time: getTimeByPeriod(this.getSelectedPeriod),
                 buttonTypes: Object.keys(this.buttonsData)
             };
-            this.getButtonData(params);
+            this.fetchPageData(params);
         },
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
-                getButtonData: GET_BUTTON_DATA
+                fetchPageData: FETCH_PAGE_DATA
             }),
             changeButton(data) {
                 this.changeActiveButton(data);

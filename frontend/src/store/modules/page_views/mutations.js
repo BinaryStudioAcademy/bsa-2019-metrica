@@ -3,7 +3,10 @@ import {
     SET_ACTIVE_BUTTON,
     SET_BUTTON_FETCHING,
     RESET_BUTTON_FETCHING,
-    SET_BUTTON_VALUE, SET_CHART_VALUES
+    SET_BUTTON_VALUE,
+    SET_CHART_VALUES,
+    SET_CHART_FETCHING,
+    RESET_CHART_FETCHING
 } from "./types/mutations";
 
 export default {
@@ -24,5 +27,11 @@ export default {
     },
     [SET_CHART_VALUES]: (state, items) => {
         state.chartData.items = items;
+    },
+    [SET_CHART_FETCHING]: (state) => {
+        state.chartData.isFetching = true;
+    },
+    [RESET_CHART_FETCHING]: (state) => {
+        state.chartData.isFetching = false;
     }
 };

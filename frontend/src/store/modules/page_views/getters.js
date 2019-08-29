@@ -2,7 +2,8 @@ import {
     GET_SELECTED_PERIOD,
     GET_BUTTON_DATA,
     GET_ACTIVE_BUTTON,
-    GET_LINE_CHART_DATA, GET_FORMAT_LINE_CHART_DATA
+    GET_LINE_CHART_DATA,
+    GET_FORMAT_LINE_CHART_DATA
 } from "./types/getters";
 
 import {period} from '@/services/periodService';
@@ -14,7 +15,7 @@ export default {
     [GET_ACTIVE_BUTTON]: (state) => state.activeButton,
     [GET_LINE_CHART_DATA]: (state) => state.chartData,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
-        let interval = state.selectedPeriod;
+        const interval = state.selectedPeriod;
         switch (interval) {
             case period.PERIOD_TODAY:
             case period.PERIOD_YESTERDAY:

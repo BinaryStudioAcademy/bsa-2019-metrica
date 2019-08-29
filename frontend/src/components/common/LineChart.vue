@@ -41,7 +41,6 @@
                 type: Boolean,
                 required: true,
             },
-            interval: { type: String, required: true }
         },
 
         data() {
