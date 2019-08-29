@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class ActiveUser  extends Notification implements ShouldQueue
+class ActiveUser extends Notification implements ShouldQueue
 {
     use Queueable;
 
