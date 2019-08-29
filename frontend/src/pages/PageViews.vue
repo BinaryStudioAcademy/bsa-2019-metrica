@@ -35,7 +35,7 @@
             </VFlex>
         </VLayout>
         <VRow
-            class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
+            class="buttons-row justify-sm-center justify-lg-center justify-xl-space-between "
         >
             <ButtonComponent
                 v-for="button in buttons"
