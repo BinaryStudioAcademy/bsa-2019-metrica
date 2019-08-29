@@ -114,9 +114,18 @@
 
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
                 const pointStyle = 'point { stroke-color: #3C57DE; size: 5; shape-type: circle; fill-color: #FFFFFF; }';
-                let tmpData = this.data.map( element =>
-                    [element.date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)]
-                );
+                let tmpData = this.data.map( element => {
+                    let date = undefined;
+                    switch(this.interval) {
+                    case period.PERIOD_TODAY:
+                    case period.PERIOD_YESTERDAY:
+                        date =  moment.unix(element.date).format("HH:mm");
+                        break;
+                    default:
+                        date =  moment.unix(element.date).format("MM/DD/YYYY");
+                    }
+                    return  [date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)];
+                });
                 tmpData.unshift([{type: 'string', name: 'date'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
                 return tmpData;
             }
@@ -134,13 +143,13 @@
                 </div>`;
             },
             tooltipDate(date) {
-                let d = moment(date, "DD/MM/YYYY H:mm:ss");
                 switch(this.interval) {
                 case period.PERIOD_TODAY:
                 case period.PERIOD_YESTERDAY:
-                    return d.format('HH:mm');
+                    return moment.unix(date).format("HH:mm");
+                default:
+                    return moment.unix(date).format("MM/DD/YYYY");
                 }
-                return d.format('DD/MM/YY');
             }
         }
     };
