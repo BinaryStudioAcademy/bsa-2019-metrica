@@ -1,7 +1,7 @@
 <template>
     <ContentLayout :title="title">
         <VRow>
-            <VCol>
+            <VCol class="pl-0 pr-2">
                 <Overview />
             </VCol>
             <VCol class="cl">

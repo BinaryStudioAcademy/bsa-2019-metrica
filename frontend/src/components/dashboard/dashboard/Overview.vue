@@ -6,10 +6,8 @@
             name="Visitors"
         />
         <LineChart
-            class="chart"
-            :data="chartData.items"
-            :interval="selectedPeriod"
-            :is-fetching="chartData.isFetching"
+            :data="chartData"
+            :is-fetching="isFetching"
         />
         <PeriodDropdown
             :value="selectedPeriod"
@@ -24,8 +22,9 @@
     import LineChart from "../../common/LineChart";
     import WidgetButtons from "./WidgetButtons";
     import {
-        GET_LINE_CHART_DATA,
-        GET_SELECTED_PERIOD
+        GET_FORMAT_LINE_CHART_DATA,
+        GET_SELECTED_PERIOD,
+        GET_LINE_CHART_FETCHING
     } from "@/store/modules/dashboard/types/getters";
     import {
         CHANGE_SELECTED_PERIOD,
@@ -35,7 +34,8 @@
         components: { WidgetButtons, LineChart, PeriodDropdown },
         computed: {
             ...mapGetters('dashboard', {
-                chartData: GET_LINE_CHART_DATA,
+                chartData: GET_FORMAT_LINE_CHART_DATA,
+                isFetching: GET_LINE_CHART_FETCHING,
                 selectedPeriod: GET_SELECTED_PERIOD,
             }),
         },
@@ -58,7 +58,6 @@
         border-radius: 6px;
     }
     .chart {
-        /*width: 90%;*/
         margin: 0;
     }
 </style>

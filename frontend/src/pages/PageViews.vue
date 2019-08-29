@@ -1,5 +1,8 @@
 <template>
     <ContentLayout :title="title">
+        <Spinner
+            v-if="isFetching"
+        />
         <VLayout
             wrap
         />
@@ -22,6 +25,7 @@
                         <LineChart
                             :data="data"
                             :is-fetching="chartData.isFetching"
+                            :interval="getSelectedPeriod"
                         />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
@@ -64,7 +68,7 @@
                 class="img-card"
             >
                 <GroupedTable
-                    :items="tableData"
+                    :items="getTableData"
                 />
             </VFlex>
         </VLayout>
@@ -77,16 +81,20 @@
     import GroupedTable from "../components/dashboard/page_views/GroupedTable";
     import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
+    import Spinner from "@/components/utilites/Spinner";
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_BUTTON_DATA,
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
-        GET_LINE_CHART_DATA
+        GET_LINE_CHART_DATA,
+        GET_PAGE_VIEWS_TABLE_DATA,
+        IS_FETCHING
     } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
-        CHANGE_SELECTED_PERIOD
+        CHANGE_SELECTED_PERIOD,
+        FETCH_PAGE_VIEWS_TABLE_DATA
     } from "@/store/modules/page_views/types/actions";
     import {
         PAGE_VIEWS,
@@ -94,6 +102,7 @@
         AVERAGE_TIME,
         BOUNCE_RATE
     } from '../configs/page_views/buttonTypes.js';
+    import moment from 'moment';
 
     export default {
         components: {
@@ -101,54 +110,13 @@
             GroupedTable,
             ButtonComponent,
             PeriodDropdown,
-            ContentLayout
+            ContentLayout,
+            Spinner
         },
         data() {
             return {
                 data: [],
                 period: '',
-                items: [
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Login',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Contacts',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Home',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'Sign in',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    },
-                    {
-                        page: 'www.figma.com/file/',
-                        title: 'About',
-                        bounce_rate: '56',
-                        exit_rate: '45',
-                        page_views: '125',
-                        avg_time: '00:00:30'
-                    }
-                ],
                 buttons: [
                     {
                         icon: 'person',
@@ -177,14 +145,13 @@
             title () {
                 return this.$route.meta.title;
             },
-            tableData () {
-                return this.items;
-            },
             ...mapGetters('page_views', {
                 buttonsData: GET_BUTTON_DATA,
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
+                getTableData: GET_PAGE_VIEWS_TABLE_DATA,
+                isFetching: IS_FETCHING
             }),
             buttonData () {
                 return this.buttonsData[this.type];
@@ -192,19 +159,23 @@
         },
         mounted() {
             for (let i = 1; i < 20; i++) {
-                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
+                const x = moment(`05/09/2019 ${i}:00:00`).unix();
                 const item = {
-                    xLabel: x,
+                    date: x,
                     value: Math.floor(Math.random() * 2000) + 1,
                     indication: Math.floor(Math.random() * 200) + 1,
                 };
                 this.data.push(item);
             }
         },
+        created() {
+            this.fetchTableData();
+        },
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchTableData: FETCH_PAGE_VIEWS_TABLE_DATA,
             }),
             changeButton (data) {
                 this.changeActiveButton(data);

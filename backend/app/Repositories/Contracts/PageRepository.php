@@ -9,4 +9,6 @@ interface PageRepository
     public function getByParameters(int $websiteId, string $pageTitle, string $pageUrl): ?Page;
 
     public function save(Page $page): Page;
+
+    public function getById(int $id): Page;
 }
