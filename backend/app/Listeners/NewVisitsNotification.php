@@ -8,7 +8,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewVisitsNotification
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
-    public function handle(VisitCreated $event) {}
+    public function handle(VisitCreated $event)
+    {
+    }
 }

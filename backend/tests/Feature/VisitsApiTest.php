@@ -346,7 +346,7 @@ class VisitsApiTest extends TestCase
 
         $visit = Visit::latest()->first();
 
-        Event::assertDispatched(VisitCreated::class, function ($e) use($visit) {
+        Event::assertDispatched(VisitCreated::class, function ($e) use ($visit) {
             $broadcastData = $e->broadcastWith($visit);
             $this->assertContains($visit->page->url, $broadcastData["page"]);
             $this->assertEquals($visit->visitor_id, $broadcastData["visitor"]);
