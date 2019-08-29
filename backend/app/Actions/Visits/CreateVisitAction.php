@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Agent;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Events\Visits\VisitCreated;
 
 final class CreateVisitAction
 {
@@ -86,6 +87,8 @@ final class CreateVisitAction
         $visit->page_id = $page->id;
         $visit->visitor_id = $visitor->id;
         $visit->geo_position_id = $geoPosition->id;
+
+        VisitCreated::dispatch($visit);
 
         $this->visitRepository->save($visit);
     }

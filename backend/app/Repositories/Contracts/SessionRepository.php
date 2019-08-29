@@ -16,6 +16,8 @@ interface SessionRepository
 
     public function save(Session $session): Session;
 
+    public function getById(int $id): Session;
+
     public function countSessions(CountSessionsFilter $filter): int;
 
     public function getAvgSession(AverageSessionFilter $filter): Collection;

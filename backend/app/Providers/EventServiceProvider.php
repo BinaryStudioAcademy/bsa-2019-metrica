@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use App\Events\Visitors\VisitorCreated;
-use App\Listeners\Visitors\CreateVisitorAggregate;
+use App\Events\Visits\VisitCreated;
+use App\Listeners\Visits\CreateVisitAggregate;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,8 +15,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        VisitorCreated::class => [
-            CreateVisitorAggregate::class,
+        VisitCreated::class => [
+            CreateVisitAggregate::class,
         ]
     ];
 

@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Events\Visitors\VisitorCreated;
 
 final class EloquentVisitorRepository implements VisitorRepository
 {
@@ -31,8 +30,6 @@ final class EloquentVisitorRepository implements VisitorRepository
     public function save(Visitor $visitor): Visitor
     {
         $visitor->save();
-
-        VisitorCreated::dispatch($visitor);
 
         return $visitor;
     }

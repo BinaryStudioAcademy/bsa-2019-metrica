@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Visitors;
+namespace App\Events\Visits;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -9,16 +9,16 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Entities\Visitor;
+use App\Entities\Visit;
 
-class VisitorCreated
+class VisitCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $visitor;
+    public $visit;
 
-    public function __construct(Visitor $visitor)
+    public function __construct(Visit $visit)
     {
-        $this->visitor = $visitor;
+        $this->visit = $visit;
     }
 }

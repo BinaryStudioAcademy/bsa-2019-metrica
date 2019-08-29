@@ -78,4 +78,9 @@ final class EloquentSessionRepository implements SessionRepository
             ->groupBy('geo_positions.country')
             ->get();
     }
+
+    public function getById(int $id): Session
+    {
+        return Session::findOrFail($id);
+    }
 }

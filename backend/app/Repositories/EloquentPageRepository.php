@@ -23,4 +23,9 @@ final class EloquentPageRepository implements PageRepository
         $page->save();
         return $page;
     }
+
+    public function getById(int $id): Page
+    {
+        return Page::findOrFail($id);
+    }
 }
