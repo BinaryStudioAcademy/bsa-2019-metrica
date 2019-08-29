@@ -9,7 +9,7 @@ use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\System;
 use App\Entities\Visit;
-use App\Notifications\NewVisitsNotification;
+use App\Events\VisitCreated;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\SessionRepository;
@@ -91,8 +91,7 @@ final class CreateVisitAction
 
         $this->visitRepository->save($visit);
 
-        $user = $visit->visitor->website->user;
-        Notification::send($user, new NewVisitsNotification($visit));
+        VisitCreated::dispatch($visit);
     }
 
     private function getOrCreatePage(int $websiteId, string $pageTitle, string $pageUrl): Page

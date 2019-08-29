@@ -10,11 +10,11 @@ use App\Entities\User;
 use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Entities\Website;
-use App\Notifications\NewVisitsNotification;
+use App\Events\VisitCreated;
 use DateTime;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
@@ -273,7 +273,46 @@ class VisitsApiTest extends TestCase
 
     public function testCreateVisitAction()
     {
-        Notification::fake();
+        Event::fake();
+        $faker = Factory::create();
+        $language = $faker->languageCode;
+        $userAgent = $faker->userAgent;
+        $ip = $faker->ipv4;
+        $payload = JWTFactory::customClaims([
+            'sub' => env('API_ID'),
+            'visitor_id' => $this->visitor->id
+        ])->make();
+        $token = JWTAuth::encode($payload);
+
+        $data = [
+            'page' => $this->page->url,
+            'page_title' => $this->page->name,
+            'language' => $language,
+            'device' => $this->system->device,
+            'resolution_width' => $this->system->resolution_width,
+            'resolution_height' => $this->system->resolution_height
+        ];
+
+        $headers = [
+            'User-Agent' => $userAgent,
+            'REMOTE_ADDR' => $ip,
+            'X-Visitor' => 'Bearer ' . $token
+        ];
+
+        $url = 'api/v1/visits/';
+
+        $this->actingAs($this->user)
+            ->json('POST', $url, $data, $headers)
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('visits', [
+            'ip_address' => $ip
+        ]);
+    }
+
+    public function testSendNotificationVisitCreated()
+    {
+        Event::fake();
         $faker = Factory::create();
         $language = $faker->languageCode;
         $userAgent = $faker->userAgent;
@@ -306,18 +345,15 @@ class VisitsApiTest extends TestCase
             ->assertStatus(200);
 
         $visit = Visit::latest()->first();
-        $user = $this->user;
-        Notification::assertSentTo(
-            $this->user,
-            NewVisitsNotification::class,
-            function ($notification) use ($visit, $user) {
-                $broadcastData = $notification->toBroadcast($user)->data;
-                $this->assertContains($visit->page->url, $broadcastData["page"]);
-                $this->assertEquals($visit->visitor_id, $broadcastData["visitor"]);
-                $this->assertEquals($visit->created_at, $broadcastData["time_notification"]);
-                return $notification->visit->id === $visit->id;
-            }
-        );
+
+        Event::assertDispatched(VisitCreated::class, function ($e) use($visit) {
+            $broadcastData = $e->broadcastWith($visit);
+            $this->assertContains($visit->page->url, $broadcastData["page"]);
+            $this->assertEquals($visit->visitor_id, $broadcastData["visitor"]);
+            $this->assertEquals($visit->created_at, $broadcastData["time_notification"]);
+            return $e->visit->id === $visit->id;
+        });
+
         $this->assertDatabaseHas('visits', [
             'ip_address' => $ip
         ]);
