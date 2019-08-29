@@ -131,6 +131,7 @@
         width: 307px;
         font-size: 12px;
         padding: 43px 33px 32px 28px;
+        height: 394px;
 
         .card-top-row {
             height: 53px;
