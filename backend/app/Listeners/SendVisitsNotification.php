@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\VisitCreated;
+use App\Notification\ActiveUser;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -14,10 +15,6 @@ class SendVisitsNotification
 
     public function handle(VisitCreated $event)
     {
-        return [
-            'page' => $event->visit->page->url,
-            'visitor' => $event->visit->visitor_id,
-            'time_notification' => $event->visit->created_at,
-        ];
+        broadcast(new ActiveUser($event->visit));
     }
 }

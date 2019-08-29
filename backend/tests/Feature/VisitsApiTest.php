@@ -11,7 +11,6 @@ use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Entities\Website;
 use App\Events\VisitCreated;
-use App\Listeners\SendVisitsNotification;
 use DateTime;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -354,22 +353,5 @@ class VisitsApiTest extends TestCase
         $this->assertDatabaseHas('visits', [
             'ip_address' => $ip
         ]);
-    }
-
-    public function testReturnDataHandleListener()
-    {
-        Event::fake();
-
-        $visit = factory(Visit::class)->create();
-
-        $event = \Mockery::mock(VisitCreated::class);
-        $event->visit = $visit;
-
-        $listener = app()->make(SendVisitsNotification::class);
-
-        $returnListener = $listener->handle($event);
-        $this->assertContains($visit->page->url, $returnListener["page"]);
-        $this->assertEquals($visit->visitor_id, $returnListener["visitor"]);
-        $this->assertEquals($visit->created_at, $returnListener["time_notification"]);
     }
 }
