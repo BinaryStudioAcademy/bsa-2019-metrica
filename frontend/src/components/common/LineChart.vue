@@ -25,8 +25,6 @@
 <script>
     import { GChart } from 'vue-google-charts';
     import Spinner from '../utilites/Spinner';
-    import { period } from '@/services/periodService';
-    import moment from 'moment';
 
     export default {
         components: {
@@ -133,15 +131,6 @@
                     </div>
                 </div>`;
             },
-            tooltipDate(date) {
-                switch(this.interval) {
-                case period.PERIOD_TODAY:
-                case period.PERIOD_YESTERDAY:
-                    return moment.unix(date).format("HH:mm");
-                default:
-                    return moment.unix(date).format("MM/DD/YYYY");
-                }
-            }
         }
     };
 </script>
