@@ -139,7 +139,7 @@ export default {
             });
     },
     [FETCH_BUTTONS_DATA]: (context) => {
-        Object.keys(context.state.buttonData).map((type) => {
+        Object.keys(context.state.buttonData).forEach((type) => {
             context.dispatch(FETCH_BUTTON_DATA, type);
         });
     },

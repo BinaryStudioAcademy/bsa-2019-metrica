@@ -40,7 +40,7 @@
                 :title="button.title"
                 :active="isButtonActive(button.type)"
                 :fetching="buttonsData[button.type].isFetching"
-                :value="convertButtonValue(button.type)"
+                :value="getButtonValue(button.type)"
                 :type="button.type"
                 :icon-name="button.icon"
                 @change="changeButton"
@@ -204,7 +204,7 @@
             isButtonActive (type) {
                 return this.currentActiveButton === type;
             },
-            convertButtonValue (type) {
+            getButtonValue (type) {
                 if (type === 'avg_session') {
                     return moment.unix(this.buttonsData[type].value).format("HH:mm:ss");
                 }
