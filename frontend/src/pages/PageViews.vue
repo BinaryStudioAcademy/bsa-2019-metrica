@@ -20,7 +20,7 @@
                         class="chart-container"
                     >
                         <LineChart
-                            :data="data"
+                            :data="getFormatLineChartData"
                             :is-fetching="chartData.isFetching"
                             :interval="getSelectedPeriod"
                         />
@@ -83,7 +83,8 @@
         GET_BUTTON_DATA,
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
-        GET_LINE_CHART_DATA
+        GET_LINE_CHART_DATA,
+        GET_FORMAT_LINE_CHART_DATA
     } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
@@ -187,6 +188,7 @@
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
+                getFormatLineChartData:GET_FORMAT_LINE_CHART_DATA
             }),
             buttonData() {
                 return this.buttonsData[this.type];
@@ -199,9 +201,7 @@
                 time: getTimeByPeriod(this.getSelectedPeriod),
                 buttonTypes: Object.keys(this.buttonsData)
             };
-            this.getButtonData(params).then(response => {
-                this.data = response;
-            });
+            this.getButtonData(params);
         },
         methods: {
             ...mapActions('page_views', {

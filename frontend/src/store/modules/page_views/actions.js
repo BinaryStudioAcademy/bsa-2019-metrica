@@ -51,7 +51,6 @@ export default {
             data.time.interval
         ).then(response => {
                 context.commit(SET_CHART_VALUES, response);
-                return response;
             }
         );
     }
