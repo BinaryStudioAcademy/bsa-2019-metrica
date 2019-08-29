@@ -33,7 +33,7 @@ export default {
     },
     [RESET_IS_FETCHING]: (state) => {
         state.pageViewsTableData.isFetching = false;
-    }
+    },
     [SET_BUTTON_VALUE]: (state, payload) => {
         state.buttonData[payload.buttonType].value = payload.value;
     },

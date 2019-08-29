@@ -79,9 +79,6 @@ export default {
     [FETCH_CHART_DATA]: (context) => {
         const time = getTimeByPeriod(context.state.selectedPeriod);
         context.commit(SET_CHART_FETCHING);
-        alert(time.startDate.unix());
-        alert(time.endDate.unix());
-        alert(time.interval);
         factoryPageViewsService.create(context.state.activeButton).fetchChartValues(
             time.startDate.unix(),
             time.endDate.unix(),

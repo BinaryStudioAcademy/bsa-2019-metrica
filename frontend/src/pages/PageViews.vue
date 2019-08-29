@@ -166,7 +166,7 @@
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
-                fetchPageData: FETCH_PAGE_DATA
+                fetchPageData: FETCH_PAGE_DATA,
                 fetchTableData: FETCH_PAGE_VIEWS_TABLE_DATA,
             }),
             changeButton(data) {
