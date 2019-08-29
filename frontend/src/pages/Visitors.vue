@@ -22,7 +22,6 @@
                         <LineChart
                             :data="chartData.items"
                             :is-fetching="chartData.isFetching"
-                            :interval="interval"
                         />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
@@ -107,7 +106,6 @@
         SESSIONS,
         BOUNCE_RATE
     } from '../configs/visitors/buttonTypes.js';
-    import {getTimeByPeriod} from '@/services/periodService';
 
     export default {
         components: {
@@ -184,9 +182,6 @@
                 chartData: GET_LINE_CHART_DATA,
                 isFetchedPage: GET_FETCHED_PAGE_STATE
             }),
-            interval () {
-                return getTimeByPeriod(this.getSelectedPeriod).interval.toString();
-            },
         },
         created () {
             if (!this.isFetchedPage) {

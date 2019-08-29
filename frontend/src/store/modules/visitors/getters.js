@@ -16,15 +16,14 @@ import moment from 'moment';
 
 export default {
     [GET_SELECTED_PERIOD]: (state) => state.selectedPeriod,
-    [GET_BUTTON_DATA]: (state) => state.buttonData,
-    /*[GET_BUTTON_DATA]: (state) => {
-        return Object.keys(state.buttonData).map((key) => {
+    [GET_BUTTON_DATA]: (state) => {
+        Object.keys(state.buttonData).map((key) => {
             if (key === 'avg_session') {
-                return { ...state.buttonData[key], value: moment.unix(state.buttonData[key].value).format("HH:mm:ss")};
+                state.buttonData[key].value = moment.unix(state.buttonData[key].value).format("HH:mm:ss");
             }
-            return state.buttonData[key];
         });
-    },*/
+        return state.buttonData;
+    },
     [GET_ACTIVE_BUTTON]: (state) => state.activeButton,
     [GET_PIE_CHART_DATA]: (state) => state.pieChartData,
     [GET_TABLE_DATA_ITEMS]: (state) => {
@@ -33,6 +32,7 @@ export default {
                 return { ...item, total: moment.unix(item.total).format("HH:mm:ss")};
             });
         }
+        return state.tableData.items;
     },
     [GET_TABLE_DATA_FETCHING]: (state) => state.tableData.isFetching,
     [GET_GROUPED_PARAMETER]: (state) => state.tableData.groupedParameter,

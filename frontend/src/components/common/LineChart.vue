@@ -1,5 +1,5 @@
 <template>
-    <VContainer clas="position-relative">
+    <VContainer class="position-relative">
         <Spinner
             v-if="isFetching"
         />
@@ -24,7 +24,6 @@
 <script>
     import { GChart } from 'vue-google-charts';
     import Spinner from '../utilites/Spinner';
-
     export default {
         components: {
             GChart,
