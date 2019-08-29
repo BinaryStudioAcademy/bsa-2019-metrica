@@ -41,7 +41,6 @@ export default {
         }
     },
     [FETCH_PAGE_DATA]: (context) => {
-        alert(context.state.selectedPeriod);
         const time = getTimeByPeriod(context.state.selectedPeriod);
         context.dispatch(FETCH_BUTTONS_DATA, time);
         context.dispatch(FETCH_CHART_DATA, time);
