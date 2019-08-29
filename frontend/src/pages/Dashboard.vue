@@ -8,6 +8,9 @@
                 :activity-chart-data="activityChartData"
             />
         </div>
+        <div class="d-flex justify-content-between">
+            <VisitsDensityWidget />
+        </div>
     </ContentLayout>
 </template>
 <script>
@@ -23,9 +26,16 @@
     import {
         FETCHING_ACTIVITY_CHART_DATA,
     } from "../store/modules/dashboard/types/actions";
+    import VisitsDensityWidget from '@/components/dashboard/home/VisitsDensityWidget';
+
     export default {
         name: 'Dashboard',
-        components: { ContentLayout, ActiveVisitorsCard, Overview },
+        components: {
+            ContentLayout,
+            ActiveVisitorsCard,
+            Overview,
+            VisitsDensityWidget
+        },
         mixins: [isWebsite],
         created() {
             this.fetchingActivityChartData();
