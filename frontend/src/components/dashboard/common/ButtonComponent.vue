@@ -20,7 +20,7 @@
             <div
                 class="character-text text-no-wrap headline"
             >
-                {{ convertedValue }}
+                {{ value }}
             </div>
             <div
                 class="title-text text-no-wrap caption"
@@ -33,7 +33,6 @@
 
 <script>
     import Spinner from '../../utilites/Spinner';
-    import moment from 'moment';
 
     export default {
         name: 'ButtonComponent',
@@ -65,15 +64,6 @@
                 type: [String, Number],
                 required: true,
             },
-        },
-        computed: {
-            convertedValue () {
-                if (this.type === 'avg_session') {
-                    return moment.unix(this.value).format("HH:mm:ss");
-                }
-
-                return this.value;
-            }
         },
         methods: {
             changeButton () {

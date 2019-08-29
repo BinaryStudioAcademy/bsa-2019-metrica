@@ -186,11 +186,11 @@
             }),
             interval () {
                 return getTimeByPeriod(this.getSelectedPeriod).interval.toString();
-            }
+            },
         },
         created () {
             if (!this.isFetchedPage) {
-                this.fetchPageData({buttons: Object.keys(this.buttonsData)});
+                this.fetchPageData();
             }
         },
         methods: {
