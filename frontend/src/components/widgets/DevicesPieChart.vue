@@ -1,7 +1,10 @@
 <template>
     <VContainer class="white pie-container position-relative mx-0">
         <Spinner v-if="isFetching" />
-        <VContainer class="pt-1">
+        <VContainer class="content pt-1 d-flex flex-column justify-space-between">
+            <VContainer v-if="!data.length">
+                no data to display
+            </VContainer>
             <PieChartItem
                 v-for="(item, key) in data"
                 :data-type="item.type"
@@ -51,10 +54,6 @@
 </script>
 
 <style scoped lang="scss">
-.wrapper {
-    width: max-content !important;
-    margin: 0;
-}
 .pie-container {
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
     border-radius: 6px;
@@ -65,5 +64,8 @@
     font-size: 16px;
     line-height: 19px;
     width: max-content;
+}
+.content {
+    height: 100%;
 }
 </style>
