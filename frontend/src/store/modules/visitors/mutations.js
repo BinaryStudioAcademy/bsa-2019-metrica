@@ -13,7 +13,8 @@ import {
     RESET_TABLE_FETCHING,
     SET_CHART_PIE_DATA,
     SET_CHART_DATA_FETCHING,
-    RESET_CHART_DATA_FETCHING
+    RESET_CHART_DATA_FETCHING,
+    SET_FETCH_TRUE
 } from "./types/mutations";
 
 export default {
@@ -29,8 +30,8 @@ export default {
     [RESET_BUTTON_FETCHING]: (state, button) => {
         state.buttonData[button].isFetching = false;
     },
-    [SET_BUTTON_DATA]: (state, button, value) => {
-        state.buttonData[button].value = value;
+    [SET_BUTTON_DATA]: (state, payload) => {
+        state.buttonData[payload.button].value = payload.value;
     },
     [SET_LINE_CHART_DATA]: (state, value) => {
         state.chartData.items = value;
@@ -62,5 +63,8 @@ export default {
     },
     [RESET_CHART_DATA_FETCHING]: (state) => {
         state.pieChartData.isFetching = false;
+    },
+    [SET_FETCH_TRUE]: (state) => {
+        state.isFetchedPageData = true;
     },
 };

@@ -58,8 +58,8 @@
                     'operating system',
                     'screen resolution' ],
                 headers: [
-                    { text: '', align: 'center', value: 'option' },
-                    { text: '', align: 'center', value: 'users' },
+                    { text: '', align: 'center', value: 'parameter_value' },
+                    { text: '', align: 'center', value: 'total' },
                     { text: '', align: 'center', value: 'percentage' },
                 ],
             };

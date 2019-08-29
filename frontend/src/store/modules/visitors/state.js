@@ -6,9 +6,10 @@ import {
     SESSIONS,
     BOUNCE_RATE
 } from '../../../configs/visitors/buttonTypes.js';
+import {period} from "@/services/periodService";
 
 export default {
-    selectedPeriod: 'last_week',
+    selectedPeriod: period.PERIOD_LAST_WEEK,
     buttonData: {
         [TOTAL_VISITORS]: {
             value: 0,
@@ -49,5 +50,6 @@ export default {
         items: [],
         isFetching: false,
         groupedParameter: 'browser'
-    }
+    },
+    isFetchedPageData: false
 };

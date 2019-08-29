@@ -17,11 +17,12 @@
                     justify-center
                 >
                     <VFlex
-                        class="chart-container"
+                        class="chart-container position-relative"
                     >
                         <LineChart
-                            :data="data"
+                            :data="chartData.items"
                             :is-fetching="chartData.isFetching"
+                            :interval="interval"
                         />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
@@ -89,12 +90,14 @@
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
         GET_PIE_CHART_DATA,
-        GET_LINE_CHART_DATA
+        GET_LINE_CHART_DATA,
+        GET_FETCHED_PAGE_STATE
     } from "@/store/modules/visitors/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_FETCHED_BUTTON_STATE,
-        CHANGE_SELECTED_PERIOD
+        CHANGE_SELECTED_PERIOD,
+        FETCH_PAGE_DATA
     } from "@/store/modules/visitors/types/actions";
     import {
         TOTAL_VISITORS,
@@ -104,6 +107,7 @@
         SESSIONS,
         BOUNCE_RATE
     } from '../configs/visitors/buttonTypes.js';
+    import {getTimeByPeriod} from '@/services/periodService';
 
     export default {
         components: {
@@ -112,29 +116,12 @@
             VisitorsTable,
             ButtonComponent,
             PeriodDropdown,
-            ContentLayout
+            ContentLayout,
         },
-        data() {
+        data () {
             return {
-                data: [],
-                period: '',
-                items: [
-                    {
-                        option: 'IE',
-                        users: 55,
-                        percentage: '34%'
-                    },
-                    {
-                        option: 'Edge',
-                        users: 77,
-                        percentage: '34%'
-                    },
-                    {
-                        option: 'Firefox',
-                        users: 45,
-                        percentage: '44%'
-                    },
-                ],
+                title: "Visitors",
+                isFetching: true,
                 buttons: [
                     {
                         icon: 'person',
@@ -190,53 +177,40 @@
             };
         },
         computed: {
-            title () {
-                return this.$route.meta.title;
-            },
-            tableData () {
-                return this.items;
-            },
             ...mapGetters('visitors', {
                 buttonsData: GET_BUTTON_DATA,
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
+                isFetchedPage: GET_FETCHED_PAGE_STATE
             }),
-            buttonData () {
-                return this.buttonsData[this.type];
+            interval () {
+                return getTimeByPeriod(this.getSelectedPeriod).interval.toString();
             }
         },
-        mounted() {
-            for (let i = 1; i < 20; i++) {
-                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
-                const item = {
-                    xLabel: x,
-                    value: Math.floor(Math.random() * 2000) + 1,
-                    indication: Math.floor(Math.random() * 200) + 1,
-                };
-                this.data.push(item);
+        created () {
+            if (!this.isFetchedPage) {
+                this.fetchPageData({buttons: Object.keys(this.buttonsData)});
             }
         },
         methods: {
             ...mapActions('visitors', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchPageData: FETCH_PAGE_DATA
             }),
             changeButton (data) {
                 this.changeActiveButton(data);
             },
-            changeTable (parameter) {
-                this.items = this.tableItems[parameter];
-            },
-            changePeriod(data) {
+            changePeriod (data) {
                 this.changeSelectedPeriod(data);
             },
             getPieData(){
                 return this.pieChartData;
             },
-            isButtonActive(type) {
+            isButtonActive (type) {
                 return this.currentActiveButton === type;
             }
         },

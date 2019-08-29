@@ -100,9 +100,6 @@ export default new Router({
                                             path: 'visitors',
                                             name: 'visitors',
                                             component: Visitors,
-                                            meta: {
-                                                title: 'Visitors'
-                                            },
                                         },
                                         {
                                             path: 'page-views',

@@ -1,16 +1,21 @@
 <template>
-    <GroupedTable
-        :items="items"
-        @change="changeGroupedParameter"
+    <VContainer
+        clas="position-relative"
     >
         <Spinner v-if="isFetching" />
-        <span slot="total">
-            {{ totalColumn }}
-        </span>
-        <span slot="percentage">
-            {{ percentageColumn }}
-        </span>
-    </GroupedTable>
+        <GroupedTable
+            class="position-relative"
+            :items="items"
+            @change="changeGroupedParameter"
+        >
+            <span slot="total">
+                {{ totalColumn }}
+            </span>
+            <span slot="percentage">
+                {{ percentageColumn }}
+            </span>
+        </GroupedTable>
+    </VContainer>
 </template>
 
 <script>
@@ -28,6 +33,8 @@
         CHANGE_FETCHED_TABLE_STATE,
         CHANGE_GROUPED_PARAMETER
     } from "@/store/modules/visitors/types/actions";
+    import moment from 'moment';
+
     export default {
         name: 'VisitorsTable',
         components: {
@@ -39,7 +46,7 @@
                 getActiveButton: GET_ACTIVE_BUTTON,
                 getGroupedParameter: GET_GROUPED_PARAMETER,
                 getItems: GET_TABLE_DATA_ITEMS,
-                getFetcingState: GET_TABLE_DATA_FETCHING,
+                getFetchingState: GET_TABLE_DATA_FETCHING,
 
             }),
             totalColumn () {
@@ -51,11 +58,16 @@
             currentParameter () {
                 return this.getGroupedParameter;
             },
-            items () {
+            items() {
+                if (this.activeButton === 'avg_session') {
+                    return this.getItems.map((item) => {
+                        return { ...item, total: moment.unix(item.total).format("HH:mm:ss")};
+                    });
+                }
                 return this.getItems;
             },
             isFetching () {
-                return this.getFetcingState;
+                return this.getFetchingState;
             },
             activeButton () {
                 return this.getActiveButton;
