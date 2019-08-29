@@ -35,8 +35,7 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
-        const time = getTimeByPeriod(context.state.selectedPeriod);
-        context.dispatch(FETCH_CHART_DATA, time);
+        context.dispatch(FETCH_CHART_DATA);
     },
     [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
 
@@ -71,8 +70,6 @@ export default {
                 value: response.value
             };
             context.commit(SET_BUTTON_VALUE, payload);
-        }).catch(error => {
-            throw error;
         }).finally(() => context.commit(RESET_BUTTON_FETCHING, button.type));
     },
 
@@ -87,9 +84,7 @@ export default {
                 context.commit(SET_CHART_VALUES, response);
                 context.commit(RESET_CHART_FETCHING);
             }
-        ).catch(error => {
-            throw  error;
-        }).finally(() => context.commit(RESET_CHART_FETCHING));
+        ).finally(() => context.commit(RESET_CHART_FETCHING));
     },
 
     [FETCH_PAGE_VIEWS_TABLE_DATA]: (context) => {
