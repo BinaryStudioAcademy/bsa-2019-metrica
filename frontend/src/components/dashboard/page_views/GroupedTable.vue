@@ -32,18 +32,13 @@
                     Page views
                 </slot>
             </VCol>
-            <VCol>
-                <slot name="avg-time">
-                    Avg. time on page
-                </slot>
-            </VCol>
         </VRow>
         <VDataTable
             class="caption"
             hide-default-footer
             hide-default-header
             :headers="headers"
-            :items="tableData"
+            :items="items"
         />
     </VContainer>
 </template>
@@ -60,19 +55,13 @@
         data () {
             return {
                 headers: [
-                    { text: '', align: 'center', value: 'page' },
-                    { text: '', align: 'center', value: 'title' },
+                    { text: '', align: 'center', value: 'page_url' },
+                    { text: '', align: 'center', value: 'page_title' },
                     { text: '', align: 'center', value: 'bounce_rate' },
                     { text: '', align: 'center', value: 'exit_rate' },
-                    { text: '', align: 'center', value: 'page_views' },
-                    { text: '', align: 'center', value: 'avg_time' },
+                    { text: '', align: 'center', value: 'count_page_views' },
                 ],
             };
-        },
-        computed: {
-            tableData () {
-                return this.items;
-            }
         },
     };
 </script>

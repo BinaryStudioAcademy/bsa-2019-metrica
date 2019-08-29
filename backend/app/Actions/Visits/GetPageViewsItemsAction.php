@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Visits;
 
 use App\Repositories\Contracts\TablePageViewsRepository;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class GetPageViewsItemsAction
