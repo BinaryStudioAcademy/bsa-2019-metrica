@@ -13,14 +13,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             DefaultUserAndWebsiteSeeder::class,
-            UserTableSeeder::class,
-            WebsiteTableSeeder::class,
-            VisitorTableSeeder::class,
             PageTableSeeder::class,
             SystemTableSeeder::class,
             GeoPositionTableSeeder::class,
-            SessionTableSeeder::class,
-            VisitTableSeeder::class
+            InitVisitorsSeeder::class,
         ]);
     }
 }

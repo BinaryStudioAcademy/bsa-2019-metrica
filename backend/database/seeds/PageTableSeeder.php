@@ -1,28 +1,19 @@
 <?php
 
 use App\Entities\Page;
-use App\Entities\Website;
+use App\Entities\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class PageTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        $websites = Website::all();
+        $user = User::query()->where('email', '=', 'info@metrica.fun')->first();
 
-        $pages = $websites->map(
-            function (Website $website) {
-                return factory(Page::class, 5)->make([
-                    'website_id' => $website->id,
-                ]);
-            }
-        );
+        $pages = factory(Page::class, 5)->make([
+            'website_id' => $user->website->id,
+        ]);
 
         DB::table('pages')->insert($pages->flatten()->toArray());
     }
