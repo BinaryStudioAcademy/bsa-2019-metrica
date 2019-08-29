@@ -60,7 +60,7 @@ final class EloquentTableVisitRepository implements TableVisitRepository
             ->get();
 
         return collect($visits)->map(function ($item) {
-            return new TableVisit('city', $item->parameter_value, (string)$item->total_count, $item->count_visits/$item->total_count*100);
+            return new TableVisit('city', $item->parameter_value, (string)$item->count_visits, $item->count_visits/$item->total_count*100);
         });
     }
 
@@ -78,7 +78,7 @@ final class EloquentTableVisitRepository implements TableVisitRepository
             ->get();
 
         return collect($visits)->map(function ($item) {
-            return new TableVisit('country', $item->parameter_value, (string)$item->total_count, $item->count_visits/$item->total_count*100);
+            return new TableVisit('country', $item->parameter_value, (string)$item->count_visits, $item->count_visits/$item->total_count*100);
         });
     }
 
@@ -96,7 +96,7 @@ final class EloquentTableVisitRepository implements TableVisitRepository
             ->get();
 
         return collect($visits)->map(function ($item) {
-            return new TableVisit('language', $item->parameter_value, (string)$item->total_count, $item->count_visits/$item->total_count*100);
+            return new TableVisit('language', $item->parameter_value, (string)$item->count_visits, $item->count_visits/$item->total_count*100);
         });
     }
 
@@ -115,7 +115,7 @@ final class EloquentTableVisitRepository implements TableVisitRepository
             ->get();
 
         return collect($visits)->map(function ($item) {
-            return new TableVisit('browser', $item->parameter_value, (string)$item->total_count, $item->count_visits/$item->total_count*100);
+            return new TableVisit('browser', $item->parameter_value, (string)$item->count_visits, $item->count_visits/$item->total_count*100);
         });
     }
 
@@ -134,7 +134,7 @@ final class EloquentTableVisitRepository implements TableVisitRepository
             ->get();
 
         return collect($visits)->map(function ($item) {
-            return new TableVisit('operating_system', $item->parameter_value, (string)$item->total_count, $item->count_visits/$item->total_count*100);
+            return new TableVisit('operating_system', $item->parameter_value, (string)$item->count_visits, $item->count_visits/$item->total_count*100);
         });
     }
 
@@ -153,7 +153,7 @@ final class EloquentTableVisitRepository implements TableVisitRepository
             ->get();
 
         return collect($visits)->map(function ($item) {
-            return new TableVisit('screen_resolution', $item->parameter_value, (string)$item->total_count, $item->count_visits/$item->total_count*100);
+            return new TableVisit('screen_resolution', $item->parameter_value, (string)$item->count_visits, $item->count_visits/$item->total_count*100);
         });
     }
 }

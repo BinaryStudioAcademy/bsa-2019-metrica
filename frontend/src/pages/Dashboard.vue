@@ -1,14 +1,19 @@
 <template>
     <ContentLayout :title="title">
-        <Overview />
-        <div class="d-flex justify-content-between">
-            <div>chart</div>
-            <ActiveVisitorsCard
-                :is-fetching="activityDataFetching"
-                :activity-chart-data="activityChartData"
-            />
-        </div>
-        <DevicesPieChart />
+        <VRow>
+            <VCol class="pl-0 pr-2">
+                <Overview />
+            </VCol>
+            <VCol class="widget px-0 mr-2">
+                <ActiveVisitorsCard
+                    :is-fetching="activityDataFetching"
+                    :activity-chart-data="activityChartData"
+                />
+            </VCol>
+            <VCol class="widget pl-0">
+                <DevicesPieChart />
+            </VCol>
+        </VRow>
     </ContentLayout>
 </template>
 <script>
@@ -59,3 +64,9 @@
         },
     };
 </script>
+
+<style>
+    .widget {
+        max-width: 307px;
+    }
+</style>

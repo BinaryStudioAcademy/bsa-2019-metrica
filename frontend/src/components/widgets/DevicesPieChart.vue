@@ -1,27 +1,18 @@
 <template>
-    <VContainer class="wrapper pa-0">
-        <VSubheader
-            class="header mb-4 pl-0 text-dark"
-        >
-            Devices
-        </VSubheader>
-        <VContainer class="white pie-container position-relative">
-            <Spinner v-if="isFetching" />
-            <VContainer class="pt-1">
-                <PieChartItem
-                    v-for="(item, key) in data"
-                    :data-type="item.type"
-                    :data="item.data"
-                    :key="key"
-                />
-                <VRow class="pl-3">
-                    <PeriodDropdown
-                        class="mt-2"
-                        :value="selectedPeriod"
-                        @change="changeSelectedPeriod"
-                    />
-                </VRow>
-            </VContainer>
+    <VContainer class="white pie-container position-relative mx-0">
+        <Spinner v-if="isFetching" />
+        <VContainer class="pt-1">
+            <PieChartItem
+                v-for="(item, key) in data"
+                :data-type="item.type"
+                :data="item.data"
+                :key="key"
+            />
+            <PeriodDropdown
+                class="mt-2"
+                :value="selectedPeriod"
+                @change="changeSelectedPeriod"
+            />
         </VContainer>
     </VContainer>
 </template>

@@ -82,11 +82,11 @@ class ChartAverageSessionsApiTest extends TestCase
             'data' =>
                 [
                     [
-                        'date' => $date2->toDateString(),
+                        'date' => (string)$date2->getTimestamp(),
                         'value' => '2316',
                     ],
                     [
-                        'date' => $date3->toDateString(),
+                        'date' => (string)$date3->getTimestamp(),
                         'value' => '3165',
                     ],
                 ],
