@@ -22,6 +22,7 @@
                         <LineChart
                             :data="data"
                             :is-fetching="chartData.isFetching"
+                            :interval="getSelectedPeriod"
                         />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
@@ -94,6 +95,7 @@
         AVERAGE_TIME,
         BOUNCE_RATE
     } from '../configs/page_views/buttonTypes.js';
+    import moment from 'moment';
 
     export default {
         components: {
@@ -192,9 +194,9 @@
         },
         mounted() {
             for (let i = 1; i < 20; i++) {
-                const x = new Date(2019, 9, 5, i).toLocaleTimeString();
+                const x = moment(`05/09/2019 ${i}:00:00`).unix();
                 const item = {
-                    xLabel: x,
+                    date: x,
                     value: Math.floor(Math.random() * 2000) + 1,
                     indication: Math.floor(Math.random() * 200) + 1,
                 };
