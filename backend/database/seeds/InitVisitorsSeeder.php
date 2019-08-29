@@ -43,12 +43,15 @@ class InitVisitorsSeeder extends Seeder
             'visitor_id' => $visitor->id,
             'end_session' => Carbon::instance($visitor->created_at)->addMinutes($faker->numberBetween(15, 35)),
         ]);
-        factory(Visit::class, $countVisits)->create([
-            'session_id' => $session->id,
-            'visitor_id' => $visitor->id,
-            'visit_time' => $session->start_session,
-            'page_id' => Page::inRandomOrder()->where('website_id', '=', $this->user->website->id)->first()->id,
-        ]);
+        $delta = floor(($session->end_session->timestamp - $session->start_session->timestamp) / $countVisits);
+        for ($i = 0; $i < $countVisits; $i++) {
+            factory(Visit::class)->create([
+                'session_id' => $session->id,
+                'visitor_id' => $visitor->id,
+                'visit_time' => $session->start_session->addMinutes($delta*$i),
+                'page_id' => Page::inRandomOrder()->where('website_id', '=', $this->user->website->id)->first()->id,
+            ]);
+        }
 
         return $visitor;
     }
