@@ -15,19 +15,18 @@ class InitVisitorsSeeder extends Seeder
 
     public function run()
     {
-        $this->user = User::query()->where('email', '=', 'info@metrica.fun' )->first();
+        $this->user = User::query()->where('email', '=', 'info@metrica.fun')->first();
         $faker = Faker::create();
         $start = Carbon::yesterday()->subMonth();
         $now = Carbon::now();
-        do{
+        do {
             $visitorsCount = $faker->numberBetween(25, 60);
-            for ($i=0; $i<$visitorsCount; $i++){
+            for ($i=0; $i<$visitorsCount; $i++) {
                 $visitsCount = $faker->numberBetween(1, 3);
-                $this->createVisitorWithVisits($start,$visitsCount);
+                $this->createVisitorWithVisits($start, $visitsCount);
             }
             $start = $start->addDay();
-        } while($start < $now);
-
+        } while ($start < $now);
     }
 
     private function createVisitorWithVisits(DateTime $createdDate, int $countVisits)
