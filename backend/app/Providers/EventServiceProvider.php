@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         'App\Events\VisitCreated' => [
-            'App\Listeners\NewVisitsNotification',
+            'App\Listeners\SendVisitsNotification',
         ],
     ];
 

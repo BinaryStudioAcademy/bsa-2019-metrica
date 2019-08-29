@@ -11,6 +11,7 @@ use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Entities\Website;
 use App\Events\VisitCreated;
+use App\Listeners\SendVisitsNotification;
 use DateTime;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -347,15 +348,28 @@ class VisitsApiTest extends TestCase
         $visit = Visit::latest()->first();
 
         Event::assertDispatched(VisitCreated::class, function ($e) use ($visit) {
-            $broadcastData = $e->broadcastWith($visit);
-            $this->assertContains($visit->page->url, $broadcastData["page"]);
-            $this->assertEquals($visit->visitor_id, $broadcastData["visitor"]);
-            $this->assertEquals($visit->created_at, $broadcastData["time_notification"]);
             return $e->visit->id === $visit->id;
         });
 
         $this->assertDatabaseHas('visits', [
             'ip_address' => $ip
         ]);
+    }
+
+    public function testReturnDataHandleListener()
+    {
+        Event::fake();
+
+        $visit = factory(Visit::class)->create();
+
+        $event = \Mockery::mock(VisitCreated::class);
+        $event->visit = $visit;
+
+        $listener = app()->make(SendVisitsNotification::class);
+
+        $returnListener = $listener->handle($event);
+        $this->assertContains($visit->page->url, $returnListener["page"]);
+        $this->assertEquals($visit->visitor_id, $returnListener["visitor"]);
+        $this->assertEquals($visit->created_at, $returnListener["time_notification"]);
     }
 }

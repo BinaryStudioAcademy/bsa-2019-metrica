@@ -23,13 +23,4 @@ class VisitCreated
     {
         return new PrivateChannel('active-users.' . $this->visit->page->website_id);
     }
-
-    public function broadcastWith()
-    {
-        return [
-            'page' => $this->visit->page->url,
-            'visitor' => $this->visit->visitor_id,
-            'time_notification' => $this->visit->created_at,
-        ];
-    }
 }
