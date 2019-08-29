@@ -27,6 +27,8 @@
     import Spinner from '../utilites/Spinner';
     import { period } from '@/services/periodService';
     import moment from 'moment';
+    import {mapGetters} from 'vuex';
+    import {GET_FORMAT_LINE_CHART_DATA} from "../../store/modules/page_views/types/getters";
 
     export default {
         components: {
@@ -107,6 +109,9 @@
         },
 
         computed: {
+            ...mapGetters('page_views',{
+                getLineFormatChartData:GET_FORMAT_LINE_CHART_DATA
+            }),
             chartData(){
                 if (!this.data.length) {
                     return [];
@@ -114,17 +119,8 @@
 
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
                 const pointStyle = 'point { stroke-color: #3C57DE; size: 5; shape-type: circle; fill-color: #FFFFFF; }';
-                let tmpData = this.data.map( element => {
-                    let date = undefined;
-                    switch(this.interval) {
-                    case period.PERIOD_TODAY:
-                    case period.PERIOD_YESTERDAY:
-                        date =  moment.unix(element.date).format("HH:mm");
-                        break;
-                    default:
-                        date =  moment.unix(element.date).format("MM/DD/YYYY");
-                    }
-                    return  [date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)];
+                let tmpData = this.getLineFormatChartData.map( element  => {
+                    return  [element.date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)];
                 });
                 tmpData.unshift([{type: 'string', name: 'date'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
                 return tmpData;
@@ -138,7 +134,7 @@
                         ${element.value}
                     </div>
                     <div class='tooltip-second'>
-                        ${this.tooltipDate(element.date)}
+                        ${element.date}
                     </div>
                 </div>`;
             },
