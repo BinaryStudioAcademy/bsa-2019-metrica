@@ -115,5 +115,4 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
 
         return $tableData;
     }
-
 }
