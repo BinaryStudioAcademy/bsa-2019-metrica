@@ -16,6 +16,7 @@ export default {
     [GET_LINE_CHART_DATA]: (state) => state.chartData,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
         const interval = state.selectedPeriod;
+        state.chartData.items.sort((a, b) => a.date - b.date);
         switch (interval) {
             case period.PERIOD_TODAY:
             case period.PERIOD_YESTERDAY:
