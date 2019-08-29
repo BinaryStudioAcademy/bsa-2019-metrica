@@ -9,7 +9,7 @@ class PageTableSeeder extends Seeder
 {
     public function run()
     {
-        $user = User::query()->where('email', '=', 'info@metrica.fun' )->first();
+        $user = User::query()->where('email', '=', 'info@metrica.fun')->first();
 
         $pages = factory(Page::class, 5)->make([
             'website_id' => $user->website->id,
