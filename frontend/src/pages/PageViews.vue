@@ -96,7 +96,6 @@
         AVERAGE_TIME,
         BOUNCE_RATE
     } from '../configs/page_views/buttonTypes.js';
-    import {getTimeByPeriod} from "../services/periodService";
 
     export default {
         components: {
@@ -195,10 +194,7 @@
             }
         },
         created() {
-            let params = {
-                time: getTimeByPeriod(this.getSelectedPeriod),
-            };
-            this.fetchPageData(params);
+            this.fetchPageData();
         },
         methods: {
             ...mapActions('page_views', {

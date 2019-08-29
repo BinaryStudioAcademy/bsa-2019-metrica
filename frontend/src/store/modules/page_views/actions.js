@@ -8,6 +8,9 @@ import {
     FETCH_BUTTON_DATA
 } from "./types/actions";
 
+import {getTimeByPeriod} from "@/services/periodService";
+
+
 import {factoryPageViewsService} from "../../../api/page_views/factoryPageViewsService";
 
 import {
@@ -25,6 +28,8 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
+        const time = getTimeByPeriod(context.state.selectedPeriod);
+        context.dispatch(FETCH_CHART_DATA, time);
     },
     [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
 
@@ -34,15 +39,16 @@ export default {
             context.commit(RESET_BUTTON_FETCHING, data.button);
         }
     },
-    [FETCH_PAGE_DATA]: (context, data) => {
-        context.dispatch(FETCH_BUTTONS_DATA, data);
-        context.dispatch(FETCH_CHART_DATA, data);
+    [FETCH_PAGE_DATA]: (context) => {
+        const time = getTimeByPeriod(context.state.selectedPeriod);
+        context.dispatch(FETCH_BUTTONS_DATA, time);
+        context.dispatch(FETCH_CHART_DATA, time);
     },
 
-    [FETCH_BUTTONS_DATA]: (context, data) => {
+    [FETCH_BUTTONS_DATA]: (context, time) => {
         Object.keys(context.state.buttonData).map((type) => {
             context.dispatch(FETCH_BUTTON_DATA, {
-                data: data,
+                time: time,
                 type: type
             });
         });
@@ -51,8 +57,8 @@ export default {
     [FETCH_BUTTON_DATA]: (context, button) => {
         context.commit(SET_BUTTON_FETCHING, button.type);
         factoryPageViewsService.create(button.type).fetchButtonValue(
-            button.data.time.startDate.unix(),
-            button.data.time.endDate.unix()
+            button.time.startDate.unix(),
+            button.time.endDate.unix()
         ).then(response => {
             let payload = {
                 buttonType: button.type,
@@ -66,17 +72,17 @@ export default {
         });
     },
 
-    [FETCH_CHART_DATA]: (context, data) => {
+    [FETCH_CHART_DATA]: (context, time) => {
         context.commit(SET_CHART_FETCHING);
         factoryPageViewsService.create(context.state.activeButton).fetchChartValues(
-            data.time.startDate.unix(),
-            data.time.endDate.unix(),
-            data.time.interval
+            time.startDate.unix(),
+            time.endDate.unix(),
+            time.interval
         ).then(response => {
                 context.commit(SET_CHART_VALUES, response);
                 context.commit(RESET_CHART_FETCHING);
             }
-        ).catch(error=>{
+        ).catch(error => {
             context.commit(RESET_CHART_FETCHING);
             throw  error;
         });
