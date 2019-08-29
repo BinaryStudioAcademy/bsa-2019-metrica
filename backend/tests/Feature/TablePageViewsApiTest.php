@@ -33,10 +33,26 @@ class TablePageViewsApiTest extends TestCase
 
     public function testGetTablePageViewsItems()
     {
-        factory(Page::class)->create(['id' => 1]);
-        factory(Page::class)->create(['id' => 2]);
-        factory(Page::class)->create(['id' => 3]);
-        factory(Page::class)->create(['id' => 4]);
+        factory(Page::class)->create([
+            'id' => 1,
+            'url' => 'url_1',
+            'name' => 'name_1',
+        ]);
+        factory(Page::class)->create([
+            'id' => 2,
+            'url' => 'url_2',
+            'name' => 'name_2',
+        ]);
+        factory(Page::class)->create([
+            'id' => 3,
+            'url' => 'url_3',
+            'name' => 'name_3',
+        ]);
+        factory(Page::class)->create([
+            'id' => 4,
+            'url' => 'url_3',
+            'name' => 'name_3',
+        ]);
 
         $startDate = new \DateTime('2019-08-20 06:00:00');
         $endDate = new \DateTime('2019-08-20 07:30:00');
@@ -59,25 +75,25 @@ class TablePageViewsApiTest extends TestCase
         $expectedData = [
             "data" => [
                 0 => [
-                    "page_url" => "",
-                    "page_title" => "",
+                    "page_url" => "url_1",
+                    "page_title" => "name_1",
                     "count_page_views" => 2,
                     "bounce_rate" => 0,
-                    "exit_rate" => 0
+                    "exit_rate" => 1
                 ],
                 1 => [
-                    "page_url" => "",
-                    "page_title" => "",
+                    "page_url" => "url_2",
+                    "page_title" => "name_2",
                     "count_page_views" => 5,
                     "bounce_rate" => 40,
-                    "exit_rate" => 0
+                    "exit_rate" => 3
                 ],
                 2 => [
-                    "page_url" => "",
-                    "page_title" => "",
+                    "page_url" => "url_3",
+                    "page_title" => "name_3",
                     "count_page_views" => 1,
                     "bounce_rate" => 100,
-                    "exit_rate" => 0
+                    "exit_rate" => 1
                 ],
             ],
             'meta' => [],
