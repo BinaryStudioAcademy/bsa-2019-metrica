@@ -38,14 +38,7 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
 
         return fetchTableValues(period.startDate.unix(), period.endDate.unix())
-            .then(response => {
-                context.commit(SET_PAGE_VIEWS_TABLE_DATA, response);
-                context.commit(RESET_IS_FETCHING);
-            })
-            .catch(err => {
-                context.commit(RESET_IS_FETCHING);
-                throw err;
-            });
-
+            .then(response => context.commit(SET_PAGE_VIEWS_TABLE_DATA, response))
+            .finally(() => context.commit(RESET_IS_FETCHING));
     }
 };

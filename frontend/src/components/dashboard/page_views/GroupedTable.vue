@@ -38,7 +38,7 @@
             hide-default-footer
             hide-default-header
             :headers="headers"
-            :items="getTableData"
+            :items="items"
         />
     </VContainer>
 </template>
@@ -62,13 +62,6 @@
                     { text: '', align: 'center', value: 'count_page_views' },
                 ],
             };
-        },
-        computed: {
-            getTableData () {
-                return this.items.map((item) => {
-                    return { ...item };
-                });
-            }
         },
     };
 </script>
