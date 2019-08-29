@@ -196,10 +196,7 @@
         },
         created() {
             let params = {
-                activeButton: this.currentActiveButton,
-                interval: this.getSelectedPeriod,
                 time: getTimeByPeriod(this.getSelectedPeriod),
-                buttonTypes: Object.keys(this.buttonsData)
             };
             this.fetchPageData(params);
         },

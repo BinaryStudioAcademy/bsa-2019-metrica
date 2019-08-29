@@ -40,7 +40,7 @@ export default {
     },
 
     [FETCH_BUTTONS_DATA]: (context, data) => {
-        data.buttonTypes.map((type) => {
+        Object.keys(context.state.buttonData).map((type) => {
             context.dispatch(FETCH_BUTTON_DATA, {
                 data: data,
                 type: type
@@ -68,7 +68,7 @@ export default {
 
     [FETCH_CHART_DATA]: (context, data) => {
         context.commit(SET_CHART_FETCHING);
-        factoryPageViewsService.create(data.activeButton).fetchChartValues(
+        factoryPageViewsService.create(context.state.activeButton).fetchChartValues(
             data.time.startDate.unix(),
             data.time.endDate.unix(),
             data.time.interval
