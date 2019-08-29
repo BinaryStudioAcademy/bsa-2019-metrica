@@ -51,5 +51,4 @@ export default {
         isFetching: false,
         groupedParameter: 'browser'
     },
-    isFetchedPageData: false
 };

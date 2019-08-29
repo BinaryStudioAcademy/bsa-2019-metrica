@@ -40,7 +40,7 @@
                 :title="button.title"
                 :active="isButtonActive(button.type)"
                 :fetching="buttonsData[button.type].isFetching"
-                :value="buttonsData[button.type].value"
+                :value="convertButtonValue(button.type)"
                 :type="button.type"
                 :icon-name="button.icon"
                 @change="changeButton"
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+    import moment from 'moment';
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import VisitorsTable from "../components/dashboard/visitors/VisitorsTable.vue";
@@ -90,7 +91,6 @@
         GET_SELECTED_PERIOD,
         GET_PIE_CHART_DATA,
         GET_LINE_CHART_DATA,
-        GET_FETCHED_PAGE_STATE
     } from "@/store/modules/visitors/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
@@ -180,13 +180,10 @@
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
-                isFetchedPage: GET_FETCHED_PAGE_STATE
             }),
         },
         created () {
-            if (!this.isFetchedPage) {
-                this.fetchPageData();
-            }
+            this.fetchPageData();
         },
         methods: {
             ...mapActions('visitors', {
@@ -206,6 +203,12 @@
             },
             isButtonActive (type) {
                 return this.currentActiveButton === type;
+            },
+            convertButtonValue (type) {
+                if (type === 'avg_session') {
+                    return moment.unix(this.buttonsData[type].value).format("HH:mm:ss");
+                }
+                return this.buttonsData[type].value;
             }
         },
     };

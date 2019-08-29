@@ -5,7 +5,7 @@
         <Spinner v-if="isFetching" />
         <GroupedTable
             class="position-relative"
-            :items="items"
+            :items="getItems"
             @change="changeGroupedParameter"
         >
             <span slot="total">
@@ -33,7 +33,6 @@
         CHANGE_FETCHED_TABLE_STATE,
         CHANGE_GROUPED_PARAMETER
     } from "@/store/modules/visitors/types/actions";
-    import moment from 'moment';
 
     export default {
         name: 'VisitorsTable',
@@ -57,14 +56,6 @@
             },
             currentParameter () {
                 return this.getGroupedParameter;
-            },
-            items() {
-                if (this.activeButton === 'avg_session') {
-                    return this.getItems.map((item) => {
-                        return { ...item, total: moment.unix(item.total).format("HH:mm:ss")};
-                    });
-                }
-                return this.getItems;
             },
             isFetching () {
                 return this.getFetchingState;
