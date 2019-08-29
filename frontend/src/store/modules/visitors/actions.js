@@ -38,6 +38,7 @@ import {getTimeByPeriod} from '@/services/periodService';
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
         context.commit(SET_SELECTED_PERIOD, payload.value);
+        context.dispatch(FETCH_PAGE_DATA);
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
