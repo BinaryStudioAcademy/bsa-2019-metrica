@@ -116,12 +116,11 @@
             VisitorsTable,
             ButtonComponent,
             PeriodDropdown,
-            ContentLayout,
+            ContentLayout
         },
-        data () {
+        data() {
             return {
                 title: "Visitors",
-                isFetching: true,
                 buttons: [
                     {
                         icon: 'person',

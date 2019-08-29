@@ -37,6 +37,11 @@ final class Visitor extends Model
         return $this->hasMany(Session::class);
     }
 
+    public function visits(): HasMany
+    {
+        return $this->hasMany(Visit::class);
+    }
+
     public function scopeForUserWebsite(Builder $query): Builder
     {
         return $query->whereWebsiteId(Auth::user()->website->id);
