@@ -79,6 +79,22 @@ class TestDataFactory
                     ]
                 );
             }
+
+            $bounce_visitor = factory(Visitor::class)->create([
+                'created_at' => '2019-08-21 00:00:00'
+            ]);
+            $bounce_session = factory(Session::class)->create([
+                'language' => 'en',
+                'start_session' => '2019-08-21 00:00:00',
+                'end_session' => '2019-08-21 00:01:00',
+                'visitor_id' => $bounce_visitor->id
+            ]);
+            factory(Visit::class)->create([
+                'geo_position_id' => $geo_position->id,
+                'visit_time' => '2019-08-21 00:00:00',
+                'visitor_id' => $bounce_visitor->id,
+                'session_id' => $bounce_session->id
+            ]);
         }
     }
 

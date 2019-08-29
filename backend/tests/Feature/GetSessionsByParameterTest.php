@@ -106,8 +106,8 @@ class GetSessionsByParameterTest extends TestCase
         $params = [
             ['resolution_width' => '1024', 'resolution_height' => '768', 'os' => 'Windows NT 4.0', 'browser' => 'Mozilla/5.0'],
             ['resolution_width' => '960', 'resolution_height' => '720', 'os' => 'X11; Linux i686', 'browser' => 'Mozilla/5.0'],
-            ['resolution_width' => '800', 'resolution_height' => '600', 'os' => 'X11; Linux i686', 'browser' => 'Mozilla/5.0'],
-            ['resolution_width' => '800', 'resolution_height' => '600',  'os' => 'X11; Linux i686', 'browser' => 'Mozilla/5.0'],
+            ['resolution_width' => '800', 'resolution_height' => '600', 'os' => 'X11; Linux i686', 'browser' => 'Chrome'],
+            ['resolution_width' => '800', 'resolution_height' => '600',  'os' => 'X11; Linux i686', 'browser' => 'Safari'],
         ];
         foreach ($params as $param) {
             factory('App\Entities\System', 2)->create($param)->each(function($system) {
@@ -121,25 +121,42 @@ class GetSessionsByParameterTest extends TestCase
             ->assertStatus(200)
             ->assertSee('960x720')
             ->assertJsonFragment([
-                "parameter" => "screen_resolution",
-                "parameter_value" => "1024x768",
-                "percentage" => 25,
-                "total" => "2"
+                'parameter' => 'screen_resolution',
+                'parameter_value' => '1024x768',
+                'percentage' => 25,
+                'total' => '2'
             ])
             ->json();
-        $this->assertEquals(3, sizeof($result['data']));
-        // GROUPING BY BROWSER SHOULD RETURN 1 DATA ITEM
+        $this->assertEquals(3, count($result['data']));
         $result = $this->actingAs($this->user)
             ->json('GET', self::ENDPOINT, $this->getQuery('browser'))
             ->assertStatus(200)
+            ->assertJsonFragment([
+                'parameter' => 'browser',
+                'parameter_value' => 'Mozilla/5.0',
+                'percentage' => 50,
+                'total' => '4'
+            ])
+            ->assertJsonFragment([
+                'parameter' => 'browser',
+                'parameter_value' => 'Chrome',
+                'percentage' => 25,
+                'total' => '2'
+            ])
+            ->assertJsonFragment([
+                'parameter' => 'browser',
+                'parameter_value' => 'Safari',
+                'percentage' => 25,
+                'total' => '2'
+            ])
             ->json();
-        $this->assertEquals(1, sizeof($result['data']));
+        $this->assertEquals(3, count($result['data']));
         // GROUPING BY OS SHOULD RETURN 2 DATA ITEMS
         $result = $this->actingAs($this->user)
             ->json('GET', self::ENDPOINT, $this->getQuery('operating_system'))
             ->assertStatus(200)
             ->json();
-        $this->assertEquals(2, sizeof($result['data']));
+        $this->assertEquals(2, count($result['data']));
     }
 
     public function testFilteringByGeoPosition()
@@ -161,21 +178,21 @@ class GetSessionsByParameterTest extends TestCase
             ->json('GET', self::ENDPOINT, $this->getQuery('city'))
             ->assertStatus(200)
             ->json();
-        $this->assertEquals(3, sizeof($result['data']));
+        $this->assertEquals(3, count($result['data']));
 
         $result = $this->actingAs($this->user)
             ->json('GET', self::ENDPOINT, $this->getQuery('country'))
             ->assertStatus(200)
             ->json();
-        $this->assertEquals(1, sizeof($result['data']));
+        $this->assertEquals(1, count($result['data']));
     }
 
     private function getQuery($parameter = 'language')
     {
         return [
             'filter' => [
-                'startDate' => strval($this->from->timestamp),
-                'endDate' => strval($this->to->timestamp),
+                'startDate' => (string)$this->from->timestamp,
+                'endDate' => (string)$this->to->timestamp,
                 'parameter' => $parameter
             ],
         ];
