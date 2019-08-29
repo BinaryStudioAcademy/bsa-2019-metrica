@@ -14,15 +14,15 @@ const currentDate = () => {
 };
 
 const getSubtractStartDate = (day) => {
-    return moment().subtract('days', day).startOf('day');
+    return moment().subtract(day, 'days').startOf('day');
 };
 
 const getSubtractEndDate = (day) => {
-    return moment().subtract('days', day).endOf('day');
+    return moment().subtract(day, 'days').endOf('day');
 };
 
 const getSubtractStartMonth = (month) => {
-    return moment().subtract('months', month).startOf('day');
+    return moment().subtract(month, 'months').startOf('day');
 };
 
 const getHourInterval = (hour) => {
