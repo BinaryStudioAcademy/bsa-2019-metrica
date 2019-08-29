@@ -42,6 +42,9 @@
         },
         data() {
             return {
+                chartArea: {
+                    width: '90%'
+                },
                 chartOptions: {
                     tooltip: {
                         isHtml: true,

@@ -1,13 +1,16 @@
 <template>
     <ContentLayout :title="title">
-        <Overview />
-        <div class="d-flex justify-content-between">
-            <div>chart</div>
-            <ActiveVisitorsCard
-                :is-fetching="activityDataFetching"
-                :activity-chart-data="activityChartData"
-            />
-        </div>
+        <VRow>
+            <VCol class="pl-0 pr-2">
+                <Overview />
+            </VCol>
+            <VCol class="cl">
+                <ActiveVisitorsCard
+                    :is-fetching="activityDataFetching"
+                    :activity-chart-data="activityChartData"
+                />
+            </VCol>
+        </VRow>
     </ContentLayout>
 </template>
 <script>
@@ -46,3 +49,11 @@
         }
     };
 </script>
+
+<style>
+    .cl {
+        padding-left: 0;
+        padding-right: 0;
+        max-width: 307px;
+    }
+</style>

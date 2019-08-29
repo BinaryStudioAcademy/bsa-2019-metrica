@@ -1,13 +1,12 @@
 <template>
     <VContainer
-        class="overview px-7 py-6 position-relative"
+        class="overview px-7 py-6 position-relative d-flex flex-column justify-space-between"
     >
         <WidgetButtons
             name="Visitors"
         />
         <LineChart
             :data="chartData"
-            :interval="selectedPeriod"
             :is-fetching="isFetching"
         />
         <PeriodDropdown
@@ -50,8 +49,15 @@
 
 <style scoped lang="scss">
     .overview {
+        height: 394px;
+        width: 100%;
+        margin: 0;
+        min-width: 800px;
         background-color: white;
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
         border-radius: 6px;
+    }
+    .chart {
+        margin: 0;
     }
 </style>
