@@ -130,7 +130,7 @@
                     },
                     {
                         icon: 'clock',
-                        title: 'Average time',
+                        title: 'Avg. time on page',
                         type: AVERAGE_TIME
                     },
                     {
