@@ -41,15 +41,14 @@ export default {
         }
     },
     [FETCH_PAGE_DATA]: (context) => {
-        const time = getTimeByPeriod(context.state.selectedPeriod);
-        context.dispatch(FETCH_BUTTONS_DATA, time);
-        context.dispatch(FETCH_CHART_DATA, time);
+        context.dispatch(FETCH_BUTTONS_DATA);
+        context.dispatch(FETCH_CHART_DATA);
     },
 
-    [FETCH_BUTTONS_DATA]: (context, time) => {
+    [FETCH_BUTTONS_DATA]: (context) => {
         Object.keys(context.state.buttonData).map((type) => {
             context.dispatch(FETCH_BUTTON_DATA, {
-                time: time,
+                time: getTimeByPeriod(context.state.selectedPeriod),
                 type: type
             });
         });
@@ -66,15 +65,17 @@ export default {
                 value: response.value
             };
             context.commit(SET_BUTTON_VALUE, payload);
-            context.commit(RESET_BUTTON_FETCHING, button.type);
         }).catch(error => {
-            context.commit(RESET_BUTTON_FETCHING, button.type);
-            throw  error;
-        });
+            throw error;
+        }).finally(() => context.commit(RESET_BUTTON_FETCHING, button.type));
     },
 
-    [FETCH_CHART_DATA]: (context, time) => {
+    [FETCH_CHART_DATA]: (context) => {
+        const time = getTimeByPeriod(context.state.selectedPeriod);
         context.commit(SET_CHART_FETCHING);
+        alert(time.startDate.unix());
+        alert(time.endDate.unix());
+        alert(time.interval);
         factoryPageViewsService.create(context.state.activeButton).fetchChartValues(
             time.startDate.unix(),
             time.endDate.unix(),
@@ -84,8 +85,7 @@ export default {
                 context.commit(RESET_CHART_FETCHING);
             }
         ).catch(error => {
-            context.commit(RESET_CHART_FETCHING);
             throw  error;
-        });
+        }).finally(() => context.commit(RESET_CHART_FETCHING));
     }
 };
