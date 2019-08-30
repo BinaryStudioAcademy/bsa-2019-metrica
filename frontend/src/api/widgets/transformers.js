@@ -1,3 +1,7 @@
+import moment from "moment";
+import { period } from "../../services/periodService";
+import { BOUNCE_RATE } from "../../configs/visitors/buttonTypes";
+
 const devicesAndSystemsTransformer = (data) => {
     return [
         {
@@ -43,6 +47,32 @@ const devicesAndSystemsTransformer = (data) => {
     ];
 };
 
+function toDateStringFormat (interval) {
+    switch (interval) {
+        case period.PERIOD_TODAY:
+        case period.PERIOD_YESTERDAY:
+            return "HH:mm";
+        case period.PERIOD_LAST_WEEK:
+        case period.PERIOD_LAST_MONTH:
+            return "MM/DD";
+        default:
+            return "MM/YYYY";
+    }
+}
+
+const chartDataTransformer = (items, dataToFetch, selectedPeriod) => {
+    const fromDateStringFormat = "DD/MM/YYYY H:mm:ss";
+    return items.map(item => {
+        return {
+            'date': moment(item.date, fromDateStringFormat).format(toDateStringFormat(selectedPeriod)),
+            'value': dataToFetch !== BOUNCE_RATE
+                ? item.value
+                : `${Math.round(item.value * 100)}%`
+        };
+    });
+};
+
 export {
-    devicesAndSystemsTransformer
+    devicesAndSystemsTransformer,
+    chartDataTransformer
 };
