@@ -19,7 +19,7 @@ class HelpClass
         loginPage.enterPassword(credentials.password);
         loginPage.clickLoginButton();
 
-        browser.pause(1000)
+        browser.pause(1000);
     }
 
     loginWithNewUser() {
@@ -30,7 +30,7 @@ class HelpClass
         loginPage.enterPassword(credentials.password);
         loginPage.clickLoginButton();
 
-        browser.pause(1000)
+        browser.pause(1000);
     }
 
     loginWithCustomUser(email, password) {
@@ -41,7 +41,7 @@ class HelpClass
         loginPage.enterPassword(password);
         loginPage.clickLoginButton();
 
-        browser.pause(1000)
+        browser.pause(1000);
     }
 
 }

@@ -213,7 +213,7 @@ exports.config = {
      */
     beforeTest: function (test) {
         browser.maximizeWindow();
-       browser.url('https://stage.metrica.fun');
+        browser.url('https://stage.metrica.fun');
     },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
@@ -302,4 +302,4 @@ exports.config = {
         browser.reloadSession();
         
     }
-}
+};

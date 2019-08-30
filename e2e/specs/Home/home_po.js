@@ -1,7 +1,7 @@
 class HomePage {
     
-    get loginButton () {return $('a.login')};
-    get registrationButton () {return $('a.primary')};
+    get loginButton () {return $('a.login');};
+    get registrationButton () {return $('a.primary');};
     
 };
 

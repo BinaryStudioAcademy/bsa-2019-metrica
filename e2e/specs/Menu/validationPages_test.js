@@ -19,54 +19,54 @@ describe('Validation pages tests', () => {
                 
         menu.navigateToVisitors();
         
-        Assert.compareUrl(url.domain + url.visitors)
+        Assert.compareUrl(url.domain + url.visitors);
     });
 
     it('should navigate to Page views page', () => {
         help.loginWithDefaultUser(); 
 
-        menu.navigateToPageViews()
+        menu.navigateToPageViews();
 
-        Assert.compareUrl(url.domain + url.pageViews)
+        Assert.compareUrl(url.domain + url.pageViews);
     });
 
     it('should navigate to Geo locations page', () => {
         help.loginWithDefaultUser(); 
 
-        menu.navigateToGeoLocation()
+        menu.navigateToGeoLocation();
 
-        Assert.compareUrl(url.domain + url.geoLocations)
+        Assert.compareUrl(url.domain + url.geoLocations);
     });
 
     it('should navigate to Behaviour page', () => {
         help.loginWithDefaultUser(); 
         
-        menu.navigateToBehaviour()
+        menu.navigateToBehaviour();
 
-        Assert.compareUrl(url.domain + url.behaviour)
+        Assert.compareUrl(url.domain + url.behaviour);
     });
     
     it('should navigate to Speed Overview page', () => {
         help.loginWithDefaultUser(); 
         
-        menu.navigateToSpeedOverview()
+        menu.navigateToSpeedOverview();
 
-        Assert.compareUrl(url.domain + url.speedOverview)
+        Assert.compareUrl(url.domain + url.speedOverview);
     });
         
     it('should navigate to User Settings page', () => {
         help.loginWithDefaultUser(); 
         
-        menu.navigateToUserSettings()
+        menu.navigateToUserSettings();
       
-        Assert.compareUrl(url.domain + url.userSettings)
+        Assert.compareUrl(url.domain + url.userSettings);
     });
 
     it('should navigate to Website Settings page', () => {
         help.loginWithDefaultUser(); 
        
-        menu.navigateToWebsiteSettings()
+        menu.navigateToWebsiteSettings();
 
-        Assert.compareUrl(url.domain + url.websiteSettings)
+        Assert.compareUrl(url.domain + url.websiteSettings);
     });
 });

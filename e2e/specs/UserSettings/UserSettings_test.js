@@ -12,30 +12,30 @@ const UserSettingsPage = require('./UserSettings_po');
 
 const menu = new MenuActions();
 const help = new Help();
-const userSettingsSteps = new UserSettingsActions()
-const userSettingsPage = new UserSettingsPage()
+const userSettingsSteps = new UserSettingsActions();
+const userSettingsPage = new UserSettingsPage();
 
 describe('Settings page tests', () => {
 
 
     it('should edit user password', () => {
-        help.loginWithDefaultUser()
+        help.loginWithDefaultUser();
 
-        menu.navigateToUserSettings()
-        userSettingsSteps.enterNewPassword(credentials.changedPassword)
-        userSettingsSteps.enterConfirmNewPassword(credentials.changedPassword)
-        userSettingsSteps.saveChanges()
-        browser.pause(500)
+        menu.navigateToUserSettings();
+        userSettingsSteps.enterNewPassword(credentials.changedPassword);
+        userSettingsSteps.enterConfirmNewPassword(credentials.changedPassword);
+        userSettingsSteps.saveChanges();
+        browser.pause(500);
 
-        Assert.notificationTextIs(data.profileUpdated)
+        Assert.notificationTextIs(data.profileUpdated);
         browser.reloadSession();
-        browser.url('https://stage.metrica.fun')
-        help.loginWithCustomUser(credentials.email , credentials.changedPassword)
+        browser.url('https://stage.metrica.fun');
+        help.loginWithCustomUser(credentials.email , credentials.changedPassword);
         
-        menu.navigateToUserSettings()
-        userSettingsSteps.enterNewPassword(credentials.password)
-        userSettingsSteps.enterConfirmNewPassword(credentials.password)
-        userSettingsSteps.saveChanges()
+        menu.navigateToUserSettings();
+        userSettingsSteps.enterNewPassword(credentials.password);
+        userSettingsSteps.enterConfirmNewPassword(credentials.password);
+        userSettingsSteps.saveChanges();
     });
 
 

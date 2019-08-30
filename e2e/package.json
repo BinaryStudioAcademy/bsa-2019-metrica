@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "./node_modules/.bin/wdio wdio.conf.js",
-    "test:all": "./node_modules/.bin/wdio wdio.conf.js --suite all"
+    "test:all": "./node_modules/.bin/wdio wdio.conf.js --suite all",
+    "lint": "./node_modules/.bin/eslint . --fix"
   },
   "keywords": [],
   "author": "",

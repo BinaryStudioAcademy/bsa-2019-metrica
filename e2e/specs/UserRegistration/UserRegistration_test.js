@@ -19,7 +19,7 @@ describe('Registrations page tests', () => {
 
     it('should register with valid data', () => {
       
-        homeSteps.clickRegistration()
+        homeSteps.clickRegistration();
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.newEmail1);
@@ -34,7 +34,7 @@ describe('Registrations page tests', () => {
 
     it('should not register with empty field', () => {
         
-        homeSteps.clickRegistration()
+        homeSteps.clickRegistration();
 
         registrationSteps.enterName();
         registrationSteps.enterEmail();
@@ -42,31 +42,31 @@ describe('Registrations page tests', () => {
         registrationSteps.enterConfirmPassword();
         registrationSteps.enterName();
 
-        Assert.expectedElementText(registrationPage.nameErrorLable, data.nameIsRequiredLabel)
-        Assert.expectedElementText(registrationPage.emailErrorLable, data.emailIsRequiredLabel)
-        Assert.expectedElementText(registrationPage.passwordErrorLable, data.passwordIsRequiredLabel)
-        Assert.expectedElementText(registrationPage.confirmPasswordErrorLable, data.passwordIsRequiredLabel)
+        Assert.expectedElementText(registrationPage.nameErrorLable, data.nameIsRequiredLabel);
+        Assert.expectedElementText(registrationPage.emailErrorLable, data.emailIsRequiredLabel);
+        Assert.expectedElementText(registrationPage.passwordErrorLable, data.passwordIsRequiredLabel);
+        Assert.expectedElementText(registrationPage.confirmPasswordErrorLable, data.passwordIsRequiredLabel);
 
         Assert.compareUrl(url.domain+url.signup);
-        Assert.buttonIsDisabled(registrationPage.signUpButton)
+        Assert.buttonIsDisabled(registrationPage.signUpButton);
     });
 
     it('should not register with invalid email', () => {
        
-        homeSteps.clickRegistration()
+        homeSteps.clickRegistration();
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.invalidEmail);
         registrationSteps.enterPassword(credentials.password);
         registrationSteps.enterConfirmPassword(credentials.password);
         
-        Assert.expectedElementText(registrationPage.emailErrorLable, data.emailNotValidLabel)
-        Assert.buttonIsDisabled(registrationPage.signUpButton)
+        Assert.expectedElementText(registrationPage.emailErrorLable, data.emailNotValidLabel);
+        Assert.buttonIsDisabled(registrationPage.signUpButton);
     });
 
     it('should not register with existing email', () => {
         
-        homeSteps.clickRegistration()
+        homeSteps.clickRegistration();
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.email);
@@ -75,32 +75,32 @@ describe('Registrations page tests', () => {
         registrationSteps.createUser();
         
         Assert.compareUrl(url.domain+url.signup);
-        Assert.notificationTextIs(data.wrongEmailNotification)
+        Assert.notificationTextIs(data.wrongEmailNotification);
     });
     
     it('should not register with invalid password', () => {
         
-        homeSteps.clickRegistration()
+        homeSteps.clickRegistration();
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.newEmail2);
         registrationSteps.enterPassword(credentials.invalidPassword);
         registrationSteps.enterConfirmPassword(credentials.invalidPassword);
         
-        Assert.expectedElementText(registrationPage.passwordErrorLable, data.passwordNotValidLabel)
-        Assert.buttonIsDisabled(registrationPage.signUpButton)
+        Assert.expectedElementText(registrationPage.passwordErrorLable, data.passwordNotValidLabel);
+        Assert.buttonIsDisabled(registrationPage.signUpButton);
     });
 
     it('should not register with wrong confirm password', () => {
         
-        homeSteps.clickRegistration()
+        homeSteps.clickRegistration();
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.newEmail2);
         registrationSteps.enterPassword(credentials.password);
         registrationSteps.enterConfirmPassword(credentials.changedPassword);
     
-        Assert.expectedElementText(registrationPage.confirmPasswordErrorLable, data.passwordNotMatch)
-        Assert.buttonIsDisabled(registrationPage.signUpButton)
+        Assert.expectedElementText(registrationPage.confirmPasswordErrorLable, data.passwordNotMatch);
+        Assert.buttonIsDisabled(registrationPage.signUpButton);
     });
 });

@@ -16,7 +16,7 @@
         "curly": 1,
         "eofline": false,
         "forin": true,
-        "indent": [true, "spaces"],
+        "indent": ["error", 4],
         "max-line-length": false,
         "no-arg": true,
         "no-bitwise": 1,
@@ -29,7 +29,7 @@
         "no-unused-expression": true,
         "no-var-keyword": true,
         "radix": 1,
-        "semicolon": [false],
+        "semi": ["error"],
         "trailing-comma": [
             false,
             {

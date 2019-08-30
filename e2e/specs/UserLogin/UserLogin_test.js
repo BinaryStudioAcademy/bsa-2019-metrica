@@ -23,10 +23,10 @@ describe('Login page tests', () => {
         loginSteps.enterEmail(credentials.email);
         loginSteps.enterPassword(credentials.password);
         loginSteps.clickLoginButton();
-        browser.pause(1000)
+        browser.pause(1000);
 
         Assert.notificationTextIs(data.succesLoginNotification);
-        Assert.compareUrl(url.domain + url.dashboard)  
+        Assert.compareUrl(url.domain + url.dashboard);  
     });
 
     it('should login via Google', () => {
@@ -34,9 +34,9 @@ describe('Login page tests', () => {
         homeSteps.clickLogin();
 
         loginSteps.clickViaGoogleButton();
-        browser.pause(500)
+        browser.pause(500);
 
-        Assert.compareDomain("https://accounts.google.com")
+        Assert.compareDomain("https://accounts.google.com");
 
     });
 
@@ -45,7 +45,7 @@ describe('Login page tests', () => {
 
         loginSteps.clickViaFacebookButton();
 
-        Assert.compareUrl("https://www.facebook.com/login.php")
+        Assert.compareUrl("https://www.facebook.com/login.php");
        
     });
 
@@ -58,7 +58,7 @@ describe('Login page tests', () => {
         loginSteps.clickLoginButton();
 
         Assert.notificationTextIs(data.errorEmailNotification);
-        Assert.compareUrl(url.domain + url.login)  
+        Assert.compareUrl(url.domain + url.login);  
 
     });
 
@@ -71,7 +71,7 @@ describe('Login page tests', () => {
         loginSteps.clickLoginButton();
 
         Assert.notificationTextIs(data.errorLoginNotification);
-        Assert.compareUrl(url.domain + url.login)  
+        Assert.compareUrl(url.domain + url.login);  
     });
 
     it('should not login with empty data', () => {
@@ -82,9 +82,9 @@ describe('Login page tests', () => {
         loginSteps.enterPassword();
         loginSteps.enterEmail();
         
-        Assert.buttonIsDisabled(loginPage.loginButton)
-        Assert.expectedElementText(loginPage.emailErrorLable, data.emailIsRequiredLabel)
-        Assert.expectedElementText(loginPage.passwordErrorLable, data.passwordIsRequiredLabel)
+        Assert.buttonIsDisabled(loginPage.loginButton);
+        Assert.expectedElementText(loginPage.emailErrorLable, data.emailIsRequiredLabel);
+        Assert.expectedElementText(loginPage.passwordErrorLable, data.passwordIsRequiredLabel);
     });
 
     it('should not login with invalid email', () => {
@@ -95,8 +95,8 @@ describe('Login page tests', () => {
         loginSteps.enterPassword(credentials.password);
         loginSteps.enterEmail();
         
-        Assert.buttonIsDisabled(loginPage.loginButton)
-        Assert.expectedElementText(loginPage.emailErrorLable, data.emailNotValidLabel)
+        Assert.buttonIsDisabled(loginPage.loginButton);
+        Assert.expectedElementText(loginPage.emailErrorLable, data.emailNotValidLabel);
     });
 
     it('should not login with invalid password', () => {
@@ -107,8 +107,8 @@ describe('Login page tests', () => {
         loginSteps.enterPassword(credentials.invalidPassword);
         loginSteps.enterEmail();
         
-        Assert.buttonIsDisabled(loginPage.loginButton)
-        Assert.expectedElementText(loginPage.passwordErrorLable, data.passwordNotValidLabel)
+        Assert.buttonIsDisabled(loginPage.loginButton);
+        Assert.expectedElementText(loginPage.passwordErrorLable, data.passwordNotValidLabel);
     });
 
     

@@ -9,7 +9,7 @@ class ResetPasswordActions {
 
     enterEmail(value) {
 
-        resetPassword.emailField.setValue(value)
+        resetPassword.emailField.setValue(value);
     }
 
     clickLoginButton() {
