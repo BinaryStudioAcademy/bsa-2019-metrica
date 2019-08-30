@@ -42,7 +42,7 @@ final class GetBounceRateChartByDateRangeAction
         do {
             $all = $allVisitsByTimeFrame[$start]??0;
             $bounced = $bouncedVisitsByTimeFrame[$start]??0;
-            $rate = ($all === 0) ? 0 : ($bounced / $all*100);
+            $rate = ($all === 0) ? 0 : ($bounced / $all);
             $collection->add(new ChartValue((string) $start, (string) $rate));
         } while (($start += (int)$interval) <= $end);
 
