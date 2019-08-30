@@ -5,6 +5,7 @@ import {
     CHANGE_SELECTED_PERIOD,
     FETCH_LINE_CHART_DATA,
     CHANGE_DATA_TYPE,
+    REFRESH_ACTIVITY_DATA_ITEMS
 } from "./types/actions";
 import {
     RESET_LINE_CHART_FETCHING,
@@ -19,6 +20,7 @@ import {
 } from "./types/mutations";
 
 import moment from 'moment';
+import _ from "lodash";
 import {getActivityDataItems} from '@/api/visitors/activeVisitorService';
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
 import {getTimeByPeriod} from '@/services/periodService';
@@ -56,16 +58,12 @@ export default {
 
         return getActivityDataItems().then(response => {
             response.sort( (a, b) => {
-                return  a.date - b.date || a.url - b.url || a.visitor - b.visitor;
+                return  a.date - b.date || a.visitor - b.visitor;
             });
 
             const result = [];
             response.forEach((element) => {
-                if(result.length > 0) {
-                    if(!result.find( (item => item.url === element.url && item.visitor === element.visitor))) {
-                        result.push(element);
-                    }
-                } else {
+                if(!result.find( (item => item.url === element.url && item.visitor === element.visitor))) {
                     result.push(element);
                 }
             });
@@ -87,4 +85,13 @@ export default {
         context.commit(SET_ACTIVITY_DATA_ITEMS, data);
     },
 
+    [REFRESH_ACTIVITY_DATA_ITEMS]: (context, data) => {
+        const items =  context.state.activityData.items;
+        const index = _.indexOf(items, _.find(items, {url: data.url, visitor: data.visitor}));
+        if(index >= 0) {
+            items.splice(index, 1);
+        }
+        items.push(data);
+        context.commit(SET_ACTIVITY_DATA_ITEMS, items);
+    },
 };

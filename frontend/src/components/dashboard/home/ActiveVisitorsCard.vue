@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-white visitors-card rounded text-dark position-relative">
+    <div class="card bg-white visitors-card rounded text-dark position-relative justify-content-between">
         <Spinner v-if="isFetching" />
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
@@ -56,7 +56,11 @@
     import {echoInstance} from '../../../services/echoService';
     import {GET_ACTIVITY_DATA_ITEMS} from "@/store/modules/dashboard/types/getters";
     import {GET_CURRENT_WEBSITE} from '@/store/modules/website/types/getters';
-    import {FETCHING_ACTIVITY_DATA_ITEMS, RELOAD_ACTIVITY_DATA_ITEMS} from "@/store/modules/dashboard/types/actions";
+    import {
+        FETCHING_ACTIVITY_DATA_ITEMS,
+        RELOAD_ACTIVITY_DATA_ITEMS,
+        REFRESH_ACTIVITY_DATA_ITEMS
+    } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
         name: 'ActiveVisitorsCard',
@@ -83,11 +87,8 @@
             polling: null,
         }),
         mounted() {
-            const channel = echoInstance.private('private-active-users.'+ this.website.id);
-            channel.listen('VisitCreated', function(data) {
-                console.log(data);
-
-            });
+            const channel = echoInstance.private('active-users.'+ this.website.id);
+            channel.listen('ActiveUserEvent', (data) => this.refreshActivityDataItems(data));
         },
         computed: {
             ...mapGetters('dashboard', {
@@ -126,6 +127,7 @@
             ...mapActions('dashboard', {
                 fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
                 reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
+                refreshActivityDataItems: REFRESH_ACTIVITY_DATA_ITEMS,
             }),
             filterDataActivity () {
                 this.polling = setInterval(() => {
@@ -144,7 +146,7 @@
         width: 307px;
         font-size: 12px;
         padding: 43px 33px 32px 28px;
-        height: 394px;
+        height: 100%;
 
         .card-top-row {
             height: 53px;
