@@ -9,27 +9,7 @@ import {
     GET_FORMAT_LINE_CHART_DATA
 } from "./types/getters";
 
-import { period } from "../../../services/periodService";
-import { BOUNCE_RATE } from "../../../configs/visitors/buttonTypes";
-
-import moment from "moment";
-
-function toFormat (interval) {
-    switch (interval) {
-        case period.PERIOD_TODAY:
-        case period.PERIOD_YESTERDAY:
-            return "HH:mm";
-        case period.PERIOD_LAST_WEEK:
-        case period.PERIOD_LAST_MONTH:
-            return "MM/DD";
-        default:
-            return "MM/YYYY";
-    }
-}
-
-function percentage(value) {
-    return `${Math.round(value * 100)}%`;
-}
+import { chartDataTransformer } from "@/api/widgets/transformers";
 
 export default {
     [GET_SELECTED_PERIOD]: (state) => state.selectedPeriod,
@@ -40,15 +20,6 @@ export default {
     [GET_ACTIVITY_DATA_FETCHING]: (state) => state.activityData.isFetching,
     [GET_ACTIVITY_CHART_DATA]: (state) => state.activityChartData,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
-        const fromFormat = "DD/MM/YYYY H:mm:ss";
-        return state.chartData.items.map(
-            item => {
-                return {
-                    'date': moment(item.date, fromFormat).format(toFormat(state.selectedPeriod)),
-                    'value': state.dataToFetch !== BOUNCE_RATE
-                        ? item.value
-                        : percentage(item.value)
-                };
-            });
+        return chartDataTransformer(state.chartData.items, state.dataToFetch, state.selectedPeriod);
     }
 };
