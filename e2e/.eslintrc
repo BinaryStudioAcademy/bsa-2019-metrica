@@ -30,6 +30,7 @@
         "no-var-keyword": true,
         "radix": 1,
         "semi": ["error"],
+        "no-extra-semi": ["error"],
         "trailing-comma": [
             false,
             {
