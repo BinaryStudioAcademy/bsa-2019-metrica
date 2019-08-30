@@ -8,6 +8,8 @@ use App\Actions\Visits\GetBounceRateChartByDateRangeAction;
 use App\Actions\Visits\GetBounceRateChartByDateRangeRequest;
 use App\Actions\Visits\GetUniquePageViewsButtonAction;
 use App\Actions\Visits\GetUniquePageViewsButtonRequest;
+use App\Actions\Visits\GetVisitsDensityAction;
+use App\Actions\Visits\GetVisitsDensityRequest;
 use App\Http\Requests\Api\GetBounceRateChartHttpRequest;
 use App\Http\Requests\Visit\GetPageViewsFilterHttpRequest;
 use App\Actions\Visits\GetPageViewsByParameterAction;
@@ -22,11 +24,13 @@ use App\Actions\Visits\GetUniquePageViewsChartRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visit\GetUniquePageViewsButtonHttpRequest;
 use App\Http\Requests\Visit\GetUniquePageViewsChartHttpRequest;
+use App\Http\Requests\Visit\GetVisitsDensityHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Requests\Visit\GetPageViewsCountFilterHttpRequest;
 use App\Http\Requests\Visit\GetTableVisitsByParameterHttpRequest;
 use App\Http\Resources\ButtonResource;
 use App\Http\Resources\TableResource;
+use App\Http\Resources\VisitsDensityResource;
 use App\Http\Response\ApiResponse;
 use App\Http\Requests\Visit\GetPageViewsAvgTimeHttpRequest;
 use App\Actions\Visits\GetPageViewsAvgTimeRequest;
@@ -42,6 +46,7 @@ final class VisitController extends Controller
     private $getUniquePageViewChartAction;
     private $getChartBounceRateAction;
     private $getPageViewsAvgTimeAction;
+    private $getVisitsDensityAction;
 
     public function __construct(
         GetPageViewsAction $getPageViewsAction,
@@ -51,7 +56,8 @@ final class VisitController extends Controller
         GetUniquePageViewsButtonAction $getUniquePageViewsButtonAction,
         GetUniquePageViewsChartAction $getUniquePageViewChartAction,
         GetBounceRateChartByDateRangeAction $getChartBounceRateAction,
-        GetPageViewsAvgTimeAction $getPageViewsAvgTimeAction
+        GetPageViewsAvgTimeAction $getPageViewsAvgTimeAction,
+        GetVisitsDensityAction $getVisitsDensityAction
     ) {
         $this->getPageViewsAction = $getPageViewsAction;
         $this->getPageViewsByParameterAction = $getPageViewsByParameterAction;
@@ -61,6 +67,7 @@ final class VisitController extends Controller
         $this->getUniquePageViewChartAction = $getUniquePageViewChartAction;
         $this->getChartBounceRateAction = $getChartBounceRateAction;
         $this->getPageViewsAvgTimeAction = $getPageViewsAvgTimeAction;
+        $this->getVisitsDensityAction = $getVisitsDensityAction;
     }
 
     public function getPageViews(GetPageViewsFilterHttpRequest $request): ApiResponse
@@ -107,5 +114,14 @@ final class VisitController extends Controller
     {
         $response = $this->getUniquePageViewChartAction->execute(GetUniquePageViewsChartRequest::fromRequest($request));
         return ApiResponse::success(new ChartResource($response->getUniquePageViewsCollection()));
+    }
+
+    public function getVisitsDensityByHourAndDay(GetVisitsDensityHttpRequest $request): ApiResponse
+    {
+        $response = $this->getVisitsDensityAction->execute(
+            new GetVisitsDensityRequest($request->startDate(), $request->endDate())
+        )->collection();
+
+        return ApiResponse::success(new VisitsDensityResource($response));
     }
 }
