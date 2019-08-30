@@ -36,7 +36,7 @@ class ActiveUser extends Notification implements ShouldQueue
         return [
             'page' => $this->visit->page->url,
             'visitor' => $this->visit->visitor_id,
-            'time_notification' => $this->visit->created_at,
+            'date' => $this->visit->created_at,
         ];
     }
 

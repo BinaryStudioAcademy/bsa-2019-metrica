@@ -1,5 +1,6 @@
 <template>
-    <div class="card bg-white visitors-card rounded shadow text-dark">
+    <div class="card bg-white visitors-card rounded shadow text-dark position-relative">
+        <Spinner v-if="isFetching" />
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
                 Active users
@@ -49,17 +50,19 @@
 </template>
 
 <script>
+    import Spinner from '../../utilites/Spinner';
     import {mapGetters, mapActions} from 'vuex';
     import _ from "lodash";
     import {echoInstance} from '../../../services/echoService';
     import {GET_ACTIVITY_DATA_ITEMS} from "@/store/modules/dashboard/types/getters";
-    import {GET_AUTHENTICATED_USER} from '@/store/modules/auth/types/getters';
+    import {GET_CURRENT_WEBSITE} from '@/store/modules/website/types/getters';
     import {FETCHING_ACTIVITY_DATA_ITEMS, RELOAD_ACTIVITY_DATA_ITEMS} from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
         name: 'ActiveVisitorsCard',
         components: {
-            TopActivePage
+            TopActivePage,
+            Spinner,
         },
         props: {
             activityChartData: {
@@ -80,20 +83,21 @@
             polling: null,
         }),
         mounted() {
-            echoInstance.private('App.Entities.User.' + 52).notification((notification) => {
-                console.log(notification);
+            const channel = echoInstance.private('active-users.'+ this.website.id);
+            channel.listen('VisitCreated', function(data) {
+                console.log(data);
+
             });
-            console.log(echoInstance);
         },
         computed: {
             ...mapGetters('dashboard', {
                 activityDataItems: GET_ACTIVITY_DATA_ITEMS,
             }),
-            ...mapGetters('auth', {
-                user: GET_AUTHENTICATED_USER
+            ...mapGetters('website', {
+                website: GET_CURRENT_WEBSITE
             }),
             activeUsersCount() {
-                return _.uniqBy(this.activityDataItems, 'visitorId').length;
+                return _.uniqBy(this.activityDataItems, 'visitor').length;
             },
             pageViewsCount() {
                 return _.uniqBy(this.activityDataItems, 'url').length;
@@ -104,16 +108,16 @@
                     .map((items, url) => {
                         return { url: url, count: items.length };
                     }).value();
-                if(result.length > 3) {
-                    return result.slice(0, 2);
+                const sort = _.sortBy(result, ['count']).reverse();
+                if(sort.length > 3) {
+                    return sort.slice(0, 3);
                 }
-                return result;
+                return sort;
             }
         },
         created() {
             this.fetchingActivityDataItems();
             this.filterDataActivity();
-            console.log(this.user);
         },
         beforeDestroy () {
             clearInterval(this.polling);
