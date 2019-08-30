@@ -1,5 +1,5 @@
 <template>
-    <VContainer>
+    <VContainer class="position-relative">
         <Spinner
             v-if="isFetching"
         />
@@ -41,6 +41,9 @@
         },
         data() {
             return {
+                chartArea: {
+                    width: '90%'
+                },
                 chartOptions: {
                     tooltip: {
                         isHtml: true,

@@ -33,6 +33,7 @@
 
 <script>
     import Spinner from '../../utilites/Spinner';
+
     export default {
         name: 'ButtonComponent',
         components: {

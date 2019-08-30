@@ -31,13 +31,11 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
 
     public function groupByCity(int $website_id, string $from, string $to): Collection
     {
-        $count = $this->countAllVisitors($website_id);
-
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
-                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / (SUM(COUNT(DISTINCT visitors.id)) OVER()) AS percentage"),
                     'geo_positions.city as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -49,13 +47,11 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
 
     public function groupByCountry(int $website_id, string $from, string $to): Collection
     {
-        $count = $this->countAllVisitors($website_id);
-
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
-                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / (SUM(COUNT(DISTINCT visitors.id)) OVER()) AS percentage"),
                     'geo_positions.country as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -67,13 +63,11 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
 
     public function groupByLanguage(int $website_id, string $from, string $to): Collection
     {
-        $count = $this->countAllVisitors($website_id);
-
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
-                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / (SUM(COUNT(DISTINCT visitors.id)) OVER()) AS percentage"),
                     'sessions.language as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -85,14 +79,12 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
 
     public function groupByBrowser(int $website_id, string $from, string $to): Collection
     {
-        $count = $this->countAllVisitors($website_id);
-
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
-                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / (SUM(COUNT(DISTINCT visitors.id)) OVER()) AS percentage"),
                     'systems.browser as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -104,14 +96,12 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
 
     public function groupByOperatingSystem(int $website_id, string $from, string $to): Collection
     {
-        $count = $this->countAllVisitors($website_id);
-
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
-                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / (SUM(COUNT(DISTINCT visitors.id)) OVER()) AS percentage"),
                     'systems.os as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])
@@ -123,14 +113,12 @@ final class EloquentTableNewVisitorsRepository implements TableNewVisitorsReposi
 
     public function groupByScreenResolution(int $website_id, string $from, string $to): Collection
     {
-        $count = $this->countAllVisitors($website_id);
-
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as total'),
-                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / $count AS percentage"),
+                     DB::raw("COUNT(DISTINCT visitors.id) * 100 / (SUM(COUNT(DISTINCT visitors.id)) OVER()) AS percentage"),
                      DB::raw('CONCAT(systems.resolution_height, \'x\', systems.resolution_width) as parameter_value'))
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('visitors.created_at', [$from, $to])

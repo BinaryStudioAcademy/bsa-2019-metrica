@@ -23,9 +23,8 @@
                         class="chart-container"
                     >
                         <LineChart
-                            :data="data"
+                            :data="formatLineChartData"
                             :is-fetching="chartData.isFetching"
-                            :interval="getSelectedPeriod"
                         />
                         <PeriodDropdown
                             :value="getSelectedPeriod"
@@ -88,12 +87,14 @@
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
         GET_LINE_CHART_DATA,
+        GET_FORMAT_LINE_CHART_DATA,
         GET_PAGE_VIEWS_TABLE_DATA,
         IS_FETCHING
     } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_SELECTED_PERIOD,
+        FETCH_PAGE_DATA,
         FETCH_PAGE_VIEWS_TABLE_DATA
     } from "@/store/modules/page_views/types/actions";
     import {
@@ -102,7 +103,6 @@
         AVERAGE_TIME,
         BOUNCE_RATE
     } from '../configs/page_views/buttonTypes.js';
-    import moment from 'moment';
 
     export default {
         components: {
@@ -130,7 +130,7 @@
                     },
                     {
                         icon: 'clock',
-                        title: 'Average time',
+                        title: 'Avg. time on page',
                         type: AVERAGE_TIME
                     },
                     {
@@ -142,7 +142,7 @@
             };
         },
         computed: {
-            title () {
+            title() {
                 return this.$route.meta.title;
             },
             ...mapGetters('page_views', {
@@ -150,34 +150,26 @@
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
+                formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
                 getTableData: GET_PAGE_VIEWS_TABLE_DATA,
                 isFetching: IS_FETCHING
             }),
-            buttonData () {
+            buttonData() {
                 return this.buttonsData[this.type];
             }
         },
-        mounted() {
-            for (let i = 1; i < 20; i++) {
-                const x = moment(`05/09/2019 ${i}:00:00`).unix();
-                const item = {
-                    date: x,
-                    value: Math.floor(Math.random() * 2000) + 1,
-                    indication: Math.floor(Math.random() * 200) + 1,
-                };
-                this.data.push(item);
-            }
-        },
         created() {
+            this.fetchPageData();
             this.fetchTableData();
         },
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchPageData: FETCH_PAGE_DATA,
                 fetchTableData: FETCH_PAGE_VIEWS_TABLE_DATA,
             }),
-            changeButton (data) {
+            changeButton(data) {
                 this.changeActiveButton(data);
             },
             changePeriod(data) {
@@ -194,6 +186,7 @@
     .buttons-row {
         margin-top: 50px;
     }
+
     .chart-container {
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
     }
