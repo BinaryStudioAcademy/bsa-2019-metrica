@@ -1,36 +1,17 @@
 <template>
     <ContentLayout :title="title">
-        <VLayout
-            wrap
-        />
-        <VLayout>
-            <VFlex
-                lg12
-                md12
-                sm12
-                xs12
-                class="content-card"
-            >
-                <VLayout
-                    wrap
-                    align-center
-                    justify-center
-                >
-                    <VFlex
-                        class="chart-container position-relative"
-                    >
-                        <LineChart
-                            :data="chartData.items"
-                            :is-fetching="chartData.isFetching"
-                        />
-                        <PeriodDropdown
-                            :value="getSelectedPeriod"
-                            @change="changePeriod"
-                        />
-                    </VFlex>
-                </VLayout>
-            </VFlex>
-        </VLayout>
+        <VRow>
+            <VContainer class="white card px-7 py-6">
+                <LineChart
+                    :data="chartData.items"
+                    :is-fetching="chartData.isFetching"
+                />
+                <PeriodDropdown
+                    :value="getSelectedPeriod"
+                    @change="changePeriod"
+                />
+            </VContainer>
+        </VRow>
         <VRow
             class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
         >
@@ -221,10 +202,11 @@
 </script>
 
 <style scoped>
+    .card {
+        border-radius: 6px;
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+    }
     .buttons-row {
         margin-top: 50px;
-    }
-    .chart-container {
-        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
     }
 </style>
