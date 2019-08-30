@@ -12,7 +12,7 @@ import {
 import { period } from "../../../services/periodService";
 import moment from "moment";
 
-const toFormat = (interval) => {
+function toFormat (interval) {
     switch (interval) {
         case period.PERIOD_TODAY:
         case period.PERIOD_YESTERDAY:
@@ -23,7 +23,7 @@ const toFormat = (interval) => {
         default:
             return "MM/YYYY";
     }
-};
+}
 
 export default {
     [GET_SELECTED_PERIOD]: (state) => state.selectedPeriod,
