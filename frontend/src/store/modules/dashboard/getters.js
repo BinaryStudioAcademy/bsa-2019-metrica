@@ -12,6 +12,19 @@ import {
 import { period } from "../../../services/periodService";
 import moment from "moment";
 
+const toFormat = (interval) => {
+    switch (interval) {
+        case period.PERIOD_TODAY:
+        case period.PERIOD_YESTERDAY:
+            return "HH:mm";
+        case period.PERIOD_LAST_WEEK:
+        case period.PERIOD_LAST_MONTH:
+            return "MM/DD";
+        default:
+            return "MM/YYYY";
+    }
+};
+
 export default {
     [GET_SELECTED_PERIOD]: (state) => state.selectedPeriod,
     [GET_LINE_CHART_FETCHING]: (state) => state.chartData.isFetching,
@@ -21,25 +34,15 @@ export default {
     [GET_ACTIVITY_DATA_FETCHING]: (state) => state.activityData.isFetching,
     [GET_ACTIVITY_CHART_DATA]: (state) => state.activityChartData,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
-        const interval = state.selectedPeriod;
-        const format = "DD/MM/YYYY H:mm:ss";
-        switch (interval) {
-            case period.PERIOD_TODAY:
-            case period.PERIOD_YESTERDAY:
-                return state.chartData.items.map(item => {
-                    return {
-                        'date': moment(item.date, format).format("HH:mm"),
-                        'value': item.value
-                    };
-                });
-            default:
-                return state.chartData.items.map(item => {
-                    const value = Number(item.value);
-                    return {
-                        'date': moment(item.date, format).format("MM/DD/YYYY"),
-                        'value': Number.isInteger(value) ? value : value.toFixed(2)
-                    };
-                });
-        }
+        const fromFormat = "DD/MM/YYYY H:mm:ss";
+        return state.chartData.items.map(
+            item => {
+                return {
+                    'date': moment(item.date, fromFormat).format(toFormat(state.selectedPeriod)),
+                    'value': state.dataToFetch !== 'bounce_rate'
+                        ? item.value
+                        : `${Math.round(item.value * 100)}%`
+                };
+            });
     }
 };
