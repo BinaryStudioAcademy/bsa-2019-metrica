@@ -117,44 +117,49 @@ class ButtonVisitsApiTest extends TestCase
         factory(Visitor::class)->create();
         factory(GeoPosition::class)->create();
         factory(System::class)->create();
-        factory(Page::class)->create(['id' => 1]);
-        factory(Page::class)->create(['id' => 2]);
-        factory(Page::class)->create(['id' => 3]);
-        factory(Page::class)->create(['id' => 4]);
+        factory(Page::class)->create(['id' => 11]);
+        factory(Page::class)->create(['id' => 12]);
+        factory(Page::class)->create(['id' => 13]);
+        factory(Page::class)->create(['id' => 14]);
         $filterData = [
             'filter' => [
                 'startDate' => (string)$startDate->getTimestamp(),
                 'endDate' => (string)$endDate->getTimestamp(),
             ]
         ];
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 05:30:00'), 2, 1);
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:00:00'), 1, 2);
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:20:00'), 1, 4);
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:30:00'), 2, 1);
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 07:00:00'), 1, 4);
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 07:30:00'), 1, 3);
-        $this->createVisitWithSessions(new \DateTime('2019-08-20 08:00:00'), 3, 2);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 05:30:00'), [14]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:10:00'), [12]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:20:00'), [11,13,12]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:30:00'), [12,14]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:30:00'), [11]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 06:50:00'), [14,12]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 07:10:00'), [11,14]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 07:30:00'), [13]);
+        $this->createVisitWithSessions(new \DateTime('2019-08-20 08:30:00'), [11]);
+
         $expectedData = [
             'data' => [
-                'value' => "50",
+                'value' => "0.25",
             ],
             'meta' => [],
         ];
+
         $this->actingAs($this->user)
             ->json('GET', $endpoint, $filterData)
             ->assertStatus(200)
             ->assertJson($expectedData);
     }
-    private function createVisitWithSessions(\DateTime $createdDate, int $countVisits, int $pageId)
+    private function createVisitWithSessions(\DateTime $createdDate, array $pages)
     {
         $session = factory(Session::class)->create([
             'start_session' => $createdDate
         ]);
-        $visit = factory(Visit::class, $countVisits)->create([
-            'session_id' => $session->id,
-            'page_id' => $pageId
-        ]);
-        return $visit;
+        foreach ($pages as $page) {
+            factory(Visit::class)->create([
+                'session_id' => $session->id,
+                'page_id' => $page
+            ]);
+        }
     }
 }
 

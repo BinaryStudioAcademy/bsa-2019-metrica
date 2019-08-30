@@ -3,37 +3,18 @@
         <Spinner
             v-if="isFetching"
         />
-        <VLayout
-            wrap
-        />
-        <VLayout>
-            <VFlex
-                lg12
-                md12
-                sm12
-                xs12
-                class="content-card"
-            >
-                <VLayout
-                    wrap
-                    align-center
-                    justify-center
-                >
-                    <VFlex
-                        class="chart-container"
-                    >
-                        <LineChart
-                            :data="formatLineChartData"
-                            :is-fetching="chartData.isFetching"
-                        />
-                        <PeriodDropdown
-                            :value="getSelectedPeriod"
-                            @change="changePeriod"
-                        />
-                    </VFlex>
-                </VLayout>
-            </VFlex>
-        </VLayout>
+        <VRow>
+            <VContainer class="white card px-7 py-6">
+                <LineChart
+                    :data="formatLineChartData"
+                    :is-fetching="chartData.isFetching"
+                />
+                <PeriodDropdown
+                    :value="getSelectedPeriod"
+                    @change="changePeriod"
+                />
+            </VContainer>
+        </VRow>
         <VLayout class="buttons-row">
             <VFlex
                 xs12
@@ -154,9 +135,6 @@
                 getTableData: GET_PAGE_VIEWS_TABLE_DATA,
                 isFetching: IS_FETCHING
             }),
-            buttonData() {
-                return this.buttonsData[this.type];
-            }
         },
         created() {
             this.fetchPageData();
@@ -183,11 +161,11 @@
 </script>
 
 <style scoped>
-    .buttons-row {
-        margin-top: 50px;
-    }
-
-    .chart-container {
-        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
-    }
+.buttons-row {
+    margin-top: 50px;
+}
+.card {
+    border-radius: 6px;
+    box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+}
 </style>
