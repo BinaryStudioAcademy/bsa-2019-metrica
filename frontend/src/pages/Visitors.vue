@@ -67,7 +67,7 @@
                 class="img-card"
             >
                 <PieChart
-                    :data="pieData"
+                    :chart-data="pieData"
                     :legend="legend"
                     :is-fetching="pieChartData.isFetching"
                 />
@@ -151,26 +151,7 @@
                         type: BOUNCE_RATE
                     },
                 ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', this.getPieData.newVisitors],
-                    ['Return Visitors',this.getPieData.returnVisitors],
-                ],
-                legend: {
-                    title: 'Outcome',
-                    data: {
-                        newVisitors: {
-                            title: 'New Visitors',
-                            percentageDiff: 41,
-                            color: '#3C57DE',
-                        },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: 49,
-                            color: '#1BC3DA',
-                        },
-                    }
-                },
+
             };
         },
         computed: {
@@ -181,6 +162,30 @@
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
             }),
+            pieData () {
+                return [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.pieChartData.newVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors]
+                ];
+            },
+            legend () {
+                return {
+                    title: 'Outcome',
+                    data: {
+                        newVisitors: {
+                            title: 'New Visitors',
+                            percentageDiff: Number(this.pieChartData.newVisitors),
+                            color: '#3C57DE',
+                        },
+                        returnVisitors: {
+                            title: 'Return Visitors',
+                            percentageDiff: Number(this.pieChartData.returnVisitors),
+                            color: '#1BC3DA',
+                        },
+                    }
+                };
+            },
         },
         created () {
             this.fetchPageData();
@@ -197,9 +202,6 @@
             },
             changePeriod (data) {
                 this.changeSelectedPeriod(data);
-            },
-            getPieData(){
-                return this.pieChartData;
             },
             isButtonActive (type) {
                 return this.currentActiveButton === type;

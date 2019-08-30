@@ -74,7 +74,7 @@
             Spinner
         },
         props: {
-            data: {
+            chartData: {
                 type: Array,
                 required: true,
             },
@@ -93,7 +93,6 @@
         },
         data() {
             return {
-                chartData: this.data,
                 chartOptions: {
                     width: 200,
                     height: 200,
@@ -114,7 +113,7 @@
                     }
                 }
             };
-        }
+        },
     };
 </script>
 
