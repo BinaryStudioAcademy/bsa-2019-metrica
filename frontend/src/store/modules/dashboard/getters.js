@@ -10,6 +10,8 @@ import {
 } from "./types/getters";
 
 import { period } from "../../../services/periodService";
+import { BOUNCE_RATE } from "../../../configs/visitors/buttonTypes";
+
 import moment from "moment";
 
 function toFormat (interval) {
@@ -23,6 +25,10 @@ function toFormat (interval) {
         default:
             return "MM/YYYY";
     }
+}
+
+function percentage(value) {
+    return `${Math.round(value * 100)}%`;
 }
 
 export default {
@@ -39,9 +45,9 @@ export default {
             item => {
                 return {
                     'date': moment(item.date, fromFormat).format(toFormat(state.selectedPeriod)),
-                    'value': state.dataToFetch !== 'bounce_rate'
+                    'value': state.dataToFetch !== BOUNCE_RATE
                         ? item.value
-                        : `${Math.round(item.value * 100)}%`
+                        : percentage(item.value)
                 };
             });
     }
