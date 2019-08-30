@@ -34,9 +34,10 @@ export default {
                 });
             default:
                 return state.chartData.items.map(item => {
+                    const value = Number(item.value);
                     return {
                         'date': moment(item.date, format).format("MM/DD/YYYY"),
-                        'value': item.value
+                        'value': Number.isInteger(value) ? value : value.toFixed(2)
                     };
                 });
         }
