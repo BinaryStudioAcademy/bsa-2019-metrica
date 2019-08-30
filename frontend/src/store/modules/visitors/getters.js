@@ -26,7 +26,7 @@ export default {
                         total: moment.unix(item.total).format("HH:mm:ss"),
                         percentage: Math.round(Number(item.percentage))
                     };
-                    return {...item, newItem};
+                    return {...item, ...newItem};
                 }
                 return {...item, percentage: Math.round(Number(item.percentage))};
             });
