@@ -7,13 +7,14 @@ use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\Visit;
 use App\Entities\Visitor;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Visit::class, function (Faker $faker) {
     $session = Session::inRandomOrder()->first();
 
     return [
-        'visit_time' => $session->start_session,
+        'visit_time' => $session->start_session->addHours(rand(0, 100))->toDateTimeString(),
         'ip_address' => $faker->ipv4,
         'session_id' => $session->id,
         'page_id' => Page::inRandomOrder()->first()->id,
