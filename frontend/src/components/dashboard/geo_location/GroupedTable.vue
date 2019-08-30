@@ -74,7 +74,11 @@
         computed: {
             geoLocationItems() {
                 return this.items.map((item) => {
-                    return { ...item, avg_session_time: moment.unix(item.avg_session_time).format("HH:mm:ss")};
+                    let newItemData = {
+                        avg_session_time: moment.unix(item.avg_session_time).format("HH:mm:ss"),
+                        bounce_rate: Math.round(Number(item.bounce_rate)*100)
+                    };
+                    return { ...item, ...newItemData};
                 });
             }
         }
