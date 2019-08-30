@@ -83,8 +83,7 @@
             polling: null,
         }),
         mounted() {
-            console.log(echoInstance);
-            const channel = echoInstance.private('active-users.'+ this.website.id);
+            const channel = echoInstance.private('private-active-users.'+ this.website.id);
             channel.listen('VisitCreated', function(data) {
                 console.log(data);
 
