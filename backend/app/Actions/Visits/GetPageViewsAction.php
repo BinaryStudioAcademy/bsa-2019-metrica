@@ -29,7 +29,7 @@ final class GetPageViewsAction
         $interval = $this->getInterval($request->interval());
 
         if ($interval < 1) {
-            throw new AppInvalidArgumentException('Interval must more 500 ms');
+            throw new AppInvalidArgumentException('Interval must more 1 s');
         }
 
         $data = $this->visitRepository->findByFilter(
@@ -43,6 +43,6 @@ final class GetPageViewsAction
 
     private function getInterval(string $interval): int
     {
-        return (int) \round($interval/1000, 0);
+        return (int) $interval;
     }
 }
