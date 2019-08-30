@@ -93,7 +93,7 @@ export default {
     },
     [CHANGE_GROUPED_PARAMETER]: (context, parameter) => {
         context.commit(SET_GROUPED_PARAMETER, parameter);
-        context.commit(FETCH_TABLE_DATA);
+        context.dispatch(FETCH_TABLE_DATA);
     },
     [CHANGE_FETCHED_TABLE_STATE]: (context, value) => {
 

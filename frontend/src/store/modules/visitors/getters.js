@@ -19,12 +19,17 @@ export default {
     [GET_ACTIVE_BUTTON]: (state) => state.activeButton,
     [GET_PIE_CHART_DATA]: (state) => state.pieChartData,
     [GET_TABLE_DATA_ITEMS]: (state) => {
-        if (state.activeButton === 'avg_session') {
+
             return state.tableData.items.map((item) => {
-                return { ...item, total: moment.unix(item.total).format("HH:mm:ss")};
+                if (state.activeButton === 'avg_session') {
+                    let newItem = {
+                        total: moment.unix(item.total).format("HH:mm:ss"),
+                        percentage: Math.round(Number(item.percentage))
+                    };
+                    return {...item, ...newItem};
+                }
+                return {...item, percentage: Math.round(Number(item.percentage))};
             });
-        }
-        return state.tableData.items;
     },
     [GET_TABLE_DATA_FETCHING]: (state) => state.tableData.isFetching,
     [GET_GROUPED_PARAMETER]: (state) => state.tableData.groupedParameter,

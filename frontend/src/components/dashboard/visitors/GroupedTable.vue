@@ -51,12 +51,31 @@
             return {
                 selected: 'browser',
                 options: [
-                    'language',
-                    'browser',
-                    'country',
-                    'city',
-                    'operating system',
-                    'screen resolution' ],
+                    {
+                        text: 'Language',
+                        value: 'language'
+                    },
+                    {
+                        text: 'Browser',
+                        value: 'browser'
+                    },
+                    {
+                        text: 'Country',
+                        value: 'country'
+                    },
+                    {
+                        text: 'City',
+                        value: 'city'
+                    },
+                    {
+                        text: 'Operating system',
+                        value: 'operating_system'
+                    },
+                    {
+                        text: 'Screen resolution',
+                        value: 'screen_resolution'
+                    }
+                ],
                 headers: [
                     { text: '', align: 'center', value: 'parameter_value' },
                     { text: '', align: 'center', value: 'total' },
