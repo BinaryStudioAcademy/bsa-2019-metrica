@@ -1,5 +1,8 @@
 <template>
     <div class="card bg-white visits-widget rounded shadow text-dark">
+        <Spinner
+            v-if="isFetching"
+        />
         <div class="widget-title">
             Users by time of day
         </div>
@@ -21,14 +24,16 @@
     import VueApexCharts from 'vue-apexcharts';
     import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown.vue";
     import {mapGetters, mapActions} from 'vuex';
-    import {GET_SELECTED_PERIOD, GET_SELECTED_PARAMETER} from "@/store/modules/geo_location/types/getters";
-    import {CHANGE_SELECTED_PERIOD} from "@/store/modules/geo_location/types/actions";
+    import {GET_SELECTED_PERIOD, IS_FETCHING} from "@/store/modules/visits_density_widget/types/getters";
+    import {CHANGE_SELECTED_PERIOD} from "@/store/modules/visits_density_widget/types/actions";
+    import Spinner from "@/components/utilites/Spinner";
 
     export default {
         name: "VisitsDensityWidget",
         components: {
             VueApexCharts,
-            PeriodDropdown
+            PeriodDropdown,
+            Spinner
         },
         data() {
             return {
@@ -114,9 +119,9 @@
             };
         },
         computed: {
-            ...mapGetters('geo_location', {
+            ...mapGetters('visits_density_widget', {
                 getSelectedPeriod: GET_SELECTED_PERIOD,
-                getSelectedParameter: GET_SELECTED_PARAMETER,
+                isFetching: IS_FETCHING
             }),
         },
         created() {
@@ -124,7 +129,7 @@
             this.chartOptions.xaxis.labels.show = this.series.length !== 0;
         },
         methods: {
-            ...mapActions('geo_location', {
+            ...mapActions('visits_density_widget', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD
             }),
             generateData () {
