@@ -6,7 +6,6 @@ import Pusher from 'pusher-js';
 const tokenTypeName = 'Bearer';
 
 const configPusher = {
-    client: pusher,
     authEndpoint: config.getPusherAppAuthEndpoint(),
     cluster: config.getPusherCluster(),
     forceTLS: true,
