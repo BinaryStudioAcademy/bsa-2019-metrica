@@ -208,6 +208,10 @@
                 if (type === 'avg_session') {
                     return moment.unix(this.buttonsData[type].value).format("HH:mm:ss");
                 }
+
+                if (type === 'bounce_rate') {
+                    return Math.round(Number(this.buttonsData[type].value)) + '%';
+                }
                 return this.buttonsData[type].value;
             }
         },
