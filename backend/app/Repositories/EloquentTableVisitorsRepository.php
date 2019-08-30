@@ -160,7 +160,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
                 $parameter,
                 $item->parameter_value,
                 strval($item->count_visitors),
-                $item->count_visitors / $item->total_count * 100
+                round($item->count_visitors / $item->total_count * 100)
             );
         });
     }
