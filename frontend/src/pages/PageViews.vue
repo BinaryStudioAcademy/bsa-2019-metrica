@@ -154,9 +154,6 @@
                 getTableData: GET_PAGE_VIEWS_TABLE_DATA,
                 isFetching: IS_FETCHING
             }),
-            buttonData() {
-                return this.buttonsData[this.type];
-            }
         },
         created() {
             this.fetchPageData();
