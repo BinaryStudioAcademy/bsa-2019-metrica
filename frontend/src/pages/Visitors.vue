@@ -17,69 +17,87 @@
                     justify-center
                 >
                     <VFlex
-                        class="chart-container"
+                        class="chart-container position-relative"
                     >
                         <LineChart
                             :data="chartData.items"
                             :is-fetching="chartData.isFetching"
                         />
-                        <PeriodDropdown />
+                        <PeriodDropdown
+                            :value="getSelectedPeriod"
+                            @change="changePeriod"
+                        />
                     </VFlex>
                 </VLayout>
             </VFlex>
         </VLayout>
-        <VLayout class="buttons-row">
-            <VFlex
+        <VRow
+            class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
+        >
+            <ButtonComponent
                 v-for="button in buttons"
                 :key="button.title"
-            >
-                <ButtonComponent
-                    :title="button.title"
-                    :type="button.type"
-                    :icon-name="button.icon"
-                />
-            </VFlex>
-        </VLayout>
-        <VLayout>
-            <VFlex
+                :title="button.title"
+                :active="isButtonActive(button.type)"
+                :fetching="buttonsData[button.type].isFetching"
+                :value="getButtonValue(button.type)"
+                :type="button.type"
+                :icon-name="button.icon"
+                @change="changeButton"
+            />
+        </VRow>
+        <VRow
+            flex
+            wrap
+        >
+            <VCol
                 lg6
-                md6
-                hidden-sm-and-down
+                md-8
+                sm12
                 height="100%"
                 class="img-card"
             >
                 <VisitorsTable />
-            </VFlex>
-            <VFlex
-                lg5
+            </VCol>
+            <VCol
+                lg6
                 md5
-                hidden-sm-and-down
+                sm12
                 height="100%"
                 class="img-card"
             >
                 <PieChart
-                    :data="pieData"
+                    :chart-data="pieData"
                     :legend="legend"
                     :is-fetching="pieChartData.isFetching"
                 />
-            </VFlex>
-        </VLayout>
+            </VCol>
+        </VRow>
     </ContentLayout>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import moment from 'moment';
+    import ContentLayout from '../components/layout/ContentLayout.vue';
+    import LineChart from "../components/common/LineChart";
+    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable.vue";
+    import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
+    import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
+    import PieChart from "../components/common/PieChart";
+    import {mapGetters, mapActions} from 'vuex';
     import {
+        GET_BUTTON_DATA,
+        GET_ACTIVE_BUTTON,
+        GET_SELECTED_PERIOD,
         GET_PIE_CHART_DATA,
         GET_LINE_CHART_DATA,
     } from "@/store/modules/visitors/types/getters";
-    import ContentLayout from '../components/layout/ContentLayout.vue';
-    import LineChart from "../components/common/LineChart";
-    import VisitorsTable from "../components/dashboard/visitors/VisitorsTable";
-    import ButtonComponent from "../components/dashboard/visitors/ButtonComponent";
-    import PeriodDropdown from "../components/dashboard/visitors/PeriodDropdown";
-    import PieChart from "../components/common/PieChart";
-    import {isWebsite} from '../mixins/isWebsite';
+    import {
+        CHANGE_ACTIVE_BUTTON,
+        CHANGE_FETCHED_BUTTON_STATE,
+        CHANGE_SELECTED_PERIOD,
+        FETCH_PAGE_DATA
+    } from "@/store/modules/visitors/types/actions";
     import {
         TOTAL_VISITORS,
         NEW_VISITORS,
@@ -90,7 +108,6 @@
     } from '../configs/visitors/buttonTypes.js';
 
     export default {
-        mixins: [isWebsite],
         components: {
             PieChart,
             LineChart,
@@ -101,23 +118,7 @@
         },
         data() {
             return {
-                items: [
-                    {
-                        option: 'IE',
-                        users: 55,
-                        percentage: '34%'
-                    },
-                    {
-                        option: 'Edge',
-                        users: 77,
-                        percentage: '34%'
-                    },
-                    {
-                        option: 'Firefox',
-                        users: 45,
-                        percentage: '44%'
-                    },
-                ],
+                title: "Visitors",
                 buttons: [
                     {
                         icon: 'person',
@@ -150,37 +151,70 @@
                         type: BOUNCE_RATE
                     },
                 ],
-                legend: {
-                    title: 'Outcome',
-                    data: {
-                        newVisitors: {
-                            title: 'New Visitors',
-                            percentageDiff: 41,
-                            color: '#3C57DE',
-                        },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: 49,
-                            color: '#1BC3DA',
-                        },
-                    }
-                },
+
             };
         },
         computed: {
             ...mapGetters('visitors', {
+                buttonsData: GET_BUTTON_DATA,
+                currentActiveButton: GET_ACTIVE_BUTTON,
+                getSelectedPeriod: GET_SELECTED_PERIOD,
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
             }),
-            title () {
-                return this.$route.meta.title;
-            },
             pieData () {
                 return [
                     ['Type', 'Value'],
                     ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors',this.pieChartData.returnVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors]
                 ];
+            },
+            legend () {
+                return {
+                    title: 'Outcome',
+                    data: {
+                        newVisitors: {
+                            title: 'New Visitors',
+                            percentageDiff: Number(this.pieChartData.newVisitors),
+                            color: '#3C57DE',
+                        },
+                        returnVisitors: {
+                            title: 'Return Visitors',
+                            percentageDiff: Number(this.pieChartData.returnVisitors),
+                            color: '#1BC3DA',
+                        },
+                    }
+                };
+            },
+        },
+        created () {
+            this.fetchPageData();
+        },
+        methods: {
+            ...mapActions('visitors', {
+                changeActiveButton: CHANGE_ACTIVE_BUTTON,
+                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchPageData: FETCH_PAGE_DATA
+            }),
+            changeButton (data) {
+                this.changeActiveButton(data);
+            },
+            changePeriod (data) {
+                this.changeSelectedPeriod(data);
+            },
+            isButtonActive (type) {
+                return this.currentActiveButton === type;
+            },
+            getButtonValue (type) {
+                if (type === 'avg_session') {
+                    return moment.unix(this.buttonsData[type].value).format("HH:mm:ss");
+                }
+
+                if (type === 'bounce_rate') {
+                    return Math.round(Number(this.buttonsData[type].value)) + '%';
+                }
+                return this.buttonsData[type].value;
             }
         },
     };

@@ -10,12 +10,14 @@ use App\Entities\Visitor;
 use Faker\Generator as Faker;
 
 $factory->define(Visit::class, function (Faker $faker) {
+    $session = Session::inRandomOrder()->first();
+
     return [
-        'visit_time' => $faker->dateTimeBetween('-1 year', 'now'),
+        'visit_time' => $session->start_session,
         'ip_address' => $faker->ipv4,
-        'session_id' => Session::inRandomOrder()->first()->id,
+        'session_id' => $session->id,
         'page_id' => Page::inRandomOrder()->first()->id,
-        'visitor_id' => Visitor::inRandomOrder()->first()->id,
+        'visitor_id' => $session->visitor->id,
         'geo_position_id' => GeoPosition::inRandomOrder()->first()->id,
     ];
 });

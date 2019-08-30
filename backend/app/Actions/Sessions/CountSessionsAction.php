@@ -7,8 +7,6 @@ namespace App\Actions\Sessions;
 use App\DataTransformer\ButtonValue;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\VisitorRepository;
-use App\Actions\Sessions\CountSessionsRequest;
-use App\Actions\Sessions\CountSessionsFilter;
 
 final class CountSessionsAction
 {

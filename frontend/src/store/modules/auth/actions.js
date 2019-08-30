@@ -54,6 +54,9 @@ export default {
 
     [SIGN_UP]: (context, newUser) => {
         return registerUser(newUser)
+            .then(response => {
+                return response.data.email;
+            })
             .catch((error) => {
                 throw new Error(_.get(error, 'response.data.error.message', 'Unknown error'));
             });
@@ -94,7 +97,7 @@ export default {
     },
 
     [SOCIAL_REDIRECT]: (context, provider) => {
-        return getSocialRedirectUrl({ provider })
+        return getSocialRedirectUrl({provider})
             .then(response => response.data.url);
     },
 

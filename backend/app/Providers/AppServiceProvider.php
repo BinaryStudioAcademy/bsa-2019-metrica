@@ -4,9 +4,13 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\ChartVisitorRepository;
 use App\Repositories\Contracts\ButtonVisitorsRepository;
-use App\Repositories\Contracts\ButtonDataPageViews;
+use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use App\Repositories\Contracts\ChartVisitorsRepository;
+use App\Repositories\Contracts\GeoPositionRepository;
+use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\SessionRepository;
+use App\Repositories\Contracts\SystemRepository;
+use App\Repositories\Contracts\TablePageViewsRepository;
 use App\Repositories\Contracts\TableVisitorsRepository;
 use App\Repositories\Contracts\TableSessionRepository;
 use App\Repositories\Contracts\TableVisitRepository;
@@ -14,13 +18,19 @@ use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\ChartVisitRepository;
 use App\Repositories\Contracts\ChartSessionsRepository;
+use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
+use App\Repositories\Contracts\PageViews\ChartDataRepository;
 use App\Repositories\EloquentChartVisitorRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
-use App\Repositories\EloquentButtonDataPageViews;
+use App\Repositories\PageViews\EloquentButtonDataRepository;
 use App\Repositories\Contracts\TableNewVisitorsRepository;
 use App\Repositories\EloquentChartVisitorsRepository;
+use App\Repositories\EloquentGeoPositionRepository;
+use App\Repositories\EloquentPageRepository;
 use App\Repositories\EloquentSessionRepository;
+use App\Repositories\EloquentSystemRepository;
+use App\Repositories\EloquentTablePageViewsRepository;
 use App\Repositories\EloquentTableVisitorsRepository;
 use App\Repositories\EloquentTableSessionRepository;
 use App\Repositories\EloquentTableVisitRepository;
@@ -28,8 +38,10 @@ use App\Repositories\EloquentUserRepository;
 use App\Repositories\EloquentVisitorRepository;
 use App\Repositories\EloquentChartVisitRepository;
 use App\Repositories\EloquentChartSessionsRepository;
+use App\Repositories\EloquentVisitRepository;
 use App\Repositories\EloquentWebsiteRepository;
 use App\Repositories\EloquentTableNewVisitorsRepository;
+use App\Repositories\PageViews\EloquentChartDataRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -67,9 +79,21 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(TableVisitRepository::class, EloquentTableVisitRepository::class);
 
-        $this->app->bind(ButtonDataPageViews::class, EloquentButtonDataPageViews::class);
+        $this->app->bind(ButtonDataRepository::class, EloquentButtonDataRepository::class);
 
         $this->app->bind(TableNewVisitorsRepository::class, EloquentTableNewVisitorsRepository::class);
+
+        $this->app->bind(PageRepository::class, EloquentPageRepository::class);
+
+        $this->app->bind(SystemRepository::class, EloquentSystemRepository::class);
+
+        $this->app->bind(GeoPositionRepository::class, EloquentGeoPositionRepository::class);
+
+        $this->app->bind(VisitRepository::class, EloquentVisitRepository::class);
+
+        $this->app->bind(TablePageViewsRepository::class, EloquentTablePageViewsRepository::class);
+
+        $this->app->bind(ChartDataRepository::class, EloquentChartDataRepository::class);
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\User;
 
-use App\Http\Requests\UpdateUserHttpRequest;
+use App\Http\Requests\Auth\UpdateUserHttpRequest;
 
 final class UpdateUserRequest
 {
@@ -40,18 +40,18 @@ final class UpdateUserRequest
         return $this->id;
     }
 
-    public function getName(string $default): ?string
+    public function getName(string $default = null): ?string
     {
         return $this->name ?? $default;
     }
 
-    public function getEmail(string $default): ?string
+    public function getEmail(string $default = null): ?string
     {
         return $this->email ?? $default;
     }
 
-    public function getPassword()
+    public function getPassword(string $default = null): ?string
     {
-        return $this->password;
+        return $this->password ?? $default;
     }
 }

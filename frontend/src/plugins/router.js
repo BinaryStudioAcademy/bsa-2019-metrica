@@ -16,6 +16,11 @@ import Default from '@/components/layout/Default.vue';
 import UserDataProviderPage from '../pages/UserDataProviderPage.vue';
 import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
 import SocialAuthPage from '@/pages/SocialAuthPage.vue';
+import PageViews from "../pages/PageViews.vue";
+import Audience from "../pages/Audience.vue";
+import VerifyEmail from "../components/auth/VerifyEmail";
+import Dashboard from "../pages/Dashboard";
+import GeoLocation from "../pages/GeoLocationPage";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -51,6 +56,12 @@ export default new Router({
                     props: true
                 },
                 {
+                    path: 'signup/verify-email/',
+                    name: 'verify-email',
+                    component: VerifyEmail,
+                    props: true
+                },
+                {
                     path: 'signup',
                     name: 'signup',
                     component: SignUp,
@@ -76,35 +87,32 @@ export default new Router({
                                 {
                                     path: 'dashboard',
                                     name: 'dashboard',
-                                    component: Default,
+                                    component: Dashboard,
                                     meta: {
                                         title: 'Dashboard'
                                     },
                                 },
                                 {
-                                    path: 'visitors',
-                                    component: Visitors,
+                                    path: 'audience',
+                                    component: Audience,
                                     children: [
                                         {
-                                            path: 'main',
+                                            path: 'visitors',
                                             name: 'visitors',
-                                            meta: {
-                                                title: 'Visitors'
-                                            },
+                                            component: Visitors,
                                         },
                                         {
                                             path: 'page-views',
                                             name: 'page-views',
+                                            component: PageViews,
                                             meta: {
                                                 title: 'Page views'
                                             },
                                         },
                                         {
-                                            path: 'geo-locations',
-                                            name: 'geo-locations',
-                                            meta: {
-                                                title: 'Geo locations'
-                                            },
+                                            path: 'geo-location',
+                                            name: 'geo-location',
+                                            component: GeoLocation,
                                         },
                                     ]
                                 },

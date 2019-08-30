@@ -9,21 +9,20 @@ export const period = {
     PERIOD_ALL: 'all_period',
 };
 
-
 const currentDate = () => {
     return moment();
 };
 
 const getSubtractStartDate = (day) => {
-    return moment().subtract('days', day).startOf('day');
+    return moment().subtract(day, 'days').startOf('day');
 };
 
 const getSubtractEndDate = (day) => {
-    return moment().subtract('days', day).endOf('day');
+    return moment().subtract(day, 'days').endOf('day');
 };
 
 const getSubtractStartMonth = (month) => {
-    return moment().subtract('months', month).startOf('day');
+    return moment().subtract(month, 'months').startOf('day');
 };
 
 const getHourInterval = (hour) => {
@@ -70,7 +69,7 @@ export const getTimeByPeriod = (value) => {
             break;
         case period.PERIOD_ALL:
             interval = getDayInterval(30);
-            startDate = undefined;
+            startDate = moment(0);
             endDate = currentDate();
             break;
         default:

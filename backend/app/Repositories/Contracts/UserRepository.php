@@ -13,4 +13,6 @@ interface UserRepository
     public function save(User $user): User;
 
     public function getByEmail(string $email): ?User;
+
+    public function activateUser(string $email): void;
 }

@@ -5,33 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\ApiResponse;
-use App\DataTransformer\Visits\ChartVisit;
-use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Support\Collection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-final class VisitResource extends ResourceCollection implements ApiResponse
+final class VisitResource extends JsonResource implements ApiResponse
 {
     public function toArray($request): array
     {
-        return $this->presentCollection($this->collection);
-    }
-
-    public function present(ChartVisit $chartVisit): array
-    {
         return [
-            'date' => $chartVisit->getDate(),
-            'value' => $chartVisit->getVisits(),
+            'visit_time' => $this->visit_time,
+            'ip_address' => $this->ip_address,
+            'session' => new SessionResource($this->session),
+            'page' => new PageResource($this->page),
+            'geo_position' => new GeoPositionResource($this->geo_position)
         ];
-    }
-
-    public function presentCollection(Collection $collection): array
-    {
-        return $collection
-            ->map(
-                function (ChartVisit $chartVisit) {
-                    return $this->present($chartVisit);
-                }
-            )
-            ->all();
     }
 }

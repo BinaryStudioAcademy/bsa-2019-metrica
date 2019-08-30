@@ -10,15 +10,23 @@ use App\Entities\User;
 use App\Entities\Visit;
 use App\Entities\Visitor;
 use App\Entities\Website;
+use App\Events\VisitCreated;
 use DateTime;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTFactory;
 
 class VisitsApiTest extends TestCase
 {
     use RefreshDatabase;
 
     private $user;
+    private $visitor;
+    private $page;
+    private $system;
     private $url = 'api/v1/chart-visits/';
 
     protected function setUp(): void
@@ -26,10 +34,10 @@ class VisitsApiTest extends TestCase
         parent::setUp();
         $this->user = factory(User::class)->create();
         factory(Website::class)->create();
-        factory(Visitor::class)->create();
-        factory(Page::class)->create();
+        $this->visitor = factory(Visitor::class)->create();
+        $this->page = factory(Page::class)->create();
         factory(GeoPosition::class)->create();
-        factory(System::class)->create();
+        $this->system = factory(System::class)->create();
         factory(Session::class)->create();
     }
 
@@ -197,5 +205,153 @@ class VisitsApiTest extends TestCase
             ->call('GET', $this->url, $filterData)
             ->assertStatus(400)
             ->assertJson($expectedData);
+    }
+
+    public function testBounceRateByTimeFrameAction()
+    {
+        $endpoint = 'api/v1/page-views/bounce-rate';
+
+        $startDate = new DateTime('2019-08-20 06:00:00');
+        $endDate = new DateTime('2019-08-20 07:30:00');
+
+        factory(Page::class)->create(['id' => 11]);
+        factory(Page::class)->create(['id' => 12]);
+        factory(Page::class)->create(['id' => 13]);
+        factory(Page::class)->create(['id' => 14]);
+        factory(Page::class)->create(['id' => 15]);
+
+        $filterData = [
+            'filter' => [
+                'startDate' => (string)$startDate->getTimestamp(),
+                'endDate' => (string)$endDate->getTimestamp(),
+                'period' => "3600",
+            ]
+        ];
+
+        $this->createVisitWithSessions(new DateTime('2019-08-20 05:30:00'), 2, 14);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:00:00'), 1, 12);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:20:00'), 1, 15);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 1, 12);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 2, 11);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:00:00'), 1, 14);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:20:00'), 1, 11);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:30:00'), 1, 13);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 08:00:00'), 3, 15);
+
+        $expectedData = [
+            'data' => [
+                [
+                    'date' => (string) $startDate->getTimestamp(),
+                    'value' => "50",
+                ],
+                [
+                    'date' => (string) ($startDate->getTimestamp() + 3600),
+                    'value' => "100",
+                ]
+            ],
+            'meta' => [],
+        ];
+
+        $this->actingAs($this->user)
+            ->json('GET', $endpoint, $filterData)
+            ->assertStatus(200)
+            ->assertJson($expectedData);
+    }
+
+    private function createVisitWithSessions(DateTime $createdDate, int $countVisits, int $pageId)
+    {
+        $session = factory(Session::class)->create([
+            'start_session' => $createdDate
+        ]);
+        $visit = factory(Visit::class, $countVisits)->create([
+            'session_id' => $session->id,
+            'page_id' => $pageId
+        ]);
+
+        return $visit;
+    }
+
+    public function testCreateVisitAction()
+    {
+        Event::fake();
+        $faker = Factory::create();
+        $language = $faker->languageCode;
+        $userAgent = $faker->userAgent;
+        $ip = $faker->ipv4;
+        $payload = JWTFactory::customClaims([
+            'sub' => env('API_ID'),
+            'visitor_id' => $this->visitor->id
+        ])->make();
+        $token = JWTAuth::encode($payload);
+
+        $data = [
+            'page' => $this->page->url,
+            'page_title' => $this->page->name,
+            'language' => $language,
+            'device' => $this->system->device,
+            'resolution_width' => $this->system->resolution_width,
+            'resolution_height' => $this->system->resolution_height
+        ];
+
+        $headers = [
+            'User-Agent' => $userAgent,
+            'REMOTE_ADDR' => $ip,
+            'X-Visitor' => 'Bearer ' . $token
+        ];
+
+        $url = 'api/v1/visits/';
+
+        $this->actingAs($this->user)
+            ->json('POST', $url, $data, $headers)
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('visits', [
+            'ip_address' => $ip
+        ]);
+    }
+
+    public function testSendNotificationVisitCreated()
+    {
+        Event::fake();
+        $faker = Factory::create();
+        $language = $faker->languageCode;
+        $userAgent = $faker->userAgent;
+        $ip = $faker->ipv4;
+        $payload = JWTFactory::customClaims([
+            'sub' => env('API_ID'),
+            'visitor_id' => $this->visitor->id
+        ])->make();
+        $token = JWTAuth::encode($payload);
+
+        $data = [
+            'page' => $this->page->url,
+            'page_title' => $this->page->name,
+            'language' => $language,
+            'device' => $this->system->device,
+            'resolution_width' => $this->system->resolution_width,
+            'resolution_height' => $this->system->resolution_height
+        ];
+
+        $headers = [
+            'User-Agent' => $userAgent,
+            'REMOTE_ADDR' => $ip,
+            'X-Visitor' => 'Bearer ' . $token
+        ];
+
+        $url = 'api/v1/visits/';
+
+        $this->actingAs($this->user)
+            ->json('POST', $url, $data, $headers)
+            ->assertStatus(200);
+
+        $visit = Visit::latest()->first();
+
+        Event::assertDispatched(VisitCreated::class, function ($e) use ($visit) {
+            return $e->visit->id === $visit->id;
+        });
+
+        $this->assertDatabaseHas('visits', [
+            'ip_address' => $ip
+        ]);
     }
 }

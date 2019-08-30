@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransformer\Visits;
 
 use App\Contracts\ChartValue;
+use App\DataTransformer\Traits\ChartValueTrait;
 
-class ChartVisit implements ChartValue
+final class ChartVisit implements ChartValue
 {
+    use ChartValueTrait;
+
     private $date;
     private $value;
 
@@ -13,15 +18,5 @@ class ChartVisit implements ChartValue
     {
         $this->date = $date;
         $this->value = $value;
-    }
-
-    public function date(): string
-    {
-        return $this->date;
-    }
-
-    public function value(): string
-    {
-        return (string)$this->value;
     }
 }

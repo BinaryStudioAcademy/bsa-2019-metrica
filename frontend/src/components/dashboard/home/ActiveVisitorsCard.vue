@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-white visitors-card rounded shadow text-dark">
+    <div class="card bg-white visitors-card rounded text-dark">
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
                 Active users
@@ -20,57 +20,106 @@
                 </strong>
             </p>
         </div>
-        <p
-            class="card-title mt-3 mb-5"
-        >
-            Top active pages
-        </p>
-        <ul
-            class="links-list m-0 p-0"
-        >
-            <li
-                v-for="page in topPages"
-                class="mb-2 mt-1 px-0 py-1"
-                :key="page"
-            >
-                <a
-                    class="link-item"
-                    href="#"
-                >
-                    {{ page }}
-                </a>
-            </li>
-        </ul>
+        <VContainer>
+            <VSparkline
+                v-if="activityChartData.length > 0"
+                :value="activityChartData"
+                :gradient="gradient"
+                :smooth="radius"
+                :padding="padding"
+                :line-width="lineWidth"
+                :gradient-direction="gradientDirection"
+                auto-draw
+            />
+        </VContainer>
+        <TopActivePage
+            :top-pages="topPages"
+        />
         <div
             class="text-center"
         >
-            <a
-                href="#"
+            <RouterLink
+                :to="{ name: 'page-views'}"
                 class="btn card-button font-weight-light rounded"
             >
-                Real time
-            </a>
+                Real time report
+            </RouterLink>
         </div>
     </div>
 </template>
 
 <script>
+    import _ from "lodash";
+    import {mapGetters, mapActions} from 'vuex';
+    import {
+        GET_ACTIVITY_DATA_ITEMS,
+    } from "@/store/modules/dashboard/types/getters";
+    import {
+        FETCHING_ACTIVITY_DATA_ITEMS,
+        RELOAD_ACTIVITY_DATA_ITEMS
+    } from "@/store/modules/dashboard/types/actions";
+    import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
         name: 'ActiveVisitorsCard',
+        components: {
+            TopActivePage
+        },
         props: {
-            activeUsersCount: {
-                type: Number,
-                default: 250
-            },
-            pageViewsCount: {
-                type: Number,
-                default: 31
-            },
-            topPages: {
+            activityChartData: {
                 type: Array,
-                default: () =>  {
-                    return ['link_1/juhy/kkk', 'link_2/juhy/klk', 'link_3/juk/jjj'];
+                required: true,
+            },
+            isFetching: {
+                type: Boolean,
+                required: true,
+            },
+        },
+        data: () => ({
+            lineWidth: 5,
+            radius: 16,
+            padding: 4,
+            gradient: ['#3C57DE', '#1BC3DA'],
+            gradientDirection: 'left',
+            polling: null,
+        }),
+        computed: {
+            ...mapGetters('dashboard', {
+                activityDataItems: GET_ACTIVITY_DATA_ITEMS,
+            }),
+            activeUsersCount() {
+                return _.uniqBy(this.activityDataItems, 'visitorId').length;
+            },
+            pageViewsCount() {
+                return _.uniqBy(this.activityDataItems, 'url').length;
+            },
+            topPages() {
+                const result = _(this.activityDataItems)
+                    .groupBy('url')
+                    .map((items, url) => {
+                        return { url: url, count: items.length };
+                    }).value();
+                if(result.length > 3) {
+                    return result.slice(0, 2);
                 }
+                return result;
+            }
+        },
+        created() {
+            this.fetchingActivityDataItems();
+            this.filterDataActivity();
+        },
+        beforeDestroy () {
+            clearInterval(this.polling);
+        },
+        methods: {
+            ...mapActions('dashboard', {
+                fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
+                reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
+            }),
+            filterDataActivity () {
+                this.polling = setInterval(() => {
+                    this.reloadActivityDataItems();
+                }, 300000);
             }
         }
     };
@@ -78,11 +127,13 @@
 
 <style lang="scss" scoped>
     .visitors-card {
+        border: none;
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
         font-family: Gilroy;
-        height: 382px;
         width: 307px;
         font-size: 12px;
         padding: 43px 33px 32px 28px;
+        height: 394px;
 
         .card-top-row {
             height: 53px;
@@ -95,16 +146,6 @@
                 font-size: 24px;
             }
         }
-
-        .links-list {
-            list-style: none;
-
-            .link-item {
-                text-decoration:none;
-                color: rgba(18, 39, 55, 0.5);
-            }
-        }
-
         .card-button {
             height: 32px;
             width: 126px;

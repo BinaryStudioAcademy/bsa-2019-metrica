@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
@@ -7,7 +8,7 @@ use App\Repositories\Contracts\ChartVisitorsRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class GetNewChartVisitorsByDateRangeAction
+final class GetNewChartVisitorsByDateRangeAction
 {
     private $repository;
 
