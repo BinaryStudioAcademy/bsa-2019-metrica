@@ -62,13 +62,13 @@ class TableNewVisitorsApiTest extends TestCase
                     'parameter' => 'city',
                     'parameter_value' => 'Berlin',
                     'total' => 1,
-                    'percentage' => 25
+                    'percentage' => 50
                 ],
                 [
                     'parameter' => 'city',
                     'parameter_value' => 'Kiev',
                     'total' => 1,
-                    'percentage' => 25
+                    'percentage' => 50
                 ]
             ],
             'meta' => []

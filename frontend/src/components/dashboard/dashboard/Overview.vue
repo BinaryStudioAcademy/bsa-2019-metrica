@@ -1,14 +1,13 @@
 <template>
     <VContainer
-        class="overview px-7 py-6 position-relative"
+        class="overview px-7 py-6 position-relative d-flex flex-column justify-space-between"
     >
         <WidgetButtons
             name="Visitors"
         />
         <LineChart
-            :data="chartData.items"
-            :interval="selectedPeriod"
-            :is-fetching="chartData.isFetching"
+            :data="chartData"
+            :is-fetching="isFetching"
         />
         <PeriodDropdown
             :value="selectedPeriod"
@@ -23,24 +22,31 @@
     import LineChart from "../../common/LineChart";
     import WidgetButtons from "./WidgetButtons";
     import {
-        GET_LINE_CHART_DATA,
-        GET_SELECTED_PERIOD
+        GET_FORMAT_LINE_CHART_DATA,
+        GET_SELECTED_PERIOD,
+        GET_LINE_CHART_FETCHING
     } from "@/store/modules/dashboard/types/getters";
     import {
         CHANGE_SELECTED_PERIOD,
+        FETCH_LINE_CHART_DATA
     } from "@/store/modules/dashboard/types/actions";
     export default {
         name: "Overview",
         components: { WidgetButtons, LineChart, PeriodDropdown },
+        created() {
+            this.fetchChartData();
+        },
         computed: {
             ...mapGetters('dashboard', {
-                chartData: GET_LINE_CHART_DATA,
+                chartData: GET_FORMAT_LINE_CHART_DATA,
+                isFetching: GET_LINE_CHART_FETCHING,
                 selectedPeriod: GET_SELECTED_PERIOD,
             }),
         },
         methods: {
             ...mapActions('dashboard', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchChartData: FETCH_LINE_CHART_DATA
             }),
         }
     };
@@ -48,8 +54,15 @@
 
 <style scoped lang="scss">
     .overview {
+        height: 394px;
+        width: 100%;
+        margin: 0;
+        min-width: 800px;
         background-color: white;
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
         border-radius: 6px;
+    }
+    .chart {
+        margin: 0;
     }
 </style>

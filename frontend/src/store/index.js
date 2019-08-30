@@ -8,6 +8,7 @@ import visitors from './modules/visitors';
 import dashboard from './modules/dashboard';
 import page_views from './modules/page_views';
 import geo_location from './modules/geo_location';
+import devices from './modules/devices';
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
         visitors,
         page_views,
         dashboard,
-        geo_location
+        geo_location,
+        devices
     },
     plugins: [authPlugin]
 });

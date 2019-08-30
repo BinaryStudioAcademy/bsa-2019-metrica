@@ -18,7 +18,7 @@ final class GeoLocationItem
         int $allVisitorsCount,
         int $newVisitorsCount,
         int $sessionsCount,
-        int $bounceRate,
+        float $bounceRate,
         int $avgSessionTime
     ) {
         $this->country = $country;
@@ -49,7 +49,7 @@ final class GeoLocationItem
         return $this->sessionsCount;
     }
 
-    public function bounceRate(): int
+    public function bounceRate(): float
     {
         return $this->bounceRate;
     }

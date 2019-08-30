@@ -1,16 +1,21 @@
 <template>
-    <GroupedTable
-        :items="items"
-        @change="changeGroupedParameter"
+    <VContainer
+        clas="position-relative"
     >
         <Spinner v-if="isFetching" />
-        <span slot="total">
-            {{ totalColumn }}
-        </span>
-        <span slot="percentage">
-            {{ percentageColumn }}
-        </span>
-    </GroupedTable>
+        <GroupedTable
+            class="position-relative"
+            :items="getItems"
+            @change="changeGroupedParameter"
+        >
+            <span slot="total">
+                {{ totalColumn }}
+            </span>
+            <span slot="percentage">
+                {{ percentageColumn }}
+            </span>
+        </GroupedTable>
+    </VContainer>
 </template>
 
 <script>
@@ -28,6 +33,7 @@
         CHANGE_FETCHED_TABLE_STATE,
         CHANGE_GROUPED_PARAMETER
     } from "@/store/modules/visitors/types/actions";
+
     export default {
         name: 'VisitorsTable',
         components: {
@@ -39,7 +45,7 @@
                 getActiveButton: GET_ACTIVE_BUTTON,
                 getGroupedParameter: GET_GROUPED_PARAMETER,
                 getItems: GET_TABLE_DATA_ITEMS,
-                getFetcingState: GET_TABLE_DATA_FETCHING,
+                getFetchingState: GET_TABLE_DATA_FETCHING,
 
             }),
             totalColumn () {
@@ -51,11 +57,8 @@
             currentParameter () {
                 return this.getGroupedParameter;
             },
-            items () {
-                return this.getItems;
-            },
             isFetching () {
-                return this.getFetcingState;
+                return this.getFetchingState;
             },
             activeButton () {
                 return this.getActiveButton;

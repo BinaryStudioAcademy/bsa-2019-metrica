@@ -49,6 +49,7 @@
     .option-select {
         padding: 0;
         max-width: 140px;
+        max-height: 34px;
 
         ::v-deep .v-input__control {
             min-height: auto;
