@@ -47,7 +47,7 @@ const devicesAndSystemsTransformer = (data) => {
     ];
 };
 
-function toFormat (interval) {
+function toDateStringFormat (interval) {
     switch (interval) {
         case period.PERIOD_TODAY:
         case period.PERIOD_YESTERDAY:
@@ -61,11 +61,10 @@ function toFormat (interval) {
 }
 
 const chartDataTransformer = (items, dataToFetch, selectedPeriod) => {
-    const fromFormat = "DD/MM/YYYY H:mm:ss";
+    const fromDateStringFormat = "DD/MM/YYYY H:mm:ss";
     return items.map(item => {
-        console.log(dataToFetch, selectedPeriod);
         return {
-            'date': moment(item.date, fromFormat).format(toFormat(selectedPeriod)),
+            'date': moment(item.date, fromDateStringFormat).format(toDateStringFormat(selectedPeriod)),
             'value': dataToFetch !== BOUNCE_RATE
                 ? item.value
                 : `${Math.round(item.value * 100)}%`
