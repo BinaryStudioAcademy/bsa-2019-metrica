@@ -18,5 +18,5 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('active-users.{website_id}', function ($user, $website_id) {
-    return $user->website->id === $website_id;
+    return (int)$user->website->id === (int)$website_id;
 });

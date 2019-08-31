@@ -54,7 +54,7 @@
 
 <style scoped lang="scss">
     .overview {
-        height: 394px;
+        height: 100%;
         width: 100%;
         margin: 0;
         min-width: 800px;
