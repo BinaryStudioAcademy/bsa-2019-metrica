@@ -12,14 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            UserTableSeeder::class,
-            WebsiteTableSeeder::class,
-            VisitorTableSeeder::class,
+            DefaultUserAndWebsiteSeeder::class,
             PageTableSeeder::class,
             SystemTableSeeder::class,
             GeoPositionTableSeeder::class,
-            SessionTableSeeder::class,
-            VisitTableSeeder::class
+            InitVisitorsSeeder::class,
         ]);
     }
 }

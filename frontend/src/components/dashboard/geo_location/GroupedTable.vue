@@ -29,7 +29,7 @@
             </VCol>
             <VCol>
                 <slot name="bounce-rate">
-                    Bounce rate
+                    Bounce rate, %
                 </slot>
             </VCol>
             <VCol>
@@ -43,12 +43,14 @@
             hide-default-footer
             hide-default-header
             :headers="headers"
-            :items="items"
+            :items="geoLocationItems"
         />
     </VContainer>
 </template>
 
 <script>
+    import moment from 'moment';
+
     export default {
         name: 'GroupedTable',
         props: {
@@ -61,13 +63,24 @@
             return {
                 headers: [
                     { text: '', align: 'center', value: 'country' },
-                    { text: '', align: 'center', value: 'visitors' },
-                    { text: '', align: 'center', value: 'new_visitors' },
-                    { text: '', align: 'center', value: 'sessions' },
+                    { text: '', align: 'center', value: 'all_visitors_count' },
+                    { text: '', align: 'center', value: 'new_visitors_count' },
+                    { text: '', align: 'center', value: 'sessions_count' },
                     { text: '', align: 'center', value: 'bounce_rate' },
                     { text: '', align: 'center', value: 'avg_session_time' },
                 ],
             };
+        },
+        computed: {
+            geoLocationItems() {
+                return this.items.map((item) => {
+                    let newItemData = {
+                        avg_session_time: moment.unix(item.avg_session_time).format("HH:mm:ss"),
+                        bounce_rate: Math.round(Number(item.bounce_rate)*100)
+                    };
+                    return { ...item, ...newItemData};
+                });
+            }
         }
     };
 </script>

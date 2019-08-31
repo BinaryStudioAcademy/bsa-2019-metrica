@@ -1,11 +1,15 @@
 <template>
     <ContentLayout :title="title">
+        <Spinner
+            v-if="isFetching"
+        />
         <VLayout
+            wrap
             class="map-container"
         >
             <VFlex
                 xl8
-                lg8
+                lg7
                 md12
                 height="100%"
                 class="img-card"
@@ -13,7 +17,7 @@
                 <MapButtons />
                 <MapChart
                     :parameter="getSelectedParameter"
-                    :data-items="items"
+                    :data-items="getGeoLocationItems"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -22,12 +26,12 @@
             </VFlex>
             <VFlex
                 xl4
-                lg4
+                lg5
                 md12
             >
                 <MapList
                     :displayed-parameter="getSelectedParameter"
-                    :data-items="items"
+                    :data-items="getGeoLocationItems"
                 />
             </VFlex>
         </VLayout>
@@ -35,12 +39,12 @@
             <VFlex
                 lg12
                 md12
-                hidden-sm-and-down
+                hidden-xs-and-down
                 height="100%"
                 class="img-card"
             >
                 <GroupedTable
-                    :items="items"
+                    :items="getGeoLocationItems"
                 />
             </VFlex>
         </VLayout>
@@ -55,8 +59,15 @@
     import MapChart from '../components/dashboard/geo_location/MapChart';
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import {mapGetters, mapActions} from 'vuex';
-    import {GET_SELECTED_PERIOD, GET_SELECTED_PARAMETER} from "@/store/modules/geo_location/types/getters";
+    import {
+        GET_SELECTED_PERIOD,
+        GET_SELECTED_PARAMETER,
+        IS_FETCHING
+    } from "@/store/modules/geo_location/types/getters";
     import {CHANGE_SELECTED_PERIOD} from "@/store/modules/geo_location/types/actions";
+    import {FETCH_GEO_LOCATION_ITEMS} from "@/store/modules/geo_location/types/actions";
+    import {GET_GEO_LOCATION_ITEMS} from "@/store/modules/geo_location/types/getters";
+    import Spinner from "@/components/utilites/Spinner";
 
     export default {
         components: {
@@ -65,72 +76,29 @@
             MapChart,
             PeriodDropdown,
             MapButtons,
-            MapList
+            MapList,
+            Spinner
         },
         data() {
             return {
                 title: "Geo Location",
-                items: [
-                    {
-                        country: 'US',
-                        visitors: '1',
-                        new_visitors: '12',
-                        sessions: '10',
-                        bounce_rate: '88',
-                        avg_session_time: '00:30:00'
-                    },
-                    {
-                        country: 'Canada',
-                        visitors: '48',
-                        new_visitors: '12',
-                        sessions: '67',
-                        bounce_rate: '14',
-                        avg_session_time: '00:30:00'
-                    },
-                    {
-                        country: 'Ukraine',
-                        visitors: '32',
-                        new_visitors: '10',
-                        sessions: '32',
-                        bounce_rate: '21',
-                        avg_session_time: '00:37:00'
-                    },
-                    {
-                        country: 'Brazil',
-                        visitors: '87',
-                        new_visitors: '23',
-                        sessions: '175',
-                        bounce_rate: '45',
-                        avg_session_time: '00:43:00'
-                    },
-                    {
-                        country: 'Germany',
-                        visitors: '65',
-                        new_visitors: '23',
-                        sessions: '10',
-                        bounce_rate: '5',
-                        avg_session_time: '00:43:00'
-                    },
-                    {
-                        country: 'Japan',
-                        visitors: '31',
-                        new_visitors: '5',
-                        sessions: '46',
-                        bounce_rate: '12',
-                        avg_session_time: '00:21:00'
-                    },
-                ]
             };
         },
         computed: {
             ...mapGetters('geo_location', {
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 getSelectedParameter: GET_SELECTED_PARAMETER,
-            }),
+                getGeoLocationItems: GET_GEO_LOCATION_ITEMS,
+                isFetching: IS_FETCHING
+            })
+        },
+        created() {
+            this.fetchGeoLocationItems();
         },
         methods: {
             ...mapActions('geo_location', {
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchGeoLocationItems: FETCH_GEO_LOCATION_ITEMS
             }),
         }
     };

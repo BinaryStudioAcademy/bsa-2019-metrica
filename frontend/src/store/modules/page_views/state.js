@@ -1,12 +1,13 @@
 import {
     PAGE_VIEWS,
     UNIQUE_PAGE_VIEWS,
-    ACTIVE_USERS,
+    AVERAGE_TIME,
     BOUNCE_RATE
 } from '../../../configs/page_views/buttonTypes.js';
+import {period} from "@/services/periodService";
 
 export default {
-    selectedPeriod: 'last_week',
+    selectedPeriod: period.PERIOD_LAST_WEEK,
     buttonData: {
         [PAGE_VIEWS]: {
             value: 0,
@@ -16,7 +17,7 @@ export default {
             value: 0,
             isFetching: false
         },
-        [ACTIVE_USERS]: {
+        [AVERAGE_TIME]: {
             value: 0,
             isFetching: false
         },
@@ -30,4 +31,8 @@ export default {
         items: [],
         isFetching: false
     },
+    pageViewsTableData: {
+        items: [],
+        isFetching: true
+    }
 };

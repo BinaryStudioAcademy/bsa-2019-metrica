@@ -41,7 +41,7 @@ final class EloquentTableSessionRepository implements TableSessionRepository
                 return new TableValue(
                     'language',
                     $key,
-                    strval($item->count()),
+                    (string)$item->count(),
                     $item->count() / $session_count * 100
                 );
             })->values();
@@ -59,7 +59,7 @@ final class EloquentTableSessionRepository implements TableSessionRepository
                 return new TableValue(
                     'operating_system',
                     $key,
-                    strval($item->count()),
+                    (string)$item->count(),
                     $item->count() / $session_count * 100
                 );
             })->values();
@@ -72,12 +72,12 @@ final class EloquentTableSessionRepository implements TableSessionRepository
             ->with(['system:id,browser'])
             ->get();
         $session_count = $sessions->count();
-        return $sessions->groupBy('system.os')
+        return $sessions->groupBy('system.browser')
             ->map(function($item, $key) use ($session_count) {
                 return new TableValue(
                     'browser',
                     $key,
-                    strval($item->count()),
+                    (string)$item->count(),
                     $item->count() / $session_count * 100
                 );
             })->values();
@@ -98,7 +98,7 @@ final class EloquentTableSessionRepository implements TableSessionRepository
                 return new TableValue(
                     'screen_resolution',
                     $key,
-                    strval($item->count()),
+                    (string)$item->count(),
                     $item->count() / $session_count * 100
                 );
             })->values();
@@ -116,7 +116,7 @@ final class EloquentTableSessionRepository implements TableSessionRepository
                 return new TableValue(
                     'city',
                     $key,
-                    strval($item->count()),
+                    (string)$item->count(),
                     $item->count() / $session_count * 100
                 );
             })->values();
@@ -134,7 +134,7 @@ final class EloquentTableSessionRepository implements TableSessionRepository
                 return new TableValue(
                     'country',
                     $key,
-                    strval($item->count()),
+                    (string)$item->count(),
                     $item->count() / $session_count * 100
                 );
             })->values();

@@ -38,7 +38,7 @@ final class GetAverageSessionByIntervalAction
         $interval = $this->getInterval($request->interval());
 
         if ($interval < 1) {
-            throw new AppInvalidArgumentException('Interval must more 1 s');
+            throw new AppInvalidArgumentException('Interval should be greater than 1 second');
         }
 
         $result = $this->getAvgSessionsTimeInPeriod($request->period(), $interval, $websiteId);
@@ -84,7 +84,7 @@ final class GetAverageSessionByIntervalAction
             $avgSessionTime = $currentIntervalSessionsTime / $currentIntervalSessions->count();
 
             $result[] = new ChartValue(
-                Carbon::createFromTimestampUTC($intervalEndDate)->toDateString(),
+                (string)$intervalEndDate,
                 (string) $avgSessionTime
             );
         }

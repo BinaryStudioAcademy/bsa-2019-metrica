@@ -54,11 +54,11 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
         $subQueryFirst = "SELECT id FROM pages WHERE website_id = :website_id";
         $subQuerySecond = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQuerySecond) AS visits " .
-            "WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQueryFirst)";
-        $subQueryForth = "SELECT group_visits.page_id, group_visits.start_session, COUNT(*) " .
-            "FROM ($subQueryThird) AS group_visits GROUP BY group_visits.page_id, group_visits.start_session";
-        $subQueryFifth = "SELECT group_visits.count, (" . $this->roundDate('group_visits.start_session', $interval) .
-            ") AS period FROM ($subQueryForth) AS group_visits";
+            "WHERE visits.start_session >= :startDate AND visits.start_session <= :endDate AND page_id IN ($subQueryFirst)";
+        $subQueryForth = "SELECT session_id, start_session, COUNT(*) " .
+            "FROM ($subQueryThird) AS s GROUP BY session_id, start_session";
+        $subQueryFifth = "SELECT count, (" . $this->roundDate('start_session', $interval) .
+            ") AS period FROM ($subQueryForth) AS s";
         $query = DB::raw("SELECT COUNT(*), period FROM ($subQueryFifth) AS periods WHERE count < 2 GROUP BY period");
         $response = DB::select((string)$query, [
             'startDate' => $datePeriod->getStartDate(),
@@ -74,7 +74,7 @@ final class EloquentChartVisitRepository implements ChartVisitRepository
         $subQueryFirst = "SELECT id FROM pages WHERE website_id = :website_id";
         $subQuerySecond = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQuerySecond) AS visits " .
-            "WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQueryFirst)";
+            "WHERE visits.start_session >= :startDate AND visits.start_session <= :endDate AND page_id IN ($subQueryFirst)";
         $subQueryForth = "SELECT group_visits.*, (" . $this->roundDate('group_visits.start_session', $interval) .
             ") AS period FROM ($subQueryThird) AS group_visits";
         $query = DB::raw("SELECT COUNT(*), period FROM ($subQueryForth) AS periods GROUP BY period;");

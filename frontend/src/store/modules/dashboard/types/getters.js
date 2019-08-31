@@ -5,3 +5,4 @@ export const GET_DATA_TYPE = 'getDataType';
 export const GET_ACTIVITY_DATA_ITEMS = 'getActivityDataItems';
 export const GET_ACTIVITY_DATA_FETCHING  = 'getActivityDataFetching';
 export const GET_ACTIVITY_CHART_DATA  = 'getActivityChartData';
+export const GET_FORMAT_LINE_CHART_DATA = 'getFormatLineChartData';
