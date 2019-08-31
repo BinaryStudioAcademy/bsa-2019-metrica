@@ -148,6 +148,5 @@ class ChartSessionsApiTest extends TestCase
             'start_session' => '2019-09-31 06:05:00',
             'end_session' => '2019-09-31 08:30:00'
         ]);
-
     }
 }
