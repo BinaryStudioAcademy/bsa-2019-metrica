@@ -9,5 +9,5 @@ use Illuminate\Support\Collection;
 
 interface ChartSessionsRepository
 {
-    public function findByFilter(DatePeriod $filterData, int $websiteId): Collection;
+    public function findByFilter(DatePeriod $datePeriod, int $interval, int $websiteId): Collection;
 }

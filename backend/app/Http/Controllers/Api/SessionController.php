@@ -66,12 +66,11 @@ final class SessionController extends Controller
         return ApiResponse::success(new SessionResourceCollection($response->sessions()));
     }
 
-    public function getSessions(GetSessionsFilterHttpRequest $request): ApiResponse
+    public function getSessions(GetSessionsFilterHttpRequest $request):ApiResponse
     {
         $response = $this->getSessionsAction->execute(
             GetSessionsRequest::fromRequest($request)
         );
-
         return ApiResponse::success(new ChartResource($response->sessions()));
     }
 
@@ -112,7 +111,8 @@ final class SessionController extends Controller
 
     public function getSessionsByParameter(
         GetSessionsByParameterHttpRequest $request
-    ) {
+    )
+    {
         $response = $this->getSessionsByParameterAction->execute(
             GetSessionsByParameterRequest::fromRequest($request)
         );
