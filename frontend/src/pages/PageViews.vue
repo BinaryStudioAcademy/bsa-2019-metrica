@@ -15,30 +15,21 @@
                 />
             </VContainer>
         </VRow>
-        <VLayout class="buttons-row">
-            <VFlex
-                xs12
-                sm8
-                offset-sm2
-            >
-                <VLayout>
-                    <VFlex
-                        v-for="button in buttons"
-                        :key="button.title"
-                    >
-                        <ButtonComponent
-                            :title="button.title"
-                            :active="isButtonActive(button.type)"
-                            :fetching="buttonsData[button.type].isFetching"
-                            :value="buttonsData[button.type].value"
-                            :type="button.type"
-                            :icon-name="button.icon"
-                            @change="changeButton"
-                        />
-                    </VFlex>
-                </VLayout>
-            </VFlex>
-        </VLayout>
+        <VRow
+            class="buttons-row justify-sm-center justify-lg-center justify-xl-space-between "
+        >
+            <ButtonComponent
+                v-for="button in buttons"
+                :key="button.title"
+                :title="button.title"
+                :active="isButtonActive(button.type)"
+                :fetching="buttonsData[button.type].isFetching"
+                :value="buttonsData[button.type].value"
+                :type="button.type"
+                :icon-name="button.icon"
+                @change="changeButton"
+            />
+        </VRow>
         <VLayout>
             <VFlex
                 lg12
