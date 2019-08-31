@@ -16,9 +16,13 @@ import {
     SET_ACTIVITY_CHART_DATA
 } from "./types/mutations";
 
-import moment from 'moment';
+import Moment from 'moment';
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
+import {pageViewsService} from '@/api/page_views/pageViewsService';
 import {getTimeByPeriod} from '@/services/periodService';
+import { extendMoment } from 'moment-range';
+
+const moment = extendMoment(Moment);
 
 export default {
     [CHANGE_DATA_TYPE]: (context, payload) => {
@@ -108,8 +112,34 @@ export default {
         context.commit(SET_ACTIVITY_DATA_ITEMS, result);
     },
     [FETCHING_ACTIVITY_CHART_DATA]: (context) => {
-        const data = [0, 10, 12, 5, 4, 0, 12];
-        context.commit(SET_ACTIVITY_CHART_DATA, data);
+
+        const startDay = moment().subtract(1, 'minute');
+        const endDay = moment();
+
+        pageViewsService.fetchChartValues(
+            startDay.unix(),
+            endDay.unix(),
+            60
+        ).then(response => {
+            const range = moment().range(startDay, endDay);
+            const arrayOfDates = Array.from(range.by('seconds'));
+            const result = [];
+            if(response.length > 0) {
+                arrayOfDates.map((item) => {
+                    const value = response.find(x =>
+                        moment(moment(x.date, "DD/MM/YYYY H:mm:ss")).unix() === item.unix()
+                    );
+                    if(value) {
+                        result.push(value.value);
+                    } else {
+                        result.push(0);
+                    }
+                });
+            }
+            context.commit(SET_ACTIVITY_CHART_DATA, result);
+        }).catch((response) => {
+            return Promise.reject(response);
+        });
     },
 
     [RELOAD_ACTIVITY_DATA_ITEMS]: (context) => {

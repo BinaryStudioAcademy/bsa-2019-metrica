@@ -53,26 +53,19 @@
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_ACTIVITY_DATA_ITEMS,
+        GET_ACTIVITY_DATA_FETCHING,
+        GET_ACTIVITY_CHART_DATA,
     } from "@/store/modules/dashboard/types/getters";
     import {
         FETCHING_ACTIVITY_DATA_ITEMS,
-        RELOAD_ACTIVITY_DATA_ITEMS
+        RELOAD_ACTIVITY_DATA_ITEMS,
+        FETCHING_ACTIVITY_CHART_DATA,
     } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     export default {
         name: 'ActiveVisitorsCard',
         components: {
             TopActivePage
-        },
-        props: {
-            activityChartData: {
-                type: Array,
-                required: true,
-            },
-            isFetching: {
-                type: Boolean,
-                required: true,
-            },
         },
         data: () => ({
             lineWidth: 5,
@@ -81,10 +74,13 @@
             gradient: ['#3C57DE', '#1BC3DA'],
             gradientDirection: 'left',
             polling: null,
+            fetch: null,
         }),
         computed: {
             ...mapGetters('dashboard', {
                 activityDataItems: GET_ACTIVITY_DATA_ITEMS,
+                activityDataFetching: GET_ACTIVITY_DATA_FETCHING,
+                activityChartData: GET_ACTIVITY_CHART_DATA,
             }),
             activeUsersCount() {
                 return _.uniqBy(this.activityDataItems, 'visitorId').length;
@@ -106,20 +102,29 @@
         },
         created() {
             this.fetchingActivityDataItems();
+            this.fetchingActivityChartData();
             this.filterDataActivity();
+            this.fetchigActivityChartData();
         },
         beforeDestroy () {
             clearInterval(this.polling);
+            clearInterval(this.fetch);
         },
         methods: {
             ...mapActions('dashboard', {
                 fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
                 reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
+                fetchingActivityChartData: FETCHING_ACTIVITY_CHART_DATA,
             }),
             filterDataActivity () {
                 this.polling = setInterval(() => {
                     this.reloadActivityDataItems();
                 }, 300000);
+            },
+            fetchigActivityChartData() {
+                this.fetch = setInterval(() => {
+                    this.fetchingActivityChartData();
+                }, 60000);
             }
         }
     };
@@ -153,6 +158,5 @@
             color:#ffffff;
             font-size: 12px;
         }
-
     }
 </style>
