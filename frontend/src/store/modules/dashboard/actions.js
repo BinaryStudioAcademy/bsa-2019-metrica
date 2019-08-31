@@ -20,7 +20,6 @@ import {
 } from "./types/mutations";
 
 import moment from 'moment';
-import _ from "lodash";
 import {getActivityDataItems} from '@/api/visitors/activeVisitorService';
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
 import {getTimeByPeriod} from '@/services/periodService';
@@ -86,12 +85,15 @@ export default {
     },
 
     [REFRESH_ACTIVITY_DATA_ITEMS]: (context, data) => {
-        const items =  context.state.activityData.items;
-        const index = _.indexOf(items, _.find(items, {url: data.url, visitor: data.visitor}));
-        if(index >= 0) {
-            items.splice(index, 1);
-        }
-        items.push(data);
+        const items = [
+            ...context.state
+                .activityData
+                .items
+                .filter(item => {
+                    return item.url !== data.url || item.visitor !== data.visitor;
+                }),
+            data,
+        ];
         context.commit(SET_ACTIVITY_DATA_ITEMS, items);
     },
 };
