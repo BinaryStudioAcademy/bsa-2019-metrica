@@ -6,6 +6,7 @@ namespace App\Actions\Visitors;
 
 use App\DataTransformer\Visitors\BounceRateVisitors;
 use App\Repositories\Contracts\TableVisitorsRepository;
+use Illuminate\Support\Facades\Auth;
 
 final class GetVisitorsBounceRateByParameterAction
 {
@@ -26,78 +27,73 @@ final class GetVisitorsBounceRateByParameterAction
     public function execute(GetVisitorsBounceRateByParameterRequest $request): GetVisitorsBounceRateByParameterResponse
     {
         $parameter = $request->parameter();
+        $websiteId = Auth::user()->website->id;
         switch ($parameter) {
             case self::CITY:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
                     ->getCountVisitorsGroupByCity($request->period())
                     ->keyBy(self::CITY)
-                    ->toArray()
-                );
+                    ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
                     ->getBounceRateGroupByCity($request->period())
                     ->keyBy(self::CITY)
-                    ->toArray()
-                );
+                    ->only('bounced_visitors_count')
+                    ->toArray());
                 break;
             case self::COUNTRY:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
                     ->getCountVisitorsGroupByCountry($request->period())
                     ->keyBy(self::COUNTRY)
-                    ->toArray()
-                );
+                    ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
                     ->getBounceRateGroupByCountry($request->period())
                     ->keyBy(self::COUNTRY)
-                    ->toArray()
-                );
+                    ->only('bounced_visitors_count')
+                    ->toArray());
                 break;
             case self::LANGUAGE:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByLanguage($request->period())
+                    ->getCountVisitorsGroupByLanguage($websiteId, $request->period())
                     ->keyBy(self::LANGUAGE)
-                    ->toArray()
-                );
+                    ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateRateGroupByLanguage($request->period())
+                    ->getBounceRateRateGroupByLanguage($websiteId, $request->period())
                     ->keyBy(self::LANGUAGE)
-                    ->toArray()
-                );
+                    ->only('bounced_visitors_count')
+                    ->toArray());
                 break;
             case self::BROWSER:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByBrowser($request->period())
+                    ->getCountVisitorsGroupByBrowser($websiteId, $request->period())
                     ->keyBy(self::BROWSER)
-                    ->toArray()
-                );
+                    ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateGroupByBrowser($request->period())
+                    ->getBounceRateGroupByBrowser($websiteId, $request->period())
                     ->keyBy(self::BROWSER)
-                    ->toArray()
-                );
+                    ->only('bounced_visitors_count')
+                    ->toArray());
                 break;
             case self::OS:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                        ->getCountVisitorsGroupByOperatingSystem($request->period())
+                    ->getCountVisitorsGroupByOperatingSystem($websiteId, $request->period())
                     ->keyBy(self::OS)
-                    ->toArray()
-                );
+                    ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateGroupByOperatingSystem($request->period())
+                    ->getBounceRateGroupByOperatingSystem($websiteId, $request->period())
                     ->keyBy(self::OS)
-                    ->toArray()
-                );
+                    ->only('bounced_visitors_count')
+                    ->toArray());
                 break;
             case self::SCREEN_RESOLUTION:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsRateGroupByScreenResolution($request->period())
+                    ->getCountVisitorsRateGroupByScreenResolution($websiteId, $request->period())
                     ->keyBy(self::SCREEN_RESOLUTION)
-                    ->toArray()
-                );
+                    ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateGroupByScreenResolution($request->period())
+                    ->getBounceRateGroupByScreenResolution($websiteId, $request->period())
                     ->keyBy(self::SCREEN_RESOLUTION)
-                    ->toArray()
-                );
+                    ->only('bounced_visitors_count')
+                    ->toArray());
                 break;
         }
 
