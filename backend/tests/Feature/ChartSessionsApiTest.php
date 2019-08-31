@@ -35,6 +35,50 @@ class ChartSessionsApiTest extends TestCase
 
     public function testGetSessions()
     {
+        $this->createSessions();
+        $filterData = [
+            'filter' => [
+                'startDate' => (string)Carbon::parse('2019-07-30 00:00:00', 'UTC')->getTimestamp(),
+                'endDate' => (string)Carbon::parse('2019-08-30 00:00:00', ' UTC')->getTimestamp(),
+                'period' => 604800
+            ]
+        ];
+
+        $expectedData = [
+            'data' =>
+                [
+                    [
+                        'date' => (string)Carbon::parse('2019-07-30 00:00:00', 'UTC')->getTimestamp(),
+                        'value' => '3'
+                    ],
+                    [
+                        'date' => (string)Carbon::parse('2019-08-06 00:00:00', 'UTC')->getTimestamp(),
+                        'value' => '1'
+                    ],
+                    [
+                        'date' => (string)Carbon::parse('2019-08-13 00:00:00', 'UTC')->getTimestamp(),
+                        'value' => '2'
+                    ],
+                    [
+                        'date' => (string)Carbon::parse('2019-08-20 00:00:00', 'UTC')->getTimestamp(),
+                        'value' => '3'
+                    ],
+                    [
+                        'date' => (string)Carbon::parse('2019-08-27 00:00:00', 'UTC')->getTimestamp(),
+                        'value' => '2'
+                    ]
+                ],
+            'meta' => [],
+        ];
+
+        $this->actingAs($this->user)
+            ->call('GET', $this->url, $filterData)
+            ->assertStatus(200)
+            ->assertJson($expectedData);
+    }
+
+    private function createSessions():void
+    {
         factory(Session::class)->create([
             'start_session' => '2019-07-19 06:05:00',
             'end_session' => '2019-07-20 08:30:00'
@@ -105,45 +149,5 @@ class ChartSessionsApiTest extends TestCase
             'end_session' => '2019-09-31 08:30:00'
         ]);
 
-        $filterData = [
-            'filter' => [
-                'startDate' => (string)Carbon::parse('2019-07-30 00:00:00', 'UTC')->getTimestamp(),
-                'endDate' => (string)Carbon::parse('2019-08-30 00:00:00', ' UTC')->getTimestamp(),
-                'period' => 604800
-            ]
-        ];
-
-
-        $expectedData = [
-            'data' =>
-                [
-                    [
-                        'date' => (string)Carbon::parse('2019-07-30 00:00:00', 'UTC')->getTimestamp(),
-                        'value' => '3'
-                    ],
-                    [
-                        'date' => (string)Carbon::parse('2019-08-06 00:00:00', 'UTC')->getTimestamp(),
-                        'value' => '1'
-                    ],
-                    [
-                        'date' => (string)Carbon::parse('2019-08-13 00:00:00', 'UTC')->getTimestamp(),
-                        'value' => '2'
-                    ],
-                    [
-                        'date' => (string)Carbon::parse('2019-08-20 00:00:00', 'UTC')->getTimestamp(),
-                        'value' => '3'
-                    ],
-                    [
-                        'date' => (string)Carbon::parse('2019-08-27 00:00:00', 'UTC')->getTimestamp(),
-                        'value' => '2'
-                    ]
-                ],
-            'meta' => [],
-        ];
-
-        $this->actingAs($this->user)
-            ->call('GET', $this->url, $filterData)
-            ->assertStatus(200)
-            ->assertJson($expectedData);
     }
 }
