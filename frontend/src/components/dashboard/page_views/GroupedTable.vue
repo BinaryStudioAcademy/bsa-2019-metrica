@@ -1,8 +1,8 @@
 <template>
     <VContainer
-        p-0
-        class="page-views-table"
+        class="position-relative"
     >
+        <Spinner v-if="isFetching" />
         <VRow
             class="header my-3"
             fluid
@@ -44,7 +44,13 @@
 </template>
 
 <script>
+    import Spinner from "@/components/utilites/Spinner";
+    import {IS_FETCHING} from "@/store/modules/page_views/types/getters";
+    import {FETCH_PAGE_VIEWS_TABLE_DATA} from "@/store/modules/page_views/types/actions";
+    import {mapGetters, mapActions} from 'vuex';
+
     export default {
+        components: {Spinner},
         name: 'GroupedTable',
         props: {
             items: {
@@ -63,6 +69,19 @@
                 ],
             };
         },
+        created() {
+            this.fetchTableData();
+        },
+        computed: {
+            ...mapGetters('page_views', {
+                isFetching: IS_FETCHING
+            }),
+        },
+        methods: {
+            ...mapActions('page_views', {
+                fetchTableData: FETCH_PAGE_VIEWS_TABLE_DATA
+            }),
+        }
     };
 </script>
 
