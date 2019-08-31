@@ -24,9 +24,17 @@
     import VueApexCharts from 'vue-apexcharts';
     import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown.vue";
     import {mapGetters, mapActions} from 'vuex';
-    import {GET_SELECTED_PERIOD, IS_FETCHING} from "@/store/modules/visits_density_widget/types/getters";
-    import {CHANGE_SELECTED_PERIOD} from "@/store/modules/visits_density_widget/types/actions";
+    import {
+        GET_SELECTED_PERIOD,
+        GET_VISITS_DATA,
+        IS_FETCHING
+    } from "@/store/modules/visits_density_widget/types/getters";
+    import {
+        CHANGE_SELECTED_PERIOD,
+        FETCH_WIDGET_DATA
+    } from "@/store/modules/visits_density_widget/types/actions";
     import Spinner from "@/components/utilites/Spinner";
+    import _ from "lodash";
 
     export default {
         name: "VisitsDensityWidget",
@@ -37,8 +45,29 @@
         },
         data() {
             return {
-                days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                time: ['12am', '2am', '4am', '6am', '8am', '10am', '12pm', '2pm', '4pm', '6pm', '8pm', '10pm'],
+                days: {
+                    '0': 'Sun',
+                    '1': 'Mon',
+                    '2': 'Tue',
+                    '3': 'Wed',
+                    '4': 'Thu',
+                    '5': 'Fri',
+                    '6': 'Sat'
+                },
+                hours: {
+                    '0': '12am',
+                    '2': '2am',
+                    '4': '4am',
+                    '6': '6am',
+                    '8': '8am',
+                    '10': '10am',
+                    '12': '12pm',
+                    '14': '2pm',
+                    '16': '4pm',
+                    '18': '6pm',
+                    '20': '8pm',
+                    '22': '10pm'
+                },
                 series: [],
                 chartOptions: {
                     chart: {
@@ -47,10 +76,10 @@
                         },
                         fontFamily: 'Gilroy'
                     },
+                    colors: ["#3C57DE"],
                     dataLabels: {
                         enabled: false
                     },
-                    colors: ["#3C57DE"],
                     grid: {
                         yaxis: {
                             lines: {
@@ -61,15 +90,15 @@
                             left: 15
                         },
                     },
-                    legend: {
-                        show: false
-                    },
                     noData: {
                         text: 'No data available',
                         style: {
                             color: '#88929a',
                             fontSize: '18px'
                         }
+                    },
+                    legend: {
+                        show: false
                     },
                     plotOptions: {
                         heatmap: {
@@ -121,42 +150,44 @@
         computed: {
             ...mapGetters('visits_density_widget', {
                 getSelectedPeriod: GET_SELECTED_PERIOD,
+                getVisitsData: GET_VISITS_DATA,
                 isFetching: IS_FETCHING
             }),
         },
         created() {
-            this.generateData();
+            this.fetchWidgetData();
+            this.drawHeatmap();
             this.chartOptions.xaxis.labels.show = this.series.length !== 0;
         },
         methods: {
             ...mapActions('visits_density_widget', {
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchWidgetData: FETCH_WIDGET_DATA
             }),
-            generateData () {
-                this.time.forEach((timeValue) => {
-                    let item1 = {};
-                    item1.name = timeValue;
-                    item1.data = [];
+            drawHeatmap () {
+                for (let hour = 0; hour < 24; hour++) {
+                    let row = {};
+                    row.name = this.hours[hour] || '';
+                    row.data = [];
 
-                    let item2 = {};
-                    item2.name = '';
-                    item2.data = [];
+                    for (let day = 0; day < 7; day++) {
+                        let visitsData = (_.find(this.getVisitsData, { 'hour': hour, 'day': day }));
+                        if (_.isEmpty(visitsData)) {
+                            row.data.push({
+                                x: this.days[day],
+                                y: 0
+                            });
+                        } else {
+                            row.data.push({
+                                x: this.days[day],
+                                y: visitsData.visits
+                            });
+                        }
+                    }
 
-                    this.days.forEach((dayValue) => {
-                        item1.data.push({
-                            x: dayValue,
-                            y: Math.floor(Math.random() * 1000)
-                        });
-                        item2.data.push({
-                            x: dayValue,
-                            y: Math.floor(Math.random() * 1000)
-                        });
-                    });
-
-                    this.series.push(item1);
-                    this.series.push(item2);
-                });
-            }
+                    this.series.push(row);
+                }
+            },
         }
     };
 </script>
