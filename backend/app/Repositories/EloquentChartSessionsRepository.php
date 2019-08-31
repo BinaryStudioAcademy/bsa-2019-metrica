@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 final class EloquentChartSessionsRepository implements ChartSessionsRepository
 {
-
     public function findByFilter(DatePeriod $filterData, int $websiteId): Collection
     {
         $subQuery = "SELECT s.*" .
