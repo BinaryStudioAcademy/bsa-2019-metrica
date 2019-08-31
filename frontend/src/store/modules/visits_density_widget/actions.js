@@ -26,7 +26,7 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
 
         return getVisitsDensity(period.startDate.unix(), period.endDate.unix())
-            .then(geoLocationItems => context.commit(SET_VISITS_DATA, geoLocationItems))
+            .then(getVisitsData => context.commit(SET_VISITS_DATA, getVisitsData))
             .finally(() => context.commit(RESET_IS_FETCHING));
     }
 };

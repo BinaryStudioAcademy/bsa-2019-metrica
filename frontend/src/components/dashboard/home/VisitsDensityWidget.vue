@@ -10,10 +10,11 @@
             type="heatmap"
             height="350"
             :options="chartOptions"
-            :series="series"
+            :series="drawHeatmap()"
             class="visits-heatmap"
         />
         <PeriodDropdown
+            style="margin-left: 10px;"
             :value="getSelectedPeriod"
             @change="changeSelectedPeriod"
         />
@@ -68,7 +69,6 @@
                     '20': '8pm',
                     '22': '10pm'
                 },
-                series: [],
                 chartOptions: {
                     chart: {
                         toolbar: {
@@ -157,7 +157,7 @@
         created() {
             this.fetchWidgetData();
             this.drawHeatmap();
-            this.chartOptions.xaxis.labels.show = this.series.length !== 0;
+            this.chartOptions.xaxis.labels.show = !_.isEmpty(this.getVisitsData);
         },
         methods: {
             ...mapActions('visits_density_widget', {
@@ -165,6 +165,7 @@
                 fetchWidgetData: FETCH_WIDGET_DATA
             }),
             drawHeatmap () {
+                let series = [];
                 for (let hour = 0; hour < 24; hour++) {
                     let row = {};
                     row.name = this.hours[hour] || '';
@@ -185,8 +186,9 @@
                         }
                     }
 
-                    this.series.push(row);
+                    series.push(row);
                 }
+                return series;
             },
         }
     };
@@ -194,15 +196,15 @@
 
 <style scoped>
     .visits-widget {
-        padding: 2rem;
+        padding: 1.5rem;
     }
 
     .widget-title {
-        margin-left: 12px;
+        margin-left: 10px;
     }
 
     .visits-heatmap {
-        margin-top: -1rem;
+        margin-top: -.5rem;
         margin-right: -1.5rem;
     }
 </style>
