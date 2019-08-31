@@ -18,7 +18,7 @@ final class EloquentChartSessionsRepository implements ChartSessionsRepository
         $result = DB::select("select COUNT(*) as count, " . $this->getPeriod('start_session', $interval) . "
           as period
              FROM \"sessions\"
-                WHERE website_id=:websiteId AND start_session BETWEEN :startDate AND :endDate
+                WHERE website_id=:websiteId AND (start_session BETWEEN :startDate AND :endDate)
             GROUP BY period
                ORDER BY period", [
             'startDate' => $datePeriod->getStartDate(),
