@@ -121,7 +121,7 @@ final class EloquentVisitorRepository implements VisitorRepository
         $subQuerySecond = "select v.visitor_id, p.url, v.max_date from (".$subQueryFirst .") v ";
         $subQueryThird = "left join visitors vs ON v.visitor_id = vs.id 
         left join pages p ON v.page_id = p.id
-        WHERE vs.created_at < vs.last_activity - interval '5 minute'
+        WHERE v.max_date > NOW() - interval '5 minute'
         AND vs.website_id =".$websiteId." group by v.visitor_id ,p.url, v.max_date order by v.visitor_id desc";
         $query = DB::raw($subQuerySecond.$subQueryThird);
         $result = DB::select((string)$query);
