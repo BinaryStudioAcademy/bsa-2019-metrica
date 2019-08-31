@@ -3,16 +3,15 @@
 
 namespace App\Utils;
 
-
 class HostIndicationsProvider
 {
     public static function getDomainLookupTime(string $domain): ?int
     {
         $startTime = microtime(true);
-        $ip = gethostbyname(preg_replace('/^http[s]?:\/\//i','', $domain));
+        $ip = gethostbyname(preg_replace('/^http[s]?:\/\//i', '', $domain));
         $stopTime  = microtime(true);
 
-        if ($ip === $domain){
+        if ($ip === $domain) {
             return null;
         }
 
@@ -23,11 +22,11 @@ class HostIndicationsProvider
     {
         $info = self::getInfo($pageUrl);
 
-        if (!$info){
+        if (!$info) {
             return null;
         }
 
-        return floor( $info['starttransfer_time']*1000);
+        return floor($info['starttransfer_time']*1000);
     }
 
     private static function getInfo(string $pageUrl)
@@ -50,5 +49,4 @@ class HostIndicationsProvider
         $status = ($stopTime - $startTime) * 1000;
         return floor($status);
     }
-
 }
