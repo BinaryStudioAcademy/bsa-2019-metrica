@@ -78,12 +78,12 @@ class VisitsApiTest extends TestCase
             'data' =>
                 [
                     [
-                        'date' => '1565734080',
+                        'date' => '1565700000',
                         'value' => 3
                     ],
 
                     [
-                        'date' => '1565846640',
+                        'date' => '1565820000',
                         'value' => 1
                     ],
 
@@ -186,7 +186,7 @@ class VisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $secondDate->getTimestamp(),
                 'endDate' => (string) $firstDate->getTimestamp(),
-                'period' => 499
+                'period' => 0
             ]
         ];
 
@@ -197,7 +197,7 @@ class VisitsApiTest extends TestCase
 
         $expectedData = [
             'error' => [
-                'message' => 'Interval must more 500 ms'
+                'message' => 'Interval must more 1 s'
             ],
         ];
 
