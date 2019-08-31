@@ -66,7 +66,7 @@ final class TableAggregate implements Aggregate
 
 	public static function fromResult(array $result)
 	{
-		return self(
+		return new self(
 			(int) $result['id'],
 			(int) $result['websiteId'],
 			new Carbon($result['created_at']),

@@ -23,7 +23,7 @@ final class ElasticsearchTableRepository
 		$this->client->index([
 			'index' => self::INDEX_NAME,
 			'id' => $tableAggregate->getId(),
-			'type' => 'docs',
+			'type' => '_doc',
 			'body' => $tableAggregate->toArray()
 		]);
 
@@ -34,7 +34,7 @@ final class ElasticsearchTableRepository
 	{
 		$result = $this->client->get([
 			'index' => self::INDEX_NAME,
-			'type' => 'docs',
+			'type' => '_doc',
 			'id' => $id
 		]);
 

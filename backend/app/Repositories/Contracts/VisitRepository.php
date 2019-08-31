@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Entities\Visit;
+use Illuminate\Support\Collection;
 
 interface VisitRepository
 {

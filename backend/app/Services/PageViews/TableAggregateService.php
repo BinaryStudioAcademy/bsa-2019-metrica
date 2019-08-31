@@ -43,8 +43,8 @@ final class TableAggregateService
 
     public function aggregate(Visit $visit): TableAggregate
     {
-        $previousVisit = $this->getPreviousVisit($currentVisit);
-        $isOneInSession = $previousVisit !== null;
+        $previousVisit = $this->getPreviousVisit($visit);
+        $isOneInSession = $previousVisit === null;
 
         $tableAggregate = $this->createAggregate(
             $visit,
