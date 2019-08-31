@@ -7,6 +7,10 @@ const buttonTransformerToPercent = (item) => {
     return {value: Math.round(Number(item.value)*100)+'%'};
 };
 
+const buttonTransformerToTime = (item) => {
+    return {value: new Date(1000*item.value).toISOString().substr(11, 8)};
+};
+
 const chartTransformer = (item) => {
     return {
         date: item.date,
@@ -35,5 +39,6 @@ export {
     chartTransformer,
     tableTransformer,
     buttonTransformerToPercent,
-    chartTransformerToPercent
+    chartTransformerToPercent,
+    buttonTransformerToTime
 };
