@@ -28,10 +28,14 @@
     } from "@/store/modules/dashboard/types/getters";
     import {
         CHANGE_SELECTED_PERIOD,
+        FETCH_LINE_CHART_DATA
     } from "@/store/modules/dashboard/types/actions";
     export default {
         name: "Overview",
         components: { WidgetButtons, LineChart, PeriodDropdown },
+        created() {
+            this.fetchChartData();
+        },
         computed: {
             ...mapGetters('dashboard', {
                 chartData: GET_FORMAT_LINE_CHART_DATA,
@@ -42,6 +46,7 @@
         methods: {
             ...mapActions('dashboard', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchChartData: FETCH_LINE_CHART_DATA
             }),
         }
     };
@@ -49,7 +54,7 @@
 
 <style scoped lang="scss">
     .overview {
-        height: 394px;
+        height: 100%;
         width: 100%;
         margin: 0;
         min-width: 800px;

@@ -3,52 +3,42 @@
         <Spinner
             v-if="isFetching"
         />
-        <VLayout
-            wrap
-        />
-        <VLayout>
+        <VRow>
+            <VContainer class="white card px-7 py-6">
+                <LineChart
+                    :data="formatLineChartData"
+                    :is-fetching="chartData.isFetching"
+                />
+                <PeriodDropdown
+                    :value="getSelectedPeriod"
+                    @change="changePeriod"
+                />
+            </VContainer>
+        </VRow>
+        <VLayout class="buttons-row">
             <VFlex
-                lg12
-                md12
-                sm12
                 xs12
-                class="content-card"
+                sm8
+                offset-sm2
             >
-                <VLayout
-                    wrap
-                    align-center
-                    justify-center
-                >
+                <VLayout>
                     <VFlex
-                        class="chart-container"
+                        v-for="button in buttons"
+                        :key="button.title"
                     >
-                        <LineChart
-                            :data="formatLineChartData"
-                            :is-fetching="chartData.isFetching"
-                        />
-                        <PeriodDropdown
-                            :value="getSelectedPeriod"
-                            @change="changePeriod"
+                        <ButtonComponent
+                            :title="button.title"
+                            :active="isButtonActive(button.type)"
+                            :fetching="buttonsData[button.type].isFetching"
+                            :value="buttonsData[button.type].value"
+                            :type="button.type"
+                            :icon-name="button.icon"
+                            @change="changeButton"
                         />
                     </VFlex>
                 </VLayout>
             </VFlex>
         </VLayout>
-        <VRow
-            class="buttons-row justify-sm-center justify-lg-center justify-xl-space-between "
-        >
-            <ButtonComponent
-                v-for="button in buttons"
-                :key="button.title"
-                :title="button.title"
-                :active="isButtonActive(button.type)"
-                :fetching="buttonsData[button.type].isFetching"
-                :value="buttonsData[button.type].value"
-                :type="button.type"
-                :icon-name="button.icon"
-                @change="changeButton"
-            />
-        </VRow>
         <VLayout>
             <VFlex
                 lg12
@@ -121,7 +111,7 @@
                     },
                     {
                         icon: 'clock',
-                        title: 'Average time',
+                        title: 'Avg. time on page',
                         type: AVERAGE_TIME
                     },
                     {
@@ -145,9 +135,6 @@
                 getTableData: GET_PAGE_VIEWS_TABLE_DATA,
                 isFetching: IS_FETCHING
             }),
-            buttonData() {
-                return this.buttonsData[this.type];
-            }
         },
         created() {
             this.fetchPageData();
@@ -174,11 +161,11 @@
 </script>
 
 <style scoped>
-    .buttons-row {
-        margin-top: 50px;
-    }
-
-    .chart-container {
-        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
-    }
+.buttons-row {
+    margin-top: 50px;
+}
+.card {
+    border-radius: 6px;
+    box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+}
 </style>

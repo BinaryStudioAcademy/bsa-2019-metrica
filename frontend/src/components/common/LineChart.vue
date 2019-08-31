@@ -24,7 +24,6 @@
 <script>
     import { GChart } from 'vue-google-charts';
     import Spinner from '../utilites/Spinner';
-
     export default {
         components: {
             GChart,
@@ -84,6 +83,7 @@
                             orientation: 'vertical'
                         },
                     vAxis: {
+                        viewWindow: {min: 0},
                         format: 'short',
                         count: 3,
                         minValue: 1,

@@ -4,11 +4,12 @@
             v-if="isFetching"
         />
         <VLayout
+            wrap
             class="map-container"
         >
             <VFlex
                 xl8
-                lg8
+                lg7
                 md12
                 height="100%"
                 class="img-card"
@@ -25,7 +26,7 @@
             </VFlex>
             <VFlex
                 xl4
-                lg4
+                lg5
                 md12
             >
                 <MapList
@@ -38,7 +39,7 @@
             <VFlex
                 lg12
                 md12
-                hidden-sm-and-down
+                hidden-xs-and-down
                 height="100%"
                 class="img-card"
             >
