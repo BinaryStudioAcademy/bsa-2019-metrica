@@ -8,5 +8,4 @@ use App\Http\Requests\AbstractChartHttpRequest;
 
 final class GetSessionsFilterHttpRequest extends AbstractChartHttpRequest
 {
-
 }

@@ -7,5 +7,4 @@ use App\Http\Requests\AbstractChartHttpRequest;
 
 class GetUniquePageViewsChartHttpRequest extends AbstractChartHttpRequest
 {
-
 }
