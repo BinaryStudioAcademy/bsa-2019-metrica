@@ -68,7 +68,7 @@ final class EloquentSystemRepository implements SystemRepository
             })
             ->sortByDesc(function ($item){
                 return $item->percent();
-            })->take(3)
+            })
             ->values();
     }
 }
