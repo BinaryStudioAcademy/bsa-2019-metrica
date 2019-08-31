@@ -18,8 +18,6 @@ final class CreateVisitRequest
     private $ip;
     private $token;
     private $pageLoadTime;
-    private $serverResponseTime;
-    private $domainLookupTime;
 
     private function __construct(
         string $page,
@@ -31,9 +29,7 @@ final class CreateVisitRequest
         string $userAgent,
         string $ip,
         string $token,
-        ?int $pageLoadTime,
-        ?int $serverResponseTime,
-        ?int $domainLookupTime
+        ?int $pageLoadTime
     ) {
         $this->page = $page;
         $this->pageTitle = $pageTitle;
@@ -45,8 +41,6 @@ final class CreateVisitRequest
         $this->ip = $ip;
         $this->token = $token;
         $this->pageLoadTime = $pageLoadTime;
-        $this->serverResponseTime = $serverResponseTime;
-        $this->domainLookupTime = $domainLookupTime;
     }
 
     public static function fromRequest(CreateVisitHttpRequest $request): self
@@ -62,8 +56,6 @@ final class CreateVisitRequest
             $request->ip(),
             $request->token(),
             $request->pageLoadTime(),
-            $request->serverResponseTime(),
-            $request->domainLookupTime()
         );
     }
 
@@ -115,15 +107,5 @@ final class CreateVisitRequest
     public function getPageLoadTime(): ?int
     {
         return $this->pageLoadTime;
-    }
-
-    public function getServerResponseTime(): ?int
-    {
-        return $this->serverResponseTime;
-    }
-
-    public function getDomainLookupTime(): ?int
-    {
-        return $this->domainLookupTime;
     }
 }

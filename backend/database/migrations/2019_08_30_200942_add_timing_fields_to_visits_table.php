@@ -14,9 +14,9 @@ class AddTimingFieldsToVisitsTable extends Migration
     public function up()
     {
         Schema::table('visits', function (Blueprint $table) {
-            $table->integer('page_load_time')->nullable()->default(450);
-            $table->integer('domain_lookup_time')->nullable()->default(150);
-            $table->integer('server_response_time')->nullable()->default(300);
+            $table->integer('page_load_time')->nullable();
+            $table->integer('domain_lookup_time')->nullable();
+            $table->integer('server_response_time')->nullable();
         });
     }
 

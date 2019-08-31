@@ -33,9 +33,13 @@ class VisitsApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class)->create();
+        factory(Website::class)->create([
+            'domain' => 'google.com'
+        ]);
         $this->visitor = factory(Visitor::class)->create();
-        $this->page = factory(Page::class)->create();
+        $this->page = factory(Page::class)->create([
+            'url' => 'https://google.com'
+        ]);
         factory(GeoPosition::class)->create();
         $this->system = factory(System::class)->create();
         factory(Session::class)->create();
@@ -290,8 +294,6 @@ class VisitsApiTest extends TestCase
             'language' => $language,
             'device' => $this->system->device,
             'page_load_time' => 400,
-            'domain_lookup_time' => 300,
-            'server_response_time' => 200,
             'resolution_width' => $this->system->resolution_width,
             'resolution_height' => $this->system->resolution_height
         ];
@@ -310,8 +312,6 @@ class VisitsApiTest extends TestCase
 
         $this->assertDatabaseHas('visits', [
             'page_load_time' => 400,
-            'domain_lookup_time' => 300,
-            'server_response_time' => 200,
             'ip_address' => $ip
         ]);
     }

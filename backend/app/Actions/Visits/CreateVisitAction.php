@@ -16,6 +16,7 @@ use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\VisitRepository;
+use App\Utils\HostIndicationsProvider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
@@ -89,8 +90,8 @@ final class CreateVisitAction
         $visit->visitor_id = $visitor->id;
         $visit->geo_position_id = $geoPosition->id;
         $visit->page_load_time = $request->getPageLoadTime();
-        $visit->server_response_time = $request->getServerResponseTime();
-        $visit->domain_lookup_time = $request->getDomainLookupTime();
+        $visit->server_response_time = HostIndicationsProvider::getServerResponseTime($page->url);
+        $visit->domain_lookup_time = HostIndicationsProvider::getDomainLookupTime($visitor->website->domain);
 
         $this->visitRepository->save($visit);
 
