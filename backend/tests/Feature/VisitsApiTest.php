@@ -289,6 +289,9 @@ class VisitsApiTest extends TestCase
             'page_title' => $this->page->name,
             'language' => $language,
             'device' => $this->system->device,
+            'page_load_time' => 400,
+            'domain_lookup_time' => 300,
+            'server_response_time' => 200,
             'resolution_width' => $this->system->resolution_width,
             'resolution_height' => $this->system->resolution_height
         ];
@@ -306,6 +309,9 @@ class VisitsApiTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseHas('visits', [
+            'page_load_time' => 400,
+            'domain_lookup_time' => 300,
+            'server_response_time' => 200,
             'ip_address' => $ip
         ]);
     }

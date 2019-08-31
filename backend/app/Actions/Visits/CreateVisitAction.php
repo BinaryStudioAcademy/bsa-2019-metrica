@@ -88,6 +88,9 @@ final class CreateVisitAction
         $visit->page_id = $page->id;
         $visit->visitor_id = $visitor->id;
         $visit->geo_position_id = $geoPosition->id;
+        $visit->page_load_time = $request->getPageLoadTime();
+        $visit->server_response_time = $request->getServerResponseTime();
+        $visit->domain_lookup_time = $request->getDomainLookupTime();
 
         $this->visitRepository->save($visit);
 
