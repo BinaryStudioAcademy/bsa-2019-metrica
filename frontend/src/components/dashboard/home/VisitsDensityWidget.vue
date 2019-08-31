@@ -91,7 +91,7 @@
                         },
                     },
                     noData: {
-                        text: 'No data available',
+                        text: 'No users for this period',
                         style: {
                             color: '#88929a',
                             fontSize: '18px'
@@ -157,7 +157,6 @@
         created() {
             this.fetchWidgetData();
             this.drawHeatmap();
-            this.chartOptions.xaxis.labels.show = !_.isEmpty(this.getVisitsData);
         },
         methods: {
             ...mapActions('visits_density_widget', {
@@ -165,7 +164,14 @@
                 fetchWidgetData: FETCH_WIDGET_DATA
             }),
             drawHeatmap () {
+                if (_.isEmpty(this.getVisitsData)) {
+                    this.chartOptions.xaxis.labels.show = false;
+                    this.chartOptions.yaxis.labels.show = false;
+                    return [];
+                }
+
                 let series = [];
+
                 for (let hour = 0; hour < 24; hour++) {
                     let row = {};
                     row.name = this.hours[hour] || '';
