@@ -25,7 +25,7 @@ final class GetSessionsAction
             throw new WebsiteNotFoundException();
         }
 
-        $result = $this->sessionsRepository->findByFilter($request->period(), (int)$request->interval(), $websiteId);
+        $result = $this->sessionsRepository->getSessionsByDate($request->period(), (int)$request->interval(), $websiteId);
         return new GetSessionsResponse($result);
     }
 }
