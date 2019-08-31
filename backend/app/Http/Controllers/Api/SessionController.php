@@ -109,9 +109,7 @@ final class SessionController extends Controller
         return ApiResponse::success(new ChartResource($response->getSessionByIntervalCollection()));
     }
 
-    public function getSessionsByParameter(
-        GetSessionsByParameterHttpRequest $request
-    )
+    public function getSessionsByParameter(GetSessionsByParameterHttpRequest $request)
     {
         $response = $this->getSessionsByParameterAction->execute(
             GetSessionsByParameterRequest::fromRequest($request)
