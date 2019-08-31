@@ -1,36 +1,17 @@
 <template>
     <ContentLayout :title="title">
-        <VLayout
-            wrap
-        />
-        <VLayout>
-            <VFlex
-                lg12
-                md12
-                sm12
-                xs12
-                class="content-card"
-            >
-                <VLayout
-                    wrap
-                    align-center
-                    justify-center
-                >
-                    <VFlex
-                        class="chart-container position-relative"
-                    >
-                        <LineChart
-                            :data="chartData.items"
-                            :is-fetching="chartData.isFetching"
-                        />
-                        <PeriodDropdown
-                            :value="getSelectedPeriod"
-                            @change="changePeriod"
-                        />
-                    </VFlex>
-                </VLayout>
-            </VFlex>
-        </VLayout>
+        <VRow>
+            <VContainer class="white card px-7 py-6">
+                <LineChart
+                    :data="chartData.items"
+                    :is-fetching="chartData.isFetching"
+                />
+                <PeriodDropdown
+                    :value="getSelectedPeriod"
+                    @change="changePeriod"
+                />
+            </VContainer>
+        </VRow>
         <VRow
             class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
         >
@@ -67,7 +48,7 @@
                 class="img-card"
             >
                 <PieChart
-                    :data="pieData"
+                    :chart-data="pieData"
                     :legend="legend"
                     :is-fetching="pieChartData.isFetching"
                 />
@@ -151,26 +132,7 @@
                         type: BOUNCE_RATE
                     },
                 ],
-                pieData: [
-                    ['Type', 'Value'],
-                    ['New Visitors', this.getPieData.newVisitors],
-                    ['Return Visitors',this.getPieData.returnVisitors],
-                ],
-                legend: {
-                    title: 'Outcome',
-                    data: {
-                        newVisitors: {
-                            title: 'New Visitors',
-                            percentageDiff: 41,
-                            color: '#3C57DE',
-                        },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: 49,
-                            color: '#1BC3DA',
-                        },
-                    }
-                },
+
             };
         },
         computed: {
@@ -181,6 +143,30 @@
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
             }),
+            pieData () {
+                return [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.pieChartData.newVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors]
+                ];
+            },
+            legend () {
+                return {
+                    title: 'Outcome',
+                    data: {
+                        newVisitors: {
+                            title: 'New Visitors',
+                            percentageDiff: Number(this.pieChartData.newVisitors),
+                            color: '#3C57DE',
+                        },
+                        returnVisitors: {
+                            title: 'Return Visitors',
+                            percentageDiff: Number(this.pieChartData.returnVisitors),
+                            color: '#1BC3DA',
+                        },
+                    }
+                };
+            },
         },
         created () {
             this.fetchPageData();
@@ -197,9 +183,6 @@
             },
             changePeriod (data) {
                 this.changeSelectedPeriod(data);
-            },
-            getPieData(){
-                return this.pieChartData;
             },
             isButtonActive (type) {
                 return this.currentActiveButton === type;
@@ -219,10 +202,11 @@
 </script>
 
 <style scoped>
+    .card {
+        border-radius: 6px;
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+    }
     .buttons-row {
         margin-top: 50px;
-    }
-    .chart-container {
-        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
     }
 </style>

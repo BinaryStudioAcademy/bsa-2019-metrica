@@ -78,12 +78,12 @@ class VisitsApiTest extends TestCase
             'data' =>
                 [
                     [
-                        'date' => '1565734080',
+                        'date' => '1565700000',
                         'value' => 3
                     ],
 
                     [
-                        'date' => '1565846640',
+                        'date' => '1565820000',
                         'value' => 1
                     ],
 
@@ -186,7 +186,7 @@ class VisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $secondDate->getTimestamp(),
                 'endDate' => (string) $firstDate->getTimestamp(),
-                'period' => 499
+                'period' => 0
             ]
         ];
 
@@ -197,7 +197,7 @@ class VisitsApiTest extends TestCase
 
         $expectedData = [
             'error' => [
-                'message' => 'Interval must more 500 ms'
+                'message' => 'Interval must more 1 s'
             ],
         ];
 
@@ -218,7 +218,6 @@ class VisitsApiTest extends TestCase
         factory(Page::class)->create(['id' => 12]);
         factory(Page::class)->create(['id' => 13]);
         factory(Page::class)->create(['id' => 14]);
-        factory(Page::class)->create(['id' => 15]);
 
         $filterData = [
             'filter' => [
@@ -228,25 +227,26 @@ class VisitsApiTest extends TestCase
             ]
         ];
 
-        $this->createVisitWithSessions(new DateTime('2019-08-20 05:30:00'), 2, 14);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:00:00'), 1, 12);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:20:00'), 1, 15);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 1, 12);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), 2, 11);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 07:00:00'), 1, 14);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 07:20:00'), 1, 11);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 07:30:00'), 1, 13);
-        $this->createVisitWithSessions(new DateTime('2019-08-20 08:00:00'), 3, 15);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 05:30:00'), [14]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:10:00'), [12]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:20:00'), [11,13,12,11]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), [12,14]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:30:00'), [11]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 06:50:00'), [14,12]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:10:00'), [11,14,12]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:30:00'), [13]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 07:30:00'), [14]);
+        $this->createVisitWithSessions(new DateTime('2019-08-20 08:30:00'), [11]);
 
         $expectedData = [
             'data' => [
                 [
                     'date' => (string) $startDate->getTimestamp(),
-                    'value' => "50",
+                    'value' => "0.2",
                 ],
                 [
                     'date' => (string) ($startDate->getTimestamp() + 3600),
-                    'value' => "100",
+                    'value' => "0.4",
                 ]
             ],
             'meta' => [],
@@ -258,17 +258,17 @@ class VisitsApiTest extends TestCase
             ->assertJson($expectedData);
     }
 
-    private function createVisitWithSessions(DateTime $createdDate, int $countVisits, int $pageId)
+    private function createVisitWithSessions(DateTime $createdDate, array $pages)
     {
         $session = factory(Session::class)->create([
             'start_session' => $createdDate
         ]);
-        $visit = factory(Visit::class, $countVisits)->create([
-            'session_id' => $session->id,
-            'page_id' => $pageId
-        ]);
-
-        return $visit;
+        foreach ($pages as $page) {
+            factory(Visit::class)->create([
+                'session_id' => $session->id,
+                'page_id' => $page
+            ]);
+        }
     }
 
     public function testCreateVisitAction()

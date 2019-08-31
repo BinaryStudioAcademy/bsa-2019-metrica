@@ -1,5 +1,5 @@
 <template>
-    <VContainer class="position-relative">
+    <VContainer>
         <Spinner
             v-if="isFetching"
         />
@@ -83,6 +83,7 @@
                             orientation: 'vertical'
                         },
                     vAxis: {
+                        viewWindow: {min: 0},
                         format: 'short',
                         count: 3,
                         minValue: 1,
