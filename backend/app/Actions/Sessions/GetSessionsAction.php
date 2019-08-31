@@ -17,7 +17,7 @@ final class GetSessionsAction
         $this->sessionsRepository = $sessionsRepository;
     }
 
-    public function execute(GetSessionsRequest $request)
+    public function execute(GetSessionsRequest $request):GetSessionsResponse
     {
         try {
             $websiteId = Auth::user()->website->id;
