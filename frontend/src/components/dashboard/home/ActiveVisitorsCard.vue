@@ -101,10 +101,9 @@
             }
         },
         created() {
-            this.fetchingActivityDataItems();
-            this.fetchingActivityChartData();
-            this.filterDataActivity();
-            this.fetchigActivityChartData();
+            this.fetchingActiveUsersNumbers();
+            this.fetchingActiveUsersChartData();
+            this.setIntervalDataActivity();
         },
         beforeDestroy () {
             clearInterval(this.polling);
@@ -112,20 +111,18 @@
         },
         methods: {
             ...mapActions('dashboard', {
-                fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
+                fetchingActiveUsersNumbers: FETCHING_ACTIVITY_DATA_ITEMS,
                 reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
-                fetchingActivityChartData: FETCHING_ACTIVITY_CHART_DATA,
+                fetchingActiveUsersChartData: FETCHING_ACTIVITY_CHART_DATA,
             }),
-            filterDataActivity () {
+            setIntervalDataActivity () {
                 this.polling = setInterval(() => {
                     this.reloadActivityDataItems();
                 }, 300000);
-            },
-            fetchigActivityChartData() {
                 this.fetch = setInterval(() => {
-                    this.fetchingActivityChartData();
+                    this.fetchingActiveUsersChartData();
                 }, 60000);
-            }
+            },
         }
     };
 </script>

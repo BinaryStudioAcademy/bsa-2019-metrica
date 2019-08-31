@@ -124,18 +124,16 @@ export default {
             const range = moment().range(startDay, endDay);
             const arrayOfDates = Array.from(range.by('seconds'));
             const result = [];
-            if(response.length > 0) {
-                arrayOfDates.map((item) => {
+            arrayOfDates.map((item) => {
+                if(response.length > 0) {
                     const value = response.find(x =>
                         moment(moment(x.date, "DD/MM/YYYY H:mm:ss")).unix() === item.unix()
                     );
-                    if(value) {
-                        result.push(value.value);
-                    } else {
-                        result.push(0);
-                    }
-                });
-            }
+                    result.push(value.value);
+                } else {
+                    result.push(0);
+                }
+            });
             context.commit(SET_ACTIVITY_CHART_DATA, result);
         }).catch((response) => {
             return Promise.reject(response);
@@ -148,5 +146,4 @@ export default {
         );
         context.commit(SET_ACTIVITY_DATA_ITEMS, data);
     },
-
 };
