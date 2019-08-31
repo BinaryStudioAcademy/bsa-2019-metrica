@@ -197,7 +197,7 @@ class VisitsApiTest extends TestCase
 
         $expectedData = [
             'error' => [
-                'message' => 'Interval must more 1 s'
+                'message' => 'The filter.period must be at least 1.'
             ],
         ];
 
