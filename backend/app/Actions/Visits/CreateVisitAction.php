@@ -88,9 +88,9 @@ final class CreateVisitAction
         $visit->visitor_id = $visitor->id;
         $visit->geo_position_id = $geoPosition->id;
 
-        VisitCreated::dispatch($visit);
-
         $this->visitRepository->save($visit);
+
+        VisitCreated::dispatch($visit);
     }
 
     private function getOrCreatePage(int $websiteId, string $pageTitle, string $pageUrl): Page
