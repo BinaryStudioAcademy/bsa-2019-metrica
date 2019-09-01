@@ -30,13 +30,19 @@
         GET_WIDGET_DATA,
         GET_FETCHING_STATUS
     } from "@/store/modules/devices/types/getters";
-    import { CHANGE_SELECTED_PERIOD } from "@/store/modules/devices/types/actions";
+    import {
+        CHANGE_SELECTED_PERIOD,
+        FETCH_WIDGET_INFO
+    } from "@/store/modules/devices/types/actions";
 
     export default {
         components: {
             Spinner,
             PeriodDropdown,
             PieChartItem
+        },
+        created() {
+            this.fetchWidgetInfo();
         },
         computed: {
             ...mapGetters('devices', {
@@ -47,7 +53,8 @@
         },
         methods: {
             ...mapActions('devices', {
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchWidgetInfo: FETCH_WIDGET_INFO
             })
         }
     };

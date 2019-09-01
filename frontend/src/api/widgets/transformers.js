@@ -2,47 +2,51 @@ import moment from "moment";
 import { period } from "../../services/periodService";
 import { BOUNCE_RATE } from "../../configs/visitors/buttonTypes";
 
-const devicesAndSystemsTransformer = (data) => {
+function transformSytems(systemsData) {
+    const colors = ['#3C57DE', '#1BC3DA', '#67C208'];
+    let percent = 0;
+    let systems = systemsData.map((item, index) => {
+        percent += Math.round(item.percent);
+        return {
+            title: item.name,
+            percent: Math.round(item.percent),
+            color: colors[index]
+        };
+    });
+    if (systems.length === 2 && percent < 100) {
+        systems.push({
+            title: 'Other',
+            percent: 100 - percent,
+            color: colors[2]
+        });
+    }
+    return systems;
+}
+
+function transformDevices(devicesData) {
+    const colors = ['#F03357', '#ff9900', '#FFD954'];
+    let percent = 0;
+    let devices = [];
+    devicesData.forEach((item, index) => {
+        devices.push({
+            title: item.name,
+            percent: index === 2 ? 100 - percent : Math.round(item.percent),
+            color: colors[index]
+        });
+        percent += Math.round(item.percent);
+    });
+    return devices;
+}
+
+const devicesAndSystemsTransformer = (devicesData, systemsData) => {
     return [
         {
             type: 'Systems',
-            data: [
-                {
-                    title: 'Mac',
-                    percent: data.system.mac,
-                    color: '#3C57DE'
-                },
-                {
-                    title: 'Windows',
-                    percent: data.system.windows,
-                    color: '#1BC3DA'
-                },
-                {
-                    title: 'Other',
-                    percent: data.system.others,
-                    color: '#67C208'
-                }
-            ],
+            data: transformSytems(systemsData)
         },
         {
             type: 'Devices',
-            data: [
-                {
-                    title: 'Desktop',
-                    percent: data.device.desktop,
-                    color: '#F03357'
-                },
-                {
-                    title: 'Mobile',
-                    percent: data.device.mobile,
-                    color: '#ff9900'
-                },
-                {
-                    title: 'Tablet',
-                    percent: data.device.tablet,
-                    color: '#FFD954'
-                }
-            ]
+            data: transformDevices(devicesData)
         }
     ];
 };
