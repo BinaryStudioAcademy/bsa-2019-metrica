@@ -37,6 +37,9 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'WebsiteController@update');
         });
 
+        Route::get('/os/most-popular', 'SystemController@getMostPopularOs');
+        Route::get('/devices/stats', 'SystemController@getStats');
+
         Route::group([
             'prefix' => 'visitors'
         ], function () {

@@ -101,9 +101,9 @@ class VisitorsApiTest extends TestCase
 
         $filterData = [
             'filter' => [
-                'startDate' => $startDate->getTimestamp(),
-                'endDate' => $endDate->getTimestamp(),
-                'period' => $anHour,
+                'startDate' => (string)$startDate->getTimestamp(),
+                'endDate' => (string)$endDate->getTimestamp(),
+                'period' => (string)$anHour,
             ]
         ];
 
