@@ -4,7 +4,7 @@
             v-if="isFetching"
         />
         <div class="ml10">
-            Users by time of day
+            Users by time of dayasd
         </div>
         <VueApexCharts
             type="heatmap"
@@ -13,7 +13,7 @@
             :series="drawHeatmap"
             class="visits-heatmap"
         />
-        <PeriodDropdown
+        <VisitsDensityPeriodDropdown
             class="ml10"
             :value="getSelectedPeriod"
             @change="changeSelectedPeriod"
@@ -23,7 +23,7 @@
 
 <script>
     import VueApexCharts from 'vue-apexcharts';
-    import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown.vue";
+    import VisitsDensityPeriodDropdown from "@/components/dashboard/common/VisitsDensityPeriodDropdown";
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_SELECTED_PERIOD,
@@ -40,7 +40,7 @@
         name: "VisitsDensityWidget",
         components: {
             VueApexCharts,
-            PeriodDropdown,
+            VisitsDensityPeriodDropdown,
             Spinner
         },
         data() {
@@ -133,7 +133,8 @@
                         opposite: true,
                         reversed: true,
                         labels: {
-                            align: 'right'
+                            align: 'right',
+                            offsetX: 10
                         }
                     }
                 }
@@ -199,6 +200,6 @@
 
     .visits-heatmap {
         margin-top: -.5rem;
-        margin-right: -1.5rem;
+        margin-right: -2rem;
     }
 </style>
