@@ -1,8 +1,5 @@
 <template>
     <ContentLayout :title="title">
-        <Spinner
-            v-if="isFetching"
-        />
         <VRow>
             <VContainer class="white card px-7 py-6">
                 <LineChart
@@ -15,30 +12,21 @@
                 />
             </VContainer>
         </VRow>
-        <VLayout class="buttons-row">
-            <VFlex
-                xs12
-                sm8
-                offset-sm2
-            >
-                <VLayout>
-                    <VFlex
-                        v-for="button in buttons"
-                        :key="button.title"
-                    >
-                        <ButtonComponent
-                            :title="button.title"
-                            :active="isButtonActive(button.type)"
-                            :fetching="buttonsData[button.type].isFetching"
-                            :value="buttonsData[button.type].value"
-                            :type="button.type"
-                            :icon-name="button.icon"
-                            @change="changeButton"
-                        />
-                    </VFlex>
-                </VLayout>
-            </VFlex>
-        </VLayout>
+        <VRow
+            class="buttons-row justify-sm-center justify-lg-center justify-xl-space-between "
+        >
+            <ButtonComponent
+                v-for="button in buttons"
+                :key="button.title"
+                :title="button.title"
+                :active="isButtonActive(button.type)"
+                :fetching="buttonsData[button.type].isFetching"
+                :value="buttonsData[button.type].value"
+                :type="button.type"
+                :icon-name="button.icon"
+                @change="changeButton"
+            />
+        </VRow>
         <VLayout>
             <VFlex
                 lg12
@@ -61,7 +49,6 @@
     import GroupedTable from "../components/dashboard/page_views/GroupedTable";
     import ButtonComponent from "../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
-    import Spinner from "@/components/utilites/Spinner";
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_BUTTON_DATA,
@@ -69,14 +56,12 @@
         GET_SELECTED_PERIOD,
         GET_LINE_CHART_DATA,
         GET_FORMAT_LINE_CHART_DATA,
-        GET_PAGE_VIEWS_TABLE_DATA,
-        IS_FETCHING
+        GET_PAGE_VIEWS_TABLE_DATA
     } from "@/store/modules/page_views/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_SELECTED_PERIOD,
-        FETCH_PAGE_DATA,
-        FETCH_PAGE_VIEWS_TABLE_DATA
+        FETCH_PAGE_DATA
     } from "@/store/modules/page_views/types/actions";
     import {
         PAGE_VIEWS,
@@ -91,8 +76,7 @@
             GroupedTable,
             ButtonComponent,
             PeriodDropdown,
-            ContentLayout,
-            Spinner
+            ContentLayout
         },
         data() {
             return {
@@ -132,20 +116,17 @@
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
                 formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
-                getTableData: GET_PAGE_VIEWS_TABLE_DATA,
-                isFetching: IS_FETCHING
+                getTableData: GET_PAGE_VIEWS_TABLE_DATA
             }),
         },
         created() {
             this.fetchPageData();
-            this.fetchTableData();
         },
         methods: {
             ...mapActions('page_views', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA,
-                fetchTableData: FETCH_PAGE_VIEWS_TABLE_DATA,
             }),
             changeButton(data) {
                 this.changeActiveButton(data);

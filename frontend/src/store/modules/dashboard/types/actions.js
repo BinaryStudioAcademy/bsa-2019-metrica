@@ -4,3 +4,4 @@ export const CHANGE_DATA_TYPE = 'changeDataType';
 export const FETCHING_ACTIVITY_DATA_ITEMS = 'fetchingActivityDataItems';
 export const FETCHING_ACTIVITY_CHART_DATA = 'fetchingActivityChartData';
 export const RELOAD_ACTIVITY_DATA_ITEMS = 'reloadActivityDataItems';
+export const REFRESH_ACTIVITY_DATA_ITEMS = 'refreshActivityDataItems';
