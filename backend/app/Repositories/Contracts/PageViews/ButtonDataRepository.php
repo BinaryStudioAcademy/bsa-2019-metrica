@@ -15,4 +15,6 @@ interface ButtonDataRepository
     public function getCountPageViewsPageBetweenDate(DatePeriod $filterData, int $websiteId): int;
 
     public function getBouncedPagePageBetweenDate(DatePeriod $filterData, int $websiteId): int;
+
+    public function getAverageTiming(DatePeriod $period, int $website_id, string $parameter): string;
 }
