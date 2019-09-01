@@ -10,24 +10,24 @@ const fetchDevicesAndSystemsData = (startDate, endDate) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     };
-    return requestService.get(url + '/devices/stats', {}, params)
-        .then(devicesResponse => {
-            return requestService.get(url + '/os/most-popular', {}, params)
-                .then(systemsResponse => {
-                    return devicesAndSystemsTransformer(
-                        devicesResponse.data, systemsResponse.data
-                    );
-                });
-        })
-        .catch(error => Promise.reject(
-            new Error(
-                _.get(
-                    error,
-                    'response.data.error.message',
-                    'Something went wrong with getting devices and systems'
-                )
+    return Promise.all([
+        requestService.get(url + '/devices/stats', {}, params),
+        requestService.get(url + '/os/most-popular', {}, params)]
+    )
+    .then(([devicesResponse, systemsResponse]) => {
+        return devicesAndSystemsTransformer(
+            devicesResponse.data, systemsResponse.data
+        );
+    })
+    .catch(error => Promise.reject(
+        new Error(
+            _.get(
+                error,
+                'response.data.error.message',
+                'Something went wrong with getting devices and systems'
             )
-        ));
+        )
+    ));
 };
 
 export {
