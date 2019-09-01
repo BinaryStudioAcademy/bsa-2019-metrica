@@ -1,6 +1,6 @@
 <template>
     <div class="card bg-white visitors-card rounded text-dark position-relative justify-content-between">
-        <Spinner v-if="isFetching" />
+        <Spinner v-if="activityDataFetching" />
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
                 Active users
@@ -28,6 +28,7 @@
                 :gradient="gradient"
                 :smooth="radius"
                 :padding="padding"
+                :width="width"
                 :line-width="lineWidth"
                 :gradient-direction="gradientDirection"
                 auto-draw
@@ -59,7 +60,6 @@
     } from "@/store/modules/dashboard/types/getters";
     import _ from "lodash";
     import {echoInstance} from '../../../services/echoService';
-    import {GET_ACTIVITY_DATA_ITEMS} from "@/store/modules/dashboard/types/getters";
     import {GET_CURRENT_WEBSITE} from '@/store/modules/website/types/getters';
     import {
         FETCHING_ACTIVITY_DATA_ITEMS,
@@ -67,15 +67,17 @@
         REFRESH_ACTIVITY_DATA_ITEMS
     } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
+    import {FETCHING_ACTIVITY_CHART_DATA} from "../../../store/modules/dashboard/types/actions";
     export default {
         name: 'ActiveVisitorsCard',
         components: {
             TopActivePage,
-            Spinner,
+            Spinner
         },
         data: () => ({
-            lineWidth: 5,
+            lineWidth: 4,
             radius: 16,
+            width:600,
             padding: 4,
             gradient: ['#3C57DE', '#1BC3DA'],
             gradientDirection: 'left',

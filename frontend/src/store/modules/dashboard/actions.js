@@ -20,6 +20,7 @@ import {
 } from "./types/mutations";
 
 import Moment from 'moment';
+import _ from "lodash";
 import {getActivityDataItems} from '@/api/visitors/activeVisitorService';
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
 import {pageViewsService} from '@/api/page_views/pageViewsService';
@@ -89,19 +90,16 @@ export default {
             const range = moment().range(startDay, endDay);
             const arrayOfDates = Array.from(range.by('seconds'));
             const result = [];
+
+            let value = undefined;
             arrayOfDates.map((item) => {
-                if(response.length > 0) {
-                    const value = response.find(x =>
-                        moment(moment(x.date, "DD/MM/YYYY H:mm:ss")).unix() === item.unix()
-                    );
-                    result.push(value.value);
-                } else {
-                    result.push(0);
-                }
+                value = _.find(response,  (i) => {
+                    return parseInt(i.date) === item.unix();
+                });
+                if(value) result.push(parseInt(value.value));
+                else result.push(0);
             });
             context.commit(SET_ACTIVITY_CHART_DATA, result);
-        }).catch((response) => {
-            return Promise.reject(response);
         });
     },
 
