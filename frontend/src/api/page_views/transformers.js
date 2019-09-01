@@ -1,3 +1,4 @@
+import moment from "moment";
 
 const buttonTransformer = (item) => {
     return {value: item.value};
@@ -8,7 +9,7 @@ const buttonTransformerToPercent = (item) => {
 };
 
 const buttonTransformerToTime = (item) => {
-    return {value: new Date(1000*item.value).toISOString().substr(11, 8)};
+    return {value: moment.utc(item.value*1000).format('HH:mm:ss')};
 };
 
 const chartTransformer = (item) => {
