@@ -3,18 +3,18 @@
         <Spinner
             v-if="isFetching"
         />
-        <div class="widget-title">
+        <div class="ml10">
             Users by time of day
         </div>
         <VueApexCharts
             type="heatmap"
             height="350"
             :options="chartOptions"
-            :series="drawHeatmap()"
+            :series="drawHeatmap"
             class="visits-heatmap"
         />
         <PeriodDropdown
-            style="margin-left: 10px;"
+            class="ml10"
             :value="getSelectedPeriod"
             @change="changeSelectedPeriod"
         />
@@ -35,7 +35,6 @@
         FETCH_WIDGET_DATA
     } from "@/store/modules/visits_density_widget/types/actions";
     import Spinner from "@/components/utilites/Spinner";
-    import _ from "lodash";
 
     export default {
         name: "VisitsDensityWidget",
@@ -89,13 +88,6 @@
                         padding: {
                             left: 15
                         },
-                    },
-                    noData: {
-                        text: 'No users for this period',
-                        style: {
-                            color: '#88929a',
-                            fontSize: '18px'
-                        }
                     },
                     legend: {
                         show: false
@@ -153,23 +145,7 @@
                 getVisitsData: GET_VISITS_DATA,
                 isFetching: IS_FETCHING
             }),
-        },
-        created() {
-            this.fetchWidgetData();
-            this.drawHeatmap();
-        },
-        methods: {
-            ...mapActions('visits_density_widget', {
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
-                fetchWidgetData: FETCH_WIDGET_DATA
-            }),
             drawHeatmap () {
-                if (_.isEmpty(this.getVisitsData)) {
-                    this.chartOptions.xaxis.labels.show = false;
-                    this.chartOptions.yaxis.labels.show = false;
-                    return [];
-                }
-
                 let series = [];
 
                 for (let hour = 0; hour < 24; hour++) {
@@ -178,24 +154,36 @@
                     row.data = [];
 
                     for (let day = 0; day < 7; day++) {
-                        let visitsData = (_.find(this.getVisitsData, { 'hour': hour, 'day': day }));
-                        if (_.isEmpty(visitsData)) {
+                        let visitsData = this.getVisitsData.find((item) => {
+                            return item.hour === hour && item.day === day;
+                        });
+                        if (visitsData) {
                             row.data.push({
                                 x: this.days[day],
-                                y: 0
+                                y: visitsData.visits
                             });
                         } else {
                             row.data.push({
                                 x: this.days[day],
-                                y: visitsData.visits
+                                y: 0
                             });
                         }
                     }
 
                     series.push(row);
                 }
+
                 return series;
-            },
+            }
+        },
+        created() {
+            this.fetchWidgetData();
+        },
+        methods: {
+            ...mapActions('visits_density_widget', {
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchWidgetData: FETCH_WIDGET_DATA
+            })
         }
     };
 </script>
@@ -205,7 +193,7 @@
         padding: 1.5rem;
     }
 
-    .widget-title {
+    .ml10 {
         margin-left: 10px;
     }
 
