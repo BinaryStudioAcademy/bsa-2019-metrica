@@ -16,7 +16,7 @@ use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\VisitRepository;
-use App\Utils\HostIndicationsProvider;
+use App\Utils\HostIndicationsService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
@@ -31,6 +31,7 @@ final class CreateVisitAction
     private $systemRepository;
     private $geoPositionRepository;
     private $visitRepository;
+    private $hostIndicationsService;
 
     public function __construct(
         VisitorRepository $visitorRepository,
@@ -38,6 +39,7 @@ final class CreateVisitAction
         PageRepository $pageRepository,
         SystemRepository $systemRepository,
         GeoPositionRepository $geoPositionRepository,
+        HostIndicationsService $hostIndicationsService,
         VisitRepository $visitRepository
     ) {
         $this->visitorRepository = $visitorRepository;
@@ -46,6 +48,7 @@ final class CreateVisitAction
         $this->systemRepository = $systemRepository;
         $this->geoPositionRepository = $geoPositionRepository;
         $this->visitRepository = $visitRepository;
+        $this->hostIndicationsService = $hostIndicationsService;
     }
 
     public function execute(CreateVisitRequest $request): void
@@ -90,8 +93,8 @@ final class CreateVisitAction
         $visit->visitor_id = $visitor->id;
         $visit->geo_position_id = $geoPosition->id;
         $visit->page_load_time = $request->getPageLoadTime();
-        $visit->server_response_time = HostIndicationsProvider::getServerResponseTime($page->url);
-        $visit->domain_lookup_time = HostIndicationsProvider::getDomainLookupTime($visitor->website->domain);
+        $visit->server_response_time = $this->hostIndicationsService->getServerResponseTime($page->url);
+        $visit->domain_lookup_time = $this->hostIndicationsService->getDomainLookupTime($visitor->website->domain);
 
         $this->visitRepository->save($visit);
 

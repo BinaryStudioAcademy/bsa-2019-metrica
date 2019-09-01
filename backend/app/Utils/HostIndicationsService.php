@@ -3,9 +3,9 @@
 
 namespace App\Utils;
 
-class HostIndicationsProvider
+class HostIndicationsService
 {
-    public static function getDomainLookupTime(string $domain): ?int
+    public function getDomainLookupTime(string $domain): ?int
     {
         $startTime = microtime(true);
         $ip = gethostbyname(preg_replace('/^http[s]?:\/\//i', '', $domain));
@@ -15,12 +15,12 @@ class HostIndicationsProvider
             return null;
         }
 
-        return self::getDifferenceInMilliseconds($stopTime, $startTime);
+        return $this->getDifferenceInMilliseconds($stopTime, $startTime);
     }
 
-    public static function getServerResponseTime(string $pageUrl): ?int
+    public function getServerResponseTime(string $pageUrl): ?int
     {
-        $info = self::getInfo($pageUrl);
+        $info = $this->getInfo($pageUrl);
 
         if (!$info) {
             return null;
@@ -29,7 +29,7 @@ class HostIndicationsProvider
         return floor($info['starttransfer_time']*1000);
     }
 
-    private static function getInfo(string $pageUrl)
+    private function getInfo(string $pageUrl)
     {
         $ch = curl_init($pageUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -44,7 +44,7 @@ class HostIndicationsProvider
         return $info;
     }
 
-    private static function getDifferenceInMilliseconds(float $stopTime, float $startTime): int
+    private function getDifferenceInMilliseconds(float $stopTime, float $startTime): int
     {
         $status = ($stopTime - $startTime) * 1000;
         return floor($status);

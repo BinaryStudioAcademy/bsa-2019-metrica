@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Visit;
 
-use App\Http\Requests\AbstractChartHttpRequest;
+use App\Http\Request\ApiFormRequest;
+use App\Http\Requests\ChartHttpRequestTrait;
 
-final class GetPageViewsFilterHttpRequest extends AbstractChartHttpRequest
+final class GetPageViewsFilterHttpRequest extends ApiFormRequest
 {
+    use ChartHttpRequestTrait;
 }
