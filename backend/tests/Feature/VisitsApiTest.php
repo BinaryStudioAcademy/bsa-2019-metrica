@@ -27,6 +27,7 @@ class VisitsApiTest extends TestCase
     private $visitor;
     private $page;
     private $system;
+    private $session;
     private $url = 'api/v1/chart-visits/page-views';
 
     protected function setUp(): void
@@ -38,7 +39,7 @@ class VisitsApiTest extends TestCase
         $this->page = factory(Page::class)->create();
         factory(GeoPosition::class)->create();
         $this->system = factory(System::class)->create();
-        factory(Session::class)->create();
+        $this->session = factory(Session::class)->create();
     }
 
     public function testPageViewsFilter()
@@ -353,5 +354,43 @@ class VisitsApiTest extends TestCase
         $this->assertDatabaseHas('visits', [
             'ip_address' => $ip
         ]);
+    }
+
+    public function testGetVisitsDensityAction()
+    {
+        factory(Visit::class, 5)->create();
+
+        $startSession = $this->session->start_session;
+
+        $query = [
+            'filter' => [
+                'startDate' => (string) $startSession->timestamp,
+                'endDate' =>  (string) ($startSession->addWeek()->timestamp)
+            ]
+        ];
+
+        $url = 'api/v1/visits/density';
+
+        $expectedStructure = [
+            'data' => [
+                [
+                    'day',
+                    'hour',
+                    'visits'
+                ]
+            ],
+            'meta' => []
+        ];
+
+        $expectedFragment = [
+            'visits' => 5
+        ];
+
+        $this->actingAs($this->user)
+            ->json('GET', $url, $query)
+            ->assertStatus(200)
+            ->assertJsonStructure($expectedStructure)
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment($expectedFragment);
     }
 }
