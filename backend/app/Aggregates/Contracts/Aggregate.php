@@ -4,7 +4,7 @@ namespace App\Aggregates\Contracts;
 
 interface Aggregate
 {
-	public function toArray(): array;
+    public function toArray(): array;
 
-	public function getId(): int;
+    public function getId(): int;
 }
