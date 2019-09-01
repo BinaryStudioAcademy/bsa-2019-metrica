@@ -13,7 +13,7 @@ function transformSytems(systemsData) {
             color: colors[index]
         };
     });
-    if (systems.length === 2) {
+    if (systems.length === 2 && percent < 100) {
         systems.push({
             title: 'Other',
             percent: 100 - percent,
@@ -26,14 +26,16 @@ function transformSytems(systemsData) {
 function transformDevices(devicesData) {
     const colors = ['#F03357', '#ff9900', '#FFD954'];
     let percent = 0;
-    return devicesData.map((item, index) => {
-        percent += Math.round(item.percent);
-        return {
+    let devices = [];
+    devicesData.forEach((item, index) => {
+        devices.push({
             title: item.name,
             percent: index === 2 ? 100 - percent : Math.round(item.percent),
             color: colors[index]
-        };
+        });
+        percent += Math.round(item.percent);
     });
+    return devices;
 }
 
 const devicesAndSystemsTransformer = (devicesData, systemsData) => {

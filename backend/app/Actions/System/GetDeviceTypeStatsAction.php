@@ -4,7 +4,6 @@ namespace App\Actions\System;
 
 use App\Repositories\Contracts\SystemRepository;
 use Illuminate\Support\Facades\Auth;
-use App\Actions\System\GetDeviceTypeStatsResponse;
 
 class GetDeviceTypeStatsAction
 {
