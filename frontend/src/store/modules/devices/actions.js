@@ -14,6 +14,9 @@ import { fetchDevicesAndSystemsData } from "@/api/widgets/devicesAndSystemsServi
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, period) => {
+        if (context.state.selectedPeriod === period.value) {
+            return;
+        }
         context.commit(SET_SELECTED_PERIOD, period);
         context.dispatch(FETCH_WIDGET_INFO);
     },

@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Entities\System;
+use App\Utils\DatePeriod;
 
 interface SystemRepository
 {
@@ -15,4 +16,8 @@ interface SystemRepository
     ): ?System;
 
     public function save(System $system): System;
+
+    public function getMostPopularSystems(int $website_id, DatePeriod $period);
+
+    public function getDevicesStats(int $website_id, DatePeriod $period);
 }
