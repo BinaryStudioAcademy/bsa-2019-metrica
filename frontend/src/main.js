@@ -9,9 +9,10 @@ import {
     faFacebookF,
     faGoogle
 } from '@fortawesome/free-brands-svg-icons';
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faFacebookF, faGoogle);
+library.add(faFacebookF, faGoogle, faArrowRight);
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 
