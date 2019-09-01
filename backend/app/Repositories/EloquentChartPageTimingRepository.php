@@ -13,6 +13,11 @@ final class EloquentChartPageTimingRepository implements ChartPageTimingReposito
 {
     public function getAvgPageLoadByDateRange(DatePeriod $datePeriod, string $period): array
     {
+        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'page_load_time');
+    }
+
+    private function getAvgPageTimingByDateRange(DatePeriod $datePeriod, string $period, string $pageTiming): array
+    {
         $from = $datePeriod->getStartDate();
         $to = $datePeriod->getEndDate();
         $avgPageLoadingByTimeFrame = Visit::query()
@@ -20,7 +25,7 @@ final class EloquentChartPageTimingRepository implements ChartPageTimingReposito
             ->whereHas('visitor', function (Builder $query){
                 $query->forUserWebsite();
             })
-            ->selectRaw('AVG (page_load_time) as average')
+            ->selectRaw('AVG ('.$pageTiming.') as average')
             ->selectRaw(' (extract(epoch FROM visit_time) - MOD( (CAST (extract(epoch FROM visit_time) AS INTEGER)), ? )) AS period', [$period])
             ->groupBy('period')
             ->get();
