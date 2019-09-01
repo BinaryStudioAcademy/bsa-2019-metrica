@@ -94,10 +94,14 @@ export default {
             let value = undefined;
             arrayOfDates.map((item) => {
                 value = _.find(response,  (i) => {
-                    return parseInt(i.date) === item.unix();
+                    return parseInt(i.date, 10) === item.unix();
                 });
-                if(value) result.push(parseInt(value.value));
-                else result.push(0);
+                if(value) {
+                    result.push(parseInt(value.value, 10));
+                }
+                else {
+                    result.push(0);
+                }
             });
             const chunk = (arr, size) =>
                 arr.reduce((acc, _, i) => (i % size)
