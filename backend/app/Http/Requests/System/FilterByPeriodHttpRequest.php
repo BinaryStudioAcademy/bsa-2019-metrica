@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace App\Http\Requests\System;
-use App\Http\Request\ApiFormRequest;
 
+use App\Http\Request\ApiFormRequest;
 use App\Rules\{Timestamp, TimestampAfter};
 
 final class FilterByPeriodHttpRequest extends ApiFormRequest

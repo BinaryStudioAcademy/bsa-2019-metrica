@@ -17,8 +17,7 @@ final class SystemController extends Controller
     public function __construct(
         GetMostPopularOsAction $getMostPopularOsAction,
         GetDeviceTypeStatsAction $getDeviceTypeStatsAction
-    )
-    {
+    ) {
         $this->getMostPopularOsAction = $getMostPopularOsAction;
         $this->getDeviceTypeStatsAction = $getDeviceTypeStatsAction;
     }

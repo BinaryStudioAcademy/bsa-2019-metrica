@@ -34,7 +34,8 @@ final class EloquentSystemRepository implements SystemRepository
         return $system;
     }
 
-    public function getMostPopularSystems(int $website_id, DatePeriod $datePeriod) {
+    public function getMostPopularSystems(int $website_id, DatePeriod $datePeriod)
+    {
         $sessions = Session::whereDateBetween($datePeriod)
             ->forWebsite($website_id)
             ->with(['system:id,os'])
@@ -47,13 +48,14 @@ final class EloquentSystemRepository implements SystemRepository
                     $item->count() / $session_count * 100
                 );
             })
-            ->sortByDesc(function ($item){
+            ->sortByDesc(function ($item) {
                 return $item->percent();
             })->take(2)
             ->values();
     }
 
-    public function getDevicesStats(int $website_id, DatePeriod $datePeriod) {
+    public function getDevicesStats(int $website_id, DatePeriod $datePeriod)
+    {
         $sessions = Session::whereDateBetween($datePeriod)
             ->forWebsite($website_id)
             ->with(['system:id,device'])
@@ -66,7 +68,7 @@ final class EloquentSystemRepository implements SystemRepository
                     $item->count() / $session_count * 100
                 );
             })
-            ->sortByDesc(function ($item){
+            ->sortByDesc(function ($item) {
                 return $item->percent();
             })
             ->values();
