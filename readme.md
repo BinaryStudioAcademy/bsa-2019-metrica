@@ -86,7 +86,6 @@ PUSHER_AUTH_ENDPOINT=/broadcasting/auth
 
 ### Contributors
 
-<a itemscope="itemscope" itemprop="member" itemtype="http://schema.org/Person" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=50488599" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/ltopchyi"><img src="https://avatars.githubusercontent.com/u/50488599?s=25&v=3" title="ltopchyi" width=25 height=25/></a>
 [<img src="https://avatars.githubusercontent.com/u/50488599?s=25&v=3" title="ltopchyi" width=25 height=25/>](https://github.com/ltopchyi)
 [<img src="https://avatars.githubusercontent.com/u/50483607?s=25&v=3" title="Ilya-Lopanosov" width=25 height=25/>](https://github.com/Ilya-Lopanosov)
 [<img src="https://avatars.githubusercontent.com/u/29003568?s=25&v=3" title="Мария" width=25 height=25/>](https://github.com/yashuk803)
