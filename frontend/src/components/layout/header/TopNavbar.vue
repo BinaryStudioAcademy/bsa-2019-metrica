@@ -11,33 +11,14 @@
             </span>
             <span>Metrica</span>
         </VToolbarTitle>
-        <UserControls v-if="isLoggedIn" />
-        <div
-            v-else
-        >
-            <RouterLink
-                class="login-btn pr-3"
-                :to="{ name: 'login' }"
-            >
-                Sign In
-            </RouterLink>
-            <RouterLink
-                class="login-btn pr-3"
-                :to="{ name: 'signup' }"
-            >
-                Sign Up
-            </RouterLink>
-        </div>
     </VAppBar>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER, IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
-    import UserControls from './UserControls.vue';
 
     export default {
-        components: {UserControls},
         computed: {
             ...mapGetters('auth', {
                 isLoggedIn: IS_LOGGED_IN,
@@ -63,11 +44,6 @@
     ::v-deep .v-toolbar__content {
         border-bottom: 1px solid rgba(0, 0, 0, 0.034);
         justify-content: space-between;
-
-        .login-btn {
-            font-family: 'Gilroy';
-            color: black;
-        }
 
         .v-toolbar__title {
             font-family: 'GilroyLight';

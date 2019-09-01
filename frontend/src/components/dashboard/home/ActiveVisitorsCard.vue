@@ -28,7 +28,6 @@
                 :gradient="gradient"
                 :smooth="radius"
                 :padding="padding"
-                :width="width"
                 :line-width="lineWidth"
                 :gradient-direction="gradientDirection"
                 auto-draw
