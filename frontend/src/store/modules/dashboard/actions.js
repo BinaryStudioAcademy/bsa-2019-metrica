@@ -102,7 +102,7 @@ export default {
             const chunk = (arr, size) =>
                 arr.reduce((acc, _, i) => (i % size)
                     ? acc : [...acc, (arr.slice(i, i + size)).reduce((a, b) => a + b, 0)], []);
-            context.commit(SET_ACTIVITY_CHART_DATA, chunk(result, 5));
+            context.commit(SET_ACTIVITY_CHART_DATA, chunk(result, 6));
         });
     },
 
