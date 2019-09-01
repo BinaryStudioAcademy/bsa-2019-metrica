@@ -1,0 +1,147 @@
+table, thead, tbody, tfoot, tr, th, td, button, section {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-collapse: inherit;
+    border-spacing: 0;
+    border-color: inherit;
+    vertical-align: inherit;
+    font-weight: inherit;
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+}
+
+*, *:before, *:after, input, textarea, button, select {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+input {
+    border-radius: 0;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+ul, ol {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input:focus,
+label:focus,
+textarea:focus,
+select:focus,
+option:focus,
+button:focus,
+a:focus {
+    outline: none;
+}
+
+body {
+    position: relative;
+    font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.main-container {
+    padding: 10px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header, .container {
+    display: grid;
+    grid-template-columns: 1fr 0 0 1fr;
+}
+
+.header {
+    grid-area: header;
+    grid-template-rows: 1fr 1fr;
+}
+
+.container {
+    margin-top: 50px;
+    grid-gap: 10px;
+    grid-template-rows: 100px;
+    grid-template-areas: "main main main author" "main main main search";
+}
+.header__logo {
+    grid-column: 1;
+    grid-row: 1/-1;
+}
+
+.header__logo h1 {
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.header__logo a {
+    display: inline-block;
+    cursor: pointer;
+}
+.header__items {
+    grid-column: 4;
+    grid-row: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.search-menu {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.social-link {
+    display: flex;
+    justify-content: center;
+}
+
+.social-link a {
+    display: block;
+    color: black;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.social-link a:hover {
+    color: rgba(0, 0, 0, 0.5);
+}
+.main-menu {
+    grid-column: 4;
+    grid-row: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.main-menu li a,
+.menu__box li a {
+    display: block;
+    text-transform: uppercase;
+    color: black;
+}
+
+.main-menu li a:hover,
+.menu__box li a:hover {
+    text-decoration: underline;
+}
+
+.main-menu {
+    grid-column: 4;
+    grid-row: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.hamburger-menu {
+    display: none;
+}
+
