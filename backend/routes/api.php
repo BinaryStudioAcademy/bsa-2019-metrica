@@ -102,6 +102,12 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'page-timing',
+        ], function () {
+            Route::get('/chart/page-loading', 'PageTimingController@getPageLoadingChartData');
+        });
+
+        Route::group([
             'prefix' => 'chart-average-sessions'
         ], function () {
             Route::get('/', 'SessionController@getAverageSessionByInterval');
