@@ -77,7 +77,6 @@
         data: () => ({
             lineWidth: 4,
             radius: 16,
-            width:600,
             padding: 4,
             gradient: ['#3C57DE', '#1BC3DA'],
             gradientDirection: 'left',
