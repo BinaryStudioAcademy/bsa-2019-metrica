@@ -88,7 +88,13 @@
                 {
                     icon: '/assets/icons/settings.svg',
                     text: 'Behaviour',
-                    route: 'behaviour'
+                    route: 'behaviour',
+                    sublinks: [
+                        {
+                            text: 'Visitors flow',
+                            route: 'visitors-flow',
+                        }
+                    ]
                 },
                 {
                     icon: '/assets/icons/speed.svg',

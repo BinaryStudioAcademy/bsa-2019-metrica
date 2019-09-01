@@ -21,6 +21,8 @@ import Audience from "../pages/Audience.vue";
 import VerifyEmail from "../components/auth/VerifyEmail";
 import Dashboard from "../pages/Dashboard";
 import GeoLocation from "../pages/GeoLocationPage";
+import Behavior from "../pages/Behavior";
+import VisitorsFlow from "../pages/VisitorsFlow";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -114,6 +116,17 @@ export default new Router({
                                             name: 'geo-location',
                                             component: GeoLocation,
                                         },
+                                    ]
+                                },
+                                {
+                                    path: 'behavior',
+                                    component: Behavior,
+                                    children: [
+                                        {
+                                            path: 'visitors-flow',
+                                            name: 'visitors-flow',
+                                            component: VisitorsFlow
+                                        }
                                     ]
                                 },
                                 {
