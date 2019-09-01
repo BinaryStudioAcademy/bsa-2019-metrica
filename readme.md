@@ -141,3 +141,9 @@ exit
 
 docker-machine restart default
 ```
+
+### Copyright and License
+
+Metrica was written by PHP team of Binary Studio Academy in 2019 and is released under the [MIT License](https://github.com/BinaryStudioAcademy/bsa-2019-metrica/blob/master/LICENSE).
+
+Copyright (c) 2019 Binary Studio Academy
