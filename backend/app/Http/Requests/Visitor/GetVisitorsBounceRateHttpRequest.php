@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
-use App\Http\Requests\ChartHttpRequestTrait;
 use App\Rules\IsWebsiteRelatedWithUser;
 
 final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
 {
-    use ChartHttpRequestTrait;
     public function rules(): array
     {
         return  array_merge(
