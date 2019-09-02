@@ -118,5 +118,4 @@ class ButtonsAverageTimingTest extends TestCase
                 ]
             );
     }
-
 }
