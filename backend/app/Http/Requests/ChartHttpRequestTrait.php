@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Rules\Timestamp;
-use App\Rules\TimestampAfter;
+use App\Rules\{Timestamp, TimestampAfter, IsWebsiteRelatedWithUser};
 
 trait ChartHttpRequestTrait
 {
@@ -25,6 +24,11 @@ trait ChartHttpRequestTrait
             'filter.period' => [
                 'required',
                 'integer'
+            ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedWithUser()
             ]
         ];
     }
@@ -42,5 +46,10 @@ trait ChartHttpRequestTrait
     public function getPeriod(): string
     {
         return (string)$this->get('filter')['period'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }
