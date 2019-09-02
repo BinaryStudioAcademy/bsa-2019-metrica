@@ -13,7 +13,7 @@ try {
                 localStorage.set('test-local-storage', 1);
                 localStorage.removeItem('test-local-storage');
                 return 'localStorage';
-            } catch(e) {
+            } catch (e) {
                 return 'sessionStorage';
             }
         };
@@ -143,7 +143,9 @@ try {
         };
 
         const setToken = (token) => {
-            storage.setItem('visitor_token', token);
+            try {
+                storage.setItem('visitor_token', token);
+            } catch (err) {}
         };
 
         const getToken = () => {
@@ -178,11 +180,11 @@ try {
         };
 
         const getResolutionWith = () => {
-            return screen.width;
+            return window.innerWidth;
         };
 
         const getResolutionHeight = () => {
-            return screen.height;
+            return window.innerHeight;
         };
 
         const getVisit = () => {
@@ -239,6 +241,4 @@ try {
             }
         })();
     })();
-} catch (err) {
-
-}
+} catch (err) {}
