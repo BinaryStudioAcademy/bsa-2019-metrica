@@ -3,7 +3,7 @@ const fs = require('fs');
 const ROOT_DIR = path.resolve(__dirname);
 const SPECS_DIR = path.join(ROOT_DIR, 'specs');
 const LIB_DIR = path.join(ROOT_DIR, 'lib');
-const HELPERS_DIR = path.join(ROOT_DIR, 'helpers');
+const HELPERS_DIR = path.join(SPECS_DIR, 'helpers');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'output');
 const SCREENSHOT_DIR = path.join(OUTPUT_DIR, 'screenshots');
 const testPattern = path.relative(ROOT_DIR, path.join(SPECS_DIR, '**', '*_test.js'));
@@ -35,8 +35,7 @@ exports.config = {
     outputDir: OUTPUT_DIR,
     specs: [testPattern],
     suites: {
-        all: [testPattern],
-        dev: [testDevPattern]
+        all: [testPattern]
     },
     // Patterns to exclude.
     exclude: [
@@ -140,22 +139,18 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter.html
-    reporters: ['spec', 'junit', 'allure'],
-        reportersOptions: {
-        allure: {
-        outputDir: path.join(OUTPUT_DIR, './allure-results'),
-        disableWebdriverStepReporting: true,
-        disableWebdriverScreenshotsReporting: false
-        },
-        junit:{
+    reporters: [
+        'spec'
+        ,
+        ['junit', {
             outputDir: path.join(OUTPUT_DIR, 'test_result'),
             errorOptions: {
                 error: 'message',
                 failure: 'message',
                 stacktrace: 'stack'
             }
-        }
-    },
+        }]
+    ],
     coloredLogs: true,
     screenshotPath: path.join(OUTPUT_DIR, 'screenshots'),
     //
@@ -209,14 +204,17 @@ exports.config = {
      * Hook that gets executed before the suite starts
      * @param {Object} suite suite details
      */
-    // beforeSuite: function (suite) {
-    // },
+    beforeSuite: function (suite) {
+        
+    },
     /**
      * Function to be executed before a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
-    // beforeTest: function (test) {
-    // },
+    beforeTest: function (test) {
+        browser.maximizeWindow();
+        browser.url('https://stage.metrica.fun');
+    },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
@@ -233,14 +231,16 @@ exports.config = {
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
-    // afterTest: function (test) {
-    // },
+    //afterTest: function (test) {
+        
+    //},
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
      */
-    // afterSuite: function (suite) {
-    // },
+    afterSuite: function (suite) {
+
+    },
     /**
      * Runs after a WebdriverIO command gets executed
      * @param {String} commandName hook command name
@@ -286,17 +286,20 @@ exports.config = {
     //onReload: function(oldSessionId, newSessionId) {
     //}
     afterTest: function (test) {
-        // if test passed, ignore, else take and save screenshot.
         if (test.passed) {
-            return;
+            browser.reloadSession();
+            return; 
         }
         if (!fs.existsSync(SCREENSHOT_DIR)) {
             fs.mkdirSync(SCREENSHOT_DIR);
+           
         }
         // get current test title and clean it, to use it as file name
         const filename = encodeURIComponent(test.title.replace(/\s+/g, '-'));
         const filePath = SCREENSHOT_DIR + `/${filename}.png`;
         browser.saveScreenshot(filePath);
         console.log('\n\tScreenshot location:', filePath, '\n');
+        browser.reloadSession();
+        
     }
-}
+};

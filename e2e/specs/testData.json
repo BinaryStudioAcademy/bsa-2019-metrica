@@ -1,0 +1,29 @@
+{
+    "succesRegistrationNotification":"You have been successfully registered! Please log in!",
+    "wrongEmailNotification":"Error: The email has already been taken.",
+    
+    "resetPasswordNotification":"We have emailed you password recovery link",
+    "wrongEmailResetNotification":"It looks like there is no account associated with this email address. You can create an account to access our services.",
+    
+    "errorEmailNotification" :"User doesn't exist",
+    "errorLoginNotification" :"Something wrong with email or password",
+    "succesLoginNotification" :"Logged in",
+
+    "nameIsRequiredLabel" :"Field full name is required",
+    "emailIsRequiredLabel" :"E-mail is required",
+    "passwordIsRequiredLabel" :"Password is required",
+
+    "emailNotValidLabel" :"E-mail must be valid",
+    "passwordNotValidLabel" :"Password must be equal or more than 8 characters",
+    "passwordNotMatch":"Password should match",
+
+    "websiteNameIsRequiredLabel" :"Website name is required",
+    "websiteUrlIsRequiredLabel" :"Website domain is required",
+    "websiteUrlNotValidLabel" :"Domain must be correct",
+
+    "websiteNameSaved" :"Name is successfully saved",    
+
+    "profileUpdated":"Profile has been successfully updated!"
+    
+}
+
