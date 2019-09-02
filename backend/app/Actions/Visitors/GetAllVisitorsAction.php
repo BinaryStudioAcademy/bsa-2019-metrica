@@ -16,7 +16,7 @@ final class GetAllVisitorsAction
     public function execute(GetAllActivityVisitorRequest $request): GetAllVisitorsResponse
     {
         $visitors = $this->visitorRepository->all()
-                        ->filter(function($visitor) use($request) {
+                        ->filter(function($visitor) use ($request) {
                             return $visitor->website_id == $request->websiteId();
                         });
         return new GetAllVisitorsResponse($visitors);

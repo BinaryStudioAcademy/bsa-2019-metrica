@@ -47,25 +47,25 @@ final class EloquentWebsiteRepository implements WebsiteRepository
     }
 
     public function getFirstExistingUserWebsite(): Website
-     {
-         $userWebsites = auth()->user()->websites;
+    {
+        $userWebsites = auth()->user()->websites;
 
-         $firstOwnWebsite = $userWebsites->filter(function($website) {
+        $firstOwnWebsite = $userWebsites->filter(function($website) {
             return $website->pivot->role == 'owner';
-         })->first();
+        })->first();
 
-         if ($firstOwnWebsite) {
-             return $firstOwnWebsite;
-         } else {
+        if ($firstOwnWebsite) {
+            return $firstOwnWebsite;
+        } else {
             $firstTeamMemberWebsite = $userWebsites->filter(function($website) {
                 return $website->pivot->role == 'member';
             })->first();
-         }
+        }
 
-         if ($firstTeamMemberWebsite) {
-             return $firstTeamMemberWebsite;
-         } else {
-             throw new WebsiteNotFoundException;
-         }
-     }
+        if ($firstTeamMemberWebsite) {
+            return $firstTeamMemberWebsite;
+        } else {
+            throw new WebsiteNotFoundException;
+        }
+    }
 }

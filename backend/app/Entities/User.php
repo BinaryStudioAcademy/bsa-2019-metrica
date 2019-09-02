@@ -58,5 +58,4 @@ final class User extends Authenticatable implements JWTSubject
 
         return $userWebsite ? true : false;
     }
-
 }

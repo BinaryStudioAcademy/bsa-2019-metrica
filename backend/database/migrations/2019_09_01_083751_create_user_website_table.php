@@ -24,7 +24,6 @@ class CreateUserWebsiteTable extends Migration
                 ->on('websites')
                 ->onDelete('cascade');
         });
-
     }
 
     public function down()

@@ -12,7 +12,7 @@ abstract class ChartDataRequest
     private $interval;
     private $websiteId;
 
-    public function __construct(string $startDate, string $endDate, string $interval,  int $websiteId)
+    public function __construct(string $startDate, string $endDate, string $interval, int $websiteId)
     {
         $this->period = DatePeriod::createFromTimestamp($startDate, $endDate);
         $this->interval = $interval;
@@ -33,5 +33,4 @@ abstract class ChartDataRequest
     {
         return $this->websiteId;
     }
-
 }
