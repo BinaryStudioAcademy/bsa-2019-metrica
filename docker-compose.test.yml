@@ -7,11 +7,29 @@ services:
     user: www-data
     volumes:
       - ./backend:/app
+    networks:
+      - mynet  
   node:
     image: node:12.7-alpine
     working_dir: /app
     volumes:
       - ./frontend:/app
+    networks:
+      - mynet  
+  
+  seleniumapp:
+    image: selenium/standalone-chrome:3.141.59-titanium
+    ports:
+      - "4444:4444"
+    networks:
+      - mynet  
+  e2e:
+    image: lenchv/metrica-e2e:latest
+    working_dir: /e2e
+    volumes:
+      - ./e2e:/e2e
+    networks:
+      - mynet  
 
   webserver:
     image: metrica/webserver:latest
@@ -23,6 +41,11 @@ services:
       - "443:443"
     depends_on:
       - app
+    hostname: web.local
+    networks:
+       mynet:    
+          aliases:
+            - web.local
   db:
     image: postgres:11
     restart: always
@@ -30,3 +53,21 @@ services:
       - POSTGRES_DB=metrica
       - POSTGRES_USER=metrica
       - POSTGRES_PASSWORD=metrica
+    networks:
+      - mynet  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - mynet  
+  
+networks:
+  mynet:
