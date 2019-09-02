@@ -143,7 +143,6 @@ Route::prefix('v1')->group(function () {
             Route::post('/', 'TeamController@inviteTeamMember');
             Route::delete('/member/{id}', 'TeamController@removeTeamMember');
         });
-
     });
 
     Route::group([

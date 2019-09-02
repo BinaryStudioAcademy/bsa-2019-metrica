@@ -51,5 +51,4 @@ class TeamMemberInvited extends Notification
         }
         return 'Login with your credentials';
     }
-
 }
