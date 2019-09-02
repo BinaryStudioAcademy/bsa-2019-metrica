@@ -56,16 +56,16 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
          if ($firstOwnWebsite) {
              return $firstOwnWebsite;
-         } else {
-            $firstTeamMemberWebsite = $userWebsites->filter(function($website) {
-                return $website->pivot->role == 'member';
-            })->first();
          }
+
+        $firstTeamMemberWebsite = $userWebsites->filter(function($website) {
+            return $website->pivot->role == 'member';
+        })->first();
 
          if ($firstTeamMemberWebsite) {
              return $firstTeamMemberWebsite;
-         } else {
-             throw new WebsiteNotFoundException;
          }
+
+        throw new WebsiteNotFoundException;
      }
 }
