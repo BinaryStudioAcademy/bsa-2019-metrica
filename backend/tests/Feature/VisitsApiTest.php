@@ -24,6 +24,7 @@ class VisitsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
     private $visitor;
     private $page;
     private $system;
@@ -33,7 +34,10 @@ class VisitsApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         $this->visitor = factory(Visitor::class)->create();
         $this->page = factory(Page::class)->create();
         factory(GeoPosition::class)->create();
@@ -50,7 +54,8 @@ class VisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $secondDate->getTimestamp(),
                 'endDate' => (string) $firstDate->getTimestamp(),
-                'period' => 60000
+                'period' => 60000,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -107,7 +112,8 @@ class VisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $secondDate->getTimestamp(),
                 'endDate' => (string) $firstDate->getTimestamp(),
-                'period' => 60000
+                'period' => 60000,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -135,7 +141,8 @@ class VisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $secondDate->getTimestamp(),
                 'endDate' => (string) $firstDate->getTimestamp(),
-                'period' => 60000
+                'period' => 60000,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -149,7 +156,7 @@ class VisitsApiTest extends TestCase
 
         $this->actingAs($user)
             ->call('GET', $this->url, $filterData)
-           ->assertStatus(404)
+           ->assertStatus(400)
             ->assertJson($expectedData);
     }
 
@@ -161,7 +168,8 @@ class VisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $endDate->getTimestamp(),
                 'endDate' => (string) $startDate->getTimestamp(),
-                'period' => 60000
+                'period' => 60000,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -186,7 +194,8 @@ class VisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $secondDate->getTimestamp(),
                 'endDate' => (string) $firstDate->getTimestamp(),
-                'period' => 0
+                'period' => 0,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -224,6 +233,7 @@ class VisitsApiTest extends TestCase
                 'startDate' => (string)$startDate->getTimestamp(),
                 'endDate' => (string)$endDate->getTimestamp(),
                 'period' => "3600",
+                'website_id' => $this->website->id
             ]
         ];
 

@@ -19,6 +19,7 @@ class ActivityVisitorTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
     private $firstDate;
     private $thirdDate;
 
@@ -26,6 +27,12 @@ class ActivityVisitorTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+        $this->website = factory(Website::class)->create([
+            'id' => 1
+        ]);
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         $firstDate = Carbon::now('UTC')->subMinutes(15);
         $thirdDate = Carbon::now('UTC')->subMinutes(2);
         $this->firstDate = $firstDate;
@@ -35,6 +42,10 @@ class ActivityVisitorTest extends TestCase
 
     public function testGetActivityUsersAction()
     {
+        $filterData = [
+            'website_id' => $this->website->id,
+        ];
+
         $expectedData = [
             "data" => [
                 [
@@ -58,16 +69,14 @@ class ActivityVisitorTest extends TestCase
         ];
 
         $this->actingAs($this->user)
-            ->call('GET', 'api/v1/visitors/activity-visitors')
+            ->call('GET', 'api/v1/visitors/activity-visitors', $filterData)
             ->assertStatus(200)
             ->assertJson($expectedData);
     }
 
     public function seedDataBase()
     {
-        factory(Website::class)->create([
-            'id' => 1
-        ]);
+
         factory(Visitor::class)->create(
             [
                 'id' => 1,

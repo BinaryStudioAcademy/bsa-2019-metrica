@@ -20,31 +20,36 @@ class VisitorsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
+    private $filterData;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class, 1)->create(
-            ['user_id' => $this->user->id]
-        );
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Page::class, 1)->create();
         factory(System::class, 1)->create();
         factory(GeoPosition::class, 1)->create();
+
+        $this->filterData = [
+            'website_id' => $this->website->id
+        ];
     }
 
     public function testNewVisitorsAction()
     {
-        $user = factory(User::class)->make();
-        $response = $this->actingAs($user)->call('GET', 'api/v1/visitors/new');
+        $response = $this->actingAs($this->user)->call('GET', 'api/v1/visitors/new', $this->filterData);
 
         $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testAllVisitorsAction()
     {
-        $user = factory(User::class)->make();
-        $response = $this->actingAs($user)->json('GET', 'api/v1/visitors');
+        $response = $this->actingAs($this->user)->json('GET', 'api/v1/visitors', $this->filterData);
 
         $this->assertEquals(200, $response->getStatusCode());
     }
@@ -73,7 +78,8 @@ class VisitorsApiTest extends TestCase
         $filterData = [
             'filter' => [
                 'startDate' => (string)$secondDate->getTimestamp(),
-                'endDate' => (string)$thirdDate->getTimestamp()
+                'endDate' => (string)$thirdDate->getTimestamp(),
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -104,6 +110,7 @@ class VisitorsApiTest extends TestCase
                 'startDate' => $startDate->getTimestamp(),
                 'endDate' => $endDate->getTimestamp(),
                 'period' => $anHour,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -165,7 +172,8 @@ class VisitorsApiTest extends TestCase
         $filterData = [
             'filter' => [
                 'startDate' => (string)$thirdDate->getTimestamp(),
-                'endDate' => (string)$secondDate->getTimestamp()
+                'endDate' => (string)$secondDate->getTimestamp(),
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -190,7 +198,8 @@ class VisitorsApiTest extends TestCase
         $query = [
             'filter' => [
                 'startDate' => (string)Carbon::yesterday()->subDay()->timestamp,
-                'endDate' => (string)Carbon::today()->timestamp
+                'endDate' => (string)Carbon::today()->timestamp,
+                'website_id' => $this->website->id
             ]
         ];
         $endpoint = 'api/v1/visitors/bounce-rate/total';
