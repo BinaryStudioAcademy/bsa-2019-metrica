@@ -1,0 +1,26 @@
+{
+
+    "domain":"https://stage.metrica.fun",
+
+    "login":"/login",
+    "signup":"/signup",
+    "resetPassword":"/reset-password",
+
+    "dashboard":"/dashboard",
+    "visitors":"/audience/visitors",
+    "pageViews":"/audience/page-views",
+    "geoLocations":"/audience/geo-location",
+    "behaviour":"/behaviour",
+    "speedOverview":"/speedoverview",
+    "userSettings":"/user-settings",
+    "websiteSettings":"/website/info",
+
+    "step1":"/website/add/step-1",
+    "step2":"/website/add/step-2",
+    "step3":"/website/add/step-3",
+
+    "websiteUrl":"https://google.com",
+    "invalidWebsiteUrl":"https:/googlecom"
+
+}
+
