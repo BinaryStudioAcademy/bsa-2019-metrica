@@ -4,11 +4,11 @@
 namespace App\Actions\PageTimings;
 
 use App\Actions\ChartDataRequest;
-use App\Http\Requests\PageTimings\PageLoadingChartHttpRequest;
+use App\Http\Requests\PageTimings\PageTimingChartHttpRequest;
 
 final class GetChartRequest extends ChartDataRequest
 {
-    public static function fromRequest(PageLoadingChartHttpRequest $request)
+    public static function fromRequest(PageTimingChartHttpRequest $request)
     {
         return new static(
             $request->getStartDate(),
