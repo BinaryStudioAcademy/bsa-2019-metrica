@@ -21,12 +21,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Visitor $visitor
  * @property int $visitor_id
  * @property GeoPosition $geo_position
- * * @property int $geo_position_id
+ * @property int $geo_position_id
+ * @property int $page_load_time
+ * @property int $domain_lookup_time
+ * @property int $server_response_time
+ * *
  */
 
 final class Visit extends Model
 {
     protected $fillable = [
+        'page_load_time',
+        'domain_lookup_time',
+        'server_response_time',
         'visit_time',
         'ip_address',
         'session_id',

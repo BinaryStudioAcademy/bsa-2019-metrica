@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api;
 
 use App\Http\Request\ApiFormRequest;
+use App\Http\Requests\ChartHttpRequestTrait;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 use App\Rules\IsWebsiteRelatedWithUser;
 
 final class GetBounceRateChartHttpRequest extends ApiFormRequest
 {
+    use ChartHttpRequestTrait;
+}
     public function rules(): array
     {
         return [

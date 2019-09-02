@@ -27,19 +27,19 @@ interface TableVisitorsRepository
 
     public function getBounceRateGroupByCountry(DatePeriod $datePeriod, int $websiteId): Collection;
 
-    public function getCountVisitorsGroupByLanguage(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getCountVisitorsGroupByLanguage(int $website_id, DatePeriod $datePeriod): Collection;
 
-    public function getBounceRateRateGroupByLanguage(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getBounceRateRateGroupByLanguage(int $website_id, DatePeriod $datePeriod): Collection;
 
-    public function getCountVisitorsGroupByBrowser(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getCountVisitorsGroupByBrowser(int $website_id, DatePeriod $datePeriod): Collection;
 
-    public function getBounceRateGroupByBrowser(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getBounceRateGroupByBrowser(int $website_id, DatePeriod $datePeriod): Collection;
 
-    public function getCountVisitorsGroupByOperatingSystem(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getCountVisitorsGroupByOperatingSystem(int $website_id, DatePeriod $datePeriod): Collection;
 
-    public function getBounceRateGroupByOperatingSystem(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getBounceRateGroupByOperatingSystem(int $website_id, DatePeriod $datePeriod): Collection;
 
-    public function getCountVisitorsRateGroupByScreenResolution(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getCountVisitorsRateGroupByScreenResolution(int $website_id, DatePeriod $datePeriod): Collection;
 
-    public function getBounceRateGroupByScreenResolution(DatePeriod $datePeriod, int $websiteId): Collection;
+    public function getBounceRateGroupByScreenResolution(int $website_id, DatePeriod $datePeriod): Collection;
 }
