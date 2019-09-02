@@ -6,6 +6,7 @@ namespace App\Repositories\PageViews;
 
 use App\Contracts\Common\DatePeriod;
 use App\Entities\Visit;
+use App\Entities\Website;
 use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -104,10 +105,10 @@ class EloquentButtonDataRepository implements ButtonDataRepository
         return $response[0]->count;
     }
 
-    public function getAverageTiming(DatePeriod $period, int $website_id, string $parameter): string
+    public function getAverageTiming(DatePeriod $period, int $website_id, string $parameter): float
     {
-        $average =  Visit::forWebsite($website_id)
+        $average =  Website::find($website_id)->visits()
             ->whereDateBetween($period)->avg($parameter);
-        return $average ?? "0";
+        return floatval($average);
     }
 }

@@ -107,10 +107,9 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'page-timing',
         ], function () {
-            Route::get('/chart/page-loading', 'PageTimingController@getPageLoadingChartData');
             Route::get('/button/page-loading', 'PageTimingController@getAveragePageLoading');
             Route::get('/button/dns-lookup', 'PageTimingController@getAverageDomainLookupTime');
-            Route::get('/button/response-time', 'PageTimingController@getAverageServerResponseTime');
+            Route::get('/button/server-response', 'PageTimingController@getAverageServerResponseTime');
         });
 
         Route::group([

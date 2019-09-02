@@ -25,6 +25,6 @@ final class GetAverageTimingAction
 
         $average = $this->repository
             ->getAverageTiming($period, $website_id, $parameter);
-        return new ButtonValue($average);
+        return new ButtonValue(number_format($average));
     }
 }

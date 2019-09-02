@@ -68,11 +68,4 @@ final class Visit extends Model
     {
         return $query->whereBetween('visit_time', [$period->getStartDate(), $period->getEndDate()]);
     }
-
-    public function scopeForWebsite(Builder $query, int $website_id)
-    {
-        return $query->whereHas('page', function($query) use ($website_id) {
-            $query->where('website_id', $website_id);
-        });
-    }
 }
