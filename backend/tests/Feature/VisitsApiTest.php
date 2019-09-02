@@ -27,18 +27,23 @@ class VisitsApiTest extends TestCase
     private $visitor;
     private $page;
     private $system;
-    private $url = 'api/v1/chart-visits/';
+    private $session;
+    private $url = 'api/v1/chart-visits/page-views';
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class)->create();
+        factory(Website::class)->create([
+            'domain' => 'google.com'
+        ]);
         $this->visitor = factory(Visitor::class)->create();
-        $this->page = factory(Page::class)->create();
+        $this->page = factory(Page::class)->create([
+            'url' => 'https://google.com'
+        ]);
         factory(GeoPosition::class)->create();
         $this->system = factory(System::class)->create();
-        factory(Session::class)->create();
+        $this->session = factory(Session::class)->create();
     }
 
     public function testPageViewsFilter()
@@ -197,7 +202,7 @@ class VisitsApiTest extends TestCase
 
         $expectedData = [
             'error' => [
-                'message' => 'Interval must more 1 s'
+                'message' => 'The filter.period must be at least 1.'
             ],
         ];
 
@@ -289,6 +294,7 @@ class VisitsApiTest extends TestCase
             'page_title' => $this->page->name,
             'language' => $language,
             'device' => $this->system->device,
+            'page_load_time' => 400,
             'resolution_width' => $this->system->resolution_width,
             'resolution_height' => $this->system->resolution_height
         ];
@@ -306,6 +312,7 @@ class VisitsApiTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseHas('visits', [
+            'page_load_time' => 400,
             'ip_address' => $ip
         ]);
     }
@@ -353,5 +360,43 @@ class VisitsApiTest extends TestCase
         $this->assertDatabaseHas('visits', [
             'ip_address' => $ip
         ]);
+    }
+
+    public function testGetVisitsDensityAction()
+    {
+        factory(Visit::class, 5)->create();
+
+        $startSession = $this->session->start_session;
+
+        $query = [
+            'filter' => [
+                'startDate' => (string) $startSession->timestamp,
+                'endDate' =>  (string) ($startSession->addWeek()->timestamp)
+            ]
+        ];
+
+        $url = 'api/v1/visits/density';
+
+        $expectedStructure = [
+            'data' => [
+                [
+                    'day',
+                    'hour',
+                    'visits'
+                ]
+            ],
+            'meta' => []
+        ];
+
+        $expectedFragment = [
+            'visits' => 5
+        ];
+
+        $this->actingAs($this->user)
+            ->json('GET', $url, $query)
+            ->assertStatus(200)
+            ->assertJsonStructure($expectedStructure)
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment($expectedFragment);
     }
 }

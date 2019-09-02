@@ -3,17 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::prefix('v1')->group(function () {
     Route::group([
         'prefix' => 'auth',
@@ -48,6 +37,9 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'WebsiteController@update');
         });
 
+        Route::get('/os/most-popular', 'SystemController@getMostPopularOs');
+        Route::get('/devices/stats', 'SystemController@getStats');
+
         Route::group([
             'prefix' => 'visitors'
         ], function () {
@@ -63,6 +55,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'visits'
         ], function () {
             Route::get('/by-table', 'VisitController@getPageViewsByParameter');
+            Route::get('/density', 'VisitController@getVisitsDensityByHourAndDay');
         });
 
         Route::group([
@@ -91,7 +84,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'chart-visits'
         ], function () {
-            Route::get('/', 'VisitController@getPageViews');
+            Route::get('/page-views', 'VisitController@getPageViews');
             Route::get('/unique', 'VisitController@getUniquePageViewsChart');
         });
 
