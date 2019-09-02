@@ -40,5 +40,4 @@ final class TeamController extends Controller
         );
         return ApiResponse::emptySuccess();
     }
-
 }
