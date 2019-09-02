@@ -3,7 +3,6 @@
 namespace App\Actions\System;
 
 use App\Repositories\Contracts\SystemRepository;
-use Illuminate\Support\Facades\Auth;
 
 class GetDeviceTypeStatsAction
 {
@@ -17,7 +16,7 @@ class GetDeviceTypeStatsAction
     public function execute(GetDeviceTypeStatsRequest $request): GetDeviceTypeStatsResponse
     {
         $period = $request->period();
-        $website_id = Auth::user()->website->id;
+        $website_id = $request->websiteId();
         $devices = $this->repository->getDevicesStats($website_id, $period);
         return new GetDeviceTypeStatsResponse($devices);
     }

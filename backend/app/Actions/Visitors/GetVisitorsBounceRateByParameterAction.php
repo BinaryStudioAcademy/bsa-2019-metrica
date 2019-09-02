@@ -54,11 +54,11 @@ final class GetVisitorsBounceRateByParameterAction
                 break;
             case self::LANGUAGE:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByLanguage($request->period(), $websiteId)
+                    ->getCountVisitorsGroupByLanguage($websiteId, $request->period())
                     ->keyBy(self::LANGUAGE)
                     ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateRateGroupByLanguage($request->period(), $websiteId)
+                    ->getBounceRateRateGroupByLanguage($websiteId, $request->period())
                     ->keyBy(self::LANGUAGE)
                     ->only('bounced_visitors_count')
                     ->toArray());
