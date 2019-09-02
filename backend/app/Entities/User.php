@@ -59,4 +59,9 @@ final class User extends Authenticatable implements JWTSubject
         return $userWebsite ? true : false;
     }
 
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }
