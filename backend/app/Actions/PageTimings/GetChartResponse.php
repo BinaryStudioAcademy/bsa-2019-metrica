@@ -3,7 +3,6 @@
 
 namespace App\Actions\PageTimings;
 
-
 use Illuminate\Support\Collection;
 
 class GetChartResponse

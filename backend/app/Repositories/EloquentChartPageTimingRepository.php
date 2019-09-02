@@ -32,7 +32,7 @@ final class EloquentChartPageTimingRepository implements ChartPageTimingReposito
         $to = $datePeriod->getEndDate();
         $avgPageLoadingByTimeFrame = Visit::query()
             ->whereBetween('visit_time', [$from, $to])
-            ->whereHas('visitor', function (Builder $query){
+            ->whereHas('visitor', function (Builder $query) {
                 $query->forUserWebsite();
             })
             ->selectRaw('FLOOR (AVG ('.$pageTiming.')) as average')
