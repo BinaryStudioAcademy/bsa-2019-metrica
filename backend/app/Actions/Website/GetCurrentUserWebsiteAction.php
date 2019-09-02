@@ -23,10 +23,10 @@ final class GetCurrentUserWebsiteAction
 
         if ($id === 0) {
             $website = $this->repository->getFirstExistingUserWebsite();
-        } else {
-            $website = $this->repository->getCurrentWebsite($id);
+            return new GetCurrentUserWebsiteResponse($website);
         }
 
+        $website = $this->repository->getCurrentWebsite($id);
         return new GetCurrentUserWebsiteResponse($website);
     }
 }

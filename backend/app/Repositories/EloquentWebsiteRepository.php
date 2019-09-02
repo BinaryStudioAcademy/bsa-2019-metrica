@@ -41,9 +41,9 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
         if ($userWebsitesIds->contains($websiteId)) {
             return $this->getById($websiteId);
-        } else {
-            throw new WebsiteNotFoundException;
         }
+
+        throw new WebsiteNotFoundException;
     }
 
     public function getFirstExistingUserWebsite(): Website
