@@ -75,11 +75,6 @@ final class Session extends Model
         return $this->hasOne(Visit::class);
     }
 
-    public function scopeForUserWebsite(Builder $query): Builder
-    {
-        return $query->whereWebsiteId(Auth::user()->website->id);
-    }
-
     public function scopeInactive(Builder $query, DateTime $date): Builder
     {
         return $query->where('updated_at', '<', Carbon::instance($date)->subMinutes(30)->toDateTimeString());

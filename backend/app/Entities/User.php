@@ -26,7 +26,7 @@ final class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['website'];
+    protected $with = ['websites'];
 
     public function getJWTIdentifier()
     {
@@ -43,13 +43,20 @@ final class User extends Authenticatable implements JWTSubject
         $this->notify(new MailResetPasswordNotification($token));
     }
 
-    public function website()
+    public function websites()
     {
-        return $this->hasOne(Website::class, 'user_id');
+        return $this->belongsToMany(Website::class)->withPivot('role');
     }
 
-    public function getWebsite()
+    public function isWebsiteOwner(int $websiteId)
     {
-        return $this->website;
+        $userWebsite = auth()->user()
+                            ->websites()
+                            ->wherePivot('website_id', '=', $websiteId)
+                            ->wherePivot('role', '=', 'owner')
+                            ->first();
+
+        return $userWebsite ? true : false;
     }
+
 }
