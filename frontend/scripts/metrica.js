@@ -218,10 +218,14 @@
         };
     };
 
-    if (getToken()) {
-        createVisit();
-    } else {
-        createVisitor(getTrackingId())
-            .finally(() => createVisit());
-    }
+    (() =>{
+        let token = getToken();
+
+        if (token) {
+            createVisit();
+        } else {
+            createVisitor(getTrackingId())
+                .finally(() => createVisit());
+        }
+    })();
 })();
