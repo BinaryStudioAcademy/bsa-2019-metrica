@@ -37,9 +37,14 @@ class InitVisitorsSeeder extends Seeder
             'last_activity' => $createdDate,
             'website_id' => $this->user->website->id,
         ]);
+
+        $userWebsite = $this->user->websites->filter(function($website){
+          return $website->pivot->role === 'owner';
+        })->first();
+
         $session = factory(Session::class)->create([
             'start_session' => $visitor->created_at,
-            'entrance_page_id' => Page::inRandomOrder()->where('website_id', '=', $this->user->website->id)->first()->id,
+            'entrance_page_id' => Page::inRandomOrder()->where('website_id', '=', $userWebsite->id)->first()->id,
             'visitor_id' => $visitor->id,
             'end_session' => Carbon::instance($visitor->created_at)->addMinutes($faker->numberBetween(15, 35)),
         ]);
@@ -49,7 +54,7 @@ class InitVisitorsSeeder extends Seeder
                 'session_id' => $session->id,
                 'visitor_id' => $visitor->id,
                 'visit_time' => $session->start_session->addMinutes($delta*$i),
-                'page_id' => Page::inRandomOrder()->where('website_id', '=', $this->user->website->id)->first()->id,
+                'page_id' => Page::inRandomOrder()->where('website_id', '=', $userWebsite->id)->first()->id,
             ]);
         }
 
