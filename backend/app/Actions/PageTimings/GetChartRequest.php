@@ -3,7 +3,6 @@
 
 namespace App\Actions\PageTimings;
 
-
 use App\Actions\ChartDataRequest;
 use App\Http\Requests\PageTimings\PageLoadingChartHttpRequest;
 

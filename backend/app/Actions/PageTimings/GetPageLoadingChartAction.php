@@ -3,7 +3,6 @@
 
 namespace App\Actions\PageTimings;
 
-
 use App\Utils\DatePeriod;
 
 final class GetPageLoadingChartAction extends GetAbstractPageTimingChartAction

@@ -165,7 +165,8 @@ class PageTimingApiTest extends TestCase
             ->assertJson($expectedData);
     }
 
-    private function seedPageTimingsData(){
+    private function seedPageTimingsData()
+    {
         factory(Visitor::class)->create([
             'created_at' => new DateTime('2019-08-20 05:30:00')
         ]);
@@ -184,8 +185,7 @@ class PageTimingApiTest extends TestCase
         int $loadingTime,
         int $domainLookupTime,
         int $serverResponseTime
-    )
-    {
+    ) {
         $visitor = factory(Visitor::class)->create([
             'created_at' => $createdDate
         ]);
@@ -204,5 +204,4 @@ class PageTimingApiTest extends TestCase
 
         return $visitor;
     }
-
 }

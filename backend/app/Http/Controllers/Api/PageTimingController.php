@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Actions\PageTimings\GetDomainLookupChartAction;
 use App\Actions\PageTimings\GetPageLoadingChartAction;
 use App\Actions\PageTimings\GetChartRequest;

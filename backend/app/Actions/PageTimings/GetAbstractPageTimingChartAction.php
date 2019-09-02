@@ -3,7 +3,6 @@
 
 namespace App\Actions\PageTimings;
 
-
 use App\DataTransformer\ChartValue;
 use App\Repositories\Contracts\ChartPageTimingRepository;
 use App\Utils\DatePeriod;
