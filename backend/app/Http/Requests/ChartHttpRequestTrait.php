@@ -22,10 +22,7 @@ trait ChartHttpRequestTrait
                 new Timestamp(),
                 new TimestampAfter((string)$this->getStartDate())
             ],
-            'filter.period' => [
-                'required',
-                'integer'
-            ]
+            'filter.period' => 'required|integer|min:1'
         ];
     }
 
