@@ -165,9 +165,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         });
     }
 
-    public function getCountVisitorsGroupByCity(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsGroupByCity(DatePeriod $datePeriod, int $websiteId): Collection
     {
-        return Visitor::forUserWebsite()
+        return Visitor::whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('count(visitors.id) as visitors_count, geo_positions.city as city'))
@@ -176,7 +176,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->get();
     }
 
-    public function getBounceRateGroupByCity(DatePeriod $datePeriod): Collection
+    public function getBounceRateGroupByCity(DatePeriod $datePeriod, int $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -184,7 +184,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
                     ->has('visits', '=', '1')
                     ->inactive($datePeriod->getEndDate());
             })
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.city as city'))
@@ -192,9 +192,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->get();
     }
 
-    public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod, int $websiteId): Collection
     {
-        return Visitor::forUserWebsite()
+        return Visitor::whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('count(visitors.id) as visitors_count, geo_positions.country as country'))
@@ -203,7 +203,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->get();
     }
 
-    public function getBounceRateGroupByCountry(DatePeriod $datePeriod): Collection
+    public function getBounceRateGroupByCountry(DatePeriod $datePeriod, int $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -211,7 +211,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
                     ->has('visits', '=', '1')
                     ->inactive($datePeriod->getEndDate());
             })
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.country as country'))
@@ -219,7 +219,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->get();
     }
 
-    public function getCountVisitorsGroupByLanguage(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsGroupByLanguage(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
@@ -227,12 +227,12 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->select(DB::raw('count(visitors.id) as visitors_count, sessions.language as language'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('sessions.language')
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 
 
-    public function getBounceRateRateGroupByLanguage(DatePeriod $datePeriod): Collection
+    public function getBounceRateRateGroupByLanguage(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -244,11 +244,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, sessions.language as language'))
             ->groupBy('sessions.language')
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 
-    public function getCountVisitorsGroupByBrowser(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsGroupByBrowser(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
@@ -257,11 +257,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->select(DB::raw('count(visitors.id) as visitors_count, systems.browser as browser'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('systems.browser')
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 
-    public function getBounceRateGroupByBrowser(DatePeriod $datePeriod): Collection
+    public function getBounceRateGroupByBrowser(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -274,11 +274,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, systems.browser as browser'))
             ->groupBy('systems.browser')
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 
-    public function getCountVisitorsGroupByOperatingSystem(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsGroupByOperatingSystem(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
@@ -287,11 +287,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->select(DB::raw('count(visitors.id) as visitors_count, systems.os as operating_system'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('systems.os')
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 
-    public function getBounceRateGroupByOperatingSystem(DatePeriod $datePeriod): Collection
+    public function getBounceRateGroupByOperatingSystem(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -304,11 +304,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, systems.os as operating_system'))
             ->groupBy('systems.os')
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 
-    public function getCountVisitorsRateGroupByScreenResolution(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsRateGroupByScreenResolution(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
@@ -317,11 +317,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->select(DB::raw('count(visitors.id) as visitors_count'), DB::raw("CONCAT(systems.resolution_height, 'x', systems.resolution_width) as screen_resolution"))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy(['systems.resolution_width','systems.resolution_height'])
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 
-    public function getBounceRateGroupByScreenResolution(DatePeriod $datePeriod): Collection
+    public function getBounceRateGroupByScreenResolution(DatePeriod $datePeriod, $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -334,7 +334,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('COUNT(visitors.id) as bounced_visitors_count'), DB::raw("CONCAT(systems.resolution_height, 'x', systems.resolution_width) as screen_resolution"))
             ->groupBy(['systems.resolution_width','systems.resolution_height'])
-            ->where('sessions.website_id', '=', Auth::user()->website->id)
+            ->where('sessions.website_id', '=', $websiteId)
             ->get();
     }
 }

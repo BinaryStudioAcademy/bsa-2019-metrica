@@ -10,4 +10,6 @@ interface WebsiteRepository
     public function save(Website $website): Website;
     public function getById(int $id): Website;
     public function getByTrackNumber(int $id): ?Website;
+    public function getCurrentWebsite(int $id): Website;
+    public function getFirstExistingUserWebsite(): Website;
 }
