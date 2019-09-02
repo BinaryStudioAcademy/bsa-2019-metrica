@@ -8,6 +8,20 @@ try {
             }
         };
 
+        class requestService {
+
+            post = (url, data, headers = {}) => {
+                return fetch(url, {
+                    method: 'POST',
+                    crossDomain: true,
+                    headers: headers,
+                    body: data
+                });
+            };
+        }
+
+        let fetchWrapper = new requestService();
+
         const isStorage = () => {
             try {
                 localStorage.set('test-local-storage', 1);
@@ -201,14 +215,13 @@ try {
         };
 
         const createVisitor = (tracking_number) => {
-            return fetch(state.host + state.routes.create_visitor, {
-                method: 'POST',
-                crossDomain: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-website': tracking_number
-                },
-            })
+            let url = state.host + state.routes.create_visitor;
+            let headers = {
+                'Content-Type': 'application/json',
+                'x-website': tracking_number
+            };
+
+            return fetchWrapper.post(url, {}, headers)
                 .then((response) => {
                     return response.json();
 
@@ -219,15 +232,14 @@ try {
         };
 
         const createVisit = () => {
-            return fetch(state.host + state.routes.create_visit, {
-                method: 'POST',
-                crossDomain: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-visitor': 'Bearer ' + getToken()
-                },
-                body: JSON.stringify(getVisit())
-            });
+            let url = state.host + state.routes.create_visit;
+            let headers = {
+                'Content-Type': 'application/json',
+                'x-visitor': 'Bearer ' + getToken()
+            };
+            let data = JSON.stringify(getVisit());
+
+            return fetchWrapper.post(url, data, headers)
         };
 
         (() => {
