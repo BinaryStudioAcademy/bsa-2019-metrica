@@ -1,53 +1,169 @@
-try {
-    (() => {
-        let state = {
-            host: 'http://stage.metrica.fun/api/v1',
-            routes: {
-                create_visitor: '/visitors',
-                create_visit: '/visits'
-            }
-        };
-
-        class requestService {
-
-            post = (url, data, headers = {}) => {
-                return fetch(url, {
-                    method: 'POST',
-                    crossDomain: true,
-                    headers: headers,
-                    body: data
-                });
-            };
+(() => {
+    class requestService {
+        post(url, data, headers = {}) {
+            return fetch(url, {
+                method: 'POST',
+                crossDomain: true,
+                headers: headers,
+                body: data
+            });
         }
-
-        let fetchWrapper = new requestService();
-
-        const isStorage = () => {
+    }
+    const state = {
+        host: 'http://stage.metrica.fun/api/v1',
+        routes: {
+            create_visitor: '/visitors',
+            create_visit: '/visits'
+        }
+    };
+    window._metricaTracking = {
+        initialize() {
+            let token = this.getToken();
+            if (token) {
+                this.createVisit();
+            } else {
+                this.createVisitor(this.getTrackById())
+                    .finally(() => this.createVisit());
+            }
+        },
+        storage() {
+            return window[this.isStorage()];
+        },
+        isStorage() {
             try {
-                localStorage.set('test-local-storage', 1);
+                localStorage.setItem('test-local-storage', 1);
                 localStorage.removeItem('test-local-storage');
                 return 'localStorage';
             } catch (e) {
                 return 'sessionStorage';
             }
-        };
-
-        let storage = window[isStorage()];
-
-        const getTrackingId = () => {
+        },
+        getTrackById() {
             let myScript = document.getElementById('metrica');
-            return (myScript.src.split('tracking_id' + '=')[1] || '').split('&')[0]
-        };
+            return (myScript.src.split('tracking_id' + '=')[1] || '').split('&')[0];
+        },
+        getUserAgent() {
+            return Helper.getPropByString(window, 'navigator.userAgent');
+        },
+        setToken(token) {
+            try {
+                this.storage().setItem('visitor_token', token);
+            } catch (err) {}
+        },
+        getToken() {
+            if (this.storage().getItem('visitor_token') !== null) {
+                return this.storage().getItem("visitor_token");
+            }
+            return null;
+        },
+        getPage() {
+            return Helper.getPropByString(window, 'location.href');
+        },
+        getTitle() {
+            return document.title || 'unknown';
+        },
+        getLanguage() {
+            return Helper.getPropByString(window, 'navigator.language') ||
+                Helper.getPropByString(window, 'navigator.userLanguage');
+        },
+        getDevice() {
+            let device = 'unknown';
+            let userDevice = Helper.getUserDevice();
+            if (userDevice.desktop()) {
+                device = 'desktop';
+            } else if (userDevice.tablet()) {
+                device = 'tablet';
+            } else if (userDevice.mobile()) {
+                device = 'mobile';
+            }
+            return device;
+        },
+        getResolutionWith() {
+            return Helper.getPropByString(screen, 'width') ||
+                Helper.getPropByString(window, 'innerWidth');
+        },
+        getResolutionHeight() {
+            return Helper.getPropByString(screen, 'height') ||
+                Helper.getPropByString(window, 'innerHeight');
+        },
+        getVisit() {
+            return {
+                visitor_token: this.getToken(),
+                user_agent: this.getUserAgent(),
+                page: this.getPage(),
+                page_title: this.getTitle(),
+                language: this.getLanguage(),
+                device: this.getDevice(),
+                resolution_width: this.getResolutionWith(),
+                resolution_height: this.getResolutionHeight(),
+            };
+        },
+        fetchWrapper(){
+            return new requestService();
+        },
+        createVisitor(tracking_number) {
+            let url = state.host + state.routes.create_visitor;
+            let headers = {
+                'Content-Type': 'application/json',
+                'x-website': tracking_number
+            };
 
-        const getUserDevice = () => {
+            return this.fetchWrapper().post(url, {}, headers)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((result) => {
+                    this.setToken(result.data.token);
+                });
+        },
+        createVisit() {
+            let url = state.host + state.routes.create_visit;
+            let headers = {
+                'Content-Type': 'application/json',
+                'x-visitor': 'Bearer ' + this.getToken()
+            };
+            let data = JSON.stringify(this.getVisit());
+            return this.fetchWrapper().post(url, data, headers);
+        }
+    };
+
+    const Helper = {
+        isString(value) {
+            return typeof value === 'string' || value instanceof String;
+        },
+        getPropByString(obj, propString) {
+            if (!propString)
+                return obj;
+
+            let prop,
+                props = propString.split('.'),
+                i = 0,
+                iLen = props.length - 1;
+
+            for (i; i < iLen; i++) {
+                prop = props[i];
+                let candidate = obj[prop];
+                if (candidate !== undefined) {
+                    obj = candidate;
+                } else {
+                    break;
+                }
+            }
+            return obj[props[i]];
+        },
+        getUserDevice() {
             let device,
                 find,
                 userAgent;
             device = {};
-
-            window.device = device;
-
-            userAgent = window.navigator.userAgent.toLowerCase();
+            userAgent = this.getPropByString(window, 'navigator.userAgent');
+            if (userAgent === undefined) {
+                throw Error('Object\'s property is not defined');
+            }
+            if (!this.isString(userAgent)) {
+                throw Error('Window navigation userAgent must be string');
+            }
+            userAgent = userAgent.toLowerCase();
 
             device.ios = () => {
                 return device.iphone() || device.ipod() || device.ipad();
@@ -117,14 +233,6 @@ try {
                 return find('meego');
             };
 
-            device.cordova = () => {
-                return window.cordova && location.protocol === 'file:';
-            };
-
-            device.nodeWebkit = () => {
-                return typeof window.process === 'object';
-            };
-
             device.mobile = () => {
                 return device.androidPhone() ||
                     device.iphone() ||
@@ -147,110 +255,15 @@ try {
                 return !device.tablet() && !device.mobile();
             };
 
-            find = (needle) => {return userAgent.indexOf(needle) !== -1;};
+            find = (needle) => {
+                return userAgent.indexOf(needle) !== -1;
+            };
 
             return device;
-        };
+        }
+    };
 
-        const getUserAgent = () => {
-            return window.navigator.userAgent;
-        };
-
-        const setToken = (token) => {
-            try {
-                storage.setItem('visitor_token', token);
-            } catch (err) {}
-        };
-
-        const getToken = () => {
-            if(storage.getItem('visitor_token') !== null){
-                return storage.getItem("visitor_token");
-            }
-            return null;
-        };
-
-        const getPage = () => {
-            return window.location.href;
-        };
-
-        const getTitle = () => {
-            return document.title;
-        };
-
-        const getLanguage = () => {
-            return navigator.language || navigator.userLanguage;
-        };
-
-        const getDevice = () => {
-            let device = 'unknown';
-            if(getUserDevice().desktop()) {
-                device = 'desktop';
-            } else if(getUserDevice().tablet()) {
-                device = 'tablet';
-            } else if(getUserDevice().mobile()) {
-                device = 'mobile';
-            }
-            return device;
-        };
-
-        const getResolutionWith = () => {
-            return window.innerWidth;
-        };
-
-        const getResolutionHeight = () => {
-            return window.innerHeight;
-        };
-
-        const getVisit = () => {
-            return {
-                visitor_token: getToken(),
-                user_agent: getUserAgent(),
-                page: getPage(),
-                page_title: getTitle(),
-                language: getLanguage(),
-                device: getDevice(),
-                resolution_width: getResolutionWith(),
-                resolution_height: getResolutionHeight(),
-            };
-        };
-
-        const createVisitor = (tracking_number) => {
-            let url = state.host + state.routes.create_visitor;
-            let headers = {
-                'Content-Type': 'application/json',
-                'x-website': tracking_number
-            };
-
-            return fetchWrapper.post(url, {}, headers)
-                .then((response) => {
-                    return response.json();
-
-                })
-                .then((result) => {
-                    setToken(result.data.token);
-                });
-        };
-
-        const createVisit = () => {
-            let url = state.host + state.routes.create_visit;
-            let headers = {
-                'Content-Type': 'application/json',
-                'x-visitor': 'Bearer ' + getToken()
-            };
-            let data = JSON.stringify(getVisit());
-
-            return fetchWrapper.post(url, data, headers)
-        };
-
-        (() => {
-            let token = getToken();
-
-            if (token) {
-                createVisit();
-            } else {
-                createVisitor(getTrackingId())
-                    .finally(() => createVisit());
-            }
-        })();
-    })();
-} catch (err) {}
+    try {
+        window._metricaTracking.initialize();
+    } catch (err) {}
+})();
