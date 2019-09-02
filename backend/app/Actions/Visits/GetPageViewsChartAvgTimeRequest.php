@@ -13,7 +13,7 @@ final class GetPageViewsChartAvgTimeRequest extends ChartDataRequest
         return new static(
             $request->getStartDate(),
             $request->getEndDate(),
-            $request->getInterval(),
+            $request->getPeriod(),
             $request->websiteId()
         );
     }

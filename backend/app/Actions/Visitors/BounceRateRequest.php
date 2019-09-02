@@ -30,7 +30,7 @@ final class BounceRateRequest
         );
         return new static(new VisitorsBounceRateFilterData(
             $period,
-            $request->getTimeFrame(),
+            $request->getPeriod(),
             $request->websiteId()
         ));
     }
