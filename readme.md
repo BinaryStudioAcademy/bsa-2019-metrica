@@ -84,6 +84,20 @@ PUSHER_CLUSTER=
 PUSHER_AUTH_ENDPOINT=/broadcasting/auth
 ```
 
+### Contributors
+
+[<img src="https://avatars.githubusercontent.com/u/50488599?s=25&v=3" title="ltopchyi" width=25 height=25/>](https://github.com/ltopchyi)
+[<img src="https://avatars.githubusercontent.com/u/50483607?s=25&v=3" title="Ilya-Lopanosov" width=25 height=25/>](https://github.com/Ilya-Lopanosov)
+[<img src="https://avatars.githubusercontent.com/u/29003568?s=25&v=3" title="Мария" width=25 height=25/>](https://github.com/yashuk803)
+[<img src="https://avatars.githubusercontent.com/u/16193227?s=25&v=3" width=25 height=25 title="TumkoVolodymyr">](https://github.com/TumkoVolodymyr)
+[<img src="https://avatars.githubusercontent.com/u/53600170?s=25&v=3" width=25 height=25 title="mes1901">](https://github.com/mes1901)
+[<img src="https://avatars.githubusercontent.com/u/35337487?s=25&v=3" title="UMarina" width=25 height=25/>](https://github.com/UMarina)
+[<img src="https://avatars.githubusercontent.com/u/50590448?s=25&v=3" title="SerhiiPlotnikov" width=25 height=25/>](https://github.com/SerhiiPlotnikov)
+[<img src="https://avatars.githubusercontent.com/u/25809884?s=25&v=3" title="Yana Yakovenko" width=25 height=25/>](https://github.com/wyyi)
+[<img src="https://avatars.githubusercontent.com/u/15104027?s=25&v=3" title="Konstantin" width=25 height=25/>](https://github.com/KoR82)
+[<img src="https://avatars.githubusercontent.com/u/21060312?s=25&v=3" title="Oleksandr Bolshov" width=25 height=25/>](https://github.com/naytis)
+[<img src="https://avatars.githubusercontent.com/u/50499490?s=25&v=3" title="devhackerone" width=25 height=25/>](https://github.com/devhackerone)
+
 ### Elasticsearch troubleshoot
 
 The vm.max_map_count kernel setting needs to be set to at least 262144 for production use. Depending on your platform:
@@ -105,12 +119,31 @@ sudo sysctl -w vm.max_map_count=262144
 
 or
 
+```bash
 docker-machine ssh
+
 tce-load -w -i nano.tcz
+
 sudo sysctl -w vm.max_map_count=262144
+
 cat /proc/sys/vm/max_map_count
+
 sudo nano /mnt/sda1/var/lib/boot2docker/profile
-sudo sysctl -w vm.max_map_count=262144 // put this line in the end of file
-Ctrl+O // save it
+
+# put this line in the end of file
+sudo sysctl -w vm.max_map_count=262144
+
+# save it
+
+Ctrl+O
+
 exit
+
 docker-machine restart default
+```
+
+### Copyright and License
+
+Metrica was written by PHP team of Binary Studio Academy in 2019 and is released under the [MIT License](https://github.com/BinaryStudioAcademy/bsa-2019-metrica/blob/master/LICENSE).
+
+Copyright (c) 2019 Binary Studio Academy

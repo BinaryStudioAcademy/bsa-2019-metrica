@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
-abstract class AbstractChartHttpRequest extends ApiFormRequest
+trait ChartHttpRequestTrait
 {
     public function rules(): array
     {
