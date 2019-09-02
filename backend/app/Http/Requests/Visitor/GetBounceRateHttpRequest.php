@@ -7,6 +7,7 @@ namespace App\Http\Requests\Visitor;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Rules\IsWebsiteRelatedWithUser;
 
 final class GetBounceRateHttpRequest extends ApiFormRequest
 {
@@ -22,7 +23,12 @@ final class GetBounceRateHttpRequest extends ApiFormRequest
                 'required',
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
-            ]
+            ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedWithUser()
+            ],
         ];
     }
 
@@ -34,5 +40,10 @@ final class GetBounceRateHttpRequest extends ApiFormRequest
     public function endDate(): string
     {
         return $this->get('filter')['endDate'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

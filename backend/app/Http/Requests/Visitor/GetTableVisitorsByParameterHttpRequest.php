@@ -8,6 +8,7 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\Parameter;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Rules\IsWebsiteRelatedWithUser;
 
 final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
 {
@@ -28,6 +29,11 @@ final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
                 'required',
                 new Parameter()
             ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedWithUser()
+            ],
         ];
     }
     public function startDate(): string
@@ -42,5 +48,10 @@ final class GetTableVisitorsByParameterHttpRequest extends ApiFormRequest
     public function parameter(): string
     {
         return $this->get('filter')['parameter'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

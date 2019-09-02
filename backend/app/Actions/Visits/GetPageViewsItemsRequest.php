@@ -10,10 +10,13 @@ final class GetPageViewsItemsRequest
 {
     private $startDate;
     private $endDate;
-    public function __construct(string $startDate, string $endDate)
+    private $websiteId;
+
+    public function __construct(string $startDate, string $endDate, int $websiteId)
     {
         $this->startDate = Carbon::createFromTimestamp($startDate)->toDateTimeString();
         $this->endDate = Carbon::createFromTimestamp($endDate)->toDateTimeString();
+        $this->websiteId = $websiteId;
     }
     public function startDate(): string
     {
@@ -22,5 +25,10 @@ final class GetPageViewsItemsRequest
     public function endDate(): string
     {
         return $this->endDate;
+    }
+
+    public function websiteId(): int
+    {
+        return $this->websiteId;
     }
 }

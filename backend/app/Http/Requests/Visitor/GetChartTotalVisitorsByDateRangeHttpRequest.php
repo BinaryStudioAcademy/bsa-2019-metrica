@@ -7,6 +7,7 @@ namespace App\Http\Requests\Visitor;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Rules\IsWebsiteRelatedWithUser;
 
 final class GetChartTotalVisitorsByDateRangeHttpRequest extends ApiFormRequest
 {
@@ -26,6 +27,11 @@ final class GetChartTotalVisitorsByDateRangeHttpRequest extends ApiFormRequest
             'filter.period' => [
                 'required',
                 'integer'
+            ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedWithUser()
             ]
         ];
     }
@@ -43,5 +49,10 @@ final class GetChartTotalVisitorsByDateRangeHttpRequest extends ApiFormRequest
     public function getPeriod(): string
     {
         return $this->get('filter')['period'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Requests\Visit;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Rules\IsWebsiteRelatedWithUser;
 
 class GetUniquePageViewsChartHttpRequest extends ApiFormRequest
 {
@@ -26,6 +27,11 @@ class GetUniquePageViewsChartHttpRequest extends ApiFormRequest
                 'required',
                 'integer',
             ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedWithUser()
+            ],
         ];
     }
 
@@ -42,5 +48,10 @@ class GetUniquePageViewsChartHttpRequest extends ApiFormRequest
     public function getInterval(): string
     {
         return (string)$this->get('filter')['period'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

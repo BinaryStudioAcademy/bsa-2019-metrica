@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
+use App\Rules\IsWebsiteRelatedWithUser;
 
 final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
 {
@@ -25,6 +26,11 @@ final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
                     'required',
                     'integer',
                 ],
+                'filter.website_id' => [
+                    'required',
+                    'integer',
+                    new IsWebsiteRelatedWithUser()
+                ],
             ]
         );
     }
@@ -42,5 +48,10 @@ final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
     public function getTimeFrame(): int
     {
         return (int) $this->get('filter')['period'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

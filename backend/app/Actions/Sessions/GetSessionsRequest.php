@@ -14,7 +14,8 @@ final class GetSessionsRequest extends ChartDataRequest
         return new static(
             $request->getStartDate(),
             $request->getEndDate(),
-            $request->getInterval()
+            $request->getInterval(),
+            $request->getWebsiteId()
         );
     }
 }

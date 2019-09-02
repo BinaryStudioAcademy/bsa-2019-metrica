@@ -26,7 +26,8 @@ final class GetGeoLocationItemsAction
         $countAllVisitors = collect(
             $this->visitorRepository->countAllVisitorsGroupByCountry(
                     $request->startDate(),
-                    $request->endDate()
+                    $request->endDate(),
+                    $request->websiteId()
                 )
                 ->keyBy('country')
                 ->toArray()
@@ -35,7 +36,8 @@ final class GetGeoLocationItemsAction
         $countNewVisitors = collect(
             $this->visitorRepository->countNewVisitorsGroupByCountry(
                     $request->startDate(),
-                    $request->endDate()
+                    $request->endDate(),
+                    $request->websiteId()
                 )
                 ->keyBy('country')
                 ->toArray()
@@ -44,7 +46,8 @@ final class GetGeoLocationItemsAction
         $countAllSessions = collect(
             $this->sessionRepository->getCountSessionsGroupByCountry(
                 $request->startDate(),
-                $request->endDate()
+                $request->endDate(),
+                $request->websiteId()
             )
                 ->keyBy('country')
                 ->toArray()
@@ -53,7 +56,8 @@ final class GetGeoLocationItemsAction
         $countBouncedVisitors = collect(
             $this->visitorRepository->countInactiveSingleVisitSessionGroupByCountry(
                 $request->startDate(),
-                $request->endDate()
+                $request->endDate(),
+                $request->websiteId()
             )
                 ->keyBy('country')
                 ->toArray()
@@ -62,7 +66,8 @@ final class GetGeoLocationItemsAction
         $avgSessionTime = collect(
             $this->sessionRepository->getAvgSessionTimeGroupByCountry(
                 $request->startDate(),
-                $request->endDate()
+                $request->endDate(),
+                $request->websiteId()
             )
             ->keyBy('country')
             ->toArray()

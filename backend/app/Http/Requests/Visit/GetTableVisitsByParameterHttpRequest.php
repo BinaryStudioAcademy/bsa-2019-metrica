@@ -7,6 +7,7 @@ namespace App\Http\Requests\Visit;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Rules\IsWebsiteRelatedWithUser;
 
 final class GetTableVisitsByParameterHttpRequest extends ApiFormRequest
 {
@@ -27,6 +28,11 @@ final class GetTableVisitsByParameterHttpRequest extends ApiFormRequest
                 'required',
                 "in:city,country,language,browser,operating_system,screen_resolution"
             ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedWithUser()
+            ],
         ];
     }
 
@@ -43,5 +49,10 @@ final class GetTableVisitsByParameterHttpRequest extends ApiFormRequest
     public function parameter(): string
     {
         return $this->get('filter')['parameter'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

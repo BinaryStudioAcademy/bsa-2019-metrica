@@ -23,7 +23,7 @@ final class CountSessionsAction
 
     public function execute(CountSessionsRequest $request): ButtonValue
     {
-        $websiteId = auth()->user()->website->id;
+        $websiteId = $request->websiteId();
 
         $visitorsIDsOfWebsite = $this->visitorRepository->getVisitorsOfWebsite((int) $websiteId)
                                                         ->pluck('id');

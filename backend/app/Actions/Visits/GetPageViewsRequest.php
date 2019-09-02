@@ -14,7 +14,8 @@ final class GetPageViewsRequest extends ChartDataRequest
         return new static(
             $request->getStartDate(),
             $request->getEndDate(),
-            $request->getInterval()
+            $request->getInterval(),
+            $request->websiteId()
         );
     }
 }

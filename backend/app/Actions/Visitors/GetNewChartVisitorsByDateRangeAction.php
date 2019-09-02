@@ -21,7 +21,7 @@ final class GetNewChartVisitorsByDateRangeAction
     {
         $startData = Carbon::createFromTimestampUTC($request->period()->getStartDate()->getTimestamp())->toDateTimeString();
         $endData = Carbon::createFromTimestampUTC($request->period()->getEndDate()->getTimestamp())->toDateTimeString();
-        $response = $this->repository->getNewVisitorsByDate($startData, $endData, $request->interval(), Auth::user()->id);
+        $response = $this->repository->getNewVisitorsByDate($startData, $endData, $request->interval(), $request->websiteId());
         return new GetNewChartVisitorsByDateRangeResponse($response);
     }
 }
