@@ -11,14 +11,18 @@
             </span>
             <span>Metrica</span>
         </VToolbarTitle>
+        <UserControls
+            v-if="isLoggedIn"
+        />
     </VAppBar>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER, IS_LOGGED_IN} from "@/store/modules/auth/types/getters";
-
+    import UserControls from './UserControls.vue';
     export default {
+        components: {UserControls},
         computed: {
             ...mapGetters('auth', {
                 isLoggedIn: IS_LOGGED_IN,
