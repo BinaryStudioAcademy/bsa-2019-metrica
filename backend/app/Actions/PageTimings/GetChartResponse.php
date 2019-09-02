@@ -6,7 +6,7 @@ namespace App\Actions\PageTimings;
 
 use Illuminate\Support\Collection;
 
-class GetPageLoadingChartResponse
+class GetChartResponse
 {
     private $collection;
 

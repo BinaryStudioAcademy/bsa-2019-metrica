@@ -16,6 +16,16 @@ final class EloquentChartPageTimingRepository implements ChartPageTimingReposito
         return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'page_load_time');
     }
 
+    public function getAvgServerResponseByDateRange(DatePeriod $datePeriod, string $period): array
+    {
+        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'server_response_time');
+    }
+
+    public function getAvgDomainLookupByDateRange(DatePeriod $datePeriod, string $period): array
+    {
+        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'domain_lookup_time');
+    }
+
     private function getAvgPageTimingByDateRange(DatePeriod $datePeriod, string $period, string $pageTiming): array
     {
         $from = $datePeriod->getStartDate();
@@ -25,7 +35,7 @@ final class EloquentChartPageTimingRepository implements ChartPageTimingReposito
             ->whereHas('visitor', function (Builder $query){
                 $query->forUserWebsite();
             })
-            ->selectRaw('AVG ('.$pageTiming.') as average')
+            ->selectRaw('FLOOR (AVG ('.$pageTiming.')) as average')
             ->selectRaw(' (extract(epoch FROM visit_time) - MOD( (CAST (extract(epoch FROM visit_time) AS INTEGER)), ? )) AS period', [$period])
             ->groupBy('period')
             ->get();
