@@ -14,6 +14,7 @@ use App\Repositories\Contracts\TablePageViewsRepository;
 use App\Repositories\Contracts\TableVisitorsRepository;
 use App\Repositories\Contracts\TableSessionRepository;
 use App\Repositories\Contracts\TableVisitRepository;
+use App\Repositories\Contracts\Teams\TeamRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\ChartVisitRepository;
@@ -42,6 +43,7 @@ use App\Repositories\EloquentVisitRepository;
 use App\Repositories\EloquentWebsiteRepository;
 use App\Repositories\EloquentTableNewVisitorsRepository;
 use App\Repositories\PageViews\EloquentChartDataRepository;
+use App\Repositories\Teams\EloquentTeamRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -94,6 +96,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TablePageViewsRepository::class, EloquentTablePageViewsRepository::class);
 
         $this->app->bind(ChartDataRepository::class, EloquentChartDataRepository::class);
+
+        $this->app->bind(TeamRepository::class, EloquentTeamRepository::class);
     }
 
     /**
