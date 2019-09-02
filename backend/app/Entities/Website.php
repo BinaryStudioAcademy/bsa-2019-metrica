@@ -41,5 +41,4 @@ final class Website extends Model
     {
         return $this->belongsToMany(User::class);
     }
-
 }

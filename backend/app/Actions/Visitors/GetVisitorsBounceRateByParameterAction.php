@@ -32,22 +32,22 @@ final class GetVisitorsBounceRateByParameterAction
         switch ($parameter) {
             case self::CITY:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByCity($request->period(),$websiteId)
+                    ->getCountVisitorsGroupByCity($request->period(), $websiteId)
                     ->keyBy(self::CITY)
                     ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateGroupByCity($request->period(),$websiteId)
+                    ->getBounceRateGroupByCity($request->period(), $websiteId)
                     ->keyBy(self::CITY)
                     ->only('bounced_visitors_count')
                     ->toArray());
                 break;
             case self::COUNTRY:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByCountry($request->period(),$websiteId)
+                    ->getCountVisitorsGroupByCountry($request->period(), $websiteId)
                     ->keyBy(self::COUNTRY)
                     ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateGroupByCountry($request->period(),$websiteId)
+                    ->getBounceRateGroupByCountry($request->period(), $websiteId)
                     ->keyBy(self::COUNTRY)
                     ->only('bounced_visitors_count')
                     ->toArray());

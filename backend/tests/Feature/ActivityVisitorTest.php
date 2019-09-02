@@ -76,7 +76,6 @@ class ActivityVisitorTest extends TestCase
 
     public function seedDataBase()
     {
-
         factory(Visitor::class)->create(
             [
                 'id' => 1,

@@ -38,8 +38,8 @@ class InitVisitorsSeeder extends Seeder
             'website_id' => $this->user->website->id,
         ]);
 
-        $userWebsite = $this->user->websites->filter(function($website){
-          return $website->pivot->role === 'owner';
+        $userWebsite = $this->user->websites->filter(function($website) {
+            return $website->pivot->role === 'owner';
         })->first();
 
         $session = factory(Session::class)->create([
