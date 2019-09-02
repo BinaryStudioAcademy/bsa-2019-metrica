@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Http\Requests\Visitor;
+
 use App\Rules\IsWebsiteRelatedWithUser;
 
 use App\Http\Request\ApiFormRequest;

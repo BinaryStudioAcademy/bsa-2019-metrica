@@ -38,5 +38,4 @@ class VisitorsBounceRateFilterData implements IVisitorsBounceRateFilterData
     {
         return $this->websiteId;
     }
-
 }

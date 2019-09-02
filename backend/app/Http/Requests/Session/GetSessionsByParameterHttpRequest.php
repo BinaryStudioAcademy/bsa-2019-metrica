@@ -53,5 +53,4 @@ class GetSessionsByParameterHttpRequest extends ApiFormRequest
     {
         return (int) $this->get('filter')['website_id'];
     }
-
 }

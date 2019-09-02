@@ -18,9 +18,9 @@ final class GetNewVisitorsAction
     public function execute(GetAllActivityVisitorRequest $request): GetNewVisitorsResponse
     {
         $visitors = $this->visitorRepository->newest()
-                       ->filter(function($visitor) use($request) {
-                            return $visitor->website_id == $request->websiteId();
-                        });
+                       ->filter(function($visitor) use ($request) {
+                           return $visitor->website_id == $request->websiteId();
+                       });
         return new GetNewVisitorsResponse($visitors);
     }
 }
