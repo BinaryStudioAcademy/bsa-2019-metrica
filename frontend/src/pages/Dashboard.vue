@@ -11,6 +11,11 @@
                 <DevicesPieChart />
             </VCol>
         </VRow>
+        <VRow>
+            <VCol class="widget px-0 mr-2">
+                <VisitsDensityWidget />
+            </VCol>
+        </VRow>
     </ContentLayout>
 </template>
 <script>
@@ -19,13 +24,16 @@
     import ActiveVisitorsCard from "../components/dashboard/home/ActiveVisitorsCard";
     import ContentLayout from "@/components/layout/ContentLayout";
     import Overview from "@/components/dashboard/dashboard/Overview";
+    import VisitsDensityWidget from '@/components/dashboard/home/VisitsDensityWidget';
+
     export default {
         name: 'Dashboard',
         components: {
             DevicesPieChart,
             ActiveVisitorsCard,
             ContentLayout,
-            Overview
+            Overview,
+            VisitsDensityWidget
         },
         mixins: [isWebsite],
         computed: {
