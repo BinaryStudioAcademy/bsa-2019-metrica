@@ -1,6 +1,6 @@
 {
 
-    "domain":"https://stage.metrica.fun",
+    "domain":"https://web.local",
 
     "login":"/login",
     "signup":"/signup",

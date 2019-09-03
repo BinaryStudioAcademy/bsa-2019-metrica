@@ -14,7 +14,7 @@ travisConfig.capabilities = [{
 }];
 travisConfig.beforeTest = function (test) {
     browser.maximizeWindow();
-    browser.url('https://web.local');
+    browser.url('https://web.local/');
 };
 travisConfig.connectionRetryTimeout = 5000;
 
