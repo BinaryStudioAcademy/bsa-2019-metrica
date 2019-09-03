@@ -11,19 +11,10 @@ class GetAverageTimingRequest extends ButtonDataRequest
 {
     private $column;
 
-    public function __construct(string $startDate, string $endDate, string $column)
+    public function __construct(FilterByPeriodHttpRequest $request, string $column)
     {
-        parent::__construct($startDate, $endDate);
+        parent::__construct($request->getStartDate(), $request->getEndDate());
         $this->column = $column;
-    }
-
-    public static function fromRequest(FilterByPeriodHttpRequest $request, string $column)
-    {
-        return new static (
-            $request->getStartDate(),
-            $request->getEndDate(),
-            $column
-        );
     }
 
     public function column()
