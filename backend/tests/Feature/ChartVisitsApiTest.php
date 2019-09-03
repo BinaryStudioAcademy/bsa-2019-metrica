@@ -21,6 +21,7 @@ class ChartVisitsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
 
     public function setUp(): void
     {
@@ -35,8 +36,8 @@ class ChartVisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)Carbon::parse('2019-08-21 00:00:00', 'UTC')->getTimestamp(),
                 'endDate' => (string)Carbon::parse('2019-08-22 00:00:00', ' UTC')->getTimestamp(),
-                'period' => 21600
-
+                'period' => 21600,
+                'website_id' => $this->website->id
             ]
         ];
         $expectedData = [
@@ -62,7 +63,10 @@ class ChartVisitsApiTest extends TestCase
 
     private function getUniquePageViewsChartSeed()
     {
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Page::class, 4)->create();
         factory(Visitor::class, 5)->create();
         factory(System::class)->create();

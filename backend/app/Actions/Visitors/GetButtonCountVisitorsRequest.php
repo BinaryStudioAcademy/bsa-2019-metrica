@@ -13,7 +13,8 @@ final class GetButtonCountVisitorsRequest extends ButtonDataRequest
     {
         return new static(
             $request->getStartDate(),
-            $request->getEndDate()
+            $request->getEndDate(),
+            $request->websiteId()
         );
     }
 }

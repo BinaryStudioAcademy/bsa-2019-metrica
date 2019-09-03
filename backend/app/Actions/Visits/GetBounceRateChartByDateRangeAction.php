@@ -24,7 +24,8 @@ final class GetBounceRateChartByDateRangeAction
         $from = $request->period()->getStartDate();
         $to = $request->period()->getEndDate();
         $interval = $request->interval();
-        $website = Website::select('id')->where('user_id', Auth::id())->first();
+        $website = Website::select('id')->where('id', $request->websiteId())
+                                        ->first();
         $allVisitsByTimeFrame = $this->repository->getVisitsCountByTimeFrame(
             $request->period(),
             (int)$interval,

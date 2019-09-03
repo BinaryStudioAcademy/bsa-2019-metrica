@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\System;
 
 use App\Http\Request\ApiFormRequest;
-use App\Rules\{Timestamp, TimestampAfter};
+use App\Rules\{Timestamp, TimestampAfter, IsWebsiteRelatedToUser};
 
 final class FilterByPeriodHttpRequest extends ApiFormRequest
 {
@@ -21,7 +21,12 @@ final class FilterByPeriodHttpRequest extends ApiFormRequest
                 'required',
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
-            ]
+            ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedToUser()
+            ],
         ];
     }
 
@@ -33,5 +38,10 @@ final class FilterByPeriodHttpRequest extends ApiFormRequest
     public function getEndDate(): string
     {
         return (string) $this->get('filter')['endDate'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

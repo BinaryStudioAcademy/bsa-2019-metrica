@@ -13,6 +13,8 @@ use App\Http\Requests\Website\AddWebsiteHttpRequest;
 use App\Http\Requests\Website\EditWebsiteHttpRequest;
 use App\Http\Resources\WebsiteResource;
 use App\Http\Response\ApiResponse;
+use App\Http\Requests\Website\GetCurrentWebsiteHttpRequest;
+use App\Actions\Website\GetcurrentWebsiteRequest;
 
 final class WebsiteController
 {
@@ -45,9 +47,9 @@ final class WebsiteController
         return ApiResponse::success(new WebsiteResource($response->getWebsite()));
     }
 
-    public function getCurrentUserWebsite(): ApiResponse
+    public function getCurrentUserWebsite(GetCurrentWebsiteHttpRequest $request): ApiResponse
     {
-        $response = $this->getCurrentUserWebsiteAction->execute();
+        $response = $this->getCurrentUserWebsiteAction->execute(GetcurrentWebsiteRequest::fromRequest($request));
         return ApiResponse::success(new WebsiteResource($response->website()));
     }
 }

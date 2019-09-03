@@ -32,7 +32,10 @@ class ChartVisitorsApiTest extends TestCase
 
     public function testGetTotalVisitorsByDateRange()
     {
-        factory(Website::class)->create();
+        $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class)->create(['id' => 1]);
         factory(Visitor::class)->create(['id' => 2]);
         factory(Visitor::class)->create(['id' => 3]);
@@ -79,7 +82,8 @@ class ChartVisitorsApiTest extends TestCase
             'filter' => [
             'startDate' => (string)$firstDate->getTimestamp(),
                 'endDate' => (string)$fifthDate->getTimestamp(),
-                'period' => '86400'
+                'period' => '86400',
+                'website_id' => $website->id
             ]
         ];
 
@@ -107,7 +111,10 @@ class ChartVisitorsApiTest extends TestCase
 
     public function testGetNewChartVisitorsByDateRange()
     {
-        factory(Website::class)->create();
+        $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         $firstDate = new DateTime('@1566070350');
         $secondDate = new DateTime('@1566156750');
         $thirdDate = new DateTime('@1566243150');
@@ -137,7 +144,8 @@ class ChartVisitorsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)$secondDate->getTimestamp(),
                 'endDate' => (string)$fifthDate->getTimestamp(),
-                'period' => 86400
+                'period' => 86400,
+                'website_id' => $website->id
             ]
         ];
         $expectedData = [

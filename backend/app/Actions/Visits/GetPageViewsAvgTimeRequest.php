@@ -12,7 +12,8 @@ final class GetPageViewsAvgTimeRequest extends ButtonDataRequest
     {
         return new static(
             $request->getStartDate(),
-            $request->getEndDate()
+            $request->getEndDate(),
+            $request->websiteId()
         );
     }
 }

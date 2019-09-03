@@ -10,11 +10,13 @@ final class GetGeoLocationItemsRequest
 {
     private $startDate;
     private $endDate;
+    private $websiteId;
 
-    public function __construct(string $startDate, string $endDate)
+    public function __construct(string $startDate, string $endDate, int $websiteId)
     {
         $this->startDate = Carbon::createFromTimestamp($startDate)->toDateTimeString();
         $this->endDate = Carbon::createFromTimestamp($endDate)->toDateTimeString();
+        $this->websiteId = $websiteId;
     }
 
     public function startDate(): string
@@ -25,5 +27,10 @@ final class GetGeoLocationItemsRequest
     public function endDate(): string
     {
         return $this->endDate;
+    }
+
+    public function websiteId(): int
+    {
+        return $this->websiteId;
     }
 }

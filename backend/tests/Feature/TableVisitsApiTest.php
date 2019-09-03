@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\TestDataFactory;
+use App\Entities\Website;
 
 class TableVisitsApiTest extends TestCase
 {
@@ -25,13 +26,18 @@ class TableVisitsApiTest extends TestCase
     ];
 
     private $user;
+    private $website;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->user = TestDataFactory::createUser();
-        TestDataFactory::createVisitsBetweenDates($this->user, self::DATE_FROM, self::DATE_TO);
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        TestDataFactory::createVisitsBetweenDates($this->website, self::DATE_FROM, self::DATE_TO);
     }
 
     public function testGetPageViewsByParameterAction()
@@ -41,7 +47,8 @@ class TableVisitsApiTest extends TestCase
                 'filter' => [
                     'startDate' => self::DATE_FROM,
                     'endDate' => self::DATE_TO,
-                    'parameter' => $parameter
+                    'parameter' => $parameter,
+                    'website_id' => $this->website->id
                 ]
             ];
 
@@ -78,7 +85,8 @@ class TableVisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => self::DATE_FROM,
                 'endDate' => self::DATE_TO,
-                'parameter' => 'wrong_parameter'
+                'parameter' => 'wrong_parameter',
+                'website_id' => $this->website->id
             ]
         ];
 
