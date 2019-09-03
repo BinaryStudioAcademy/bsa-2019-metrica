@@ -1,7 +1,7 @@
 <template>
     <pre>
     <code>
-    &lt;!-- Global site tag (gtag.js) - Google Analytics --&gt;
+    &lt;!-- Global site tag (metrica.js) - Metrica Analytics --&gt;
     &lt;script async src='https://stage.metrica.fun/metrica.js?tracking_id={{ trackingNumber }}'&gt;&lt;/script&gt;
     &lt;script&gt;
         window._metricaTrackingConfig = window._metricaTrackingConfig || [];
