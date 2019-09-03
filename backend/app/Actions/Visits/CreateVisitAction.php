@@ -55,7 +55,6 @@ final class CreateVisitAction
     {
         JWTAuth::setToken(Str::after($request->token(), 'Bearer '));
         $visitorId = JWTAuth::getPayload()->get('visitor_id');
-
         $visitor = $this->visitorRepository->getById($visitorId);
         $this->visitorRepository->updateLastActivity($visitor);
 
@@ -125,7 +124,8 @@ final class CreateVisitAction
         string $browser,
         int $resolutionHeight,
         int $resolutionWidth
-    ): System {
+    ): System
+    {
         $system = $this->systemRepository->getByParameters(
             $operatingSystem,
             $device,
@@ -171,7 +171,8 @@ final class CreateVisitAction
         int $pageId,
         string $language,
         int $systemId
-    ): Session {
+    ): Session
+    {
         $session = $this->sessionRepository->lastActiveByVisitorId($visitorId);
 
         if ($session !== null) {
