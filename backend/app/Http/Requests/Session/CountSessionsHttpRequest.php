@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Session;
 
 use App\Http\Request\ApiFormRequest;
-use App\Rules\IsWebsiteRelatedWithUser;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class CountSessionsHttpRequest extends ApiFormRequest
 {
@@ -17,7 +17,7 @@ final class CountSessionsHttpRequest extends ApiFormRequest
             'filter.website_id' => [
                 'required',
                 'integer',
-                new IsWebsiteRelatedWithUser()
+                new IsWebsiteRelatedToUser()
             ],
         ];
     }

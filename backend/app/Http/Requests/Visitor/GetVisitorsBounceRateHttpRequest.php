@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Visitor;
 
 use App\Http\Request\ApiFormRequest;
-use App\Rules\IsWebsiteRelatedWithUser;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
 {
@@ -29,7 +29,7 @@ final class GetVisitorsBounceRateHttpRequest extends ApiFormRequest
                 'filter.website_id' => [
                     'required',
                     'integer',
-                    new IsWebsiteRelatedWithUser()
+                    new IsWebsiteRelatedToUser()
                 ],
             ]
         );

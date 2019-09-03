@@ -8,7 +8,7 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\Parameter;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
-use App\Rules\IsWebsiteRelatedWithUser;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class GetNewVisitorsCountByParameterHttpRequest extends ApiFormRequest
 {
@@ -32,7 +32,7 @@ final class GetNewVisitorsCountByParameterHttpRequest extends ApiFormRequest
             'filter.website_id' => [
                 'required',
                 'integer',
-                new IsWebsiteRelatedWithUser()
+                new IsWebsiteRelatedToUser()
             ],
         ];
     }

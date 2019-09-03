@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Rules\{Timestamp, TimestampAfter, IsWebsiteRelatedWithUser};
+use App\Rules\{Timestamp, TimestampAfter, IsWebsiteRelatedToUser};
 
 trait ChartHttpRequestTrait
 {
@@ -28,7 +28,7 @@ trait ChartHttpRequestTrait
             'filter.website_id' => [
                 'required',
                 'integer',
-                new IsWebsiteRelatedWithUser()
+                new IsWebsiteRelatedToUser()
             ]
         ];
     }

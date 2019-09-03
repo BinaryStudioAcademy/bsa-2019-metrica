@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\System;
 
 use App\Http\Request\ApiFormRequest;
-use App\Rules\{Timestamp, TimestampAfter, IsWebsiteRelatedWithUser};
+use App\Rules\{Timestamp, TimestampAfter, IsWebsiteRelatedToUser};
 
 final class FilterByPeriodHttpRequest extends ApiFormRequest
 {
@@ -25,7 +25,7 @@ final class FilterByPeriodHttpRequest extends ApiFormRequest
             'filter.website_id' => [
                 'required',
                 'integer',
-                new IsWebsiteRelatedWithUser()
+                new IsWebsiteRelatedToUser()
             ],
         ];
     }

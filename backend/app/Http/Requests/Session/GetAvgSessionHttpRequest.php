@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Session;
 
 use App\Http\Request\ApiFormRequest;
-use App\Rules\IsWebsiteRelatedWithUser;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class GetAvgSessionHttpRequest extends ApiFormRequest
 {
@@ -14,7 +14,7 @@ final class GetAvgSessionHttpRequest extends ApiFormRequest
         return [
             'filter.startDate' => 'required|integer',
             'filter.endDate' => 'required|integer',
-            'filter.website_id' => ['required','integer', new IsWebsiteRelatedWithUser()],
+            'filter.website_id' => ['required','integer', new IsWebsiteRelatedToUser()],
         ];
     }
 

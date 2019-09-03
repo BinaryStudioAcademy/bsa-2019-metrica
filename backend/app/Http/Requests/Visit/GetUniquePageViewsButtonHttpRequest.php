@@ -6,7 +6,7 @@ namespace App\Http\Requests\Visit;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
-use App\Rules\IsWebsiteRelatedWithUser;
+use App\Rules\IsWebsiteRelatedToUser;
 
 class GetUniquePageViewsButtonHttpRequest extends ApiFormRequest
 {
@@ -26,7 +26,7 @@ class GetUniquePageViewsButtonHttpRequest extends ApiFormRequest
             'filter.website_id' => [
                 'required',
                 'integer',
-                new IsWebsiteRelatedWithUser()
+                new IsWebsiteRelatedToUser()
             ],
         ];
     }

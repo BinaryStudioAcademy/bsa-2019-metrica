@@ -7,7 +7,7 @@ namespace App\Http\Requests\Visitor;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
-use App\Rules\IsWebsiteRelatedWithUser;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class GetButtonCountVisitorsHttpRequest extends ApiFormRequest
 {
@@ -27,7 +27,7 @@ final class GetButtonCountVisitorsHttpRequest extends ApiFormRequest
             'filter.website_id' => [
                 'required',
                 'integer',
-                new IsWebsiteRelatedWithUser()
+                new IsWebsiteRelatedToUser()
             ]
         ];
     }

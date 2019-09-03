@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class IsWebsiteRelatedWithUser implements Rule
+class IsWebsiteRelatedToUser implements Rule
 {
     public function passes($attribute, $value)
     {
