@@ -45,7 +45,7 @@ final class User extends Authenticatable implements JWTSubject
 
     public function websites()
     {
-        return $this->belongsToMany(Website::class)->withPivot('role');
+        return $this->belongsToMany(Website::class)->withPivot(['role', 'permitted_menu']);
     }
 
     public function hasWebsite(int $websiteId): bool

@@ -141,7 +141,8 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'teams'
         ], function () {
             Route::post('/', 'TeamController@inviteTeamMember');
-            Route::delete('/member/{id}', 'TeamController@removeTeamMember');
+            Route::delete('/member/{memberId}', 'TeamController@removeTeamMember');
+            Route::get('/menu-access/{memberId}', 'TeamController@getPermittedMenuItems');
         });
     });
 
