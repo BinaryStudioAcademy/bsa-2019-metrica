@@ -24,13 +24,13 @@ abstract class GetAbstractPageTimingChartAction
         $timeFrame = (int) $request->interval();
 
         $avgPageLoadingByTimeFrameValues = $this->getData($request->period(), $request->interval());
-        $start = $from->getTimestamp() - ($from->getTimestamp()%$timeFrame);
-        $end = $to->getTimestamp() - ($to->getTimestamp()%$timeFrame);
+        $start = $from->getTimestamp() - ($from->getTimestamp() % $timeFrame);
+        $end = $to->getTimestamp() - ($to->getTimestamp() % $timeFrame);
         $collection = new Collection();
         do {
             $value = $avgPageLoadingByTimeFrameValues[$start]??0;
             $collection->add(new ChartValue((string) $start, (string) $value));
-        } while (($start+=$timeFrame)<=$end);
+        } while (($start += $timeFrame) <= $end);
 
         return new GetChartResponse($collection);
     }
