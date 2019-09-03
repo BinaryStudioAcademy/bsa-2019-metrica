@@ -2,6 +2,8 @@ const credentials = require('./../testCredential.json');
 const data = require('./../testData.json');
 const url = require('./../testUrl.json');
 
+const temp = require('./../temp.json');
+
 const HomeActions = require('../Home/home_pa');
 const RegistrationActions = require('./UserRegistration_pa');
 const RegistrationPage = require('./UserRegistration_po');
@@ -23,13 +25,13 @@ describe('Registrations page tests', () => {
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.newEmail1);
-        registrationSteps.enterPassword(credentials.password);
-        registrationSteps.enterConfirmPassword(credentials.password);
+        registrationSteps.enterPassword(temp.password);
+        registrationSteps.enterConfirmPassword(temp.password);
         registrationSteps.createUser();
 
         
         Assert.notificationTextIs("You have been successfully registered! We sent account confirmation on your email " + credentials.newEmail1 +". Please, check your email");
-        Assert.compareUrl(url.domain+url.login);
+        Assert.compareUrl(temp.domain+url.login);
     });
 
     it('should not register with empty field', () => {
@@ -47,7 +49,7 @@ describe('Registrations page tests', () => {
         Assert.expectedElementText(registrationPage.passwordErrorLable, data.passwordIsRequiredLabel);
         Assert.expectedElementText(registrationPage.confirmPasswordErrorLable, data.passwordIsRequiredLabel);
 
-        Assert.compareUrl(url.domain+url.signup);
+        Assert.compareUrl(temp.domain+url.signup);
         Assert.buttonIsDisabled(registrationPage.signUpButton);
     });
 
@@ -57,8 +59,8 @@ describe('Registrations page tests', () => {
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.invalidEmail);
-        registrationSteps.enterPassword(credentials.password);
-        registrationSteps.enterConfirmPassword(credentials.password);
+        registrationSteps.enterPassword(temp.password);
+        registrationSteps.enterConfirmPassword(temp.password);
         
         Assert.expectedElementText(registrationPage.emailErrorLable, data.emailNotValidLabel);
         Assert.buttonIsDisabled(registrationPage.signUpButton);
@@ -69,12 +71,12 @@ describe('Registrations page tests', () => {
         homeSteps.clickRegistration();
 
         registrationSteps.enterName(credentials.name);
-        registrationSteps.enterEmail(credentials.email);
-        registrationSteps.enterPassword(credentials.password);
-        registrationSteps.enterConfirmPassword(credentials.password);
+        registrationSteps.enterEmail(temp.email);
+        registrationSteps.enterPassword(temp.password);
+        registrationSteps.enterConfirmPassword(temp.password);
         registrationSteps.createUser();
         
-        Assert.compareUrl(url.domain+url.signup);
+        Assert.compareUrl(temp.domain+url.signup);
         Assert.notificationTextIs(data.wrongEmailNotification);
     });
     
@@ -97,7 +99,7 @@ describe('Registrations page tests', () => {
 
         registrationSteps.enterName(credentials.name);
         registrationSteps.enterEmail(credentials.newEmail2);
-        registrationSteps.enterPassword(credentials.password);
+        registrationSteps.enterPassword(temp.password);
         registrationSteps.enterConfirmPassword(credentials.changedPassword);
     
         Assert.expectedElementText(registrationPage.confirmPasswordErrorLable, data.passwordNotMatch);

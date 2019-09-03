@@ -2,6 +2,8 @@ const credentials = require('./../testCredential.json');
 const data = require('./../testData.json');
 const url = require('./../testUrl.json');
 
+const temp = require('./../temp.json');
+
 const HomeActions = require('../Home/home_pa');
 const LoginActions = require('../UserLogin/login_pa');
 
@@ -15,8 +17,8 @@ class HelpClass
 
         homePage.clickLogin();
 
-        loginPage.enterEmail(credentials.email);
-        loginPage.enterPassword(credentials.password);
+        loginPage.enterEmail(temp.email);
+        loginPage.enterPassword(temp.password);
         loginPage.clickLoginButton();
 
         browser.pause(1000);
@@ -26,8 +28,8 @@ class HelpClass
 
         homePage.clickLogin();
 
-        loginPage.enterEmail(credentials.newEmail1);
-        loginPage.enterPassword(credentials.password);
+        loginPage.enterEmail(temp.newEmail1);
+        loginPage.enterPassword(temp.password);
         loginPage.clickLoginButton();
 
         browser.pause(1000);

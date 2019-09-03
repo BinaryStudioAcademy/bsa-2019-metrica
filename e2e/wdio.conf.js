@@ -8,6 +8,7 @@ const OUTPUT_DIR = path.join(ROOT_DIR, 'output');
 const SCREENSHOT_DIR = path.join(OUTPUT_DIR, 'screenshots');
 const testPattern = path.relative(ROOT_DIR, path.join(SPECS_DIR, '**', '*_test.js'));
 const testDevPattern = path.relative(ROOT_DIR, path.join(SPECS_DIR, '**', '*_test.js'));
+const url = require('./specs/temp.json');
 
 exports.config = {
     //
@@ -213,7 +214,7 @@ exports.config = {
      */
     beforeTest: function (test) {
         browser.maximizeWindow();
-        browser.url('https://stage.metrica.fun');
+        browser.url(url.domain);
     },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling

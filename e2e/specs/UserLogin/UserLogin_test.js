@@ -2,6 +2,8 @@ const credentials = require('./../testCredential.json');
 const data = require('./../testData.json');
 const url = require('./../testUrl.json');
 
+const temp = require('./../temp.json');
+
 const HomeActions = require('../Home/home_pa');
 const LoginActions = require('./login_pa');
 const LoginPage = require('./login_po');
@@ -20,13 +22,13 @@ describe('Login page tests', () => {
         
         homeSteps.clickLogin();
 
-        loginSteps.enterEmail(credentials.email);
-        loginSteps.enterPassword(credentials.password);
+        loginSteps.enterEmail(temp.email);
+        loginSteps.enterPassword(temp.password);
         loginSteps.clickLoginButton();
         browser.pause(1000);
 
         Assert.notificationTextIs(data.succesLoginNotification);
-        Assert.compareUrl(url.domain + url.dashboard);  
+        Assert.compareUrl(temp.domain + url.dashboard);  
     });
 
     it('should login via Google', () => {
@@ -54,11 +56,11 @@ describe('Login page tests', () => {
         homeSteps.clickLogin();
 
         loginSteps.enterEmail(credentials.wrongEmail);
-        loginSteps.enterPassword(credentials.password);
+        loginSteps.enterPassword(temp.password);
         loginSteps.clickLoginButton();
 
         Assert.notificationTextIs(data.errorEmailNotification);
-        Assert.compareUrl(url.domain + url.login);  
+        Assert.compareUrl(temp.domain + url.login);  
 
     });
 
@@ -66,12 +68,12 @@ describe('Login page tests', () => {
 
         homeSteps.clickLogin();
 
-        loginSteps.enterEmail(credentials.email);
+        loginSteps.enterEmail(temp.email);
         loginSteps.enterPassword(credentials.changedPassword);
         loginSteps.clickLoginButton();
 
         Assert.notificationTextIs(data.errorLoginNotification);
-        Assert.compareUrl(url.domain + url.login);  
+        Assert.compareUrl(temp.domain + url.login);  
     });
 
     it('should not login with empty data', () => {
@@ -92,7 +94,7 @@ describe('Login page tests', () => {
         homeSteps.clickLogin();
 
         loginSteps.enterEmail(credentials.invalidEmail);
-        loginSteps.enterPassword(credentials.password);
+        loginSteps.enterPassword(temp.password);
         loginSteps.enterEmail();
         
         Assert.buttonIsDisabled(loginPage.loginButton);
@@ -103,7 +105,7 @@ describe('Login page tests', () => {
 
         homeSteps.clickLogin();
 
-        loginSteps.enterEmail(credentials.email);
+        loginSteps.enterEmail(temp.email);
         loginSteps.enterPassword(credentials.invalidPassword);
         loginSteps.enterEmail();
         

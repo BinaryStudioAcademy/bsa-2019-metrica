@@ -4,3 +4,4 @@ debug.log
 npm-debug.log
 debug.json
 /output/
+/specs/temp.json

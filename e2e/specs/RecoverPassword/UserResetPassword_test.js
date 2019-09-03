@@ -2,6 +2,8 @@ const credentials = require('./../testCredential.json');
 const data = require('./../testData.json');
 const url = require('./../testUrl.json');
 
+const temp = require('./../temp.json');
+
 const HomeActions = require('../Home/home_pa');
 const LoginActions = require('../UserLogin/login_pa');
 const ResetPasswordActions = require('./resetPassword_pa');
@@ -21,12 +23,12 @@ describe('Reset password page tests', () => {
         
         homeSteps.clickLogin();
         loginSteps.clickForgotPasswordButton();
-        resetPasswordSteps.enterEmail(credentials.email);
+        resetPasswordSteps.enterEmail(temp.email);
         resetPasswordSteps.clickLoginButton();
         browser.pause(500);
 
-        Assert.expectedElementText(resetPasswordPage.messageArea , "Your reset password link was created. Check your email " +credentials.email +", please.");
-        Assert.compareUrl(url.domain+url.resetPassword);
+        Assert.expectedElementText(resetPasswordPage.messageArea , "Your reset password link was created. Check your email " +temp.email +", please.");
+        Assert.compareUrl(temp.domain+url.resetPassword);
         
 
     });
@@ -38,7 +40,7 @@ describe('Reset password page tests', () => {
         resetPasswordSteps.clickLoginButton();
 
         Assert.expectedElementText(resetPasswordPage.emailErrorLable, data.emailIsRequiredLabel);
-        Assert.compareUrl(url.domain+url.resetPassword);
+        Assert.compareUrl(temp.domain+url.resetPassword);
     });
 
     it('should not reset password with invalid email', () => {
@@ -48,7 +50,7 @@ describe('Reset password page tests', () => {
         resetPasswordSteps.clickLoginButton();
 
         Assert.expectedElementText(resetPasswordPage.emailErrorLable, data.emailNotValidLabel);
-        Assert.compareUrl(url.domain+url.resetPassword);
+        Assert.compareUrl(temp.domain +url.resetPassword);
 
     });
 
@@ -59,7 +61,7 @@ describe('Reset password page tests', () => {
         resetPasswordSteps.clickLoginButton();
 
         Assert.expectedElementText(resetPasswordPage.errorText, data.wrongEmailResetNotification);
-        Assert.compareUrl(url.domain+url.resetPassword);
+        Assert.compareUrl(temp.domain+url.resetPassword);
 
     });
 

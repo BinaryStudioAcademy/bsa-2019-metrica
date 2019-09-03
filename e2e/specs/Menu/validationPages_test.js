@@ -2,6 +2,8 @@ const credentials = require('../testCredential.json');
 const data = require('../testData.json');
 const url = require('../testUrl.json');
 
+const temp = require('./../temp.json');
+
 const Assert = require('../helpers/validators');
 const Wait = require('../helpers/waiters');
 const Help = require('../helpers/helpers');
@@ -19,7 +21,7 @@ describe('Validation pages tests', () => {
                 
         menu.navigateToVisitors();
         
-        Assert.compareUrl(url.domain + url.visitors);
+        Assert.compareUrl(temp.domain + url.visitors);
     });
 
     it('should navigate to Page views page', () => {
@@ -27,7 +29,7 @@ describe('Validation pages tests', () => {
 
         menu.navigateToPageViews();
 
-        Assert.compareUrl(url.domain + url.pageViews);
+        Assert.compareUrl(temp.domain + url.pageViews);
     });
 
     it('should navigate to Geo locations page', () => {
@@ -35,7 +37,7 @@ describe('Validation pages tests', () => {
 
         menu.navigateToGeoLocation();
 
-        Assert.compareUrl(url.domain + url.geoLocations);
+        Assert.compareUrl(temp.domain + url.geoLocations);
     });
 
     it('should navigate to Behaviour page', () => {
@@ -43,7 +45,7 @@ describe('Validation pages tests', () => {
         
         menu.navigateToBehaviour();
 
-        Assert.compareUrl(url.domain + url.behaviour);
+        Assert.compareUrl(temp.domain + url.behaviour);
     });
     
     it('should navigate to Speed Overview page', () => {
@@ -51,7 +53,7 @@ describe('Validation pages tests', () => {
         
         menu.navigateToSpeedOverview();
 
-        Assert.compareUrl(url.domain + url.speedOverview);
+        Assert.compareUrl(temp.domain + url.speedOverview);
     });
         
     it('should navigate to User Settings page', () => {
@@ -59,7 +61,7 @@ describe('Validation pages tests', () => {
         
         menu.navigateToUserSettings();
       
-        Assert.compareUrl(url.domain + url.userSettings);
+        Assert.compareUrl(temp.domain + url.userSettings);
     });
 
     it('should navigate to Website Settings page', () => {
@@ -67,6 +69,6 @@ describe('Validation pages tests', () => {
        
         menu.navigateToWebsiteSettings();
 
-        Assert.compareUrl(url.domain + url.websiteSettings);
+        Assert.compareUrl(temp.domain + url.websiteSettings);
     });
 });
