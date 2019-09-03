@@ -153,4 +153,45 @@ class ApiWebsiteTest extends TestCase
             ->assertStatus(404)
             ->assertJson($expectedData);
     }
+
+    public function test_update_website_access()
+    {
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertStatus(200);
+    }
+
+    public function test_update_website_access_failed()
+    {
+        $expectedData = [
+            'error' => [
+                'message' => 'You do not have rights to access this resource.'
+            ]
+        ];
+
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'member'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertStatus(401)
+            ->assertJson($expectedData);
+    }
 }
