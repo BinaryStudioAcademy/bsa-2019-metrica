@@ -22,8 +22,11 @@ export default {
 
             return state.tableData.items.map((item) => {
                 if (state.activeButton === 'avg_session') {
+                    const duration = moment.duration(parseInt(item.total), 'ms');
+                    const hours = Math.ceil(duration.asHours());
+                    const minutes = moment.utc(duration.asMilliseconds()).format("mm:ss");
                     let newItem = {
-                        total: moment.unix(item.total).format("HH:mm:ss"),
+                        total: `${hours}:${minutes}`,
                         percentage: Math.round(Number(item.percentage))
                     };
                     return {...item, ...newItem};

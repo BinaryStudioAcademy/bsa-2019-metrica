@@ -38,11 +38,12 @@ final class EloquentTableSessionRepository implements TableSessionRepository
         $session_count = $sessions->count();
         return $sessions->groupBy('language')
             ->map(function($item, $key) use ($session_count) {
+                $percentage = $session_count > 0 ? $item->count() / $session_count * 100 : 0;
                 return new TableValue(
                     'language',
                     $key,
                     (string)$item->count(),
-                    $item->count() / $session_count * 100
+                    $percentage
                 );
             })->values();
     }
@@ -56,11 +57,12 @@ final class EloquentTableSessionRepository implements TableSessionRepository
         $session_count = $sessions->count();
         return $sessions->groupBy('system.os')
             ->map(function($item, $key) use ($session_count) {
+                $percentage = $session_count > 0 ? $item->count() / $session_count * 100 : 0;
                 return new TableValue(
                     'operating_system',
                     $key,
                     (string)$item->count(),
-                    $item->count() / $session_count * 100
+                    $percentage
                 );
             })->values();
     }
@@ -74,11 +76,12 @@ final class EloquentTableSessionRepository implements TableSessionRepository
         $session_count = $sessions->count();
         return $sessions->groupBy('system.browser')
             ->map(function($item, $key) use ($session_count) {
+                $percentage = $session_count > 0 ? $item->count() / $session_count * 100 : 0;
                 return new TableValue(
                     'browser',
                     $key,
                     (string)$item->count(),
-                    $item->count() / $session_count * 100
+                    $percentage
                 );
             })->values();
     }
@@ -95,11 +98,12 @@ final class EloquentTableSessionRepository implements TableSessionRepository
         $session_count = $sessions->count();
         return $sessions->groupBy('resolution')
             ->map(function($item, $key) use ($session_count) {
+                $percentage = $session_count > 0 ? $item->count() / $session_count * 100 : 0;
                 return new TableValue(
                     'screen_resolution',
                     $key,
                     (string)$item->count(),
-                    $item->count() / $session_count * 100
+                    $percentage
                 );
             })->values();
     }
@@ -113,11 +117,12 @@ final class EloquentTableSessionRepository implements TableSessionRepository
         $session_count = $sessions->count();
         return $sessions->groupBy('visit.geo_position.city')
             ->map(function($item, $key) use ($session_count) {
+                $percentage = $session_count > 0 ? $item->count() / $session_count * 100 : 0;
                 return new TableValue(
                     'city',
                     $key,
                     (string)$item->count(),
-                    $item->count() / $session_count * 100
+                    $percentage
                 );
             })->values();
     }
@@ -131,11 +136,12 @@ final class EloquentTableSessionRepository implements TableSessionRepository
         $session_count = $sessions->count();
         return $sessions->groupBy('visit.geo_position.country')
             ->map(function($item, $key) use ($session_count) {
+                $percentage = $session_count > 0 ? $item->count() / $session_count * 100 : 0;
                 return new TableValue(
                     'country',
                     $key,
                     (string)$item->count(),
-                    $item->count() / $session_count * 100
+                    $percentage
                 );
             })->values();
     }
