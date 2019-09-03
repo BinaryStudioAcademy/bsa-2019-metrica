@@ -30,9 +30,7 @@ final class AddWebsiteAction
 
         $this->websiteRepository->save($website);
 
-        auth()->user()->websites()->attach($website->id, [
-            'role' => 'owner']
-        );
+        $this->websiteRepository->makeUserWebsiteOwner(auth()->user(), $website->id);
 
         return new AddWebsiteResponse($website);
     }

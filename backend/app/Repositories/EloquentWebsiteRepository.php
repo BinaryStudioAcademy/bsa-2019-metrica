@@ -77,4 +77,12 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
         throw new WebsiteNotFoundException;
     }
+
+    public function makeUserWebsiteOwner(User $user, int $websitId): void
+    {
+        $user->websites()->attach($websitId, [
+            'role' => 'owner']
+        );
+    }
+
 }

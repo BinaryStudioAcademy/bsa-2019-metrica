@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories\Contracts;
 
 use App\Entities\Website;
+use App\Entities\User;
 
 interface WebsiteRepository
 {
@@ -12,4 +13,5 @@ interface WebsiteRepository
     public function getByTrackNumber(int $id): ?Website;
     public function getCurrentWebsite(int $id): Website;
     public function getFirstExistingUserWebsite(): Website;
+    public function makeUserWebsiteOwner(User $user, int $websitId): void;
 }
