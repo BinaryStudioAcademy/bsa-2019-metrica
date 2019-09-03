@@ -48,10 +48,9 @@ final class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Website::class)->withPivot('role');
     }
 
-    public function isWebsiteOwner(int $websiteId)
+    public function hasWebsite(int $websiteId): bool
     {
-        $userWebsite = auth()->user()
-                            ->websites()
+        $userWebsite = $this->websites()
                             ->wherePivot('website_id', '=', $websiteId)
                             ->wherePivot('role', '=', 'owner')
                             ->first();
