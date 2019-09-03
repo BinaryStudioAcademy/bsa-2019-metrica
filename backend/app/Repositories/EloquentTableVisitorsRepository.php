@@ -31,10 +31,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.city as parameter_value')
+            ->select(DB::raw('COUNT(visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.city as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy('geo_positions.city')
+            ->orderBy('count_visitors', 'desc')
             ->get();
 
         return $this->mapToTableValues($visitors, 'city');
@@ -55,10 +56,11 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.country as parameter_value')
+            ->select(DB::raw('COUNT(visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.country as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
             ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy('geo_positions.country')
+            ->orderBy('count_visitors', 'desc')
             ->get();
 
         return $this->mapToTableValues($visitors, 'country');
