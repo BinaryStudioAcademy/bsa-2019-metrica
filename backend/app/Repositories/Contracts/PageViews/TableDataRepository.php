@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 interface TableDataRepository
 {
-    public function getAverageValueByBrowser(DatePeriod $period, int $website_id, string $value): Collection;
+    public function getAverageTimingByBrowser(DatePeriod $period, int $website_id, string $value): Collection;
 
     public function getAverageValueByCountry(DatePeriod $period, int $website_id, string $value): Collection;
 

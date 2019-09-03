@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 
 class EloquentTableDataRepository implements TableDataRepository
 {
-    public function getAverageValueByBrowser(DatePeriod $period, int $website_id, string $value): Collection
+    public function getAverageTimingByBrowser(DatePeriod $period, int $website_id, string $value): Collection
     {
         $res = Website::find($website_id)
             ->visits()

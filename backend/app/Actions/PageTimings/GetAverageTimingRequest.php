@@ -9,12 +9,16 @@ use App\Http\Request\PageTimingTableHttpRequest;
 
 class GetAverageTimingRequest extends TableDataRequest
 {
-    public static function fromRequest(PageTimingTableHttpRequest $request)
+    private $column;
+
+    public function __construct(PageTimingTableHttpRequest $request, string $column)
     {
-        return new static (
-            $request->getStartDate(),
-            $request->getEndDate(),
-            $request->getParameter()
-        );
+        parent::__construct($request->getStartDate(), $request->getEndDate(), $request->getParameter());
+        $this->column = $column;
+    }
+
+    public function column()
+    {
+        return $this->column;
     }
 }

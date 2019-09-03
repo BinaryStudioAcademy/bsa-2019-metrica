@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\PageTimings;
 
-use App\Http\Resources\SpeedOverviewTableResource;
 use App\Repositories\Contracts\PageViews\TableDataRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,16 +16,17 @@ class GetAverageTimingAction
         $this->repository = $repository;
     }
 
-    public function execute(GetAverageTimingRequest $request, string $value)
+    public function execute(GetAverageTimingRequest $request)
     {
         $period = $request->period();
         $parameter = $request->parameter();
         $website_id = Auth::user()->website->id;
+        $value = $request->column();
 
         $result = null;
         switch($parameter) {
             case 'browser':
-                $result = $this->repository->getAverageValueByBrowser($period, $website_id, $value);
+                $result = $this->repository->getAverageTimingByBrowser($period, $website_id, $value);
                 break;
             case 'country':
                 $result = $this->repository->getAverageValueByCountry($period, $website_id, $value);
