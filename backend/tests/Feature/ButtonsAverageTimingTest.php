@@ -12,7 +12,7 @@ class ButtonsAverageTimingTest extends TestCase
     use RefreshDatabase;
 
     const PAGE_LOAD = 'api/v1/page-timing/button/page-loading';
-    const DNS_LOOKUP = 'api/v1/page-timing/button/dns-lookup';
+    const DNS_LOOKUP = 'api/v1/page-timing/button/domain-lookup';
     const SERVER_RESPONSE = 'api/v1/page-timing/button/server-response';
 
     private $user;
