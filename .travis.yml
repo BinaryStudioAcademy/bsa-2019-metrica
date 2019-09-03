@@ -44,7 +44,7 @@ script:
   - docker-compose -f docker-compose.test.yml exec app php artisan db:seed --class=DefaultUserAndWebsiteSeeder
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
   - docker-compose -f docker-compose.test.yml run node npm run lint
-  - docker-compose -f docker-compose.test.yml exec e2e npm run travis:ci
+  - docker-compose -f docker-compose.test.yml exec e2e npm run test:travis
 after_script:
   - docker-compose -f docker-compose.test.yml down
   - docker image rm -f metrica/app:latest
