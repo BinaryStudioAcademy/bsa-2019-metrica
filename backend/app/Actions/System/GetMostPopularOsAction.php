@@ -3,7 +3,6 @@
 namespace App\Actions\System;
 
 use App\Repositories\Contracts\SystemRepository;
-use Illuminate\Support\Facades\Auth;
 
 class GetMostPopularOsAction
 {
@@ -17,7 +16,7 @@ class GetMostPopularOsAction
     public function execute(GetMostPopularOsRequest $request)
     {
         $period = $request->period();
-        $website_id = Auth::user()->website->id;
+        $website_id = $request->websiteId();
         $systems = $this->repository->getMostPopularSystems($website_id, $period);
         return new GetMostPopularOsResponse($systems);
     }

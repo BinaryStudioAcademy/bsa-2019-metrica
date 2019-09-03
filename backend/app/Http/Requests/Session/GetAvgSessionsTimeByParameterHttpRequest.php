@@ -8,6 +8,7 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\Parameter;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class GetAvgSessionsTimeByParameterHttpRequest extends ApiFormRequest
 {
@@ -28,6 +29,11 @@ final class GetAvgSessionsTimeByParameterHttpRequest extends ApiFormRequest
                 'required',
                 'string',
                 new Parameter()
+            ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedToUser()
             ]
         ];
     }
@@ -45,5 +51,10 @@ final class GetAvgSessionsTimeByParameterHttpRequest extends ApiFormRequest
     public function parameter(): string
     {
         return $this->get('filter')['parameter'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

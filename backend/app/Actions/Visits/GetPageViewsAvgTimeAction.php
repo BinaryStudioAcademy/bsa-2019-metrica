@@ -19,11 +19,7 @@ final class GetPageViewsAvgTimeAction
 
     public function execute(GetPageViewsAvgTimeRequest $request): ButtonValue
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
 
         return new ButtonValue((string)$this->repository->getAvgTimeOnPageBetweenDate($request->period(), $websiteId));
     }

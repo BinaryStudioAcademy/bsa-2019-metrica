@@ -22,7 +22,7 @@ final class GetVisitorsCountByParameterAction
             case 'city':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByCity(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -30,7 +30,7 @@ final class GetVisitorsCountByParameterAction
             case 'country':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByCountry(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -38,7 +38,7 @@ final class GetVisitorsCountByParameterAction
             case 'language':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByLanguage(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -46,7 +46,7 @@ final class GetVisitorsCountByParameterAction
             case 'browser':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByBrowser(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -54,7 +54,7 @@ final class GetVisitorsCountByParameterAction
             case 'operating_system':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByOperatingSystem(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->startDate(),
                         $request->endDate()
                     );
@@ -62,7 +62,7 @@ final class GetVisitorsCountByParameterAction
             case 'screen_resolution':
                 $visitors = $this->tableVisitorsRepository
                     ->groupByScreenResolution(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->startDate(),
                         $request->endDate()
                     );

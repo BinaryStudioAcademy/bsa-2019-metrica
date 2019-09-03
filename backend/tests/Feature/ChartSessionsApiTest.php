@@ -20,13 +20,17 @@ class ChartSessionsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
     private $url = 'api/v1/chart-sessions/';
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class)->create();
         factory(Page::class)->create();
         factory(GeoPosition::class)->create();
@@ -40,7 +44,8 @@ class ChartSessionsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)Carbon::parse('2019-07-30 00:00:00', 'UTC')->getTimestamp(),
                 'endDate' => (string)Carbon::parse('2019-08-30 00:00:00', ' UTC')->getTimestamp(),
-                'period' => 604800
+                'period' => 604800,
+                'website_id' => $this->website->id
             ]
         ];
 

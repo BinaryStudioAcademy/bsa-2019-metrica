@@ -11,6 +11,7 @@ final class AverageSessionFilter
     private $startDate;
     private $endDate;
     private $visitorsIDs;
+    private $websiteId;
 
     public function __construct(
         GetAvgSessionRequest $request,
@@ -19,6 +20,7 @@ final class AverageSessionFilter
         $this->startDate = $request->period()->getStartDate();
         $this->endDate = $request->period()->getEndDate();
         $this->visitorsIDs = $visitorsIDsOfWebsite;
+        $this->websiteId = $request->websiteId();
     }
 
     public function getVisitorsIDs()
@@ -34,5 +36,10 @@ final class AverageSessionFilter
     public function getEndDate()
     {
         return $this->endDate;
+    }
+
+    public function websiteId(): int
+    {
+        return $this->websiteId;
     }
 }

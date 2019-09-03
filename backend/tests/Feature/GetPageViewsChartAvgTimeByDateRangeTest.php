@@ -25,6 +25,7 @@ class GetPageViewsChartAvgTimeByDateRangeTest extends TestCase
     const ENDPOINT = '/api/v1/chart-page-views/avg-time/';
 
     private $user;
+    private $website;
     private $fromTimeStamp;
     private $toTimeStamp;
 
@@ -47,7 +48,8 @@ class GetPageViewsChartAvgTimeByDateRangeTest extends TestCase
 
         $queryString = '?filter[startDate]='.$requestData['startDate'].
                          '&filter[endDate]='.$requestData['endDate'].
-                         '&filter[period]='.$requestData['period'];
+                         '&filter[period]='.$requestData['period'].
+                         '&filter[website_id]='.$this->website->id;
 
         $expected = [
             'data' => [
@@ -88,7 +90,10 @@ class GetPageViewsChartAvgTimeByDateRangeTest extends TestCase
 
     private function seedDataBase(): void
     {
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class, 5)->create();
         factory(Page::class, 3)->create();
         factory(System::class)->create();

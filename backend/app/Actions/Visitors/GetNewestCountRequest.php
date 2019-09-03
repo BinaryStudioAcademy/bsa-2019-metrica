@@ -11,15 +11,22 @@ use App\Utils\DatePeriod;
 final class GetNewestCountRequest
 {
     private $filterData;
+    private $websiteId;
 
-    private function __construct(NewVisitorsCountFilterData $filterData)
+    private function __construct(NewVisitorsCountFilterData $filterData, int $websiteId)
     {
         $this->filterData = $filterData;
+        $this->websiteId = $websiteId;
     }
 
     public function getFilterData(): NewVisitorsCountFilterData
     {
         return $this->filterData;
+    }
+
+    public function websiteId(): int
+    {
+        return $this->websiteId;
     }
 
     public static function fromRequest(GetNewVisitorCountFilterHttpRequest $request): self
@@ -28,6 +35,6 @@ final class GetNewestCountRequest
             $request->getStartDate(),
             $request->getEndDate()
         );
-        return new static(new \App\Model\Visitors\NewVisitorsCountFilterData($period));
+        return new static(new \App\Model\Visitors\NewVisitorsCountFilterData($period), $request->getWebsiteId());
     }
 }

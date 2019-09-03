@@ -77,7 +77,9 @@ final class SessionController extends Controller
     public function getCountOfSessions(CountSessionsHttpRequest $request): ApiResponse
     {
         $response = $this->countSessionsAction->execute(
-            new CountSessionsRequest($request->startDate(), $request->endDate())
+            new CountSessionsRequest(
+                $request->startDate(), $request->endDate(), $request->websiteId()
+            )
         );
 
         return ApiResponse::success(new ButtonResource($response));
@@ -86,7 +88,7 @@ final class SessionController extends Controller
     public function getAverageSession(GetAvgSessionHttpRequest $request): ApiResponse
     {
         $response = $this->getAvgSessionAction->execute(
-            new GetAvgSessionRequest($request->startDate(), $request->endDate())
+            new GetAvgSessionRequest($request->startDate(), $request->endDate(), $request->websiteId())
         );
         return ApiResponse::success(new ButtonResource($response));
     }
