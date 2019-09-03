@@ -23,6 +23,7 @@ before_install:
   - $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
   - docker-compose -f docker-compose.test.yml run --rm node npm install
   - docker-compose -f docker-compose.test.yml run --rm node npm run build
+  - docker-compose -f docker-compose.test.yml run --rm node npm run build:script
   - ./.scripts/build.sh app
   - ./.scripts/build.sh webserver
 script:
