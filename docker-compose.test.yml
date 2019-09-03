@@ -5,31 +5,33 @@ services:
     image: metrica/app:latest
     working_dir: /app
     user: www-data
+    depends_on:
+      - db
     volumes:
       - ./backend:/app
     networks:
-      - mynet  
+      - mynet
   node:
     image: node:12.7-alpine
     working_dir: /app
     volumes:
       - ./frontend:/app
     networks:
-      - mynet  
+      - mynet
   
   seleniumapp:
     image: selenium/standalone-chrome:3.141.59-titanium
     ports:
       - "4444:4444"
     networks:
-      - mynet  
+      - mynet
   e2e:
     image: lenchv/metrica-e2e:latest
     working_dir: /e2e
     volumes:
       - ./e2e:/e2e
     networks:
-      - mynet  
+      - mynet
 
   webserver:
     image: metrica/webserver:latest
@@ -54,7 +56,7 @@ services:
       - POSTGRES_USER=metrica
       - POSTGRES_PASSWORD=metrica
     networks:
-      - mynet  
+      - mynet
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
     environment:
@@ -67,7 +69,7 @@ services:
         soft: -1
         hard: -1
     networks:
-      - mynet  
+      - mynet
   
 networks:
   mynet:
