@@ -45,8 +45,8 @@ class GetDevicesAndSystemStatsTest extends TestCase
         $this->actingAs($this->user)
             ->json('GET', self::DEVICES, ['filter' =>
                 [
-                    'startDate' => (string)$this->from->timestamp,
-                    'endDate' => '0'
+                    'startDate' => (string)$this->to->timestamp,
+                    'endDate' => (string)$this->from->timestamp
                 ],
             ])
             ->assertStatus(400)
