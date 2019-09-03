@@ -13,7 +13,7 @@ final class CheckRole
     {
         $hasRoles = $this->getRequiredRoleForRoute($request->route());
         $hasWebsite = $request->user()->hasWebsite((int)$request->id);
-        if(!$hasWebsite && $hasRoles) {
+        if (!$hasWebsite && $hasRoles) {
             throw new WrongAccessRightsException();
         }
 
