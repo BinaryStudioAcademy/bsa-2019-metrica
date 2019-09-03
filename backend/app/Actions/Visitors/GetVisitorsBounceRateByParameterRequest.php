@@ -14,7 +14,8 @@ class GetVisitorsBounceRateByParameterRequest extends TableDataRequest
         return new static (
             $request->startDate(),
             $request->endDate(),
-            $request->parameter()
+            $request->parameter(),
+            $request->websiteId()
         );
     }
 }

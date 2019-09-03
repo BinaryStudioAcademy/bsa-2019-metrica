@@ -19,11 +19,8 @@ class GetUniquePageViewsButtonAction
 
     public function execute(GetUniquePageViewsButtonRequest $request): ButtonValue
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
+
         $response = $this->repository->uniqueCount($request->period(), $websiteId);
         return new ButtonValue((string)$response);
     }

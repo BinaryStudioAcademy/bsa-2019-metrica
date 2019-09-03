@@ -19,13 +19,9 @@ final class GetSessionsAction
 
     public function execute(GetSessionsRequest $request): GetSessionsResponse
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
-
-        $result = $this->sessionsRepository->getSessionsByDate($request->period(), (int)$request->interval(), $websiteId);
+        $result = $this->sessionsRepository->getSessionsByDate(
+            $request->period(), (int)$request->interval(), $request->websiteId()
+        );
         return new GetSessionsResponse($result);
     }
 }

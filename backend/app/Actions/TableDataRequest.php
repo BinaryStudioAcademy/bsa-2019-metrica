@@ -10,11 +10,13 @@ abstract class TableDataRequest
 {
     private $period;
     private $parameter;
+    private $websiteId;
 
-    public function __construct(string $startDate, string $endDate, string $parameter)
+    public function __construct(string $startDate, string $endDate, string $parameter, int $websiteId)
     {
         $this->period = DatePeriod::createFromTimestamp($startDate, $endDate);
         $this->parameter = $parameter;
+        $this->websiteId = $websiteId;
     }
 
     public function period(): DatePeriod
@@ -25,5 +27,10 @@ abstract class TableDataRequest
     public function parameter(): string
     {
         return $this->parameter;
+    }
+
+    public function websiteId(): int
+    {
+        return $this->websiteId;
     }
 }

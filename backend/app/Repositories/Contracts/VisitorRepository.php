@@ -18,21 +18,21 @@ interface VisitorRepository
 
     public function updateLastActivity(Visitor $visitor): void;
 
-    public function countVisitorsBetweenDate(DatePeriod $period): int;
+    public function countVisitorsBetweenDate(DatePeriod $period, int $websiteId): int;
 
     public function newest(): Collection;
 
     public function newestCount(NewVisitorsCountFilterData $filterData, int $websiteId): int;
 
-    public function countSinglePageInactiveSessionBetweenDate(DatePeriod $period): int;
+    public function countSinglePageInactiveSessionBetweenDate(DatePeriod $period, int $websiteId): int;
 
     public function getVisitorsOfWebsite(int $websiteId): Collection;
 
-    public function countAllVisitorsGroupByCountry(string $startDate, string $endDate): Collection;
+    public function countAllVisitorsGroupByCountry(string $startDate, string $endDate, int $websiteId): Collection;
 
-    public function countNewVisitorsGroupByCountry(string $startDate, string $endDate): Collection;
+    public function countNewVisitorsGroupByCountry(string $startDate, string $endDate, int $websiteId): Collection;
 
-    public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate): Collection;
+    public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate, int $websiteId): Collection;
 
     public function getAllActivityVisitors(int $websiteId): SupportCollection;
 }

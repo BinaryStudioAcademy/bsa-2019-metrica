@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\DB;
 
 final class EloquentChartVisitorsRepository implements ChartVisitorsRepository
 {
-    public function getNewVisitorsByDate(string $startData, string $endData, string $period, int $userId): Collection
+    public function getNewVisitorsByDate(string $startData, string $endData, string $period, int $websiteId): Collection
     {
-        $subQueryFirst = "SELECT id FROM websites where user_id = :user_id";
+        $subQueryFirst = "SELECT id FROM websites where id = :website_id";
         $subQuerySecond = "SELECT visitors.*, ( " . $this->getPeriod('created_at', $period) . ") as period
                              FROM \"visitors\" WHERE
                                       created_at >= :startData and created_at <= :endData and website_id = ($subQueryFirst)";
@@ -24,7 +24,7 @@ final class EloquentChartVisitorsRepository implements ChartVisitorsRepository
         $response = DB::select((string)$query, [
             'startData' => $startData,
             'endData' => $endData,
-            'user_id' => $userId
+            'website_id' => $websiteId
         ]);
         return collect($response)->map(function ($item) {
             return new ChartNewVisitor($item->period, $item->count);
@@ -36,8 +36,9 @@ final class EloquentChartVisitorsRepository implements ChartVisitorsRepository
         $from = $filterData->getStartDate();
         $to = $filterData->getEndDate();
         $timeFrame = $filterData->getTimeFrame();
+        $websiteId = $filterData->websiteId();
         $allVisitorsByTimeFrame = Visitor::whereCreatedAtBetween($from, $to)
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->selectRaw('COUNT (*)')
             ->selectRaw(' (extract(epoch FROM created_at) - MOD( (CAST (extract(epoch FROM created_at) AS INTEGER)), ? )) AS period', [$timeFrame])
             ->groupBy('period')
@@ -51,8 +52,9 @@ final class EloquentChartVisitorsRepository implements ChartVisitorsRepository
         $from = $filterData->getStartDate();
         $to = $filterData->getEndDate();
         $timeFrame = $filterData->getTimeFrame();
+        $websiteId = $filterData->websiteId();
         $bounceVisitorsByTimeFrame =  Visitor::whereCreatedAtBetween($from, $to)
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($from, $to) {
                 $query->where('start_session', '<', $to)

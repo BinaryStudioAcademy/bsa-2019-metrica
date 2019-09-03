@@ -27,7 +27,8 @@ final class GeoLocationController extends Controller
         $response = $this->getGeoLocationItemsAction->execute(
             new GetGeoLocationItemsRequest(
                $request->startDate(),
-               $request->endDate()
+               $request->endDate(),
+               $request->websiteId()
             )
         )->items();
 

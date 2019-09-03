@@ -165,9 +165,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         });
     }
 
-    public function getCountVisitorsGroupByCity(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsGroupByCity(DatePeriod $datePeriod, int $websiteId): Collection
     {
-        return Visitor::forUserWebsite()
+        return Visitor::whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('count(visitors.id) as visitors_count, geo_positions.city as city'))
@@ -176,7 +176,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->get();
     }
 
-    public function getBounceRateGroupByCity(DatePeriod $datePeriod): Collection
+    public function getBounceRateGroupByCity(DatePeriod $datePeriod, int $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -184,7 +184,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
                     ->has('visits', '=', '1')
                     ->inactive($datePeriod->getEndDate());
             })
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.city as city'))
@@ -192,9 +192,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->get();
     }
 
-    public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod): Collection
+    public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod, int $websiteId): Collection
     {
-        return Visitor::forUserWebsite()
+        return Visitor::whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('count(visitors.id) as visitors_count, geo_positions.country as country'))
@@ -203,7 +203,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->get();
     }
 
-    public function getBounceRateGroupByCountry(DatePeriod $datePeriod): Collection
+    public function getBounceRateGroupByCountry(DatePeriod $datePeriod, int $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($datePeriod) {
@@ -211,7 +211,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
                     ->has('visits', '=', '1')
                     ->inactive($datePeriod->getEndDate());
             })
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.country as country'))

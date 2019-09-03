@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestDataFactory;
+use App\Entities\Website;
 
 class TableVisitorsApiTest extends TestCase
 {
@@ -24,13 +25,18 @@ class TableVisitorsApiTest extends TestCase
     ];
 
     private $user;
+    private $website;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->user = TestDataFactory::createUser();
-        TestDataFactory::createVisitsBetweenDates($this->user, self::DATE_FROM, self::DATE_TO);
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        TestDataFactory::createVisitsBetweenDates($this->website, self::DATE_FROM, self::DATE_TO);
     }
     public function testGetVisitorsByParameterAction()
     {
@@ -39,7 +45,8 @@ class TableVisitorsApiTest extends TestCase
                 'filter' => [
                     'startDate' => self::DATE_FROM,
                     'endDate' => self::DATE_TO,
-                    'parameter' => $parameter
+                    'parameter' => $parameter,
+                    'website_id' => $this->website->id
                 ]
             ];
 
@@ -76,7 +83,8 @@ class TableVisitorsApiTest extends TestCase
             'filter' => [
                 'startDate' => self::DATE_FROM,
                 'endDate' => self::DATE_TO,
-                'parameter' => 'wrong_parameter'
+                'parameter' => 'wrong_parameter',
+                'website_id' => $this->website->id
             ],
         ];
 

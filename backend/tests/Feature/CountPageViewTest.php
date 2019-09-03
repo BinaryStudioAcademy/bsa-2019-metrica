@@ -19,12 +19,16 @@ class CountPageViewTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class)->create();
         factory(Page::class)->create();
         factory(GeoPosition::class)->create();
@@ -40,7 +44,7 @@ class CountPageViewTest extends TestCase
         ];
         $this->createVisits();
         $queryString = '?filter[startDate]=' . $dateFilter['startDate'] .
-            '&filter[endDate]=' . $dateFilter['endDate'];
+            '&filter[endDate]=' . $dateFilter['endDate'].'&filter[website_id]='.$this->website->id;
 
         $expected = [
             'data' => [

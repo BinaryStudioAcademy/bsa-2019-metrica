@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestDataFactory;
 use Carbon\Carbon;
+use App\Entities\Website;
 
 class TableBounceRateVisitorsApiTest extends TestCase
 {
@@ -36,6 +37,7 @@ class TableBounceRateVisitorsApiTest extends TestCase
     ];
 
     private $user;
+    private $website;
     private $fromTimeStamp;
     private $toTimeStamp;
 
@@ -46,7 +48,11 @@ class TableBounceRateVisitorsApiTest extends TestCase
         $this->user = TestDataFactory::createUser();
         $this->fromTimeStamp = (new Carbon(self::DATE_FROM))->timestamp;
         $this->toTimeStamp = (new Carbon(self::DATE_TO))->timestamp;
-        TestDataFactory::createVisitsBetweenDates($this->user, $this->fromTimeStamp, $this->toTimeStamp);
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        TestDataFactory::createVisitsBetweenDates($this->website, $this->fromTimeStamp, $this->toTimeStamp);
     }
     public function testGetVisitorsByParameterAction()
     {
@@ -55,7 +61,8 @@ class TableBounceRateVisitorsApiTest extends TestCase
                 'filter' => [
                     'startDate' => (string) $this->fromTimeStamp,
                     'endDate' => (string) $this->toTimeStamp,
-                    'parameter' => $parameter
+                    'parameter' => $parameter,
+                    'website_id' => $this->website->id
                 ]
             ];
 
@@ -76,7 +83,8 @@ class TableBounceRateVisitorsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string) $this->fromTimeStamp,
                 'endDate' => (string) $this->toTimeStamp,
-                'parameter' => 'wrong_parameter'
+                'parameter' => 'wrong_parameter',
+                'website_id' => $this->website->id
             ],
         ];
 

@@ -25,42 +25,42 @@ final class GetPageViewsByParameterAction
             case 'city':
                 $visits = $this->tableVisitsRepository
                     ->groupByCity(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->period()
                     );
                 break;
             case 'country':
                 $visits = $this->tableVisitsRepository
                     ->groupByCountry(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->period()
                     );
                 break;
             case 'language':
                 $visits = $this->tableVisitsRepository
                     ->groupByLanguage(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->period()
                     );
                 break;
             case 'browser':
                 $visits = $this->tableVisitsRepository
                     ->groupByBrowser(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->period()
                     );
                 break;
             case 'operating_system':
                 $visits = $this->tableVisitsRepository
                     ->groupByOperatingSystem(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->period()
                     );
                 break;
             case 'screen_resolution':
                 $visits = $this->tableVisitsRepository
                     ->groupByScreenResolution(
-                        Auth::user()->website->id,
+                        $request->websiteId(),
                         $request->period()
                     );
                 break;

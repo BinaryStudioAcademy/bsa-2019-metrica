@@ -19,11 +19,7 @@ final class GetPageViewsCountAction
 
     public function execute(GetPageViewsCountRequest $request): ButtonValue
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
 
         return new ButtonValue((string)$this->repository->countBetweenDate($request->period(), $websiteId));
     }
