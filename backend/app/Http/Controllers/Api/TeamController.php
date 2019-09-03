@@ -28,7 +28,7 @@ final class TeamController extends Controller
 
     public function inviteTeamMember(InviteTeamMemberHttpRequest $request): ApiResponse
     {
-        $response = $this->inviteTeamMemberAction->execute(
+        $this->inviteTeamMemberAction->execute(
             InviteTeamMemberRequest::fromRequest($request)
         );
         return ApiResponse::emptySuccess()->setStatusCode(201);
@@ -36,7 +36,7 @@ final class TeamController extends Controller
 
     public function removeTeamMember(int $id, RemoveTeamMemberHttpRequest $request): ApiResponse
     {
-        $response = $this->removeTeamMemberAction->execute(
+        $this->removeTeamMemberAction->execute(
             RemoveTeamMemberRequest::fromRequest($request, $id)
         );
         return ApiResponse::emptySuccess()->setStatusCode(204);

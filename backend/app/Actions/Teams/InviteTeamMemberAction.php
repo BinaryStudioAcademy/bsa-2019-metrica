@@ -28,9 +28,9 @@ final class InviteTeamMemberAction
     {
         $website = $this->websiteRepository->getById($request->websiteId());
         $password = '';
-        $existingUser = $this->userRepository->getByEmail($request->email());
+        $teamMember = $this->userRepository->getByEmail($request->email());
 
-        if (!$existingUser) {
+        if (!$teamMember) {
             $password = Str::random(8);
             $user = new User([
                 'name' => '',
@@ -38,8 +38,6 @@ final class InviteTeamMemberAction
                 'password' => Hash::make($password)
             ]);
             $teamMember = $this->userRepository->save($user);
-        } else {
-            $teamMember = $existingUser;
         }
 
         $this->websiteRepository->addTeamMemberToWebsite($teamMember, $website->id);
