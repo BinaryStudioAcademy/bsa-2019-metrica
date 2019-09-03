@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\WrongAccessRightsException;
 use Closure;
 
 final class CheckRole
 {
     public function handle($request, Closure $next)
     {
-        $roles = $this->getRequiredRoleForRoute($request->route());
-        if($request->user()->hasWebsite((int)$request->id) || !$roles)
-        {
-            return $next($request);
+        $hasRoles = $this->getRequiredRoleForRoute($request->route());
+        $hasWebsite = $request->user()->hasWebsite((int)$request->id);
+        if(!$hasWebsite && $hasRoles) {
+            throw new WrongAccessRightsException();
         }
-        return response([
-            'error' => [
-                'message' => 'You do not have rights to access this resource.'
-            ]
-        ], 401);
+
+        return $next($request);
     }
 
     private function getRequiredRoleForRoute($route)
