@@ -172,7 +172,8 @@ class ApiWebsiteTest extends TestCase
 
         $this->actingAs($user)
             ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
-            ->assertJson($expectedData);;
+            ->assertJson($expectedData);
+        ;
     }
 
     public function test_update_website_access_failed()

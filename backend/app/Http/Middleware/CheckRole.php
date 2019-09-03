@@ -11,8 +11,7 @@ final class CheckRole
     public function handle($request, Closure $next)
     {
         $roles = $this->getRequiredRoleForRoute($request->route());
-        if($request->user()->hasWebsite((int)$request->id) || !$roles)
-        {
+        if ($request->user()->hasWebsite((int)$request->id) || !$roles) {
             return $next($request);
         }
         return response([
