@@ -93,7 +93,6 @@
                 {
                     icon: '/assets/icons/speed.svg',
                     text: 'Speed Overview',
-                    route: 'page-timings',
                     sublinks: [
                         {
                             text: 'Page Timings',

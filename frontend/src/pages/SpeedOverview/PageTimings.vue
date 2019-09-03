@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import ContentLayout from '../components/layout/ContentLayout.vue';
+    import ContentLayout from '../../components/layout/ContentLayout.vue';
 
     export default {
         components: {
