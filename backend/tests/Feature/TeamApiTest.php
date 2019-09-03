@@ -43,6 +43,7 @@ class TeamApiTest extends TestCase
         parent::setUp();
         $this->website = factory(Website::class)->create(['id' => 1]);
         $this->owner = factory(User::class)->create([
+            'id' => 1,
             'name' => 'owner',
             'email' => 'email_1'
         ]);
@@ -79,14 +80,17 @@ class TeamApiTest extends TestCase
     public function attachRole()
     {
         array_push($this->members, factory(User::class)->create([
+            'id' => 2,
             'name' => 'member_1',
             'email' => 'email_2'
         ]));
         array_push($this->members, factory(User::class)->create([
+            'id' => 3,
             'name' => 'member_2',
             'email' => 'email_3'
         ]));
         array_push($this->members, factory(User::class)->create([
+            'id' => 4,
             'name' => 'member_3',
             'email' => 'email_4'
         ]));
