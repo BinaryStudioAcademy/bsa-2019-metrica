@@ -39,7 +39,7 @@
             }
         },
         getTrackById() {
-            let myScript = document.getElementById('metrica');
+            let myScript = document.querySelector("script[src^='http://stage.metrica.fun/metrica.js?']");
             return (myScript.src.split('tracking_id' + '=')[1] || '').split('&')[0];
         },
         getUserAgent() {
@@ -57,7 +57,7 @@
             return null;
         },
         getPage() {
-            return Helper.getPropByString(window, 'location.href');
+            return Helper.getPropByString(window, 'location.pathname');
         },
         getTitle() {
             return document.title || 'unknown';

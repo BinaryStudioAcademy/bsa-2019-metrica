@@ -5,6 +5,7 @@ namespace App\Actions\Visitors;
 
 use App\Repositories\Contracts\VisitorRepository;
 use App\Repositories\Contracts\WebsiteRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Actions\Visitor\CreateVisitorRequest;
 use App\Actions\Visitors\CreateVisitorResponse;
@@ -42,6 +43,7 @@ class CreateVisitorAction
 
         $payload = JWTFactory::customClaims([
             'sub' => env('API_ID'),
+            'exp' =>Carbon::now()->addYear(),
             'visitor_id' => $visitorId
         ])->make();
 
