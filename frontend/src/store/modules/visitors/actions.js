@@ -129,11 +129,14 @@ export default {
                     .then(response => {
                         totalVisitors = response.value || 0;
                        if (totalVisitors > 0) {
-                            let newVisitorsValue = newVisitors/totalVisitors*100;
-                            let returnVisitorsValue = 100 - newVisitorsValue;
+                            newVisitorsValue = newVisitors/totalVisitors*100;
+                            returnVisitorsValue = 100 - newVisitorsValue;
                         }
-
-                        context.commit(SET_CHART_PIE_DATA, {newVisitorsValue, returnVisitorsValue});
+                        let payload = {
+                            newVisitors: newVisitorsValue,
+                            returnVisitors: returnVisitorsValue
+                        };
+                        context.commit(SET_CHART_PIE_DATA, payload);
                         context.commit(RESET_CHART_DATA_FETCHING);
                     });
             })
