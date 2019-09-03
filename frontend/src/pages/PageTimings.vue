@@ -44,7 +44,6 @@
     } from "@/store/modules/page_timings/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
-        CHANGE_FETCHED_BUTTON_STATE,
         CHANGE_SELECTED_PERIOD,
         FETCH_PAGE_DATA
     } from "@/store/modules/page_timings/types/actions";
@@ -90,30 +89,6 @@
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
             }),
-            pieData () {
-                return [
-                    ['Type', 'Value'],
-                    ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors',this.pieChartData.returnVisitors]
-                ];
-            },
-            legend () {
-                return {
-                    title: 'Outcome',
-                    data: {
-                        newVisitors: {
-                            title: 'New Visitors',
-                            percentageDiff: Number(this.pieChartData.newVisitors),
-                            color: '#3C57DE',
-                        },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: Number(this.pieChartData.returnVisitors),
-                            color: '#1BC3DA',
-                        },
-                    }
-                };
-            },
         },
         created () {
             this.fetchPageData();
@@ -121,7 +96,6 @@
         methods: {
             ...mapActions('page_timings', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
-                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA
             }),
