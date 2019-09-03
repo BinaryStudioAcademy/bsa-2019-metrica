@@ -17,7 +17,10 @@
         }
     };
     window._metricaTracking = {
-        initialize() {
+        endTime:undefined,
+        configMetrica:undefined,
+        initialize(object, prop) {
+            this.setObjectMetricaConf(object, prop);
             let token = this.getToken();
             if (token) {
                 this.createVisit();
@@ -25,6 +28,15 @@
                 this.createVisitor(this.getTrackById())
                     .finally(() => this.createVisit());
             }
+
+        },
+        setObjectMetricaConf(object, prop) {
+            if(Helper.isObjectMetricaConfig(object, prop)) {
+                this.configMetrica = Helper.getPropByString(object, prop);
+            }
+        },
+        getObjectMetricaConf() {
+            return this.configMetrica;
         },
         storage() {
             return window[this.isStorage()];
@@ -39,20 +51,23 @@
             }
         },
         getTrackById() {
-            let myScript = document.querySelector("script[src^='http://stage.metrica.fun/metrica.js?']");
-            return (myScript.src.split('tracking_id' + '=')[1] || '').split('&')[0];
+            let trackingId = this.getObjectMetricaConf()[1][1];
+            if(trackingId === undefined) {
+                throw Error('Tracking id is not defined');
+            }
+            return trackingId;
         },
         getUserAgent() {
             return Helper.getPropByString(window, 'navigator.userAgent');
         },
         setToken(token) {
             try {
-                this.storage().setItem('visitor_token', token);
+                this.storage().setItem('_metrica_visitor_token', token);
             } catch (err) {}
         },
         getToken() {
-            if (this.storage().getItem('visitor_token') !== null) {
-                return this.storage().getItem("visitor_token");
+            if (this.storage().getItem('_metrica_visitor_token') !== null) {
+                return this.storage().getItem("_metrica_visitor_token");
             }
             return null;
         },
@@ -96,6 +111,10 @@
                 device: this.getDevice(),
                 resolution_width: this.getResolutionWith(),
                 resolution_height: this.getResolutionHeight(),
+                page_load_time: this.elastedTime(
+                    this.getObjectMetricaConf()[0][1],
+                    this.endTime
+                ),
             };
         },
         fetchWrapper(){
@@ -124,12 +143,31 @@
             };
             let data = JSON.stringify(this.getVisit());
             return this.fetchWrapper().post(url, data, headers);
-        }
+        },
+        elastedTime(startTime, endTime) {
+            if(!Helper.isValidDate(startTime) || !Helper.isValidDate(endTime)) {
+                throw Error('Invalid date');
+            }
+            return endTime.getTime() - startTime.getTime();
+        },
     };
 
     const Helper = {
         isString(value) {
             return typeof value === 'string' || value instanceof String;
+        },
+        isValidDate (date) {
+            return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
+        },
+        isObjectMetricaConfig(object, propString) {
+            let metricaConfig = this.getPropByString(object, propString);
+            if(metricaConfig === undefined) {
+                throw Error('Object\'s property is not defined');
+            }
+            if(metricaConfig.length < 2) {
+                throw Error('Not set need property');
+            }
+            return true;
         },
         getPropByString(obj, propString) {
             if (!propString)
@@ -262,8 +300,10 @@
             return device;
         }
     };
-
     try {
-        window._metricaTracking.initialize();
+        window.onload = () => {
+            window._metricaTracking.endTime = new Date();
+            window._metricaTracking.initialize(window, '_metricaTrackingConfig');
+        };
     } catch (err) {}
 })();
