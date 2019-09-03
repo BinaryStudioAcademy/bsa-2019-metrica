@@ -35,7 +35,7 @@
     import LineChart from "../../components/common/LineChart";
     import ButtonComponent from "../../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../../components/dashboard/common/PeriodDropdown.vue";
-    import {mapGetters, mapActions} from 'vuex/types';
+    import {mapGetters, mapActions} from 'vuex';
     import {
         GET_BUTTON_DATA,
         GET_ACTIVE_BUTTON,
