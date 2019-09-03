@@ -6,9 +6,17 @@ namespace App\Repositories;
 use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Exceptions\WebsiteNotFoundException;
+use App\Repositories\Contracts\UserRepository;
 
 final class EloquentWebsiteRepository implements WebsiteRepository
 {
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function save(Website $website): Website
     {
         $website->save();
@@ -35,8 +43,9 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
     public function getCurrentWebsite(int $websiteId): Website
     {
-        $userWebsitesIds = auth()->user()
-                                ->websites
+
+        $userWebsitesIds = $this->userRepository
+                                ->getAllUserWebsites(auth()->id())
                                 ->pluck('id');
 
         if ($userWebsitesIds->contains($websiteId)) {
@@ -48,7 +57,7 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
     public function getFirstExistingUserWebsite(): Website
     {
-        $userWebsites = auth()->user()->websites;
+        $userWebsites = $this->userRepository->getAllUserWebsites(auth()->id());
 
         $firstOwnWebsite = $userWebsites->filter(function($website) {
             return $website->pivot->role === 'owner';

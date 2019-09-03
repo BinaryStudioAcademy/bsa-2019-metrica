@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Entities\User;
 use App\Repositories\Contracts\UserRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 final class EloquentUserRepository implements UserRepository
 {
@@ -30,4 +31,10 @@ final class EloquentUserRepository implements UserRepository
     {
         User::where('email', $email)->update(['is_activate' => 1]);
     }
+
+    public function getAllUserWebsites(int $userId): Collection
+    {
+        return User::findOrFail($userId)->websites;
+    }
+
 }
