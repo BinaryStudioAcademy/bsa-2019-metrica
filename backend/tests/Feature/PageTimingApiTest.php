@@ -19,9 +19,6 @@ class PageTimingApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
-    private $page;
-    private $system;
-    private $url = 'api/v1/chart-visits/';
 
     protected function setUp(): void
     {
@@ -31,11 +28,11 @@ class PageTimingApiTest extends TestCase
         factory(Website::class)->create([
             'domain' => 'google.com'
         ]);
-        $this->page = factory(Page::class)->create([
+        factory(Page::class)->create([
             'url' => 'https://google.com'
         ]);
         factory(GeoPosition::class)->create();
-        $this->system = factory(System::class)->create();
+        factory(System::class)->create();
     }
 
 
