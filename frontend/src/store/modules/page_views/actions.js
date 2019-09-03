@@ -35,6 +35,7 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
+        context.dispatch(FETCH_BUTTON_DATA, button);
         context.dispatch(FETCH_CHART_DATA);
     },
     [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
@@ -51,26 +52,26 @@ export default {
     },
 
     [FETCH_BUTTONS_DATA]: (context) => {
-        Object.keys(context.state.buttonData).map((type) => {
-            context.dispatch(FETCH_BUTTON_DATA, {
-                time: getTimeByPeriod(context.state.selectedPeriod),
-                type: type
-            });
+        Object.keys(context.state.buttonData).forEach((type) => {
+            context.dispatch(FETCH_BUTTON_DATA, type);
         });
     },
 
-    [FETCH_BUTTON_DATA]: (context, button) => {
-        context.commit(SET_BUTTON_FETCHING, button.type);
-        factoryPageViewsService.create(button.type).fetchButtonValue(
-            button.time.startDate.unix(),
-            button.time.endDate.unix()
+    [FETCH_BUTTON_DATA]: (context, type) => {
+        context.commit(SET_BUTTON_FETCHING, type);
+
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+
+        factoryPageViewsService.create(type).fetchButtonValue(
+            period.startDate.unix(),
+            period.endDate.unix()
         ).then(response => {
             let payload = {
                 buttonType: button.type,
                 value: response.value
             };
             context.commit(SET_BUTTON_VALUE, payload);
-        }).finally(() => context.commit(RESET_BUTTON_FETCHING, button.type));
+        }).finally(() => context.commit(RESET_BUTTON_FETCHING, type));
     },
 
     [FETCH_CHART_DATA]: (context) => {
