@@ -43,7 +43,6 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
     public function getCurrentWebsite(int $websiteId): Website
     {
-
         $userWebsitesIds = $this->userRepository
                                 ->getAllUserWebsites(auth()->id())
                                 ->pluck('id');
@@ -84,5 +83,4 @@ final class EloquentWebsiteRepository implements WebsiteRepository
             'role' => 'owner']
         );
     }
-
 }

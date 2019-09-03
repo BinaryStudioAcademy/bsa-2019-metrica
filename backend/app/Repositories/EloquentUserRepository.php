@@ -36,5 +36,4 @@ final class EloquentUserRepository implements UserRepository
     {
         return User::findOrFail($userId)->websites;
     }
-
 }
