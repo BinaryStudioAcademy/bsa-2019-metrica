@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Actions\Teams;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\TeamMemberRemoved;
