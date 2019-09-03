@@ -11,6 +11,7 @@ addons:
     - site.metrica.fun
 cache:
   directories:
+    - e2e/node_modules
     - frontend/node_modules
     - backend/vendor
 before_install:
@@ -29,6 +30,7 @@ before_install:
   - cp frontend/.env.travis frontend/.env
   - docker-compose -f docker-compose.test.yml run --rm node npm ci
   - docker-compose -f docker-compose.test.yml run --rm node npm run build
+  - ./.scripts/build.sh e2e
   - ./.scripts/build.sh app
   - ./.scripts/build.sh webserver
 script:
