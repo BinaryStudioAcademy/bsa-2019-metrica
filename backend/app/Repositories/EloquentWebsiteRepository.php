@@ -51,7 +51,7 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         $userWebsites = auth()->user()->websites;
 
         $firstOwnWebsite = $userWebsites->filter(function($website) {
-            return $website->pivot->role == 'owner';
+            return $website->pivot->role === 'owner';
         })->first();
 
         if ($firstOwnWebsite) {
@@ -59,7 +59,7 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         }
 
         $firstTeamMemberWebsite = $userWebsites->filter(function($website) {
-            return $website->pivot->role == 'member';
+            return $website->pivot->role === 'member';
         })->first();
 
         if ($firstTeamMemberWebsite) {

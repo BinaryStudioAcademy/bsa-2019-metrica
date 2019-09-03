@@ -17,7 +17,7 @@ final class GetAllVisitorsAction
     {
         $visitors = $this->visitorRepository->all()
                         ->filter(function($visitor) use ($request) {
-                            return $visitor->website_id == $request->websiteId();
+                            return $visitor->website_id === $request->websiteId();
                         });
         return new GetAllVisitorsResponse($visitors);
     }
