@@ -18,6 +18,7 @@ final class TeamResource extends ResourceCollection implements ApiResponse
     public function present(TeamMember $item): array
     {
         return [
+            'id' => $item->id(),
             'name' => $item->name(),
             'email' => $item->email(),
         ];

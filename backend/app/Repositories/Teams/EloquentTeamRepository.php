@@ -14,7 +14,6 @@ final class EloquentTeamRepository implements TeamRepository
     {
         return Website::find($websiteId)->users()
             ->wherePivot('role', '=', 'member')
-            ->select('name', 'email')
-            ->get();
+            ->get(['users.id', 'name', 'email']);
     }
 }

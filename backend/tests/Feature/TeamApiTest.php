@@ -16,14 +16,17 @@ class TeamApiTest extends TestCase
     private const EXPECTED_DATA = [
         "data" => [
             [
+                "id" => 2,
                 "name" => "member_1",
                 "email" => "email_2"
             ],
             [
+                "id" => 3,
                 "name" => "member_2",
                 "email" => "email_3"
             ],
             [
+                "id" => 4,
                 "name" => "member_3",
                 "email" => "email_4"
             ]

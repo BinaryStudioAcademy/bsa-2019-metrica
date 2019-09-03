@@ -22,7 +22,7 @@ final class GetTeamAction
         $response = $this->repository->getTeamMembers($websiteId);
 
         return new GetTeamResponse($response->map(function ($item) {
-            return new TeamMember($item->name, $item->email);
+            return new TeamMember($item->id, $item->name, $item->email);
         }));
     }
 }
