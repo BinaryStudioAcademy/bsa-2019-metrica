@@ -37,6 +37,18 @@
     import PeriodDropdown from "../components/dashboard/common/PeriodDropdown.vue";
     import {mapGetters, mapActions} from 'vuex';
     import {
+        GET_BUTTON_DATA,
+        GET_ACTIVE_BUTTON,
+        GET_SELECTED_PERIOD,
+        GET_LINE_CHART_DATA,
+    } from "@/store/modules/page_timings/types/getters";
+    import {
+        CHANGE_ACTIVE_BUTTON,
+        CHANGE_FETCHED_BUTTON_STATE,
+        CHANGE_SELECTED_PERIOD,
+        FETCH_PAGE_DATA
+    } from "@/store/modules/page_timings/types/actions";
+    import {
         AVG_PAGE_LOAD_TIME,
         AVG_LOOKUP_TIME,
         AVG_SERVER_RESPONSE_TIME,
@@ -70,6 +82,61 @@
                     },
                 ],
             };
+        },
+        computed: {
+            ...mapGetters('page_timings', {
+                buttonsData: GET_BUTTON_DATA,
+                currentActiveButton: GET_ACTIVE_BUTTON,
+                getSelectedPeriod: GET_SELECTED_PERIOD,
+                chartData: GET_LINE_CHART_DATA,
+            }),
+            pieData () {
+                return [
+                    ['Type', 'Value'],
+                    ['New Visitors', this.pieChartData.newVisitors],
+                    ['Return Visitors',this.pieChartData.returnVisitors]
+                ];
+            },
+            legend () {
+                return {
+                    title: 'Outcome',
+                    data: {
+                        newVisitors: {
+                            title: 'New Visitors',
+                            percentageDiff: Number(this.pieChartData.newVisitors),
+                            color: '#3C57DE',
+                        },
+                        returnVisitors: {
+                            title: 'Return Visitors',
+                            percentageDiff: Number(this.pieChartData.returnVisitors),
+                            color: '#1BC3DA',
+                        },
+                    }
+                };
+            },
+        },
+        created () {
+            this.fetchPageData();
+        },
+        methods: {
+            ...mapActions('page_timings', {
+                changeActiveButton: CHANGE_ACTIVE_BUTTON,
+                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchPageData: FETCH_PAGE_DATA
+            }),
+            changeButton (data) {
+                this.changeActiveButton(data);
+            },
+            changePeriod (data) {
+                this.changeSelectedPeriod(data);
+            },
+            isButtonActive (type) {
+                return this.currentActiveButton === type;
+            },
+            getButtonValue (type) {
+                return this.buttonsData[type].value;
+            }
         },
     };
 </script>
