@@ -24,6 +24,6 @@ final class TeamController extends Controller
     {
         $response = $this->getTeamAction->execute(GetTeamRequest::fromRequest($request));
 
-        return ApiResponse::success(new TeamResource($response));
+        return ApiResponse::success(new TeamResource($response->teamsData()));
     }
 }

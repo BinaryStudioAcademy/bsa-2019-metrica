@@ -13,16 +13,36 @@ class TeamApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    private const EXPECTED_DATA = [
+        "data" => [
+            [
+                "name" => "member_1",
+                "email" => "email_2"
+            ],
+            [
+                "name" => "member_2",
+                "email" => "email_3"
+            ],
+            [
+                "name" => "member_3",
+                "email" => "email_4"
+            ]
+        ],
+        "meta" => []
+    ];
+
     private $owner;
     private $website;
-    private $members;
+    private $members = [];
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->website = factory(Website::class)->create();
-        $this->owner = factory(User::class)->create();
-        $this->members = factory(User::class, 3)->create();
+        $this->website = factory(Website::class)->create(['id' => 1]);
+        $this->owner = factory(User::class)->create([
+            'name' => 'owner',
+            'email' => 'email_1'
+        ]);
     }
 
     public function testGetTeamAsOwner()
@@ -33,14 +53,10 @@ class TeamApiTest extends TestCase
             'website_id' => $this->website->id,
         ];
 
-        $expectedData = [
-
-        ];
-
         $this->actingAs($this->owner)
             ->call('GET', 'api/v1/team', $filterData)
             ->assertOk()
-            ->assertJson($expectedData);
+            ->assertJson(self::EXPECTED_DATA);
     }
 
     public function testGetTeamAsMember()
@@ -51,20 +67,28 @@ class TeamApiTest extends TestCase
             'website_id' => $this->website->id,
         ];
 
-        $expectedData = [
-
-        ];
-
         $this->actingAs($this->members[0])
             ->call('GET', 'api/v1/team', $filterData)
             ->assertOk()
-            ->assertJson($expectedData);
+            ->assertJson(self::EXPECTED_DATA);
 
 
     }
 
     public function attachRole()
     {
+        array_push($this->members, factory(User::class)->create([
+            'name' => 'member_1',
+            'email' => 'email_2'
+        ]));
+        array_push($this->members, factory(User::class)->create([
+            'name' => 'member_2',
+            'email' => 'email_3'
+        ]));
+        array_push($this->members, factory(User::class)->create([
+            'name' => 'member_3',
+            'email' => 'email_4'
+        ]));
         $this->owner->websites()->attach($this->website->id, ['role' => 'owner']);
 
         foreach ($this->members as $member)
