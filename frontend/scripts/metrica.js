@@ -57,7 +57,7 @@
             return null;
         },
         getPage() {
-            return Helper.getPropByString(window, 'location.href');
+            return Helper.getPropByString(window, 'location.pathname');
         },
         getTitle() {
             return document.title || 'unknown';
