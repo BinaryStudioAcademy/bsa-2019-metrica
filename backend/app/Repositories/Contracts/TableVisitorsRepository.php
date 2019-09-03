@@ -19,13 +19,13 @@ interface TableVisitorsRepository
 
     public function groupByScreenResolution(int $website_id, string $from, string $to): Collection;
 
-    public function getCountVisitorsGroupByCity(DatePeriod $datePeriod): Collection;
+    public function getCountVisitorsGroupByCity(DatePeriod $datePeriod, int $websiteId): Collection;
 
-    public function getBounceRateGroupByCity(DatePeriod $datePeriod): Collection;
+    public function getBounceRateGroupByCity(DatePeriod $datePeriod, int $websiteId): Collection;
 
-    public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod): Collection;
+    public function getCountVisitorsGroupByCountry(DatePeriod $datePeriod, int $websiteId): Collection;
 
-    public function getBounceRateGroupByCountry(DatePeriod $datePeriod): Collection;
+    public function getBounceRateGroupByCountry(DatePeriod $datePeriod, int $websiteId): Collection;
 
     public function getCountVisitorsGroupByLanguage(int $website_id, DatePeriod $datePeriod): Collection;
 

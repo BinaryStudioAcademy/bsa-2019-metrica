@@ -21,7 +21,7 @@ final class GetNewVisitorsCountAction
     {
         $parameter = $request->parameter();
         $arguments = [
-            (int)Auth::user()->website->id,
+            $request->websiteId(),
             $request->startDate(),
             $request->endDate()
         ];

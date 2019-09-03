@@ -10,22 +10,30 @@ use App\Utils\DatePeriod;
 class GetDeviceTypeStatsRequest
 {
     private $period;
+    private $websiteId;
 
-    public function __construct(string $startDate, string $endDate)
+    public function __construct(string $startDate, string $endDate, int $websiteId)
     {
         $this->period = DatePeriod::createFromTimestamp($startDate, $endDate);
+        $this->websiteId = $websiteId;
     }
 
     public static function fromRequest(FilterByPeriodHttpRequest $request)
     {
         return new static (
             $request->getStartDate(),
-            $request->getEndDate()
+            $request->getEndDate(),
+            $request->websiteId()
         );
     }
 
     public function period(): DatePeriod
     {
         return $this->period;
+    }
+
+    public function websiteId(): int
+    {
+        return $this->websiteId;
     }
 }

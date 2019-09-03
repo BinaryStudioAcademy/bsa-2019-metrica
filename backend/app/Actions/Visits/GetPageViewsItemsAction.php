@@ -20,7 +20,7 @@ final class GetPageViewsItemsAction
     {
         $from = $request->startDate();
         $to = $request->endDate();
-        $websiteId = Auth::user()->website->id;
+        $websiteId = $request->websiteId();
 
         $tableData = $this->visitRepository->getPageViewsTableData($from, $to, $websiteId);
 

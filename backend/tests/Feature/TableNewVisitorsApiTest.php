@@ -33,6 +33,7 @@ class TableNewVisitorsApiTest extends TestCase
     ];
 
     private $user;
+    private $website;
     private $fromTimeStamp;
     private $toTimeStamp;
 
@@ -50,10 +51,12 @@ class TableNewVisitorsApiTest extends TestCase
         $requestData = [
             'startDate' => $this->fromTimeStamp,
             'endDate' => $this->toTimeStamp,
+            'website_id' =>  $this->website->id
         ];
 
         $queryString = '?filter[startDate]='.$requestData['startDate'].
                          '&filter[endDate]='.$requestData['endDate'].
+                         '&filter[website_id]='.$requestData['website_id'].
                          '&filter[parameter]=';
 
         $expected = [
@@ -89,7 +92,10 @@ class TableNewVisitorsApiTest extends TestCase
 
     private function seedDataBase(): void
     {
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
 
         foreach ($this->fakeData()['visitors_created'] as $created_at) {
             factory(Visitor::class)->create([
