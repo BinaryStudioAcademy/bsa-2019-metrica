@@ -18,6 +18,8 @@ import WebsiteDataProvider from '../pages/WebsiteDataProvider.vue';
 import SocialAuthPage from '@/pages/SocialAuthPage.vue';
 import PageViews from "../pages/PageViews.vue";
 import Audience from "../pages/Audience.vue";
+import SpeedOverview from "../pages/SpeedOverview.vue";
+import PageTimings from "../pages/PageTimings.vue";
 import VerifyEmail from "../components/auth/VerifyEmail";
 import Dashboard from "../pages/Dashboard";
 import GeoLocation from "../pages/GeoLocationPage";
@@ -137,10 +139,18 @@ export default new Router({
                                 {
                                     path: 'speedoverview',
                                     name: 'speedoverview',
-                                    component: Default,
-                                    meta: {
-                                        title: 'Speedoverview'
-                                    },
+                                    component: SpeedOverview,
+                                    children: [
+                                        {
+                                            path: 'page-timings',
+                                            name: 'page-timings',
+                                            component: PageTimings,
+                                            meta: {
+                                                title: 'Page views'
+                                            },
+                                        },
+
+                                    ]
                                 },
                                 {
                                     path: 'website/info',
