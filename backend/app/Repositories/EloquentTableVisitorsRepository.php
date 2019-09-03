@@ -19,18 +19,21 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
     {
         $count = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select('DISTINCT visitors.id')
+            ->select('visitors.id')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->count();
+
 
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.city as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy('geo_positions.city')
             ->get();
 
@@ -41,18 +44,20 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
     {
         $count = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select('DISTINCT visitors.id')
+            ->select('visitors.id')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->count();
 
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
+            ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'geo_positions.country as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy('geo_positions.country')
             ->get();
 
@@ -64,18 +69,19 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         $count = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
-            ->select('DISTINCT visitors.id')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
-            ->count();
+            ->whereBetween('sessions.start_session', [$from, $to])
+            ->distinct('visitors.id')
+            ->count('visitors.id');
 
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'sessions.language as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy('sessions.language')
+            ->orderBy('count_visitors', 'desc')
             ->get();
 
         return $this->mapToTableValues($visitors, 'language');
@@ -87,10 +93,10 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select('DISTINCT visitors.id')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
-            ->count();
+            ->whereBetween('sessions.start_session', [$from, $to])
+            ->distinct('visitors.id')
+            ->count('visitors.id');
 
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
@@ -98,8 +104,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'systems.browser as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy('systems.browser')
+            ->orderBy('count_visitors', 'desc')
             ->get();
 
         return $this->mapToTableValues($visitors, 'browser');
@@ -111,10 +118,10 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select('DISTINCT visitors.id')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
-            ->count();
+            ->whereBetween('sessions.start_session', [$from, $to])
+            ->distinct('visitors.id')
+            ->count('visitors.id');
 
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
@@ -122,8 +129,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), 'systems.os as parameter_value')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy('systems.os')
+            ->orderBy('count_visitors', 'desc')
             ->get();
 
         return $this->mapToTableValues($visitors, 'operating_system');
@@ -135,10 +143,10 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select('DISTINCT visitors.id')
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
-            ->count();
+            ->whereBetween('sessions.start_session', [$from, $to])
+            ->distinct('visitors.id')
+            ->count('visitors.id');
 
         $visitors = DB::table('visitors')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
@@ -146,8 +154,9 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
             ->select(DB::raw('COUNT(DISTINCT visitors.id) as count_visitors'), DB::raw("$count as total_count"), DB::raw("CONCAT(systems.resolution_height, 'x', systems.resolution_width) as parameter_value"))
             ->where('visitors.website_id', '=', $website_id)
-            ->whereBetween('visits.visit_time', [$from, $to])
+            ->whereBetween('sessions.start_session', [$from, $to])
             ->groupBy(['systems.resolution_width','systems.resolution_height'])
+            ->orderBy('count_visitors', 'desc')
             ->get();
 
         return $this->mapToTableValues($visitors, 'screen_resolution');
