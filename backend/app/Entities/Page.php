@@ -6,6 +6,7 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Page
@@ -29,5 +30,15 @@ final class Page extends Model
     public function website(): BelongsTo
     {
         return $this->belongsTo(Website::class);
+    }
+
+    public function visits(): HasMany
+    {
+        return $this->hasMany(Visit::class);
+    }
+
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class, 'entrance_page_id');
     }
 }
