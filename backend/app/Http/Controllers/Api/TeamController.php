@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Response\ApiResponse;
 use App\Http\Requests\Team\InviteTeamMemberHttpRequest;
 use App\Http\Requests\Team\RemoveTeamMemberHttpRequest;
@@ -30,7 +31,7 @@ final class TeamController extends Controller
         $response = $this->inviteTeamMemberAction->execute(
             InviteTeamMemberRequest::fromRequest($request)
         );
-        return ApiResponse::emptySuccess();
+        return ApiResponse::emptySuccess()->setStatusCode(201);
     }
 
     public function removeTeamMember(int $id, RemoveTeamMemberHttpRequest $request): ApiResponse
@@ -38,7 +39,7 @@ final class TeamController extends Controller
         $response = $this->removeTeamMemberAction->execute(
             RemoveTeamMemberRequest::fromRequest($request, $id)
         );
-        return ApiResponse::emptySuccess();
+        return ApiResponse::emptySuccess()->setStatusCode(204);
     }
 
 }

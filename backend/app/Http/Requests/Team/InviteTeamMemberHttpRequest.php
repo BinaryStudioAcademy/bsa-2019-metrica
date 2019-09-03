@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Team;
 
 use App\Http\Request\ApiFormRequest;
-use App\Rules\IsWebsiteRelatedWithUser;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class InviteTeamMemberHttpRequest extends ApiFormRequest
 {
@@ -20,7 +20,7 @@ final class InviteTeamMemberHttpRequest extends ApiFormRequest
             'filter.website_id' => [
                 'required',
                 'integer',
-                new IsWebsiteRelatedWithUser()
+                new IsWebsiteRelatedToUser()
             ],
         ];
     }

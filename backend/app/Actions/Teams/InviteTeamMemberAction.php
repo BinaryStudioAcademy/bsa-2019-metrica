@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Notifications\TeamMemberInvited;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\Contracts\UserRepository;
+use App\Entities\User;
 
 final class InviteTeamMemberAction
 {
@@ -28,9 +29,10 @@ final class InviteTeamMemberAction
         $password = '';
         $existingUser = $this->userRepository->getByEmail($request->email());
 
-        if (!existingUser) {
+        if (!$existingUser) {
             $password = Str::random(8);
             $user = new User([
+                'name' => '',
                 'email' => $request->email(),
                 'password' => Hash::make($password)
             ]);
@@ -39,9 +41,7 @@ final class InviteTeamMemberAction
             $teamMember = $existingUser;
         }
 
-        $teamMember->websites()->attach($website->id, [
-            'role' => 'member'
-        ]);
+        $this->websiteRepository->addTeamMemberToWebsite($teamMember, $website->id);
 
         $teamMember->notify(new TeamMemberInvited($website, $password));
     }

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Entities\User;
 use App\Entities\Website;
 
-class TeamMemberInvited extends Notification
+class TeamMemberRemoved extends Notification
 {
     use Queueable;
 
