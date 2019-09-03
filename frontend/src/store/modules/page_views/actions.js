@@ -67,7 +67,7 @@ export default {
             period.endDate.unix()
         ).then(response => {
             let payload = {
-                buttonType: button.type,
+                buttonType: type,
                 value: response.value
             };
             context.commit(SET_BUTTON_VALUE, payload);
