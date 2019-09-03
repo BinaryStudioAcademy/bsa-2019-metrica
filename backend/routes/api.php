@@ -95,6 +95,14 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::group([
+            'prefix' => 'page-timing',
+        ], function () {
+            Route::get('/chart/page-loading', 'PageTimingController@getPageLoadingChartData');
+            Route::get('/chart/domain-lookup', 'PageTimingController@getDomainLookupChartData');
+            Route::get('/chart/server-response', 'PageTimingController@getServerResponseChartData');
+        });
+
+        Route::group([
             'prefix' => 'chart-average-sessions'
         ], function () {
             Route::get('/', 'SessionController@getAverageSessionByInterval');
