@@ -136,6 +136,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/geo-location-items', 'GeoLocationController');
 
         Route::get('/table-page-views', 'VisitController@getPageViewsItems');
+
+        Route::group([
+            'prefix' => 'teams'
+        ], function () {
+            Route::post('/', 'TeamController@inviteTeamMember');
+            Route::delete('/member/{id}', 'TeamController@removeTeamMember');
+        });
     });
 
     Route::group([
