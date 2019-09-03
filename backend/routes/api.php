@@ -147,12 +147,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/table-page-views', 'VisitController@getPageViewsItems');
     });
 
-
     Route::put('/websites/{id}', [
         'middleware' => ['auth', 'roles'],
-        'uses' => 'WebsiteController@update',
+        'uses' => 'Api\WebsiteController@update',
         'roles' => ['owner']
     ]);
+
 
     Route::group([
         'namespace' => 'OpenApi'

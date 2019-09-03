@@ -154,6 +154,12 @@ class ApiWebsiteTest extends TestCase
 
     public function test_update_website_access()
     {
+        $expectedData = [
+            'error' => [
+                'message' => 'The name field is required.'
+            ]
+        ];
+
         $user = factory(User::class)->create();
         $website = factory(Website::class)->create();
         $user->websites()->attach($website->id, [
@@ -166,7 +172,7 @@ class ApiWebsiteTest extends TestCase
 
         $this->actingAs($user)
             ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
-            ->assertStatus(200);
+            ->assertJson($expectedData);;
     }
 
     public function test_update_website_access_failed()
