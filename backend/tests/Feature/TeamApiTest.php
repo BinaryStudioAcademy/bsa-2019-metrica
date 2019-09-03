@@ -71,8 +71,6 @@ class TeamApiTest extends TestCase
             ->call('GET', 'api/v1/team', $filterData)
             ->assertOk()
             ->assertJson(self::EXPECTED_DATA);
-
-
     }
 
     public function attachRole()
@@ -91,8 +89,7 @@ class TeamApiTest extends TestCase
         ]));
         $this->owner->websites()->attach($this->website->id, ['role' => 'owner']);
 
-        foreach ($this->members as $member)
-        {
+        foreach ($this->members as $member) {
             $member->websites()->attach($this->website->id, ['role' => 'member']);
         }
     }
