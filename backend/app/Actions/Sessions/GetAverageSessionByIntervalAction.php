@@ -13,27 +13,27 @@ use App\Utils\DatePeriod;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\WebsiteRepository;
 
 final class GetAverageSessionByIntervalAction
 {
     private $repository;
     private $visitorRepository;
+    private $websiteRepository;
 
     public function __construct(
         ChartSessionsRepository $repository,
-        VisitorRepository $visitorRepository
+        VisitorRepository $visitorRepository,
+        WebsiteRepository $websiteRepository
     ) {
         $this->repository = $repository;
         $this->visitorRepository = $visitorRepository;
+        $this->websiteRepository = $websiteRepository;
     }
 
     public function execute(GetSessionsRequest $request): GetAverageSessionByIntervalResponse
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
 
         $interval = $this->getInterval($request->interval());
 

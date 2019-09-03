@@ -37,6 +37,7 @@ class GeoLocationApiTest extends TestCase
     private const DATE_TO = '2019-08-24 23:59:59';
 
     private $user;
+    private $website;
     private $fromTimeStamp;
     private $toTimeStamp;
 
@@ -54,7 +55,8 @@ class GeoLocationApiTest extends TestCase
         $data = [
             'filter' => [
                 'startDate' => (string) $this->fromTimeStamp,
-                'endDate' => (string) $this->toTimeStamp
+                'endDate' => (string) $this->toTimeStamp,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -66,12 +68,14 @@ class GeoLocationApiTest extends TestCase
 
     private function seedDataBase(): void
     {
-        $website = factory(Website::class)->create(['user_id' => $this->user->id]);
-
-        factory(Page::class, 3)->create(['website_id' => $website->id]);
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        factory(Page::class, 3)->create(['website_id' => $this->website->id]);
         foreach ($this->fakeData()['visitors_created'] as $created_at) {
             factory(Visitor::class)->create([
-                'website_id' => $website->id,
+                'website_id' => $this->website->id,
                 'created_at' => $created_at
             ]);
         }

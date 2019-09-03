@@ -26,10 +26,11 @@ final class AddWebsiteAction
         $website->name = $request->getName();
         $website->domain = $request->getDomain();
         $website->single_page = $request->getSinglePage();
-        $website->user_id = Auth::id();
         $website->tracking_number = $this->getLastTrackingNumber() + 1;
 
         $this->websiteRepository->save($website);
+
+        $this->websiteRepository->makeUserWebsiteOwner(auth()->user(), $website->id);
 
         return new AddWebsiteResponse($website);
     }

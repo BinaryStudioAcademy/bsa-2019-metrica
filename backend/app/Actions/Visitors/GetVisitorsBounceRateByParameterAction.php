@@ -27,26 +27,27 @@ final class GetVisitorsBounceRateByParameterAction
     public function execute(GetVisitorsBounceRateByParameterRequest $request): GetVisitorsBounceRateByParameterResponse
     {
         $parameter = $request->parameter();
-        $websiteId = Auth::user()->website->id;
+        $websiteId = $request->websiteId();
+
         switch ($parameter) {
             case self::CITY:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByCity($request->period())
+                    ->getCountVisitorsGroupByCity($request->period(), $websiteId)
                     ->keyBy(self::CITY)
                     ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateGroupByCity($request->period())
+                    ->getBounceRateGroupByCity($request->period(), $websiteId)
                     ->keyBy(self::CITY)
                     ->only('bounced_visitors_count')
                     ->toArray());
                 break;
             case self::COUNTRY:
                 $visitorsCountCollection = collect($this->tableVisitorsRepository
-                    ->getCountVisitorsGroupByCountry($request->period())
+                    ->getCountVisitorsGroupByCountry($request->period(), $websiteId)
                     ->keyBy(self::COUNTRY)
                     ->toArray());
                 $bounceRateCollection = collect($this->tableVisitorsRepository
-                    ->getBounceRateGroupByCountry($request->period())
+                    ->getBounceRateGroupByCountry($request->period(), $websiteId)
                     ->keyBy(self::COUNTRY)
                     ->only('bounced_visitors_count')
                     ->toArray());

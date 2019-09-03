@@ -28,7 +28,7 @@ final class EditWebsiteAction
             throw new WebsiteNotFoundException();
         }
 
-        if ($website->user_id !== Auth::id()) {
+        if (!auth()->user()->hasWebsite($request->getId())) {
             throw new AuthorizationException();
         }
 

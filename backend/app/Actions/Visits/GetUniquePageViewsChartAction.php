@@ -18,11 +18,8 @@ class GetUniquePageViewsChartAction
 
     public function execute(GetUniquePageViewsChartRequest $request): GetUniquePageViewsChartResponse
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
+
         $response = $this->repository->getUniquePageViews(
             $request->period(),
             (int)$request->interval(),

@@ -24,7 +24,7 @@ interface SessionRepository
 
     public function updateEndSession(Session $session): void;
 
-    public function getAvgSessionTimeGroupByCountry(string $startDate, string $endDate): Eloquent\Collection;
+    public function getAvgSessionTimeGroupByCountry(string $startDate, string $endDate, int $websiteId): Eloquent\Collection;
 
-    public function getCountSessionsGroupByCountry(string $startDate, string $endDate): Eloquent\Collection;
+    public function getCountSessionsGroupByCountry(string $startDate, string $endDate, int $websiteId): Eloquent\Collection;
 }

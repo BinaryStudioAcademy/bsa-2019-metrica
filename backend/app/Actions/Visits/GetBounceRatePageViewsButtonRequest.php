@@ -13,7 +13,8 @@ final class GetBounceRatePageViewsButtonRequest extends ButtonDataRequest
     {
         return new static(
             $request->getStartDate(),
-            $request->getEndDate()
+            $request->getEndDate(),
+            $request->websiteId()
         );
     }
 }

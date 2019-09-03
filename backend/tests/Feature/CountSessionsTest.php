@@ -22,6 +22,7 @@ class CountSessionsTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
 
     protected function setUp(): void
     {
@@ -38,7 +39,8 @@ class CountSessionsTest extends TestCase
         ];
 
         $queryString = '?filter[startDate]='.$dateFilter['startDate'].
-                         '&filter[endDate]='.$dateFilter['endDate'];
+                         '&filter[endDate]='.$dateFilter['endDate'].
+                         '&filter[website_id]='.$this->website->id;
 
         $expected = [
                     'data' => [
@@ -59,7 +61,10 @@ class CountSessionsTest extends TestCase
 
     private function seedDataBase(): void
     {
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class)->create();
         factory(Page::class)->create();
         factory(System::class)->create();

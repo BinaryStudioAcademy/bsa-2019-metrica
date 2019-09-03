@@ -38,6 +38,7 @@ final class EloquentSessionRepository implements SessionRepository
     {
         return DB::table('sessions')
                 ->selectRaw('EXTRACT(EPOCH FROM (AVG(end_session - start_session))) as avg')
+                ->whereWebsiteId($filter->websiteId())
                 ->whereIn('visitor_id', $filter->getVisitorsIDs())
                 ->where('start_session', '>=', $filter->getStartDate())
                 ->where('start_session', '<=', $filter->getEndDate())
@@ -56,9 +57,9 @@ final class EloquentSessionRepository implements SessionRepository
         $session->save();
     }
 
-    public function getAvgSessionTimeGroupByCountry(string $startDate, string $endDate): Eloquent\Collection
+    public function getAvgSessionTimeGroupByCountry(string $startDate, string $endDate, int $websiteId): Eloquent\Collection
     {
-        return Session::forUserWebsite()
+        return Session::whereWebsiteId($websiteId)
             ->whereBetween('sessions.start_session', [$startDate, $endDate])
             ->avgSessionTime()
             ->join('visits', 'sessions.id', '=', 'visits.session_id')
@@ -68,9 +69,9 @@ final class EloquentSessionRepository implements SessionRepository
             ->get();
     }
 
-    public function getCountSessionsGroupByCountry(string $startDate, string $endDate): Eloquent\Collection
+    public function getCountSessionsGroupByCountry(string $startDate, string $endDate, int $websiteId): Eloquent\Collection
     {
-        return Session::forUserWebsite()
+        return Session::whereWebsiteId($websiteId)
             ->whereBetween('sessions.start_session', [$startDate, $endDate])
             ->join('visits', 'sessions.id', '=', 'visits.session_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')

@@ -23,7 +23,10 @@ class ButtonVisitorsApiTest extends TestCase
 
     public function testButtonCountVisitors()
     {
-        factory(Website::class)->create();
+        $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         $firstDate = Carbon::parse('2019-08-11 22:00:45', 'UTC');
         $secondDate = Carbon::parse('2019-08-18 19:32:30', 'UTC');
         $secondDateLastActivity = Carbon::parse('2019-08-22 22:00:45', 'UTC');
@@ -61,6 +64,7 @@ class ButtonVisitorsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)$thirdDate->getTimestamp(),
                 'endDate' => (string)$fourthDate->getTimestamp(),
+                'website_id' => $website->id
             ]
         ];
         $expectedData = [

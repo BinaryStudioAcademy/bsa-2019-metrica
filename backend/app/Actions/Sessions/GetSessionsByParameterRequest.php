@@ -14,7 +14,8 @@ class GetSessionsByParameterRequest extends TableDataRequest
         return new static (
             $request->getStartDate(),
             $request->getEndDate(),
-            $request->getParameter()
+            $request->getParameter(),
+            $request->getWebsiteId()
         );
     }
 }

@@ -33,7 +33,6 @@ class ApiWebsiteTest extends TestCase
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'user_id' => $this->user->id,
                 'tracking_number' => '00000001',
             ],
             "meta" => [],
@@ -60,7 +59,6 @@ class ApiWebsiteTest extends TestCase
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'user_id' => $this->user->id,
                 'tracking_number' => '00000002',
             ],
             "meta" => [],
@@ -92,12 +90,14 @@ class ApiWebsiteTest extends TestCase
     public function test_success_edit()
     {
         $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         $expectedData = [
             "data" => [
                 'name' => 'New name',
                 'domain' => $website->domain,
                 'single_page' => $website->single_page,
-                'user_id' => $website->user_id,
                 'tracking_number' => $website->tracking_number,
             ],
             "meta" => [],
@@ -107,11 +107,9 @@ class ApiWebsiteTest extends TestCase
             'name' => $expectedData['data']['name'],
             'single_page' => $expectedData['data']['single_page'],
         ];
-        $token = JWTAuth::fromUser($this->user);
-        $headers = ['Authorization' => "Bearer $token"];
 
         $this->actingAs($this->user)
-            ->put('/api/v1/websites/'.$website->id, $websiteData, $headers)
+            ->put('/api/v1/websites/'.$website->id, $websiteData)
             ->assertStatus(200)
             ->assertJson($expectedData);
     }
