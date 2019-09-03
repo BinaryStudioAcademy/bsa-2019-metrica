@@ -29,7 +29,7 @@ describe('Settings page tests', () => {
 
         Assert.notificationTextIs(data.profileUpdated);
         browser.reloadSession();
-        browser.url('https://stage.metrica.fun');
+        browser.url(url.domain);
         help.loginWithCustomUser(credentials.email , credentials.changedPassword);
         
         menu.navigateToUserSettings();
