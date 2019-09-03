@@ -6,7 +6,7 @@ module.exports = {
                 data: `@import "~@/scss/variables.scss"`,
             },
         },
-        sourceMap: true,
+        sourceMap: process.env.NODE_ENV !== "production",
     },
     devServer: {
         host: '0.0.0.0',
@@ -16,6 +16,7 @@ module.exports = {
             errors: true
         }
     },
+    productionSourceMap: false,
     configureWebpack: (config) => {
         if (process.env.NODE_ENV !== "production") {
             config.devtool = 'source-map';
