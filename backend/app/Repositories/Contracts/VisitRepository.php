@@ -10,4 +10,6 @@ interface VisitRepository
     public function save(Visit $visit): Visit;
 
     public function getVisitsCountByHourAndDay(string $startDate, string $endDate): Collection;
+
+    public function findBySessionId(int $sessionId): Collection;
 }

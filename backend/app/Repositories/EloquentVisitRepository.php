@@ -28,4 +28,10 @@ final class EloquentVisitRepository implements VisitRepository
             ->groupBy('day', 'hour')
             ->get();
     }
+
+
+    public function findBySessionId(int $sessionId): Collection
+    {
+        return Visit::where('session_id', $sessionId)->get();
+    }
 }
