@@ -5,7 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
 	entry: './scripts/metrica.js',
 	output: {
-		path: path.resolve(__dirname, 'dist', 'script'),
+		path: path.resolve(__dirname, 'dist'),
 		filename: 'metrica.js'
 	},
 	module: {
