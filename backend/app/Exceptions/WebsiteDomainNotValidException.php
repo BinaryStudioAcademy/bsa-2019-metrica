@@ -20,7 +20,7 @@ final class WebsiteDomainNotValidException extends Exception implements ApiExcep
 
     public function getStatus(): int
     {
-        return Response::HTTP_NOT_FOUND;
+        return Response::HTTP_FORBIDDEN;
     }
 
     public function toArray(): array
