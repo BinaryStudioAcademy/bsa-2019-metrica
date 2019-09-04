@@ -7,4 +7,4 @@ export const GET_ACTIVE_BUTTON = 'getActiveButton';
 export const GET_LINE_CHART_ITEMS = 'getLineChartItems';
 export const GET_LINE_CHART_FETCHING = 'getLineChartFetching';
 export const GET_LINE_CHART_DATA = 'getChartData';
-export const FETCH_TABLE_DATA = 'getTableData';
+export const GET_TABLE_DATA = 'getTableData';

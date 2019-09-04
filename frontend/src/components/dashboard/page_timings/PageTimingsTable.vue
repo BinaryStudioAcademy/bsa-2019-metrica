@@ -18,9 +18,7 @@
                 />
             </VCol>
             <VCol>
-                <slot name="value">
-                    {{ option }}
-                </slot>
+                {{ option }}
             </VCol>
         </VRow>
         <VDataTable
