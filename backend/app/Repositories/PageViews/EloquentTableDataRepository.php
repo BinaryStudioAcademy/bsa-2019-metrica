@@ -29,9 +29,12 @@ class EloquentTableDataRepository implements TableDataRepository
                 return new SpeedOverviewTableValue(
                     'browser',
                     $key,
-                    floatval($item->average($value))
+                    intval($item->average($value))
                 );
-            })->values();
+            })->sortByDesc(function(SpeedOverviewTableValue $item) {
+                return $item->timing();
+            })
+            ->values();
     }
 
     public function getAverageValueByCountry(DatePeriod $period, int $website_id, string $value): Collection
@@ -48,9 +51,12 @@ class EloquentTableDataRepository implements TableDataRepository
                 return new SpeedOverviewTableValue(
                     'country',
                     $key,
-                    floatval($item->average($value))
+                    intval($item->average($value))
                 );
-            })->values();
+            })->sortByDesc(function(SpeedOverviewTableValue $item) {
+                return $item->timing();
+            })
+            ->values();
     }
 
     public function getAverageValueByPage(DatePeriod $period, int $website_id, string $value): Collection
@@ -66,8 +72,11 @@ class EloquentTableDataRepository implements TableDataRepository
                 return new SpeedOverviewTableValue(
                     'page',
                     $key,
-                    floatval($item->average($value))
+                    intval($item->average($value))
                 );
-            })->values();
+            })->sortByDesc(function(SpeedOverviewTableValue $item) {
+                return $item->timing();
+            })
+            ->values();
     }
 }

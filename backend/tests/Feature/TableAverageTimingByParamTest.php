@@ -63,6 +63,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 350])
             ->json();
         $this->assertCount(5, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::DNS_LOOKUP, $this->query('browser'))
@@ -70,6 +71,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 75])
             ->json();
         $this->assertCount(5, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::SERVER_RESPONSE, $this->query('browser'))
@@ -77,6 +79,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 250])
             ->json();
         $this->assertCount(5, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
     }
 
     public function testGroupByPageResponse()
@@ -105,6 +108,7 @@ class TableAverageTimingByParamTest extends TestCase
                 "average_time" => 350])
             ->json();
         $this->assertCount(3, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::DNS_LOOKUP, $this->query('page'))
@@ -112,6 +116,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertJsonFragment(["average_time" => 75])
             ->json();
         $this->assertCount(3, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::SERVER_RESPONSE, $this->query('page'))
@@ -119,6 +124,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertJsonFragment(["average_time" => 250])
             ->json();
         $this->assertCount(3, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
     }
 
     public function testGroupByCountryResponse()
@@ -142,6 +148,7 @@ class TableAverageTimingByParamTest extends TestCase
             ])
             ->json();
         $this->assertCount(4, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::DNS_LOOKUP, $this->query('country'))
@@ -149,6 +156,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertJsonFragment(["average_time" => 75])
             ->json();
         $this->assertCount(4, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::SERVER_RESPONSE, $this->query('country'))
@@ -156,6 +164,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertJsonFragment(["average_time" => 250])
             ->json();
         $this->assertCount(4, $response['data']);
+        $this->assertTrue($this->is_sorted($response['data']));
     }
 
     public function params()
@@ -207,5 +216,14 @@ class TableAverageTimingByParamTest extends TestCase
                 'parameter' => $parameter
             ]
         ];
+    }
+
+    public function is_sorted(array $data)
+    {
+        $original = $data;
+        usort($data, function ($item1, $item2) {
+            return $item2['average_time'] <=> $item1['average_time'];
+        });
+        return $data == $original;
     }
 }
