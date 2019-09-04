@@ -34,7 +34,6 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'WebsiteController@getCurrentUserWebsite');
             Route::post('/', 'WebsiteController@add');
-            Route::put('/{id}', 'WebsiteController@update');
         });
 
         Route::get('/os/most-popular', 'SystemController@getMostPopularOs');
@@ -155,6 +154,13 @@ Route::prefix('v1')->group(function () {
             Route::delete('/member/{id}', 'TeamController@removeTeamMember');
         });
     });
+
+    Route::put('/websites/{id}', [
+        'middleware' => ['auth', 'roles'],
+        'uses' => 'Api\WebsiteController@update',
+        'roles' => ['owner']
+    ]);
+
 
     Route::group([
         'namespace' => 'OpenApi'
