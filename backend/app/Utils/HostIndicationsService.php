@@ -57,6 +57,6 @@ class HostIndicationsService
 
     private function getClearUrl(string $url): string
     {
-        return preg_replace('/^[/]/i', '', $url);
+        return preg_replace('/^[\/]/i', '', $url);
     }
 }
