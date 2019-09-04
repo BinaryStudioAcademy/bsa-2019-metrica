@@ -12,7 +12,5 @@ interface CountryRepository
 
     public function update(Aggregate $tableAggregate): Aggregate;
 
-    public function getById(int $id): CountryAggregate;
-
     public function getByParams(int $websiteId, string $url, int $level): ?CountryAggregate;
 }
