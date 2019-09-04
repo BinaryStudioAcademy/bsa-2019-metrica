@@ -30,9 +30,9 @@ class CountryAggregate extends Aggregate
         return array_merge(parent::toArray(), ['country' => $this->country]);
     }
 
-    public static function fromResult(array $result): self
+    public static function fromResult(array $result): Aggregate
     {
-        return new self(
+        return new static(
             (int)$result['id'],
             (int)$result['websiteId'],
             (string)$result['url'],

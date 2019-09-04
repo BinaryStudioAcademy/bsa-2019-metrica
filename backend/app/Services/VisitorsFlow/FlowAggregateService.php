@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services\VisitorsFlow;
 
+use App\Aggregates\VisitorsFlow\BrowserAggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
@@ -10,6 +11,7 @@ use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
 use Carbon\Carbon;
 
@@ -17,23 +19,26 @@ final class FlowAggregateService
 {
     private $pageRepository;
     private $visitRepository;
-    private $countryRepository;
+    private $visitorFlowCountryRepository;
     private $websiteRepository;
     private $geoPositionRepository;
+    private $visitorFlowBrowserRepository;
 
     public function __construct(
         PageRepository $pageRepository,
         VisitRepository $visitRepository,
-        VisitorFlowCountryRepository $countryRepository,
+        VisitorFlowCountryRepository $visitorFlowCountryRepository,
         WebsiteRepository $websiteRepository,
-        GeoPositionRepository $geoPositionRepository
+        GeoPositionRepository $geoPositionRepository,
+        VisitorFlowBrowserRepository $visitorFlowBrowserRepository
     )
     {
         $this->pageRepository = $pageRepository;
         $this->visitRepository = $visitRepository;
-        $this->countryRepository = $countryRepository;
+        $this->visitorFlowCountryRepository = $visitorFlowCountryRepository;
         $this->websiteRepository = $websiteRepository;
         $this->geoPositionRepository = $geoPositionRepository;
+        $this->visitorFlowBrowserRepository = $visitorFlowBrowserRepository;
     }
 
     public function aggregate(Visit $visit)
@@ -45,19 +50,36 @@ final class FlowAggregateService
         } else {
             $level = 1;
         }
-        $countryAggregate = $this->countryRepository->getByParams(
+        $countryAggregate = $this->visitorFlowCountryRepository->getByCriteria(
             $visit->session->website_id,
             $visit->page->url,
-            $level
+            $level,
+            $visit->geo_position->country
+        );
+        $browserAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
+            $visit->session->website_id,
+            $visit->page->url,
+            $level,
+            $visit->session->system->browser
         );
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
-            $countryAggregate = $this->countryRepository->save($countryAggregate);
-            dd($countryAggregate);
+            $countryAggregate = $this->visitorFlowCountryRepository->save($countryAggregate);
+//            dd($countryAggregate);
         } else {
-           $countryAggregate->views++;
-            $countryAggregate = $this->countryRepository->update($countryAggregate);
-            dd($countryAggregate);
+            $countryAggregate->views++;
+            $countryAggregate = $this->visitorFlowCountryRepository->update($countryAggregate);
+//            dd($countryAggregate);
+        }
+
+        if (!$browserAggregate) {
+            $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
+            $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
+            dd($browserAggregate);
+        } else {
+           $browserAggregate->views++;
+            $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
+            dd($browserAggregate);
         }
     }
 
@@ -84,14 +106,14 @@ final class FlowAggregateService
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
         $prevPage = null;
         if ($level !== 1) {
-            //get previous aggregate
-            $previousAggregate = $this->countryRepository->getByParams(
+            $previousAggregate = $this->visitorFlowCountryRepository->getByCriteria(
                 $previousVisit->session->website_id,
                 $previousVisit->page->url,
-                $level - 1
+                $level - 1,
+                $previousVisit->geo_position->country
             );
             $previousAggregate->isLastPage = false;
-            $this->countryRepository->update($previousAggregate);
+            $this->visitorFlowCountryRepository->update($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
         }
 
@@ -106,6 +128,38 @@ final class FlowAggregateService
             $level,
             $isLatPage,
             $geoPosition->country,
+            $prevPage
+        );
+    }
+
+    private function createBrowserAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): BrowserAggregate
+    {
+        $page = $this->pageRepository->getById($currentVisit->page_id);
+        $website = $this->websiteRepository->getById($page->website_id);
+        $prevPage = null;
+        if ($level !== 1) {
+            $previousAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
+                $previousVisit->session->website_id,
+                $previousVisit->page->url,
+                $level - 1,
+                $currentVisit->session->system->browser
+            );
+            $previousAggregate->isLastPage = false;
+            $this->visitorFlowBrowserRepository->update($previousAggregate);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
+        }
+
+        $isLatPage = true;
+        $views = 1;
+        return new BrowserAggregate(
+            $currentVisit->id,
+            $website->id,
+            $page->url,
+            $page->name,
+            $views,
+            $level,
+            $isLatPage,
+            $currentVisit->session->system->browser,
             $prevPage
         );
     }

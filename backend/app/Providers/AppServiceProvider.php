@@ -22,7 +22,9 @@ use App\Repositories\Contracts\ChartSessionsRepository;
 use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\Contracts\PageViews\ChartDataRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\ElasticsearchVisitorFlowBrowserRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\ElasticsearchVisitorFlowCountryRepository;
 use App\Repositories\EloquentChartPageTimingRepository;
 use App\Repositories\EloquentChartVisitorRepository;
@@ -101,7 +103,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ChartPageTimingRepository::class, EloquentChartPageTimingRepository::class);
 
-        $this->app->bind(VisitorFlowCountryRepository::class,ElasticsearchVisitorFlowCountryRepository::class);
+        $this->app->bind(VisitorFlowCountryRepository::class, ElasticsearchVisitorFlowCountryRepository::class);
+
+        $this->app->bind(VisitorFlowBrowserRepository::class, ElasticsearchVisitorFlowBrowserRepository::class);
     }
 
     /**

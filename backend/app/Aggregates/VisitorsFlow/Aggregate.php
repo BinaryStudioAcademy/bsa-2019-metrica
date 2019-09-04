@@ -59,4 +59,6 @@ abstract class Aggregate
     {
         return $this->id;
     }
+
+    public abstract static function fromResult(array $result): self;
 }
