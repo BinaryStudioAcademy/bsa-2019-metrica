@@ -21,20 +21,21 @@ abstract class Aggregate
         int $websiteId,
         string $url,
         string $title,
-        ?PageValue $prevPage,
         int $views,
         int $level,
-        bool $isLastPage
+        bool $isLastPage,
+        ?PageValue $prevPage
     )
     {
         $this->id = $id;
         $this->websiteId = $websiteId;
         $this->url = $url;
         $this->title = $title;
-        $this->prevPage = $prevPage;
         $this->views = $views;
         $this->level = $level;
         $this->isLastPage = $isLastPage;
+        $this->prevPage = $prevPage;
+
     }
 
     public function toArray(): array
@@ -43,7 +44,7 @@ abstract class Aggregate
             'id' => $this->id,
             'websiteId' => $this->websiteId,
             'url' => $this->url,
-            'title'=>$this->title,
+            'title' => $this->title,
             'prevPage' => $this->prevPage === null ? null : [
                 'id' => $this->prevPage->id,
                 'url' => $this->prevPage->url

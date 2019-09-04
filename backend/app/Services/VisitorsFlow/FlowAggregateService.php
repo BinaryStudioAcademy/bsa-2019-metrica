@@ -10,7 +10,7 @@ use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
-use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\CountryRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
 use Carbon\Carbon;
 
 final class FlowAggregateService
@@ -24,7 +24,7 @@ final class FlowAggregateService
     public function __construct(
         PageRepository $pageRepository,
         VisitRepository $visitRepository,
-        CountryRepository $countryRepository,
+        VisitorFlowCountryRepository $countryRepository,
         WebsiteRepository $websiteRepository,
         GeoPositionRepository $geoPositionRepository
     )
@@ -102,11 +102,11 @@ final class FlowAggregateService
             $website->id,
             $page->url,
             $page->name,
-            $prevPage,
             $views,
             $level,
             $isLatPage,
-            $geoPosition->country
+            $geoPosition->country,
+            $prevPage
         );
     }
 }

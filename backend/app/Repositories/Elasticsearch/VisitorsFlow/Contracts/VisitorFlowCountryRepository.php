@@ -6,7 +6,7 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow\Contracts;
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
 
-interface CountryRepository
+interface VisitorFlowCountryRepository
 {
     public function save(Aggregate $tableAggregate): Aggregate;
 

@@ -11,17 +11,19 @@ class ScreenAggregate extends Aggregate
     public $resolutionHeight;
 
     public function __construct(
+        int $id,
         int $websiteId,
         string $url,
-        PageValue $nextPage,
-        PageValue $prevPage,
+        string $title,
         int $views,
         int $level,
         bool $isLastPage,
         int $resolutionWidth,
-        int $resolutionHeight
-    ) {
-        parent::__construct($websiteId, $url, $nextPage, $prevPage, $views, $level, $isLastPage);
+        int $resolutionHeight,
+        ?PageValue $prevPage
+    )
+    {
+        parent::__construct($id, $websiteId, $url, $title, $views, $level, $isLastPage, $prevPage);
         $this->resolutionWidth = $resolutionWidth;
         $this->resolutionHeight = $resolutionHeight;
     }
@@ -32,5 +34,24 @@ class ScreenAggregate extends Aggregate
             'resolution_width' => $this->resolutionWidth,
             'resolution_height' => $this->resolutionHeight
         ]);
+    }
+
+    public static function fromResult(array $result): self
+    {
+        return new self(
+            (int)$result['id'],
+            (int)$result['websiteId'],
+            (string)$result['url'],
+            (string)$result['title'],
+            (int)$result['views'],
+            (int)$result['level'],
+            (bool)$result['isLastPage'],
+            (int)$result['resolution_width'],
+            (int)$result['resolution_height'],
+            $result['prevPage'] === null ? null : new PageValue(
+                (int)$result['prevPage']['id'],
+                (string)$result['prevPage']['url']
+            )
+        );
     }
 }

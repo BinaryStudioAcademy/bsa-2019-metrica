@@ -5,10 +5,10 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
-use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\CountryRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
 
-final class ElasticsearchCountryRepository implements CountryRepository
+final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCountryRepository
 {
     const INDEX_NAME = 'country-visitors-flow';
     private $client;
