@@ -29,6 +29,7 @@ before_install:
   - cp frontend/.env.travis frontend/.env
   - docker-compose -f docker-compose.test.yml run --rm node npm ci
   - docker-compose -f docker-compose.test.yml run --rm node npm run build
+  - docker-compose -f docker-compose.test.yml run --rm node npm run build:script
   - ./.scripts/build.sh app
   - ./.scripts/build.sh webserver
 script:
