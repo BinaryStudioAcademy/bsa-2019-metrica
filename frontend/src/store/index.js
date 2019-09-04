@@ -7,6 +7,7 @@ import notification from './modules/notification';
 import visitors from './modules/visitors';
 import dashboard from './modules/dashboard';
 import page_views from './modules/page_views';
+import page_timings from './modules/page_timings';
 import geo_location from './modules/geo_location';
 import devices from './modules/devices';
 import visits_density_widget from './modules/visits_density_widget';
@@ -20,6 +21,7 @@ export default new Vuex.Store({
         notification,
         visitors,
         page_views,
+        page_timings,
         dashboard,
         geo_location,
         devices,

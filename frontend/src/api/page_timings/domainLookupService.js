@@ -1,12 +1,17 @@
+import requestService from "@/services/requestService";
 import config from "@/config";
-import requestService from "../../services/requestService";
-import {buttonTransformer, chartTransformer} from "./transformers";
+import {buttonTransformer, chartTransformer} from './transformers';
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
+const chartDataUrl = '/page-timing/chart/domain-lookup';
+const btnDataUrl = '/page-timing/button/domain-lookup';
+const errorMessage = 'Something went wrong with getting average domain lookup time';
+
+
 const fetchButtonValue = (startDate, endDate) => {
-    return requestService.get(resourceUrl + '/button-page-views/count', {}, {
+    return requestService.get(resourceUrl + btnDataUrl, {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
     }).then(response => buttonTransformer(response.data))
@@ -15,14 +20,14 @@ const fetchButtonValue = (startDate, endDate) => {
                 _.get(
                     error,
                     'response.data.error.message',
-                    'Something went wrong with getting page views'
+                    errorMessage
                 )
             )
         ));
 };
 
 const fetchChartValues = (startDate, endDate, interval) => {
-    return requestService.get(resourceUrl + '/chart-visits/page-views', {}, {
+    return requestService.get(resourceUrl + chartDataUrl, {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[period]': interval
@@ -32,14 +37,13 @@ const fetchChartValues = (startDate, endDate, interval) => {
                 _.get(
                     error,
                     'response.data.error.message',
-                    'Something went wrong with getting page views'
+                    errorMessage
                 )
             )
         ));
 };
 
-
-export const pageViewsService = {
-    fetchButtonValue,
-    fetchChartValues
+export const domainLookupService = {
+    fetchChartValues,
+    fetchButtonValue
 };
