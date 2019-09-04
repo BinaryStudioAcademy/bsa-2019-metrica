@@ -9,6 +9,7 @@ use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use App\Repositories\Contracts\ChartVisitorsRepository;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
+use App\Repositories\Contracts\PageViews\TableDataRepository;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\TablePageViewsRepository;
@@ -44,6 +45,7 @@ use App\Repositories\EloquentVisitRepository;
 use App\Repositories\EloquentWebsiteRepository;
 use App\Repositories\EloquentTableNewVisitorsRepository;
 use App\Repositories\PageViews\EloquentChartDataRepository;
+use App\Repositories\PageViews\EloquentTableDataRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -96,7 +98,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TablePageViewsRepository::class, EloquentTablePageViewsRepository::class);
 
         $this->app->bind(ChartDataRepository::class, EloquentChartDataRepository::class);
+
         $this->app->bind(ChartPageTimingRepository::class, EloquentChartPageTimingRepository::class);
+
+        $this->app->bind(TableDataRepository::class, EloquentTableDataRepository::class);
     }
 
     /**
