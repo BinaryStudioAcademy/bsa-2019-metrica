@@ -23,7 +23,8 @@ trait ChartHttpRequestTrait
             ],
             'filter.period' => [
                 'required',
-                'integer'
+                'integer',
+                'min:1'
             ],
             'filter.website_id' => [
                 'required',

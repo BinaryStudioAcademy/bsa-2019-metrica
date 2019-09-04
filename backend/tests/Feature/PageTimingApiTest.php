@@ -19,14 +19,18 @@ class PageTimingApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        factory(Website::class)->create([
+        $this->website = factory(Website::class)->create([
             'domain' => 'google.com'
+        ]);
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
         ]);
         factory(Page::class)->create([
             'url' => 'https://google.com'
@@ -49,6 +53,7 @@ class PageTimingApiTest extends TestCase
                 'startDate' => (string)$startDate->getTimestamp(),
                 'endDate' => (string)$endDate->getTimestamp(),
                 'period' => (string)$anHour,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -91,6 +96,7 @@ class PageTimingApiTest extends TestCase
                 'startDate' => (string)$startDate->getTimestamp(),
                 'endDate' => (string)$endDate->getTimestamp(),
                 'period' => (string)$anHour,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -133,6 +139,7 @@ class PageTimingApiTest extends TestCase
                 'startDate' => (string)$startDate->getTimestamp(),
                 'endDate' => (string)$endDate->getTimestamp(),
                 'period' => (string)$anHour,
+                'website_id' => $this->website->id
             ]
         ];
 

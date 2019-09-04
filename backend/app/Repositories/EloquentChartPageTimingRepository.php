@@ -11,29 +11,29 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class EloquentChartPageTimingRepository implements ChartPageTimingRepository
 {
-    public function getAvgPageLoadByDateRange(DatePeriod $datePeriod, string $period): array
+    public function getAvgPageLoadByDateRange(DatePeriod $datePeriod, string $period, int $websiteId): array
     {
-        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'page_load_time');
+        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'page_load_time', $websiteId);
     }
 
-    public function getAvgServerResponseByDateRange(DatePeriod $datePeriod, string $period): array
+    public function getAvgServerResponseByDateRange(DatePeriod $datePeriod, string $period, int $websiteId): array
     {
-        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'server_response_time');
+        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'server_response_time', $websiteId);
     }
 
-    public function getAvgDomainLookupByDateRange(DatePeriod $datePeriod, string $period): array
+    public function getAvgDomainLookupByDateRange(DatePeriod $datePeriod, string $period, int $websiteId): array
     {
-        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'domain_lookup_time');
+        return $this->getAvgPageTimingByDateRange($datePeriod, $period, 'domain_lookup_time', $websiteId);
     }
 
-    private function getAvgPageTimingByDateRange(DatePeriod $datePeriod, string $period, string $pageTiming): array
+    private function getAvgPageTimingByDateRange(DatePeriod $datePeriod, string $period, string $pageTiming, int $websiteId): array
     {
         $from = $datePeriod->getStartDate();
         $to = $datePeriod->getEndDate();
         $avgPageLoadingByTimeFrame = Visit::query()
             ->whereBetween('visit_time', [$from, $to])
-            ->whereHas('visitor', function (Builder $query) {
-                $query->forUserWebsite();
+            ->whereHas('visitor', function (Builder $query) use ($websiteId) {
+                $query->whereWebsiteId($websiteId);
             })
             ->selectRaw('FLOOR (AVG ('.$pageTiming.')) as average')
             ->selectRaw(' (extract(epoch FROM visit_time) - MOD( (CAST (extract(epoch FROM visit_time) AS INTEGER)), ? )) AS period', [$period])

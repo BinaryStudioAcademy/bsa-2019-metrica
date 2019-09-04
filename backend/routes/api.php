@@ -34,7 +34,6 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'WebsiteController@getCurrentUserWebsite');
             Route::post('/', 'WebsiteController@add');
-            Route::put('/{id}', 'WebsiteController@update');
         });
 
         Route::get('/os/most-popular', 'SystemController@getMostPopularOs');
@@ -100,6 +99,9 @@ Route::prefix('v1')->group(function () {
             Route::get('/chart/page-loading', 'PageTimingController@getPageLoadingChartData');
             Route::get('/chart/domain-lookup', 'PageTimingController@getDomainLookupChartData');
             Route::get('/chart/server-response', 'PageTimingController@getServerResponseChartData');
+            Route::get('/button/page-loading', 'PageTimingController@getAveragePageLoading');
+            Route::get('/button/domain-lookup', 'PageTimingController@getAverageDomainLookupTime');
+            Route::get('/button/server-response', 'PageTimingController@getAverageServerResponseTime');
         });
 
         Route::group([
@@ -146,11 +148,20 @@ Route::prefix('v1')->group(function () {
         Route::get('/table-page-views', 'VisitController@getPageViewsItems');
 
         Route::group([
-            'prefix' => 'team'
+            'prefix' => 'teams'
         ], function () {
             Route::get('/', 'TeamController@getTeam');
+            Route::post('/', 'TeamController@inviteTeamMember');
+            Route::delete('/member/{id}', 'TeamController@removeTeamMember');
         });
     });
+
+    Route::put('/websites/{id}', [
+        'middleware' => ['auth', 'roles'],
+        'uses' => 'Api\WebsiteController@update',
+        'roles' => ['owner']
+    ]);
+
 
     Route::group([
         'namespace' => 'OpenApi'

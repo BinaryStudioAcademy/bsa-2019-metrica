@@ -58,7 +58,7 @@ class TeamApiTest extends TestCase
         ];
 
         $this->actingAs($this->owner)
-            ->call('GET', 'api/v1/team', $filterData)
+            ->call('GET', 'api/v1/teams', $filterData)
             ->assertOk()
             ->assertJson(self::EXPECTED_DATA);
     }
@@ -72,7 +72,7 @@ class TeamApiTest extends TestCase
         ];
 
         $this->actingAs($this->members[0])
-            ->call('GET', 'api/v1/team', $filterData)
+            ->call('GET', 'api/v1/teams', $filterData)
             ->assertOk()
             ->assertJson(self::EXPECTED_DATA);
     }
