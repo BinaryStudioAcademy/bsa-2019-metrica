@@ -3,8 +3,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\PageTimings\GetAverageTimingAction;
-use App\Actions\PageTimings\GetAverageTimingRequest;
+use App\Actions\PageTimings\GetAverageTimingByParamAction;
+use App\Actions\PageTimings\GetAverageTimingByParamRequest;
 use App\Actions\PageTimings\GetDomainLookupChartAction;
 use App\Actions\PageTimings\GetPageLoadingChartAction;
 use App\Actions\PageTimings\GetChartRequest;
@@ -20,7 +20,7 @@ final class PageTimingController extends Controller
 {
     private $getAverageValueAction;
 
-    public function __construct(GetAverageTimingAction $getAverageValueAction)
+    public function __construct(GetAverageTimingByParamAction $getAverageValueAction)
     {
         $this->getAverageValueAction = $getAverageValueAction;
     }
@@ -46,7 +46,7 @@ final class PageTimingController extends Controller
     public function getAveragePageLoadingTimeForParam(PageTimingTableHttpRequest $request)
     {
         $results = $this->getAverageValueAction->execute(
-            new GetAverageTimingRequest($request, 'page_load_time')
+            new GetAverageTimingByParamRequest($request, 'page_load_time')
         );
         return ApiResponse::success(new SpeedOverviewTableResource($results));
     }
@@ -54,7 +54,7 @@ final class PageTimingController extends Controller
     public function getAverageDomainLookupTimeForParam(PageTimingTableHttpRequest $request)
     {
         $results = $this->getAverageValueAction->execute(
-            new GetAverageTimingRequest($request, 'domain_lookup_time')
+            new GetAverageTimingByParamRequest($request, 'domain_lookup_time')
         );
         return ApiResponse::success(new SpeedOverviewTableResource($results));
     }
@@ -62,7 +62,7 @@ final class PageTimingController extends Controller
     public function getAverageServerResponseTimeForParam(PageTimingTableHttpRequest $request)
     {
         $results = $this->getAverageValueAction->execute(
-            new GetAverageTimingRequest($request, 'server_response_time')
+            new GetAverageTimingByParamRequest($request, 'server_response_time')
         );
         return ApiResponse::success(new SpeedOverviewTableResource($results));
     }

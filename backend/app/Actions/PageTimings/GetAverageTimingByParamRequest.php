@@ -7,7 +7,7 @@ namespace App\Actions\PageTimings;
 use App\Actions\TableDataRequest;
 use App\Http\Request\PageTimingTableHttpRequest;
 
-class GetAverageTimingRequest extends TableDataRequest
+class GetAverageTimingByParamRequest extends TableDataRequest
 {
     private $column;
 

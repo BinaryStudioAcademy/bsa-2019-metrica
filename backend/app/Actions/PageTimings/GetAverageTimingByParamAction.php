@@ -7,7 +7,7 @@ namespace App\Actions\PageTimings;
 use App\Repositories\Contracts\PageViews\TableDataRepository;
 use Illuminate\Support\Facades\Auth;
 
-class GetAverageTimingAction
+class GetAverageTimingByParamAction
 {
     private $repository;
 
@@ -16,7 +16,7 @@ class GetAverageTimingAction
         $this->repository = $repository;
     }
 
-    public function execute(GetAverageTimingRequest $request)
+    public function execute(GetAverageTimingByParamRequest $request)
     {
         $period = $request->period();
         $parameter = $request->parameter();
