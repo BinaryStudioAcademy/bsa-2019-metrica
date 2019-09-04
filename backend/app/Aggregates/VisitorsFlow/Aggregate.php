@@ -11,7 +11,6 @@ abstract class Aggregate
     public $websiteId;
     public $url;
     public $title;
-    public $nextPage;
     public $prevPage;
     public $views;
     public $level;
@@ -22,7 +21,6 @@ abstract class Aggregate
         int $websiteId,
         string $url,
         string $title,
-        ?PageValue $nextPage,
         ?PageValue $prevPage,
         int $views,
         int $level,
@@ -33,7 +31,6 @@ abstract class Aggregate
         $this->websiteId = $websiteId;
         $this->url = $url;
         $this->title = $title;
-        $this->nextPage = $nextPage;
         $this->prevPage = $prevPage;
         $this->views = $views;
         $this->level = $level;
@@ -47,10 +44,6 @@ abstract class Aggregate
             'websiteId' => $this->websiteId,
             'url' => $this->url,
             'title'=>$this->title,
-            'nextPage' => $this->nextPage === null ? null : [
-                'id' => $this->nextPage->id,
-                'url' => $this->nextPage->url
-            ],
             'prevPage' => $this->prevPage === null ? null : [
                 'id' => $this->prevPage->id,
                 'url' => $this->prevPage->url

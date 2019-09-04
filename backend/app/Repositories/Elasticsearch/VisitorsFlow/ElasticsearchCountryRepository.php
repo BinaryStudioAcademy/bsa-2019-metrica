@@ -36,25 +36,13 @@ final class ElasticsearchCountryRepository implements CountryRepository
             'index' => self::INDEX_NAME,
             'id' => $countryAggregate->getId(),
             'type' => '_doc',
-            'body' => [
-                'doc' => $countryAggregate->toArray()
-            ]
+            'body' => $countryAggregate->toArray()
         ]);
 
         return $countryAggregate;
     }
 
-    public function getById(int $id): CountryAggregate
-    {
-//        $result = $this->client->get([
-//            'index' => self::INDEX_NAME,
-//            'type' => '_doc',
-//            'id' => $id
-//        ]);
-//        return CountryAggregate::fromResult($result['_source']);
-    }
-
-    public function getByParams(int $websiteId, string $url, int $level)
+    public function getByParams(int $websiteId, string $url, int $level):?CountryAggregate
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -63,9 +51,12 @@ final class ElasticsearchCountryRepository implements CountryRepository
                     'bool' => [
                         'must' => [
                             ['match' => ['websiteId' => $websiteId]],
-                            ['match' => ['level' => $level]],
-                            ['match' => ['url' => $url]],
-                        ]
+                        ],
+                        'filter' => [
+                            ['term' => ['level' => $level]],
+                            ['match_phrase' => ['url' => $url]],
+                        ],
+
                     ]
                 ]
             ]
@@ -78,7 +69,6 @@ final class ElasticsearchCountryRepository implements CountryRepository
         if (empty($result['hits']['hits'])) {
             return null;
         }
-        //доделать!!!!!
         return CountryAggregate::fromResult($result['hits']['hits'][0]['_source']);
     }
 

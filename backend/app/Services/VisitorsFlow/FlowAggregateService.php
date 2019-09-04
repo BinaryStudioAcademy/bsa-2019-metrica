@@ -50,10 +50,14 @@ final class FlowAggregateService
             $visit->page->url,
             $level
         );
-
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $countryAggregate = $this->countryRepository->save($countryAggregate);
+            dd($countryAggregate);
+        } else {
+           $countryAggregate->views++;
+            $countryAggregate = $this->countryRepository->update($countryAggregate);
+            dd($countryAggregate);
         }
     }
 
@@ -78,7 +82,6 @@ final class FlowAggregateService
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
-        $nextPage = null;
         $prevPage = null;
         if ($level !== 1) {
             //get previous aggregate
@@ -87,7 +90,6 @@ final class FlowAggregateService
                 $previousVisit->page->url,
                 $level - 1
             );
-            $previousAggregate->nextPage = new PageValue($currentVisit->id, $currentVisit->page->url);
             $previousAggregate->isLastPage = false;
             $this->countryRepository->update($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
@@ -100,7 +102,6 @@ final class FlowAggregateService
             $website->id,
             $page->url,
             $page->name,
-            $nextPage,
             $prevPage,
             $views,
             $level,
