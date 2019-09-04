@@ -5,10 +5,11 @@ import _ from "lodash";
 
 const url = config.getApiUrl();
 
-const fetchDevicesAndSystemsData = (startDate, endDate) => {
+const fetchDevicesAndSystemsData = (startDate, endDate, websiteId) => {
     const params = {
         'filter[startDate]': startDate,
-        'filter[endDate]': endDate
+        'filter[endDate]': endDate,
+        'filter[website_id]': websiteId,
     };
     return Promise.all([
         requestService.get(url + '/devices/stats', {}, params),

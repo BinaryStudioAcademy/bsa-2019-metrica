@@ -5,9 +5,10 @@ import _ from "lodash";
 
 const resourceUrl = config.getApiUrl() + '/geo-location-items';
 
-const getGeoLocationItems = (startDate, endDate) => requestService.get(resourceUrl, {}, {
+const getGeoLocationItems = (startDate, endDate, websiteId) => requestService.get(resourceUrl, {}, {
     'filter[startDate]': startDate,
-    'filter[endDate]': endDate
+    'filter[endDate]': endDate,
+    'filter[website_id]': websiteId,
 })
     .then(response => response.data.map(transformer))
     .catch(error => Promise.reject(

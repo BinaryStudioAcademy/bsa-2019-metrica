@@ -80,7 +80,7 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
     public function setWebsiteOwner(User $user, int $websiteId): void
     {
-        $user->websites()->attach($websitId, [
+        $user->websites()->attach($websiteId, [
             'role' => 'owner']
         );
     }
