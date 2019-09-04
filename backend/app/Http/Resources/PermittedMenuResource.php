@@ -29,6 +29,4 @@ final class PermittedMenuResource extends ResourceCollection implements ApiRespo
             return $this->present($item);
         })->toArray();
     }
-
-
 }

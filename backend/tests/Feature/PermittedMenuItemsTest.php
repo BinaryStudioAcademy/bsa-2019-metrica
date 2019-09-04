@@ -18,8 +18,9 @@ class PermittedMenuItemsTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user;
-    private $secondUser;
+    private $websiteOwner;
+    private $firstTeamMember;
+    private $secondTeamMember;
     private $website;
     const ENDPOINT = '/api/v1/teams/menu-access/';
 
@@ -37,7 +38,7 @@ class PermittedMenuItemsTest extends TestCase
         $expected = [
                     "data" => [
                         [
-                            "user_id" => $this->secondUser->id,
+                            "user_id" => $this->firstTeamMember->id,
                             "website_id" => $this->website->id,
                             "permitted_menu" => [
                                 "visitors",
@@ -48,7 +49,7 @@ class PermittedMenuItemsTest extends TestCase
                             ]
                         ],
                         [
-                            "user_id" => $this->user->id,
+                            "user_id" => $this->secondTeamMember->id,
                             "website_id" => $this->website->id,
                             "permitted_menu" => [
                                 "visitors",
@@ -62,32 +63,88 @@ class PermittedMenuItemsTest extends TestCase
                     "meta" => []
                 ];
 
-        $this->actingAs($this->user)
-            ->call('GET', self::ENDPOINT.$this->user->id, $requestData)
+        $this->actingAs($this->websiteOwner)
+            ->call('GET', self::ENDPOINT.$this->websiteOwner->id, $requestData)
             ->assertJson($expected)
             ->assertStatus(200);
 
         $this->assertDatabaseHas('user_website', [
-            'user_id' => $this->user->id,
+            'user_id' => $this->firstTeamMember->id,
+            'website_id' => $this->website->id,
+            'role' => 'member',
+            'permitted_menu' => config('sidebar.partial_access_menu_items')
+        ]);
+
+        $this->assertDatabaseHas('user_website', [
+            'user_id' => $this->secondTeamMember->id,
             'website_id' => $this->website->id,
             'role' => 'member',
             'permitted_menu' => config('sidebar.partial_access_menu_items')
         ]);
     }
 
+    public function test_update_permitted_menu_items_for_team_member()
+    {
+        $requestData = [
+            'filter' => [
+                'user_ids' => [
+                    $this->firstTeamMember->id,
+                    $this->secondTeamMember->id
+                ],
+                'permitted_menu' => [
+                    'geo-location, behaviour',
+                    'visitors, page-views'
+                ],
+                'website_id' => $this->website->id
+            ]
+        ];
+
+        $expected = [
+                    "data" => [
+                        [
+                            "user_id" => $this->firstTeamMember->id,
+                            "website_id" => $this->website->id,
+                            "permitted_menu" => [
+                                "geo-location",
+                                "behaviour"
+                            ]
+                        ],
+                        [
+                            "user_id" => $this->secondTeamMember->id,
+                            "website_id" => $this->website->id,
+                            "permitted_menu" => [
+                                "visitors",
+                                "page-views"
+                            ]
+                        ],
+                    ],
+                    "meta" => []
+                ];
+
+        $this->actingAs($this->websiteOwner)
+            ->call('PUT', self::ENDPOINT, $requestData)
+            ->assertJson($expected)
+            ->assertStatus(200);
+    }
+
+
     private function setUsers(): void
     {
-        $this->user = factory(User::class)->create();
-        $this->secondUser = factory(User::class)->create();
+        $this->websiteOwner = factory(User::class)->create();
+        $this->firstTeamMember = factory(User::class)->create();
+        $this->secondTeamMember = factory(User::class)->create();
     }
 
     private function seedDataBase(): void
     {
         $this->website = factory(Website::class)->create();
-        $this->secondUser->websites()->attach($this->website->id, [
+        $this->websiteOwner->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        $this->firstTeamMember->websites()->attach($this->website->id, [
             'role' => 'member'
         ]);
-        $this->user->websites()->attach($this->website->id, [
+        $this->secondTeamMember->websites()->attach($this->website->id, [
             'role' => 'member'
         ]);
         factory(Visitor::class)->create();

@@ -154,6 +154,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/', 'TeamController@inviteTeamMember');
             Route::delete('/member/{memberId}', 'TeamController@removeTeamMember');
             Route::get('/menu-access/{memberId}', 'TeamController@getPermittedMenuItems');
+            Route::put('/menu-access', 'TeamController@updatePermittedMenuItems');
         });
     });
 
