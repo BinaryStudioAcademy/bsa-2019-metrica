@@ -18,8 +18,8 @@ abstract class Aggregate
     public function __construct(
         int $websiteId,
         string $url,
-        PageValue $nextPage,
-        PageValue $prevPage,
+        ?PageValue $nextPage,
+        ?PageValue $prevPage,
         int $views,
         int $level,
         bool $isLastPage
@@ -39,11 +39,11 @@ abstract class Aggregate
         return [
             'websiteId' => $this->websiteId,
             'url' => $this->url,
-            'nextPage' => [
+            'nextPage' => $this->nextPage === null ? null : [
                 'id' => $this->nextPage->id,
                 'url' => $this->nextPage->url
             ],
-            'prevPage' =>  [
+            'prevPage' => $this->prevPage === null ? null : [
                 'id' => $this->prevPage->id,
                 'url' => $this->prevPage->url
             ],
@@ -51,5 +51,10 @@ abstract class Aggregate
             'views' => $this->views,
             'isLastPage' => $this->isLastPage,
         ];
+    }
+
+    public function getId(): int
+    {
+//        return $this->id;
     }
 }

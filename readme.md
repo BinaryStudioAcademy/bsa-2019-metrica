@@ -43,7 +43,7 @@ cp docker-compose.override.yml.windows docker-compose.override.yml
 cp .env.example .env
 docker-compose up -d
 
-docker-compose exec app composer install
+c
 docker-compose exec app php artisan key:generate
 docker-compose exec app php artisan jwt:secret
 docker-compose exec app php artisan migrate --seed

@@ -10,21 +10,43 @@ class CountryAggregate extends Aggregate
     public $country;
 
     public function __construct(
+        int $id,
         int $websiteId,
         string $url,
-        PageValue $nextPage,
-        PageValue $prevPage,
+        ?PageValue $nextPage,
+        ?PageValue $prevPage,
         int $views,
         int $level,
         bool $isLastPage,
         string $country
     ) {
         parent::__construct($websiteId, $url, $nextPage, $prevPage, $views, $level, $isLastPage);
-        $this->$country = $country;
+        $this->country = $country;
     }
 
     public function toArray(): array
     {
         return array_merge(parent::toArray(), ['country' => $this->country]);
+    }
+
+    public static function fromResult(array $result): self
+    {
+        return new self(
+            (int)$result['id'],
+            (int)$result['websiteId'],
+            (string)$result['url'],
+            new PageValue(
+                (int)$result['nextPage']['id'],
+                (string)$result['nextPage']['url']
+            ),
+            new PageValue(
+                (int)$result['prevPage']['id'],
+                (string)$result['prevPage']['url']
+            ),
+            (int)$result['views'],
+            (int)$result['level'],
+            (bool)$result['isLastPage'],
+            (string)$result['country']
+        );
     }
 }
