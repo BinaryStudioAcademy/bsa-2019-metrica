@@ -88,7 +88,7 @@ class TableAverageTimingByParamTest extends TestCase
                 ->save(factory('App\Entities\Page')->make(['url' => $url])));
         }
         factory('App\Entities\Session')->create();
-        $pages->each(function($page, $index) use ($params) {
+        $pages->each(function($page) use ($params) {
             foreach ($params as $param) {
                 $page->visits()->save(factory('App\Entities\Visit')
                     ->make($param));
