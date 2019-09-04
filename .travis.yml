@@ -33,6 +33,7 @@ before_install:
   - ./.scripts/build.sh e2e
   - ./.scripts/build.sh app
   - ./.scripts/build.sh webserver
+  - free
 script:
   - docker-compose -f docker-compose.test.yml up -d
   - docker-compose -f docker-compose.test.yml ps
@@ -41,9 +42,9 @@ script:
   - docker-compose -f docker-compose.test.yml exec app php artisan key:generate
   - docker-compose -f docker-compose.test.yml exec app php artisan jwt:secret
   - docker-compose -f docker-compose.test.yml exec app php artisan migrate
-  - docker-compose -f docker-compose.test.yml exec app php artisan db:seed --class=DefaultUserAndWebsiteSeeder
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
   - docker-compose -f docker-compose.test.yml run node npm run lint
+  - docker-compose -f docker-compose.test.yml exec app php artisan db:seed --class=DefaultUserAndWebsiteSeeder
   - docker-compose -f docker-compose.test.yml exec e2e npm run test:travis
 after_script:
   - docker-compose -f docker-compose.test.yml down

@@ -9,7 +9,7 @@ class AssertHelper {
         browser.pause(300);
         const notification = $('span.notification-text');
         const actualText = notification.getText();
-        assert.equal(actualText, expectedText, `Expected ${actualText} to be equal to ${expectedText}`);
+        assert.equal(actualText, expectedText, `Expected ${expectedText} to be equal to ${actualText}`);
     }
 
     expectedElementText(element, expectedText) {

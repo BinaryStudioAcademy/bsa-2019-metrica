@@ -17,5 +17,6 @@ travisConfig.beforeTest = function (test) {
     browser.url('https://web.local/');
 };
 travisConfig.connectionRetryTimeout = 5000;
+travisConfig.waitforTimeout = 900000000,
 
 exports.config = Object.assign({}, wdioBasic, travisConfig);
