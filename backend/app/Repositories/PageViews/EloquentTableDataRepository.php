@@ -29,7 +29,7 @@ class EloquentTableDataRepository implements TableDataRepository
                 return new SpeedOverviewTableValue(
                     'browser',
                     $key,
-                    intval($item->average($value))
+                    (int)$item->average($value)
                 );
             })->sortByDesc(function(SpeedOverviewTableValue $item) {
                 return $item->timing();
@@ -51,7 +51,7 @@ class EloquentTableDataRepository implements TableDataRepository
                 return new SpeedOverviewTableValue(
                     'country',
                     $key,
-                    intval($item->average($value))
+                    (int)$item->average($value)
                 );
             })->sortByDesc(function(SpeedOverviewTableValue $item) {
                 return $item->timing();
@@ -72,7 +72,7 @@ class EloquentTableDataRepository implements TableDataRepository
                 return new SpeedOverviewTableValue(
                     'page',
                     $key,
-                    intval($item->average($value))
+                    (int)$item->average($value)
                 );
             })->sortByDesc(function(SpeedOverviewTableValue $item) {
                 return $item->timing();
