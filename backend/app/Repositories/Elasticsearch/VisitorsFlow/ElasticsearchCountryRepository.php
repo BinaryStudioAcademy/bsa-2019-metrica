@@ -20,28 +20,41 @@ final class ElasticsearchCountryRepository implements CountryRepository
 
     public function save(Aggregate $countryAggregate): Aggregate
     {
-
         $this->client->index([
             'index' => self::INDEX_NAME,
+            'id' => $countryAggregate->getId(),
             'type' => '_doc',
             'body' => $countryAggregate->toArray()
         ]);
-        dd($countryAggregate);
+
+        return $countryAggregate;
+    }
+
+    public function update(Aggregate $countryAggregate): Aggregate
+    {
+        $this->client->index([
+            'index' => self::INDEX_NAME,
+            'id' => $countryAggregate->getId(),
+            'type' => '_doc',
+            'body' => [
+                'doc' => $countryAggregate->toArray()
+            ]
+        ]);
 
         return $countryAggregate;
     }
 
     public function getById(int $id): CountryAggregate
     {
-        $result = $this->client->get([
-            'index' => self::INDEX_NAME,
-            'type' => '_doc',
-            'id' => $id
-        ]);
-        return CountryAggregate::fromResult($result['_source']);
+//        $result = $this->client->get([
+//            'index' => self::INDEX_NAME,
+//            'type' => '_doc',
+//            'id' => $id
+//        ]);
+//        return CountryAggregate::fromResult($result['_source']);
     }
 
-    public function getByParams(int $websiteId, string $url, int $level): ?CountryAggregate
+    public function getByParams(int $websiteId, string $url, int $level)
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -66,7 +79,7 @@ final class ElasticsearchCountryRepository implements CountryRepository
             return null;
         }
         //доделать!!!!!
-        return CountryAggregate::fromResult($result['hits']);
+        return CountryAggregate::fromResult($result['hits']['hits'][0]['_source']);
     }
 
 }

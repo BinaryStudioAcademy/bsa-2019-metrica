@@ -7,6 +7,7 @@ use App\Aggregates\VisitorsFlow\Values\PageValue;
 
 abstract class Aggregate
 {
+    public $id;
     public $websiteId;
     public $url;
     public $nextPage;
@@ -16,6 +17,7 @@ abstract class Aggregate
     public $isLastPage;
 
     public function __construct(
+        int $id,
         int $websiteId,
         string $url,
         ?PageValue $nextPage,
@@ -25,6 +27,7 @@ abstract class Aggregate
         bool $isLastPage
     )
     {
+        $this->id = $id;
         $this->websiteId = $websiteId;
         $this->url = $url;
         $this->nextPage = $nextPage;
@@ -37,6 +40,7 @@ abstract class Aggregate
     public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'websiteId' => $this->websiteId,
             'url' => $this->url,
             'nextPage' => $this->nextPage === null ? null : [
@@ -55,6 +59,6 @@ abstract class Aggregate
 
     public function getId(): int
     {
-//        return $this->id;
+        return $this->id;
     }
 }

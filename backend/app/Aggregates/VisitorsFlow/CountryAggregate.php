@@ -19,8 +19,9 @@ class CountryAggregate extends Aggregate
         int $level,
         bool $isLastPage,
         string $country
-    ) {
-        parent::__construct($websiteId, $url, $nextPage, $prevPage, $views, $level, $isLastPage);
+    )
+    {
+        parent::__construct($id, $websiteId, $url, $nextPage, $prevPage, $views, $level, $isLastPage);
         $this->country = $country;
     }
 
@@ -35,11 +36,11 @@ class CountryAggregate extends Aggregate
             (int)$result['id'],
             (int)$result['websiteId'],
             (string)$result['url'],
-            new PageValue(
+            $result['nextPage'] === null ? null : new PageValue(
                 (int)$result['nextPage']['id'],
                 (string)$result['nextPage']['url']
             ),
-            new PageValue(
+            $result['prevPage'] === null ? null : new PageValue(
                 (int)$result['prevPage']['id'],
                 (string)$result['prevPage']['url']
             ),

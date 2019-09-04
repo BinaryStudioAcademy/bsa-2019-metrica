@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\CountryAggregate;
+use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
@@ -54,11 +55,11 @@ final class FlowAggregateService
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $countryAggregate = $this->countryRepository->save($countryAggregate);
+            dd($countryAggregate);
         }
     }
 
-    private
-    function getPreviousVisit(Visit $currentVisit): ?Visit
+    private function getPreviousVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
             ->sortBy(function (Visit $visit) {
@@ -69,14 +70,12 @@ final class FlowAggregateService
             });
     }
 
-    private
-    function getVisitsCount(Visit $currentVisit): int
+    private function getVisitsCount(Visit $currentVisit): int
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)->count();
     }
 
-    private
-    function createCountryAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): CountryAggregate
+    private function createCountryAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): CountryAggregate
     {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
@@ -84,7 +83,16 @@ final class FlowAggregateService
         $nextPage = null;
         $prevPage = null;
         if ($level !== 1) {
-            //сделать
+            //get previous aggregate
+            $previousAggregate = $this->countryRepository->getByParams(
+                $previousVisit->session->website_id,
+                $previousVisit->page->url,
+                $level - 1
+            );
+            $previousAggregate->nextPage = new PageValue($currentVisit->id, $currentVisit->page->url);
+            $previousAggregate->isLastPage = false;
+            $this->countryRepository->update($previousAggregate);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
         }
 
         $isLatPage = true;
