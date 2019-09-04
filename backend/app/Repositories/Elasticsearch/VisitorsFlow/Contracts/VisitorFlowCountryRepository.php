@@ -12,5 +12,5 @@ interface VisitorFlowCountryRepository
 
     public function update(Aggregate $tableAggregate): Aggregate;
 
-    public function getByCriteria(int $websiteId, string $url, int $level, string $country): ?CountryAggregate;
+    public function getByCriteria(Criteria $criteria): ?CountryAggregate;
 }

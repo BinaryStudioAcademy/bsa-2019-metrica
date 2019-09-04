@@ -9,9 +9,7 @@ use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
 
-class ElasticsearchVisitorFlowBrowserRepository implements
-    VisitorFlowBrowserRepository,
-    Criteria
+class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRepository
 {
     const INDEX_NAME = 'browser-visitors-flow';
     private $client;
@@ -45,30 +43,27 @@ class ElasticsearchVisitorFlowBrowserRepository implements
         return $countryAggregate;
     }
 
-    public function getCriteria(int $websiteId, string $url, int $level,string $browser): array
-    {
-        return [
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        ['match' => ['websiteId' => $websiteId]],
-                    ],
-                    'filter' => [
-                        ['term' => ['level' => $level]],
-                        ['match_phrase' => ['url' => $url]],
-                        ['match_phrase' => ['browser' => $browser]],
 
-                    ],
-                ]
-            ]
-        ];
-    }
 
-    public function getByCriteria(int $websiteId, string $url, int $level,string $browser): ?BrowserAggregate
+    public function getByCriteria(Criteria $criteria): ?BrowserAggregate
     {
         $params = [
             'index' => self::INDEX_NAME,
-            'body' => $this->getCriteria($websiteId, $url, $level)
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['match' => ['websiteId' => $criteria->websiteId]],
+                        ],
+                        'filter' => [
+                            ['term' => ['level' => $criteria->level]],
+                            ['match_phrase' => ['url' => $criteria->url]],
+                            ['match_phrase' => ['browser' => $criteria->browser]],
+
+                        ],
+                    ]
+                ]
+            ]
         ];
         try {
             $result = $this->client->search($params);

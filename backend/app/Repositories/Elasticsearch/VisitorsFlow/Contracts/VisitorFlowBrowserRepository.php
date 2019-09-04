@@ -12,5 +12,5 @@ interface VisitorFlowBrowserRepository
 
     public function update(Aggregate $browserAggregate): Aggregate;
 
-    public function getByCriteria(int $websiteId, string $url, int $level, string $browser): ?BrowserAggregate;
+    public function getByCriteria(Criteria $criteria): ?BrowserAggregate;
 }

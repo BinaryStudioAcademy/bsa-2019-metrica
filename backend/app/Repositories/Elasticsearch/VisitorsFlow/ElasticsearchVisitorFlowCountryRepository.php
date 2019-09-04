@@ -9,9 +9,7 @@ use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
 
-final class ElasticsearchVisitorFlowCountryRepository implements
-    VisitorFlowCountryRepository,
-    Criteria
+final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCountryRepository
 {
     const INDEX_NAME = 'country-visitors-flow';
     private $client;
@@ -45,29 +43,25 @@ final class ElasticsearchVisitorFlowCountryRepository implements
         return $countryAggregate;
     }
 
-    public function getCriteria(int $websiteId, string $url, int $level,string $country): array
-    {
-        return [
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        ['match' => ['websiteId' => $websiteId]],
-                    ],
-                    'filter' => [
-                        ['term' => ['level' => $level]],
-                        ['match_phrase' => ['url' => $url]],
-                        ['match_phrase' => ['country' => $country]],
-                    ],
-                ]
-            ]
-        ];
-    }
 
-    public function getByCriteria(int $websiteId, string $url, int $level,string $country): ?CountryAggregate
+    public function getByCriteria(Criteria $criteria): ?CountryAggregate
     {
         $params = [
             'index' => self::INDEX_NAME,
-            'body' => $this->getCriteria($websiteId, $url, $level, $country)
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['match' => ['websiteId' => $criteria->websiteId]],
+                        ],
+                        'filter' => [
+                            ['term' => ['level' => $criteria->level]],
+                            ['match_phrase' => ['url' => $criteria->url]],
+                            ['match_phrase' => ['country' => $criteria->country]],
+                        ],
+                    ]
+                ]
+            ]
         ];
         try {
             $result = $this->client->search($params);

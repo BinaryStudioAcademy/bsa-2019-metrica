@@ -13,6 +13,7 @@ use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\CountryCriteria;
 use Carbon\Carbon;
 
 final class FlowAggregateService
@@ -51,36 +52,37 @@ final class FlowAggregateService
             $level = 1;
         }
         $countryAggregate = $this->visitorFlowCountryRepository->getByCriteria(
-            $visit->session->website_id,
-            $visit->page->url,
-            $level,
-            $visit->geo_position->country
+            CountryCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $visit->geo_position->country)
         );
-        $browserAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
-            $visit->session->website_id,
-            $visit->page->url,
-            $level,
-            $visit->session->system->browser
-        );
+//        $browserAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
+//            $visit->session->website_id,
+//            $visit->page->url,
+//            $level,
+//            $visit->session->system->browser
+//        );
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $countryAggregate = $this->visitorFlowCountryRepository->save($countryAggregate);
-//            dd($countryAggregate);
+            dd($countryAggregate);
         } else {
             $countryAggregate->views++;
             $countryAggregate = $this->visitorFlowCountryRepository->update($countryAggregate);
-//            dd($countryAggregate);
+            dd($countryAggregate);
         }
 
-        if (!$browserAggregate) {
-            $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
-            $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
-            dd($browserAggregate);
-        } else {
-           $browserAggregate->views++;
-            $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
-            dd($browserAggregate);
-        }
+//        if (!$browserAggregate) {
+//            $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
+//            $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
+//            dd($browserAggregate);
+//        } else {
+//            $browserAggregate->views++;
+//            $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
+//            dd($browserAggregate);
+//        }
     }
 
     private function getPreviousVisit(Visit $currentVisit): ?Visit
@@ -107,10 +109,12 @@ final class FlowAggregateService
         $prevPage = null;
         if ($level !== 1) {
             $previousAggregate = $this->visitorFlowCountryRepository->getByCriteria(
-                $previousVisit->session->website_id,
-                $previousVisit->page->url,
-                $level - 1,
-                $previousVisit->geo_position->country
+                CountryCriteria::getCriteria(
+                    $previousVisit->session->website_id,
+                    $previousVisit->page->url,
+                    $level - 1,
+                    $previousVisit->geo_position->country
+                )
             );
             $previousAggregate->isLastPage = false;
             $this->visitorFlowCountryRepository->update($previousAggregate);
