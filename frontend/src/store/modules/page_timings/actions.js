@@ -1,7 +1,6 @@
 import {
     CHANGE_SELECTED_PERIOD,
     CHANGE_ACTIVE_BUTTON,
-    CHANGE_FETCHED_BUTTON_STATE,
     FETCH_BUTTONS_DATA,
     FETCH_BUTTON_DATA,
     FETCH_LINE_CHART_DATA,
@@ -38,13 +37,6 @@ export default {
         context.dispatch(FETCH_LINE_CHART_DATA);
         context.dispatch(FETCH_TABLE_DATA);
 
-    },
-    [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
-        if (data.value) {
-            context.commit(SET_BUTTON_FETCHING, data.button);
-        } else {
-            context.commit(RESET_BUTTON_FETCHING, data.button);
-        }
     },
     [FETCH_BUTTON_DATA]: (context, type) => {
         context.commit(SET_BUTTON_FETCHING, type);
