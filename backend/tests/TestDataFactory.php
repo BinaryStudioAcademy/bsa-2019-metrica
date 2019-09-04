@@ -64,7 +64,8 @@ class TestDataFactory
                 $sessions[] = factory(Session::class)->create(
                     [
                         'system_id' => $system->id,
-                        'language' => $language
+                        'language' => $language,
+                        'start_session' => new \DateTime('@' . rand($from, $to))
                     ]
                 );
             }
