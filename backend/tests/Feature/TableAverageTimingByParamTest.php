@@ -50,7 +50,7 @@ class TableAverageTimingByParamTest extends TestCase
     {
         factory('App\Entities\GeoPosition')->create();
         $this->website->pages()->save(factory('App\Entities\Page')->make());
-        foreach($this->browsers() as $browser) {
+        foreach ($this->browsers() as $browser) {
             factory('App\Entities\System')->create(['browser' => $browser])
                 ->sessions()->save(factory('App\Entities\Session')->make())
                 ->visits()->save(factory('App\Entities\Visit')->make($this->params()[0]));
@@ -88,7 +88,7 @@ class TableAverageTimingByParamTest extends TestCase
                 ->save(factory('App\Entities\Page')->make(['url' => $url])));
         }
         factory('App\Entities\Session')->create();
-        $pages->each(function($page, $index) use($params) {
+        $pages->each(function($page, $index) use ($params) {
             foreach($params as $param) {
                 $page->visits()->save(factory('App\Entities\Visit')
                     ->make($param));
@@ -124,7 +124,7 @@ class TableAverageTimingByParamTest extends TestCase
         $this->website->pages()->save(factory('App\Entities\Page')->make());
         factory('App\Entities\System')->create();
         factory('App\Entities\Session')->create();
-        foreach($this->countries() as $country) {
+        foreach ($this->countries() as $country) {
             factory('App\Entities\GeoPosition')->create(['country' => $country])
                 ->visits()->save(factory('App\Entities\Visit')->make($this->params()[2]));
         }

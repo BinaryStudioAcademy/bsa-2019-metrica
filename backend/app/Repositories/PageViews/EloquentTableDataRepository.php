@@ -45,7 +45,7 @@ class EloquentTableDataRepository implements TableDataRepository
             ->get();
 
         return $res->groupBy('geo_position.country')
-            ->map(function($item, $key) use($value) {
+            ->map(function($item, $key) use ($value) {
                 return new SpeedOverviewTableValue(
                     'country',
                     $key,
@@ -63,7 +63,7 @@ class EloquentTableDataRepository implements TableDataRepository
             ->with('page:id,url')
             ->get();
         return $res->groupBy('page.url')
-            ->map(function($item, $key) use($value) {
+            ->map(function($item, $key) use ($value) {
                 return new SpeedOverviewTableValue(
                     'page',
                     $key,

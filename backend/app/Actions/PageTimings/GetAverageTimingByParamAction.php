@@ -24,7 +24,7 @@ class GetAverageTimingByParamAction
         $value = $request->column();
 
         $result = null;
-        switch($parameter) {
+        switch ($parameter) {
             case 'browser':
                 $result = $this->repository->getAverageTimingByBrowser($period, $website_id, $value);
                 break;
