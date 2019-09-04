@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Entities\User;
 use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Exceptions\WebsiteNotFoundException;
@@ -77,9 +78,9 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         throw new WebsiteNotFoundException;
     }
 
-    public function makeUserWebsiteOwner(User $user, int $websitId): void
+    public function makeUserWebsiteOwner(User $user, int $websiteId): void
     {
-        $user->websites()->attach($websitId, [
+        $user->websites()->attach($websiteId, [
             'role' => 'owner']
         );
     }
