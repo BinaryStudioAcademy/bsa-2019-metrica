@@ -41,4 +41,9 @@ final class Website extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function visits()
+    {
+        return $this->hasManyThrough(Visit::class, Page::class);
+    }
 }

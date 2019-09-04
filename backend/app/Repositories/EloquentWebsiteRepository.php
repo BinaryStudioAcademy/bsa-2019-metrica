@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Entities\Website;
 use App\Entities\User;
+use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\UserRepository;
