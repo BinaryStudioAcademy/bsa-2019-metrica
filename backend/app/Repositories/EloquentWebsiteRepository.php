@@ -9,6 +9,7 @@ use App\Repositories\Contracts\WebsiteRepository;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Support\Collection;
+use App\DataTransformer\Teams\MemberWithMenuItems;
 
 final class EloquentWebsiteRepository implements WebsiteRepository
 {
@@ -98,16 +99,16 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         $user->websites()->detach($websiteId);
     }
 
-    public function getPermittedMenuItems(User $user, int $websiteId): Collection
+    public function getUsersWithPermittedMenu(int $websiteId): Collection
     {
-       $permittedMenu = $user->websites()
-            ->wherePivot('website_id', '=', $websiteId)
-            ->wherePivot('role', '=', 'member')
-            ->first()
-            ->pivot
-            ->permitted_menu;
-
-        return collect(explode(', ', $permittedMenu));
+        return Website::find($websiteId)
+                    ->users()
+                    ->wherePivot('role', 'member')
+                    ->get()
+                    ->map(function($member) use ($websiteId) {
+                        $menuItems = explode(', ', $member->pivot->permitted_menu);
+                        return new MemberWithMenuItems($member->id, $websiteId, $menuItems);
+                      });
     }
 
 }

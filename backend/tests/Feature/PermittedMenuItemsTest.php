@@ -19,13 +19,14 @@ class PermittedMenuItemsTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $secondUser;
     private $website;
     const ENDPOINT = '/api/v1/teams/menu-access/';
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setUser();
+        $this->setUsers();
         $this->seedDataBase();
     }
 
@@ -35,15 +36,28 @@ class PermittedMenuItemsTest extends TestCase
 
         $expected = [
                     "data" => [
-                        "user_id" => $this->user->id,
-                        "website_id" => $this->website->id,
-                        "permitted_menu" => [
-                            "visitors",
-                            "page-views",
-                            "geo-location",
-                            "behaviour",
-                            "screencast"
-                        ]
+                        [
+                            "user_id" => $this->secondUser->id,
+                            "website_id" => $this->website->id,
+                            "permitted_menu" => [
+                                "visitors",
+                                "page-views",
+                                "geo-location",
+                                "behaviour",
+                                "screencast"
+                            ]
+                        ],
+                        [
+                            "user_id" => $this->user->id,
+                            "website_id" => $this->website->id,
+                            "permitted_menu" => [
+                                "visitors",
+                                "page-views",
+                                "geo-location",
+                                "behaviour",
+                                "screencast"
+                            ]
+                        ],
                     ],
                     "meta" => []
                 ];
@@ -61,19 +75,18 @@ class PermittedMenuItemsTest extends TestCase
         ]);
     }
 
-    public function test_update_permitted_menu_items_for_team_member()
+    private function setUsers(): void
     {
-
-    }
-
-    private function setUser(): User
-    {
-        return $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->create();
+        $this->secondUser = factory(User::class)->create();
     }
 
     private function seedDataBase(): void
     {
         $this->website = factory(Website::class)->create();
+        $this->secondUser->websites()->attach($this->website->id, [
+            'role' => 'member'
+        ]);
         $this->user->websites()->attach($this->website->id, [
             'role' => 'member'
         ]);

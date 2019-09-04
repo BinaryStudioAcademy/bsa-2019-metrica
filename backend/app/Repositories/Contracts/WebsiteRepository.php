@@ -17,5 +17,5 @@ interface WebsiteRepository
     public function setWebsiteOwner(User $user, int $websiteId): void;
     public function addTeamMemberToWebsite(User $user, int $websiteId): void;
     public function removeMemberFromWebsiteTeam(User $user, int $websiteId): void;
-    public function getPermittedMenuItems(User $user, int $websiteId): Collection;
+    public function getUsersWithPermittedMenu(int $websiteId): Collection;
 }

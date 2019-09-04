@@ -69,7 +69,9 @@ final class TeamController extends Controller
             GetPermittedMenuItemsRequest::fromRequest($request, $id)
         );
 
-        return ApiResponse::success(new PermittedMenuResource($response));
+        return ApiResponse::success(
+            new PermittedMenuResource($response->membersWithMenuItems())
+        );
     }
 
 }

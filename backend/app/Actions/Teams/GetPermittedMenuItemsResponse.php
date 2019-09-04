@@ -8,29 +8,15 @@ use Illuminate\Support\Collection;
 
 final class GetPermittedMenuItemsResponse
 {
-    private $menu;
-    private $websiteId;
-    private $memberId;
+    private $membersWithMenuItems;
 
-    public function __construct(Collection $menu, int $websiteId, int $memberId)
+    public function __construct(Collection $membersWithMenuItems)
     {
-        $this->menu = $menu;
-        $this->websiteId = $websiteId;
-        $this->memberId = $memberId;
+        $this->membersWithMenuItems = $membersWithMenuItems;
     }
 
-    public function menu(): Collection
+    public function membersWithMenuItems(): Collection
     {
-        return $this->menu;
-    }
-
-    public function websiteId(): int
-    {
-        return $this->websiteId;
-    }
-
-    public function memberId(): int
-    {
-        return $this->memberId;
+        return $this->membersWithMenuItems;
     }
 }
