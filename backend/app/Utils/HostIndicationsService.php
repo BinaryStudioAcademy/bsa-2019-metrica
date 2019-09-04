@@ -8,7 +8,7 @@ class HostIndicationsService
     public function getDomainLookupTime(string $domain): ?int
     {
         $startTime = microtime(true);
-        $ip = gethostbyname(preg_replace('/^http[s]?:\/\//i', '', $domain));
+        $ip = gethostbyname($this->getClearDomain($domain));
         $stopTime  = microtime(true);
 
         if ($ip === $domain) {
@@ -18,9 +18,9 @@ class HostIndicationsService
         return $this->getDifferenceInMilliseconds($stopTime, $startTime);
     }
 
-    public function getServerResponseTime(string $pageUrl): ?int
+    public function getServerResponseTime(string $domain, string $url): ?int
     {
-        $info = $this->getInfo($pageUrl);
+        $info = $this->getInfo($this->getClearDomain($domain).'/'.$this->getClearUrl($url));
 
         if (!$info) {
             return null;
@@ -48,5 +48,15 @@ class HostIndicationsService
     {
         $status = ($stopTime - $startTime) * 1000;
         return floor($status);
+    }
+
+    private function getClearDomain(string $domain): string
+    {
+        return preg_replace('/^http[s]?:\/\//i', '', $domain);
+    }
+
+    private function getClearUrl(string $url): string
+    {
+        return preg_replace('/^[\/]/i', '', $url);
     }
 }

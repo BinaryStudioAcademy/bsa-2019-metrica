@@ -33,7 +33,9 @@ class CreateVisitorTest extends TestCase
 
     public function test_create_visitor_no_header()
     {
-        $this->postJson(self::ENDPOINT)
+        $this->postJson(self::ENDPOINT, [], [
+            'Origin' => $this->website->domain
+        ])
             ->assertStatus(400)
             ->assertJson([
                 'error' => [
@@ -45,8 +47,9 @@ class CreateVisitorTest extends TestCase
     public function test_create_visitor_wrong_header()
     {
         $this->postJson(self::ENDPOINT, [], [
-                'x-website' => self::INVALID_TRACKING_NUMBER
-            ])
+            'x-website' => self::INVALID_TRACKING_NUMBER,
+            'Origin' => $this->website->domain
+        ])
             ->assertStatus(404)
             ->assertJson([
                 'error' => [
@@ -58,8 +61,9 @@ class CreateVisitorTest extends TestCase
     public function test_create_visitor_valid_header()
     {
         $this->postJson(self::ENDPOINT, [], [
-                'x-website' => self::VALID_TRACKING_NUMBER
-            ])
+            'x-website' => self::VALID_TRACKING_NUMBER,
+            'Origin' => $this->website->domain
+        ])
             ->assertStatus(201)
             ->assertJsonStructure([
                 'data' => [

@@ -84,6 +84,21 @@ PUSHER_CLUSTER=
 PUSHER_AUTH_ENDPOINT=/broadcasting/auth
 ```
 
+### Build tracking JS script
+
+Setup `.env` file in the frontend directory
+
+```
+VUE_APP_API_URL=
+VUE_APP_URL=
+```
+
+then run command
+
+```bash
+docker-compose exec frontend npm run build:script
+```
+
 ### Contributors
 
 [<img src="https://avatars.githubusercontent.com/u/50488599?s=25&v=3" title="ltopchyi" width=25 height=25/>](https://github.com/ltopchyi)
