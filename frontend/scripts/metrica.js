@@ -36,19 +36,23 @@
             if(metricaConfig === undefined) {
                 window._metricaTrackingConfig = [];
             }
-            if(metricaConfig[0][0] !== 'dateStart' || metricaConfig[0][1] === undefined) {
-                metricaConfig[0][0] = 'dateStart';
-                metricaConfig[0][1] = new Date();
+            if(!('dateStart' in metricaConfig) || metricaConfig['dateStart'] === undefined) {
+                metricaConfig.push('dateStart', new Date());
             }
 
-            if(metricaConfig[1][0] !== 'tracking_id' || metricaConfig[1][1] === undefined) {
-                metricaConfig[1][0] = 'tracking_id';
+            if(!('tracking_id' in metricaConfig) || metricaConfig['tracking_id'] === undefined) {
                 let myScript = document.querySelector(`script[src^='${state.host}metrica.js?']`);
-                metricaConfig[1][1] = (myScript.src.split('tracking_id' + '=')[1] || '').split('&')[0];
+                metricaConfig.push('tracking_id', this.getSearchParams('tracking_id'));
             }
 
             this.configMetrica = metricaConfig;
 
+        },
+        getSearchParams(k){
+            let params = {};
+            let myScript = document.querySelector(`script[src^='${state.host}metrica.js?']`);
+            myScript.src.replace(/[?&]+([^=&]+)=([^&]*)/gi,(s,k,v) => {params[k] = v});
+            return k ? params[k] : params;
         },
         getObjectMetricaConf() {
             return this.configMetrica;
@@ -306,14 +310,13 @@
         }
     };
     const onDomReady = () => {
-            if(document.readyState !== 'complete') {
-                window.onload = () => {
-                    window._metricaTracking.endTime = new Date();
-                    window._metricaTracking.initialize();
-                };
-            }
+        window._metricaTracking.endTime = new Date();
+        window._metricaTracking.initialize();
     };
-    try {
+
+    if (document.readyState !== 'complete') {
+        window.onload = onDomReady;
+    } else {
         onDomReady();
-    } catch (err) {}
+    }
 })();

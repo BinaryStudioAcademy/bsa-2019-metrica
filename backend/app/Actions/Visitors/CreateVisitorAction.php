@@ -12,6 +12,7 @@ use App\Actions\Visitors\CreateVisitorResponse;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Entities\Visitor;
+use App\Exceptions\WebsiteDomainNotValidException;
 
 class CreateVisitorAction
 {
@@ -28,9 +29,15 @@ class CreateVisitorAction
 
     public function execute(CreateVisitorRequest $request)
     {
-        $websiteId = $this->websiteRepository
-                          ->getByTrackNumber($request->trackNumber())
-                          ->id;
+        $origin = $request->origin();
+        $website = $this->websiteRepository
+            ->getByTrackNumber($request->trackNumber());
+
+        if ($website->domain !== $origin) {
+            throw new WebsiteDomainNotValidException();
+        }
+
+        $websiteId = $website->id;
 
         $visitorInstance = Visitor::make([
             'website_id' => $websiteId,
