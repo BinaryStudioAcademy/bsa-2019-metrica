@@ -32,15 +32,17 @@ class InitVisitorsSeeder extends Seeder
     private function createVisitorWithVisits(DateTime $createdDate, int $countVisits)
     {
         $faker = Faker::create();
-        $visitor = factory(Visitor::class)->create([
-            'created_at' => $createdDate,
-            'last_activity' => $createdDate,
-            'website_id' => $this->user->website->id,
-        ]);
 
         $userWebsite = $this->user->websites->filter(function($website) {
             return $website->pivot->role === 'owner';
         })->first();
+
+        $visitor = factory(Visitor::class)->create([
+            'created_at' => $createdDate,
+            'last_activity' => $createdDate,
+            'website_id' => $userWebsite->id,
+        ]);
+
 
         $session = factory(Session::class)->create([
             'start_session' => $visitor->created_at,
