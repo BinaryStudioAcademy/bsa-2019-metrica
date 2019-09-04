@@ -9,10 +9,11 @@ use Illuminate\Support\Carbon;
 class GetSessionsByParameterTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     const ENDPOINT = 'api/v1/sessions/param';
 
     private $user;
+    private $website;
     private $from;
     private $to;
 
@@ -22,8 +23,11 @@ class GetSessionsByParameterTest extends TestCase
         $this->from = Carbon::now()->subDays(3);
         $this->to = Carbon::now();
         $this->user = factory('App\Entities\User')->create();
-        $this->user->website()->save(factory('App\Entities\Website')->make())
-            ->pages()->save(factory('App\Entities\Page')->make());
+        $this->website = factory('App\Entities\Website')->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        $this->website->pages()->save(factory('App\Entities\Page')->make());
         factory('App\Entities\Visitor')->create();
         factory('App\Entities\GeoPosition')->create();
         factory('App\Entities\System')->create();
@@ -193,7 +197,8 @@ class GetSessionsByParameterTest extends TestCase
             'filter' => [
                 'startDate' => (string)$this->from->timestamp,
                 'endDate' => (string)$this->to->timestamp,
-                'parameter' => $parameter
+                'parameter' => $parameter,
+                'website_id' => $this->website->id
             ],
         ];
     }

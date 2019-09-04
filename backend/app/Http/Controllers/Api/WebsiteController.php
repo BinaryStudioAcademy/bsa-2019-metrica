@@ -45,9 +45,9 @@ final class WebsiteController
         return ApiResponse::success(new WebsiteResource($response->getWebsite()));
     }
 
-    public function getCurrentUserWebsite(): ApiResponse
+    public function getCurrentUserWebsite(int $websiteId): ApiResponse
     {
-        $response = $this->getCurrentUserWebsiteAction->execute();
+        $response = $this->getCurrentUserWebsiteAction->execute($websiteId);
         return ApiResponse::success(new WebsiteResource($response->website()));
     }
 }

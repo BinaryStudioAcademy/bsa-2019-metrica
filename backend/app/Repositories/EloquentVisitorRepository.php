@@ -39,12 +39,12 @@ final class EloquentVisitorRepository implements VisitorRepository
         $visitor->save();
     }
 
-    public function countVisitorsBetweenDate(DatePeriod $period): int
+    public function countVisitorsBetweenDate(DatePeriod $period, int $websiteId): int
     {
         return Visitor::whereHas('sessions', function (Builder $query) use ($period) {
             $query->whereDateBetween($period);
         })
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->count();
     }
 
@@ -60,7 +60,7 @@ final class EloquentVisitorRepository implements VisitorRepository
             ->count();
     }
 
-    public function countSinglePageInactiveSessionBetweenDate(DatePeriod $period): int
+    public function countSinglePageInactiveSessionBetweenDate(DatePeriod $period, int $websiteId): int
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($period) {
@@ -68,7 +68,7 @@ final class EloquentVisitorRepository implements VisitorRepository
                     ->has('visits', '=', '1')
                     ->inactive($period->getEndDate());
             })
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->count();
     }
 
@@ -77,9 +77,9 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::where('website_id', $websiteId)->get();
     }
 
-    public function countAllVisitorsGroupByCountry(string $startDate, string $endDate): Collection
+    public function countAllVisitorsGroupByCountry(string $startDate, string $endDate, int $websiteId): Collection
     {
-        return Visitor::forUserWebsite()
+        return Visitor::whereWebsiteId($websiteId)
                 ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
                 ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
                 ->select(DB::raw('count(visitors.id) as all_visitors_count, geo_positions.country as country'))
@@ -88,9 +88,9 @@ final class EloquentVisitorRepository implements VisitorRepository
                 ->get();
     }
 
-    public function countNewVisitorsGroupByCountry(string $startDate, string $endDate): Collection
+    public function countNewVisitorsGroupByCountry(string $startDate, string $endDate, int $websiteId): Collection
     {
-        return Visitor::forUserWebsite()
+        return Visitor::whereWebsiteId($websiteId)
             ->where('visitors.created_at', '>', $startDate)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
@@ -100,7 +100,7 @@ final class EloquentVisitorRepository implements VisitorRepository
             ->get();
     }
 
-    public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate): Collection
+    public function countInactiveSingleVisitSessionGroupByCountry(string $startDate, string $endDate, int $websiteId): Collection
     {
         return Visitor::has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($startDate, $endDate) {
@@ -108,7 +108,7 @@ final class EloquentVisitorRepository implements VisitorRepository
                     ->where('updated_at', '<', (new Carbon($endDate))->subMinutes(30)->toDateTimeString())
                     ->whereBetween('start_session', [$startDate, $endDate]);
             })
-            ->forUserWebsite()
+            ->whereWebsiteId($websiteId)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
             ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.country as country'))
@@ -119,7 +119,7 @@ final class EloquentVisitorRepository implements VisitorRepository
     {
         $subQueryFirst = "SELECT page_id, visitor_id, max(created_at) over(partition by page_id) max_date FROM visits";
         $subQuerySecond = "select v.visitor_id, p.url, v.max_date from (".$subQueryFirst .") v ";
-        $subQueryThird = "left join visitors vs ON v.visitor_id = vs.id 
+        $subQueryThird = "left join visitors vs ON v.visitor_id = vs.id
         left join pages p ON v.page_id = p.id
         WHERE v.max_date > NOW() - interval '5 minute'
         AND vs.website_id =".$websiteId." group by v.visitor_id ,p.url, v.max_date order by v.visitor_id desc";

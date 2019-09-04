@@ -42,6 +42,8 @@ use App\Actions\Visitors\GetNewVisitorsCountAction;
 use App\Http\Resources\TableResource;
 use App\Http\Requests\Visitor\GetNewVisitorsCountByParameterHttpRequest;
 use App\Actions\Visitors\GetNewVisitorsCountRequest;
+use App\Http\Requests\Visitor\GetAllActivityVisitorHttpRequest;
+use App\Actions\Visitors\GetAllActivityVisitorRequest;
 
 final class VisitorController extends Controller
 {
@@ -80,16 +82,20 @@ final class VisitorController extends Controller
         $this->getVisitorsBounceRateByParameterAction = $getVisitorsBounceRateByParameterAction;
     }
 
-    public function getAllVisitors(): ApiResponse
+    public function getAllVisitors(GetAllActivityVisitorHttpRequest $request): ApiResponse
     {
-        $response = $this->getAllVisitorsAction->execute();
+        $response = $this->getAllVisitorsAction->execute(
+        GetAllActivityVisitorRequest::fromRequest($request)
+    );
 
         return ApiResponse::success(new VisitorResourceCollection($response->visitors()));
     }
 
-    public function getNewVisitors(): ApiResponse
+    public function getNewVisitors(GetAllActivityVisitorHttpRequest $request): ApiResponse
     {
-        $response = $this->getNewVisitorsAction->execute();
+        $response = $this->getNewVisitorsAction->execute(
+        GetAllActivityVisitorRequest::fromRequest($request)
+    );
 
         return ApiResponse::success(new VisitorResourceCollection($response->visitors()));
     }
@@ -155,9 +161,11 @@ final class VisitorController extends Controller
         return ApiResponse::success(new TableResource($response->visitors()));
     }
 
-    public function getActivityVisitors(): ApiResponse
+    public function getActivityVisitors(GetAllActivityVisitorHttpRequest $request): ApiResponse
     {
-        $response = $this->getAllActivityVisitorAction->execute();
+        $response = $this->getAllActivityVisitorAction->execute(
+            GetAllActivityVisitorRequest::fromRequest($request)
+        );
         return ApiResponse::success(new ActivityVisitorItemResource($response->items()));
     }
 

@@ -1,5 +1,6 @@
 export default {
     currentWebsite: {
+        id: 0,
         name: '',
         domain: '',
         single_page: false,

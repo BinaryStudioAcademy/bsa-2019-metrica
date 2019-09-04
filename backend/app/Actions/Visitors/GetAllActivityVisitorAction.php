@@ -7,6 +7,7 @@ namespace App\Actions\Visitors;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\VisitorRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Actions\Visitors\GetAllActivityVisitorRequest;
 
 final class GetAllActivityVisitorAction
 {
@@ -17,13 +18,10 @@ final class GetAllActivityVisitorAction
         $this->visitorRepository = $visitorRepository;
     }
 
-    public function execute(): GetAllActivityVisitorResponse
+    public function execute(GetAllActivityVisitorRequest $request): GetAllActivityVisitorResponse
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
+
         $visitors = $this->visitorRepository->getAllActivityVisitors($websiteId);
 
         return new GetAllActivityVisitorResponse($visitors);

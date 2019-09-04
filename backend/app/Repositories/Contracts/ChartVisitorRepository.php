@@ -12,6 +12,6 @@ interface ChartVisitorRepository
     public function getTotalVisitorsByDateRange(
         DatePeriod $datePeriod,
         string $period,
-        int $userId
+        int $websiteId
     ): Collection;
 }

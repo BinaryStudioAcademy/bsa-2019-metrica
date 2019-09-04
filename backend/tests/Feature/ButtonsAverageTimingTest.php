@@ -3,6 +3,7 @@
 
 namespace Tests\Feature;
 
+use App\Entities\Website;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -19,6 +20,7 @@ class ButtonsAverageTimingTest extends TestCase
     private $from;
     private $to;
     private $page;
+    private $website;
 
     protected function setUp(): void
     {
@@ -26,9 +28,11 @@ class ButtonsAverageTimingTest extends TestCase
         $this->from = \Illuminate\Support\Carbon::now()->subDays(3);
         $this->to = Carbon::now();
         $this->user = factory('App\Entities\User')->create();
-        $this->user->website()->save(factory('App\Entities\Website')->make());
-        $this->page = $this->user->website
-            ->pages()->save(factory('App\Entities\Page')->make());
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        $this->page = $this->website->pages()->save(factory('App\Entities\Page')->make());
         factory('App\Entities\Visitor')->create();
         factory('App\Entities\GeoPosition')->create();
         factory('App\Entities\System')->create();
@@ -40,8 +44,11 @@ class ButtonsAverageTimingTest extends TestCase
         };
 
         //visit for another website
-        factory('App\Entities\Website')->create()
-            ->pages()->save(factory('App\Entities\Page')->make())
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        $this->website->pages()->save(factory('App\Entities\Page')->make())
             ->visits()->save(factory('App\Entities\Visit')->make([
             'page_load_time' => 100,
             'domain_lookup_time' => 50,
@@ -62,7 +69,8 @@ class ButtonsAverageTimingTest extends TestCase
         return [
             'filter' => [
                 'startDate' => strval($this->from->timestamp),
-                'endDate' => strval($this->to->timestamp)
+                'endDate' => strval($this->to->timestamp),
+                'website_id' => $this->website->id
             ]
         ];
     }
@@ -82,7 +90,8 @@ class ButtonsAverageTimingTest extends TestCase
             ->json('GET', self::PAGE_LOAD, ['filter' =>
                 [
                     'startDate' => (string)$this->from->timestamp,
-                    'endDate' => '0'
+                    'endDate' => '0',
+                    'website_id' => $this->website->id
                 ],
             ])
             ->assertStatus(400)
@@ -94,28 +103,31 @@ class ButtonsAverageTimingTest extends TestCase
         $this->actingAs($this->user)
             ->json('GET', self::PAGE_LOAD, $this->query())
             ->assertStatus(200)
-            ->assertJsonFragment(
-                [
-                    "value" => "350"
-                ]
-            );
+            ->assertJsonFragment([
+                "data" => [
+                    "value" => "100"
+                ],
+                "meta" => []
+            ]);
 
         $this->actingAs($this->user)
             ->json('GET', self::DNS_LOOKUP, $this->query())
             ->assertStatus(200)
-            ->assertJsonFragment(
-                [
-                    "value" => "75"
-                ]
-            );
+            ->assertJsonFragment([
+                "data" => [
+                    "value" => "50"
+                ],
+                "meta" => []
+            ]);
 
         $this->actingAs($this->user)
             ->json('GET', self::SERVER_RESPONSE, $this->query())
             ->assertStatus(200)
-            ->assertJsonFragment(
-                [
-                    "value" => "250"
-                ]
-            );
+            ->assertJsonFragment([
+                "data" => [
+                    "value" => "150"
+                ],
+                "meta" => []
+            ]);
     }
 }

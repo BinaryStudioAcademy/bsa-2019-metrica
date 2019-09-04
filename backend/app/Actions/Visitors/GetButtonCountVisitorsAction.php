@@ -19,7 +19,7 @@ final class GetButtonCountVisitorsAction
 
     public function execute(GetButtonCountVisitorsRequest $request)
     {
-        $websiteId = Auth::user()->website->id;
+        $websiteId = $request->websiteId();
         $count = $this->repository->getVisitorsCount($request->period(), $websiteId, Auth::user()->id);
         return new ButtonValue((string) $count);
     }

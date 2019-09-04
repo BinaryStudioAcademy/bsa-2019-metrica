@@ -1,4 +1,10 @@
-import {SAVE_NEW_WEBSITE, SET_WEBSITE_DATA, FETCH_CURRENT_WEBSITE, UPDATE_WEBSITE, RESET_DATA} from './types/actions';
+import {
+    SAVE_NEW_WEBSITE,
+    SET_WEBSITE_DATA,
+    FETCH_CURRENT_WEBSITE,
+    UPDATE_WEBSITE,
+    RESET_DATA
+} from './types/actions';
 import {
     SET_CURRENT_WEBSITE,
     UPDATE_CURRENT_WEBSITE,
@@ -17,7 +23,8 @@ export default {
 
     [FETCH_CURRENT_WEBSITE]: (context) => {
         context.commit(SET_FETCH_TRUE);
-        return getCurrentUserWebsite().then(response => {
+        const id = context.state.currentWebsite.id;
+        return getCurrentUserWebsite(id).then(response => {
             context.commit(SET_CURRENT_WEBSITE, response.data);
         }).catch(() => {
             context.commit(RESET_CURRENT_WEBSITE);
