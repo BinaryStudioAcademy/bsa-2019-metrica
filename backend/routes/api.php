@@ -103,6 +103,9 @@ Route::prefix('v1')->group(function () {
             Route::get('/table/page-loading', 'PageTimingController@getAveragePageLoadingTimeForParam');
             Route::get('/table/domain-lookup', 'PageTimingController@getAverageDomainLookupTimeForParam');
             Route::get('/table/server-response', 'PageTimingController@getAverageServerResponseTimeForParam');
+            Route::get('/button/page-loading', 'PageTimingController@getAveragePageLoading');
+            Route::get('/button/domain-lookup', 'PageTimingController@getAverageDomainLookupTime');
+            Route::get('/button/server-response', 'PageTimingController@getAverageServerResponseTime');
         });
 
         Route::group([

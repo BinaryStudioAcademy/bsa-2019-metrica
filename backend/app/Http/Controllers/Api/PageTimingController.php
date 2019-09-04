@@ -15,14 +15,22 @@ use App\Http\Requests\PageTimings\PageTimingChartHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Resources\SpeedOverviewTableResource;
 use App\Http\Response\ApiResponse;
+use App\Actions\PageTimings\GetAverageTimingAction;
+use App\Http\Requests\System\FilterByPeriodHttpRequest;
+use App\Http\Resources\ButtonResource;
+use App\Actions\PageTimings\GetAverageTimingRequest;
 
 final class PageTimingController extends Controller
 {
-    private $getAverageValueAction;
+    private $getAverageTimingAction;
+    private $getAverageTimingByParamAction;
 
-    public function __construct(GetAverageTimingByParamAction $getAverageValueAction)
-    {
-        $this->getAverageValueAction = $getAverageValueAction;
+    public function __construct(
+        GetAverageTimingAction $getAveragePageLoadTimeAction,
+        GetAverageTimingByParamAction $getAverageTimingByParamAction
+    ) {
+        $this->getAverageTimingAction = $getAveragePageLoadTimeAction;
+        $this->getAverageTimingByParamAction = $getAverageTimingByParamAction;
     }
 
     public function getPageLoadingChartData(PageTimingChartHttpRequest $request, GetPageLoadingChartAction $action)
@@ -43,9 +51,33 @@ final class PageTimingController extends Controller
         return ApiResponse::success(new ChartResource($response->getCollection()));
     }
 
+    public function getAveragePageLoading(FilterByPeriodHttpRequest $request): ApiResponse
+    {
+        $average = $this->getAverageTimingAction->execute(
+            new GetAverageTimingRequest($request, 'page_load_time')
+        );
+        return ApiResponse::success(new ButtonResource($average));
+    }
+
+    public function getAverageDomainLookupTime(FilterByPeriodHttpRequest $request): ApiResponse
+    {
+        $average = $this->getAverageTimingAction->execute(
+            new GetAverageTimingRequest($request, 'domain_lookup_time')
+        );
+        return ApiResponse::success(new ButtonResource($average));
+    }
+
+    public function getAverageServerResponseTime(FilterByPeriodHttpRequest $request): ApiResponse
+    {
+        $average = $this->getAverageTimingAction->execute(
+            new GetAverageTimingRequest($request, 'server_response_time')
+        );
+        return ApiResponse::success(new ButtonResource($average));
+    }
+
     public function getAveragePageLoadingTimeForParam(PageTimingTableHttpRequest $request)
     {
-        $results = $this->getAverageValueAction->execute(
+        $results = $this->getAverageTimingByParamAction->execute(
             new GetAverageTimingByParamRequest($request, 'page_load_time')
         );
         return ApiResponse::success(new SpeedOverviewTableResource($results));
@@ -53,7 +85,7 @@ final class PageTimingController extends Controller
 
     public function getAverageDomainLookupTimeForParam(PageTimingTableHttpRequest $request)
     {
-        $results = $this->getAverageValueAction->execute(
+        $results = $this->getAverageTimingByParamAction->execute(
             new GetAverageTimingByParamRequest($request, 'domain_lookup_time')
         );
         return ApiResponse::success(new SpeedOverviewTableResource($results));
@@ -61,7 +93,7 @@ final class PageTimingController extends Controller
 
     public function getAverageServerResponseTimeForParam(PageTimingTableHttpRequest $request)
     {
-        $results = $this->getAverageValueAction->execute(
+        $results = $this->getAverageTimingByParamAction->execute(
             new GetAverageTimingByParamRequest($request, 'server_response_time')
         );
         return ApiResponse::success(new SpeedOverviewTableResource($results));

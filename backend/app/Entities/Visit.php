@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
-use Carbon\Carbon;
 use App\Utils\DatePeriod;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
