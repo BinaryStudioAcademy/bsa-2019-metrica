@@ -31,7 +31,8 @@
             <PageTimingsTable
                 @change="changeGroupedParameter"
                 :items="tableData.items"
-                :option="option"
+                :label="label"
+                :value="getGroupedParameter"
             />
         </VRow>
     </ContentLayout>
@@ -49,7 +50,8 @@
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
         GET_LINE_CHART_DATA,
-        GET_TABLE_DATA
+        GET_TABLE_DATA,
+        GET_GROUPED_PARAMETER
     } from "@/store/modules/page_timings/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
@@ -97,9 +99,10 @@
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
-                tableData: GET_TABLE_DATA
+                tableData: GET_TABLE_DATA,
+                getGroupedParameter: GET_GROUPED_PARAMETER
             }),
-            option() {
+            label() {
                 const type = this.currentActiveButton;
                 return this.buttons[type]['title'];
             }

@@ -13,12 +13,12 @@
                     prefix="Show"
                     :items="options"
                     flat
-                    v-model="selected"
+                    :value="value"
                     @change="changeSelect"
                 />
             </VCol>
             <VCol>
-                {{ option }}
+                {{ label }}
             </VCol>
         </VRow>
         <VDataTable
@@ -33,20 +33,23 @@
 
 <script>
     export default {
-        name: 'GroupedTable',
+        name: 'PageTimingsTable',
         props: {
             items: {
                 type: Array,
                 required: true
             },
-            option: {
+            label: {
+                type: String,
+                required: true
+            },
+            value: {
                 type: String,
                 required: true
             }
         },
         data () {
             return {
-                selected: 'browser',
                 options: [
                     {
                         text: 'Page',
@@ -69,7 +72,7 @@
         },
         methods: {
             changeSelect () {
-                this.$emit('change', this.selected);
+                this.$emit('change', this.value);
             }
         }
     };

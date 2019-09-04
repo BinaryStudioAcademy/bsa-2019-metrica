@@ -14,7 +14,7 @@ const chartTransformer = (item) => {
 const tableTransformer = (item) => {
     return {
         'name': item.parameter_value,
-        'value': item.average_time
+        'value': item.average_time / 1000
     };
 };
 
