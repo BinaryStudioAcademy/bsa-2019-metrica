@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories\PageViews;
 
-
 use App\Contracts\Common\DatePeriod;
 use App\DataTransformer\SpeedOverviewTableValue;
 use App\Entities\Website;
