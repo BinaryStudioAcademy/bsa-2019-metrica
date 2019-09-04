@@ -50,12 +50,10 @@ final class FlowAggregateService
             $visit->page->url,
             $level
         );
-        $countryAggregate = null;
 
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $countryAggregate = $this->countryRepository->save($countryAggregate);
-            dd($countryAggregate);
         }
     }
 
@@ -101,6 +99,7 @@ final class FlowAggregateService
             $currentVisit->id,
             $website->id,
             $page->url,
+            $page->name,
             $nextPage,
             $prevPage,
             $views,
