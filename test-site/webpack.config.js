@@ -1,9 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Dotenv = require('dotenv-webpack');
 
-const script = (appUrl, trackingNumber, hash) => `
+const script = (appUrl, trackingNumber, hash = '') => `
 	<script id="metrica" async src="${appUrl}metrica.js?tracking_id=${trackingNumber}${hash}" ></script>
 	<script>
 		window._metricaTrackingConfig = window._metricaTrackingConfig || [];
@@ -29,25 +28,30 @@ const createPage = (name, title, hash) => new HtmlWebpackPlugin({
 	}
 });
 
-module.exports = {
-	context: __dirname,
-	entry: './index.js',
-	output: {
-		path: path.resolve(__dirname, './dist'),
-		filename: 'bundle.js'
-	},
-	module: {
-		rules: [
-			{ test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] }
-		]
-	},
-	plugins: [
-		createPage('index', 'home'),
-		createPage('about', 'about'),
-		createPage('contact', 'contact'),
-		createPage('portfolio', 'portfolio', `&hash=${Date.now()}`),
-		new MiniCssExtractPlugin({ filename: 'src/main.css' }),
-		new Dotenv()
-	],
-	mode: 'production'
+module.exports = (env) => {
+	require('dotenv').config({
+		path: './.env' + ((env || {}).APP_ENV || '')
+	});
+
+	return {
+		context: __dirname,
+		entry: './index.js',
+		output: {
+			path: path.resolve(__dirname, './dist'),
+			filename: 'bundle.js'
+		},
+		module: {
+			rules: [
+				{ test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] }
+			]
+		},
+		plugins: [
+			createPage('index', 'home'),
+			createPage('about', 'about'),
+			createPage('contact', 'contact'),
+			createPage('portfolio', 'portfolio', `&hash=${Date.now()}`),
+			new MiniCssExtractPlugin({ filename: 'src/main.css' })
+		],
+		mode: 'production'
+	};
 };
