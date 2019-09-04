@@ -4,7 +4,6 @@ import {
     CHANGE_FETCHED_BUTTON_STATE,
     FETCH_BUTTONS_DATA,
     FETCH_BUTTON_DATA,
-    CHANGE_FETCHED_LINE_CHART_STATE,
     FETCH_LINE_CHART_DATA,
     CHANGE_GROUPED_PARAMETER,
     CHANGE_FETCHED_TABLE_STATE,
@@ -64,14 +63,6 @@ export default {
                 context.commit(RESET_BUTTON_FETCHING, type);
                 throw err;
             });
-    },
-    [CHANGE_FETCHED_LINE_CHART_STATE]: (context, value) => {
-
-        if (value) {
-            context.commit(SET_LINE_CHART_FETCHING);
-        } else {
-            context.commit(RESET_LINE_CHART_FETCHING);
-        }
     },
     [FETCH_LINE_CHART_DATA]: (context) => {
         context.commit(SET_LINE_CHART_FETCHING);
