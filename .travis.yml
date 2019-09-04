@@ -6,6 +6,9 @@ env:
     - DOCKER_COMPOSE_VERSION=1.22.0
   global:
     - PATH=$HOME/.local/bin:$PATH
+addons:
+  hosts:
+    - site.metrica.fun
 cache:
   directories:
     - frontend/node_modules
@@ -16,23 +19,26 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
+  - sudo sysctl -w vm.max_map_count=262144
   - pip install requests[security]
   - pip install --user awscli
   - sudo groupadd -g 1000 metrica-group
   - sudo usermod -a -G 1000 travis
   - $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
-  - docker-compose -f docker-compose.test.yml run --rm node npm install
+  - cp backend/.env.travis backend/.env
+  - cp frontend/.env.travis frontend/.env
+  - docker-compose -f docker-compose.test.yml run --rm node npm ci
   - docker-compose -f docker-compose.test.yml run --rm node npm run build
   - ./.scripts/build.sh app
   - ./.scripts/build.sh webserver
 script:
-  - cp backend/.env.travis backend/.env
   - docker-compose -f docker-compose.test.yml up -d
   - docker-compose -f docker-compose.test.yml ps
   - docker-compose -f docker-compose.test.yml exec app composer install
   - docker-compose -f docker-compose.test.yml exec app php artisan key:generate
   - docker-compose -f docker-compose.test.yml exec app php artisan jwt:secret
-  - docker-compose -f docker-compose.test.yml exec app php artisan migrate --seed --force
+  - docker-compose -f docker-compose.test.yml exec app php artisan migrate
+  - docker-compose -f docker-compose.test.yml exec app php artisan db:seed --class=DefaultUserAndWebsiteSeeder
   - docker-compose -f docker-compose.test.yml exec app ./vendor/bin/phpunit
   - docker-compose -f docker-compose.test.yml run node npm run lint
 after_script:
