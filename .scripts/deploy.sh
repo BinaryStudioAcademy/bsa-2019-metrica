@@ -217,9 +217,11 @@ deploy_cluster() {
 
 aws s3 cp s3://${AWS_BUCKET}/envs/.env.app.$DEPLOY_TYPE ./backend/.env
 aws s3 cp s3://${AWS_BUCKET}/envs/.env.frontend.$DEPLOY_TYPE ./frontend/.env
+cp test-site/.env.$DEPLOY_TYPE test-site/.env
 
 docker-compose -f docker-compose.test.yml run --rm node npm run build
 docker-compose -f docker-compose.test.yml run --rm node npm run build:script
+docker-compose -f docker-compose.test.yml run --rm test-site npm run build
 
 docker login --username $DOCKER_HUB_LOGIN --password $DOCKER_HUB_PASSWORD
 
