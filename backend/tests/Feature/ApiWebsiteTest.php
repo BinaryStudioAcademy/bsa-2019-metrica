@@ -122,6 +122,9 @@ class ApiWebsiteTest extends TestCase
             ]
         ];
         $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         $websiteData = [];
         $token = JWTAuth::fromUser($this->user);
         $headers = ['Authorization' => "Bearer $token"];
