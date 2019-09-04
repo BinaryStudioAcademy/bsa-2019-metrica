@@ -23,7 +23,6 @@ class DefaultUserAndWebsiteSeeder extends Seeder
             ]);
 
             $user->websites()->attach($website->id, ['role' => 'owner']);
-
         } catch (\Illuminate\Database\QueryException $exception) {
             //skip duplicate exception
         }
