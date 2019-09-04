@@ -51,28 +51,30 @@ class TableAverageTimingByParamTest extends TestCase
         factory('App\Entities\GeoPosition')->create();
         $this->website->pages()->save(factory('App\Entities\Page')->make());
         foreach ($this->browsers() as $browser) {
-            factory('App\Entities\System')->create(['browser' => $browser])
-                ->sessions()->save(factory('App\Entities\Session')->make())
-                ->visits()->save(factory('App\Entities\Visit')->make($this->params()[0]));
+            foreach ($this->params() as $param) {
+                factory('App\Entities\System')->create(['browser' => $browser])
+                    ->sessions()->save(factory('App\Entities\Session')->make())
+                    ->visits()->save(factory('App\Entities\Visit')->make($param));
+            }
         }
         $response = $this->actingAs($this->user)
             ->json('GET', self::PAGE_LOAD, $this->query('browser'))
             ->assertStatus(200)
-            ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 300])
+            ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 350])
             ->json();
         $this->assertCount(5, $response['data']);
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::DNS_LOOKUP, $this->query('browser'))
             ->assertStatus(200)
-            ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 65])
+            ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 75])
             ->json();
         $this->assertCount(5, $response['data']);
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::SERVER_RESPONSE, $this->query('browser'))
             ->assertStatus(200)
-            ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 200])
+            ->assertJsonFragment(["parameter_value" => 'Vivaldi', "average_time" => 250])
             ->json();
         $this->assertCount(5, $response['data']);
     }
@@ -125,8 +127,10 @@ class TableAverageTimingByParamTest extends TestCase
         factory('App\Entities\System')->create();
         factory('App\Entities\Session')->create();
         foreach ($this->countries() as $country) {
-            factory('App\Entities\GeoPosition')->create(['country' => $country])
-                ->visits()->save(factory('App\Entities\Visit')->make($this->params()[2]));
+            foreach ($this->params() as $param) {
+                factory('App\Entities\GeoPosition')->create(['country' => $country])
+                    ->visits()->save(factory('App\Entities\Visit')->make($param));
+            }
         }
 
         $response = $this->actingAs($this->user)
@@ -134,7 +138,7 @@ class TableAverageTimingByParamTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment([
                 "parameter_value" => "China",
-                "average_time" => 400
+                "average_time" => 350
             ])
             ->json();
         $this->assertCount(4, $response['data']);
@@ -142,14 +146,14 @@ class TableAverageTimingByParamTest extends TestCase
         $response = $this->actingAs($this->user)
             ->json('GET', self::DNS_LOOKUP, $this->query('country'))
             ->assertStatus(200)
-            ->assertJsonFragment(["average_time" => 85])
+            ->assertJsonFragment(["average_time" => 75])
             ->json();
         $this->assertCount(4, $response['data']);
 
         $response = $this->actingAs($this->user)
             ->json('GET', self::SERVER_RESPONSE, $this->query('country'))
             ->assertStatus(200)
-            ->assertJsonFragment(["average_time" => 300])
+            ->assertJsonFragment(["average_time" => 250])
             ->json();
         $this->assertCount(4, $response['data']);
     }
