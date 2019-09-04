@@ -10,8 +10,8 @@
         }
     }
     const state = {
-        host_api: 'http://stage.metrica.fun/api/v1',
-        host: 'http://stage.metrica.fun/',
+        host_api: 'https://stage.metrica.fun/api/v1',
+        host: 'https://stage.metrica.fun/',
         routes: {
             create_visitor: '/visitors',
             create_visit: '/visits'
@@ -41,17 +41,19 @@
             }
 
             if(!('tracking_id' in metricaConfig) || metricaConfig['tracking_id'] === undefined) {
-                metricaConfig.push('tracking_id', this.getSearchParams('tracking_id'));
+                metricaConfig.push('tracking_id', this.getTrackingIdFromUrl());
             }
 
             this.configMetrica = metricaConfig;
 
         },
-        getSearchParams(k){
-            let params = {};
+        getTrackingIdFromUrl(){
             let myScript = document.querySelector(`script[src^='${state.host}metrica.js?']`);
-            myScript.src.replace(/[?&]+([^=&]+)=([^&]*)/gi,(s,k,v) => {params[k] = v});
-            return k ? params[k] : params;
+            let result = (myScript.src || '').match(/tracking_id=(\d+)/i);
+            if (result === null)
+                throw new Error('Tracking id not found');
+
+            return result[1];
         },
         getObjectMetricaConf() {
             return this.configMetrica;
