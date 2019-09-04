@@ -41,7 +41,6 @@
             }
 
             if(!('tracking_id' in metricaConfig) || metricaConfig['tracking_id'] === undefined) {
-                let myScript = document.querySelector(`script[src^='${state.host}metrica.js?']`);
                 metricaConfig.push('tracking_id', this.getSearchParams('tracking_id'));
             }
 
