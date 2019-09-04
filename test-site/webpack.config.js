@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const script = (appUrl, trackingNumber, hash) => `
 	<script id="metrica" async src="${appUrl}metrica.js?tracking_id=${trackingNumber}${hash}" ></script>
