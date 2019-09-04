@@ -1,6 +1,5 @@
 import moment from "moment";
 import { period } from "../../services/periodService";
-import { BOUNCE_RATE } from "../../configs/visitors/buttonTypes";
 
 function transformSytems(systemsData) {
     const colors = ['#3C57DE', '#1BC3DA', '#67C208'];
@@ -58,20 +57,17 @@ function toDateStringFormat (interval) {
             return "HH:mm";
         case period.PERIOD_LAST_WEEK:
         case period.PERIOD_LAST_MONTH:
-            return "MM/DD";
+            return "DD/MM";
         default:
             return "MM/YYYY";
     }
 }
 
-const chartDataTransformer = (items, dataToFetch, selectedPeriod) => {
-    const fromDateStringFormat = "DD/MM/YYYY H:mm:ss";
+const chartDataTransformer = (items, selectedPeriod) => {
     return items.map(item => {
         return {
-            'date': moment(item.date, fromDateStringFormat).format(toDateStringFormat(selectedPeriod)),
-            'value': dataToFetch !== BOUNCE_RATE
-                ? item.value
-                : `${Math.round(item.value * 100)}%`
+            'date': moment.unix(item.date).format(toDateStringFormat(selectedPeriod)),
+            'value': item.value
         };
     });
 };

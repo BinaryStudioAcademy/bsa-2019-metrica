@@ -4,6 +4,10 @@ const buttonTransformer = (item) => {
     return {value: item.value};
 };
 
+const buttonTransformerToSeconds = (item) => {
+    return {value: parseInt(item.value)/1000};
+};
+
 const buttonTransformerToPercent = (item) => {
     return {value: Math.round(Number(item.value)*100)+'%'};
 };
@@ -15,7 +19,7 @@ const buttonTransformerToTime = (item) => {
 const chartTransformer = (item) => {
     return {
         date: item.date,
-        value: item.value
+        value: item.value*1
     };
 };
 
@@ -26,7 +30,23 @@ const chartTransformerToPercent = (item) => {
     };
 };
 
+const chartTransformerToSeconds = (item) => {
+    return {
+        date: item.date,
+        value: item.value/1000
+    };
+};
+
 const tableTransformer = (item) => {
+    return {
+        'parameter': item.parameter,
+        'parameter_value': item.parameter_value,
+        'total': item.total,
+        'percentage': item.percentage
+    };
+};
+
+const tableTransformerPageViews = (item) => {
     return {
         'page_url': item.page_url,
         'page_title': item.page_title,
@@ -35,11 +55,22 @@ const tableTransformer = (item) => {
         'exit_rate': item.exit_rate
     };
 };
+
+const tableTransformerPageTiming = (item) => {
+    return {
+        'name': item.parameter_value,
+        'value': item.average_time / 1000
+    };
+};
 export {
     buttonTransformer,
-    chartTransformer,
-    tableTransformer,
     buttonTransformerToPercent,
+    buttonTransformerToTime,
+    buttonTransformerToSeconds,
+    chartTransformer,
     chartTransformerToPercent,
-    buttonTransformerToTime
+    chartTransformerToSeconds,
+    tableTransformer,
+    tableTransformerPageTiming,
+    tableTransformerPageViews,
 };
