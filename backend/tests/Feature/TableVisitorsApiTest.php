@@ -61,12 +61,6 @@ class TableVisitorsApiTest extends TestCase
                 ->json();
 
             $this->assertNotEmpty($result);
-
-            $percentage = 0;
-            foreach ($result['data'] as $item) {
-                $percentage += $item['percentage'];
-            }
-            $this->assertEquals(100, $percentage);
         }
     }
 
