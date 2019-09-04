@@ -2,7 +2,7 @@
     <pre>
     <code>
     &lt;!-- Global site tag (metrica.js) - Metrica Analytics --&gt;
-    &lt;script async src='https://stage.metrica.fun/metrica.js?tracking_id={{ trackingNumber }}'&gt;&lt;/script&gt;
+    &lt;script async src='{{ appUrl }}metrica.js?tracking_id={{ trackingNumber }}'&gt;&lt;/script&gt;
     &lt;script&gt;
         window._metricaTrackingConfig = window._metricaTrackingConfig || [];
         function mtag() {
@@ -15,6 +15,7 @@
     </pre>
 </template>
 <script>
+    import config from "@/config";
     export default {
         name: 'TrackWebsite',
         props: {
@@ -22,7 +23,12 @@
                 type: [Number, String],
                 required: true
             }
-        }
+        },
+        data () {
+            return {
+                appUrl: config.getUrl()
+            };
+        },
     };
 </script>
 <style lang="scss" scoped>

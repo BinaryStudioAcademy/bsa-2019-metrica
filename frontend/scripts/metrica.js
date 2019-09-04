@@ -10,7 +10,8 @@
         }
     }
     const state = {
-        host: 'http://stage.metrica.fun/api/v1',
+        host_api: 'http://stage.metrica.fun/api/v1',
+        host: 'http://stage.metrica.fun/',
         routes: {
             create_visitor: '/visitors',
             create_visit: '/visits'
@@ -19,8 +20,8 @@
     window._metricaTracking = {
         endTime:undefined,
         configMetrica:undefined,
-        initialize(object, prop) {
-            this.setObjectMetricaConf(object, prop);
+        initialize() {
+            this.setObjectMetricaConf();
             let token = this.getToken();
             if (token) {
                 this.createVisit();
@@ -30,10 +31,24 @@
             }
 
         },
-        setObjectMetricaConf(object, prop) {
-            if(Helper.isObjectMetricaConfig(object, prop)) {
-                this.configMetrica = Helper.getPropByString(object, prop);
+        setObjectMetricaConf() {
+            let metricaConfig = Helper.getPropByString(window, '_metricaTrackingConfig');
+            if(metricaConfig === undefined) {
+                window._metricaTrackingConfig = [];
             }
+            if(metricaConfig[0][0] !== 'dateStart' || metricaConfig[0][1] === undefined) {
+                metricaConfig[0][0] = 'dateStart';
+                metricaConfig[0][1] = new Date();
+            }
+
+            if(metricaConfig[1][0] !== 'tracking_id' || metricaConfig[1][1] === undefined) {
+                metricaConfig[1][0] = 'tracking_id';
+                let myScript = document.querySelector(`script[src^='${state.host}metrica.js?']`);
+                metricaConfig[1][1] = (myScript.src.split('tracking_id' + '=')[1] || '').split('&')[0];
+            }
+
+            this.configMetrica = metricaConfig;
+
         },
         getObjectMetricaConf() {
             return this.configMetrica;
@@ -121,7 +136,7 @@
             return new requestService();
         },
         createVisitor(tracking_number) {
-            let url = state.host + state.routes.create_visitor;
+            let url = state.host_api + state.routes.create_visitor;
             let headers = {
                 'Content-Type': 'application/json',
                 'x-website': tracking_number
@@ -136,7 +151,7 @@
                 });
         },
         createVisit() {
-            let url = state.host + state.routes.create_visit;
+            let url = state.host_api + state.routes.create_visit;
             let headers = {
                 'Content-Type': 'application/json',
                 'x-visitor': 'Bearer ' + this.getToken()
@@ -158,16 +173,6 @@
         },
         isValidDate (date) {
             return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
-        },
-        isObjectMetricaConfig(object, propString) {
-            let metricaConfig = this.getPropByString(object, propString);
-            if(metricaConfig === undefined) {
-                throw Error('Object\'s property is not defined');
-            }
-            if(metricaConfig.length < 2) {
-                throw Error('Not set need property');
-            }
-            return true;
         },
         getPropByString(obj, propString) {
             if (!propString)
@@ -300,10 +305,15 @@
             return device;
         }
     };
+    const onDomReady = () => {
+            if(document.readyState !== 'complete') {
+                window.onload = () => {
+                    window._metricaTracking.endTime = new Date();
+                    window._metricaTracking.initialize();
+                };
+            }
+    };
     try {
-        window.onload = () => {
-            window._metricaTracking.endTime = new Date();
-            window._metricaTracking.initialize(window, '_metricaTrackingConfig');
-        };
+        onDomReady();
     } catch (err) {}
 })();
