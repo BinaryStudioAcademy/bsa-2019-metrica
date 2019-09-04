@@ -59,9 +59,10 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
 
         return factoryVisitorsService.create(type)
-            .fetchButtonValue(startDate.unix(), endDate.unix())
+            .fetchButtonValue(startDate.unix(), endDate.unix(), id)
             .then(response => {
                 context.commit(SET_BUTTON_DATA, {button: type, value: response.value});
                 context.commit(RESET_BUTTON_FETCHING, type);
@@ -84,9 +85,10 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
 
         return factoryVisitorsService.create(context.state.activeButton)
-            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval)
+            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval, id)
             .then(data => context.commit(SET_LINE_CHART_DATA, data))
             .finally(() => context.commit(RESET_LINE_CHART_FETCHING));
 
@@ -108,9 +110,10 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
 
         return factoryVisitorsService.create(context.state.activeButton)
-            .fetchTableValues(startDate.unix(), endDate.unix(), context.state.tableData.groupedParameter)
+            .fetchTableValues(startDate.unix(), endDate.unix(), context.state.tableData.groupedParameter, id)
                 .then(data => context.commit(SET_TABLE_DATA, data))
                 .finally(() => context.commit(RESET_TABLE_FETCHING));
     },
@@ -119,13 +122,14 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
         let newVisitors = 0;
         let returnVisitors = 0;
 
-        return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
+        return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix(), id)
             .then(response => {
                 newVisitors = response.value;
-               return totalVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
+               return totalVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix(), id)
                     .then(response => {
                         returnVisitors = response.value;
                         newVisitors = (newVisitors/returnVisitors*100);

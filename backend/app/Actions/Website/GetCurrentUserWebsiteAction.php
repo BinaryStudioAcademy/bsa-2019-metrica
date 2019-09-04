@@ -4,9 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Actions\Website;
 
-use App\Exceptions\UserWebsiteNotFoundException;
 use App\Repositories\Contracts\WebsiteRepository;
-use App\Actions\Website\GetcurrentWebsiteRequest;
 
 final class GetCurrentUserWebsiteAction
 {
@@ -17,16 +15,14 @@ final class GetCurrentUserWebsiteAction
         $this->repository = $repository;
     }
 
-    public function execute(GetcurrentWebsiteRequest $request): GetCurrentUserWebsiteResponse
+    public function execute(int $websiteId): GetCurrentUserWebsiteResponse
     {
-        $id = $request->getId();
-
-        if ($id === 0) {
+        if ($websiteId === 0) {
             $website = $this->repository->getFirstExistingUserWebsite();
             return new GetCurrentUserWebsiteResponse($website);
         }
 
-        $website = $this->repository->getCurrentWebsite($id);
+        $website = $this->repository->getCurrentWebsite($websiteId);
         return new GetCurrentUserWebsiteResponse($website);
     }
 }
