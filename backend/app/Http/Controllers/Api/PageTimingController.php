@@ -26,10 +26,10 @@ final class PageTimingController extends Controller
     private $getAverageTimingByParamAction;
 
     public function __construct(
-        GetAverageTimingAction $getAveragePageLoadTimeAction,
+        GetAverageTimingAction $getAverageTimingAction,
         GetAverageTimingByParamAction $getAverageTimingByParamAction
     ) {
-        $this->getAverageTimingAction = $getAveragePageLoadTimeAction;
+        $this->getAverageTimingAction = $getAverageTimingAction;
         $this->getAverageTimingByParamAction = $getAverageTimingByParamAction;
     }
 
