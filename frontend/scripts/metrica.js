@@ -10,16 +10,16 @@
         }
     }
     const state = {
-        host_api: 'https://stage.metrica.fun/api/v1',
-        host: 'https://stage.metrica.fun/',
+        host_api: process.env.VUE_APP_API_URL,
+        host: process.env.VUE_APP_URL,
         routes: {
             create_visitor: '/visitors',
             create_visit: '/visits'
         }
     };
     window._metricaTracking = {
-        endTime:undefined,
-        configMetrica:undefined,
+        endTime: undefined,
+        configMetrica: undefined,
         initialize() {
             this.setObjectMetricaConf();
             let token = this.getToken();

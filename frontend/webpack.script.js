@@ -1,6 +1,6 @@
 const path = require('path');
-const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
 	entry: './scripts/metrica.js',
@@ -23,5 +23,8 @@ module.exports = {
 	stats: {
 		colors: true
 	},
+	plugins: [
+		new Dotenv()
+	],
 	mode: 'production'
 };
