@@ -32,20 +32,26 @@
 
         },
         setObjectMetricaConf() {
-            let metricaConfig = Helper.getPropByString(window, '_metricaTrackingConfig');
-            if(metricaConfig === undefined) {
-                window._metricaTrackingConfig = [];
-            }
-            if(!('dateStart' in metricaConfig) || metricaConfig['dateStart'] === undefined) {
-                metricaConfig.push('dateStart', new Date());
+            let metricaConfig = window._metricaTrackingConfig;
+            if(!('_metricaTrackingConfig' in window)) {
+                metricaConfig = [];
             }
 
-            if(!('tracking_id' in metricaConfig) || metricaConfig['tracking_id'] === undefined) {
-                metricaConfig.push('tracking_id', this.getTrackingIdFromUrl());
+            if(metricaConfig.length === 0) {
+                metricaConfig.push(['dateStart', new Date()]);
+                metricaConfig.push(['tracking_id', this.getTrackingIdFromUrl()]);
             }
 
+            if(metricaConfig[0].length < 2) {
+                metricaConfig[0] = [];
+                metricaConfig.push(['dateStart', new Date()]);
+            }
+
+            if(metricaConfig.length === 1 || metricaConfig[1].length < 2) {
+                metricaConfig[1] = [];
+                metricaConfig[1].push('tracking_id', this.getTrackingIdFromUrl());
+            }
             this.configMetrica = metricaConfig;
-
         },
         getTrackingIdFromUrl(){
             let myScript = document.querySelector(`script[src^='${state.host}metrica.js?']`);
