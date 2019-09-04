@@ -27,11 +27,16 @@
                 @change="changeButton"
             />
         </VRow>
+        <PageTimingsTable
+            :items="items"
+            :option="option"
+        />
     </ContentLayout>
 </template>
 
 <script>
     import ContentLayout from '../../components/layout/ContentLayout.vue';
+    import PageTimingsTable from "../../components/dashboard/page_timings/PageTimingsTable";
     import LineChart from "../../components/common/LineChart";
     import ButtonComponent from "../../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../../components/dashboard/common/PeriodDropdown.vue";
@@ -54,15 +59,21 @@
     } from '../../configs/page_timings/buttonTypes.js';
 
     export default {
+        name: "PageTimings",
         components: {
             LineChart,
             ButtonComponent,
             PeriodDropdown,
-            ContentLayout
+            ContentLayout,
+            PageTimingsTable
         },
         data() {
             return {
                 title: "Page Timings",
+                items: [
+                    { name: "Ukraine", value: 320 }
+                ],
+                option: "Avg. Page Load Time (sec.)",
                 buttons: [
                     {
                         icon: 'yellow_arrow',
