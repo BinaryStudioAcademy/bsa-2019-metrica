@@ -28,6 +28,6 @@ final class BounceRateRequest
             $request->getStartDate(),
             $request->getEndDate()
         );
-        return new static(new VisitorsBounceRateFilterData($period, $request->getTimeFrame()));
+        return new static(new VisitorsBounceRateFilterData($period, (int)$request->getPeriod()));
     }
 }

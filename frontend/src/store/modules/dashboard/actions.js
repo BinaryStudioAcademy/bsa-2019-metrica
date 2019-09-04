@@ -19,10 +19,15 @@ import {
     RESET_BUTTON_FETCHING
 } from "./types/mutations";
 
-import moment from 'moment';
+import Moment from 'moment';
+import _ from "lodash";
 import {getActivityDataItems} from '@/api/visitors/activeVisitorService';
 import {factoryVisitorsService} from '@/api/visitors/factoryVisitorsService';
+import {pageViewsService} from '@/api/page_views/pageViewsService';
 import {getTimeByPeriod} from '@/services/periodService';
+import { extendMoment } from 'moment-range';
+
+const moment = extendMoment(Moment);
 
 export default {
     [CHANGE_DATA_TYPE]: (context, payload) => {
@@ -73,8 +78,36 @@ export default {
         });
     },
     [FETCHING_ACTIVITY_CHART_DATA]: (context) => {
-        const data = [0, 10, 12, 5, 4, 0, 12];
-        context.commit(SET_ACTIVITY_CHART_DATA, data);
+
+        const startDay = moment().subtract(1, 'minute');
+        const endDay = moment();
+
+        pageViewsService.fetchChartValues(
+            startDay.unix(),
+            endDay.unix(),
+            1
+        ).then(response => {
+            const range = moment().range(startDay, endDay);
+            const arrayOfDates = Array.from(range.by('seconds'));
+            const result = [];
+
+            let value = undefined;
+            arrayOfDates.map((item) => {
+                value = _.find(response,  (i) => {
+                    return parseInt(i.date, 10) === item.unix();
+                });
+                if(value) {
+                    result.push(parseInt(value.value, 10));
+                }
+                else {
+                    result.push(0);
+                }
+            });
+            const chunk = (arr, size) =>
+                arr.reduce((acc, _, i) => (i % size)
+                    ? acc : [...acc, (arr.slice(i, i + size)).reduce((a, b) => a + b, 0)], []);
+            context.commit(SET_ACTIVITY_CHART_DATA, chunk(result, 6));
+        });
     },
 
     [RELOAD_ACTIVITY_DATA_ITEMS]: (context) => {

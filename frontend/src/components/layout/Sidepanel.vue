@@ -99,7 +99,12 @@
                 {
                     icon: '/assets/icons/speed.svg',
                     text: 'Speed Overview',
-                    route: 'speedoverview'
+                    sublinks: [
+                        {
+                            text: 'Page Timings',
+                            route: 'page-timings',
+                        },
+                    ]
                 },
                 {
                     icon: '/assets/icons/settings.svg',

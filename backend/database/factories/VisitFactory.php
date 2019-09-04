@@ -7,6 +7,7 @@ use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\Visit;
 use App\Entities\Visitor;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Visit::class, function (Faker $faker) {

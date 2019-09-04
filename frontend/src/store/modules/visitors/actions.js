@@ -42,6 +42,7 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
+        context.dispatch(FETCH_BUTTON_DATA, button);
         context.dispatch(FETCH_LINE_CHART_DATA);
         context.dispatch(FETCH_TABLE_DATA);
 
@@ -66,10 +67,7 @@ export default {
                 context.commit(SET_BUTTON_DATA, {button: type, value: response.value});
                 context.commit(RESET_BUTTON_FETCHING, type);
             })
-            .catch(err => {
-                context.commit(RESET_BUTTON_FETCHING, type);
-                throw err;
-            });
+            .finally(() => context.commit(RESET_BUTTON_FETCHING, type));
     },
     [CHANGE_FETCHED_LINE_CHART_STATE]: (context, value) => {
 
@@ -120,17 +118,25 @@ export default {
         const startDate = period.startDate;
         const endDate = period.endDate;
         let newVisitors = 0;
-        let returnVisitors = 0;
+        let totalVisitors = 0;
+        let newVisitorsValue = 0;
+        let returnVisitorsValue = 0;
 
         return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
             .then(response => {
-                newVisitors = response.value;
+                newVisitors = response.value || 0;
                return totalVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
                     .then(response => {
-                        returnVisitors = response.value;
-                        newVisitors = (newVisitors/returnVisitors*100);
-                        returnVisitors = 100 - newVisitors;
-                        context.commit(SET_CHART_PIE_DATA, {newVisitors, returnVisitors});
+                        totalVisitors = response.value || 0;
+                       if (totalVisitors > 0) {
+                            newVisitorsValue = newVisitors/totalVisitors*100;
+                            returnVisitorsValue = 100 - newVisitorsValue;
+                        }
+                        let payload = {
+                            newVisitors: newVisitorsValue,
+                            returnVisitors: returnVisitorsValue
+                        };
+                        context.commit(SET_CHART_PIE_DATA, payload);
                         context.commit(RESET_CHART_DATA_FETCHING);
                     });
             })

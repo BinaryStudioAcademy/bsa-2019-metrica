@@ -10,6 +10,7 @@ class DefaultUserAndWebsiteSeeder extends Seeder
     {
         try {
             $user = factory(User::class)->create([
+                'name' => 'Binary Academy',
                 'email' => 'info@metrica.fun',
                 'is_activate' => 1,
                 'email_verified_at' => now(),
