@@ -17,8 +17,4 @@ final class CreateVisitorHttpRequest extends ApiFormRequest
     {
         return $this->header('X-Website');
     }
-    public function origin(): string
-    {
-        return $this->header('Origin');
-    }
 }

@@ -29,15 +29,9 @@ class CreateVisitorAction
 
     public function execute(CreateVisitorRequest $request)
     {
-        $origin = $request->origin();
-        $website = $this->websiteRepository
-            ->getByTrackNumber($request->trackNumber());
 
-        if ($website->domain !== $origin) {
-            throw new WebsiteDomainNotValidException();
-        }
-
-        $websiteId = $website->id;
+        $websiteId = $this->websiteRepository
+            ->getByTrackNumber($request->trackNumber())->id;
 
         $visitorInstance = Visitor::make([
             'website_id' => $websiteId,
