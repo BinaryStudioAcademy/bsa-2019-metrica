@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-white visitors-card rounded text-dark position-relative justify-content-between">
+    <div class="card bg-white visitors-card text-dark position-relative justify-content-between">
         <Spinner v-if="activityDataFetching" />
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
@@ -146,11 +146,13 @@
     .visitors-card {
         border: none;
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+        border-radius: 6px;
         font-family: Gilroy;
-        width: 307px;
+        width: 352px;
         font-size: 12px;
         padding: 43px 33px 32px 28px;
         height: 100%;
+        max-height: 500px;
 
         .card-top-row {
             height: 53px;

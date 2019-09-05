@@ -1,5 +1,5 @@
 <template>
-    <VContainer class="white pie-container position-relative mx-0">
+    <VContainer class="white pie-container position-relative">
         <Spinner v-if="isFetching" />
         <VContainer class="content pt-1 d-flex flex-column justify-space-between">
             <VContainer v-if="!data.length">
@@ -64,8 +64,9 @@
 .pie-container {
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
     border-radius: 6px;
-    width: 307px;
+    width: 352px;
     height: 100%;
+    max-height: 500px;
 }
 .header {
     font-size: 16px;

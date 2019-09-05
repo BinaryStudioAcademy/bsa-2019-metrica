@@ -4,11 +4,11 @@
             v-if="isFetching"
         />
         <div class="ml10">
-            Users by time of dayasd
+            Users by time of day
         </div>
         <VueApexCharts
             type="heatmap"
-            height="350"
+            height="100%"
             :options="chartOptions"
             :series="drawHeatmap"
             class="visits-heatmap"
@@ -192,6 +192,9 @@
 <style scoped>
     .visits-widget {
         padding: 1.5rem;
+        width: 352px;
+        height: 100%;
+        max-height: 500px;
     }
 
     .ml10 {
