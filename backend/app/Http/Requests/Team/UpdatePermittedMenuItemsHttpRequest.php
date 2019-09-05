@@ -18,7 +18,7 @@ final class UpdatePermittedMenuItemsHttpRequest extends ApiFormRequest
                 'required',
                 'array'
             ],
-            'filter.iser_ids.*' => [
+            'filter.user_ids.*' => [
                 'integer',
                 'exists:users,id'
             ],
