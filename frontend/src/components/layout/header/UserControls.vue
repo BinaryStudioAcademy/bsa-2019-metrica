@@ -5,6 +5,10 @@
         row
         class="pr-2"
     >
+        <WebsitesDropdown
+                :value="getSelectedWebsite"
+                @change="changeWebsite"
+        />
         <VBtn
             icon
             class="notifications mr-4"
@@ -56,10 +60,15 @@
 <script>
     import {mapActions, mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER} from "@/store/modules/auth/types/getters";
+    import {GET_SELECTED_WEBSITE} from "@/store/modules/website/types/getters";
     import {LOGOUT} from "@/store/modules/auth/types/actions";
-    import {RESET_DATA} from "@/store/modules/website/types/actions";
+    import {RESET_DATA, CHANGE_SELECTED_WEBSITE} from "@/store/modules/website/types/actions";
+    import WebsitesDropdown from "../header/WebsitesDropdown.vue";
 
     export default {
+        components: {
+            WebsitesDropdown
+        },
         data: () => ({
             links: [
                 {
@@ -76,18 +85,26 @@
                 logout: LOGOUT
             }),
             ...mapActions('website', {
-                resetData: RESET_DATA
+                resetData: RESET_DATA,
+                changeSelectedWebsite: CHANGE_SELECTED_WEBSITE,
             }),
             endSession() {
                 this.logout();
                 this.resetData();
                 this.$router.push({ name: 'home' });
-            }
+            },
+            changeWebsite(data) {
+                this.changeSelectedWebsite(data);
+            },
         },
         computed: {
-            ...mapGetters('auth', {
-                user: GET_AUTHENTICATED_USER
-            })
+            ...mapGetters('auth',  {
+                user: GET_AUTHENTICATED_USER,
+            }),
+            ...mapGetters('website', {
+                getSelectedWebsite: GET_SELECTED_WEBSITE,
+            }),
+
         }
     };
 </script>

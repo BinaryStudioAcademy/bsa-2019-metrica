@@ -33,6 +33,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'websites'
         ], function () {
             Route::get('/{id}', 'WebsiteController@getCurrentUserWebsite');
+            Route::get('/relate', 'WebsiteController@getRelateUserWebsites');
             Route::post('/', 'WebsiteController@add');
         });
 

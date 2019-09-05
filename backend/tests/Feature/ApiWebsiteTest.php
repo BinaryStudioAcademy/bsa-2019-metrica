@@ -202,4 +202,46 @@ class ApiWebsiteTest extends TestCase
             ->assertStatus(403)
             ->assertJson($expectedData);
     }
+
+    public function test_get_relate_user_websites()
+    {
+        $expectedData = [];
+
+        $user1 = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
+        $website1 = factory(Website::class)->create([
+            'id' => 1,
+            'domain' => 'domain1.com',
+        ]);
+        $website2 = factory(Website::class)->create([
+            'id' => 2,
+            'domain' => 'domain2.com',
+        ]);
+        $website3 = factory(Website::class)->create([
+            'id' => 3,
+            'domain' => 'domain3.com',
+        ]);
+        $user1->websites()->attach($website1->id, [
+            'role' => 'owner'
+        ]);
+        $user2->websites()->attach($website2->id, [
+            'role' => 'owner'
+        ]);
+        $user3->websites()->attach($website3->id, [
+            'role' => 'owner'
+        ]);
+        $user1->websites()->attach($website2->id, [
+            'role' => 'member'
+        ]);
+        $user1->websites()->attach($website3->id, [
+            'role' => 'member'
+        ]);
+
+        $r = $this->actingAs($user1)
+            ->get('/api/v1/websites/relate');
+        dd($r->json());
+        $r->assertOk()
+            ->assertJson($expectedData);
+    }
 }

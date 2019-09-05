@@ -8,6 +8,7 @@ use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\UserRepository;
+use Illuminate\Support\Collection;
 
 final class EloquentWebsiteRepository implements WebsiteRepository
 {
@@ -95,5 +96,10 @@ final class EloquentWebsiteRepository implements WebsiteRepository
     public function removeMemberFromWebsiteTeam(User $user, int $websiteId): void
     {
         $user->websites()->detach($websiteId);
+    }
+
+    public function getRelateUserWebsite(int $userId): Collection
+    {
+        return User::find($userId)->websites();
     }
 }

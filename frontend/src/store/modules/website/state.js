@@ -11,6 +11,11 @@ export default {
         domain: '',
         single_page: false,
     },
+    relateUserWebsites: {
+        websites: [],
+        selectedWebsite: '',
+        isFetching: false,
+    },
     isCurrentWebsite: false,
     isFetchedWebsite:false,
 };
