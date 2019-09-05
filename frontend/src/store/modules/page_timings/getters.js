@@ -8,7 +8,7 @@ import {
     GET_LINE_CHART_ITEMS,
     GET_LINE_CHART_FETCHING,
     GET_LINE_CHART_DATA,
-    FETCH_TABLE_DATA,
+    GET_TABLE_DATA,
 } from "./types/getters";
 
 export default {
@@ -21,5 +21,5 @@ export default {
     [GET_LINE_CHART_ITEMS]: (state) => state.chartData.items,
     [GET_LINE_CHART_FETCHING]: (state) => state.chartData.isFetching,
     [GET_LINE_CHART_DATA]: (state) => state.chartData,
-    [FETCH_TABLE_DATA]: (state) => state.tableData,
+    [GET_TABLE_DATA]: (state) => state.tableData,
 };

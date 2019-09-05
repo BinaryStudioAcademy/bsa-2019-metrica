@@ -10,7 +10,16 @@ const chartTransformer = (item) => {
         value: item.value
     };
 };
+
+const tableTransformer = (item) => {
+    return {
+        'name': item.parameter_value,
+        'value': item.average_time / 1000
+    };
+};
+
 export {
     chartTransformer,
-    buttonTransformer
+    buttonTransformer,
+    tableTransformer
 };

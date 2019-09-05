@@ -8,7 +8,7 @@
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
-                    @change="changePeriod"
+                    @change="changeSelectedPeriod"
                 />
             </VContainer>
         </VRow>
@@ -16,15 +16,28 @@
             class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
         >
             <ButtonComponent
-                v-for="button in buttons"
-                :key="button.title"
+                v-for="(button, key) in buttons"
+                :key="key"
                 :title="button.title"
-                :active="isButtonActive(button.type)"
-                :fetching="buttonsData[button.type].isFetching"
-                :value="getButtonValue(button.type)"
-                :type="button.type"
+                :active="isButtonActive(key)"
+                :fetching="buttonsData[key].isFetching"
+                :value="getButtonValue(key)"
+                :type="key"
                 :icon-name="button.icon"
-                @change="changeButton"
+                @change="changeActiveButton"
+            >
+                <span
+                    class="small"
+                >s</span>
+            </ButtonComponent>
+        </VRow>
+        <VRow>
+            <PageTimingsTable
+                @change="changeGroupedParameter"
+                :items="tableData.items"
+                :label="label"
+                :value="getGroupedParameter"
+                :fetching="tableData.isFetching"
             />
         </VRow>
     </ContentLayout>
@@ -32,6 +45,7 @@
 
 <script>
     import ContentLayout from '../../components/layout/ContentLayout.vue';
+    import PageTimingsTable from "../../components/dashboard/page_timings/PageTimingsTable";
     import LineChart from "../../components/common/LineChart";
     import ButtonComponent from "../../components/dashboard/common/ButtonComponent.vue";
     import PeriodDropdown from "../../components/dashboard/common/PeriodDropdown.vue";
@@ -41,11 +55,14 @@
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
         GET_LINE_CHART_DATA,
+        GET_TABLE_DATA,
+        GET_GROUPED_PARAMETER
     } from "@/store/modules/page_timings/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_SELECTED_PERIOD,
-        FETCH_PAGE_DATA
+        FETCH_PAGE_DATA,
+        CHANGE_GROUPED_PARAMETER
     } from "@/store/modules/page_timings/types/actions";
     import {
         AVG_PAGE_LOAD_TIME,
@@ -54,32 +71,31 @@
     } from '../../configs/page_timings/buttonTypes.js';
 
     export default {
+        name: "PageTimings",
         components: {
             LineChart,
             ButtonComponent,
             PeriodDropdown,
-            ContentLayout
+            ContentLayout,
+            PageTimingsTable
         },
         data() {
             return {
                 title: "Page Timings",
-                buttons: [
-                    {
+                buttons: {
+                    [AVG_PAGE_LOAD_TIME]: {
                         icon: 'yellow_arrow',
                         title: 'Avg. Page Load Time',
-                        type: AVG_PAGE_LOAD_TIME
                     },
-                    {
+                    [AVG_LOOKUP_TIME]: {
                         icon: 'eye',
                         title: 'Avg. Domain Lookup Time',
-                        type: AVG_LOOKUP_TIME
                     },
-                    {
+                    [AVG_SERVER_RESPONSE_TIME]: {
                         icon: 'clock',
                         title: 'Avg. Server Response Time',
-                        type: AVG_SERVER_RESPONSE_TIME
                     },
-                ],
+                },
             };
         },
         computed: {
@@ -88,29 +104,30 @@
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
+                tableData: GET_TABLE_DATA,
+                getGroupedParameter: GET_GROUPED_PARAMETER
             }),
+            label() {
+                const type = this.currentActiveButton;
+                return this.buttons[type]['title'];
+            }
         },
         created () {
             this.fetchPageData();
         },
         methods: {
             ...mapActions('page_timings', {
+                changeGroupedParameter: CHANGE_GROUPED_PARAMETER,
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA
             }),
-            changeButton (data) {
-                this.changeActiveButton(data);
-            },
-            changePeriod (data) {
-                this.changeSelectedPeriod(data);
-            },
             isButtonActive (type) {
                 return this.currentActiveButton === type;
             },
             getButtonValue (type) {
                 return this.buttonsData[type].value;
-            }
+            },
         },
     };
 </script>
@@ -124,3 +141,4 @@
         margin-top: 50px;
     }
 </style>
+

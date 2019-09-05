@@ -9,7 +9,7 @@
             _metricaTrackingConfig.push(arguments);
         }
         mtag('dateStart', new Date());
-        mtag('tracking_id', {{ trackingNumber }});
+        mtag('tracking_id', '{{ trackingNumber }}');
     &lt;/script&gt;
     </code>
     </pre>
