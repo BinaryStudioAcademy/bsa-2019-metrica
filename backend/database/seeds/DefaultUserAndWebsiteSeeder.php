@@ -22,9 +22,7 @@ class DefaultUserAndWebsiteSeeder extends Seeder
                 'domain' => "https://metrica.fun"
             ]);
 
-            $user->websites()->attach($website->id, [
-                'role' => 'owner'
-            ]);
+            $user->websites()->attach($website->id, ['role' => 'owner']);
         } catch (\Illuminate\Database\QueryException $exception) {
             //skip duplicate exception
         }
