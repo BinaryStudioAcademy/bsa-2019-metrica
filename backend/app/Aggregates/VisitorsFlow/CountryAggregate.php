@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Aggregates\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Values\PageValue;
+use App\Entities\Visit;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\CountryCriteria;
 
 class CountryAggregate extends Aggregate
 {
@@ -46,6 +49,24 @@ class CountryAggregate extends Aggregate
             $result['prevPage'] === null ? null : new PageValue(
                 (int)$result['prevPage']['id'],
                 (string)$result['prevPage']['url']
+            )
+        );
+    }
+
+    public static function getPreviousAggregate(
+        VisitorFlowRepository $visitorFlowCountryRepository,
+        Visit $visit,
+        string $previousVisitUrl,
+        int $level
+    ): Aggregate
+    {
+        return $visitorFlowCountryRepository->getByCriteria(
+            CountryCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level - 1,
+                $visit->geo_position->country,
+                $previousVisitUrl
             )
         );
     }

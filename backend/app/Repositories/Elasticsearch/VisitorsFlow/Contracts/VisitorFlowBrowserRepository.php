@@ -6,7 +6,7 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow\Contracts;
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
 
-interface VisitorFlowBrowserRepository
+interface VisitorFlowBrowserRepository extends VisitorFlowRepository
 {
     public function save(Aggregate $browserAggregate): Aggregate;
 

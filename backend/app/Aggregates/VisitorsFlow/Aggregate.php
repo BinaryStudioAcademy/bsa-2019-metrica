@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Aggregates\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Values\PageValue;
+use App\Entities\Visit;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowRepository;
 
 abstract class Aggregate
 {
@@ -65,4 +67,11 @@ abstract class Aggregate
     }
 
     public abstract static function fromResult(array $result): self;
+
+    public abstract static function getPreviousAggregate(
+        VisitorFlowRepository $visitorFlowBrowserRepository,
+        Visit $visit,
+        string $previousVisitUrl,
+        int $level
+    ): Aggregate;
 }
