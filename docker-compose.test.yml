@@ -19,6 +19,12 @@ services:
     networks:
       - mynet
   
+  test-site:
+    image: node:12.7-alpine
+    working_dir: /app
+    volumes:
+      - ./test-site:/app
+    
   seleniumapp:
     image: selenium/standalone-chrome:3.141.59-titanium
     ports:

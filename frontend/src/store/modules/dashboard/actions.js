@@ -85,7 +85,7 @@ export default {
         pageViewsService.fetchChartValues(
             startDay.unix(),
             endDay.unix(),
-            60
+            1
         ).then(response => {
             const range = moment().range(startDay, endDay);
             const arrayOfDates = Array.from(range.by('seconds'));
