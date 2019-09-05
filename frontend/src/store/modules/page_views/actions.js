@@ -66,11 +66,11 @@ export default {
             id
         ).then(response => {
             let payload = {
-                buttonType: type,
+                buttonType: button.type,
                 value: response.value
             };
             context.commit(SET_BUTTON_VALUE, payload);
-        }).finally(() => context.commit(RESET_BUTTON_FETCHING, type));
+        }).finally(() => context.commit(RESET_BUTTON_FETCHING, button.type));
     },
 
     [FETCH_CHART_DATA]: (context) => {

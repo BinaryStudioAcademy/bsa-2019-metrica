@@ -4,7 +4,7 @@ import {inviteUser, getTeamMembers} from '@/api/team';
 
 export default {
     [INVITE_USER]: (context, email) => {
-        const id = context.state.currentWebsite.id;
+        const id = context.rootState.website.currentWebsite.id;
 
         return inviteUser(email, id)
             .then(response => context.commit(SET_INVITED_USER, response.data))
@@ -15,7 +15,7 @@ export default {
 
     [FETCH_TEAM_MEMBERS]: (context) => {
         context.commit(SET_IS_FETCHING);
-        const id = context.state.currentWebsite.id;
+        const id = context.rootState.website.currentWebsite.id;
 
         return getTeamMembers(id)
             .then(response => context.commit(SET_TEAM_MEMBERS, response.data))

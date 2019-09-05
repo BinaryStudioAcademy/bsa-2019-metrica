@@ -5,7 +5,7 @@ const resourceUrl = config.getApiUrl() + '/teams';
 
 const getTeamMembers = websiteId => requestService.get(resourceUrl, websiteId);
 
-const inviteUser = (email, websiteId) => requestService.create(resourceUrl + '/' + websiteId, email);
+const inviteUser = (email, websiteId) => requestService.create(resourceUrl, {}, {email, websiteId});
 
 export {
     getTeamMembers,

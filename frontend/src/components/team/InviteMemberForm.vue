@@ -22,16 +22,16 @@
                         :rules="emailRules"
                         required
                     />
+                    <VCardActions class="px-0 mt-8 mb-12 ml-6">
+                        <VBtn
+                            @click="invite"
+                            color="primary"
+                            width="100"
+                        >
+                            Invite
+                        </VBtn>
+                    </VCardActions>
                 </div>
-                <VCardActions class="px-0 mt-8 mb-12">
-                    <VBtn
-                        @click="invite"
-                        color="primary"
-                        width="125"
-                    >
-                        Invite
-                    </VBtn>
-                </VCardActions>
                 <p
                     v-for="member in currentTeam"
                     :key="member.name"
@@ -95,7 +95,7 @@
 <style lang="scss" scoped>
     .inline-element {
         display: grid;
-        grid-template-columns: 30% 70%;
+        grid-template-columns: 20% 65% 15%;
         align-items: baseline;
         @media (max-width: 767px) {
             & {
