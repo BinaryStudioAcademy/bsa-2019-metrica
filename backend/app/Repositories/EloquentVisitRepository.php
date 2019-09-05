@@ -17,7 +17,7 @@ final class EloquentVisitRepository implements VisitRepository
         return $visit;
     }
 
-    public function getVisitsCountByHourAndDay(string $startDate, string $endDate): Collection
+    public function getVisitsCountByHourAndDay(string $startDate, string $endDate, int $websiteId): Collection
     {
         return Visit::select(DB::raw(
             "extract('hour' FROM visit_time) as hour,
@@ -26,6 +26,9 @@ final class EloquentVisitRepository implements VisitRepository
             ))
             ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy('day', 'hour')
+            ->whereHas('session', function ($query) use ($websiteId) {
+                $query->whereWebsiteId($websiteId);
+            })
             ->get();
     }
 }
