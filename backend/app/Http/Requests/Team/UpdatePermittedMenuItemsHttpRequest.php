@@ -8,7 +8,6 @@ use App\Http\Request\ApiFormRequest;
 use App\Rules\{IsWebsiteRelatedToUser, ExistingMenuList};
 use Illuminate\Support\Collection;
 
-
 final class UpdatePermittedMenuItemsHttpRequest extends ApiFormRequest
 {
     public function rules(): array

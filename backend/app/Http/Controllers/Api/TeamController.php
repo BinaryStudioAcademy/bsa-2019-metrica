@@ -89,5 +89,4 @@ final class TeamController extends Controller
             new PermittedMenuResource($response->updatedMenuList())
         );
     }
-
 }

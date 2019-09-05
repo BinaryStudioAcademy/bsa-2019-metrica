@@ -108,7 +108,6 @@ final class EloquentWebsiteRepository implements WebsiteRepository
                     ->map(function($member) use ($websiteId) {
                         $menuItems = explode(', ', $member->pivot->permitted_menu);
                         return new MemberWithMenuItems($member->id, $websiteId, $menuItems);
-                      });
+                    });
     }
-
 }
