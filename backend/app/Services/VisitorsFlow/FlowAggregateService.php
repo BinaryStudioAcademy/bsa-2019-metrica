@@ -83,7 +83,22 @@ final class FlowAggregateService
             $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
             dd($browserAggregate);
         } else {
+            if ($level > 1) {
+                $previousAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
+                    BrowserCriteria::getCriteria(
+                        $previousVisit->session->website_id,
+                        $previousVisit->page->url,
+                        $level - 1,
+                        $previousVisit->session->system->browser,
+                        $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null'
+                    )
+                );
+                $previousAggregate->isLastPage = false;
+                $previousAggregate->exitCount--;
+                $this->visitorFlowBrowserRepository->update($previousAggregate);
+            }
             $browserAggregate->views++;
+            $browserAggregate->exitCount++;
             $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
             dd($browserAggregate);
         }
