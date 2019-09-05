@@ -9,7 +9,7 @@ interface VisitRepository
 {
     public function save(Visit $visit): Visit;
 
-    public function getVisitsCountByHourAndDay(string $startDate, string $endDate): Collection;
+    public function getVisitsCountByHourAndDay(string $startDate, string $endDate, int $websiteId): Collection;
 
     public function findBySessionId(int $sessionId): Collection;
 }

@@ -23,6 +23,13 @@ const chartTransformer = (item) => {
     };
 };
 
+const chartTransformerToInt = (item) => {
+    return {
+        date: item.date,
+        value: parseInt(item.value)
+    };
+};
+
 const chartTransformerToPercent = (item) => {
     return {
         date: item.date,
@@ -68,6 +75,7 @@ export {
     buttonTransformerToTime,
     buttonTransformerToSeconds,
     chartTransformer,
+    chartTransformerToInt,
     chartTransformerToPercent,
     chartTransformerToSeconds,
     tableTransformer,
