@@ -22,7 +22,7 @@ class BrowserAggregate extends Aggregate
         bool $isLastPage,
         int $exitCount,
         string $browser,
-        ?PageValue $prevPage
+        PageValue $prevPage
     )
     {
         parent::__construct($id, $websiteId, $url, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
@@ -46,7 +46,7 @@ class BrowserAggregate extends Aggregate
             (bool)$result['isLastPage'],
             (int)$result['exitCount'],
             (string)$result['browser'],
-            $result['prevPage'] === null ? null : new PageValue(
+            new PageValue(
                 (int)$result['prevPage']['id'],
                 (string)$result['prevPage']['url']
             )
@@ -65,8 +65,8 @@ class BrowserAggregate extends Aggregate
                 $visit->session->website_id,
                 $visit->page->url,
                 $level - 1,
-                $visit->session->system->browser,
-                $previousVisitUrl
+                $previousVisitUrl,
+                $visit->session->system->browser
             )
         );
     }

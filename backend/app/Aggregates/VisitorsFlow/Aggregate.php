@@ -28,7 +28,7 @@ abstract class Aggregate
         int $level,
         bool $isLastPage,
         int $exitCount,
-        ?PageValue $prevPage
+        PageValue $prevPage
     )
     {
         $this->id = $id;
@@ -50,7 +50,7 @@ abstract class Aggregate
             'websiteId' => $this->websiteId,
             'url' => $this->url,
             'title' => $this->title,
-            'prevPage' => $this->prevPage === null ? null : [
+            'prevPage' => [
                 'id' => $this->prevPage->id,
                 'url' => $this->prevPage->url
             ],

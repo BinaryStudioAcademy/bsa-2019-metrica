@@ -13,7 +13,7 @@ class CountryCriteria implements Criteria
     public $country;
     public $prevPageUrl;
 
-    private function __construct(int $websiteId, string $url, int $level, string $country, ?string $prevPageUrl)
+    private function __construct(int $websiteId, string $url, int $level, ?string $prevPageUrl, string $country)
     {
         $this->websiteId = $websiteId;
         $this->url = $url;
@@ -22,14 +22,14 @@ class CountryCriteria implements Criteria
         $this->prevPageUrl = $prevPageUrl;
     }
 
-    public static function getCriteria(int $websiteId, string $url, int $level, string $type, ?string $prevPageUrl)
+    public static function getCriteria(int $websiteId, string $url, int $level, ?string $prevPageUrl, ...$params)
     {
         return new static(
             $websiteId,
             $url,
             $level,
-            $type,
-            $prevPageUrl
+            $prevPageUrl,
+            $params[0]
         );
     }
 }

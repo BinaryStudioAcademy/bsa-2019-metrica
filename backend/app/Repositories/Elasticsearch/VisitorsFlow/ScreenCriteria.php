@@ -5,20 +5,29 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 
-class DeviceCriteria implements Criteria
+class ScreenCriteria implements Criteria
 {
     public $websiteId;
     public $url;
     public $level;
-    public $device;
+    public $resolutionWidth;
+    public $resolutionHeight;
     public $prevPageUrl;
 
-    private function __construct(int $websiteId, string $url, int $level, ?string $prevPageUrl, string $device)
+    private function __construct(
+        int $websiteId,
+        string $url,
+        int $level,
+        ?string $prevPageUrl,
+        string $resolutionWidth,
+        string $resolutionHeight
+    )
     {
         $this->websiteId = $websiteId;
         $this->url = $url;
         $this->level = $level;
-        $this->device = $device;
+        $this->resolutionWidth = $resolutionWidth;
+        $this->resolutionHeight = $resolutionHeight;
         $this->prevPageUrl = $prevPageUrl;
     }
 
@@ -29,8 +38,8 @@ class DeviceCriteria implements Criteria
             $url,
             $level,
             $prevPageUrl,
-            $params[0]
+            $params[0],
+            $params[1]
         );
     }
 }
-

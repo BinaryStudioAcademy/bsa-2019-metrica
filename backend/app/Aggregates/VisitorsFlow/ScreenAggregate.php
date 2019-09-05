@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Aggregates\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Values\PageValue;
+use App\Entities\Visit;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\ScreenCriteria;
 
 class ScreenAggregate extends Aggregate
 {
@@ -19,9 +22,9 @@ class ScreenAggregate extends Aggregate
         int $level,
         bool $isLastPage,
         int $exitCount,
-        int $resolutionWidth,
-        int $resolutionHeight,
-        ?PageValue $prevPage
+        string $resolutionWidth,
+        string $resolutionHeight,
+        PageValue $prevPage
     )
     {
         parent::__construct($id, $websiteId, $url, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
@@ -48,11 +51,30 @@ class ScreenAggregate extends Aggregate
             (int)$result['level'],
             (bool)$result['isLastPage'],
             (int)$result['exitCount'],
-            (int)$result['resolution_width'],
-            (int)$result['resolution_height'],
-            $result['prevPage'] === null ? null : new PageValue(
+            (string)$result['resolution_width'],
+            (string)$result['resolution_height'],
+            new PageValue(
                 (int)$result['prevPage']['id'],
                 (string)$result['prevPage']['url']
+            )
+        );
+    }
+
+    public static function getPreviousAggregate(
+        VisitorFlowRepository $visitorFlowScreenRepository,
+        Visit $visit,
+        string $previousVisitUrl,
+        int $level
+    ): Aggregate
+    {
+        return $visitorFlowScreenRepository->getByCriteria(
+            ScreenCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level - 1,
+                $previousVisitUrl,
+                $visit->session->system->resolution_width,
+                $visit->session->system->resolution_height
             )
         );
     }

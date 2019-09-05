@@ -13,7 +13,7 @@ class BrowserCriteria implements Criteria
     public $browser;
     public $prevPageUrl;
 
-    private function __construct(int $websiteId, string $url, int $level, string $browser, ?string $prevPageUrl)
+    private function __construct(int $websiteId, string $url, int $level, ?string $prevPageUrl, string $browser)
     {
         $this->websiteId = $websiteId;
         $this->url = $url;
@@ -22,14 +22,14 @@ class BrowserCriteria implements Criteria
         $this->prevPageUrl = $prevPageUrl;
     }
 
-    public static function getCriteria(int $websiteId, string $url, int $level, string $type, ?string $prevPageUrl)
+    public static function getCriteria(int $websiteId, string $url, int $level, ?string $prevPageUrl, ...$params)
     {
         return new static(
             $websiteId,
             $url,
             $level,
-            $type,
-            $prevPageUrl
+            $prevPageUrl,
+            $params[0]
         );
     }
 }

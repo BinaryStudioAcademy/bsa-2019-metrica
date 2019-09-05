@@ -6,6 +6,7 @@ namespace App\Services\VisitorsFlow;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
 use App\Aggregates\VisitorsFlow\DeviceAggregate;
+use App\Aggregates\VisitorsFlow\ScreenAggregate;
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
 use App\Repositories\Contracts\GeoPositionRepository;
@@ -16,8 +17,10 @@ use App\Repositories\Elasticsearch\VisitorsFlow\BrowserCriteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowDeviceRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowScreenRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\CountryCriteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\DeviceCriteria;
+use App\Repositories\Elasticsearch\VisitorsFlow\ScreenCriteria;
 use Carbon\Carbon;
 
 final class FlowAggregateService
@@ -29,7 +32,7 @@ final class FlowAggregateService
     private $geoPositionRepository;
     private $visitorFlowBrowserRepository;
     private $visitorFlowDeviceRepository;
-
+    private $visitorFlowScreenRepository;
 
     public function __construct(
         PageRepository $pageRepository,
@@ -38,7 +41,8 @@ final class FlowAggregateService
         WebsiteRepository $websiteRepository,
         GeoPositionRepository $geoPositionRepository,
         VisitorFlowBrowserRepository $visitorFlowBrowserRepository,
-        VisitorFlowDeviceRepository $visitorFlowDeviceRepository
+        VisitorFlowDeviceRepository $visitorFlowDeviceRepository,
+        VisitorFlowScreenRepository $visitorFlowScreenRepository
     )
     {
         $this->pageRepository = $pageRepository;
@@ -48,6 +52,7 @@ final class FlowAggregateService
         $this->geoPositionRepository = $geoPositionRepository;
         $this->visitorFlowBrowserRepository = $visitorFlowBrowserRepository;
         $this->visitorFlowDeviceRepository = $visitorFlowDeviceRepository;
+        $this->visitorFlowScreenRepository = $visitorFlowScreenRepository;
     }
 
     public function aggregate(Visit $visit)
@@ -64,8 +69,8 @@ final class FlowAggregateService
                 $visit->session->website_id,
                 $visit->page->url,
                 $level,
-                $visit->geo_position->country,
-                $isFirstInSession ? 'null' : $previousVisit->page->url
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->geo_position->country
             )
         );
         $browserAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
@@ -73,18 +78,27 @@ final class FlowAggregateService
                 $visit->session->website_id,
                 $visit->page->url,
                 $level,
-                $visit->session->system->browser,
-                $isFirstInSession ? 'null' : $previousVisit->page->url
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->session->system->browser
             )
         );
-
         $deviceAggregate = $this->visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(
                 $visit->session->website_id,
                 $visit->page->url,
                 $level,
-                $visit->session->system->device,
-                $isFirstInSession ? 'null' : $previousVisit->page->url
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->session->system->device
+            )
+        );
+        $screenAggregate = $this->visitorFlowScreenRepository->getByCriteria(
+            ScreenCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->session->system->resolution_width,
+                $visit->session->system->resolution_height
             )
         );
         if (!$countryAggregate) {
@@ -131,7 +145,7 @@ final class FlowAggregateService
         if (!$deviceAggregate) {
             $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
             $deviceAggregate = $this->visitorFlowDeviceRepository->save($deviceAggregate);
-            dd($deviceAggregate);
+//            dd($deviceAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = DeviceAggregate::getPreviousAggregate(
@@ -147,7 +161,29 @@ final class FlowAggregateService
             $deviceAggregate->views++;
             $deviceAggregate->exitCount++;
             $deviceAggregate = $this->visitorFlowDeviceRepository->update($deviceAggregate);
-            dd($deviceAggregate);
+//            dd($deviceAggregate);
+        }
+
+        if (!$screenAggregate) {
+            $screenAggregate = $this->createScreenAggregate($visit, $level, $previousVisit);
+            $screenAggregate = $this->visitorFlowScreenRepository->save($screenAggregate);
+            dd($screenAggregate);
+        } else {
+            if ($level > 1) {
+                $previousAggregate = ScreenAggregate::getPreviousAggregate(
+                    $this->visitorFlowScreenRepository,
+                    $previousVisit,
+                    $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+                    $level
+                );
+                $previousAggregate->isLastPage = false;
+                $previousAggregate->exitCount--;
+                $this->visitorFlowScreenRepository->update($previousAggregate);
+            }
+            $screenAggregate->views++;
+            $screenAggregate->exitCount++;
+            $screenAggregate = $this->visitorFlowScreenRepository->update($screenAggregate);
+            dd($screenAggregate);
         }
     }
 
@@ -279,6 +315,41 @@ final class FlowAggregateService
             $isLatPage,
             $exitCount,
             $currentVisit->session->system->device,
+            $prevPage
+        );
+    }
+
+    private function createScreenAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): ScreenAggregate
+    {
+        $page = $this->pageRepository->getById($currentVisit->page_id);
+        $website = $this->websiteRepository->getById($page->website_id);
+        $prevPage = new PageValue();
+        if ($level !== 1) {
+            $previousAggregate = ScreenAggregate::getPreviousAggregate(
+                $this->visitorFlowScreenRepository,
+                $previousVisit,
+                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+                $level
+            );
+            $previousAggregate->isLastPage = false;
+            $previousAggregate->exitCount--;
+            $this->visitorFlowScreenRepository->update($previousAggregate);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
+        }
+        $exitCount = 1;
+        $isLatPage = true;
+        $views = 1;
+        return new ScreenAggregate(
+            $currentVisit->id,
+            $website->id,
+            $page->url,
+            $page->name,
+            $views,
+            $level,
+            $isLatPage,
+            $exitCount,
+            $currentVisit->session->system->resolution_width,
+            $currentVisit->session->system->resolution_height,
             $prevPage
         );
     }

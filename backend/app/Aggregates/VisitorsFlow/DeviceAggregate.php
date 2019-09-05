@@ -5,7 +5,6 @@ namespace App\Aggregates\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
-use App\Repositories\Elasticsearch\VisitorsFlow\BrowserCriteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\DeviceCriteria;
 
@@ -23,7 +22,7 @@ class DeviceAggregate extends Aggregate
         bool $isLastPage,
         int $exitCount,
         string $device,
-        ?PageValue $prevPage
+        PageValue $prevPage
     )
     {
         parent::__construct($id, $websiteId, $url, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
@@ -47,7 +46,7 @@ class DeviceAggregate extends Aggregate
             (bool)$result['isLastPage'],
             (int)$result['exitCount'],
             (string)$result['device'],
-            $result['prevPage'] === null ? null : new PageValue(
+            new PageValue(
                 (int)$result['prevPage']['id'],
                 (string)$result['prevPage']['url']
             )
@@ -66,8 +65,8 @@ class DeviceAggregate extends Aggregate
                 $visit->session->website_id,
                 $visit->page->url,
                 $level - 1,
-                $visit->session->system->device,
-                $previousVisitUrl
+                $previousVisitUrl,
+                $visit->session->system->device
             )
         );
     }

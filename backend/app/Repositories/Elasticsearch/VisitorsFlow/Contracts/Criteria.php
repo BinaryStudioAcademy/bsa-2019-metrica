@@ -5,5 +5,5 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow\Contracts;
 
 interface Criteria
 {
-    public static function getCriteria(int $websiteId, string $url, int $level, string $type, ?string $prevPageUrl);
+    public static function getCriteria(int $websiteId, string $url, int $level, ?string $prevPageUrl, ...$params);
 }
