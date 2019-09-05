@@ -196,8 +196,6 @@
         border-radius: 6px;
         padding: 1.5rem;
         width: 352px;
-        height: 100%;
-        max-height: 500px;
     }
 
     .ml10 {
