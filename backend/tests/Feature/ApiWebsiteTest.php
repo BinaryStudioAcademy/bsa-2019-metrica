@@ -205,7 +205,26 @@ class ApiWebsiteTest extends TestCase
 
     public function test_get_relate_user_websites()
     {
-        $expectedData = [];
+        $expectedData = [
+            "data" => [
+                [
+                    "id" => 1,
+                    "domain" => "domain1.com",
+                    "role" => "owner"
+                ],
+                [
+                    "id" => 2,
+                    "domain" => "domain2.com",
+                    "role" => "member"
+                ],
+                [
+                    "id" => 3,
+                    "domain" => "domain3.com",
+                    "role" => "member"
+                ]
+            ],
+            "meta" => []
+        ];
 
         $user1 = factory(User::class)->create();
         $user2 = factory(User::class)->create();
@@ -238,10 +257,9 @@ class ApiWebsiteTest extends TestCase
             'role' => 'member'
         ]);
 
-        $r = $this->actingAs($user1)
-            ->get('/api/v1/websites/relate');
-        dd($r->json());
-        $r->assertOk()
+        $this->actingAs($user1)
+            ->call('GET','/api/v1/teams/relate')
+            ->assertOk()
             ->assertJson($expectedData);
     }
 }

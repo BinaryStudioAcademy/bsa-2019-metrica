@@ -11,7 +11,7 @@ class PageTableSeeder extends Seeder
     {
         $user = User::query()->where('email', '=', 'info@metrica.fun')->first();
 
-        $userWebsite = $this->user->websites->filter(function($website) {
+        $userWebsite = $user->websites->filter(function($website) {
             return $website->pivot->role === 'owner';
         })->first();
 

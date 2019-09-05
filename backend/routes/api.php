@@ -33,7 +33,6 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'websites'
         ], function () {
             Route::get('/{id}', 'WebsiteController@getCurrentUserWebsite');
-            Route::get('/relate', 'WebsiteController@getRelateUserWebsites');
             Route::post('/', 'WebsiteController@add');
         });
 
@@ -157,6 +156,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/', 'TeamController@getTeam');
             Route::post('/', 'TeamController@inviteTeamMember');
             Route::delete('/member/{id}', 'TeamController@removeTeamMember');
+            Route::get('/relate', 'TeamController@getRelateUserWebsites');
+
         });
     });
 

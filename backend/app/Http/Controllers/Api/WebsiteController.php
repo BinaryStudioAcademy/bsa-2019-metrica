@@ -9,10 +9,8 @@ use App\Actions\Website\AddWebsiteAction;
 use App\Actions\Website\AddWebsiteRequest;
 use App\Actions\Website\EditWebsiteAction;
 use App\Actions\Website\EditWebsiteRequest;
-use App\Actions\Website\GetRelateUserWebsitesAction;
 use App\Http\Requests\Website\AddWebsiteHttpRequest;
 use App\Http\Requests\Website\EditWebsiteHttpRequest;
-use App\Http\Resources\RelateUserWebsitesResource;
 use App\Http\Resources\WebsiteResource;
 use App\Http\Response\ApiResponse;
 
@@ -20,16 +18,13 @@ final class WebsiteController
 {
     private $addWebsiteAction;
     private $getCurrentUserWebsiteAction;
-    private $getRelateUserWebsitesAction;
 
     public function __construct(
         AddWebsiteAction $addWebsiteAction,
-        GetCurrentUserWebsiteAction $getCurrentUserWebsiteAction,
-        GetRelateUserWebsitesAction $getRelateUserWebsitesAction
+        GetCurrentUserWebsiteAction $getCurrentUserWebsiteAction
     ) {
         $this->addWebsiteAction = $addWebsiteAction;
         $this->getCurrentUserWebsiteAction = $getCurrentUserWebsiteAction;
-        $this->getRelateUserWebsitesAction = $getRelateUserWebsitesAction;
     }
 
     public function add(AddWebsiteHttpRequest $request): ApiResponse
@@ -54,11 +49,5 @@ final class WebsiteController
     {
         $response = $this->getCurrentUserWebsiteAction->execute($websiteId);
         return ApiResponse::success(new WebsiteResource($response->website()));
-    }
-
-    public function getRelateUserWebsites(): ApiResponse
-    {
-        $response = $this->getRelateUserWebsitesAction->execute();
-        return ApiResponse::success(new RelateUserWebsitesResource($response->relateWebsites()));
     }
 }

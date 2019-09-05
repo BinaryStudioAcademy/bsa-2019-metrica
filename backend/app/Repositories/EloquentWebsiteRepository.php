@@ -100,6 +100,8 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
     public function getRelateUserWebsite(int $userId): Collection
     {
-        return User::find($userId)->websites();
+        return User::find($userId)->websites()
+            ->withPivot('role')
+            ->get(['websites.id','websites.domain','role']);
     }
 }
