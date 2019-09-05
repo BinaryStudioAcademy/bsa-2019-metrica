@@ -12,7 +12,7 @@ class ErrorsTableSeeder extends Seeder
 
         for ($i = 0; $i < 5; $i++) {
             $visit = $user->website->visits->random();
-            factory(Error::class,5)->create([
+            factory(Error::class, 5)->create([
                 'visitor_id' => $visit->visitor->id,
                 'page_id' => $visit->page->id
             ]);
