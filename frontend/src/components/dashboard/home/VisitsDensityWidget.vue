@@ -4,7 +4,7 @@
             v-if="isFetching"
         />
         <div class="ml10">
-            Users by time of dayasd
+            Users by time of day
         </div>
         <VueApexCharts
             type="heatmap"

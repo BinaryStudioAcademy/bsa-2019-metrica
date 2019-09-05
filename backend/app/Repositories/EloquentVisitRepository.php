@@ -26,6 +26,7 @@ final class EloquentVisitRepository implements VisitRepository
             ))
             ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy('day', 'hour')
+            ->forUserWebsite()
             ->get();
     }
 }
