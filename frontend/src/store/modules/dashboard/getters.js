@@ -20,6 +20,6 @@ export default {
     [GET_ACTIVITY_DATA_FETCHING]: (state) => state.activityData.isFetching,
     [GET_ACTIVITY_CHART_DATA]: (state) => state.activityChartData,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
-        return chartDataTransformer(state.chartData.items, state.dataToFetch, state.selectedPeriod);
+        return chartDataTransformer(state.chartData.items, state.selectedPeriod);
     }
 };

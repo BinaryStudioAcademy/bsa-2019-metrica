@@ -1,6 +1,6 @@
 import requestService from "@/services/requestService";
 import config from "@/config";
-import {buttonTransformer, tableTransformer, chartTransformer} from './transformers';
+import {buttonTransformer, tableTransformer, chartTransformer} from '../transformers';
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
