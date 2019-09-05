@@ -104,6 +104,10 @@
                             text: 'Page Timings',
                             route: 'page-timings',
                         },
+                        {
+                            text: 'Error Reports',
+                            route: 'error-reports',
+                        },
                     ]
                 },
                 {

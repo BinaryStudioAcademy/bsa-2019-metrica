@@ -23,6 +23,7 @@ import PageTimings from "../pages/speed_overview/PageTimings.vue";
 import VerifyEmail from "../components/auth/VerifyEmail";
 import Dashboard from "../pages/Dashboard";
 import GeoLocation from "../pages/GeoLocationPage";
+import ErrorReports from "../pages/speed_overview/ErrorReports";
 import Behavior from "../pages/Behavior";
 import VisitorsFlow from "../pages/VisitorsFlow";
 
@@ -159,6 +160,11 @@ export default new Router({
                                             name: 'page-timings',
                                             component: PageTimings,
                                         },
+                                        {
+                                            path: 'error-reports',
+                                            name: 'error-reports',
+                                            component: ErrorReports
+                                        }
 
                                     ]
                                 },
