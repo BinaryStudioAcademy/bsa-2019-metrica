@@ -5,10 +5,11 @@ import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
-const fetchButtonValue = (startDate, endDate) => {
+const fetchButtonValue = (startDate, endDate, websiteId) => {
     return requestService.get(resourceUrl + '/button-page-views/avg-time', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
+        'filter[website_id]': websiteId,
     }).then(response => buttonTransformerToTime(response.data))
         .catch(error => Promise.reject(
             new Error(
@@ -21,11 +22,12 @@ const fetchButtonValue = (startDate, endDate) => {
         ));
 };
 
-const fetchChartValues = (startDate, endDate, interval) => {
+const fetchChartValues = (startDate, endDate, interval, websiteId) => {
     return requestService.get(resourceUrl + '/chart-page-views/avg-time', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[period]': interval
+        'filter[period]': interval,
+        'filter[website_id]': websiteId,
     }).then(response => response.data.map(chartTransformer))
         .catch(error => Promise.reject(
             new Error(

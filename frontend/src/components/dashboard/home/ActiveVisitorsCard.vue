@@ -13,7 +13,7 @@
         </div>
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
-                Page views now
+                Pages currently viewing
             </p>
             <p class="card-count text-right mb-0">
                 <strong>

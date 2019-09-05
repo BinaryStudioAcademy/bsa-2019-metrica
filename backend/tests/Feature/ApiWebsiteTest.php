@@ -122,6 +122,9 @@ class ApiWebsiteTest extends TestCase
             ]
         ];
         $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         $websiteData = [];
         $token = JWTAuth::fromUser($this->user);
         $headers = ['Authorization' => "Bearer $token"];
@@ -149,6 +152,54 @@ class ApiWebsiteTest extends TestCase
         $this->actingAs($this->user)
             ->put('/api/v1/websites/'.$failId, $websiteData, $headers)
             ->assertStatus(404)
+            ->assertJson($expectedData);
+    }
+
+    public function test_update_website_access()
+    {
+        $expectedData = [
+            'error' => [
+                'message' => 'The name field is required.'
+            ]
+        ];
+
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertJson($expectedData);
+        ;
+    }
+
+    public function test_update_website_access_failed()
+    {
+        $expectedData = [
+            'error' => [
+                'message' => 'You do not have rights to access this resource.'
+            ]
+        ];
+
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'member'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertStatus(403)
             ->assertJson($expectedData);
     }
 }

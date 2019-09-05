@@ -25,8 +25,9 @@ export default {
         context.commit(SET_IS_FETCHING);
 
         const period = getTimeByPeriod(context.state.selectedPeriod);
+        const id = context.state.currentWebsite.id;
 
-        return getGeoLocationItems(period.startDate.unix(), period.endDate.unix())
+        return getGeoLocationItems(period.startDate.unix(), period.endDate.unix(), id)
             .then(geoLocationItems => context.commit(SET_GEO_LOCATION_ITEMS, geoLocationItems))
             .finally(() => context.commit(RESET_IS_FETCHING));
     }

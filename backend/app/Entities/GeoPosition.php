@@ -19,4 +19,9 @@ final class GeoPosition extends Model
         'country',
         'city',
     ];
+
+    public function visits()
+    {
+        return $this->hasMany(Session::class);
+    }
 }

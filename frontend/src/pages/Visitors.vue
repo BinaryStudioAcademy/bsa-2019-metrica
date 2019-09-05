@@ -189,7 +189,10 @@
             },
             getButtonValue (type) {
                 if (type === 'avg_session') {
-                    return moment.unix(this.buttonsData[type].value).format("HH:mm:ss");
+                    const duration = moment.duration(parseInt(this.buttonsData[type].value), 's');
+                    const hours = Math.floor(duration.asHours());
+                    const minutes = moment.utc(duration.asMilliseconds()).format("mm:ss");
+                    return `${hours}:${minutes}`;
                 }
 
                 if (type === 'bounce_rate') {

@@ -42,6 +42,7 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
+        context.dispatch(FETCH_BUTTON_DATA, button);
         context.dispatch(FETCH_LINE_CHART_DATA);
         context.dispatch(FETCH_TABLE_DATA);
 
@@ -59,17 +60,15 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
 
         return factoryVisitorsService.create(type)
-            .fetchButtonValue(startDate.unix(), endDate.unix())
+            .fetchButtonValue(startDate.unix(), endDate.unix(), id)
             .then(response => {
                 context.commit(SET_BUTTON_DATA, {button: type, value: response.value});
                 context.commit(RESET_BUTTON_FETCHING, type);
             })
-            .catch(err => {
-                context.commit(RESET_BUTTON_FETCHING, type);
-                throw err;
-            });
+            .finally(() => context.commit(RESET_BUTTON_FETCHING, type));
     },
     [CHANGE_FETCHED_LINE_CHART_STATE]: (context, value) => {
 
@@ -84,9 +83,10 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
 
         return factoryVisitorsService.create(context.state.activeButton)
-            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval)
+            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval, id)
             .then(data => context.commit(SET_LINE_CHART_DATA, data))
             .finally(() => context.commit(RESET_LINE_CHART_FETCHING));
 
@@ -108,9 +108,10 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
 
         return factoryVisitorsService.create(context.state.activeButton)
-            .fetchTableValues(startDate.unix(), endDate.unix(), context.state.tableData.groupedParameter)
+            .fetchTableValues(startDate.unix(), endDate.unix(), context.state.tableData.groupedParameter, id)
                 .then(data => context.commit(SET_TABLE_DATA, data))
                 .finally(() => context.commit(RESET_TABLE_FETCHING));
     },
@@ -119,18 +120,27 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
+        const id = context.state.currentWebsite.id;
         let newVisitors = 0;
-        let returnVisitors = 0;
+        let totalVisitors = 0;
+        let newVisitorsValue = 0;
+        let returnVisitorsValue = 0;
 
-        return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
+        return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix(), id)
             .then(response => {
                 newVisitors = response.value;
-               return totalVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix())
+               return totalVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix(), id)
                     .then(response => {
-                        returnVisitors = response.value;
-                        newVisitors = (newVisitors/returnVisitors*100);
-                        returnVisitors = 100 - newVisitors;
-                        context.commit(SET_CHART_PIE_DATA, {newVisitors, returnVisitors});
+                        totalVisitors = response.value || 0;
+                       if (totalVisitors > 0) {
+                            newVisitorsValue = newVisitors/totalVisitors*100;
+                            returnVisitorsValue = 100 - newVisitorsValue;
+                        }
+                        let payload = {
+                            newVisitors: newVisitorsValue,
+                            returnVisitors: returnVisitorsValue
+                        };
+                        context.commit(SET_CHART_PIE_DATA, payload);
                         context.commit(RESET_CHART_DATA_FETCHING);
                     });
             })

@@ -35,6 +35,7 @@ export default {
     },
     [CHANGE_ACTIVE_BUTTON]: (context, button) => {
         context.commit(SET_ACTIVE_BUTTON, button);
+        context.dispatch(FETCH_BUTTON_DATA, button);
         context.dispatch(FETCH_CHART_DATA);
     },
     [CHANGE_FETCHED_BUTTON_STATE]: (context, data) => {
@@ -51,35 +52,36 @@ export default {
     },
 
     [FETCH_BUTTONS_DATA]: (context) => {
-        Object.keys(context.state.buttonData).map((type) => {
-            context.dispatch(FETCH_BUTTON_DATA, {
-                time: getTimeByPeriod(context.state.selectedPeriod),
-                type: type
-            });
+        Object.keys(context.state.buttonData).forEach((type) => {
+            context.dispatch(FETCH_BUTTON_DATA, type);
         });
     },
 
     [FETCH_BUTTON_DATA]: (context, button) => {
+        const id = context.state.currentWebsite.id;
         context.commit(SET_BUTTON_FETCHING, button.type);
         factoryPageViewsService.create(button.type).fetchButtonValue(
             button.time.startDate.unix(),
-            button.time.endDate.unix()
+            button.time.endDate.unix(),
+            id
         ).then(response => {
             let payload = {
-                buttonType: button.type,
+                buttonType: type,
                 value: response.value
             };
             context.commit(SET_BUTTON_VALUE, payload);
-        }).finally(() => context.commit(RESET_BUTTON_FETCHING, button.type));
+        }).finally(() => context.commit(RESET_BUTTON_FETCHING, type));
     },
 
     [FETCH_CHART_DATA]: (context) => {
         const time = getTimeByPeriod(context.state.selectedPeriod);
+        const id = context.state.currentWebsite.id;
         context.commit(SET_CHART_FETCHING);
         factoryPageViewsService.create(context.state.activeButton).fetchChartValues(
             time.startDate.unix(),
             time.endDate.unix(),
-            time.interval
+            time.interval,
+            id
         ).then(response => {
                 context.commit(SET_CHART_VALUES, response);
                 context.commit(RESET_CHART_FETCHING);
@@ -91,8 +93,9 @@ export default {
         context.commit(SET_IS_FETCHING);
 
         const period = getTimeByPeriod(context.state.selectedPeriod);
+        const id = context.state.currentWebsite.id;
 
-        return fetchTableValues(period.startDate.unix(), period.endDate.unix())
+        return fetchTableValues(period.startDate.unix(), period.endDate.unix(), id)
             .then(response => context.commit(SET_PAGE_VIEWS_TABLE_DATA, response))
             .finally(() => context.commit(RESET_IS_FETCHING));
     }
