@@ -29,7 +29,7 @@ function transformDevices(devicesData) {
     devicesData.forEach((item, index) => {
         devices.push({
             title: item.name,
-            percent: index === 2 ? 100 - percent : Math.round(item.percent),
+            percent: index === devicesData.length - 1 ? 100 - percent : Math.round(item.percent),
             color: colors[index]
         });
         percent += Math.round(item.percent);
