@@ -29,6 +29,9 @@ import {getTimeByPeriod} from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
+        if (context.state.selectedPeriod === payload.value) {
+            return;
+        }
         context.commit(SET_SELECTED_PERIOD, payload.value);
         context.dispatch(FETCH_PAGE_DATA);
     },

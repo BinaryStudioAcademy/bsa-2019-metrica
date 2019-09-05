@@ -71,8 +71,8 @@
             };
         },
         methods: {
-            changeSelect () {
-                this.$emit('change', this.value);
+            changeSelect (value) {
+                this.$emit('change', value);
             }
         }
     };
