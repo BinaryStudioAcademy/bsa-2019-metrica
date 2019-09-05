@@ -5,6 +5,7 @@ namespace App\Repositories\Contracts;
 
 use App\Entities\Website;
 use App\Entities\User;
+use Illuminate\Support\Collection;
 
 interface WebsiteRepository
 {
@@ -16,4 +17,5 @@ interface WebsiteRepository
     public function setWebsiteOwner(User $user, int $websiteId): void;
     public function addTeamMemberToWebsite(User $user, int $websiteId): void;
     public function removeMemberFromWebsiteTeam(User $user, int $websiteId): void;
+    public function getUsersWithPermittedMenu(int $websiteId): Collection;
 }
