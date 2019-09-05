@@ -18,7 +18,6 @@ export default {
     [GET_PAGE_VIEWS_TABLE_DATA]: (state) => state.pageViewsTableData.items,
     [IS_FETCHING]: (state) => state.pageViewsTableData.isFetching,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
-        state.chartData.items.sort((a, b) => a.date - b.date);
         return chartDataTransformer(state.chartData.items, state.selectedPeriod);
     },
 };

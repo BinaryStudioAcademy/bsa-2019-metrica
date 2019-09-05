@@ -42,7 +42,6 @@ export default {
     [GET_LINE_CHART_DATA]: (state) => state.chartData,
     [FETCH_TABLE_DATA]: (state) => state.tableData,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
-        state.chartData.items.sort((a, b) => a.date - b.date);
         return chartDataTransformer(state.chartData.items, state.selectedPeriod);
     },
 };
