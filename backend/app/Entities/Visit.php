@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Visit
@@ -68,12 +67,5 @@ final class Visit extends Model
     public function scopeWhereDateBetween(Builder $query, DatePeriod $period): Builder
     {
         return $query->whereBetween('visit_time', [$period->getStartDate(), $period->getEndDate()]);
-    }
-
-    public function scopeForUserWebsite(Builder $query): Builder
-    {
-        return $query->whereHas('session', function ($query) {
-            $query->whereWebsiteId(Auth::user()->website->id);
-        });
     }
 }
