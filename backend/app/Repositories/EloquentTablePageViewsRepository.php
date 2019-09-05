@@ -110,7 +110,7 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
                 $namesAndtitles[$pageId]['title'],
                 $totalViews,
                 array_key_exists($pageId, $bounced) ? ($bounced[$pageId]/$totalViews) : 0,
-                array_key_exists($pageId, $exitRates) ? (int)$exitRates[$pageId] : 0
+                array_key_exists($pageId, $exitRates) ? ((int)$exitRates[$pageId]/$totalViews) : 0
             ));
         }
 
