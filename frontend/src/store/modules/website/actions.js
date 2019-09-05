@@ -35,6 +35,7 @@ export default {
         let domain = '';
 
         return getCurrentUserWebsite(id).then(response => {
+            console.log(response.data);
             context.commit(SET_CURRENT_WEBSITE, response.data);
             domain = response.data.domain;
         })
@@ -154,8 +155,8 @@ export default {
     [FETCH_RELATE_WEBSITES]: (context) => {
         context.commit(SET_IS_FETCH_WEBSITES);
         return getRelateUserWebsites().then(response => {
-            console.log(response.data);
-            context.commit(SET_RELATE_WEBSITES, response.data);
+            console.log(response[0]);
+            context.commit(SET_RELATE_WEBSITES, response);
         }).catch(() => {
             context.commit(RESET_FETCH_WEBSITES);
         });
