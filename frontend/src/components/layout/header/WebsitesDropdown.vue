@@ -7,7 +7,6 @@
 </template>
 
 <script>
-    import {period} from "@/services/periodService";
     import DefaultDropdown from '@/components/common/DefaultDropdown';
     import {mapActions, mapGetters} from "vuex";
     import {GET_RELATE_WEBSITES} from "@/store/modules/website/types/getters";
@@ -26,7 +25,9 @@
             items: {
                 type: Array,
                 default () {
-                    this.getWebsites()
+                    return [
+                        this.getWebsites
+                    ];
                 }
             }
         },
@@ -39,7 +40,7 @@
             })
         },
         methods: {
-            ...mapActions('websites', {
+            ...mapActions('website', {
                 fetchRelateWebsites: FETCH_RELATE_WEBSITES,
             }),
             changeWebsite(selectedItem) {

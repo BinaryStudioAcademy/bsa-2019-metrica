@@ -1,5 +1,6 @@
 import requestService from "@/services/requestService";
 import config from "@/config";
+import _ from "lodash";
 
 const resourceUrl = config.getApiUrl() + '/websites';
 
@@ -9,7 +10,7 @@ const addWebsite = data => requestService.create(resourceUrl, data);
 
 const updateWebsite = (data, id) => requestService.update(resourceUrl + '/' + id, data);
 
-const getRelateUserWebsites = () => requestService.get(resourceUrl + '/relate')
+const getRelateUserWebsites = () => requestService.get(config.getApiUrl() + '/teams/relate')
     .then(response => response.data)
     .catch(error => Promise.reject(
         new Error(

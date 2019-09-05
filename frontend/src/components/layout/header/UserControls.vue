@@ -6,8 +6,8 @@
         class="pr-2"
     >
         <WebsitesDropdown
-                :value="getSelectedWebsite"
-                @change="changeWebsite"
+            :value="getSelectedWebsite"
+            @change="changeWebsite"
         />
         <VBtn
             icon
