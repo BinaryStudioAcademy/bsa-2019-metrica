@@ -33,6 +33,7 @@
                 :items="tableData.items"
                 :label="label"
                 :value="getGroupedParameter"
+                :fetching="tableData.isFetching"
             />
         </VRow>
     </ContentLayout>

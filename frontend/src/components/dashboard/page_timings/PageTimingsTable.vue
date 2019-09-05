@@ -21,19 +21,26 @@
                 {{ label }}
             </VCol>
         </VRow>
-        <VDataTable
-            class="caption"
-            hide-default-footer
-            hide-default-header
-            :headers="headers"
-            :items="items"
-        />
+        <VContainer class="position-relative pa-0">
+            <VDataTable
+                class="caption"
+                hide-default-footer
+                hide-default-header
+                :headers="headers"
+                :items="items"
+            />
+            <Spinner v-if="fetching" />
+        </VContainer>
     </VContainer>
 </template>
 
 <script>
+    import Spinner from '../../utilites/Spinner';
     export default {
         name: 'PageTimingsTable',
+        components: {
+            Spinner
+        },
         props: {
             items: {
                 type: Array,
@@ -45,6 +52,10 @@
             },
             value: {
                 type: String,
+                required: true
+            },
+            fetching: {
+                type: Boolean,
                 required: true
             }
         },

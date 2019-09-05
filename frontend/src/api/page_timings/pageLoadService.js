@@ -7,7 +7,7 @@ const resourceUrl = config.getApiUrl();
 
 const chartDataUrl = '/page-timing/chart/page-loading';
 const btnDataUrl = '/page-timing/button/page-loading';
-const tableDataUrl = '/page-timings/table/page-loading';
+const tableDataUrl = '/page-timing/table/page-loading';
 const errorMessage = 'Something went wrong with getting average page loading time';
 
 
