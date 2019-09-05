@@ -19,6 +19,7 @@
             </VCol>
             <VCol>
                 {{ label }}
+                <span class="units">(sec)</span>
             </VCol>
         </VRow>
         <VContainer class="position-relative pa-0">
@@ -184,5 +185,9 @@
     ::v-deep .v-list-item {
         font-family: 'Gilroy';
         text-transform: capitalize;
+    }
+
+    .units {
+        text-transform: none;
     }
 </style>
