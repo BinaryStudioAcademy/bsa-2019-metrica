@@ -57,7 +57,7 @@
                     legend: 'none',
                     pieSliceText: 'none',
                     tooltip: {
-                        trigger: 'hover'
+                        trigger: 'none'
                     },
                     slices: this.slices
                 };
