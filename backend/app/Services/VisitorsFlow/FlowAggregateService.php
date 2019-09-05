@@ -45,8 +45,7 @@ final class FlowAggregateService
 
     public function aggregate(Visit $visit)
     {
-        dd($visit);
-        $previousVisit = $this->getPreviousVisit($visit);
+        $previousVisit = $this->getLastVisit($visit);
         $isFirstInSession = $previousVisit === null;
         if (!$isFirstInSession) {
             $level = $this->getVisitsCount($visit);
@@ -58,14 +57,17 @@ final class FlowAggregateService
                 $visit->session->website_id,
                 $visit->page->url,
                 $level,
-                $visit->geo_position->country)
+                $visit->geo_position->country,
+                $isFirstInSession ? 'null' : $previousVisit->page->url
+            )
         );
         $browserAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
             BrowserCriteria::getCriteria(
                 $visit->session->website_id,
                 $visit->page->url,
                 $level,
-                $visit->session->system->browser
+                $visit->session->system->browser,
+                $isFirstInSession ? 'null' : $previousVisit->page->url
             )
         );
         if (!$countryAggregate) {
@@ -87,7 +89,7 @@ final class FlowAggregateService
         }
     }
 
-    private function getPreviousVisit(Visit $currentVisit): ?Visit
+    private function getLastVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
             ->sortBy(function (Visit $visit) {
@@ -96,6 +98,18 @@ final class FlowAggregateService
             ->last(function (Visit $visit) use ($currentVisit) {
                 return $currentVisit->id !== $visit->id;
             });
+    }
+
+    private function getPreviousVisit(Visit $currentVisit): ?Visit
+    {
+        return $this->visitRepository->findBySessionId($currentVisit->session_id)
+            ->filter(function (Visit $visit) use ($currentVisit) {
+                return (new Carbon($currentVisit->visit_time))->greaterThan(new Carbon($visit->visit_time));
+            })
+            ->sortBy(function (Visit $visit) {
+                return (new Carbon($visit->visit_time))->getTimestamp();
+            })
+            ->last();
     }
 
     private function getVisitsCount(Visit $currentVisit): int
@@ -108,22 +122,26 @@ final class FlowAggregateService
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
-        $prevPage = null;
+        $prevPage = new PageValue();
         if ($level !== 1) {
+
             $previousAggregate = $this->visitorFlowCountryRepository->getByCriteria(
                 CountryCriteria::getCriteria(
                     $previousVisit->session->website_id,
                     $previousVisit->page->url,
                     $level - 1,
-                    $previousVisit->geo_position->country
+                    $previousVisit->geo_position->country,
+                    $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null'
                 )
             );
             $previousAggregate->isLastPage = false;
+            $previousAggregate->exitCount--;
             $this->visitorFlowCountryRepository->update($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
         }
 
         $isLatPage = true;
+        $exitCount = 1;
         $views = 1;
         return new CountryAggregate(
             $currentVisit->id,
@@ -133,6 +151,7 @@ final class FlowAggregateService
             $views,
             $level,
             $isLatPage,
+            $exitCount,
             $geoPosition->country,
             $prevPage
         );
@@ -142,21 +161,23 @@ final class FlowAggregateService
     {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
-        $prevPage = null;
+        $prevPage = new PageValue();
         if ($level !== 1) {
             $previousAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
                 BrowserCriteria::getCriteria(
                     $previousVisit->session->website_id,
                     $previousVisit->page->url,
                     $level - 1,
-                    $currentVisit->session->system->browser
+                    $currentVisit->session->system->browser,
+                    $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null'
                 )
             );
             $previousAggregate->isLastPage = false;
+            $previousAggregate->exitCount--;
             $this->visitorFlowBrowserRepository->update($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
         }
-
+        $exitCount = 1;
         $isLatPage = true;
         $views = 1;
         return new BrowserAggregate(
@@ -167,6 +188,7 @@ final class FlowAggregateService
             $views,
             $level,
             $isLatPage,
+            $exitCount,
             $currentVisit->session->system->browser,
             $prevPage
         );

@@ -11,22 +11,25 @@ class CountryCriteria implements Criteria
     public $url;
     public $level;
     public $country;
+    public $prevPageUrl;
 
-    private function __construct(int $websiteId, string $url, int $level, string $country)
+    private function __construct(int $websiteId, string $url, int $level, string $country, ?string $prevPageUrl)
     {
         $this->websiteId = $websiteId;
         $this->url = $url;
         $this->level = $level;
         $this->country = $country;
+        $this->prevPageUrl = $prevPageUrl;
     }
 
-    public static function getCriteria(int $websiteId, string $url, int $level, string $type)
+    public static function getCriteria(int $websiteId, string $url, int $level, string $type, ?string $prevPageUrl)
     {
         return new static(
             $websiteId,
             $url,
             $level,
-            $type
+            $type,
+            $prevPageUrl
         );
     }
 }

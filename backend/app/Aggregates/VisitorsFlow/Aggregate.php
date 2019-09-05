@@ -15,6 +15,7 @@ abstract class Aggregate
     public $views;
     public $level;
     public $isLastPage;
+    public $exitCount;
 
     public function __construct(
         int $id,
@@ -24,6 +25,7 @@ abstract class Aggregate
         int $views,
         int $level,
         bool $isLastPage,
+        int $exitCount,
         ?PageValue $prevPage
     )
     {
@@ -34,6 +36,7 @@ abstract class Aggregate
         $this->views = $views;
         $this->level = $level;
         $this->isLastPage = $isLastPage;
+        $this->exitCount = $exitCount;
         $this->prevPage = $prevPage;
 
     }
@@ -52,6 +55,7 @@ abstract class Aggregate
             'level' => $this->level,
             'views' => $this->views,
             'isLastPage' => $this->isLastPage,
+            'exitCount' => $this->exitCount
         ];
     }
 

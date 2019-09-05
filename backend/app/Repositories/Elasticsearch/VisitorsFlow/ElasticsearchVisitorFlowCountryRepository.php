@@ -58,6 +58,7 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
                             ['term' => ['level' => $criteria->level]],
                             ['match_phrase' => ['url' => $criteria->url]],
                             ['match_phrase' => ['country' => $criteria->country]],
+                            ['match_phrase'=>['prevPage.url'=>$criteria->prevPageUrl]]
                         ],
                     ]
                 ]

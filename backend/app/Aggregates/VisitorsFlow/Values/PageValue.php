@@ -8,7 +8,7 @@ class PageValue
     public $id;
     public $url;
 
-    public function __construct(int $id, string $url)
+    public function __construct(int $id = null, string $url = 'null')
     {
         $this->id = $id;
         $this->url = $url;

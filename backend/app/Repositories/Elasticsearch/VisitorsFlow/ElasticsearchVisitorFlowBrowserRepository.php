@@ -58,6 +58,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                             ['term' => ['level' => $criteria->level]],
                             ['match_phrase' => ['url' => $criteria->url]],
                             ['match_phrase' => ['browser' => $criteria->browser]],
+                            ['match_phrase'=>['prevPage.url'=>$criteria->prevPageUrl]]
                         ],
                     ]
                 ]

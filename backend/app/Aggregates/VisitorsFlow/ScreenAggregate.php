@@ -18,12 +18,13 @@ class ScreenAggregate extends Aggregate
         int $views,
         int $level,
         bool $isLastPage,
+        int $exitCount,
         int $resolutionWidth,
         int $resolutionHeight,
         ?PageValue $prevPage
     )
     {
-        parent::__construct($id, $websiteId, $url, $title, $views, $level, $isLastPage, $prevPage);
+        parent::__construct($id, $websiteId, $url, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
         $this->resolutionWidth = $resolutionWidth;
         $this->resolutionHeight = $resolutionHeight;
     }
@@ -46,6 +47,7 @@ class ScreenAggregate extends Aggregate
             (int)$result['views'],
             (int)$result['level'],
             (bool)$result['isLastPage'],
+            (int)$result['exitCount'],
             (int)$result['resolution_width'],
             (int)$result['resolution_height'],
             $result['prevPage'] === null ? null : new PageValue(
