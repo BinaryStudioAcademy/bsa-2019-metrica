@@ -29,7 +29,6 @@ class CreateVisitorAction
 
     public function execute(CreateVisitorRequest $request)
     {
-
         $websiteId = $this->websiteRepository
             ->getByTrackNumber($request->trackNumber())->id;
 
