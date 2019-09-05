@@ -19,30 +19,29 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
         $this->client = $client;
     }
 
-    public function save(Aggregate $countryAggregate): Aggregate
+    public function save(Aggregate $browserAggregate): Aggregate
     {
         $this->client->index([
             'index' => self::INDEX_NAME,
-            'id' => $countryAggregate->getId(),
+            'id' => $browserAggregate->getId(),
             'type' => '_doc',
-            'body' => $countryAggregate->toArray()
+            'body' => $browserAggregate->toArray()
         ]);
 
-        return $countryAggregate;
+        return $browserAggregate;
     }
 
-    public function update(Aggregate $countryAggregate): Aggregate
+    public function update(Aggregate $browserAggregate): Aggregate
     {
         $this->client->index([
             'index' => self::INDEX_NAME,
-            'id' => $countryAggregate->getId(),
+            'id' => $browserAggregate->getId(),
             'type' => '_doc',
-            'body' => $countryAggregate->toArray()
+            'body' => $browserAggregate->toArray()
         ]);
 
-        return $countryAggregate;
+        return $browserAggregate;
     }
-
 
 
     public function getByCriteria(Criteria $criteria): ?BrowserAggregate
@@ -59,7 +58,6 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                             ['term' => ['level' => $criteria->level]],
                             ['match_phrase' => ['url' => $criteria->url]],
                             ['match_phrase' => ['browser' => $criteria->browser]],
-
                         ],
                     ]
                 ]

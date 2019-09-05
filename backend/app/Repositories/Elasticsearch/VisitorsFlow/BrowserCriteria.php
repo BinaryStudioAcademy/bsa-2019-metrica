@@ -5,19 +5,19 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 
-class CountryCriteria implements Criteria
+class BrowserCriteria implements  Criteria
 {
     public $websiteId;
     public $url;
     public $level;
-    public $country;
+    public $browser;
 
-    private function __construct(int $websiteId, string $url, int $level, string $country)
+    private function __construct(int $websiteId, string $url, int $level, string $browser)
     {
         $this->websiteId = $websiteId;
         $this->url = $url;
         $this->level = $level;
-        $this->country = $country;
+        $this->browser = $browser;
     }
 
     public static function getCriteria(int $websiteId, string $url, int $level, string $type)
