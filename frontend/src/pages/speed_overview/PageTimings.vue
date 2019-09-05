@@ -25,7 +25,11 @@
                 :type="key"
                 :icon-name="button.icon"
                 @change="changeActiveButton"
-            />
+            >
+                <span
+                    class="small"
+                >s</span>
+            </ButtonComponent>
         </VRow>
         <VRow>
             <PageTimingsTable
