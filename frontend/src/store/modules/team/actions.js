@@ -1,5 +1,5 @@
 import {INVITE_USER, FETCH_TEAM_MEMBERS} from './types/actions';
-import {SET_IS_FETCHING, RESET_IS_FETCHING, SET_INVITED_USER, SET_TEAM_MEMBERS} from "./types/mutations";
+import {SET_IS_FETCHING, RESET_IS_FETCHING, SET_TEAM_MEMBERS} from "./types/mutations";
 import {inviteUser, getTeamMembers} from '@/api/team';
 
 export default {
@@ -7,9 +7,8 @@ export default {
         const id = context.rootState.website.currentWebsite.id;
 
         return inviteUser(email, id)
-            .then(response => context.commit(SET_INVITED_USER, response.data))
             .catch(error => {
-                throw { message: error.response.data.errors.name };
+                throw error.message;
             });
     },
 

@@ -2,10 +2,10 @@ import {SET_INVITED_USER, SET_IS_FETCHING, RESET_IS_FETCHING, SET_TEAM_MEMBERS} 
 
 export default {
     [SET_INVITED_USER]: (state, data) => {
-        state.currentWebsite.members.push(data);
+        state.currentTeam.members.push(data);
     },
     [SET_TEAM_MEMBERS]: (state, data) => {
-        state.currentWebsite.members = data;
+        state.currentTeam.members = data;
     },
     [SET_IS_FETCHING]: (state) => {
         state.isFetching = true;
