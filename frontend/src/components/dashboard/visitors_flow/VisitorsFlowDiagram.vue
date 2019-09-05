@@ -95,11 +95,12 @@
 
                 d3.transition()
                     .select('#visitors-flow-container')
-                    .duration(3000)
-                    .tween("scroll", (() => {
-                        const container = document.querySelector('#visitors-flow-container');
-                        container.scrollLeft = container.scrollWidth;
-                    })());
+                    .duration(1000)
+                    .tween("scroll", function () {
+                        return (t) => {
+                            this.scrollLeft += this.scrollWidth * t;
+                        };
+                    });
             },
 
             drawDiagram () {
@@ -213,6 +214,7 @@
         max-width: 70vw;
         overflow-x: auto;
         transition: all .5s;
+        margin-top: 1rem;
 
         &::-webkit-scrollbar {
             background-color:#fff;

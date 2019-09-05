@@ -1,13 +1,21 @@
 <template>
-    <VisitorsFlowDiagram />
+    <div>
+        <VisitorsFlowDropdown
+            value="Country"
+        />
+        <VisitorsFlowDiagram />
+    </div>
 </template>
 
 <script>
-    import VisitorsFlowDiagram from "@/components/dashboard/visitors-flow/VisitorsFlowDiagram";
+    import VisitorsFlowDiagram from "@/components/dashboard/visitors_flow/VisitorsFlowDiagram";
+    import VisitorsFlowDropdown from "@/components/dashboard/visitors_flow/VisitorsFlowDropdown";
+
     export default {
         name: "VisitorsFlow",
         components: {
-            VisitorsFlowDiagram
+            VisitorsFlowDiagram,
+            VisitorsFlowDropdown
         }
     };
 </script>
