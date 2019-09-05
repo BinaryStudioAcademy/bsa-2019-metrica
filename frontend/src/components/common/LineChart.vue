@@ -67,7 +67,6 @@
                         1: {}
                     },
                     hAxis: {
-                        ticks: [{v:0, f:'thirty two'}, 1, {v:2, f:'thirty two'}, {v:"01:00:00", f:'sixty four'}] ,
                         textStyle: {
                             color: '#b8bec3',
                             fontName: 'Gilroy',
@@ -110,7 +109,7 @@
                 const tooltipObj = {'type': 'string', 'role': 'tooltip', 'p': {'html': true}};
                 const pointStyle = 'point { stroke-color: #3C57DE; size: 5; shape-type: circle; fill-color: #FFFFFF; }';
                 let tmpData = this.data.map( element  => {
-                    return  [element.date, parseInt(element.value), parseInt(element.value), pointStyle, this.tooltip(element)];
+                    return  [element.date, element.value, element.value, pointStyle, this.tooltip(element)];
                 });
                 tmpData.unshift([{type: 'string', name: 'date'}, '', 'yValue', {'type': 'string', 'role': 'style'}, tooltipObj]);
                 return tmpData;

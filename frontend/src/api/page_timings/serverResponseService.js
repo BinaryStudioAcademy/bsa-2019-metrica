@@ -1,6 +1,6 @@
 import requestService from "@/services/requestService";
 import config from "@/config";
-import {buttonTransformer, chartTransformer, tableTransformer} from './transformers';
+import {buttonTransformerToSeconds, chartTransformerToSeconds, tableTransformerPageTiming} from '../transformers';
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
@@ -14,7 +14,7 @@ const fetchButtonValue = (startDate, endDate) => {
     return requestService.get(resourceUrl + btnDataUrl, {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate
-    }).then(response => buttonTransformer(response.data))
+    }).then(response => buttonTransformerToSeconds(response.data))
         .catch(error => Promise.reject(
             new Error(
                 _.get(
@@ -31,7 +31,7 @@ const fetchChartValues = (startDate, endDate, interval) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[period]': interval
-    }).then(response => response.data.map(chartTransformer))
+    }).then(response => response.data.map(chartTransformerToSeconds))
         .catch(error => Promise.reject(
             new Error(
                 _.get(
@@ -48,7 +48,7 @@ const fetchTableValues = (startDate, endDate, parameter) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[parameter]': parameter
-    }).then(response => response.data.map(tableTransformer))
+    }).then(response => response.data.map(tableTransformerPageTiming))
         .catch(error => Promise.reject(
             new Error(
                 _.get(
