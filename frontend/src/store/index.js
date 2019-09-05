@@ -10,6 +10,7 @@ import page_views from './modules/page_views';
 import geo_location from './modules/geo_location';
 import devices from './modules/devices';
 import visits_density_widget from './modules/visits_density_widget';
+import team from './modules/team';
 
 Vue.use(Vuex);
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
         dashboard,
         geo_location,
         devices,
-        visits_density_widget
+        visits_density_widget,
+        team
     },
     plugins: [authPlugin]
 });

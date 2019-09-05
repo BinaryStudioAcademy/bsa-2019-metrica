@@ -105,6 +105,10 @@
                             route: 'user-update',
                         },
                         {
+                            text: 'Team',
+                            route: 'team',
+                        },
+                        {
                             text: 'Website',
                             route: 'websiteinfo',
                         },

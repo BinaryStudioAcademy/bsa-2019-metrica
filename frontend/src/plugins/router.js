@@ -21,6 +21,7 @@ import Audience from "../pages/Audience.vue";
 import VerifyEmail from "../components/auth/VerifyEmail";
 import Dashboard from "../pages/Dashboard";
 import GeoLocation from "../pages/GeoLocationPage";
+import Team from "../pages/Team.vue";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -141,6 +142,11 @@ export default new Router({
                                     meta: {
                                         title: 'Speedoverview'
                                     },
+                                },
+                                {
+                                    path: 'team',
+                                    name: 'team',
+                                    component: Team
                                 },
                                 {
                                     path: 'website/info',
