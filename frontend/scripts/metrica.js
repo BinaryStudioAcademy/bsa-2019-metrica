@@ -3,9 +3,9 @@
         post(url, data, headers = {}) {
             return fetch(url, {
                 method: 'POST',
-                crossDomain: true,
+                mode: 'cors',
                 headers: headers,
-                body: data
+                body: JSON.stringify(data)
             });
         }
     }
@@ -167,7 +167,7 @@
                 'Content-Type': 'application/json',
                 'x-visitor': 'Bearer ' + this.getToken()
             };
-            let data = JSON.stringify(this.getVisit());
+            let data = this.getVisit();
             return this.fetchWrapper().post(url, data, headers);
         },
         elastedTime(startTime, endTime) {
