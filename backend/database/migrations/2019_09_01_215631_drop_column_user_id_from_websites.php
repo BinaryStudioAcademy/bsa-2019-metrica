@@ -11,7 +11,7 @@ class DropColumnUserIdFromWebsites extends Migration
     {
         Website::where('user_id', '>', 0)
         ->get(['id'])
-        ->map(function($website){
+        ->map(function($website) {
             $website->users()
             ->attach($website->id, ['role' => 'owner']);
         });
