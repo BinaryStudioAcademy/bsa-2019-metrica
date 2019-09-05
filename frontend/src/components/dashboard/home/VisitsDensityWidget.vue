@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-white visits-widget rounded shadow text-dark">
+    <div class="card bg-white visits-widget text-dark">
         <Spinner
             v-if="isFetching"
         />
@@ -191,6 +191,9 @@
 
 <style scoped>
     .visits-widget {
+        border: none;
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+        border-radius: 6px;
         padding: 1.5rem;
         width: 352px;
         height: 100%;

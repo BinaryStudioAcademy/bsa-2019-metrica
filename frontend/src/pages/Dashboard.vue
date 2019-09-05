@@ -5,16 +5,10 @@
                 <Overview />
             </VCol>
         </VRow>
-        <VRow>
-            <VCol>
-                <ActiveVisitorsCard />
-            </VCol>
-            <VCol>
-                <DevicesPieChart />
-            </VCol>
-            <VCol>
-                <VisitsDensityWidget />
-            </VCol>
+        <VRow class="pa-3 d-flex justify-space-between">
+            <ActiveVisitorsCard />
+            <DevicesPieChart />
+            <VisitsDensityWidget />
         </VRow>
     </ContentLayout>
 </template>

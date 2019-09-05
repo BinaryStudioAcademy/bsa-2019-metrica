@@ -1,5 +1,5 @@
 <template>
-    <VContainer class="white pie-container position-relative">
+    <VContainer class="white pie-container position-relative mx-0">
         <Spinner v-if="isFetching" />
         <VContainer class="content pt-1 d-flex flex-column justify-space-between">
             <VContainer v-if="!data.length">
