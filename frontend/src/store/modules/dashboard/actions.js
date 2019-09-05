@@ -47,7 +47,7 @@ export default {
         const startDate = period.startDate;
         const endDate = period.endDate;
         const dataToFetch = context.state.dataToFetch;
-        const id = context.state.currentWebsite.id;
+        const id = context.rootState.website.currentWebsite.id;
 
         return factoryVisitorsService.create(dataToFetch)
             .fetchChartValues(startDate.unix(), endDate.unix(), period.interval, id)
@@ -60,7 +60,7 @@ export default {
     },
     [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
         context.commit(SET_BUTTON_FETCHING);
-        const id = context.state.currentWebsite.id;
+        const id = context.rootState.website.currentWebsite.id;
 
         return getActivityDataItems(id).then(response => {
             response.sort( (a, b) => {
@@ -83,7 +83,7 @@ export default {
 
         const startDay = moment().subtract(1, 'minute');
         const endDay = moment();
-        const id = context.state.currentWebsite.id;
+        const id = context.rootState.website.currentWebsite.id;
 
         pageViewsService.fetchChartValues(
             startDay.unix(),

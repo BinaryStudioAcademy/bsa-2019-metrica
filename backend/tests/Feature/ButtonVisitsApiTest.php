@@ -61,7 +61,12 @@ class ButtonVisitsApiTest extends TestCase
 
         factory(Visitor::class, 5)->create();
         factory(System::class)->create();
-        factory(Page::class, 6)->create();
+        factory(Page::class)->create(['id' => 1]);
+        factory(Page::class)->create(['id' => 2]);
+        factory(Page::class)->create(['id' => 3]);
+        factory(Page::class)->create(['id' => 4]);
+        factory(Page::class)->create(['id' => 5]);
+        factory(Page::class)->create(['id' => 6]);
         factory(GeoPosition::class)->create();
 
         $firstSession = factory(Session::class)->create([

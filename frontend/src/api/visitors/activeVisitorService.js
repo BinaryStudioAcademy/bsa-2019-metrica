@@ -7,7 +7,7 @@ const resourceUrl = config.getApiUrl();
 
 const getActivityDataItems = (websiteId) => {
     return requestService.get(resourceUrl + '/visitors/activity-visitors', {}, {
-        'filter[website_id]': websiteId,
+        'website_id': websiteId,
     }).then(response => response.data)
         .catch(error => Promise.reject(
             new Error(

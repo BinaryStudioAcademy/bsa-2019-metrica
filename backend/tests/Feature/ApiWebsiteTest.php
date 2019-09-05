@@ -56,10 +56,11 @@ class ApiWebsiteTest extends TestCase
     {
         $expectedData = [
             "data" => [
+                'id' => 4,
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'tracking_number' => '00000002',
+                'tracking_number' => '00000001',
             ],
             "meta" => [],
 
@@ -76,10 +77,6 @@ class ApiWebsiteTest extends TestCase
         ];
         $token = JWTAuth::fromUser($this->user);
         $headers = ['Authorization' => "Bearer $token"];
-
-        $this->actingAs($this->user)
-            ->post('/api/v1/websites', $firstWebsiteData, $headers)
-            ->assertStatus(200);
 
         $this->actingAs($this->user)
             ->post('/api/v1/websites', $secondWebsiteData, $headers)
@@ -201,5 +198,39 @@ class ApiWebsiteTest extends TestCase
             ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
             ->assertStatus(403)
             ->assertJson($expectedData);
+    }
+
+    public function test_get_current_website_as_owner()
+    {
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertOk();
+    }
+
+    public function test_get_current_website_as_member()
+    {
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'member'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertOk();
     }
 }

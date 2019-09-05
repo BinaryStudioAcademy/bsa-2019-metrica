@@ -43,7 +43,6 @@ class InitVisitorsSeeder extends Seeder
             'website_id' => $userWebsite->id,
         ]);
 
-
         $session = factory(Session::class)->create([
             'start_session' => $visitor->created_at,
             'entrance_page_id' => Page::inRandomOrder()->where('website_id', '=', $userWebsite->id)->first()->id,
