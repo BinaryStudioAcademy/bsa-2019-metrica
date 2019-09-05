@@ -5,6 +5,7 @@ namespace App\Services\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
+use App\Aggregates\VisitorsFlow\DeviceAggregate;
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
 use App\Repositories\Contracts\GeoPositionRepository;
@@ -14,7 +15,9 @@ use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\BrowserCriteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
+use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowDeviceRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\CountryCriteria;
+use App\Repositories\Elasticsearch\VisitorsFlow\DeviceCriteria;
 use Carbon\Carbon;
 
 final class FlowAggregateService
@@ -25,6 +28,8 @@ final class FlowAggregateService
     private $websiteRepository;
     private $geoPositionRepository;
     private $visitorFlowBrowserRepository;
+    private $visitorFlowDeviceRepository;
+
 
     public function __construct(
         PageRepository $pageRepository,
@@ -32,7 +37,8 @@ final class FlowAggregateService
         VisitorFlowCountryRepository $visitorFlowCountryRepository,
         WebsiteRepository $websiteRepository,
         GeoPositionRepository $geoPositionRepository,
-        VisitorFlowBrowserRepository $visitorFlowBrowserRepository
+        VisitorFlowBrowserRepository $visitorFlowBrowserRepository,
+        VisitorFlowDeviceRepository $visitorFlowDeviceRepository
     )
     {
         $this->pageRepository = $pageRepository;
@@ -41,6 +47,7 @@ final class FlowAggregateService
         $this->websiteRepository = $websiteRepository;
         $this->geoPositionRepository = $geoPositionRepository;
         $this->visitorFlowBrowserRepository = $visitorFlowBrowserRepository;
+        $this->visitorFlowDeviceRepository = $visitorFlowDeviceRepository;
     }
 
     public function aggregate(Visit $visit)
@@ -70,6 +77,16 @@ final class FlowAggregateService
                 $isFirstInSession ? 'null' : $previousVisit->page->url
             )
         );
+
+        $deviceAggregate = $this->visitorFlowDeviceRepository->getByCriteria(
+            DeviceCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $visit->session->system->device,
+                $isFirstInSession ? 'null' : $previousVisit->page->url
+            )
+        );
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $countryAggregate = $this->visitorFlowCountryRepository->save($countryAggregate);
@@ -93,7 +110,7 @@ final class FlowAggregateService
         if (!$browserAggregate) {
             $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
             $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
-            dd($browserAggregate);
+//            dd($browserAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = BrowserAggregate::getPreviousAggregate(
@@ -109,7 +126,28 @@ final class FlowAggregateService
             $browserAggregate->views++;
             $browserAggregate->exitCount++;
             $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
-            dd($browserAggregate);
+//            dd($browserAggregate);
+        }
+        if (!$deviceAggregate) {
+            $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
+            $deviceAggregate = $this->visitorFlowDeviceRepository->save($deviceAggregate);
+            dd($deviceAggregate);
+        } else {
+            if ($level > 1) {
+                $previousAggregate = DeviceAggregate::getPreviousAggregate(
+                    $this->visitorFlowDeviceRepository,
+                    $previousVisit,
+                    $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+                    $level
+                );
+                $previousAggregate->isLastPage = false;
+                $previousAggregate->exitCount--;
+                $this->visitorFlowDeviceRepository->update($previousAggregate);
+            }
+            $deviceAggregate->views++;
+            $deviceAggregate->exitCount++;
+            $deviceAggregate = $this->visitorFlowDeviceRepository->update($deviceAggregate);
+            dd($deviceAggregate);
         }
     }
 
@@ -207,6 +245,40 @@ final class FlowAggregateService
             $isLatPage,
             $exitCount,
             $currentVisit->session->system->browser,
+            $prevPage
+        );
+    }
+
+    private function createDeviceAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): DeviceAggregate
+    {
+        $page = $this->pageRepository->getById($currentVisit->page_id);
+        $website = $this->websiteRepository->getById($page->website_id);
+        $prevPage = new PageValue();
+        if ($level !== 1) {
+            $previousAggregate = DeviceAggregate::getPreviousAggregate(
+                $this->visitorFlowDeviceRepository,
+                $previousVisit,
+                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+                $level
+            );
+            $previousAggregate->isLastPage = false;
+            $previousAggregate->exitCount--;
+            $this->visitorFlowDeviceRepository->update($previousAggregate);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
+        }
+        $exitCount = 1;
+        $isLatPage = true;
+        $views = 1;
+        return new DeviceAggregate(
+            $currentVisit->id,
+            $website->id,
+            $page->url,
+            $page->name,
+            $views,
+            $level,
+            $isLatPage,
+            $exitCount,
+            $currentVisit->session->system->device,
             $prevPage
         );
     }
