@@ -16,7 +16,7 @@ final class CreateVisitHttpRequest extends ApiFormRequest
         }
 
         return [
-            'page' => 'required|url',
+            'page' => 'required|string',
             'page_title' => 'required|string',
             'language' => 'required|string',
             'device' => 'required|string',

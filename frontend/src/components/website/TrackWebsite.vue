@@ -1,20 +1,21 @@
 <template>
     <pre>
     <code>
-    &lt;!-- Global site tag (gtag.js) - Google Analytics --&gt;
-    &lt;script async src='https://www.googletagmanager.com/gtag/js?id={{ trackingNumber }}'&gt;&lt;/script&gt;
+    &lt;!-- Global site tag (metrica.js) - Metrica Analytics --&gt;
+    &lt;script async src='{{ appUrl }}metrica.js?tracking_id={{ trackingNumber }}'&gt;&lt;/script&gt;
     &lt;script&gt;
-      window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
+        window._metricaTrackingConfig = window._metricaTrackingConfig || [];
+        function mtag() {
+            _metricaTrackingConfig.push(arguments);
         }
-      gtag('js', new Date());
-      gtag('config', {{ trackingNumber }});
+        mtag('dateStart', new Date());
+        mtag('tracking_id', {{ trackingNumber }});
     &lt;/script&gt;
     </code>
     </pre>
 </template>
 <script>
+    import config from "@/config";
     export default {
         name: 'TrackWebsite',
         props: {
@@ -22,7 +23,12 @@
                 type: [Number, String],
                 required: true
             }
-        }
+        },
+        data () {
+            return {
+                appUrl: config.getUrl()
+            };
+        },
     };
 </script>
 <style lang="scss" scoped>

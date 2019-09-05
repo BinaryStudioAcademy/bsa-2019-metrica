@@ -13,6 +13,7 @@ cache:
   directories:
     - frontend/node_modules
     - backend/vendor
+    - test-site/node_modules
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -27,8 +28,12 @@ before_install:
   - $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
   - cp backend/.env.travis backend/.env
   - cp frontend/.env.travis frontend/.env
+  - cp test-site/.env.travis test-site/.env
   - docker-compose -f docker-compose.test.yml run --rm node npm ci
+  - docker-compose -f docker-compose.test.yml run --rm test-site npm ci
+  - docker-compose -f docker-compose.test.yml run --rm test-site npm run build
   - docker-compose -f docker-compose.test.yml run --rm node npm run build
+  - docker-compose -f docker-compose.test.yml run --rm node npm run build:script
   - ./.scripts/build.sh app
   - ./.scripts/build.sh webserver
 script:
