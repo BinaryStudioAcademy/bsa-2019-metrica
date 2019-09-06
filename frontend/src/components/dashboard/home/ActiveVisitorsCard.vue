@@ -1,50 +1,55 @@
 <template>
-    <div class="card bg-white visitors-card text-dark position-relative justify-content-between">
-        <Spinner v-if="activityDataFetching" />
-        <div class="d-flex justify-content-between align-items-center card-top-row">
-            <p class="card-text mb-0">
-                Active users
-            </p>
-            <p class="card-count text-right mb-0">
-                <strong>
-                    {{ activeUsersCount }}
-                </strong>
-            </p>
+    <div>
+        <div class="subtitle-1 pl-1 pb-2 grey--text text--darken-1">
+            Activity
         </div>
-        <div class="d-flex justify-content-between align-items-center card-top-row">
-            <p class="card-text mb-0">
-                Pages currently viewing
-            </p>
-            <p class="card-count text-right mb-0">
-                <strong>
-                    {{ pageViewsCount }}
-                </strong>
-            </p>
-        </div>
-        <VContainer>
-            <VSparkline
-                v-if="activityChartData.length > 0"
-                :value="activityChartData"
-                :gradient="gradient"
-                :smooth="radius"
-                :padding="padding"
-                :line-width="lineWidth"
-                :gradient-direction="gradientDirection"
-                auto-draw
+        <div class="card bg-white visitors-card text-dark position-relative justify-content-between">
+            <Spinner v-if="activityDataFetching" />
+            <div class="d-flex justify-content-between align-items-center card-top-row">
+                <p class="card-text mb-0">
+                    Active users
+                </p>
+                <p class="card-count text-right mb-0">
+                    <strong>
+                        {{ activeUsersCount }}
+                    </strong>
+                </p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center card-top-row">
+                <p class="card-text mb-0">
+                    Pages currently viewing
+                </p>
+                <p class="card-count text-right mb-0">
+                    <strong>
+                        {{ pageViewsCount }}
+                    </strong>
+                </p>
+            </div>
+            <VContainer>
+                <VSparkline
+                    v-if="activityChartData.length > 0"
+                    :value="activityChartData"
+                    :gradient="gradient"
+                    :smooth="radius"
+                    :padding="padding"
+                    :line-width="lineWidth"
+                    :gradient-direction="gradientDirection"
+                    auto-draw
+                />
+            </VContainer>
+            <TopActivePage
+                :top-pages="topPages"
             />
-        </VContainer>
-        <TopActivePage
-            :top-pages="topPages"
-        />
-        <div
-            class="text-center"
-        >
-            <RouterLink
-                :to="{ name: 'page-views'}"
-                class="btn card-button font-weight-light rounded"
+            <div
+                class="text-center"
             >
-                Real time report
-            </RouterLink>
+                <RouterLink
+                    :to="{ name: 'page-views'}"
+                    class="btn card-button font-weight-light rounded"
+                >
+                    Real time report
+                </RouterLink>
+            </div>
         </div>
     </div>
 </template>
