@@ -7,7 +7,7 @@ namespace App\Http\Requests\Team;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\IsWebsiteRelatedToUser;
 
-final class GetTeamHttpRequest extends ApiFormRequest
+final class GetPermittedMenuItemsHttpRequest extends ApiFormRequest
 {
     public function rules(): array
     {
@@ -16,9 +16,10 @@ final class GetTeamHttpRequest extends ApiFormRequest
                 'required',
                 'integer',
                 new IsWebsiteRelatedToUser()
-            ]
+            ],
         ];
     }
+
     public function websiteId(): int
     {
         return (int)$this->get('website_id');

@@ -56,10 +56,11 @@ class ApiWebsiteTest extends TestCase
     {
         $expectedData = [
             "data" => [
+                'id' => 4,
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'tracking_number' => '00000002',
+                'tracking_number' => '00000001',
             ],
             "meta" => [],
 
@@ -76,10 +77,6 @@ class ApiWebsiteTest extends TestCase
         ];
         $token = JWTAuth::fromUser($this->user);
         $headers = ['Authorization' => "Bearer $token"];
-
-        $this->actingAs($this->user)
-            ->post('/api/v1/websites', $firstWebsiteData, $headers)
-            ->assertStatus(200);
 
         $this->actingAs($this->user)
             ->post('/api/v1/websites', $secondWebsiteData, $headers)
@@ -203,6 +200,7 @@ class ApiWebsiteTest extends TestCase
             ->assertJson($expectedData);
     }
 
+<<<<<<< HEAD
     public function test_get_relate_user_websites()
     {
         $expectedData = [
@@ -261,5 +259,39 @@ class ApiWebsiteTest extends TestCase
             ->call('GET','/api/v1/teams/relate')
             ->assertOk()
             ->assertJson($expectedData);
+=======
+    public function test_get_current_website_as_owner()
+    {
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertOk();
+    }
+
+    public function test_get_current_website_as_member()
+    {
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'member'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertOk();
+>>>>>>> 58e0544e5621b12d7a73bb0226d49b464d5446a8
     }
 }

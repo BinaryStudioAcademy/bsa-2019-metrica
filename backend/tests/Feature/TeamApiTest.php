@@ -77,6 +77,25 @@ class TeamApiTest extends TestCase
             ->assertJson(self::EXPECTED_DATA);
     }
 
+    public function testGetTeamWithoutMembers()
+    {
+        $this->owner->websites()->attach($this->website->id, ['role' => 'owner']);
+
+        $filterData = [
+            'website_id' => $this->website->id,
+        ];
+
+        $expectedData = [
+            "data" => [],
+            "meta" => []
+        ];
+
+        $this->actingAs($this->owner)
+            ->call('GET', 'api/v1/teams', $filterData)
+            ->assertOk()
+            ->assertJson($expectedData);
+    }
+
     public function attachRole()
     {
         array_push($this->members, factory(User::class)->create([

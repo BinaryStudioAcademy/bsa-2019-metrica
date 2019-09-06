@@ -15,7 +15,7 @@ class PageTableSeeder extends Seeder
             return $website->pivot->role === 'owner';
         })->first();
 
-        $pages = factory(Page::class, 5)->make([
+        $pages = factory(Page::class, 3)->make([
             'website_id' => $userWebsite->id,
         ]);
 

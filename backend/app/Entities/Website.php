@@ -39,7 +39,7 @@ final class Website extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot(['role', 'permitted_menu']);
     }
 
     public function visits()
