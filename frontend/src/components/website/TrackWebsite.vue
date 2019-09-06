@@ -2,7 +2,7 @@
     <pre>
     <code>
     &lt;!-- Global site tag (metrica.js) - Metrica Analytics --&gt;
-    &lt;script async src='{{ appUrl }}metrica.js?tracking_id={{ trackingNumber }}'&gt;&lt;/script&gt;
+    &lt;script async src='{{ appUrl }}metrica.js?tracking_id={{ trackingNumber }}&spa={{ spa }}'&gt;&lt;/script&gt;
     &lt;script&gt;
         window._metricaTrackingConfig = window._metricaTrackingConfig || [];
         function mtag() {
@@ -10,6 +10,7 @@
         }
         mtag('dateStart', new Date());
         mtag('tracking_id', '{{ trackingNumber }}');
+        mtag('spa', {{ spa }});
     &lt;/script&gt;
     </code>
     </pre>
@@ -21,6 +22,10 @@
         props: {
             trackingNumber: {
                 type: [Number, String],
+                required: true
+            },
+            spa: {
+                type: [Boolean],
                 required: true
             }
         },
