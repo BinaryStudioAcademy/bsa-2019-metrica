@@ -25,6 +25,5 @@ final class GetRelateUserWebsitesAction
         return new GetRelateUserWebsitesResponse($websites->map(function($item) {
             return new WebsiteValue($item->id, $item->domain, $item->role);
         }));
-
     }
 }
