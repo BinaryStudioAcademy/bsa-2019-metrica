@@ -41,7 +41,7 @@
             },
             units: {
                 type: String,
-                required: true
+                default: ''
             }
         },
         data() {
