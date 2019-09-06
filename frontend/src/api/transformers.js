@@ -33,7 +33,8 @@ const chartTransformerToInt = (item) => {
 const chartTransformerToPercent = (item) => {
     return {
         date: item.date,
-        value: Math.round(Number(item.value)*100)
+        value: Math.round(Number(item.value)*100),
+        units: '%'
     };
 };
 

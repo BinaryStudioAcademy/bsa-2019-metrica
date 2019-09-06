@@ -66,10 +66,14 @@ function toDateStringFormat (interval) {
 const chartDataTransformer = (items, selectedPeriod) => {
     const  sortedItems = [...items].sort((a, b) => a.date - b.date);
     return sortedItems.map(item => {
-        return {
+        let chartItem = {
             'date': moment.unix(item.date).format(toDateStringFormat(selectedPeriod)),
             'value': item.value
         };
+        if (item.hasOwnProperty('units')) {
+            chartItem.units = item.units;
+        }
+        return chartItem;
     });
 };
 
