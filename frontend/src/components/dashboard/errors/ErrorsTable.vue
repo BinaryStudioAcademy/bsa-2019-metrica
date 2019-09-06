@@ -1,20 +1,20 @@
 <template>
     <VContainer
-            p-0
-            class="errors-table"
+        p-0
+        class="errors-table"
     >
         <VRow
-                class="header my-3"
-                fluid
+            class="header my-3"
+            fluid
         >
             <VCol>
                 <VSelect
-                        class="option-select"
-                        prefix="Show"
-                        :items="options"
-                        flat
-                        :value="value"
-                        @change="changeSelect"
+                    class="option-select"
+                    prefix="Show"
+                    :items="options"
+                    flat
+                    v-model="selected"
+                    @change="changeSelect"
                 />
             </VCol>
             <VCol>
@@ -30,26 +30,21 @@
                 Details
             </VCol>
         </VRow>
-        <VContainer class="position-relative pa-0">
+        <VContainer pa-0>
             <VDataTable
-                    class="caption"
-                    hide-default-footer
-                    hide-default-header
-                    :headers="headers"
-                    :items="errorItems"
+                class="caption"
+                hide-default-footer
+                hide-default-header
+                :headers="headers"
+                :items="errorItems"
             />
-            <Spinner v-if="fetching" />
         </VContainer>
     </VContainer>
 </template>
 
 <script>
-    import Spinner from '../../utilites/Spinner';
     export default {
         name: 'ErrorsTable',
-        components: {
-            Spinner
-        },
         props: {
             errorItems: {
                 type: Array,
@@ -62,6 +57,7 @@
         },
         data () {
             return {
+                selected: 'page',
                 options: [
                     {
                         text: 'Page',
@@ -77,6 +73,7 @@
                     },
                 ],
                 headers: [
+                    { text: '', align: 'center', value: 'parameter_value' },
                     { text: '', align: 'center', value: 'page' },
                     { text: '', align: 'center', value: 'message' },
                     { text: '', align: 'center', value: 'page_views' },
@@ -85,8 +82,8 @@
             };
         },
         methods: {
-            changeSelect (value) {
-                this.$emit('change', value);
+            changeSelect () {
+                this.$emit('change', this.selected);
             }
         }
     };
