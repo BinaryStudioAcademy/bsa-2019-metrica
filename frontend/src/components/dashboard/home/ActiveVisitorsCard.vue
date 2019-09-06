@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="mt-10">
         <div class="subtitle-1 pl-1 pb-4 grey--text text--darken-1">
             Activity
         </div>
         <div class="card pa-6 bg-white visitors-card text-dark position-relative justify-content-between">
             <Spinner v-if="activityDataFetching" />
-            <div class="d-flex justify-content-between align-items-center card-top-row">
+            <div class="d-flex justify-content-between align-items-center card-top-row ">
                 <p class="card-text mb-0">
                     Active users
                 </p>
@@ -155,7 +155,7 @@
         font-family: Gilroy;
         width: 352px;
         font-size: 12px;
-        min-height: 480px;
+        height: 480px;
 
         .card-top-row {
             height: 53px;

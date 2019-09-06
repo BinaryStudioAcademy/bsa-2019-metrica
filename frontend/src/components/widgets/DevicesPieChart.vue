@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mt-10">
         <div class="subtitle-1 pl-1 pb-4 grey--text text--darken-1">
             Devices
         </div>
@@ -67,7 +67,7 @@
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
     border-radius: 6px;
     width: 352px;
-    min-height: 480px;
+    height: 480px;
 }
 .header {
     font-size: 16px;
