@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ChartPageTimingRepository;
 use App\Repositories\Contracts\ChartVisitorRepository;
 use App\Repositories\Contracts\ButtonVisitorsRepository;
 use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use App\Repositories\Contracts\ChartVisitorsRepository;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
+use App\Repositories\Contracts\PageViews\TableDataRepository;
 use App\Repositories\Contracts\SessionRepository;
 use App\Repositories\Contracts\SystemRepository;
 use App\Repositories\Contracts\TablePageViewsRepository;
@@ -21,6 +23,7 @@ use App\Repositories\Contracts\ChartSessionsRepository;
 use App\Repositories\Contracts\VisitRepository;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\Contracts\PageViews\ChartDataRepository;
+use App\Repositories\EloquentChartPageTimingRepository;
 use App\Repositories\EloquentChartVisitorRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
 use App\Repositories\PageViews\EloquentButtonDataRepository;
@@ -42,6 +45,7 @@ use App\Repositories\EloquentVisitRepository;
 use App\Repositories\EloquentWebsiteRepository;
 use App\Repositories\EloquentTableNewVisitorsRepository;
 use App\Repositories\PageViews\EloquentChartDataRepository;
+use App\Repositories\PageViews\EloquentTableDataRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -94,6 +98,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TablePageViewsRepository::class, EloquentTablePageViewsRepository::class);
 
         $this->app->bind(ChartDataRepository::class, EloquentChartDataRepository::class);
+
+        $this->app->bind(ChartPageTimingRepository::class, EloquentChartPageTimingRepository::class);
+
+        $this->app->bind(TableDataRepository::class, EloquentTableDataRepository::class);
     }
 
     /**

@@ -27,7 +27,7 @@ final class GetBounceRatePageViewsButtonAction
         $allPageViewsCount = $this->repository->getCountPageViewsPageBetweenDate($request->period(), $websiteId);
         $bouncedPageViewsCount = $this->repository->getBouncedPagePageBetweenDate($request->period(), $websiteId);
 
-        $response = (int)(($allPageViewsCount === 0) ? 0 : ($bouncedPageViewsCount/$allPageViewsCount*100));
+        $response = (($allPageViewsCount === 0) ? 0 : ($bouncedPageViewsCount/$allPageViewsCount));
 
         return new ButtonValue((string)$response);
     }

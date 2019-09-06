@@ -16,8 +16,8 @@ final class PageViewsItem
         string $pageUrl,
         string $title,
         int $pageViewsCount,
-        int $bounceRate,
-        int $exitRate
+        float $bounceRate,
+        float $exitRate
     ) {
         $this->bounceRate = $bounceRate;
         $this->exitRate = $exitRate;
@@ -41,12 +41,12 @@ final class PageViewsItem
         return $this->pageViewsCount;
     }
 
-    public function bounceRate(): int
+    public function bounceRate(): float
     {
         return $this->bounceRate;
     }
 
-    public function exitRate(): int
+    public function exitRate(): float
     {
         return $this->exitRate;
     }

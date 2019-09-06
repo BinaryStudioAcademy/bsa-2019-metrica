@@ -6,6 +6,7 @@ namespace App\Repositories\PageViews;
 
 use App\Contracts\Common\DatePeriod;
 use App\Entities\Visit;
+use App\Entities\Website;
 use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -76,7 +77,7 @@ class EloquentButtonDataRepository implements ButtonDataRepository
         $subQueryFirst = "SELECT id FROM pages WHERE website_id = :website_id";
         $subQuerySecond = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQuerySecond) AS visits " .
-            "WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQueryFirst)";
+            "WHERE visits.start_session >= :startDate AND visits.start_session <= :endDate AND page_id IN ($subQueryFirst)";
         $query = DB::raw("SELECT COUNT(*) as count FROM ($subQueryThird) AS grouped;");
         $response = DB::select((string)$query, [
             'startDate' => $filterData->getStartDate(),
@@ -92,8 +93,8 @@ class EloquentButtonDataRepository implements ButtonDataRepository
         $subQueryFirst = "SELECT id FROM pages WHERE website_id = :website_id";
         $subQuerySecond = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQuerySecond) AS visits " .
-            "WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQueryFirst)";
-        $subQueryForth = "SELECT COUNT(*), grouped.page_id FROM ($subQueryThird) AS grouped GROUP BY grouped.page_id, grouped.session_id";
+            "WHERE visits.start_session >= :startDate AND visits.start_session <= :endDate AND page_id IN ($subQueryFirst)";
+        $subQueryForth = "SELECT COUNT(*), grouped.session_id FROM ($subQueryThird) AS grouped GROUP BY grouped.session_id";
         $query = DB::raw("SELECT COUNT(*) as count FROM ($subQueryForth) AS c WHERE count < 2;");
         $response = DB::select((string)$query, [
             'startDate' => $filterData->getStartDate(),
@@ -102,5 +103,12 @@ class EloquentButtonDataRepository implements ButtonDataRepository
         ]);
 
         return $response[0]->count;
+    }
+
+    public function getAverageTiming(DatePeriod $period, int $website_id, string $parameter): int
+    {
+        $average =  Website::find($website_id)->visits()
+            ->whereDateBetween($period)->avg($parameter);
+        return (int)$average;
     }
 }

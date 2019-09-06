@@ -16,7 +16,7 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
         $subQueryFirst = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQuerySecond = "SELECT id FROM pages WHERE website_id = :website_id";
         $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQueryFirst) AS visits" .
-            " WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQuerySecond)";
+            " WHERE visits.start_session >= :startDate AND visits.start_session <= :endDate AND page_id IN ($subQuerySecond)";
         $query = DB::raw("SELECT v.page_id, COUNT(*) FROM ($subQueryThird) AS v GROUP BY v.page_id");
 
         $response = DB::select((string)$query, [
@@ -33,10 +33,11 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
         $subQueryFirst = "SELECT * FROM visits JOIN sessions ON visits.session_id = sessions.id";
         $subQuerySecond = "SELECT id FROM pages WHERE website_id = :website_id";
         $subQueryThird = "SELECT page_id, session_id, start_session FROM ($subQueryFirst) AS visits" .
-            " WHERE visits.start_session > :startDate AND visits.start_session < :endDate AND page_id IN ($subQuerySecond)";
-        $subQueryForth = "SELECT v.page_id, COUNT(*) FROM ($subQueryThird) AS v GROUP BY v.page_id, v.session_id";
-        $subQueryFifth= "SELECT p.page_id FROM ($subQueryForth) AS p WHERE count < 2";
-        $query = DB::raw("SELECT p.page_id, COUNT(*) FROM ($subQueryFifth) AS p GROUP BY p.page_id;");
+            " WHERE visits.start_session >= :startDate AND visits.start_session <= :endDate AND page_id IN ($subQuerySecond)";
+        $subQueryForth = "SELECT v.session_id, COUNT(*) FROM ($subQueryThird) AS v GROUP BY v.session_id";
+        $subQueryFifth = "SELECT p.session_id FROM ($subQueryForth) AS p WHERE count < 2";
+        $subQuerySix = "SELECT page_id FROM visits WHERE session_id IN ($subQueryFifth)";
+        $query = DB::raw("SELECT p.page_id, COUNT(*) FROM ($subQuerySix) AS p GROUP BY p.page_id;");
 
         $response = DB::select((string)$query, [
             'startDate' => $from,
@@ -108,8 +109,8 @@ final class EloquentTablePageViewsRepository implements TablePageViewsRepository
                 $namesAndtitles[$pageId]['url'],
                 $namesAndtitles[$pageId]['title'],
                 $totalViews,
-                array_key_exists($pageId, $bounced) ? (int)($bounced[$pageId]/$totalViews*100) : 0,
-                array_key_exists($pageId, $exitRates) ? (int)$exitRates[$pageId] : 0
+                array_key_exists($pageId, $bounced) ? ($bounced[$pageId]/$totalViews) : 0,
+                array_key_exists($pageId, $exitRates) ? ((int)$exitRates[$pageId]/$totalViews) : 0
             ));
         }
 

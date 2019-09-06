@@ -1,36 +1,17 @@
 <template>
     <ContentLayout :title="title">
-        <VLayout
-            wrap
-        />
-        <VLayout>
-            <VFlex
-                lg12
-                md12
-                sm12
-                xs12
-                class="content-card"
-            >
-                <VLayout
-                    wrap
-                    align-center
-                    justify-center
-                >
-                    <VFlex
-                        class="chart-container position-relative"
-                    >
-                        <LineChart
-                            :data="chartData.items"
-                            :is-fetching="chartData.isFetching"
-                        />
-                        <PeriodDropdown
-                            :value="getSelectedPeriod"
-                            @change="changePeriod"
-                        />
-                    </VFlex>
-                </VLayout>
-            </VFlex>
-        </VLayout>
+        <VRow>
+            <VContainer class="white card px-7 py-6">
+                <LineChart
+                    :data="formatLineChartData"
+                    :is-fetching="chartData.isFetching"
+                />
+                <PeriodDropdown
+                    :value="getSelectedPeriod"
+                    @change="changePeriod"
+                />
+            </VContainer>
+        </VRow>
         <VRow
             class="buttons-row justify-sm-center justify-lg-start justify-xl-space-between "
         >
@@ -91,6 +72,7 @@
         GET_SELECTED_PERIOD,
         GET_PIE_CHART_DATA,
         GET_LINE_CHART_DATA,
+        GET_FORMAT_LINE_CHART_DATA
     } from "@/store/modules/visitors/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
@@ -161,6 +143,7 @@
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
+                formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
             }),
             pieData () {
                 return [
@@ -208,7 +191,10 @@
             },
             getButtonValue (type) {
                 if (type === 'avg_session') {
-                    return moment.unix(this.buttonsData[type].value).format("HH:mm:ss");
+                    const duration = moment.duration(parseInt(this.buttonsData[type].value), 's');
+                    const hours = Math.floor(duration.asHours());
+                    const minutes = moment.utc(duration.asMilliseconds()).format("mm:ss");
+                    return `${hours}:${minutes}`;
                 }
 
                 if (type === 'bounce_rate') {
@@ -221,10 +207,11 @@
 </script>
 
 <style scoped>
+    .card {
+        border-radius: 6px;
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+    }
     .buttons-row {
         margin-top: 50px;
-    }
-    .chart-container {
-        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
     }
 </style>

@@ -1,6 +1,6 @@
 import config from "@/config";
 import requestService from "../../services/requestService";
-import {buttonTransformer,chartTransformer} from "./transformers";
+import {buttonTransformerToTime,chartTransformer} from "../transformers";
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
@@ -9,7 +9,7 @@ const fetchButtonValue = (startDate, endDate) => {
     return requestService.get(resourceUrl + '/button-page-views/avg-time', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-    }).then(response => buttonTransformer(response.data))
+    }).then(response => buttonTransformerToTime(response.data))
         .catch(error => Promise.reject(
             new Error(
                 _.get(

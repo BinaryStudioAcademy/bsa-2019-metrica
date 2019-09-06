@@ -88,12 +88,27 @@
                 {
                     icon: '/assets/icons/settings.svg',
                     text: 'Behaviour',
-                    route: 'behaviour'
+                    route: 'behaviour',
+                    sublinks: [
+                        {
+                            text: 'Visitors flow',
+                            route: 'visitors-flow',
+                        }
+                    ]
                 },
                 {
                     icon: '/assets/icons/speed.svg',
                     text: 'Speed Overview',
-                    route: 'speedoverview'
+                    sublinks: [
+                        {
+                            text: 'Page Timings',
+                            route: 'page-timings',
+                        },
+                        {
+                            text: 'Error Reports',
+                            route: 'error-reports',
+                        },
+                    ]
                 },
                 {
                     icon: '/assets/icons/settings.svg',

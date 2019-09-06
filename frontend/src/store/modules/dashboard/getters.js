@@ -9,8 +9,7 @@ import {
     GET_FORMAT_LINE_CHART_DATA
 } from "./types/getters";
 
-import { period } from "../../../services/periodService";
-import moment from "moment";
+import { chartDataTransformer } from "@/api/widgets/transformers";
 
 export default {
     [GET_SELECTED_PERIOD]: (state) => state.selectedPeriod,
@@ -21,24 +20,6 @@ export default {
     [GET_ACTIVITY_DATA_FETCHING]: (state) => state.activityData.isFetching,
     [GET_ACTIVITY_CHART_DATA]: (state) => state.activityChartData,
     [GET_FORMAT_LINE_CHART_DATA]: (state) => {
-        const interval = state.selectedPeriod;
-        const format = "DD/MM/YYYY H:mm:ss";
-        switch (interval) {
-            case period.PERIOD_TODAY:
-            case period.PERIOD_YESTERDAY:
-                return state.chartData.items.map(item => {
-                    return {
-                        'date': moment(item.date, format).format("HH:mm"),
-                        'value': item.value
-                    };
-                });
-            default:
-                return state.chartData.items.map(item => {
-                    return {
-                        'date': moment(item.date, format).format("MM/DD/YYYY"),
-                        'value': item.value
-                    };
-                });
-        }
+        return chartDataTransformer(state.chartData.items, state.selectedPeriod);
     }
 };

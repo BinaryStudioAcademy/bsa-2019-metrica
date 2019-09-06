@@ -56,7 +56,7 @@ final class GetAverageSessionByIntervalAction
             $websiteId
         );
 
-        $result = [];
+        $collection = new Collection();
 
         for ($date = $startDate; $date < $endDate; $date += $interval) {
             $intervalEndDate = $date + $interval;
@@ -70,10 +70,7 @@ final class GetAverageSessionByIntervalAction
             );
 
             if ($currentIntervalSessions->count() === 0) {
-                $result[] = new ChartValue(
-                    Carbon::createFromTimestampUTC($intervalEndDate)->toDateString(),
-                    '0'
-                );
+                $collection->add(new ChartValue((string)$intervalEndDate, '0'));
                 continue;
             }
 
@@ -83,13 +80,10 @@ final class GetAverageSessionByIntervalAction
                 }, 0);
             $avgSessionTime = $currentIntervalSessionsTime / $currentIntervalSessions->count();
 
-            $result[] = new ChartValue(
-                (string)$intervalEndDate,
-                (string) $avgSessionTime
-            );
+            $collection->add(new ChartValue((string)$intervalEndDate, (string)$avgSessionTime));
         }
 
-        return collect($result);
+        return $collection;
     }
 
     private function getInterval(string $interval): int

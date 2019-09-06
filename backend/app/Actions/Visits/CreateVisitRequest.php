@@ -17,6 +17,7 @@ final class CreateVisitRequest
     private $userAgent;
     private $ip;
     private $token;
+    private $pageLoadTime;
 
     private function __construct(
         string $page,
@@ -27,7 +28,8 @@ final class CreateVisitRequest
         int $resolutionHeight,
         string $userAgent,
         string $ip,
-        string $token
+        string $token,
+        ?int $pageLoadTime
     ) {
         $this->page = $page;
         $this->pageTitle = $pageTitle;
@@ -38,6 +40,7 @@ final class CreateVisitRequest
         $this->userAgent = $userAgent;
         $this->ip = $ip;
         $this->token = $token;
+        $this->pageLoadTime = $pageLoadTime;
     }
 
     public static function fromRequest(CreateVisitHttpRequest $request): self
@@ -51,7 +54,8 @@ final class CreateVisitRequest
             $request->resolutionHeight(),
             $request->userAgent(),
             $request->ip(),
-            $request->token()
+            $request->token(),
+            $request->pageLoadTime(),
         );
     }
 
@@ -98,5 +102,10 @@ final class CreateVisitRequest
     public function token(): string
     {
         return $this->token;
+    }
+
+    public function getPageLoadTime(): ?int
+    {
+        return $this->pageLoadTime;
     }
 }

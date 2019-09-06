@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
+use App\Utils\DatePeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Visit
@@ -21,12 +23,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Visitor $visitor
  * @property int $visitor_id
  * @property GeoPosition $geo_position
- * * @property int $geo_position_id
+ * @property int $geo_position_id
+ * @property int $page_load_time
+ * @property int $domain_lookup_time
+ * @property int $server_response_time
+ * *
  */
 
 final class Visit extends Model
 {
     protected $fillable = [
+        'page_load_time',
+        'domain_lookup_time',
+        'server_response_time',
         'visit_time',
         'ip_address',
         'session_id',
@@ -34,8 +43,6 @@ final class Visit extends Model
         'visitor_id',
         'geo_position_id'
     ];
-
-    protected $with = ['session', 'page', 'visitor', 'geo_position'];
 
     public function session(): BelongsTo
     {
@@ -55,5 +62,10 @@ final class Visit extends Model
     public function geo_position(): BelongsTo
     {
         return $this->belongsTo(GeoPosition::class);
+    }
+
+    public function scopeWhereDateBetween(Builder $query, DatePeriod $period): Builder
+    {
+        return $query->whereBetween('visit_time', [$period->getStartDate(), $period->getEndDate()]);
     }
 }

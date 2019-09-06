@@ -16,10 +16,11 @@ final class CreateVisitHttpRequest extends ApiFormRequest
         }
 
         return [
-            'page' => 'required|url',
+            'page' => 'required|string',
             'page_title' => 'required|string',
             'language' => 'required|string',
             'device' => 'required|string',
+            'page_load_time' => 'integer',
             'resolution_width' => 'required|integer',
             'resolution_height' => 'required|integer'
         ];
@@ -53,6 +54,11 @@ final class CreateVisitHttpRequest extends ApiFormRequest
     public function resolutionHeight(): int
     {
         return $this->get('resolution_height');
+    }
+
+    public function pageLoadTime(): ?int
+    {
+        return $this->get('page_load_time');
     }
 
     public function token(): string

@@ -1,5 +1,6 @@
 <template>
-    <div class="card bg-white visitors-card rounded text-dark">
+    <div class="card bg-white visitors-card rounded text-dark position-relative justify-content-between">
+        <Spinner v-if="activityDataFetching" />
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
                 Active users
@@ -12,7 +13,7 @@
         </div>
         <div class="d-flex justify-content-between align-items-center card-top-row">
             <p class="card-text mb-0">
-                Page views now
+                Pages currently viewing
             </p>
             <p class="card-count text-right mb-0">
                 <strong>
@@ -49,45 +50,53 @@
 </template>
 
 <script>
-    import _ from "lodash";
+    import Spinner from '../../utilites/Spinner';
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_ACTIVITY_DATA_ITEMS,
+        GET_ACTIVITY_DATA_FETCHING,
+        GET_ACTIVITY_CHART_DATA,
     } from "@/store/modules/dashboard/types/getters";
+    import _ from "lodash";
+    import {echoInstance} from '../../../services/echoService';
+    import {GET_CURRENT_WEBSITE} from '@/store/modules/website/types/getters';
     import {
         FETCHING_ACTIVITY_DATA_ITEMS,
-        RELOAD_ACTIVITY_DATA_ITEMS
+        RELOAD_ACTIVITY_DATA_ITEMS,
+        REFRESH_ACTIVITY_DATA_ITEMS
     } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
+    import {FETCHING_ACTIVITY_CHART_DATA} from "../../../store/modules/dashboard/types/actions";
     export default {
         name: 'ActiveVisitorsCard',
         components: {
-            TopActivePage
-        },
-        props: {
-            activityChartData: {
-                type: Array,
-                required: true,
-            },
-            isFetching: {
-                type: Boolean,
-                required: true,
-            },
+            TopActivePage,
+            Spinner
         },
         data: () => ({
-            lineWidth: 5,
+            lineWidth: 4,
             radius: 16,
             padding: 4,
             gradient: ['#3C57DE', '#1BC3DA'],
             gradientDirection: 'left',
             polling: null,
+            fetch: null,
         }),
+        mounted() {
+            const channel = echoInstance.private('active-users.'+ this.website.id);
+            channel.listen('ActiveUserEvent', (data) => this.refreshActivityDataItems(data));
+        },
         computed: {
             ...mapGetters('dashboard', {
                 activityDataItems: GET_ACTIVITY_DATA_ITEMS,
+                activityDataFetching: GET_ACTIVITY_DATA_FETCHING,
+                activityChartData: GET_ACTIVITY_CHART_DATA,
+            }),
+            ...mapGetters('website', {
+                website: GET_CURRENT_WEBSITE
             }),
             activeUsersCount() {
-                return _.uniqBy(this.activityDataItems, 'visitorId').length;
+                return _.uniqBy(this.activityDataItems, 'visitor').length;
             },
             pageViewsCount() {
                 return _.uniqBy(this.activityDataItems, 'url').length;
@@ -98,29 +107,37 @@
                     .map((items, url) => {
                         return { url: url, count: items.length };
                     }).value();
-                if(result.length > 3) {
-                    return result.slice(0, 2);
+                const sort = _.sortBy(result, ['count']).reverse();
+                if(sort.length > 3) {
+                    return sort.slice(0, 3);
                 }
-                return result;
+                return sort;
             }
         },
         created() {
-            this.fetchingActivityDataItems();
-            this.filterDataActivity();
+            this.fetchingActiveUsersNumbers();
+            this.fetchingActiveUsersChartData();
+            this.setIntervalDataActivity();
         },
         beforeDestroy () {
             clearInterval(this.polling);
+            clearInterval(this.fetch);
         },
         methods: {
             ...mapActions('dashboard', {
-                fetchingActivityDataItems: FETCHING_ACTIVITY_DATA_ITEMS,
+                fetchingActiveUsersNumbers: FETCHING_ACTIVITY_DATA_ITEMS,
                 reloadActivityDataItems: RELOAD_ACTIVITY_DATA_ITEMS,
+                fetchingActiveUsersChartData: FETCHING_ACTIVITY_CHART_DATA,
+                refreshActivityDataItems: REFRESH_ACTIVITY_DATA_ITEMS,
             }),
-            filterDataActivity () {
+            setIntervalDataActivity () {
                 this.polling = setInterval(() => {
                     this.reloadActivityDataItems();
                 }, 300000);
-            }
+                this.fetch = setInterval(() => {
+                    this.fetchingActiveUsersChartData();
+                }, 60000);
+            },
         }
     };
 </script>
@@ -133,7 +150,7 @@
         width: 307px;
         font-size: 12px;
         padding: 43px 33px 32px 28px;
-        height: 394px;
+        height: 100%;
 
         .card-top-row {
             height: 53px;
@@ -153,6 +170,5 @@
             color:#ffffff;
             font-size: 12px;
         }
-
     }
 </style>
