@@ -15,6 +15,7 @@
                 class="link-item"
                 :href="page.url"
                 target="_blank"
+                :title="page.url"
             >
                 {{ page.url }}
             </a>
@@ -43,6 +44,10 @@
         .link-item {
             text-decoration:none;
             color: rgba(18, 39, 55, 0.5);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 10px;
         }
     }
 </style>
