@@ -5,6 +5,7 @@
                 <LineChart
                     :data="formatLineChartData"
                     :is-fetching="chartData.isFetching"
+                    :units="units"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -145,6 +146,9 @@
                 chartData: GET_LINE_CHART_DATA,
                 formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
             }),
+            units() {
+                return this.currentActiveButton === BOUNCE_RATE ? '%' : '';
+            },
             pieData () {
                 return [
                     ['Type', 'Value'],
