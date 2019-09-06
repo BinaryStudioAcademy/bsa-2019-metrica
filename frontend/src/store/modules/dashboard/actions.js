@@ -47,9 +47,10 @@ export default {
         const startDate = period.startDate;
         const endDate = period.endDate;
         const dataToFetch = context.state.dataToFetch;
+        const id = context.rootState.website.currentWebsite.id;
 
         return factoryVisitorsService.create(dataToFetch)
-            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval)
+            .fetchChartValues(startDate.unix(), endDate.unix(), period.interval, id)
             .then(response => {
                 context.commit(SET_LINE_CHART_DATA, response);
             })
@@ -59,8 +60,9 @@ export default {
     },
     [FETCHING_ACTIVITY_DATA_ITEMS]: (context) => {
         context.commit(SET_BUTTON_FETCHING);
+        const id = context.rootState.website.currentWebsite.id;
 
-        return getActivityDataItems().then(response => {
+        return getActivityDataItems(id).then(response => {
             response.sort( (a, b) => {
                 return  a.date - b.date || a.visitor - b.visitor;
             });
@@ -81,11 +83,13 @@ export default {
 
         const startDay = moment().subtract(1, 'minute');
         const endDay = moment();
+        const id = context.rootState.website.currentWebsite.id;
 
         pageViewsService.fetchChartValues(
             startDay.unix(),
             endDay.unix(),
-            1
+            60,
+            id
         ).then(response => {
             const range = moment().range(startDay, endDay);
             const arrayOfDates = Array.from(range.by('seconds'));

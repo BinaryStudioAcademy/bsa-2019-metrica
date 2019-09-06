@@ -19,11 +19,8 @@ final class GetBounceRatePageViewsButtonAction
     }
     public function execute(GetBounceRatePageViewsButtonRequest $request): ButtonValue
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
+
         $allPageViewsCount = $this->repository->getCountPageViewsPageBetweenDate($request->period(), $websiteId);
         $bouncedPageViewsCount = $this->repository->getBouncedPagePageBetweenDate($request->period(), $websiteId);
 

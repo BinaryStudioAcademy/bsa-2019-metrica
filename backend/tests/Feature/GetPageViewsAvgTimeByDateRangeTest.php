@@ -25,6 +25,7 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
     const ENDPOINT = '/api/v1/button-page-views/avg-time/';
 
     private $user;
+    private $website;
     private $fromTimeStamp;
     private $toTimeStamp;
 
@@ -45,7 +46,8 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
         ];
 
         $queryString = '?filter[startDate]='.$requestData['startDate'].
-                         '&filter[endDate]='.$requestData['endDate'];
+                         '&filter[endDate]='.$requestData['endDate'].
+                         '&filter[website_id]='.$this->website->id;
 
         $expected = [
             'data' => [
@@ -67,7 +69,10 @@ class GetPageViewsAvgTimeByDateRangeTest extends TestCase
 
     private function seedDataBase(): void
     {
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class, 5)->create();
         factory(Page::class, 3)->create();
         factory(System::class)->create();

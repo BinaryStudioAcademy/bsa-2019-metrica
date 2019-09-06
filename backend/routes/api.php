@@ -32,9 +32,8 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'websites'
         ], function () {
-            Route::get('/', 'WebsiteController@getCurrentUserWebsite');
+            Route::get('/{id}', 'WebsiteController@getCurrentUserWebsite');
             Route::post('/', 'WebsiteController@add');
-            Route::put('/{id}', 'WebsiteController@update');
         });
 
         Route::get('/os/most-popular', 'SystemController@getMostPopularOs');
@@ -150,7 +149,24 @@ Route::prefix('v1')->group(function () {
         Route::get('/geo-location-items', 'GeoLocationController');
 
         Route::get('/table-page-views', 'VisitController@getPageViewsItems');
+
+        Route::group([
+            'prefix' => 'teams'
+        ], function () {
+            Route::get('/', 'TeamController@getTeam');
+            Route::post('/', 'TeamController@inviteTeamMember');
+            Route::delete('/member/{memberId}', 'TeamController@removeTeamMember');
+            Route::get('/menu-access/{memberId}', 'TeamController@getPermittedMenuItems');
+            Route::put('/menu-access', 'TeamController@updatePermittedMenuItems');
+        });
     });
+
+    Route::put('/websites/{id}', [
+        'middleware' => ['auth', 'roles'],
+        'uses' => 'Api\WebsiteController@update',
+        'roles' => ['owner']
+    ]);
+
 
     Route::group([
         'namespace' => 'OpenApi'

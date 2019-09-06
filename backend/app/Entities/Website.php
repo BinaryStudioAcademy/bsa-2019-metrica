@@ -24,7 +24,6 @@ final class Website extends Model
         'name',
         'domain',
         'single_page',
-        'user_id',
         'tracking_number',
     ];
 
@@ -33,14 +32,14 @@ final class Website extends Model
         return str_pad((string) $value, 8, '0', STR_PAD_LEFT);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
     public function pages()
     {
         return $this->hasMany(Page::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot(['role', 'permitted_menu']);
     }
 
     public function visits()

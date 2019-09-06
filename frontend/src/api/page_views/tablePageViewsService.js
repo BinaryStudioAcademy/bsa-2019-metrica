@@ -5,10 +5,11 @@ import _ from "lodash";
 
 const resourceUrl = config.getApiUrl() + '/table-page-views';
 
-const fetchTableValues = (startDate, endDate) => {
+const fetchTableValues = (startDate, endDate, websiteId) => {
     return requestService.get(resourceUrl, {}, {
         'filter[startDate]': startDate,
-        'filter[endDate]': endDate
+        'filter[endDate]': endDate,
+        'filter[website_id]': websiteId,
     })
         .then(response => response.data.map(tableTransformerPageViews))
         .catch(error => Promise.reject(

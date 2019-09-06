@@ -5,10 +5,11 @@ import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
-const fetchButtonValue = (startDate, endDate) => {
+const fetchButtonValue = (startDate, endDate, websiteId) => {
     return requestService.get(resourceUrl + '/button-page-views/count', {}, {
         'filter[startDate]': startDate,
-        'filter[endDate]': endDate
+        'filter[endDate]': endDate,
+        'filter[website_id]': websiteId,
     }).then(response => buttonTransformer(response.data))
         .catch(error => Promise.reject(
             new Error(
@@ -21,11 +22,12 @@ const fetchButtonValue = (startDate, endDate) => {
         ));
 };
 
-const fetchChartValues = (startDate, endDate, interval) => {
+const fetchChartValues = (startDate, endDate, interval, websiteId) => {
     return requestService.get(resourceUrl + '/chart-visits/page-views', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[period]': interval
+        'filter[period]': interval,
+        'filter[website_id]': websiteId,
     }).then(response => response.data.map(chartTransformer))
         .catch(error => Promise.reject(
             new Error(
@@ -38,11 +40,12 @@ const fetchChartValues = (startDate, endDate, interval) => {
         ));
 };
 
-const fetchTableValues = (startDate, endDate, groupBy) => {
+const fetchTableValues = (startDate, endDate, groupBy, websiteId) => {
     return requestService.get(resourceUrl + '/visits/by-table', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[parameter]': groupBy
+        'filter[parameter]': groupBy,
+        'filter[website_id]': websiteId,
     }).then(response => response.data.map(tableTransformer))
         .catch(error => Promise.reject(
             new Error(

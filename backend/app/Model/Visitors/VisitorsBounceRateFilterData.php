@@ -10,11 +10,13 @@ class VisitorsBounceRateFilterData implements IVisitorsBounceRateFilterData
 {
     private $datePeriod;
     private $timeFrame;
+    private $websiteId;
 
-    public function __construct(DatePeriod $datePeriod, int $timeFrame)
+    public function __construct(DatePeriod $datePeriod, int $timeFrame, int $websiteId)
     {
         $this->datePeriod = $datePeriod;
         $this->timeFrame = $timeFrame;
+        $this->websiteId = $websiteId;
     }
 
     public function getStartDate(): \DateTime
@@ -30,5 +32,10 @@ class VisitorsBounceRateFilterData implements IVisitorsBounceRateFilterData
     public function getTimeFrame(): int
     {
         return $this->timeFrame;
+    }
+
+    public function websiteId(): int
+    {
+        return $this->websiteId;
     }
 }

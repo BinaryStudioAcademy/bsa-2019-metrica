@@ -12,6 +12,7 @@ class CreateVisitorTest extends TestCase
 {
     use RefreshDatabase;
 
+    private $user;
     private $website;
 
     const VALID_TRACKING_NUMBER = '00000111';
@@ -21,9 +22,12 @@ class CreateVisitorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        factory(User::class)->create();
+        $this->user = factory(User::class)->create();
         $this->website = factory(Website::class)->create([
             'tracking_number' => 111
+        ]);
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
         ]);
     }
 

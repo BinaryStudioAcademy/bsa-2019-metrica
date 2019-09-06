@@ -21,6 +21,7 @@ class ButtonVisitsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
 
     public function setUp(): void
     {
@@ -35,6 +36,7 @@ class ButtonVisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)Carbon::parse('2019-08-21 00:00:00', 'UTC')->getTimestamp(),
                 'endDate' => (string)Carbon::parse('2019-08-22 00:00:00', ' UTC')->getTimestamp(),
+                'website_id' => $this->website->id
             ]
         ];
         $expectedData = [
@@ -52,10 +54,19 @@ class ButtonVisitsApiTest extends TestCase
 
     private function getUniquePageViewsSeed()
     {
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+
         factory(Visitor::class, 5)->create();
         factory(System::class)->create();
-        factory(Page::class, 6)->create();
+        factory(Page::class)->create(['id' => 1]);
+        factory(Page::class)->create(['id' => 2]);
+        factory(Page::class)->create(['id' => 3]);
+        factory(Page::class)->create(['id' => 4]);
+        factory(Page::class)->create(['id' => 5]);
+        factory(Page::class)->create(['id' => 6]);
         factory(GeoPosition::class)->create();
 
         $firstSession = factory(Session::class)->create([
@@ -113,7 +124,10 @@ class ButtonVisitsApiTest extends TestCase
         $startDate = new \DateTime('2019-08-20 06:00:00');
         $endDate = new \DateTime('2019-08-20 07:30:00');
 
-        factory(Website::class)->create();
+        $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class)->create();
         factory(GeoPosition::class)->create();
         factory(System::class)->create();
@@ -125,6 +139,7 @@ class ButtonVisitsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)$startDate->getTimestamp(),
                 'endDate' => (string)$endDate->getTimestamp(),
+                'website_id' => $website->id
             ]
         ];
         $this->createVisitWithSessions(new \DateTime('2019-08-20 05:30:00'), [14]);

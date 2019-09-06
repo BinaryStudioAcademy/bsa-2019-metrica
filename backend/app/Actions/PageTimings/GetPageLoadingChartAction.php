@@ -7,9 +7,9 @@ use App\Utils\DatePeriod;
 
 final class GetPageLoadingChartAction extends GetAbstractPageTimingChartAction
 {
-    protected function getData(DatePeriod $datePeriod, string $period): array
+    protected function getData(DatePeriod $datePeriod, string $period, int $websiteId): array
     {
-        return $this->repository->getAvgPageLoadByDateRange($datePeriod, $period);
+        return $this->repository->getAvgPageLoadByDateRange($datePeriod, $period, $websiteId);
     }
 }
 

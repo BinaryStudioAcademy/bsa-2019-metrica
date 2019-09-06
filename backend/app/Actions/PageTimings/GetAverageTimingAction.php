@@ -19,7 +19,7 @@ final class GetAverageTimingAction
 
     public function execute(GetAverageTimingRequest $request): ButtonValue
     {
-        $website_id = Auth::user()->website->id;
+        $website_id = $request->websiteId();
         $period = $request->period();
         $column = $request->column();
 

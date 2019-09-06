@@ -20,11 +20,11 @@ final class GetBounceRateAction
     {
         $visitors = $this->visitorRepository
             ->countSinglePageInactiveSessionBetweenDate(
-                $request->period()
+                $request->period(), $request->websiteId()
             );
         $allVisitors = $this->visitorRepository
             ->countVisitorsBetweenDate(
-                $request->period()
+                $request->period(), $request->websiteId()
             );
 
         if ($allVisitors === 0) {

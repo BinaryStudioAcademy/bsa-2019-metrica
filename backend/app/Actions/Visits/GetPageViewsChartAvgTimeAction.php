@@ -21,11 +21,7 @@ final class GetPageViewsChartAvgTimeAction
 
     public function execute(GetPageViewsChartAvgTimeRequest $request): GetPageViewsChartResponse
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
 
         $chartData = $this->repository->getChartAvgTimeOnPageBetweenDate(
             $request->period(), (int)$request->interval(), $websiteId

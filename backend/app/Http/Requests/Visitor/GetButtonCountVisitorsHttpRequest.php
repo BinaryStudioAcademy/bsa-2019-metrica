@@ -7,6 +7,7 @@ namespace App\Http\Requests\Visitor;
 use App\Http\Request\ApiFormRequest;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Rules\IsWebsiteRelatedToUser;
 
 final class GetButtonCountVisitorsHttpRequest extends ApiFormRequest
 {
@@ -22,6 +23,11 @@ final class GetButtonCountVisitorsHttpRequest extends ApiFormRequest
                 'required',
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
+            ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedToUser()
             ]
         ];
     }
@@ -34,5 +40,10 @@ final class GetButtonCountVisitorsHttpRequest extends ApiFormRequest
     public function getEndDate(): string
     {
         return $this->get('filter')['endDate'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int) $this->validated()['filter']['website_id'];
     }
 }

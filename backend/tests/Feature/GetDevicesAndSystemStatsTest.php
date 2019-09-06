@@ -14,6 +14,7 @@ class GetDevicesAndSystemStatsTest extends TestCase
     const SYSTEMS = 'api/v1/os/most-popular';
 
     private $user;
+    private $website;
     private $from;
     private $to;
 
@@ -23,8 +24,11 @@ class GetDevicesAndSystemStatsTest extends TestCase
         $this->from = Carbon::now()->subDays(3);
         $this->to = Carbon::now();
         $this->user = factory('App\Entities\User')->create();
-        $this->user->website()->save(factory('App\Entities\Website')->make())
-            ->pages()->save(factory('App\Entities\Page')->make());
+        $this->website = factory('App\Entities\Website')->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+        $this->website->pages()->save(factory('App\Entities\Page')->make());
         factory('App\Entities\Visitor')->create();
         factory('App\Entities\GeoPosition')->create();
         factory('App\Entities\System')->create();
@@ -35,7 +39,8 @@ class GetDevicesAndSystemStatsTest extends TestCase
         return [
             'filter' => [
                 'startDate' => (string)$this->from->timestamp,
-                'endDate' => strval($this->to->timestamp)
+                'endDate' => strval($this->to->timestamp),
+                'website_id' => $this->website->id
             ]
         ];
     }
@@ -45,8 +50,9 @@ class GetDevicesAndSystemStatsTest extends TestCase
         $this->actingAs($this->user)
             ->json('GET', self::DEVICES, ['filter' =>
                 [
-                    'startDate' => (string)$this->to->timestamp,
-                    'endDate' => (string)$this->from->timestamp
+                    'startDate' => (string)$this->from->timestamp,
+                    'endDate' => '0',
+                    'website_id' => $this->website->id
                 ],
             ])
             ->assertStatus(400)

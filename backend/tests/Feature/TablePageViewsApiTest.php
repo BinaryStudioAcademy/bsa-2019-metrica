@@ -20,12 +20,16 @@ class TablePageViewsApiTest extends TestCase
     private const URL = 'api/v1/table-page-views';
 
     private $user;
+    private $website;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Website::class)->create();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory(Visitor::class, 3)->create();
         factory(GeoPosition::class)->create();
         factory(System::class)->create();
@@ -69,6 +73,7 @@ class TablePageViewsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)$startDate->getTimestamp(),
                 'endDate' => (string)$endDate->getTimestamp(),
+                'website_id' => $this->website->id
             ]
         ];
 

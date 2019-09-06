@@ -33,7 +33,6 @@ class ApiWebsiteTest extends TestCase
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'user_id' => $this->user->id,
                 'tracking_number' => '00000001',
             ],
             "meta" => [],
@@ -57,11 +56,11 @@ class ApiWebsiteTest extends TestCase
     {
         $expectedData = [
             "data" => [
+                'id' => 4,
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'user_id' => $this->user->id,
-                'tracking_number' => '00000002',
+                'tracking_number' => '00000001',
             ],
             "meta" => [],
 
@@ -80,10 +79,6 @@ class ApiWebsiteTest extends TestCase
         $headers = ['Authorization' => "Bearer $token"];
 
         $this->actingAs($this->user)
-            ->post('/api/v1/websites', $firstWebsiteData, $headers)
-            ->assertStatus(200);
-
-        $this->actingAs($this->user)
             ->post('/api/v1/websites', $secondWebsiteData, $headers)
             ->assertStatus(200)
             ->assertJson($expectedData);
@@ -92,12 +87,14 @@ class ApiWebsiteTest extends TestCase
     public function test_success_edit()
     {
         $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         $expectedData = [
             "data" => [
                 'name' => 'New name',
                 'domain' => $website->domain,
                 'single_page' => $website->single_page,
-                'user_id' => $website->user_id,
                 'tracking_number' => $website->tracking_number,
             ],
             "meta" => [],
@@ -107,11 +104,9 @@ class ApiWebsiteTest extends TestCase
             'name' => $expectedData['data']['name'],
             'single_page' => $expectedData['data']['single_page'],
         ];
-        $token = JWTAuth::fromUser($this->user);
-        $headers = ['Authorization' => "Bearer $token"];
 
         $this->actingAs($this->user)
-            ->put('/api/v1/websites/'.$website->id, $websiteData, $headers)
+            ->put('/api/v1/websites/'.$website->id, $websiteData)
             ->assertStatus(200)
             ->assertJson($expectedData);
     }
@@ -124,6 +119,9 @@ class ApiWebsiteTest extends TestCase
             ]
         ];
         $website = factory(Website::class)->create();
+        $this->user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
         $websiteData = [];
         $token = JWTAuth::fromUser($this->user);
         $headers = ['Authorization' => "Bearer $token"];
@@ -152,5 +150,87 @@ class ApiWebsiteTest extends TestCase
             ->put('/api/v1/websites/'.$failId, $websiteData, $headers)
             ->assertStatus(404)
             ->assertJson($expectedData);
+    }
+
+    public function test_update_website_access()
+    {
+        $expectedData = [
+            'error' => [
+                'message' => 'The name field is required.'
+            ]
+        ];
+
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertJson($expectedData);
+        ;
+    }
+
+    public function test_update_website_access_failed()
+    {
+        $expectedData = [
+            'error' => [
+                'message' => 'You do not have rights to access this resource.'
+            ]
+        ];
+
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'member'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('PUT', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertStatus(403)
+            ->assertJson($expectedData);
+    }
+
+    public function test_get_current_website_as_owner()
+    {
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'owner'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertOk();
+    }
+
+    public function test_get_current_website_as_member()
+    {
+        $user = factory(User::class)->create();
+        $website = factory(Website::class)->create();
+        $user->websites()->attach($website->id, [
+            'role' => 'member'
+        ]);
+
+        $filterData = [
+            'website_id' => $website->id,
+        ];
+
+        $this->actingAs($user)
+            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->assertOk();
     }
 }

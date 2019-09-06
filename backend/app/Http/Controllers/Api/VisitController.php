@@ -115,7 +115,8 @@ final class VisitController extends Controller
         $response = $this->getPageViewsItemsAction->execute(
             new GetPageViewsItemsRequest(
                 $request->startDate(),
-                $request->endDate()
+                $request->endDate(),
+                $request->websiteId()
             )
         )->items();
 

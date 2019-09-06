@@ -4,19 +4,25 @@ declare(strict_types = 1);
 
 namespace App\Actions\Website;
 
-use App\Exceptions\UserWebsiteNotFoundException;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\WebsiteRepository;
 
 final class GetCurrentUserWebsiteAction
 {
-    public function execute(): GetCurrentUserWebsiteResponse
-    {
-        $website = Auth::user()->getWebsite();
+    private $repository;
 
-        if (!$website) {
-            throw new UserWebsiteNotFoundException();
+    public function __construct(WebsiteRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function execute(int $websiteId): GetCurrentUserWebsiteResponse
+    {
+        if ($websiteId === 0) {
+            $website = $this->repository->getFirstExistingUserWebsite();
+            return new GetCurrentUserWebsiteResponse($website);
         }
 
+        $website = $this->repository->getCurrentWebsite($websiteId);
         return new GetCurrentUserWebsiteResponse($website);
     }
 }

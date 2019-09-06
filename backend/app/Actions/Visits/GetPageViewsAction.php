@@ -19,11 +19,7 @@ final class GetPageViewsAction
 
     public function execute(GetPageViewsRequest $request): GetPageViewsResponse
     {
-        try {
-            $websiteId = Auth::user()->website->id;
-        } catch (\Exception $exception) {
-            throw new WebsiteNotFoundException();
-        }
+        $websiteId = $request->websiteId();
 
         $data = $this->visitRepository->findByFilter(
             $request->period(),
