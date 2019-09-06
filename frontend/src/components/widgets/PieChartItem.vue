@@ -1,17 +1,15 @@
 <template>
-    <VRow class="justify-center">
-        <VCol class="d-flex col-5 justify-center align-items-center">
-            <GChart
-                class="pb-2 align-self-end"
-                type="PieChart"
-                :data="chartData"
-                :options="chartOptions"
-            />
-        </VCol>
-        <VCol>
+    <div class="d-flex">
+        <GChart
+            class="align-self-end"
+            type="PieChart"
+            :data="chartData"
+            :options="chartOptions"
+        />
+        <div class="flex-grow-1 pl-4">
             <VSubheader
                 v-text="dataType"
-                class="legend-title grey--text text--darken-1 pl-0"
+                class="legend-title grey--text text--darken-1 pl-0 mb-3"
             />
             <VList>
                 <LegendItem
@@ -22,8 +20,8 @@
                     :percent="item.percent"
                 />
             </VList>
-        </VCol>
-    </VRow>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -87,4 +85,7 @@
 .v-subheader {
     height: 20px;
 }
+/*.v-list {
+    width: max-content;
+}*/
 </style>

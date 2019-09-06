@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="subtitle-1 pl-1 pb-2 grey--text text--darken-1">
+        <div class="subtitle-1 pl-1 pb-4 grey--text text--darken-1">
             Times
         </div>
-        <div class="card bg-white visits-widget text-dark">
+        <div class="white visits-widget text-dark d-flex flex-column justify-space-between">
             <Spinner
                 v-if="isFetching"
             />
@@ -12,7 +12,7 @@
             </div>
             <VueApexCharts
                 type="heatmap"
-                height="100%"
+                height="350px"
                 :options="chartOptions"
                 :series="drawHeatmap"
                 class="visits-heatmap"
@@ -201,6 +201,7 @@
         border-radius: 6px;
         padding: 1.5rem;
         width: 352px;
+        height: 480px;
     }
 
     .ml10 {
