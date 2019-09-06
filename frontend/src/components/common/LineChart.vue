@@ -119,7 +119,7 @@
             tooltip(element) {
                 return `<div class='custom-google-line-chart-tooltip white--text'>
                     <div class='tooltip-first primary lighten-1'>
-                        ${element.value}${element.hasOwnProperty('units') ? element.units : ""}
+                        ${element.value}${element.units}
                     </div>
                     <div class='tooltip-second'>
                         ${element.date}

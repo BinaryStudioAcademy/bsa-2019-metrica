@@ -68,11 +68,9 @@ const chartDataTransformer = (items, selectedPeriod) => {
     return sortedItems.map(item => {
         let chartItem = {
             'date': moment.unix(item.date).format(toDateStringFormat(selectedPeriod)),
-            'value': item.value
+            'value': item.value,
+            'units': item.units
         };
-        if (item.hasOwnProperty('units')) {
-            chartItem.units = item.units;
-        }
         return chartItem;
     });
 };

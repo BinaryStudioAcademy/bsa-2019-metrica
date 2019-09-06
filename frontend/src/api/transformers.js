@@ -19,14 +19,16 @@ const buttonTransformerToTime = (item) => {
 const chartTransformer = (item) => {
     return {
         date: item.date,
-        value: item.value*1
+        value: item.value*1,
+        units: ''
     };
 };
 
 const chartTransformerToInt = (item) => {
     return {
         date: item.date,
-        value: parseInt(item.value)
+        value: parseInt(item.value),
+        units: ''
     };
 };
 
@@ -41,7 +43,8 @@ const chartTransformerToPercent = (item) => {
 const chartTransformerToSeconds = (item) => {
     return {
         date: item.date,
-        value: item.value/1000
+        value: item.value/1000,
+        units: ''
     };
 };
 
