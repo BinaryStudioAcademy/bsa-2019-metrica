@@ -44,7 +44,7 @@
 <style scoped lang="scss">
 .v-list-item {
     text-align: end;
-    height: 32px;
+    height: 40px;
     min-height: 20px;
     .v-list-item__title,
     .v-list-item__subtitle {

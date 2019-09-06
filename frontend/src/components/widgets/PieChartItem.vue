@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex">
         <GChart
-            class="align-self-end"
+            class="align-self-end mb-3"
             type="PieChart"
             :data="chartData"
             :options="chartOptions"
