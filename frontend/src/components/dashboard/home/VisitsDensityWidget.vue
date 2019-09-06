@@ -1,23 +1,28 @@
 <template>
-    <div class="card bg-white visits-widget text-dark">
-        <Spinner
-            v-if="isFetching"
-        />
-        <div class="ml10">
-            Users by time of day
+    <div>
+        <div class="subtitle-1 pl-1 pb-2 grey--text text--darken-1">
+            Times
         </div>
-        <VueApexCharts
-            type="heatmap"
-            height="100%"
-            :options="chartOptions"
-            :series="drawHeatmap"
-            class="visits-heatmap"
-        />
-        <VisitsDensityPeriodDropdown
-            class="ml10"
-            :value="getSelectedPeriod"
-            @change="changeSelectedPeriod"
-        />
+        <div class="card bg-white visits-widget text-dark">
+            <Spinner
+                v-if="isFetching"
+            />
+            <div class="ml10">
+                Users by time of day
+            </div>
+            <VueApexCharts
+                type="heatmap"
+                height="100%"
+                :options="chartOptions"
+                :series="drawHeatmap"
+                class="visits-heatmap"
+            />
+            <VisitsDensityPeriodDropdown
+                class="ml10"
+                :value="getSelectedPeriod"
+                @change="changeSelectedPeriod"
+            />
+        </div>
     </div>
 </template>
 

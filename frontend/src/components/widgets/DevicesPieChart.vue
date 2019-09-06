@@ -1,23 +1,28 @@
 <template>
-    <VContainer class="pa-6 white pie-container position-relative mx-0">
-        <Spinner v-if="isFetching" />
-        <VContainer class="pa-0 content d-flex flex-column justify-space-between">
-            <VContainer v-if="!data.length">
-                no data to display
+    <div>
+        <div class="subtitle-1 pl-1 pb-2 grey--text text--darken-1">
+            Devices
+        </div>
+        <VContainer class="pa-6 white pie-container position-relative mx-0">
+            <Spinner v-if="isFetching" />
+            <VContainer class="pa-0 content d-flex flex-column justify-space-between">
+                <VContainer v-if="!data.length">
+                    no data to display
+                </VContainer>
+                <PieChartItem
+                    v-for="(item, key) in data"
+                    :data-type="item.type"
+                    :data="item.data"
+                    :key="key"
+                />
+                <PeriodDropdown
+                    class="mt-2"
+                    :value="selectedPeriod"
+                    @change="changeSelectedPeriod"
+                />
             </VContainer>
-            <PieChartItem
-                v-for="(item, key) in data"
-                :data-type="item.type"
-                :data="item.data"
-                :key="key"
-            />
-            <PeriodDropdown
-                class="mt-2"
-                :value="selectedPeriod"
-                @change="changeSelectedPeriod"
-            />
         </VContainer>
-    </VContainer>
+    </div>
 </template>
 
 <script>
