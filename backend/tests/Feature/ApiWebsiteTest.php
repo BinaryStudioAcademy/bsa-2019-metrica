@@ -200,7 +200,6 @@ class ApiWebsiteTest extends TestCase
             ->assertJson($expectedData);
     }
 
-<<<<<<< HEAD
     public function test_get_relate_user_websites()
     {
         $expectedData = [
@@ -256,10 +255,11 @@ class ApiWebsiteTest extends TestCase
         ]);
 
         $this->actingAs($user1)
-            ->call('GET','/api/v1/teams/relate')
+            ->call('GET', '/api/v1/teams/relate')
             ->assertOk()
             ->assertJson($expectedData);
-=======
+    }
+
     public function test_get_current_website_as_owner()
     {
         $user = factory(User::class)->create();
@@ -292,6 +292,5 @@ class ApiWebsiteTest extends TestCase
         $this->actingAs($user)
             ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
             ->assertOk();
->>>>>>> 58e0544e5621b12d7a73bb0226d49b464d5446a8
     }
 }
