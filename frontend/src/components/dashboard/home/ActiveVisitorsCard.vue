@@ -3,7 +3,7 @@
         <div class="subtitle-1 pl-1 pb-4 grey--text text--darken-1">
             Activity
         </div>
-        <div class="card bg-white visitors-card text-dark position-relative justify-content-between">
+        <div class="pa-6 card bg-white visitors-card text-dark position-relative justify-content-between">
             <Spinner v-if="activityDataFetching" />
             <div class="d-flex justify-content-between align-items-center card-top-row">
                 <p class="card-text mb-0">
