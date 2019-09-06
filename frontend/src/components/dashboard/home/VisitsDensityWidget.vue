@@ -58,20 +58,6 @@
                     '5': 'Fri',
                     '6': 'Sat'
                 },
-                hours: {
-                    '0': '12am',
-                    '2': '2am',
-                    '4': '4am',
-                    '6': '6am',
-                    '8': '8am',
-                    '10': '10am',
-                    '12': '12pm',
-                    '14': '2pm',
-                    '16': '4pm',
-                    '18': '6pm',
-                    '20': '8pm',
-                    '22': '10pm'
-                },
                 chartOptions: {
                     chart: {
                         toolbar: {
@@ -155,7 +141,13 @@
 
                 for (let hour = 0; hour < 24; hour++) {
                     let row = {};
-                    row.name = this.hours[hour] || '';
+                    if (hour % 2 === 0) {
+                        let date = new Date();
+                        date.setHours(hour, 0, 0);
+                        row.name = date.toTimeString().substring(0, 5);
+                    } else {
+                        row.name = '';
+                    }
                     row.data = [];
 
                     for (let day = 0; day < 7; day++) {

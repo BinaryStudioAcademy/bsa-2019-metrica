@@ -24,7 +24,7 @@ final class EloquentVisitRepository implements VisitRepository
                extract('dow' FROM visit_time) as day,
                count(*) as visits"
             ))
-            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereBetween('visit_time', [$startDate, $endDate])
             ->groupBy('day', 'hour')
             ->whereHas('session', function ($query) use ($websiteId) {
                 $query->whereWebsiteId($websiteId);
