@@ -47,4 +47,9 @@ final class Website extends Model
     {
         return $this->hasManyThrough(Visit::class, Page::class);
     }
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class);
+    }
 }

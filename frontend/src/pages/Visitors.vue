@@ -3,7 +3,7 @@
         <VRow>
             <VContainer class="white card px-7 py-6">
                 <LineChart
-                    :data="chartData.items"
+                    :data="formatLineChartData"
                     :is-fetching="chartData.isFetching"
                 />
                 <PeriodDropdown
@@ -72,6 +72,7 @@
         GET_SELECTED_PERIOD,
         GET_PIE_CHART_DATA,
         GET_LINE_CHART_DATA,
+        GET_FORMAT_LINE_CHART_DATA
     } from "@/store/modules/visitors/types/getters";
     import {
         CHANGE_ACTIVE_BUTTON,
@@ -142,6 +143,7 @@
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 pieChartData: GET_PIE_CHART_DATA,
                 chartData: GET_LINE_CHART_DATA,
+                formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
             }),
             pieData () {
                 return [
