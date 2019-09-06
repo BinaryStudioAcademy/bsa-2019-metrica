@@ -3,7 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const script = (appUrl, trackingNumber, hash = '') => `
-	<script id="metrica" async src="${appUrl}metrica.js?tracking_id=${trackingNumber}${hash}" ></script>
+	<script id="metrica" async src="${appUrl}metrica.js?tracking_id=${trackingNumber}&spa=false${hash}" ></script>
 	<script>
 		window._metricaTrackingConfig = window._metricaTrackingConfig || [];
 		function mtag() {
@@ -11,6 +11,7 @@ const script = (appUrl, trackingNumber, hash = '') => `
 		}
 		mtag('dateStart', new Date());
 		mtag('tracking_id', '${trackingNumber}');
+		mtag('spa', false);
 	</script>
 `;
 
