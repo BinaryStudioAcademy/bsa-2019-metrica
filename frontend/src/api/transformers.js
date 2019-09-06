@@ -19,7 +19,7 @@ const buttonTransformerToTime = (item) => {
 const chartTransformer = (item) => {
     return {
         date: item.date,
-        value: item.value*1,
+        value: item.value*1
     };
 };
 
