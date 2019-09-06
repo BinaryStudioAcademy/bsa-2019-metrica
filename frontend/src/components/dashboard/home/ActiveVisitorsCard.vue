@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="subtitle-1 pl-1 pb-2 grey--text text--darken-1">
+        <div class="subtitle-1 pl-1 pb-4 grey--text text--darken-1">
             Activity
         </div>
         <div class="card bg-white visitors-card text-dark position-relative justify-content-between">
@@ -156,6 +156,7 @@
         width: 352px;
         font-size: 12px;
         padding: 43px 33px 32px 28px;
+        min-height: 480px;
 
         .card-top-row {
             height: 53px;
