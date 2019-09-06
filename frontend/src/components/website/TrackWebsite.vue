@@ -10,7 +10,7 @@
         }
         mtag('dateStart', new Date());
         mtag('tracking_id', '{{ trackingNumber }}');
-        mtag('spa', '{{ spa }}');
+        mtag('spa', {{ spa }});
     &lt;/script&gt;
     </code>
     </pre>

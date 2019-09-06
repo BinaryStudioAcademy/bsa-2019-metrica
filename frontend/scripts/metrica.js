@@ -70,11 +70,7 @@
             return result[1];
         },
         getSPAFromUrl(){
-            let result = (this.getScriptSRC() || '').match(/spa=(\d+)/i);
-            if (result === null)
-                return false;
-
-            return result[1];
+            return /spa=true/i.test(this.getScriptSRC() || '');
         },
         getObjectMetricaConf() {
             return this.configMetrica;
