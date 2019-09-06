@@ -5,6 +5,7 @@
                 <LineChart
                     :data="formatLineChartData"
                     :is-fetching="chartData.isFetching"
+                    units="s"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"

@@ -20,31 +20,27 @@ const chartTransformer = (item) => {
     return {
         date: item.date,
         value: item.value*1,
-        units: ''
     };
 };
 
 const chartTransformerToInt = (item) => {
     return {
         date: item.date,
-        value: parseInt(item.value),
-        units: ''
+        value: parseInt(item.value)
     };
 };
 
 const chartTransformerToPercent = (item) => {
     return {
         date: item.date,
-        value: Math.round(Number(item.value)*100),
-        units: '%'
+        value: Math.round(Number(item.value)*100)
     };
 };
 
 const chartTransformerToSeconds = (item) => {
     return {
         date: item.date,
-        value: item.value/1000,
-        units: ''
+        value: item.value/1000
     };
 };
 

@@ -18,6 +18,7 @@
             v-else
             :data="chartData"
             :options="chartOptions"
+            :units="units"
         />
     </VContainer>
 </template>
@@ -38,6 +39,10 @@
                 type: Boolean,
                 required: true,
             },
+            units: {
+                type: String,
+                required: true
+            }
         },
         data() {
             return {
@@ -119,7 +124,7 @@
             tooltip(element) {
                 return `<div class='custom-google-line-chart-tooltip white--text'>
                     <div class='tooltip-first primary lighten-1'>
-                        ${element.value}${element.units}
+                        ${element.value}${this.units}
                     </div>
                     <div class='tooltip-second'>
                         ${element.date}
