@@ -7,7 +7,7 @@
             <Spinner
                 v-if="isFetching"
             />
-            <div class="ml10">
+            <div class="ml-2">
                 Users by time of day
             </div>
             <VueApexCharts
@@ -18,7 +18,6 @@
                 class="visits-heatmap"
             />
             <VisitsDensityPeriodDropdown
-                class="ml10"
                 :value="getSelectedPeriod"
                 @change="changeSelectedPeriod"
             />
@@ -202,10 +201,6 @@
         padding: 1.5rem;
         width: 352px;
         height: 480px;
-    }
-
-    .ml10 {
-        margin-left: 10px;
     }
 
     .visits-heatmap {

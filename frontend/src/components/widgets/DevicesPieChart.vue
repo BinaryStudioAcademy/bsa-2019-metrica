@@ -15,7 +15,6 @@
                 :key="key"
             />
             <PeriodDropdown
-                class="mt-2"
                 :value="selectedPeriod"
                 @change="changeSelectedPeriod"
             />
