@@ -13,7 +13,9 @@ export default {
     },
     relateUserWebsites: {
         websites: [],
-        selectedWebsite: '',
+        selectedWebsite: {
+            value: '',
+        },
         isFetching: false,
     },
     isCurrentWebsite: false,

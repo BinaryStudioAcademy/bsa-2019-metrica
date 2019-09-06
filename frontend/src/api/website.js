@@ -1,4 +1,5 @@
 import requestService from "@/services/requestService";
+import {relateWebsites} from "./transformers";
 import config from "@/config";
 import _ from "lodash";
 
@@ -11,13 +12,13 @@ const addWebsite = data => requestService.create(resourceUrl, data);
 const updateWebsite = (data, id) => requestService.update(resourceUrl + '/' + id, data);
 
 const getRelateUserWebsites = () => requestService.get(config.getApiUrl() + '/teams/relate')
-    .then(response => response.data)
+    .then(response => response.data.map(relateWebsites))
     .catch(error => Promise.reject(
         new Error(
             _.get(
                 error,
                 'response.data.error.message',
-                'Something went wrong with getting visits data'
+                'Something went wrong with getting relate websites data'
             )
         )
     ));

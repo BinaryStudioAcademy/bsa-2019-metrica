@@ -1,6 +1,7 @@
 <template>
     <DefaultDropdown
-        :items="items"
+        class="option-select"
+        :items="websites"
         :value="value"
         @change="changeWebsite"
     />
@@ -22,14 +23,6 @@
                 type:String,
                 required: true
             },
-            items: {
-                type: Array,
-                default () {
-                    return [
-                        this.getWebsites
-                    ];
-                }
-            }
         },
         created() {
             this.fetchRelateWebsites();
@@ -41,14 +34,19 @@
         },
         methods: {
             ...mapActions('website', {
-                fetchRelateWebsites: FETCH_RELATE_WEBSITES,
+                fetchRelateWebsites: FETCH_RELATE_WEBSITES
             }),
             changeWebsite(selectedItem) {
                 this.$emit("change", selectedItem);
             },
-            getWebsites() {
-                return this.websites;
-            }
         }
     };
 </script>
+
+<style lang="scss" scoped>
+    .option-select {
+        padding: 0;
+        max-width: 300px;
+        max-height: 34px;
+    }
+</style>

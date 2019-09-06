@@ -5,7 +5,7 @@ import {
     UPDATE_WEBSITE,
     RESET_DATA,
     CHANGE_SELECTED_WEBSITE,
-    FETCH_RELATE_WEBSITES
+    FETCH_RELATE_WEBSITES,
 } from './types/actions';
 import {
     SET_CURRENT_WEBSITE,
@@ -15,12 +15,11 @@ import {
     SET_FETCH_TRUE,
     RESET_WEBSITE_DATA,
     SET_SELECTED_WEBSITE,
-    SET_CURRENT_WEBSITE_ID,
     SET_IS_FETCH_WEBSITES,
     RESET_FETCH_WEBSITES,
-    SET_RELATE_WEBSITES
+    SET_RELATE_WEBSITES,
+    SET_DEFAULT_SELECTED_WEBSITE
 } from "./types/mutations";
-import {GET_RELATE_WEBSITES} from "./types/getters";
 import {addWebsite, updateWebsite, getCurrentUserWebsite, getRelateUserWebsites} from '@/api/website';
 
 export default {
@@ -32,14 +31,13 @@ export default {
     [FETCH_CURRENT_WEBSITE]: (context) => {
         context.commit(SET_FETCH_TRUE);
         const id = context.state.currentWebsite.id;
-        let domain = '';
 
         return getCurrentUserWebsite(id).then(response => {
-            console.log(response.data);
             context.commit(SET_CURRENT_WEBSITE, response.data);
-            domain = response.data.domain;
+            if(id === 0) {
+                context.commit(SET_DEFAULT_SELECTED_WEBSITE, response.data);
+            }
         })
-            .then(context.commit(SET_SELECTED_WEBSITE, domain))
             .catch(() => {
             context.commit(RESET_CURRENT_WEBSITE);
         });
@@ -135,29 +133,22 @@ export default {
     },
 
     [CHANGE_SELECTED_WEBSITE]: (context, payload) => {
-        if (context.state.relateUserWebsites.selectedWebsite === payload.value) {
+        if (context.state.relateUserWebsites.selectedWebsite.value === payload.value) {
             return;
         }
-        context.commit(SET_SELECTED_WEBSITE, payload.value);
 
-        const websites = context.commit(GET_RELATE_WEBSITES);
-        let id = null;
-        websites.forEach(function(website) {
-            if(website.url === payload.value) {
-                id = website.id;
-            }
-        });
-
-        context.commit(SET_CURRENT_WEBSITE_ID, id);
-        context.dispatch(FETCH_CURRENT_WEBSITE);
+        context.commit(SET_SELECTED_WEBSITE, payload);
+        context.dispatch(FETCH_CURRENT_WEBSITE)
+            .catch(error => {
+                throw error.message;
+            });
     },
 
     [FETCH_RELATE_WEBSITES]: (context) => {
         context.commit(SET_IS_FETCH_WEBSITES);
         return getRelateUserWebsites().then(response => {
-            console.log(response[0]);
             context.commit(SET_RELATE_WEBSITES, response);
-        }).catch(() => {
+        }).finally(() => {
             context.commit(RESET_FETCH_WEBSITES);
         });
     },

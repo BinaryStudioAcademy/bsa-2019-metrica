@@ -6,7 +6,7 @@
         class="pr-2"
     >
         <WebsitesDropdown
-            :value="getSelectedWebsite"
+            :value="selectedWebsite"
             @change="changeWebsite"
         />
         <VBtn
@@ -102,7 +102,7 @@
                 user: GET_AUTHENTICATED_USER,
             }),
             ...mapGetters('website', {
-                getSelectedWebsite: GET_SELECTED_WEBSITE,
+                selectedWebsite: GET_SELECTED_WEBSITE,
             }),
 
         }
@@ -110,32 +110,32 @@
 </script>
 
 <style scoped lang="scss">
-$grey: rgba(18, 39, 55, 0.5);
-svg {
-    width: 25px;
-    height: 25px;
-}
+    $grey: rgba(18, 39, 55, 0.5);
+    svg {
+        width: 25px;
+        height: 25px;
+    }
 
-svg path {
-    fill: inherit;
-    fill-opacity: inherit;
-}
-.v-icon.drop-down {
-    color: #3C57DE;
-}
+    svg path {
+        fill: inherit;
+        fill-opacity: inherit;
+    }
+    .v-icon.drop-down {
+        color: #3C57DE;
+    }
 
-.v-list-item.v-list-item--link,
-.v-list-item a
-{
-        font-family: 'Gilroy';
-        font-size: 12px;
-        color: inherit;
-        &:hover {
-            
-        }
-}
+    .v-list-item.v-list-item--link,
+    .v-list-item a
+    {
+            font-family: 'Gilroy';
+            font-size: 12px;
+            color: inherit;
+            &:hover {
 
-a:hover{
-    text-decoration: none;
-}
+            }
+    }
+
+    a:hover{
+        text-decoration: none;
+    }
 </style>
