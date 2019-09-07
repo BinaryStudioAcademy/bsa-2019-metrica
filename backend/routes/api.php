@@ -170,7 +170,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'error-reports'
         ], function () {
-            Route::post('/add-error-reports', 'ErrorReportsController@addErrorReports');
+            Route::post('/', 'ErrorReportController@addErrorReport')->middleware('x-website');
         });
     });
 });

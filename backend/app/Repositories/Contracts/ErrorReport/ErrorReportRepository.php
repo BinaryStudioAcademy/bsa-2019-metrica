@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\Contracts\ErrorReports;
+namespace App\Repositories\Contracts\ErrorReport;
 
 use App\Entities\Error;
 
-interface ErrorReportsRepository
+interface ErrorReportRepository
 {
     public function save(Error $visitor): Error;
 }

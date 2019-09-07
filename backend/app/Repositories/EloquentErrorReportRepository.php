@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Entities\Error;
-use App\Repositories\Contracts\ErrorReports\ErrorReportsRepository;
+use App\Repositories\Contracts\ErrorReport\ErrorReportRepository;
 
-final class EloquentErrorReportsRepository implements ErrorReportsRepository
+final class EloquentErrorReportRepository implements ErrorReportRepository
 {
     public function save(Error $error): Error
     {

@@ -9,5 +9,5 @@ interface WebsiteRepository
 {
     public function save(Website $website): Website;
     public function getById(int $id): Website;
-    public function getByTrackNumber(string $id): ?Website;
+    public function getByTrackNumber(int $id): ?Website;
 }

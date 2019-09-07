@@ -30,7 +30,7 @@ class CreateVisitorAction
     public function execute(CreateVisitorRequest $request)
     {
         $websiteId = $this->websiteRepository
-            ->getByTrackNumber($request->trackNumber())->id;
+            ->getByTrackNumber((int) $request->trackNumber())->id;
 
         $visitorInstance = Visitor::make([
             'website_id' => $websiteId,

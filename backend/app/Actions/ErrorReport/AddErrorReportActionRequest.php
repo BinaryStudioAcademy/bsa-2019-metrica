@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\ErrorReports;
+namespace App\Actions\ErrorReport;
 
-use App\Http\Requests\ErrorReports\AddErrorReportsHttpRequest;
+use App\Http\Requests\ErrorReport\AddErrorReportsHttpRequest;
 
-final class AddErrorReportsActionRequest
+final class AddErrorReportActionRequest
 {
     private $page;
     private $token;

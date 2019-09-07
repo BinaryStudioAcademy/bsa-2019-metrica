@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\ErrorReports;
+namespace App\Http\Requests\ErrorReport;
 
 use App\Http\Request\ApiFormRequest;
 
@@ -14,17 +14,16 @@ final class AddErrorReportsHttpRequest extends ApiFormRequest
             'stack_trace' => 'required|string',
             'message' => 'required|string',
             'page' => 'required|string',
-            'tracking_number' => 'required|string',
             'page_title' => 'required|string',
         ];
     }
 
-    public function page()
+    public function page(): string
     {
         return $this->validated()['page'];
     }
 
-    public function message()
+    public function message(): string
     {
         return $this->validated()['message'];
     }
@@ -34,12 +33,12 @@ final class AddErrorReportsHttpRequest extends ApiFormRequest
         return $this->get('page_title');
     }
 
-    public function stackTrace()
+    public function stackTrace(): string
     {
         return $this->validated()['stack_trace'];
     }
 
-    public function trackingNumber()
+    public function trackingNumber(): string
     {
         return $this->validated()['tracking_number'];
     }
@@ -47,5 +46,10 @@ final class AddErrorReportsHttpRequest extends ApiFormRequest
     public function token(): ?string
     {
         return $this->header('X-Visitor');
+    }
+
+    public function trackNumber(): string
+    {
+        return $this->header('X-Website');
     }
 }

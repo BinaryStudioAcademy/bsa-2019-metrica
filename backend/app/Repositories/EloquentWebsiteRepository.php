@@ -24,7 +24,7 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         return Website::findOrFail($id);
     }
 
-    public function getByTrackNumber(string $trackNumber): ?Website
+    public function getByTrackNumber(int $trackNumber): ?Website
     {
         try {
             return Website::where('tracking_number', $trackNumber)->firstOrFail();
