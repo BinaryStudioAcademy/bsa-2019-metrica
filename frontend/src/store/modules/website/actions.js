@@ -137,10 +137,7 @@ export default {
         }
 
         context.commit(SET_SELECTED_WEBSITE, payload);
-        context.dispatch(FETCH_CURRENT_WEBSITE)
-            .catch(error => {
-                throw error.message;
-            });
+        context.dispatch(FETCH_CURRENT_WEBSITE);
     },
 
     [FETCH_RELATE_WEBSITES]: (context) => {

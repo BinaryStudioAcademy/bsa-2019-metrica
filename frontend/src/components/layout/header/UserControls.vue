@@ -63,6 +63,7 @@
     import {GET_SELECTED_WEBSITE} from "@/store/modules/website/types/getters";
     import {LOGOUT} from "@/store/modules/auth/types/actions";
     import {RESET_DATA, CHANGE_SELECTED_WEBSITE} from "@/store/modules/website/types/actions";
+    import {SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import WebsitesDropdown from "../header/WebsitesDropdown.vue";
 
     export default {
@@ -88,13 +89,19 @@
                 resetData: RESET_DATA,
                 changeSelectedWebsite: CHANGE_SELECTED_WEBSITE,
             }),
+            ...mapActions('notification', {
+                showErrorMessage: SHOW_ERROR_MESSAGE
+            }),
             endSession() {
                 this.logout();
                 this.resetData();
                 this.$router.push({ name: 'home' });
             },
             changeWebsite(data) {
-                this.changeSelectedWebsite(data);
+                this.changeSelectedWebsite(data)
+                    .catch((error) => {
+                        this.showErrorMessage(error);
+                    });
             },
         },
         computed: {
