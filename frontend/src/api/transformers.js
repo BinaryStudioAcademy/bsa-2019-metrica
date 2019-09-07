@@ -59,7 +59,7 @@ const tableTransformerPageViews = (item) => {
         'page_title': item.page_title,
         'count_page_views': item.count_page_views,
         'bounce_rate': Math.round(item.bounce_rate*100)+'%',
-        'exit_rate': item.exit_rate
+        'exit_rate':  Math.round(item.exit_rate*100)+'%',
     };
 };
 
