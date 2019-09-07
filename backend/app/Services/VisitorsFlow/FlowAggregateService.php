@@ -124,7 +124,6 @@ final class FlowAggregateService
         if (!$browserAggregate) {
             $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
             $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
-//            dd($browserAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = BrowserAggregate::getPreviousAggregate(
@@ -140,12 +139,11 @@ final class FlowAggregateService
             $browserAggregate->views++;
             $browserAggregate->exitCount++;
             $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
-//            dd($browserAggregate);
         }
         if (!$deviceAggregate) {
             $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
             $deviceAggregate = $this->visitorFlowDeviceRepository->save($deviceAggregate);
-//            dd($deviceAggregate);
+            dd($deviceAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = DeviceAggregate::getPreviousAggregate(
@@ -161,13 +159,12 @@ final class FlowAggregateService
             $deviceAggregate->views++;
             $deviceAggregate->exitCount++;
             $deviceAggregate = $this->visitorFlowDeviceRepository->update($deviceAggregate);
-//            dd($deviceAggregate);
+            dd($deviceAggregate);
         }
 
         if (!$screenAggregate) {
             $screenAggregate = $this->createScreenAggregate($visit, $level, $previousVisit);
             $screenAggregate = $this->visitorFlowScreenRepository->save($screenAggregate);
-            dd($screenAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = ScreenAggregate::getPreviousAggregate(
@@ -183,7 +180,6 @@ final class FlowAggregateService
             $screenAggregate->views++;
             $screenAggregate->exitCount++;
             $screenAggregate = $this->visitorFlowScreenRepository->update($screenAggregate);
-            dd($screenAggregate);
         }
     }
 
