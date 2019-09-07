@@ -5,6 +5,7 @@
                 <LineChart
                     :data="formatLineChartData"
                     :is-fetching="chartData.isFetching"
+                    :units="units"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -118,6 +119,9 @@
                 formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
                 getTableData: GET_PAGE_VIEWS_TABLE_DATA
             }),
+            units() {
+                return this.currentActiveButton === BOUNCE_RATE ? '%' : '';
+            },
         },
         created() {
             this.fetchPageData();

@@ -63,6 +63,9 @@
             padding: 3px 15px;
             height: 100%;
             font-family: 'GilroySemiBold';
+            &:focus {
+                outline: none;
+            }
             &:not(:last-child) {
                 margin-right: 16px;
             }

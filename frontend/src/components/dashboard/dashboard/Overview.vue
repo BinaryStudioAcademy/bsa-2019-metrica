@@ -8,6 +8,7 @@
         <LineChart
             :data="chartData"
             :is-fetching="isFetching"
+            :units="units"
         />
         <PeriodDropdown
             :value="selectedPeriod"
@@ -21,10 +22,12 @@
     import PeriodDropdown from "../common/PeriodDropdown";
     import LineChart from "../../common/LineChart";
     import WidgetButtons from "./WidgetButtons";
+    import {BOUNCE_RATE} from "../../../configs/visitors/buttonTypes";
     import {
         GET_FORMAT_LINE_CHART_DATA,
         GET_SELECTED_PERIOD,
-        GET_LINE_CHART_FETCHING
+        GET_LINE_CHART_FETCHING,
+        GET_DATA_TYPE
     } from "@/store/modules/dashboard/types/getters";
     import {
         CHANGE_SELECTED_PERIOD,
@@ -41,7 +44,11 @@
                 chartData: GET_FORMAT_LINE_CHART_DATA,
                 isFetching: GET_LINE_CHART_FETCHING,
                 selectedPeriod: GET_SELECTED_PERIOD,
+                dataType: GET_DATA_TYPE
             }),
+            units() {
+                return this.dataType === BOUNCE_RATE ? '%' : '';
+            },
         },
         methods: {
             ...mapActions('dashboard', {
