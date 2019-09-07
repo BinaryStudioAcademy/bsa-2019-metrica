@@ -15,26 +15,37 @@ final class AddErrorReportsHttpRequest extends ApiFormRequest
             'message' => 'required|string',
             'page' => 'required|string',
             'tracking_number' => 'required|string',
+            'page_title' => 'required|string',
         ];
     }
 
-    public function getPage()
+    public function page()
     {
         return $this->validated()['page'];
     }
 
-    public function getMessage()
+    public function message()
     {
         return $this->validated()['message'];
     }
 
-    public function getStackTrace()
+    public function pageTitle(): string
+    {
+        return $this->get('page_title');
+    }
+
+    public function stackTrace()
     {
         return $this->validated()['stack_trace'];
     }
 
-    public function getTrackingNumber()
+    public function trackingNumber()
     {
         return $this->validated()['tracking_number'];
+    }
+
+    public function token(): ?string
+    {
+        return $this->header('X-Visitor');
     }
 }

@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\OpenApi;
 
 use App\Actions\ErrorReports\AddErrorReportsAction;
-use App\Actions\Visits\CreateVisitRequest;
+use App\Actions\ErrorReports\AddErrorReportsActionRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ErrorReports\AddErrorReportsHttpRequest;
-use App\Http\Requests\Visit\CreateVisitHttpRequest;
 use App\Http\Response\ApiResponse;
 
 final class ErrorReportsController extends Controller
@@ -22,7 +21,7 @@ final class ErrorReportsController extends Controller
 
     public function addErrorReports(AddErrorReportsHttpRequest $request): ApiResponse
     {
-        $this->addErrorReportsAction->execute(CreateVisitRequest::fromRequest($request));
+        $this->addErrorReportsAction->execute(AddErrorReportsActionRequest::fromRequest($request));
 
         return ApiResponse::emptySuccess();
     }
