@@ -1,20 +1,14 @@
 <template>
     <ContentLayout :title="title">
         <VRow>
-            <VCol class="pl-0 pr-2">
+            <VCol>
                 <Overview />
             </VCol>
-            <VCol class="widget px-0 mr-2">
-                <ActiveVisitorsCard />
-            </VCol>
-            <VCol class="widget pl-0">
-                <DevicesPieChart />
-            </VCol>
         </VRow>
-        <VRow>
-            <VCol class="widget px-0 mr-2">
-                <VisitsDensityWidget />
-            </VCol>
+        <VRow class="pa-3 d-flex justify-space-between">
+            <ActiveVisitorsCard />
+            <DevicesPieChart />
+            <VisitsDensityWidget />
         </VRow>
     </ContentLayout>
 </template>
@@ -51,7 +45,4 @@
 </script>
 
 <style>
-    .widget {
-        max-width: 307px;
-    }
 </style>

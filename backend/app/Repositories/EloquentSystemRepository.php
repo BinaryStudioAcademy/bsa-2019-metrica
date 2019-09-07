@@ -9,6 +9,8 @@ use App\Entities\Session;
 use App\Entities\System;
 use App\Repositories\Contracts\SystemRepository;
 use App\Utils\DatePeriod;
+use App\Entities\Website;
+use Illuminate\Support\Facades\DB;
 
 final class EloquentSystemRepository implements SystemRepository
 {
@@ -36,8 +38,9 @@ final class EloquentSystemRepository implements SystemRepository
 
     public function getMostPopularSystems(int $website_id, DatePeriod $datePeriod)
     {
-        $sessions = Session::whereDateBetween($datePeriod)
-            ->forWebsite($website_id)
+        $sessions = Website::find($website_id)
+            ->sessions()
+            ->whereDateBetween($datePeriod)
             ->with(['system:id,os'])
             ->get();
         $session_count = $sessions->count();
@@ -56,21 +59,23 @@ final class EloquentSystemRepository implements SystemRepository
 
     public function getDevicesStats(int $website_id, DatePeriod $datePeriod)
     {
-        $sessions = Session::whereDateBetween($datePeriod)
-            ->forWebsite($website_id)
-            ->with(['system:id,device'])
+        DB::enableQueryLog();
+        $sessions = Website::find($website_id)
+            ->sessions()
+            ->whereDateBetween($datePeriod)
+            ->join('systems', 'sessions.system_id', '=', 'systems.id')
+            ->select(DB::raw('count (*) as count, LOWER(device) as device'))
+            ->groupBy(DB::raw('LOWER(device)'))
+            ->orderBy('count', 'desc')
             ->get();
-        $session_count = $sessions->count();
-        return $sessions->groupBy('system.device')
-            ->map(function($item, $key) use ($session_count) {
+        $session_count = $sessions->sum('count');
+        return $sessions
+            ->map(function($item) use ($session_count) {
                 return new WidgetValue(
-                    $key,
-                    $item->count() / $session_count * 100
+                    $item->device,
+                    $item->count / $session_count * 100
                 );
-            })
-            ->sortByDesc(function ($item) {
-                return $item->percent();
-            })
+            })->take(3)
             ->values();
     }
 }

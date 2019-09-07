@@ -125,11 +125,11 @@ class VisitorsApiTest extends TestCase
             'data' => [
                 [
                     'date' => (string)$startDate->getTimestamp(),
-                    'value' => 50,
+                    'value' => 0.5,
                 ],
                 [
                     'date' => (string)($startDate->getTimestamp() + $anHour),
-                    'value' => 25,
+                    'value' => 0.25,
                 ]
             ],
             'meta' => [],

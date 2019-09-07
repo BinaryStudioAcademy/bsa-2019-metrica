@@ -1,23 +1,27 @@
 <template>
-    <div class="card bg-white visits-widget rounded shadow text-dark">
-        <Spinner
-            v-if="isFetching"
-        />
-        <div class="ml10">
-            Users by time of dayasd
+    <div class="mt-10">
+        <div class="subtitle-1 pl-1 pb-4 grey--text text--darken-1">
+            Times
         </div>
-        <VueApexCharts
-            type="heatmap"
-            height="350"
-            :options="chartOptions"
-            :series="drawHeatmap"
-            class="visits-heatmap"
-        />
-        <VisitsDensityPeriodDropdown
-            class="ml10"
-            :value="getSelectedPeriod"
-            @change="changeSelectedPeriod"
-        />
+        <div class="white visits-widget text-dark d-flex flex-column justify-space-between">
+            <Spinner
+                v-if="isFetching"
+            />
+            <div class="ml-2">
+                Users by time of day
+            </div>
+            <VueApexCharts
+                type="heatmap"
+                height="350px"
+                :options="chartOptions"
+                :series="drawHeatmap"
+                class="visits-heatmap"
+            />
+            <VisitsDensityPeriodDropdown
+                :value="getSelectedPeriod"
+                @change="changeSelectedPeriod"
+            />
+        </div>
     </div>
 </template>
 
@@ -53,20 +57,6 @@
                     '4': 'Thu',
                     '5': 'Fri',
                     '6': 'Sat'
-                },
-                hours: {
-                    '0': '12am',
-                    '2': '2am',
-                    '4': '4am',
-                    '6': '6am',
-                    '8': '8am',
-                    '10': '10am',
-                    '12': '12pm',
-                    '14': '2pm',
-                    '16': '4pm',
-                    '18': '6pm',
-                    '20': '8pm',
-                    '22': '10pm'
                 },
                 chartOptions: {
                     chart: {
@@ -151,7 +141,13 @@
 
                 for (let hour = 0; hour < 24; hour++) {
                     let row = {};
-                    row.name = this.hours[hour] || '';
+                    if (hour % 2 === 0) {
+                        let date = new Date();
+                        date.setHours(hour, 0, 0);
+                        row.name = date.toTimeString().substring(0, 5);
+                    } else {
+                        row.name = '';
+                    }
                     row.data = [];
 
                     for (let day = 0; day < 7; day++) {
@@ -191,11 +187,12 @@
 
 <style scoped>
     .visits-widget {
+        border: none;
+        box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+        border-radius: 6px;
         padding: 1.5rem;
-    }
-
-    .ml10 {
-        margin-left: 10px;
+        width: 352px;
+        height: 480px;
     }
 
     .visits-heatmap {

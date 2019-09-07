@@ -3,8 +3,9 @@
         <VRow>
             <VContainer class="white card px-7 py-6">
                 <LineChart
-                    :data="chartData.items"
+                    :data="formatLineChartData"
                     :is-fetching="chartData.isFetching"
+                    units="s"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -55,6 +56,7 @@
         GET_ACTIVE_BUTTON,
         GET_SELECTED_PERIOD,
         GET_LINE_CHART_DATA,
+        GET_FORMAT_LINE_CHART_DATA,
         GET_TABLE_DATA,
         GET_GROUPED_PARAMETER
     } from "@/store/modules/page_timings/types/getters";
@@ -104,6 +106,7 @@
                 currentActiveButton: GET_ACTIVE_BUTTON,
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
+                formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
                 tableData: GET_TABLE_DATA,
                 getGroupedParameter: GET_GROUPED_PARAMETER
             }),
