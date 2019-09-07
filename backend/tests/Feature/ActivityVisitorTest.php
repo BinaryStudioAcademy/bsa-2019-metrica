@@ -51,7 +51,8 @@ class ActivityVisitorTest extends TestCase
             "meta" => [],
 
         ];
-        $k = $this->actingAs($this->user)
+
+        $this->actingAs($this->user)
             ->call('GET', 'api/v1/visitors/activity-visitors')
             ->assertStatus(200)
             ->assertJson($expectedData);
