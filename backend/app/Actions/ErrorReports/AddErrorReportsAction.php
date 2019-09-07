@@ -31,7 +31,7 @@ final class AddErrorReportsAction
     public function execute(AddErrorReportsActionRequest $request)
     {
         $visitorId = null;
-        if($request->token()) {
+        if ($request->token()) {
             JWTAuth::setToken(Str::after($request->token(), 'Bearer '));
             $visitorId = JWTAuth::getPayload()->get('visitor_id');
         }
