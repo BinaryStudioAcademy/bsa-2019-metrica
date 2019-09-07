@@ -34,6 +34,7 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/{id}', 'WebsiteController@getCurrentUserWebsite');
             Route::post('/', 'WebsiteController@add');
+            Route::get('/me/all', 'WebsiteController@getRelateUserWebsites');
         });
 
         Route::get('/os/most-popular', 'SystemController@getMostPopularOs');
@@ -155,7 +156,6 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/', 'TeamController@getTeam');
             Route::post('/', 'TeamController@inviteTeamMember');
-            Route::get('/relate', 'TeamController@getRelateUserWebsites');
             Route::delete('/member/{memberId}', 'TeamController@removeTeamMember');
             Route::get('/menu-access/{memberId}', 'TeamController@getPermittedMenuItems');
             Route::put('/menu-access', 'TeamController@updatePermittedMenuItems');

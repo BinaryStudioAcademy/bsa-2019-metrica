@@ -15,14 +15,14 @@ final class GetCurrentUserWebsiteAction
         $this->repository = $repository;
     }
 
-    public function execute(string $websiteId): GetCurrentUserWebsiteResponse
+    public function execute(int $websiteId): GetCurrentUserWebsiteResponse
     {
-        if ((int)$websiteId === 0) {
+        if ($websiteId === 0) {
             $website = $this->repository->getFirstExistingUserWebsite();
             return new GetCurrentUserWebsiteResponse($website);
         }
 
-        $website = $this->repository->getCurrentWebsite((int)$websiteId);
+        $website = $this->repository->getCurrentWebsite($websiteId);
         return new GetCurrentUserWebsiteResponse($website);
     }
 }

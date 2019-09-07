@@ -6,9 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Teams\GetTeamAction;
 use App\Actions\Teams\GetTeamRequest;
-use App\Actions\Website\GetRelateUserWebsitesAction;
 use App\Http\Requests\Team\GetTeamHttpRequest;
-use App\Http\Resources\RelateUserWebsitesResource;
 use App\Http\Resources\TeamResource;
 use App\Http\Controllers\Controller;
 use App\Http\Response\ApiResponse;
@@ -31,7 +29,6 @@ final class TeamController extends Controller
     private $getTeamAction;
     private $inviteTeamMemberAction;
     private $removeTeamMemberAction;
-    private $getRelateUserWebsitesAction;
     private $getPermittedMenuItemsAction;
     private $updatePermittedMenuItemsAction;
 
@@ -39,14 +36,12 @@ final class TeamController extends Controller
         GetTeamAction $getTeamAction,
         InviteTeamMemberAction $inviteTeamMemberAction,
         RemoveTeamMemberAction $removeTeamMemberAction,
-        GetRelateUserWebsitesAction $getRelateUserWebsitesAction,
         GetPermittedMenuItemsAction $getPermittedMenuItemsAction,
         UpdatePermittedMenuItemsAction $updatePermittedMenuItemsAction
     ) {
         $this->getTeamAction = $getTeamAction;
         $this->inviteTeamMemberAction = $inviteTeamMemberAction;
         $this->removeTeamMemberAction = $removeTeamMemberAction;
-        $this->getRelateUserWebsitesAction = $getRelateUserWebsitesAction;
         $this->getPermittedMenuItemsAction = $getPermittedMenuItemsAction;
         $this->updatePermittedMenuItemsAction = $updatePermittedMenuItemsAction;
     }
@@ -72,12 +67,6 @@ final class TeamController extends Controller
             RemoveTeamMemberRequest::fromRequest($request, $id)
         );
         return ApiResponse::emptySuccess()->setStatusCode(204);
-    }
-
-    public function getRelateUserWebsites(): ApiResponse
-    {
-        $response = $this->getRelateUserWebsitesAction->execute();
-        return ApiResponse::success(new RelateUserWebsitesResource($response->relateWebsites()));
     }
 
     public function getPermittedMenuItems(int $id, GetPermittedMenuItemsHttpRequest $request): ApiResponse

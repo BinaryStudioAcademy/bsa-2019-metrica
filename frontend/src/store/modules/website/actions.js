@@ -37,8 +37,7 @@ export default {
             if(id === 0) {
                 context.commit(SET_DEFAULT_SELECTED_WEBSITE, response.data);
             }
-        })
-            .catch(() => {
+        }).catch(() => {
             context.commit(RESET_CURRENT_WEBSITE);
         });
     },

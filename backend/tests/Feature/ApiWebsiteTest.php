@@ -255,7 +255,7 @@ class ApiWebsiteTest extends TestCase
         ]);
 
         $this->actingAs($user1)
-            ->call('GET', '/api/v1/teams/relate')
+            ->call('GET', '/api/v1/websites/me/all')
             ->assertOk()
             ->assertJson($expectedData);
     }
@@ -268,12 +268,8 @@ class ApiWebsiteTest extends TestCase
             'role' => 'owner'
         ]);
 
-        $filterData = [
-            'website_id' => $website->id,
-        ];
-
         $this->actingAs($user)
-            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->call('GET', 'api/v1/websites/'.$website->id)
             ->assertOk();
     }
 
@@ -285,12 +281,8 @@ class ApiWebsiteTest extends TestCase
             'role' => 'member'
         ]);
 
-        $filterData = [
-            'website_id' => $website->id,
-        ];
-
         $this->actingAs($user)
-            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
+            ->call('GET', 'api/v1/websites/'.$website->id)
             ->assertOk();
     }
 }
