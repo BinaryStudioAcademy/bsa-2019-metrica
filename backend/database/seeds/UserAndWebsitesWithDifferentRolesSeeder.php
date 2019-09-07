@@ -20,7 +20,6 @@ class UserAndWebsitesWithDifferentRolesSeeder extends Seeder
 
             $secondWebsite = factory(Website::class)->create();
             $secondUser->websites()->attach($secondWebsite->id, ['role' => 'owner']);
-
         } catch (\Illuminate\Database\QueryException $exception) {
             //skip duplicate exception
         }
