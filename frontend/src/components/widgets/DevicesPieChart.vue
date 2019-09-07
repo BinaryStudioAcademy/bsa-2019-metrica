@@ -1,7 +1,10 @@
 <template>
-    <VContainer class="white pie-container position-relative mx-0">
-        <Spinner v-if="isFetching" />
-        <VContainer class="content pt-1 d-flex flex-column justify-space-between">
+    <div class="mt-10">
+        <div class="subtitle-1 pl-1 pb-4 grey--text text--darken-1">
+            Devices
+        </div>
+        <div class="pa-6 white pie-container position-relative d-flex flex-column justify-space-between">
+            <Spinner v-if="isFetching" />
             <VContainer v-if="!data.length">
                 no data to display
             </VContainer>
@@ -12,12 +15,11 @@
                 :key="key"
             />
             <PeriodDropdown
-                class="mt-2"
                 :value="selectedPeriod"
                 @change="changeSelectedPeriod"
             />
-        </VContainer>
-    </VContainer>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -64,8 +66,8 @@
 .pie-container {
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
     border-radius: 6px;
-    width: 307px;
-    height: 100%;
+    width: 352px;
+    height: 480px;
 }
 .header {
     font-size: 16px;
