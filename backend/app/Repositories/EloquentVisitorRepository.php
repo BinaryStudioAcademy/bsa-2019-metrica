@@ -117,13 +117,18 @@ final class EloquentVisitorRepository implements VisitorRepository
     }
     public function getAllActivityVisitors(int $websiteId): SupportCollection
     {
-        $subQueryFirst = "SELECT page_id, visitor_id, max(created_at) over(partition by page_id) max_date FROM visits";
-        $subQuerySecond = "select v.visitor_id, p.url, v.max_date from (".$subQueryFirst .") v ";
-        $subQueryThird = "left join visitors vs ON v.visitor_id = vs.id 
-        left join pages p ON v.page_id = p.id
-        WHERE v.max_date > NOW() - interval '5 minute'
-        AND vs.website_id =".$websiteId." group by v.visitor_id ,p.url, v.max_date order by v.visitor_id desc";
-        $query = DB::raw($subQuerySecond.$subQueryThird);
+        $subQueryFirst = "select v.visitor_id, v.page_id, MAX(v.created_at) AS last_page from visits v 
+                        GROUP BY v.visitor_id, v.page_id";
+        $subQuerySecond = "select a.visitor_id, max(a.last_page) as last_p from (".$subQueryFirst.") a 
+                          group by a.visitor_id ";
+        $subQueryThird = "select vi.visitor_id, p.url, vi.created_at as max_date from (".$subQuerySecond.") b 
+                          left join visits vi on b.visitor_id = vi.visitor_id and b.last_p = vi.created_at 
+                          left join pages p on vi.page_id = p.id";
+        $subQueryFourth = "select * from (".$subQueryThird. ") c  left join visitors vs ON c.visitor_id = vs.id
+                            WHERE vs.created_at > NOW() - interval '5 minute'
+                            and vs.website_id = ".$websiteId."
+                            order by vs.id ,c.url, vs.last_activity; ";
+        $query = DB::raw($subQueryFourth);
         $result = DB::select((string)$query);
 
         return collect($result)->map(function ($item) {

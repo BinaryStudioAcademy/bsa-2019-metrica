@@ -25,7 +25,9 @@ class ActivityVisitorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->create([
+            'id'=>1
+        ]);
         $firstDate = Carbon::now('UTC')->subMinutes(15);
         $thirdDate = Carbon::now('UTC')->subMinutes(2);
         $this->firstDate = $firstDate;
@@ -37,11 +39,6 @@ class ActivityVisitorTest extends TestCase
     {
         $expectedData = [
             "data" => [
-                [
-                    'url' => "http://page_2.test",
-                    'visitor' => 2,
-                    'date' => $this->thirdDate->format('Y-m-d H:i:s')
-                ],
                 [
                     'url' => "http://page_1.test",
                     'visitor' => 1,
@@ -56,7 +53,6 @@ class ActivityVisitorTest extends TestCase
             "meta" => [],
 
         ];
-
         $this->actingAs($this->user)
             ->call('GET', 'api/v1/visitors/activity-visitors')
             ->assertStatus(200)
@@ -66,19 +62,20 @@ class ActivityVisitorTest extends TestCase
     public function seedDataBase()
     {
         factory(Website::class)->create([
-            'id' => 1
+            'id' => 1,
+            'user_id'=>1
         ]);
         factory(Visitor::class)->create(
             [
                 'id' => 1,
-                'last_activity' => $this->thirdDate,
+                'created_at' => $this->thirdDate,
             ]
         );
 
         factory(Visitor::class)->create(
             [
                 'id' => 2,
-                'last_activity' => $this->firstDate
+                'created_at' => $this->firstDate,
             ]
         );
 
