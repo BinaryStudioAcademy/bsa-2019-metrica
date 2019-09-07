@@ -44,7 +44,7 @@ final class AddErrorReportAction
             $websiteId = $visitor->website_id;
         }
 
-        if(!$websiteId) {
+        if (!$websiteId) {
             $websiteId = $this->websiteRepository
                 ->getByTrackNumber($request->trackNumber())->id;
         }
