@@ -46,7 +46,7 @@ final class AddErrorReportAction
 
         if(!$websiteId) {
             $websiteId = $this->websiteRepository
-                ->getByTrackNumber((int) $request->trackingNumber())->id;
+                ->getByTrackNumber($request->trackNumber())->id;
         }
 
         $page = $this->getOrCreatePage(
@@ -83,4 +83,3 @@ final class AddErrorReportAction
         return $this->pageRepository->save($page);
     }
 }
-

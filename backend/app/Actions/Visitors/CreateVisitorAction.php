@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
@@ -30,7 +31,7 @@ class CreateVisitorAction
     public function execute(CreateVisitorRequest $request)
     {
         $websiteId = $this->websiteRepository
-            ->getByTrackNumber((int) $request->trackNumber())->id;
+            ->getByTrackNumber($request->trackNumber())->id;
 
         $visitorInstance = Visitor::make([
             'website_id' => $websiteId,

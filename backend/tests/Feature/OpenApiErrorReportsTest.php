@@ -26,7 +26,7 @@ class openApiErrorReportsTest extends TestCase
     private $system;
     private $session;
     private $website;
-    private $url = 'api/v1/error-reports/add-error-reports/';
+    private $url = 'api/v1/error-reports/';
 
     protected function setUp(): void
     {
@@ -59,11 +59,11 @@ class openApiErrorReportsTest extends TestCase
             'page_title' => $this->page->name,
             'message' => $message,
             'stack_trace' => $stack_trace,
-            'tracking_number' =>$this->website->tracking_number,
         ];
 
         $headers = [
-            'X-Visitor' => 'Bearer ' . $token
+            'X-Visitor' => 'Bearer ' . $token,
+            'X-Website' => $this->website->tracking_number
         ];
 
         $this->actingAs($this->user)
@@ -88,13 +88,14 @@ class openApiErrorReportsTest extends TestCase
             'page_title' => $this->page->name,
             'message' => $message,
             'stack_trace' => $stack_trace,
-            'tracking_number' =>$this->website->tracking_number,
         ];
 
-
+        $headers = [
+            'X-Website' => $this->website->tracking_number
+        ];
 
         $this->actingAs($this->user)
-            ->json('POST', $this->url, $data)
+            ->json('POST', $this->url, $data, $headers)
             ->assertStatus(200);
 
         $this->assertDatabaseHas('errors', [

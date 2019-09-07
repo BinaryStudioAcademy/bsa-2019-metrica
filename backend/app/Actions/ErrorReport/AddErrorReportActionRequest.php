@@ -11,21 +11,21 @@ final class AddErrorReportActionRequest
     private $page;
     private $token;
     private $message;
-    private $trackingNumber;
+    private $trackNumber;
     private $stackTrace;
     private $pageTitle;
 
     private function __construct(
         string $page,
         string $message,
-        string $trackingNumber,
+        int $trackNumber,
         string $stackTrace,
         string $pageTitle,
         ?string $token
     ) {
         $this->page = $page;
         $this->message = $message;
-        $this->trackingNumber = $trackingNumber;
+        $this->trackNumber = $trackNumber;
         $this->stackTrace = $stackTrace;
         $this->pageTitle = $pageTitle;
         $this->token = $token;
@@ -36,7 +36,7 @@ final class AddErrorReportActionRequest
         return new static(
             $request->page(),
             $request->message(),
-            $request->trackingNumber(),
+            (int) $request->trackNumber(),
             $request->stackTrace(),
             $request->pageTitle(),
             $request->token()
@@ -52,9 +52,9 @@ final class AddErrorReportActionRequest
     {
         return $this->message;
     }
-    public function trackingNumber(): string
+    public function trackNumber(): int
     {
-        return $this->trackingNumber;
+        return $this->trackNumber;
     }
 
     public function stackTrace(): string

@@ -19,7 +19,7 @@ final class ErrorReportController extends Controller
         $this->addErrorReportsAction = $addErrorReportsAction;
     }
 
-    public function addErrorReports(AddErrorReportsHttpRequest $request): ApiResponse
+    public function addErrorReport(AddErrorReportsHttpRequest $request): ApiResponse
     {
         $this->addErrorReportsAction->execute(AddErrorReportActionRequest::fromRequest($request));
 
