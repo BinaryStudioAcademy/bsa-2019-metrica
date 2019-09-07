@@ -20,6 +20,7 @@ class ActivityVisitorTest extends TestCase
 
     private $user;
     private $firstDate;
+    private $secondDate;
     private $thirdDate;
 
     protected function setUp(): void
@@ -29,8 +30,10 @@ class ActivityVisitorTest extends TestCase
             'id'=>1
         ]);
         $firstDate = Carbon::now('UTC')->subMinutes(15);
+        $secondDate = Carbon::now('UTC')->subMinutes(1);
         $thirdDate = Carbon::now('UTC')->subMinutes(2);
         $this->firstDate = $firstDate;
+        $this->secondDate = $secondDate;
         $this->thirdDate = $thirdDate;
         $this->seedDataBase();
     }
@@ -44,16 +47,11 @@ class ActivityVisitorTest extends TestCase
                     'visitor' => 1,
                     'date' => $this->thirdDate->format('Y-m-d H:i:s')
                 ],
-                [
-                    'url' => "http://page_2.test",
-                    'visitor' => 1,
-                    'date' => $this->thirdDate->format('Y-m-d H:i:s')
-                ],
             ],
             "meta" => [],
 
         ];
-        $this->actingAs($this->user)
+        $k = $this->actingAs($this->user)
             ->call('GET', 'api/v1/visitors/activity-visitors')
             ->assertStatus(200)
             ->assertJson($expectedData);
@@ -68,14 +66,14 @@ class ActivityVisitorTest extends TestCase
         factory(Visitor::class)->create(
             [
                 'id' => 1,
-                'created_at' => $this->thirdDate,
+                'last_activity' => $this->thirdDate,
             ]
         );
 
         factory(Visitor::class)->create(
             [
                 'id' => 2,
-                'created_at' => $this->firstDate,
+                'last_activity' => $this->firstDate,
             ]
         );
 

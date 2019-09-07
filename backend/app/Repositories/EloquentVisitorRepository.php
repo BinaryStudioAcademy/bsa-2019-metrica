@@ -117,18 +117,11 @@ final class EloquentVisitorRepository implements VisitorRepository
     }
     public function getAllActivityVisitors(int $websiteId): SupportCollection
     {
-        $subQueryFirst = "select v.visitor_id, v.page_id, MAX(v.created_at) AS last_page from visits v 
-                        GROUP BY v.visitor_id, v.page_id";
-        $subQuerySecond = "select a.visitor_id, max(a.last_page) as last_p from (".$subQueryFirst.") a 
-                          group by a.visitor_id ";
-        $subQueryThird = "select vi.visitor_id, p.url, vi.created_at as max_date from (".$subQuerySecond.") b 
-                          left join visits vi on b.visitor_id = vi.visitor_id and b.last_p = vi.created_at 
-                          left join pages p on vi.page_id = p.id";
-        $subQueryFourth = "select * from (".$subQueryThird. ") c  left join visitors vs ON c.visitor_id = vs.id
-                            WHERE vs.created_at > NOW() - interval '5 minute'
-                            and vs.website_id = ".$websiteId."
-                            order by vs.id ,c.url, vs.last_activity; ";
-        $query = DB::raw($subQueryFourth);
+        $subQueryFirst = "SELECT DISTINCT ON (v.id) visitor_id, v.last_activity as max_date, v.website_id, p.url 
+                          from visitors v
+                          LEFT JOIN  visits vs on vs.visitor_id = v.id left join pages p on vs.page_id = p.id
+                          where v.last_activity > NOW() - interval '5 minutes' and v.website_id = ".$websiteId;
+        $query = DB::raw($subQueryFirst);
         $result = DB::select((string)$query);
 
         return collect($result)->map(function ($item) {
