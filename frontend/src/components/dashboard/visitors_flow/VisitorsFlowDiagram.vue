@@ -54,7 +54,8 @@
                     { id: 14, name: '/sales' },
                     { id: 15, name: '(> 100 more pages)'},
                 ],
-                links: []
+                links: [],
+                exits: []
             };
         },
         computed: {
@@ -86,16 +87,29 @@
                 }
             },
 
+            createExits() {
+                this.exits = [];
+                let lastNodeId = this.nodes.slice(-1)[0].id;
+
+                for (let sourceInd = 5; sourceInd < lastNodeId; sourceInd++) {
+                    let sourceId = this.nodes[sourceInd].id;
+                    let value = Math.floor(Math.random() * 50);
+                    let exit = { source: sourceId, value: value };
+                    this.exits.push(exit);
+                }
+            },
+
             addInteraction () {
                 let lastNodeId = this.nodes.slice(-1)[0].id;
+
                 for (let i = lastNodeId + 1; i < lastNodeId + 6; i++) {
                     this.nodes.push({ id: i, name: `/link${i}`});
                 }
+
                 this.drawDiagram();
 
                 d3.transition()
                     .select('#visitors-flow-container')
-                    .duration(1000)
                     .tween("scroll", function () {
                         return (t) => {
                             this.scrollLeft += this.scrollWidth * t;
@@ -109,6 +123,7 @@
                 d3.select('.diagram-tooltip')
                     .remove();
                 this.createLinks();
+                this.createExits();
 
                 const _sankey = sankey()
                     .nodeSort(null)
@@ -123,7 +138,7 @@
                 const svg = d3.select('#visitors-flow-container')
                     .insert('svg', ':first-child')
                     .attr('id', 'visitors-flow-diagram')
-                    .attr("viewBox", `0 -40 ${this.width} ${this.height + 40}`)
+                    .attr("viewBox", `0 -40 ${this.width + 60} ${this.height + 80}`)
                     .style("width", "100%")
                     .style("min-width", this.width / 1.5)
                     .style("height", "auto");
@@ -139,9 +154,20 @@
                     .join("rect")
                     .attr("x", d => d.x0)
                     .attr("y", d => d.y0)
-                    .attr("rx", "5")
-                    .attr("ry", "5")
-                    .attr("height", d => d.y1 - d.y0)
+                    .attr("rx", "4")
+                    .attr("ry", "4")
+                    .attr("height", d => {
+                        /*let exit = this.exits.find((exit) => {
+                            console.log(d, exit);
+                            return d.id === exit.source;
+                        });
+
+                        if (exit) {
+                            return d.y1 - d.y0 + exit.value;
+                        }*/
+
+                        return d.y1 - d.y0;
+                    })
                     .attr("width", d => d.x1 - d.x0)
                     .attr("fill", () => '#526ede');
 
@@ -150,13 +176,12 @@
                     .attr("stroke-opacity", 0.5)
                     .selectAll("g")
                     .data(links)
-                    .join("g")
-                    .style("mix-blend-mode", "multiply");
+                    .join("g");
 
                 link.append("path")
                     .attr("d", sankeyLinkHorizontal())
                     .attr("class", "link")
-                    .attr("stroke", () => '#829afa')
+                    .attr("stroke", '#829afa')
                     .attr("stroke-width", d => Math.max(1, d.width));
 
                 const tooltip = d3.select("#visitors-flow-container")
@@ -168,9 +193,8 @@
                         .style("visibility", "visible");
                 })
                     .on("mouseleave", () => tooltip.style("visibility", "hidden"))
-                    .on("mousemove", function () {
-                        tooltip
-                            .style("left", (d3.event.pageX + 20) + "px")
+                    .on("mousemove", () => {
+                        tooltip.style("left", (d3.event.pageX + 20) + "px")
                             .style("top", (d3.event.pageY - 40) + "px");
                     });
 
@@ -201,6 +225,33 @@
                             return this.titles[d.depth];
                         }
                         return `${[d.depth]}th Interaction`;
+                    });
+
+                svg.append("g")
+                    .attr("stroke-opacity", 0.5)
+                    .attr("fill", "none")
+                    .selectAll("rect")
+                    .data(this.exits)
+                    .join("path")
+                    .attr("stroke", "#fa514a")
+                    .attr("class", "link")
+                    .attr("d", d => {
+                        let node = nodes.find((node) => node.id === d.source);
+
+                        let mx = node.x1;
+                        let my = node.y1 - d.value / 2 - 2;
+
+                        return `M ${mx} ${my} a 35 45 0 0 1 35 45`;
+                    })
+                    .attr("stroke-width", d => d.value)
+                    .on("mouseover", d => {
+                        tooltip.text(`${d.value} drop-offs`)
+                            .style("visibility", "visible");
+                    })
+                    .on("mouseleave", () => tooltip.style("visibility", "hidden"))
+                    .on("mousemove", () => {
+                        tooltip.style("left", (d3.event.pageX + 20) + "px")
+                            .style("top", (d3.event.pageY - 40) + "px");
                     });
             }
         }
