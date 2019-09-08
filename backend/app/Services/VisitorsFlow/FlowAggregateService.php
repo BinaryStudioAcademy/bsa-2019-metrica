@@ -124,7 +124,6 @@ final class FlowAggregateService
         if (!$browserAggregate) {
             $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
             $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
-            dd($browserAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = BrowserAggregate::getPreviousAggregate(
@@ -140,7 +139,6 @@ final class FlowAggregateService
             $browserAggregate->views++;
             $browserAggregate->exitCount++;
             $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
-            dd($browserAggregate);
         }
         if (!$deviceAggregate) {
             $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);

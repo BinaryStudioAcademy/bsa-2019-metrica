@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Actions\VisitorsFlow\GetVisitorsFlowAction;
+use App\Actions\VisitorsFlow\GetVisitorsFlowRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VisitorsFlow\GetVisitorsFlowHttpRequest;
 
-final class VisitorsFlow extends Controller
+final class VisitorsFlowController extends Controller
 {
     private $getVisitorsFlowAction;
 
@@ -15,8 +17,8 @@ final class VisitorsFlow extends Controller
         $this->getVisitorsFlowAction = $getVisitorsFlowAction;
     }
 
-    public function getVisitorsFlow()
+    public function getVisitorsFlow(GetVisitorsFlowHttpRequest $request)
     {
-
+        $this->getVisitorsFlowAction->execute(GetVisitorsFlowRequest::fromRequest($request));
     }
 }
