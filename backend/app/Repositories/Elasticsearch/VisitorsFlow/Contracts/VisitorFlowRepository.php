@@ -5,5 +5,4 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow\Contracts;
 
 interface VisitorFlowRepository
 {
-
 }

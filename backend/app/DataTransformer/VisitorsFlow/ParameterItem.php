@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\DataTransformer\VisitorsFlow;
 
-
 class ParameterItem
 {
     private $title;

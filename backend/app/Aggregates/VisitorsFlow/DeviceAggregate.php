@@ -23,8 +23,7 @@ class DeviceAggregate extends Aggregate
         int $exitCount,
         string $device,
         PageValue $prevPage
-    )
-    {
+    ) {
         parent::__construct($id, $websiteId, $targetUrl, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
         $this->device = $device;
     }
@@ -58,8 +57,7 @@ class DeviceAggregate extends Aggregate
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ): Aggregate
-    {
+    ): Aggregate {
         return $visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(
                 $visit->session->website_id,

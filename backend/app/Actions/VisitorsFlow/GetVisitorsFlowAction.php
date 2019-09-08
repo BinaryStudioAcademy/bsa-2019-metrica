@@ -20,8 +20,7 @@ class GetVisitorsFlowAction
         VisitorFlowBrowserRepository $visitorFlowBrowserRepository,
         VisitorFlowDeviceRepository $visitorFlowDeviceRepository,
         VisitorFlowScreenRepository $visitorFlowScreenRepository
-    )
-    {
+    ) {
         $this->visitorsFlowCountryRepository = $visitorFlowCountryRepository;
         $this->visitorsFlowBrowserRepository = $visitorFlowBrowserRepository;
         $this->visitorsFlowDeviceRepository = $visitorFlowDeviceRepository;
@@ -64,7 +63,7 @@ class GetVisitorsFlowAction
                     $screensFlow = $this->visitorsFlowScreenRepository->getFlow($websiteId, $request->getLevel());
                     return new GetVisitorFlowResponse($screensFlow->getCollection());
                 }
-                $screensViews = $this->visitorsFlowScreenRepository->getViewsByEachScreen( $websiteId);
+                $screensViews = $this->visitorsFlowScreenRepository->getViewsByEachScreen($websiteId);
                 $screensFlow = $this->visitorsFlowScreenRepository->getFlow($websiteId, $request->getLevel());
                 return new GetVisitorFlowResponse($screensFlow->getCollection(), $screensViews->getCollection());
                 break;

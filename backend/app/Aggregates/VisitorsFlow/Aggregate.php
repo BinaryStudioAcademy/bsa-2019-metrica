@@ -29,8 +29,7 @@ abstract class Aggregate
         bool $isLastPage,
         int $exitCount,
         PageValue $prevPage
-    )
-    {
+    ) {
         $this->id = $id;
         $this->websiteId = $websiteId;
         $this->targetUrl = $targetUrl;
@@ -66,9 +65,9 @@ abstract class Aggregate
         return $this->id;
     }
 
-    public abstract static function fromResult(array $result): self;
+    abstract public static function fromResult(array $result): self;
 
-    public abstract static function getPreviousAggregate(
+    abstract public static function getPreviousAggregate(
         VisitorFlowRepository $visitorFlowBrowserRepository,
         Visit $visit,
         string $previousVisitUrl,

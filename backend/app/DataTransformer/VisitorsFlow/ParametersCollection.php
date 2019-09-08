@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\DataTransformer\VisitorsFlow;
 
-
 use Illuminate\Support\Collection;
 
 class ParametersCollection

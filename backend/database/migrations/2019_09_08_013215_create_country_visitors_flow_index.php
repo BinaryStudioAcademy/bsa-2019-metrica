@@ -2,16 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-
 class CreateCountryVisitorsFlowIndex extends Migration
 {
     private const INDEX_NAME = 'country-visitors-flow-index';
 
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         $client = app('elasticsearch');
@@ -31,11 +25,6 @@ class CreateCountryVisitorsFlowIndex extends Migration
         $client->indices()->create($params);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         $client = app('elasticsearch');

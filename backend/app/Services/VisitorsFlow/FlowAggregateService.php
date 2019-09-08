@@ -43,8 +43,7 @@ final class FlowAggregateService
         VisitorFlowBrowserRepository $visitorFlowBrowserRepository,
         VisitorFlowDeviceRepository $visitorFlowDeviceRepository,
         VisitorFlowScreenRepository $visitorFlowScreenRepository
-    )
-    {
+    ) {
         $this->pageRepository = $pageRepository;
         $this->visitRepository = $visitRepository;
         $this->visitorFlowCountryRepository = $visitorFlowCountryRepository;

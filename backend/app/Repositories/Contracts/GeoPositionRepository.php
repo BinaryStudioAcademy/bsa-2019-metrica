@@ -11,5 +11,4 @@ interface GeoPositionRepository
     public function save(GeoPosition $geoPosition): GeoPosition;
 
     public function getById(int $id): GeoPosition;
-
 }

@@ -124,8 +124,7 @@ final class CreateVisitAction
         string $browser,
         int $resolutionHeight,
         int $resolutionWidth
-    ): System
-    {
+    ): System {
         $system = $this->systemRepository->getByParameters(
             $operatingSystem,
             $device,
@@ -171,8 +170,7 @@ final class CreateVisitAction
         int $pageId,
         string $language,
         int $systemId
-    ): Session
-    {
+    ): Session {
         $session = $this->sessionRepository->lastActiveByVisitorId($visitorId);
 
         if ($session !== null) {

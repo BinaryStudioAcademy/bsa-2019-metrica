@@ -6,11 +6,6 @@ class CreateBrowserVisitorsFlowIndex extends Migration
 {
     private const INDEX_NAME = 'browser-visitors-flow-index';
 
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         $client = app('elasticsearch');
@@ -29,11 +24,6 @@ class CreateBrowserVisitorsFlowIndex extends Migration
         $client->indices()->create($params);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         $client = app('elasticsearch');

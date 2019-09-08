@@ -21,8 +21,7 @@ class ScreenCriteria implements Criteria
         ?string $prevPageUrl,
         string $resolutionWidth,
         string $resolutionHeight
-    )
-    {
+    ) {
         $this->websiteId = $websiteId;
         $this->targetUrl = $targetUrl;
         $this->level = $level;

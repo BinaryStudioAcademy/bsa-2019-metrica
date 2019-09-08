@@ -25,8 +25,7 @@ class ScreenAggregate extends Aggregate
         string $resolutionWidth,
         string $resolutionHeight,
         PageValue $prevPage
-    )
-    {
+    ) {
         parent::__construct($id, $websiteId, $targetUrl, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
         $this->resolutionWidth = $resolutionWidth;
         $this->resolutionHeight = $resolutionHeight;
@@ -65,8 +64,7 @@ class ScreenAggregate extends Aggregate
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ): Aggregate
-    {
+    ): Aggregate {
         return $visitorFlowScreenRepository->getByCriteria(
             ScreenCriteria::getCriteria(
                 $visit->session->website_id,

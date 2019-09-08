@@ -19,9 +19,12 @@ final class VisitorsFlowController extends Controller
         $this->getVisitorsFlowAction = $getVisitorsFlowAction;
     }
 
-    public function getVisitorsFlow(GetVisitorsFlowHttpRequest $request)
+    public function getVisitorsFlow(GetVisitorsFlowHttpRequest $request): ApiResponse
     {
         $result = $this->getVisitorsFlowAction->execute(GetVisitorsFlowRequest::fromRequest($request));
-        return ApiResponse::success(new VisitorsFlowResource($result->getCollection()),['level'=>$request->getLevel()]);
+        return ApiResponse::success(
+            new VisitorsFlowResource($result->getCollection()),
+            ['level' => $request->getLevel()]
+        );
     }
 }

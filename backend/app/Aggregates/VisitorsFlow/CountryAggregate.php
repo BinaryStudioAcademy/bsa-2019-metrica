@@ -23,8 +23,7 @@ class CountryAggregate extends Aggregate
         int $exitCount,
         string $country,
         PageValue $prevPage
-    )
-    {
+    ) {
         parent::__construct($id, $websiteId, $targetUrl, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
         $this->country = $country;
     }
@@ -58,8 +57,7 @@ class CountryAggregate extends Aggregate
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ): Aggregate
-    {
+    ): Aggregate {
         return $visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,
