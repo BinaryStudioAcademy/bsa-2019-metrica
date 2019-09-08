@@ -25,7 +25,7 @@
                         {{ errorItem.stack_trace }}
                         <template v-slot:after="{ toggle }">
                             <a
-                                class="toggle-link px-3"
+                                class="toggle-link text-center px-4"
                                 @click.stop="toggle"
                             >
                                 More
@@ -83,11 +83,15 @@
         border: 1px solid rgba(60, 87, 222, 0.52);
 
         .toggle-link {
+            display: inline-block;
+            line-height: 36px;
+            height: 36px;
             color: #3c57de;
+            border-radius: 3px;
         }
         .toggle-link:hover {
             color: #3c57de;
-            text-decoration: underline;
+            background-color: rgb(60, 87, 222, 0.04);
         }
     }
 </style>
