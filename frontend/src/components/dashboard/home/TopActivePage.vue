@@ -4,7 +4,7 @@
     >
         <li class="card-title">
             <p>Top active pages</p>
-            <p>Users</p>
+            <p>Visitors</p>
         </li>
         <li
             v-for="page in topPages"

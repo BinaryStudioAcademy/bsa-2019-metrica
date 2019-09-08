@@ -7,7 +7,7 @@
             <Spinner v-if="activityDataFetching" />
             <div class="d-flex justify-content-between align-items-center card-top-row ">
                 <p class="card-text mb-0">
-                    Active users
+                    Active visitors
                 </p>
                 <p class="card-count text-right mb-0">
                     <strong>
@@ -47,7 +47,7 @@
                     :to="{ name: 'page-views'}"
                     class="btn card-button font-weight-light rounded"
                 >
-                    Real time report
+                    Page views overview
                 </RouterLink>
             </div>
         </div>
