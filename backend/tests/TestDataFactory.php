@@ -152,7 +152,7 @@ class TestDataFactory
     {
         $website = factory(Website::class)->create(['user_id' => $user->id]);
         foreach (self::PAGES as $page_url) {
-            $pages[] = factory(Page::class)->create(
+            factory(Page::class)->create(
                 [
                     'website_id' => $website->id,
                     'url' => $page_url
