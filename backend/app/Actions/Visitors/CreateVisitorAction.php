@@ -50,6 +50,6 @@ class CreateVisitorAction
 
         $token = JWTAuth::encode($payload);
 
-        return new CreateVisitorResponse($token);
+        return new CreateVisitorResponse($token->get());
     }
 }
