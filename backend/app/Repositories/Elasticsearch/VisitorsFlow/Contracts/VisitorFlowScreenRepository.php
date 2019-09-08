@@ -5,6 +5,8 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow\Contracts;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\ScreenAggregate;
+use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
+use App\DataTransformer\VisitorsFlow\ParametersCollection;
 
 interface VisitorFlowScreenRepository extends VisitorFlowRepository
 {
@@ -13,4 +15,8 @@ interface VisitorFlowScreenRepository extends VisitorFlowRepository
     public function update(Aggregate $browserAggregate): Aggregate;
 
     public function getByCriteria(Criteria $criteria): ?ScreenAggregate;
+
+    public function getFlow(int $websiteId, int $level): ParameterFlowCollection;
+
+    public function getViewsByEachScreen(string $type, int $websiteId): ParametersCollection;
 }

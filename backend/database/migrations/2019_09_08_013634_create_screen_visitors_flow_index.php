@@ -19,8 +19,11 @@ class CreateScreenVisitorsFlowIndex extends Migration
             'body' => [
                 'mappings' => [
                     "properties" => [
-                        "screen" => [
-                            "type" => "keyword"
+                        "resolution_width" => [
+                            "type" => "integer"
+                        ],
+                        "resolution_height" => [
+                            "type" => "integer"
                         ]
                     ]
                 ]

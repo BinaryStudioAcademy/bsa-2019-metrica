@@ -61,6 +61,13 @@ class GetVisitorsFlowAction
                 return new GetVisitorFlowResponse($devicesFlow->getCollection(), $devicesViews->getCollection());
                 break;
             case 'screen':
+                if ($request->getLevel() > 2) {
+                    $screensFlow = $this->visitorsFlowScreenRepository->getFlow($websiteId, $request->getLevel());
+                    return new GetVisitorFlowResponse($screensFlow->getCollection());
+                }
+                $screensViews = $this->visitorsFlowScreenRepository->getViewsByEachDevice($request->getParameter(), $websiteId);
+                $screensFlow = $this->visitorsFlowDeviceRepository->getFlow($websiteId, $request->getLevel());
+                return new GetVisitorFlowResponse($screensFlow->getCollection(), $screensViews->getCollection());
                 break;
         }
     }
