@@ -11,7 +11,7 @@ use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
 
 final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCountryRepository
 {
-    const INDEX_NAME = 'country-visitors-flow';
+    const INDEX_NAME = 'country-visitors-flow-index';
     private $client;
 
     public function __construct(ElasticsearchManager $client)

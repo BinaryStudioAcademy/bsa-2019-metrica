@@ -12,7 +12,7 @@ use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
 
 class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepository
 {
-    const INDEX_NAME = 'screen-visitors-flow';
+    const INDEX_NAME = 'screen-visitors-flow-index';
     private $client;
 
     public function __construct(ElasticsearchManager $client)

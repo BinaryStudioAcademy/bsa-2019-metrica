@@ -11,7 +11,7 @@ use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
 
 class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRepository
 {
-    const INDEX_NAME = 'browser-visitors-flow';
+    const INDEX_NAME = 'browser-visitors-flow-index';
     private $client;
 
     public function __construct(ElasticsearchManager $client)
