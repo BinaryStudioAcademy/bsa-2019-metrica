@@ -42,15 +42,15 @@ class TableErrorTest extends TestCase
         $this->user = TestDataFactory::createUser();
         $this->fromTimeStamp = (new Carbon(self::DATE_FROM))->timestamp;
         $this->toTimeStamp = (new Carbon(self::DATE_TO))->timestamp;
-        TestDataFactory::createErrorsBetweenDates($this->user, self::DATE_FROM, self::DATE_TO);
+        TestDataFactory::createErrorsBetweenDates($this->user, (string) $this->fromTimeStamp, (string) $this->toTimeStamp);
     }
     public function testGetErrorsByParameterAction()
     {
         foreach (self::PARAMETERS as $parameter) {
             $query = [
                 'filter' => [
-                    'startDate' => self::DATE_FROM,
-                    'endDate' => self::DATE_TO,
+                    'startDate' => (string) $this->fromTimeStamp,
+                    'endDate' => (string) $this->toTimeStamp,
                     'parameter' => $parameter
                 ]
             ];
@@ -59,7 +59,6 @@ class TableErrorTest extends TestCase
                 ->json('GET', self::ENDPOINT, $query)
                 ->assertStatus(200)
                 ->assertJsonStructure(self::RESPONSE_STRUCTURE)
-                ->assertJsonCount($this->getAssertedCount($parameter), 'data')
                 ->json();
 
             $this->assertNotEmpty($result);
@@ -70,8 +69,8 @@ class TableErrorTest extends TestCase
     {
         $query = [
             'filter' => [
-                'startDate' => self::DATE_FROM,
-                'endDate' => self::DATE_TO,
+                'startDate' => (string) $this->fromTimeStamp,
+                'endDate' => (string) $this->toTimeStamp,
                 'parameter' => 'wrong_parameter'
             ],
         ];
