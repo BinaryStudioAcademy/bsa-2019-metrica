@@ -6,6 +6,8 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\DeviceAggregate;
+use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
+use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowDeviceRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
@@ -74,5 +76,70 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
             return null;
         }
         return DeviceAggregate::fromResult($result['hits']['hits'][0]['_source']);
+    }
+
+    public function getViewsByEachDevice(string $type, int $websiteId): ParametersCollection
+    {
+        $params = [
+            'index' => self::INDEX_NAME,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['match' => ['website_id' => $websiteId]],
+                        ]
+                    ]
+                ],
+                'aggregations' => [
+                    'devices' => [
+                        'terms' => [
+                            'field' => $type
+                        ],
+                        'aggregations' => [
+                            'views' => [
+                                'sum' => [
+                                    'field' => 'views'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+
+        ];
+        $result = $this->client->search($params);
+        return new ParametersCollection($result['aggregations']['devices']['buckets']);
+    }
+
+    public function getFlow(int $websiteId, int $level): ParameterFlowCollection
+    {
+        $params = [
+            'index' => self::INDEX_NAME,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['match' => ['website_id' => $websiteId]],
+                        ],
+                        'filter' => [
+                            $level > 2 ? ['term' => ['level' => $level]] : [
+                                'range' => [
+                                    "level" => [
+                                        'gte' => 1,
+                                        'lte' => 2
+                                    ]
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                'sort' => [
+                    'level' => 'asc',
+                    'views' => 'desc'
+                ]
+            ]
+        ];
+        $result = $this->client->search($params);
+        return new ParameterFlowCollection($result['hits']['hits']);
     }
 }

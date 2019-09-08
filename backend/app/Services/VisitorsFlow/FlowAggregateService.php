@@ -103,7 +103,7 @@ final class FlowAggregateService
         );
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
-            $countryAggregate = $this->visitorFlowCountryRepository->save($countryAggregate);
+            $this->visitorFlowCountryRepository->save($countryAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = CountryAggregate::getPreviousAggregate(
@@ -118,12 +118,12 @@ final class FlowAggregateService
             }
             $countryAggregate->views++;
             $countryAggregate->exitCount++;
-            $countryAggregate = $this->visitorFlowCountryRepository->update($countryAggregate);
+            $this->visitorFlowCountryRepository->update($countryAggregate);
         }
 
         if (!$browserAggregate) {
             $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
-            $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
+            $this->visitorFlowBrowserRepository->save($browserAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = BrowserAggregate::getPreviousAggregate(
@@ -138,11 +138,11 @@ final class FlowAggregateService
             }
             $browserAggregate->views++;
             $browserAggregate->exitCount++;
-            $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
+            $this->visitorFlowBrowserRepository->update($browserAggregate);
         }
         if (!$deviceAggregate) {
             $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
-            $deviceAggregate = $this->visitorFlowDeviceRepository->save($deviceAggregate);
+            $this->visitorFlowDeviceRepository->save($deviceAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = DeviceAggregate::getPreviousAggregate(
@@ -157,12 +157,12 @@ final class FlowAggregateService
             }
             $deviceAggregate->views++;
             $deviceAggregate->exitCount++;
-            $deviceAggregate = $this->visitorFlowDeviceRepository->update($deviceAggregate);
+            $this->visitorFlowDeviceRepository->update($deviceAggregate);
         }
 
         if (!$screenAggregate) {
             $screenAggregate = $this->createScreenAggregate($visit, $level, $previousVisit);
-            $screenAggregate = $this->visitorFlowScreenRepository->save($screenAggregate);
+            $this->visitorFlowScreenRepository->save($screenAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = ScreenAggregate::getPreviousAggregate(
@@ -177,7 +177,7 @@ final class FlowAggregateService
             }
             $screenAggregate->views++;
             $screenAggregate->exitCount++;
-            $screenAggregate = $this->visitorFlowScreenRepository->update($screenAggregate);
+            $this->visitorFlowScreenRepository->update($screenAggregate);
         }
     }
 
