@@ -168,6 +168,12 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
         });
+
+        Route::group([
+            'prefix' => 'error-reports'
+        ], function () {
+            Route::post('/', 'ErrorReportController@addErrorReport')->middleware('x-website');
+        });
     });
 });
 

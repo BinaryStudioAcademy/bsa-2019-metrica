@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Actions\Visitors;
 
@@ -49,6 +50,6 @@ class CreateVisitorAction
 
         $token = JWTAuth::encode($payload);
 
-        return new CreateVisitorResponse($token);
+        return new CreateVisitorResponse($token->get());
     }
 }
