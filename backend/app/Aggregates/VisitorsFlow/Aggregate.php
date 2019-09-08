@@ -39,7 +39,6 @@ abstract class Aggregate
         $this->isLastPage = $isLastPage;
         $this->exitCount = $exitCount;
         $this->prevPage = $prevPage;
-
     }
 
     public function toArray(): array

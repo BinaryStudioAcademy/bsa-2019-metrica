@@ -23,8 +23,7 @@ class BrowserAggregate extends Aggregate
         int $exitCount,
         string $browser,
         PageValue $prevPage
-    )
-    {
+    ) {
         parent::__construct($id, $websiteId, $targetUrl, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
         $this->browser = $browser;
     }
@@ -58,8 +57,7 @@ class BrowserAggregate extends Aggregate
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ): Aggregate
-    {
+    ): Aggregate {
         return $visitorFlowBrowserRepository->getByCriteria(
             BrowserCriteria::getCriteria(
                 $visit->session->website_id,
