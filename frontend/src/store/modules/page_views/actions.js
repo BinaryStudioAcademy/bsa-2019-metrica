@@ -58,7 +58,7 @@ export default {
     },
 
     [FETCH_BUTTON_DATA]: (context, button) => {
-        const id = context.rootState.website.currentWebsite.id;
+        const id = context.rootState.website.selectedWebsite.id;
         context.commit(SET_BUTTON_FETCHING, button.type);
         factoryPageViewsService.create(button.type).fetchButtonValue(
             button.time.startDate.unix(),
@@ -75,7 +75,7 @@ export default {
 
     [FETCH_CHART_DATA]: (context) => {
         const time = getTimeByPeriod(context.state.selectedPeriod);
-        const id = context.rootState.website.currentWebsite.id;
+        const id = context.rootState.website.selectedWebsite.id;
         context.commit(SET_CHART_FETCHING);
         factoryPageViewsService.create(context.state.activeButton).fetchChartValues(
             time.startDate.unix(),
@@ -93,7 +93,7 @@ export default {
         context.commit(SET_IS_FETCHING);
 
         const period = getTimeByPeriod(context.state.selectedPeriod);
-        const id = context.rootState.website.currentWebsite.id;
+        const id = context.rootState.website.selectedWebsite.id;
 
         return fetchTableValues(period.startDate.unix(), period.endDate.unix(), id)
             .then(response => context.commit(SET_PAGE_VIEWS_TABLE_DATA, response))

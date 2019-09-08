@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\Website\GetCurrentUserWebsiteAction;
 use App\Actions\Website\AddWebsiteAction;
 use App\Actions\Website\AddWebsiteRequest;
 use App\Actions\Website\EditWebsiteAction;
@@ -19,16 +18,13 @@ use App\Http\Response\ApiResponse;
 final class WebsiteController
 {
     private $addWebsiteAction;
-    private $getCurrentUserWebsiteAction;
     private $getRelateUserWebsitesAction;
 
     public function __construct(
         AddWebsiteAction $addWebsiteAction,
-        GetCurrentUserWebsiteAction $getCurrentUserWebsiteAction,
         GetRelateUserWebsitesAction $getRelateUserWebsitesAction
     ) {
         $this->addWebsiteAction = $addWebsiteAction;
-        $this->getCurrentUserWebsiteAction = $getCurrentUserWebsiteAction;
         $this->getRelateUserWebsitesAction = $getRelateUserWebsitesAction;
     }
 
@@ -48,12 +44,6 @@ final class WebsiteController
         );
 
         return ApiResponse::success(new WebsiteResource($response->getWebsite()));
-    }
-
-    public function getCurrentUserWebsite(int $websiteId): ApiResponse
-    {
-        $response = $this->getCurrentUserWebsiteAction->execute($websiteId);
-        return ApiResponse::success(new WebsiteResource($response->website()));
     }
 
     public function getRelateUserWebsites(): ApiResponse

@@ -59,7 +59,7 @@
     } from "@/store/modules/dashboard/types/getters";
     import _ from "lodash";
     import {echoInstance} from '../../../services/echoService';
-    import {GET_CURRENT_WEBSITE} from '@/store/modules/website/types/getters';
+    import {GET_SELECTED_WEBSITE} from '@/store/modules/website/types/getters';
     import {
         FETCHING_ACTIVITY_DATA_ITEMS,
         RELOAD_ACTIVITY_DATA_ITEMS,
@@ -93,7 +93,7 @@
                 activityChartData: GET_ACTIVITY_CHART_DATA,
             }),
             ...mapGetters('website', {
-                website: GET_CURRENT_WEBSITE
+                website: GET_SELECTED_WEBSITE
             }),
             activeUsersCount() {
                 return _.uniqBy(this.activityDataItems, 'visitor').length;

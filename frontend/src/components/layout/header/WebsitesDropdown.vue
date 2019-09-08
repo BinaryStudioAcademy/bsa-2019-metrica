@@ -36,7 +36,7 @@
 <style lang="scss" scoped>
     .option-select {
         padding: 0;
-        max-width: 300px;
+        max-width: 250px;
         max-height: 34px;
     }
 </style>

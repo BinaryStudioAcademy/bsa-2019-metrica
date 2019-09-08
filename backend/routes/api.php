@@ -32,9 +32,8 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'websites'
         ], function () {
-            Route::get('/{id}', 'WebsiteController@getCurrentUserWebsite');
             Route::post('/', 'WebsiteController@add');
-            Route::get('/me/all', 'WebsiteController@getRelateUserWebsites');
+            Route::get('/all', 'WebsiteController@getRelateUserWebsites');
         });
 
         Route::get('/os/most-popular', 'SystemController@getMostPopularOs');

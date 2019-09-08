@@ -6,8 +6,8 @@
         class="pr-2"
     >
         <WebsitesDropdown
-            :items="websites"
-            :value="selectedWebsite"
+            :items="getWebsites()"
+            :value="getSelectedValue()"
             @change="changeWebsite"
         />
         <VBtn
@@ -68,7 +68,6 @@
         CHANGE_SELECTED_WEBSITE,
         FETCH_RELATE_WEBSITES
     } from "@/store/modules/website/types/actions";
-    import {SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import WebsitesDropdown from "../header/WebsitesDropdown.vue";
 
     export default {
@@ -98,20 +97,29 @@
                 changeSelectedWebsite: CHANGE_SELECTED_WEBSITE,
                 fetchRelateWebsites: FETCH_RELATE_WEBSITES
             }),
-            ...mapActions('notification', {
-                showErrorMessage: SHOW_ERROR_MESSAGE
-            }),
             endSession() {
                 this.logout();
                 this.resetData();
                 this.$router.push({ name: 'home' });
             },
             changeWebsite(data) {
-                this.changeSelectedWebsite(data)
-                    .catch((error) => {
-                        this.showErrorMessage(error);
-                    });
+                let website = {};
+                this.websites.map((item) => {
+                    item.domain === data.value ? website = item : website;
+                });
+                this.changeSelectedWebsite(website);
             },
+            getWebsites() {
+                return this.websites.map((item) => {
+                    return {
+                        title: item.name + ' - ' + item.role,
+                        value: item.domain,
+                    };
+                });
+            },
+            getSelectedValue() {
+                return this.selectedWebsite.domain ? this.selectedWebsite.domain : '';
+            }
         },
         computed: {
             ...mapGetters('auth',  {

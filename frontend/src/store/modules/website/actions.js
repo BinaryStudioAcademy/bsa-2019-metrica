@@ -1,26 +1,24 @@
 import {
     SAVE_NEW_WEBSITE,
     SET_WEBSITE_DATA,
-    FETCH_CURRENT_WEBSITE,
     UPDATE_WEBSITE,
     RESET_DATA,
     CHANGE_SELECTED_WEBSITE,
     FETCH_RELATE_WEBSITES,
+    DEFAULT_SELECTED_WEBSITE,
 } from './types/actions';
 import {
     SET_CURRENT_WEBSITE,
     UPDATE_CURRENT_WEBSITE,
     SET_WEBSITE_INFO,
-    RESET_CURRENT_WEBSITE,
+    RESET_CURRENT_WEBSITES,
     SET_FETCH_TRUE,
-    RESET_WEBSITE_DATA,
+    RESET_WEBSITES_DATA,
     SET_SELECTED_WEBSITE,
-    SET_IS_FETCH_WEBSITES,
     RESET_FETCH_WEBSITES,
     SET_RELATE_WEBSITES,
-    SET_DEFAULT_SELECTED_WEBSITE
 } from "./types/mutations";
-import {addWebsite, updateWebsite, getCurrentUserWebsite, getRelateUserWebsites} from '@/api/website';
+import {addWebsite, updateWebsite, getRelateUserWebsites} from '@/api/website';
 
 export default {
 
@@ -28,18 +26,18 @@ export default {
         context.commit(SET_WEBSITE_INFO, data);
     },
 
-    [FETCH_CURRENT_WEBSITE]: (context) => {
+    [FETCH_RELATE_WEBSITES]: (context) => {
         context.commit(SET_FETCH_TRUE);
-        const id = context.state.currentWebsite.id;
 
-        return getCurrentUserWebsite(id).then(response => {
-            context.commit(SET_CURRENT_WEBSITE, response.data);
-            if(id === 0) {
-                context.commit(SET_DEFAULT_SELECTED_WEBSITE, response.data);
-            }
-        }).catch((error) => {
-            context.commit(RESET_CURRENT_WEBSITE);
-            throw error;
+        return getRelateUserWebsites().then(response => {
+            context.commit(SET_RELATE_WEBSITES, response);
+            context.dispatch(DEFAULT_SELECTED_WEBSITE, response);
+        })
+            .catch(() => {
+            context.commit(RESET_CURRENT_WEBSITES);
+        })
+            .finally(() => {
+            context.commit(RESET_FETCH_WEBSITES);
         });
     },
 
@@ -129,26 +127,27 @@ export default {
                 });
     },
     [RESET_DATA]: (context) => {
-        context.commit(RESET_WEBSITE_DATA);
+        context.commit(RESET_WEBSITES_DATA);
     },
 
-    [CHANGE_SELECTED_WEBSITE]: (context, payload) => {
-        if (context.state.relateUserWebsites.selectedWebsite.value === payload.value) {
-            return;
-        }
+    [CHANGE_SELECTED_WEBSITE]: (context, website) => {
+        if (!website) return;
+        if (context.state.selectedWebsite.id === website.id) return;
 
-        context.commit(SET_SELECTED_WEBSITE, payload)
-            .then(() => {
-                return context.dispatch(FETCH_CURRENT_WEBSITE);
-            });
+        context.commit(SET_SELECTED_WEBSITE, website);
     },
 
-    [FETCH_RELATE_WEBSITES]: (context) => {
-        context.commit(SET_IS_FETCH_WEBSITES);
-        return getRelateUserWebsites().then(response => {
-            context.commit(SET_RELATE_WEBSITES, response);
-        }).finally(() => {
-            context.commit(RESET_FETCH_WEBSITES);
+    [DEFAULT_SELECTED_WEBSITE]: (context, websites) => {
+        let selected = false;
+        websites.forEach(function(website) {
+            if(website.role === 'owner') {
+                context.commit(SET_SELECTED_WEBSITE, website);
+                selected = true;
+            }
         });
+        if(!selected) {
+            context.commit(SET_SELECTED_WEBSITE, websites[0]);
+        }
+        context.commit(SET_CURRENT_WEBSITE);
     },
 };

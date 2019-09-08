@@ -60,7 +60,7 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
-        const id = context.rootState.website.currentWebsite.id;
+        const id = context.rootState.website.selectedWebsite.id;
 
         return factoryVisitorsService.create(type)
             .fetchButtonValue(startDate.unix(), endDate.unix(), id)
@@ -83,7 +83,7 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
-        const id = context.rootState.website.currentWebsite.id;
+        const id = context.rootState.website.selectedWebsite.id;
 
         return factoryVisitorsService.create(context.state.activeButton)
             .fetchChartValues(startDate.unix(), endDate.unix(), period.interval, id)
@@ -108,7 +108,7 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
-        const id = context.rootState.website.currentWebsite.id;
+        const id = context.rootState.website.selectedWebsite.id;
 
         return factoryVisitorsService.create(context.state.activeButton)
             .fetchTableValues(startDate.unix(), endDate.unix(), context.state.tableData.groupedParameter, id)
@@ -120,7 +120,7 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
-        const id = context.rootState.website.currentWebsite.id;
+        const id = context.rootState.website.selectedWebsite.id;
         let newVisitors = 0;
         let totalVisitors = 0;
         let newVisitorsValue = 0;

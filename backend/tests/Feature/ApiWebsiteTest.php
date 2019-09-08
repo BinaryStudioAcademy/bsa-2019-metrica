@@ -202,87 +202,65 @@ class ApiWebsiteTest extends TestCase
 
     public function test_get_relate_user_websites()
     {
+        $user1 = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
+
+        $website1 = factory(Website::class)->create([
+            'id' => 1,
+            'name' => 'name1',
+            'domain' => 'domain1.com',
+        ]);
+        $website2 = factory(Website::class)->create([
+            'id' => 2,
+            'name' => 'name2',
+            'domain' => 'domain2.com',
+        ]);
+
+        $user1->websites()->attach($website1->id, [
+            'role' => 'owner',
+            'permitted_menu' => config('sidebar.partial_access_menu_items')
+        ]);
+        $user2->websites()->attach($website2->id, [
+            'role' => 'owner',
+            'permitted_menu' => config('sidebar.partial_access_menu_items')
+        ]);
+        $user1->websites()->attach($website2->id, [
+            'role' => 'member',
+            'permitted_menu' => "visitors, page-views, geo-location",
+        ]);
+        $user3->websites()->attach($website1->id, [
+            'role' => 'member',
+            'permitted_menu' => "visitors, page-views",
+        ]);
+
         $expectedData = [
             "data" => [
                 [
-                    "id" => 1,
-                    "domain" => "domain1.com",
-                    "role" => "owner"
+                    'id' => $website1->id,
+                    'name' => $website1->name,
+                    'domain' => $website1->domain,
+                    'single_page' => $website1->single_page,
+                    'tracking_number' => $website1->tracking_number,
+                    'role' => 'owner',
+                    'permitted_menu' => "visitors, page-views, geo-location, behaviour, screencast",
                 ],
                 [
-                    "id" => 2,
-                    "domain" => "domain2.com",
-                    "role" => "member"
-                ],
-                [
-                    "id" => 3,
-                    "domain" => "domain3.com",
-                    "role" => "member"
+                    'id' => $website2->id,
+                    'name' => $website2->name,
+                    'domain' => $website2->domain,
+                    'single_page' => $website2->single_page,
+                    'tracking_number' => $website2->tracking_number,
+                    'role' => 'member',
+                    'permitted_menu' => "visitors, page-views, geo-location",
                 ]
             ],
             "meta" => []
         ];
 
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $user3 = factory(User::class)->create();
-        $website1 = factory(Website::class)->create([
-            'id' => 1,
-            'domain' => 'domain1.com',
-        ]);
-        $website2 = factory(Website::class)->create([
-            'id' => 2,
-            'domain' => 'domain2.com',
-        ]);
-        $website3 = factory(Website::class)->create([
-            'id' => 3,
-            'domain' => 'domain3.com',
-        ]);
-        $user1->websites()->attach($website1->id, [
-            'role' => 'owner'
-        ]);
-        $user2->websites()->attach($website2->id, [
-            'role' => 'owner'
-        ]);
-        $user3->websites()->attach($website3->id, [
-            'role' => 'owner'
-        ]);
-        $user1->websites()->attach($website2->id, [
-            'role' => 'member'
-        ]);
-        $user1->websites()->attach($website3->id, [
-            'role' => 'member'
-        ]);
-
         $this->actingAs($user1)
-            ->call('GET', '/api/v1/websites/me/all')
+            ->call('GET', '/api/v1/websites/all')
             ->assertOk()
             ->assertJson($expectedData);
-    }
-
-    public function test_get_current_website_as_owner()
-    {
-        $user = factory(User::class)->create();
-        $website = factory(Website::class)->create();
-        $user->websites()->attach($website->id, [
-            'role' => 'owner'
-        ]);
-
-        $this->actingAs($user)
-            ->call('GET', 'api/v1/websites/'.$website->id)
-            ->assertOk();
-    }
-
-    public function test_get_current_website_as_member()
-    {
-        $user = factory(User::class)->create();
-        $website = factory(Website::class)->create();
-        $user->websites()->attach($website->id, [
-            'role' => 'member'
-        ]);
-
-        $this->actingAs($user)
-            ->call('GET', 'api/v1/websites/'.$website->id)
-            ->assertOk();
     }
 }

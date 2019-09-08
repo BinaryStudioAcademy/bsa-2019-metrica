@@ -2,14 +2,12 @@ import {
     UPDATE_CURRENT_WEBSITE,
     SET_CURRENT_WEBSITE,
     SET_WEBSITE_INFO,
-    RESET_CURRENT_WEBSITE,
+    RESET_CURRENT_WEBSITES,
     SET_FETCH_TRUE,
-    RESET_WEBSITE_DATA,
+    RESET_WEBSITES_DATA,
     SET_SELECTED_WEBSITE,
-    SET_IS_FETCH_WEBSITES,
     RESET_FETCH_WEBSITES,
     SET_RELATE_WEBSITES,
-    SET_DEFAULT_SELECTED_WEBSITE
 } from "./types/mutations";
 
 export default {
@@ -19,9 +17,8 @@ export default {
             ...data,
         };
     },
-    [SET_CURRENT_WEBSITE]: (state, website) => {
+    [SET_CURRENT_WEBSITE]: (state) => {
         state.isCurrentWebsite = true;
-        state.currentWebsite = website;
     },
     [UPDATE_CURRENT_WEBSITE]: (state, website) => {
         state.currentWebsite = {
@@ -29,50 +26,32 @@ export default {
             ...website
         };
     },
-    [RESET_CURRENT_WEBSITE]: (state) => {
-        state.currentWebsite = {
-            name: '',
-            domain: '',
-            single_page: false,
-            tracking_number: ''
-        };
+    [RESET_CURRENT_WEBSITES]: (state) => {
+        state.relateUserWebsites = [];
+        state.selectedWebsite = {};
         state.isCurrentWebsite = false;
     },
     [SET_FETCH_TRUE]: (state) => {
         state.isFetchedWebsite = true;
     },
-    [RESET_WEBSITE_DATA]: (state) => {
+    [RESET_WEBSITES_DATA]: (state) => {
         state.newWebsite = {
             name: '',
             domain: '',
             single_page: false,
         };
-        state.currentWebsite = {
-            name: '',
-            domain: '',
-            single_page: false,
-            tracking_number: ''
-        };
+        state.relateUserWebsites = [];
+        state.selectedWebsite = undefined;
         state.isCurrentWebsite = false;
         state.isFetchedWebsite = false;
     },
-    [SET_SELECTED_WEBSITE]: (state, data) => {
-        state.relateUserWebsites.selectedWebsite = {
-            ...state.relateUserWebsites.selectedWebsite,
-            ...data
-        };
-        state.currentWebsite.id = data.id;
-    },
-    [SET_IS_FETCH_WEBSITES]: (state) => {
-        state.relateUserWebsites.isFetching = true;
+    [SET_SELECTED_WEBSITE]: (state, website) => {
+        state.selectedWebsite = website;
     },
     [RESET_FETCH_WEBSITES]: (state) => {
-        state.relateUserWebsites.isFetching = false;
+        state.isFetchedWebsite = false;
     },
     [SET_RELATE_WEBSITES]: (state, data) => {
-        state.relateUserWebsites.websites = data;
+        state.relateUserWebsites = data;
     },
-    [SET_DEFAULT_SELECTED_WEBSITE]: (state, data) => {
-        state.relateUserWebsites.selectedWebsite.value = data.domain;
-    }
 };
