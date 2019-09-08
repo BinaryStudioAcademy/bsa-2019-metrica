@@ -204,6 +204,5 @@ class TestDataFactory
                 'page_id' => $visit->page->id
             ]);
         }
-
     }
 }

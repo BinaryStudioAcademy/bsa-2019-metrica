@@ -9,7 +9,6 @@ use App\DataTransformer\ErrorReport\TableErrorReport;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
-
 final class ErrorTableResource extends ResourceCollection implements ApiResponse
 {
     public function toArray($request): array

@@ -9,7 +9,6 @@ use App\Http\Resources\ErrorTableResource;
 use App\Http\Response\ApiResponse;
 use App\Actions\ErrorReport\GetErrorTableItemsRequest;
 
-
 final class ErrorReportController extends Controller
 {
     private $getErrorTableItemsAction;

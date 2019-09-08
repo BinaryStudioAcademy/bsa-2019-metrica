@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestDataFactory;
 use Carbon\Carbon;
 
-
 class TableErrorTest extends TestCase
 {
     use RefreshDatabase;
