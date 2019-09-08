@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\DataTransformer\VisitorsFlow;
 
 
-class BrowserItem
+class BrowserItem implements ParameterItem
 {
     private $title;
     private $count;

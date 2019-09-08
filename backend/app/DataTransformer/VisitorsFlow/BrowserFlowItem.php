@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\DataTransformer\VisitorsFlow;
 
-
-class BrowserFlowItem
+class BrowserFlowItem implements ParameterFlowItem
 {
     private $browser;
     private $targetUrl;
@@ -23,7 +22,7 @@ class BrowserFlowItem
         $this->sourceUrl = $item['prev_page']['source_url'];
     }
 
-    public function getBrowser(): string
+    public function getParameter(): string
     {
         return $this->browser;
     }

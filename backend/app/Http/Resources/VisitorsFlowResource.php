@@ -4,19 +4,19 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\ApiResponse;
-use App\DataTransformer\VisitorsFlow\BrowserFlowItem;
-use App\DataTransformer\VisitorsFlow\BrowserItem;
+use App\DataTransformer\VisitorsFlow\ParameterFlowItem;
+use App\DataTransformer\VisitorsFlow\ParameterItem;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
-class BrowserVisitorsFlowResource extends ResourceCollection implements ApiResponse
+class VisitorsFlowResource extends ResourceCollection implements ApiResponse
 {
     public function toArray($request): array
     {
         return $this->presentCollection($this->collection);
     }
 
-    public function presentBrowserViews(BrowserItem $item): array
+    public function presentParameterViews(ParameterItem $item): array
     {
         return [
             'title' => $item->getTitle(),
@@ -24,10 +24,10 @@ class BrowserVisitorsFlowResource extends ResourceCollection implements ApiRespo
         ];
     }
 
-    public function presentBrowsersFlow(BrowserFlowItem $item): array
+    public function presentVisitorsFlow(ParameterFlowItem $item): array
     {
         return [
-            'browser' => $item->getBrowser(),
+            "{$item->getParameter()}" => $item->getParameter(),
             'target_url' => $item->getTargetUrl(),
             'level' => $item->getLevel(),
             'views' => $item->getViews(),
@@ -42,13 +42,13 @@ class BrowserVisitorsFlowResource extends ResourceCollection implements ApiRespo
             ->map(
                 function (Collection $items, $key) {
                     switch ($key) {
-                        case 'browsers_views':
-                            return $items->map(function (BrowserItem $item) {
-                                return $this->presentBrowserViews($item);
+                        case 'parameter_views':
+                            return $items->map(function (ParameterItem $item) {
+                                return $this->presentParameterViews($item);
                             });
-                        case 'browsers_flow':
-                            return $items->map(function (BrowserFlowItem $item) {
-                                return $this->presentBrowsersFlow($item);
+                        case 'visitors_flow':
+                            return $items->map(function (ParameterFlowItem $item) {
+                                return $this->presentVisitorsFlow($item);
                             });
                     }
                 }
