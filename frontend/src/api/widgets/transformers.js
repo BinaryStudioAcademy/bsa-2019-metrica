@@ -23,7 +23,7 @@ function transformSytems(systemsData) {
 }
 
 function transformDevices(devicesData) {
-    const colors = ['#F03357', '#ff9900', '#FFD954'];
+    const colors = ['#F03357', '#FFD954', '#ff9900'];
     let percent = 0;
     let devices = [];
     devicesData.forEach((item, index) => {
