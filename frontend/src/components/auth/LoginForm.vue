@@ -166,6 +166,9 @@
             margin-bottom: 20px;
             display: flex;
             justify-content: flex-start;
+            .v-btn:last-child {
+                background-color: transparent;
+            }
         }
     }
 </style>
