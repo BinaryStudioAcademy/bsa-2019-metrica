@@ -131,8 +131,12 @@ export default {
     },
 
     [CHANGE_SELECTED_WEBSITE]: (context, website) => {
-        if (!website) return;
-        if (context.state.selectedWebsite.id === website.id) return;
+        if (!website) {
+            return;
+        }
+        if (context.state.selectedWebsite.id === website.id) {
+            return;
+        }
 
         context.commit(SET_SELECTED_WEBSITE, website);
     },
