@@ -23,12 +23,20 @@
                         class="text--primary message-block"
                     >
                         {{ errorItem.stack_trace }}
-                        <template v-slot:after="{ toggle }">
+                        <template
+                            slot="after"
+                            slot-scope="{ toggle, expanded }"
+                        >
                             <a
                                 class="toggle-link text-center px-4"
-                                @click.stop="toggle"
+                                @click="toggle"
                             >
-                                More
+                                <span v-if="expanded">
+                                    Collapse
+                                </span>
+                                <span v-else>
+                                    More
+                                </span>
                             </a>
                         </template>
                     </VClamp>
@@ -65,13 +73,18 @@
                 required: true
             }
         },
+        data () {
+            return {
+                toggleMore: false
+            };
+        },
         methods: {
             changeSelect () {
                 this.$emit('change', this.selected);
             },
             closeDetailsItem () {
                 this.$emit('close');
-            }
+            },
         }
     };
 </script>
@@ -91,7 +104,8 @@
         }
         .toggle-link:hover {
             color: #3c57de;
-            background-color: rgb(60, 87, 222, 0.04);
+            opacity: 0.75;
+
         }
     }
 </style>
