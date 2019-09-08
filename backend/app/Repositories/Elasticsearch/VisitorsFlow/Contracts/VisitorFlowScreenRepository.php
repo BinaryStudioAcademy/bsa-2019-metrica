@@ -18,5 +18,5 @@ interface VisitorFlowScreenRepository extends VisitorFlowRepository
 
     public function getFlow(int $websiteId, int $level): ParameterFlowCollection;
 
-    public function getViewsByEachScreen(string $type, int $websiteId): ParametersCollection;
+    public function getViewsByEachScreen( int $websiteId): ParametersCollection;
 }

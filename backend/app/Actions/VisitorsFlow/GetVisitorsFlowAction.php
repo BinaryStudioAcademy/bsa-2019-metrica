@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Actions\VisitorsFlow;
 
-
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowDeviceRepository;
@@ -65,8 +64,8 @@ class GetVisitorsFlowAction
                     $screensFlow = $this->visitorsFlowScreenRepository->getFlow($websiteId, $request->getLevel());
                     return new GetVisitorFlowResponse($screensFlow->getCollection());
                 }
-                $screensViews = $this->visitorsFlowScreenRepository->getViewsByEachDevice($request->getParameter(), $websiteId);
-                $screensFlow = $this->visitorsFlowDeviceRepository->getFlow($websiteId, $request->getLevel());
+                $screensViews = $this->visitorsFlowScreenRepository->getViewsByEachScreen( $websiteId);
+                $screensFlow = $this->visitorsFlowScreenRepository->getFlow($websiteId, $request->getLevel());
                 return new GetVisitorFlowResponse($screensFlow->getCollection(), $screensViews->getCollection());
                 break;
         }

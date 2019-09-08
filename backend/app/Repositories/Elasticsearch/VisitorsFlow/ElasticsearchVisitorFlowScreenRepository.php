@@ -62,7 +62,7 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
                             ['match_phrase' => ['resolution_width' => $criteria->resolutionWidth]],
                             ['match_phrase' => ['resolution_height' => $criteria->resolutionHeight]],
                             ['match_phrase' => ['target_url' => $criteria->targetUrl]],
-                            ['match_phrase'=>['prev_page.source_url'=>$criteria->prevPageUrl]]
+                            ['match_phrase' => ['prev_page.source_url' => $criteria->prevPageUrl]]
                         ],
                     ]
                 ]
@@ -78,7 +78,8 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
         }
         return ScreenAggregate::fromResult($result['hits']['hits'][0]['_source']);
     }
-    public function getViewsByEachScreen(string $type, int $websiteId): ParametersCollection
+
+    public function getViewsByEachScreen(int $websiteId): ParametersCollection
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -91,9 +92,9 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
                     ]
                 ],
                 'aggregations' => [
-                    'devices' => [
+                    'resolutions' => [
                         'terms' => [
-                            'field' => $type
+                            'script' => "doc['resolution_width'].value + ' ' + doc['resolution_height'].value"
                         ],
                         'aggregations' => [
                             'views' => [
@@ -105,10 +106,9 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
                     ]
                 ]
             ]
-
         ];
         $result = $this->client->search($params);
-        return new ParametersCollection($result['aggregations']['devices']['buckets']);
+        return new ParametersCollection($result['aggregations']['resolutions']['buckets']);
     }
 
     public function getFlow(int $websiteId, int $level): ParameterFlowCollection
