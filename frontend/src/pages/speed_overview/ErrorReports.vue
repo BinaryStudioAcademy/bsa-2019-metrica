@@ -37,7 +37,6 @@
         GET_FORMAT_LINE_CHART_DATA
     } from "@/store/modules/error_report/types/getters";
     import {
-        CHANGE_FETCHED_BUTTON_STATE,
         CHANGE_SELECTED_PERIOD,
         FETCH_PAGE_DATA
     } from "@/store/modules/error_report/types/actions";
@@ -99,16 +98,15 @@
             this.fetchPageData();
         },
         methods: {
+            ...mapActions('error_report', {
+                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
+                fetchPageData: FETCH_PAGE_DATA
+            }),
             changeGroupedParameter (parameter) {
                 if (this.currentParameter !== parameter) {
                     this.currentParameter = parameter;
                 }
             },
-            ...mapActions('visitors', {
-                changeFetchingButtonState: CHANGE_FETCHED_BUTTON_STATE,
-                changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
-                fetchPageData: FETCH_PAGE_DATA
-            }),
             changePeriod (data) {
                 this.changeSelectedPeriod(data);
             },
