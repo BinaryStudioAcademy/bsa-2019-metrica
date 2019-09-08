@@ -6,7 +6,7 @@ namespace App\DataTransformer\VisitorsFlow;
 
 use Illuminate\Support\Collection;
 
-class BrowsersCollection
+class ParametersCollection
 {
     private $collection;
 
@@ -18,7 +18,7 @@ class BrowsersCollection
     public function getCollection(): Collection
     {
         return collect($this->collection)->map(function ($item) {
-            return new BrowserItem($item);
+            return new ParameterItem($item);
         });
     }
 }

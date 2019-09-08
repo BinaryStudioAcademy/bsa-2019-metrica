@@ -5,8 +5,8 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow\Contracts;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
-use App\DataTransformer\VisitorsFlow\BrowserFlowCollection;
-use App\DataTransformer\VisitorsFlow\BrowsersCollection;
+use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
+use App\DataTransformer\VisitorsFlow\ParametersCollection;
 
 interface VisitorFlowBrowserRepository extends VisitorFlowRepository
 {
@@ -16,7 +16,7 @@ interface VisitorFlowBrowserRepository extends VisitorFlowRepository
 
     public function getByCriteria(Criteria $criteria): ?BrowserAggregate;
 
-    public function getViewsByEachBrowser(string $type, int $websiteId):BrowsersCollection;
+    public function getViewsByEachBrowser(string $type, int $websiteId): ParametersCollection;
 
-    public function getFlow(int $websiteId):BrowserFlowCollection;
+    public function getFlow(int $websiteId, int $level): ParameterFlowCollection;
 }

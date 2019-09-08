@@ -32,11 +32,15 @@ class GetVisitorsFlowAction
     public function execute(GetVisitorsFlowRequest $request): GetVisitorFlowResponse
     {
         $websiteId = auth()->user()->website->id;
-        switch ($request->getType()) {
+        switch ($request->getParameter()) {
             case 'browser':
-                $browsersViews = $this->visitorsFlowBrowserRepository->getViewsByEachBrowser($request->getType(), $websiteId);
-                $browsersFlow = $this->visitorsFlowBrowserRepository->getFlow($websiteId);
-                return new GetVisitorFlowResponse($browsersViews->getCollection(), $browsersFlow->getCollection());
+                if ($request->getLevel() > 2) {
+                    $browsersFlow = $this->visitorsFlowBrowserRepository->getFlow($websiteId, $request->getLevel());
+                    return new GetVisitorFlowResponse($browsersFlow->getCollection());
+                }
+                $browsersViews = $this->visitorsFlowBrowserRepository->getViewsByEachBrowser($request->getParameter(), $websiteId);
+                $browsersFlow = $this->visitorsFlowBrowserRepository->getFlow($websiteId, $request->getLevel());
+                return new GetVisitorFlowResponse($browsersFlow->getCollection(), $browsersViews->getCollection());
                 break;
             case 'country':
                 break;

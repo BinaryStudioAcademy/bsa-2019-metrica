@@ -7,22 +7,30 @@ use App\Http\Requests\VisitorsFlow\GetVisitorsFlowHttpRequest;
 
 class GetVisitorsFlowRequest
 {
-    private $type;
+    private $parameter;
+    private $level;
 
-    public function __construct(string $type)
+    public function __construct(string $parameter, int $level)
     {
-        $this->type = $type;
+        $this->parameter = $parameter;
+        $this->level = $level;
     }
 
     public static function fromRequest(GetVisitorsFlowHttpRequest $request): self
     {
         return new static(
-            $request->getType()
+            $request->getParameter(),
+            $request->getLevel()
         );
     }
 
-    public function getType(): string
+    public function getParameter(): string
     {
-        return $this->type;
+        return $this->parameter;
+    }
+
+    public function getLevel(): int
+    {
+        return $this->level;
     }
 }

@@ -5,8 +5,8 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
-use App\DataTransformer\VisitorsFlow\BrowserFlowCollection;
-use App\DataTransformer\VisitorsFlow\BrowsersCollection;
+use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
+use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
@@ -77,7 +77,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
         return BrowserAggregate::fromResult($result['hits']['hits'][0]['_source']);
     }
 
-    public function getViewsByEachBrowser(string $type, int $websiteId): BrowsersCollection
+    public function getViewsByEachBrowser(string $type, int $websiteId): ParametersCollection
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -107,10 +107,10 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
 
         ];
         $result = $this->client->search($params);
-        return new BrowsersCollection($result['aggregations']['browsers']['buckets']);
+        return new ParametersCollection($result['aggregations']['browsers']['buckets']);
     }
 
-    public function getFlow(int $websiteId): BrowserFlowCollection
+    public function getFlow(int $websiteId, int $level): ParameterFlowCollection
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -119,6 +119,16 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                     'bool' => [
                         'must' => [
                             ['match' => ['website_id' => $websiteId]],
+                        ],
+                        'filter' => [
+                            $level > 2 ? ['term' => ['level' => $level]] : [
+                                'range' => [
+                                    "level" => [
+                                        'gte' => 1,
+                                        'lte' => 2
+                                    ]
+                                ]
+                            ],
                         ]
                     ]
                 ],
@@ -129,7 +139,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
             ]
         ];
         $result = $this->client->search($params);
-        return new BrowserFlowCollection($result['hits']['hits']);
+        return new ParameterFlowCollection($result['hits']['hits']);
     }
 }
 

@@ -27,7 +27,6 @@ class VisitorsFlowResource extends ResourceCollection implements ApiResponse
     public function presentVisitorsFlow(ParameterFlowItem $item): array
     {
         return [
-            "{$item->getParameter()}" => $item->getParameter(),
             'target_url' => $item->getTargetUrl(),
             'level' => $item->getLevel(),
             'views' => $item->getViews(),

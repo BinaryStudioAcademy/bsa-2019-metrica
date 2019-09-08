@@ -11,11 +11,17 @@ final class GetVisitorsFlowHttpRequest extends ApiFormRequest
     {
         return [
             'filter' => 'required|string',
+            'level' => 'required|int'
         ];
     }
 
-    public function getType(): string
+    public function getParameter(): string
     {
         return $this->get('filter');
+    }
+
+    public function getLevel(): int
+    {
+        return $this->get('level');
     }
 }
