@@ -29,10 +29,14 @@ class GetVisitorsFlowAction
         $this->visitorsFlowScreenRepository = $visitorFlowScreenRepository;
     }
 
-    public function execute(GetVisitorsFlowRequest $request)
+    public function execute(GetVisitorsFlowRequest $request): GetBrowserVisitorFlowResponse
     {
+        $websiteId = auth()->user()->website->id;
         switch ($request->getType()) {
             case 'browser':
+                $browsersViews = $this->visitorsFlowBrowserRepository->getViewsByEachBrowser($request->getType(), $websiteId);
+                $browsersFlow = $this->visitorsFlowBrowserRepository->getFlow($websiteId);
+                return new GetBrowserVisitorFlowResponse($browsersViews->getCollection(), $browsersFlow->getCollection());
                 break;
             case 'country':
                 break;
