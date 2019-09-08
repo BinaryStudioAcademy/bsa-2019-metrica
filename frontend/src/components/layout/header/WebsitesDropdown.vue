@@ -1,7 +1,7 @@
 <template>
     <DefaultDropdown
         class="option-select"
-        :items="websites"
+        :items="items"
         :value="value"
         @change="changeWebsite"
     />
@@ -9,9 +9,6 @@
 
 <script>
     import DefaultDropdown from '@/components/common/DefaultDropdown';
-    import {mapActions, mapGetters} from "vuex";
-    import {GET_RELATE_WEBSITES} from "@/store/modules/website/types/getters";
-    import {FETCH_RELATE_WEBSITES} from "@/store/modules/website/types/actions";
 
     export default {
         name: "WebsitesDropdown",
@@ -23,19 +20,12 @@
                 type:String,
                 required: true
             },
-        },
-        created() {
-            this.fetchRelateWebsites();
-        },
-        computed: {
-            ...mapGetters('website', {
-                websites: GET_RELATE_WEBSITES
-            })
+            items: {
+                type:Array,
+                required: true
+            }
         },
         methods: {
-            ...mapActions('website', {
-                fetchRelateWebsites: FETCH_RELATE_WEBSITES
-            }),
             changeWebsite(selectedItem) {
                 this.$emit("change", selectedItem);
             },

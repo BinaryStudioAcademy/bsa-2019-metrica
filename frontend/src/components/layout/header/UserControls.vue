@@ -6,6 +6,7 @@
         class="pr-2"
     >
         <WebsitesDropdown
+            :items="websites"
             :value="selectedWebsite"
             @change="changeWebsite"
         />
@@ -60,9 +61,13 @@
 <script>
     import {mapActions, mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER} from "@/store/modules/auth/types/getters";
-    import {GET_SELECTED_WEBSITE} from "@/store/modules/website/types/getters";
+    import {GET_SELECTED_WEBSITE, GET_RELATE_WEBSITES} from "@/store/modules/website/types/getters";
     import {LOGOUT} from "@/store/modules/auth/types/actions";
-    import {RESET_DATA, CHANGE_SELECTED_WEBSITE} from "@/store/modules/website/types/actions";
+    import {
+        RESET_DATA,
+        CHANGE_SELECTED_WEBSITE,
+        FETCH_RELATE_WEBSITES
+    } from "@/store/modules/website/types/actions";
     import {SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
     import WebsitesDropdown from "../header/WebsitesDropdown.vue";
 
@@ -81,6 +86,9 @@
                 icon: '/assets/icons/bell.svg'
             }
         }),
+        created() {
+            this.fetchRelateWebsites();
+        },
         methods: {
             ...mapActions('auth', {
                 logout: LOGOUT
@@ -88,6 +96,7 @@
             ...mapActions('website', {
                 resetData: RESET_DATA,
                 changeSelectedWebsite: CHANGE_SELECTED_WEBSITE,
+                fetchRelateWebsites: FETCH_RELATE_WEBSITES
             }),
             ...mapActions('notification', {
                 showErrorMessage: SHOW_ERROR_MESSAGE
@@ -110,6 +119,7 @@
             }),
             ...mapGetters('website', {
                 selectedWebsite: GET_SELECTED_WEBSITE,
+                websites: GET_RELATE_WEBSITES
             }),
 
         }

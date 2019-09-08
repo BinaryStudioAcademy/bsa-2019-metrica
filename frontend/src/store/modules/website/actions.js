@@ -37,8 +37,9 @@ export default {
             if(id === 0) {
                 context.commit(SET_DEFAULT_SELECTED_WEBSITE, response.data);
             }
-        }).catch(() => {
+        }).catch((error) => {
             context.commit(RESET_CURRENT_WEBSITE);
+            throw error;
         });
     },
 
@@ -136,8 +137,10 @@ export default {
             return;
         }
 
-        context.commit(SET_SELECTED_WEBSITE, payload);
-        context.dispatch(FETCH_CURRENT_WEBSITE);
+        context.commit(SET_SELECTED_WEBSITE, payload)
+            .then(() => {
+                return context.dispatch(FETCH_CURRENT_WEBSITE);
+            });
     },
 
     [FETCH_RELATE_WEBSITES]: (context) => {
