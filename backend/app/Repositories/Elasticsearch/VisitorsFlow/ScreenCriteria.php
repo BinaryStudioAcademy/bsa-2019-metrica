@@ -8,7 +8,7 @@ use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 class ScreenCriteria implements Criteria
 {
     public $websiteId;
-    public $url;
+    public $targetUrl;
     public $level;
     public $resolutionWidth;
     public $resolutionHeight;
@@ -16,7 +16,7 @@ class ScreenCriteria implements Criteria
 
     private function __construct(
         int $websiteId,
-        string $url,
+        string $targetUrl,
         int $level,
         ?string $prevPageUrl,
         string $resolutionWidth,
@@ -24,18 +24,18 @@ class ScreenCriteria implements Criteria
     )
     {
         $this->websiteId = $websiteId;
-        $this->url = $url;
+        $this->targetUrl = $targetUrl;
         $this->level = $level;
         $this->resolutionWidth = $resolutionWidth;
         $this->resolutionHeight = $resolutionHeight;
         $this->prevPageUrl = $prevPageUrl;
     }
 
-    public static function getCriteria(int $websiteId, string $url, int $level, ?string $prevPageUrl, ...$params)
+    public static function getCriteria(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, ...$params)
     {
         return new static(
             $websiteId,
-            $url,
+            $targetUrl,
             $level,
             $prevPageUrl,
             $params[0],

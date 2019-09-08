@@ -124,6 +124,7 @@ final class FlowAggregateService
         if (!$browserAggregate) {
             $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
             $browserAggregate = $this->visitorFlowBrowserRepository->save($browserAggregate);
+            dd($browserAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = BrowserAggregate::getPreviousAggregate(
@@ -139,11 +140,11 @@ final class FlowAggregateService
             $browserAggregate->views++;
             $browserAggregate->exitCount++;
             $browserAggregate = $this->visitorFlowBrowserRepository->update($browserAggregate);
+            dd($browserAggregate);
         }
         if (!$deviceAggregate) {
             $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
             $deviceAggregate = $this->visitorFlowDeviceRepository->save($deviceAggregate);
-            dd($deviceAggregate);
         } else {
             if ($level > 1) {
                 $previousAggregate = DeviceAggregate::getPreviousAggregate(
@@ -159,7 +160,6 @@ final class FlowAggregateService
             $deviceAggregate->views++;
             $deviceAggregate->exitCount++;
             $deviceAggregate = $this->visitorFlowDeviceRepository->update($deviceAggregate);
-            dd($deviceAggregate);
         }
 
         if (!$screenAggregate) {
@@ -227,7 +227,7 @@ final class FlowAggregateService
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
             $this->visitorFlowCountryRepository->update($previousAggregate);
-            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
 
         $isLatPage = true;
@@ -262,7 +262,7 @@ final class FlowAggregateService
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
             $this->visitorFlowBrowserRepository->update($previousAggregate);
-            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
         $isLatPage = true;
@@ -296,7 +296,7 @@ final class FlowAggregateService
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
             $this->visitorFlowDeviceRepository->update($previousAggregate);
-            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
         $isLatPage = true;
@@ -330,7 +330,7 @@ final class FlowAggregateService
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
             $this->visitorFlowScreenRepository->update($previousAggregate);
-            $prevPage = new PageValue($previousVisit->id, $previousAggregate->url);
+            $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
         $isLatPage = true;

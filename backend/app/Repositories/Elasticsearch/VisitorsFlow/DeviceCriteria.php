@@ -8,25 +8,25 @@ use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 class DeviceCriteria implements Criteria
 {
     public $websiteId;
-    public $url;
+    public $targetUrl;
     public $level;
     public $device;
     public $prevPageUrl;
 
-    private function __construct(int $websiteId, string $url, int $level, ?string $prevPageUrl, string $device)
+    private function __construct(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, string $device)
     {
         $this->websiteId = $websiteId;
-        $this->url = $url;
+        $this->targetUrl = $targetUrl;
         $this->level = $level;
         $this->device = $device;
         $this->prevPageUrl = $prevPageUrl;
     }
 
-    public static function getCriteria(int $websiteId, string $url, int $level, ?string $prevPageUrl, ...$params)
+    public static function getCriteria(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, ...$params)
     {
         return new static(
             $websiteId,
-            $url,
+            $targetUrl,
             $level,
             $prevPageUrl,
             $params[0]

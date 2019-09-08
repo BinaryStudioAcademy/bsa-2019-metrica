@@ -15,7 +15,7 @@ class DeviceAggregate extends Aggregate
     public function __construct(
         int $id,
         int $websiteId,
-        string $url,
+        string $targetUrl,
         string $title,
         int $views,
         int $level,
@@ -25,7 +25,7 @@ class DeviceAggregate extends Aggregate
         PageValue $prevPage
     )
     {
-        parent::__construct($id, $websiteId, $url, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
+        parent::__construct($id, $websiteId, $targetUrl, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
         $this->device = $device;
     }
 
@@ -38,17 +38,17 @@ class DeviceAggregate extends Aggregate
     {
         return new static(
             (int)$result['id'],
-            (int)$result['websiteId'],
-            (string)$result['url'],
+            (int)$result['website_id'],
+            (string)$result['target_url'],
             (string)$result['title'],
             (int)$result['views'],
             (int)$result['level'],
-            (bool)$result['isLastPage'],
-            (int)$result['exitCount'],
+            (bool)$result['is_last_page'],
+            (int)$result['exit_count'],
             (string)$result['device'],
             new PageValue(
-                (int)$result['prevPage']['id'],
-                (string)$result['prevPage']['url']
+                (int)$result['prev_page']['id'],
+                (string)$result['prev_page']['source_url']
             )
         );
     }

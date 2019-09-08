@@ -11,7 +11,7 @@ abstract class Aggregate
 {
     public $id;
     public $websiteId;
-    public $url;
+    public $targetUrl;
     public $title;
     public $prevPage;
     public $views;
@@ -22,7 +22,7 @@ abstract class Aggregate
     public function __construct(
         int $id,
         int $websiteId,
-        string $url,
+        string $targetUrl,
         string $title,
         int $views,
         int $level,
@@ -33,7 +33,7 @@ abstract class Aggregate
     {
         $this->id = $id;
         $this->websiteId = $websiteId;
-        $this->url = $url;
+        $this->targetUrl = $targetUrl;
         $this->title = $title;
         $this->views = $views;
         $this->level = $level;
@@ -47,17 +47,17 @@ abstract class Aggregate
     {
         return [
             'id' => $this->id,
-            'websiteId' => $this->websiteId,
-            'url' => $this->url,
+            'website_id' => $this->websiteId,
+            'target_url' => $this->targetUrl,
             'title' => $this->title,
-            'prevPage' => [
+            'prev_page' => [
                 'id' => $this->prevPage->id,
-                'url' => $this->prevPage->url
+                'source_url' => $this->prevPage->url
             ],
             'level' => $this->level,
             'views' => $this->views,
-            'isLastPage' => $this->isLastPage,
-            'exitCount' => $this->exitCount
+            'is_last_page' => $this->isLastPage,
+            'exit_count' => $this->exitCount
         ];
     }
 

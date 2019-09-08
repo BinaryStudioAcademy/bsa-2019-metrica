@@ -8,25 +8,25 @@ use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 class CountryCriteria implements Criteria
 {
     public $websiteId;
-    public $url;
+    public $targetUrl;
     public $level;
     public $country;
     public $prevPageUrl;
 
-    private function __construct(int $websiteId, string $url, int $level, ?string $prevPageUrl, string $country)
+    private function __construct(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, string $country)
     {
         $this->websiteId = $websiteId;
-        $this->url = $url;
+        $this->targetUrl = $targetUrl;
         $this->level = $level;
         $this->country = $country;
         $this->prevPageUrl = $prevPageUrl;
     }
 
-    public static function getCriteria(int $websiteId, string $url, int $level, ?string $prevPageUrl, ...$params)
+    public static function getCriteria(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, ...$params)
     {
         return new static(
             $websiteId,
-            $url,
+            $targetUrl,
             $level,
             $prevPageUrl,
             $params[0]
