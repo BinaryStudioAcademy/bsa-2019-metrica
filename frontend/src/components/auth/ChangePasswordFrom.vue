@@ -68,6 +68,7 @@
     import {mapActions} from 'vuex';
     import {validatePassword} from '@/services/validation';
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
+    import jwtService from "@/services/jwtService";
 
     export default {
         name: "ChangePasswordForm",
@@ -79,7 +80,6 @@
                     password: '',
                     confirmPassword: '',
                 },
-
                 valid: false,
                 passwordRules: [
                     v => !!v || 'Password is required',
@@ -90,6 +90,12 @@
                     v => v === this.newUser.password || 'Password should match'
                 ]
             };
+        },
+        created() {
+            if (jwtService.checkExpireToken(this.$route.query.token)) {
+                this.showErrorMessage('Sorry, your token was expired. Please, enter your email again.');
+                this.$router.push({name: 'reset-password'});
+            }
         },
         methods: {
             ...mapActions('auth', {
@@ -116,10 +122,6 @@
         align-items: center;
         max-width: 80%;
         margin-bottom: 20px;
-    }
-
-    .choice{
-        margin: 0 15px;
     }
 
     .form{
