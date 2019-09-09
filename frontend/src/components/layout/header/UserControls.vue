@@ -6,8 +6,8 @@
         class="pr-2"
     >
         <WebsitesDropdown
-            :items="getWebsites()"
-            :value="getSelectedValue()"
+            :items="getWebsites"
+            :value="selectedValue"
             @change="changeWebsite"
         />
         <VBtn
@@ -103,23 +103,8 @@
                 this.$router.push({ name: 'home' });
             },
             changeWebsite(data) {
-                let website = {};
-                this.websites.map((item) => {
-                    item.domain === data.value ? website = item : website;
-                });
-                this.changeSelectedWebsite(website);
+                this.changeSelectedWebsite(data.value);
             },
-            getWebsites() {
-                return this.websites.map((item) => {
-                    return {
-                        title: item.name + ' - ' + item.role,
-                        value: item.domain,
-                    };
-                });
-            },
-            getSelectedValue() {
-                return this.selectedWebsite.domain ? this.selectedWebsite.domain : '';
-            }
         },
         computed: {
             ...mapGetters('auth',  {
@@ -127,9 +112,17 @@
             }),
             ...mapGetters('website', {
                 selectedWebsite: GET_SELECTED_WEBSITE,
-                websites: GET_RELATE_WEBSITES
+                websites: GET_RELATE_WEBSITES,
+                selectedValue: GET_SELECTED_WEBSITE
             }),
-
+            getWebsites() {
+                return this.websites.map((item) => {
+                    return {
+                        title: item.name + ' - ' + item.role,
+                        value: '' + item.id
+                    };
+                });
+            },
         }
     };
 </script>

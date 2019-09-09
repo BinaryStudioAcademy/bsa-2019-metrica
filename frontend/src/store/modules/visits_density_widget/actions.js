@@ -24,7 +24,7 @@ export default {
         context.commit(SET_IS_FETCHING);
 
         const period = getTimeByPeriod(context.state.selectedPeriod);
-        const id = context.rootState.website.selectedWebsite.id;
+        const id = context.rootState.website.selectedWebsite;
 
         return getVisitsDensity(period.startDate.unix(), period.endDate.unix(), id)
             .then(getVisitsData => context.commit(SET_VISITS_DATA, getVisitsData))

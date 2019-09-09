@@ -130,27 +130,27 @@ export default {
         context.commit(RESET_WEBSITES_DATA);
     },
 
-    [CHANGE_SELECTED_WEBSITE]: (context, website) => {
-        if (!website) {
+    [CHANGE_SELECTED_WEBSITE]: (context, id) => {
+        if (!id) {
             return;
         }
-        if (context.state.selectedWebsite.id === website.id) {
+        if (context.state.selectedWebsite.id === id) {
             return;
         }
 
-        context.commit(SET_SELECTED_WEBSITE, website);
+        context.commit(SET_SELECTED_WEBSITE, id);
     },
 
     [DEFAULT_SELECTED_WEBSITE]: (context, websites) => {
         let selected = false;
         websites.forEach(function(website) {
             if(website.role === 'owner') {
-                context.commit(SET_SELECTED_WEBSITE, website);
+                context.commit(SET_SELECTED_WEBSITE, '' + website.id);
                 selected = true;
             }
         });
         if(!selected) {
-            context.commit(SET_SELECTED_WEBSITE, websites[0]);
+            context.commit(SET_SELECTED_WEBSITE, '' + websites[0].id);
         }
         context.commit(SET_CURRENT_WEBSITE);
     },

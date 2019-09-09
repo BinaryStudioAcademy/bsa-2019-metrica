@@ -25,7 +25,7 @@ export default {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
-        const id = context.rootState.website.selectedWebsite.id;
+        const id = context.rootState.website.selectedWebsite;
 
         context.commit(SET_DATA_FETCHING);
         return fetchDevicesAndSystemsData(startDate.unix(), endDate.unix(), id)

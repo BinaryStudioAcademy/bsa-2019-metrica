@@ -45,8 +45,8 @@ export default {
         state.isCurrentWebsite = false;
         state.isFetchedWebsite = false;
     },
-    [SET_SELECTED_WEBSITE]: (state, website) => {
-        state.selectedWebsite = website;
+    [SET_SELECTED_WEBSITE]: (state, id) => {
+        state.selectedWebsite = id;
     },
     [RESET_FETCH_WEBSITES]: (state) => {
         state.isFetchedWebsite = false;
