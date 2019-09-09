@@ -43,8 +43,7 @@ final class FlowAggregateService
         VisitorFlowBrowserRepository $visitorFlowBrowserRepository,
         VisitorFlowDeviceRepository $visitorFlowDeviceRepository,
         VisitorFlowScreenRepository $visitorFlowScreenRepository
-    )
-    {
+    ) {
         $this->pageRepository = $pageRepository;
         $this->visitRepository = $visitRepository;
         $this->visitorFlowCountryRepository = $visitorFlowCountryRepository;
@@ -63,17 +62,12 @@ final class FlowAggregateService
         return 1;
     }
 
-    public function aggregate(Visit $visit)
+    private function updateCountryAggregate(
+        Visit $visit,
+        int $level,
+        Visit $previousVisit,
+        ?CountryAggregate $countryAggregate): void
     {
-        $previousVisit = $this->getLastVisit($visit);
-        $isFirstInSession = $previousVisit === null;
-        $level = $this->getLevel($visit, $isFirstInSession);
-
-        $countryAggregate = $this->getCountryAggregate($visit, $level, $isFirstInSession, $previousVisit);
-        $browserAggregate = $this->getBrowserAggregate($visit, $level, $isFirstInSession, $previousVisit);
-        $deviceAggregate = $this->getDeviceAggregate($visit, $level, $isFirstInSession, $previousVisit);
-        $screenAggregate = $this->getScreenAggregate($visit, $level, $isFirstInSession, $previousVisit);
-
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $this->visitorFlowCountryRepository->save($countryAggregate);
@@ -93,7 +87,14 @@ final class FlowAggregateService
             $countryAggregate->exitCount++;
             $this->visitorFlowCountryRepository->update($countryAggregate);
         }
+    }
 
+    private function updateBrowserAggregate(
+        Visit $visit,
+        int $level,
+        Visit $previousVisit,
+        ?BrowserAggregate $browserAggregate): void
+    {
         if (!$browserAggregate) {
             $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
             $this->visitorFlowBrowserRepository->save($browserAggregate);
@@ -113,6 +114,14 @@ final class FlowAggregateService
             $browserAggregate->exitCount++;
             $this->visitorFlowBrowserRepository->update($browserAggregate);
         }
+    }
+
+    private function updateDeviceAggregate(
+        Visit $visit,
+        int $level,
+        Visit $previousVisit,
+        ?DeviceAggregate $deviceAggregate): void
+    {
         if (!$deviceAggregate) {
             $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
             $this->visitorFlowDeviceRepository->save($deviceAggregate);
@@ -132,26 +141,51 @@ final class FlowAggregateService
             $deviceAggregate->exitCount++;
             $this->visitorFlowDeviceRepository->update($deviceAggregate);
         }
+    }
 
+    private function updateScreenAggregate(
+        Visit $visit,
+        int $level,
+        Visit $previousVisit,
+        ?ScreenAggregate $screenAggregate): void
+    {
         if (!$screenAggregate) {
             $screenAggregate = $this->createScreenAggregate($visit, $level, $previousVisit);
             $this->visitorFlowScreenRepository->save($screenAggregate);
-        } else {
-            if ($level > 1) {
-                $previousAggregate = ScreenAggregate::getPreviousAggregate(
-                    $this->visitorFlowScreenRepository,
-                    $previousVisit,
-                    $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                    $level
-                );
-                $previousAggregate->isLastPage = false;
-                $previousAggregate->exitCount--;
-                $this->visitorFlowScreenRepository->update($previousAggregate);
-            }
-            $screenAggregate->views++;
-            $screenAggregate->exitCount++;
-            $this->visitorFlowScreenRepository->update($screenAggregate);
+            return;
         }
+        if ($level > 1) {
+            $previousAggregate = ScreenAggregate::getPreviousAggregate(
+                $this->visitorFlowScreenRepository,
+                $previousVisit,
+                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+                $level
+            );
+            $previousAggregate->isLastPage = false;
+            $previousAggregate->exitCount--;
+            $this->visitorFlowScreenRepository->update($previousAggregate);
+        }
+        $screenAggregate->views++;
+        $screenAggregate->exitCount++;
+        $this->visitorFlowScreenRepository->update($screenAggregate);
+    }
+
+
+    public function aggregate(Visit $visit)
+    {
+        $previousVisit = $this->getLastVisit($visit);
+        $isFirstInSession = $previousVisit === null;
+        $level = $this->getLevel($visit, $isFirstInSession);
+
+        $countryAggregate = $this->getCountryAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $browserAggregate = $this->getBrowserAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $deviceAggregate = $this->getDeviceAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $screenAggregate = $this->getScreenAggregate($visit, $level, $isFirstInSession, $previousVisit);
+
+        $this->updateCountryAggregate($visit, $level, $previousVisit, $countryAggregate);
+        $this->updateBrowserAggregate($visit, $level, $previousVisit, $browserAggregate);
+        $this->updateDeviceAggregate($visit, $level, $previousVisit, $deviceAggregate);
+        $this->updateScreenAggregate($visit, $level, $previousVisit, $screenAggregate);
     }
 
     private function getLastVisit(Visit $currentVisit): ?Visit
