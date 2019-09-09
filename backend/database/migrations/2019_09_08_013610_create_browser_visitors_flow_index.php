@@ -8,6 +8,7 @@ class CreateBrowserVisitorsFlowIndex extends Migration
 
     public function up()
     {
+        $this->down();
         $client = app('elasticsearch');
         $params = [
             'index' => self::INDEX_NAME,
@@ -28,6 +29,8 @@ class CreateBrowserVisitorsFlowIndex extends Migration
     {
         $client = app('elasticsearch');
         $params = ['index' => self::INDEX_NAME];
-        $client->indices()->delete($params);
+        if ($client->indices()->exists($params)) {
+            $client->indices()->delete($params);
+        }
     }
 }
