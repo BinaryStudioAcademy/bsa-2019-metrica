@@ -24,7 +24,6 @@ final class EloquentErrorReportRepository implements ErrorReportRepository
         string $interval,
         int $websiteId
     ): Collection {
-
         $subQuerySecond = "SELECT errors.*, 
         ( " . $this->getPeriod('errors.created_at', $interval) . ") as period FROM errors  
         LEFT JOIN pages  ON pages.id = errors.page_id
