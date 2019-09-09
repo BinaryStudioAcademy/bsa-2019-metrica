@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Repositories\Contracts\TableVisitorsRepository;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\DataTransformer\TableValue;
 use App\Entities\Visitor;
