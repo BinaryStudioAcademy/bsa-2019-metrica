@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Request;
+namespace App\Http\Requests\PageTimings;
 
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
+use App\Http\Request\ApiFormRequest;
 
 final class PageTimingTableHttpRequest extends ApiFormRequest
 {

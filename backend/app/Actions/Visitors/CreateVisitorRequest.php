@@ -10,7 +10,7 @@ final class CreateVisitorRequest
 {
     private $trackNumber;
 
-    private function __construct(string $trackNumber)
+    private function __construct(int $trackNumber)
     {
         $this->trackNumber = $trackNumber;
     }
@@ -18,11 +18,11 @@ final class CreateVisitorRequest
     public static function fromRequest(CreateVisitorHttpRequest $request): self
     {
         return new static(
-            $request->trackNumber()
+            (int) $request->trackNumber()
         );
     }
 
-    public function trackNumber(): string
+    public function trackNumber(): int
     {
         return $this->trackNumber;
     }

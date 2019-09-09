@@ -21,21 +21,20 @@ class ActivityVisitorTest extends TestCase
     private $user;
     private $website;
     private $firstDate;
+    private $secondDate;
     private $thirdDate;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
-        $this->website = factory(Website::class)->create([
-            'id' => 1
-        ]);
-        $this->user->websites()->attach($this->website->id, [
-            'role' => 'owner'
+        $this->user = factory(User::class)->create([
+            'id'=>1
         ]);
         $firstDate = Carbon::now('UTC')->subMinutes(15);
+        $secondDate = Carbon::now('UTC')->subMinutes(1);
         $thirdDate = Carbon::now('UTC')->subMinutes(2);
         $this->firstDate = $firstDate;
+        $this->secondDate = $secondDate;
         $this->thirdDate = $thirdDate;
         $this->seedDataBase();
     }
@@ -49,17 +48,7 @@ class ActivityVisitorTest extends TestCase
         $expectedData = [
             "data" => [
                 [
-                    'url' => "http://page_2.test",
-                    'visitor' => 2,
-                    'date' => $this->thirdDate->format('Y-m-d H:i:s')
-                ],
-                [
                     'url' => "http://page_1.test",
-                    'visitor' => 1,
-                    'date' => $this->thirdDate->format('Y-m-d H:i:s')
-                ],
-                [
-                    'url' => "http://page_2.test",
                     'visitor' => 1,
                     'date' => $this->thirdDate->format('Y-m-d H:i:s')
                 ],
@@ -76,6 +65,10 @@ class ActivityVisitorTest extends TestCase
 
     public function seedDataBase()
     {
+        factory(Website::class)->create([
+            'id' => 1,
+            'user_id'=>1
+        ]);
         factory(Visitor::class)->create(
             [
                 'id' => 1,
@@ -86,7 +79,7 @@ class ActivityVisitorTest extends TestCase
         factory(Visitor::class)->create(
             [
                 'id' => 2,
-                'last_activity' => $this->firstDate
+                'last_activity' => $this->firstDate,
             ]
         );
 
