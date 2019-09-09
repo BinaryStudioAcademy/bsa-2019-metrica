@@ -43,7 +43,8 @@ final class FlowAggregateService
         VisitorFlowBrowserRepository $visitorFlowBrowserRepository,
         VisitorFlowDeviceRepository $visitorFlowDeviceRepository,
         VisitorFlowScreenRepository $visitorFlowScreenRepository
-    ) {
+    )
+    {
         $this->pageRepository = $pageRepository;
         $this->visitRepository = $visitRepository;
         $this->visitorFlowCountryRepository = $visitorFlowCountryRepository;
@@ -63,43 +64,11 @@ final class FlowAggregateService
         } else {
             $level = 1;
         }
-        $countryAggregate = $this->visitorFlowCountryRepository->getByCriteria(
-            CountryCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level,
-                $isFirstInSession ? 'null' : $previousVisit->page->url,
-                $visit->geo_position->country
-            )
-        );
-        $browserAggregate = $this->visitorFlowBrowserRepository->getByCriteria(
-            BrowserCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level,
-                $isFirstInSession ? 'null' : $previousVisit->page->url,
-                $visit->session->system->browser
-            )
-        );
-        $deviceAggregate = $this->visitorFlowDeviceRepository->getByCriteria(
-            DeviceCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level,
-                $isFirstInSession ? 'null' : $previousVisit->page->url,
-                $visit->session->system->device
-            )
-        );
-        $screenAggregate = $this->visitorFlowScreenRepository->getByCriteria(
-            ScreenCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level,
-                $isFirstInSession ? 'null' : $previousVisit->page->url,
-                $visit->session->system->resolution_width,
-                $visit->session->system->resolution_height
-            )
-        );
+        $countryAggregate = $this->getCountryAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $browserAggregate = $this->getBrowserAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $deviceAggregate = $this->getDeviceAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $screenAggregate = $this->getScreenAggregate($visit, $level, $isFirstInSession, $previousVisit);
+
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $this->visitorFlowCountryRepository->save($countryAggregate);
@@ -344,6 +313,59 @@ final class FlowAggregateService
             $currentVisit->session->system->resolution_width,
             $currentVisit->session->system->resolution_height,
             $prevPage
+        );
+    }
+
+    private function getBrowserAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): BrowserAggregate
+    {
+        return $this->visitorFlowBrowserRepository->getByCriteria(
+            BrowserCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->session->system->browser
+            )
+        );
+    }
+
+    private function getCountryAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): CountryAggregate
+    {
+        return $this->visitorFlowCountryRepository->getByCriteria(
+            CountryCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->geo_position->country
+            )
+        );
+    }
+
+    private function getDeviceAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): DeviceAggregate
+    {
+        return $this->visitorFlowDeviceRepository->getByCriteria(
+            DeviceCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->session->system->device
+            )
+        );
+    }
+
+    private function getScreenAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): ScreenAggregate
+    {
+        return $this->visitorFlowScreenRepository->getByCriteria(
+            ScreenCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $visit->session->system->resolution_width,
+                $visit->session->system->resolution_height
+            )
         );
     }
 }
