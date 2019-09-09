@@ -83,7 +83,7 @@
             fetch: null,
         }),
         mounted() {
-            const channel = echoInstance.private('active-users.'+ this.website.id);
+            const channel = echoInstance.private('active-users.'+ this.website);
             channel.listen('ActiveUserEvent', (data) => this.refreshActivityDataItems(data));
         },
         computed: {

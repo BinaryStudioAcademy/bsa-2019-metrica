@@ -77,7 +77,7 @@
     import TrackWebsite from './TrackWebsite.vue';
     import ContentLayout from '../layout/ContentLayout.vue';
     import { mapGetters, mapActions } from 'vuex';
-    import {GET_SELECTED_WEBSITE} from "../../store/modules/website/types/getters";
+    import {GET_WEBSITE_DATA} from "../../store/modules/website/types/getters";
     import {UPDATE_WEBSITE} from "../../store/modules/website/types/actions";
 
     export default {
@@ -98,7 +98,7 @@
         }),
         computed: {
             ...mapGetters('website', {
-                currentWebsite: GET_SELECTED_WEBSITE
+                currentWebsite: GET_WEBSITE_DATA
             }),
             websiteName: {
                 set(value) {

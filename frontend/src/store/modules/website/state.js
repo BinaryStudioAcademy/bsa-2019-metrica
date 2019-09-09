@@ -5,7 +5,7 @@ export default {
         single_page: false,
     },
     relateUserWebsites: [],
-    selectedWebsite: '',
+    selectedWebsite: undefined,
     isCurrentWebsite: false,
     isFetchedWebsites: false,
 };

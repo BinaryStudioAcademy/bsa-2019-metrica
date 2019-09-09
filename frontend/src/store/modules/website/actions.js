@@ -31,7 +31,7 @@ export default {
 
         return getRelateUserWebsites().then(response => {
             context.commit(SET_RELATE_WEBSITES, response);
-            context.dispatch(DEFAULT_SELECTED_WEBSITE, response);
+            context.dispatch(DEFAULT_SELECTED_WEBSITE);
         })
             .catch(() => {
             context.commit(RESET_CURRENT_WEBSITES);
@@ -134,24 +134,21 @@ export default {
         if (!id) {
             return;
         }
-        if (context.state.selectedWebsite.id === id) {
+        if (context.state.selectedWebsite === id) {
             return;
         }
 
         context.commit(SET_SELECTED_WEBSITE, id);
     },
 
-    [DEFAULT_SELECTED_WEBSITE]: (context, websites) => {
-        let selected = false;
-        websites.forEach(function(website) {
-            if(website.role === 'owner') {
-                context.commit(SET_SELECTED_WEBSITE, '' + website.id);
-                selected = true;
-            }
-        });
-        if(!selected) {
-            context.commit(SET_SELECTED_WEBSITE, '' + websites[0].id);
-        }
+    [DEFAULT_SELECTED_WEBSITE]: (context) => {
+        const website = context.state.relateUserWebsites.find(function(website) {
+                return website.role === 'owner';
+            }) || context.state.relateUserWebsites[0];
+
+        const websiteId = website ? website.id : undefined;
+
+        context.commit(SET_SELECTED_WEBSITE, websiteId);
         context.commit(SET_CURRENT_WEBSITE);
     },
 };

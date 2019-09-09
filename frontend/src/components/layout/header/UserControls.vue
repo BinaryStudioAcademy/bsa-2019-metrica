@@ -7,7 +7,7 @@
     >
         <WebsitesDropdown
             :items="getWebsites"
-            :value="selectedValue"
+            :value="getValue"
             @change="changeWebsite"
         />
         <VBtn
@@ -66,7 +66,6 @@
     import {
         RESET_DATA,
         CHANGE_SELECTED_WEBSITE,
-        FETCH_RELATE_WEBSITES
     } from "@/store/modules/website/types/actions";
     import WebsitesDropdown from "../header/WebsitesDropdown.vue";
 
@@ -85,9 +84,6 @@
                 icon: '/assets/icons/bell.svg'
             }
         }),
-        created() {
-            this.fetchRelateWebsites();
-        },
         methods: {
             ...mapActions('auth', {
                 logout: LOGOUT
@@ -95,7 +91,6 @@
             ...mapActions('website', {
                 resetData: RESET_DATA,
                 changeSelectedWebsite: CHANGE_SELECTED_WEBSITE,
-                fetchRelateWebsites: FETCH_RELATE_WEBSITES
             }),
             endSession() {
                 this.logout();
@@ -103,7 +98,7 @@
                 this.$router.push({ name: 'home' });
             },
             changeWebsite(data) {
-                this.changeSelectedWebsite(data.value);
+                this.changeSelectedWebsite(Number(data.value));
             },
         },
         computed: {
@@ -111,7 +106,6 @@
                 user: GET_AUTHENTICATED_USER,
             }),
             ...mapGetters('website', {
-                selectedWebsite: GET_SELECTED_WEBSITE,
                 websites: GET_RELATE_WEBSITES,
                 selectedValue: GET_SELECTED_WEBSITE
             }),
@@ -119,10 +113,13 @@
                 return this.websites.map((item) => {
                     return {
                         title: item.name + ' - ' + item.role,
-                        value: '' + item.id
+                        value: item.id.toString()
                     };
                 });
             },
+            getValue() {
+                return this.selectedValue ? this.selectedValue.toString() : '';
+            }
         }
     };
 </script>
