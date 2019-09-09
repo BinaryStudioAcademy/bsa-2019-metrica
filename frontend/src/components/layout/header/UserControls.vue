@@ -6,8 +6,8 @@
         class="pr-2"
     >
         <WebsitesDropdown
-            :items="getWebsites"
-            :value="getValue"
+            :items="items"
+            :value="value"
             @change="changeWebsite"
         />
         <VBtn
@@ -109,7 +109,7 @@
                 websites: GET_RELATE_WEBSITES,
                 selectedValue: GET_SELECTED_WEBSITE
             }),
-            getWebsites() {
+            items() {
                 return this.websites.map((item) => {
                     return {
                         title: item.name + ' - ' + item.role,
@@ -117,7 +117,7 @@
                     };
                 });
             },
-            getValue() {
+            value() {
                 return this.selectedValue ? this.selectedValue.toString() : '';
             }
         }

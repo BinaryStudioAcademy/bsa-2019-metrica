@@ -8,7 +8,7 @@ const addWebsite = data => requestService.create(resourceUrl, data);
 
 const updateWebsite = (data, id) => requestService.update(resourceUrl + '/' + id, data);
 
-const getRelateUserWebsites = () => requestService.get(resourceUrl + '/all')
+const getRelateUserWebsites = () => requestService.get(resourceUrl)
     .then(response => response.data)
     .catch(error => Promise.reject(
         new Error(

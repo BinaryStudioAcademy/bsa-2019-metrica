@@ -33,7 +33,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'websites'
         ], function () {
             Route::post('/', 'WebsiteController@add');
-            Route::get('/all', 'WebsiteController@getRelateUserWebsites');
+            Route::get('/', 'WebsiteController@getRelateUserWebsites');
         });
 
         Route::get('/os/most-popular', 'SystemController@getMostPopularOs');

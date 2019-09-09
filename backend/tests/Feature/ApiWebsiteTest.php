@@ -259,7 +259,7 @@ class ApiWebsiteTest extends TestCase
         ];
 
         $this->actingAs($user1)
-            ->call('GET', '/api/v1/websites/all')
+            ->call('GET', '/api/v1/websites')
             ->assertOk()
             ->assertJson($expectedData);
     }
