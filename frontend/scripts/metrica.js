@@ -3,9 +3,9 @@
         post(url, data, headers = {}) {
             return fetch(url, {
                 method: 'POST',
-                crossDomain: true,
+                mode: 'cors',
                 headers: headers,
-                body: data
+                body: JSON.stringify(data)
             });
         }
     }
@@ -21,7 +21,6 @@
         endTime: undefined,
         configMetrica: undefined,
         initialize() {
-            this.setObjectMetricaConf();
             let token = this.getToken();
             if (token) {
                 this.createVisit();
@@ -40,6 +39,7 @@
             if(metricaConfig.length === 0) {
                 metricaConfig.push(['dateStart', new Date()]);
                 metricaConfig.push(['tracking_id', this.getTrackingIdFromUrl()]);
+                metricaConfig.push(['spa', this.getSPAFromUrl()]);
             }
 
             if(metricaConfig[0].length < 2) {
@@ -51,15 +51,26 @@
                 metricaConfig[1] = [];
                 metricaConfig[1].push('tracking_id', this.getTrackingIdFromUrl());
             }
+
+            if(metricaConfig.length === 2 || metricaConfig[2].length < 2) {
+                metricaConfig[2] = [];
+                metricaConfig[2].push('spa', this.getSPAFromUrl());
+            }
+
             this.configMetrica = metricaConfig;
         },
+        getScriptSRC() {
+            return document.querySelector(`script[src^='${state.host}metrica.js?']`).src;
+        },
         getTrackingIdFromUrl(){
-            let myScript = document.querySelector(`script[src^='${state.host}metrica.js?']`);
-            let result = (myScript.src || '').match(/tracking_id=(\d+)/i);
+            let result = (this.getScriptSRC() || '').match(/tracking_id=(\d+)/i);
             if (result === null)
                 throw new Error('Tracking id not found');
 
             return result[1];
+        },
+        getSPAFromUrl(){
+            return /spa=true/i.test(this.getScriptSRC() || '');
         },
         getObjectMetricaConf() {
             return this.configMetrica;
@@ -128,6 +139,8 @@
                 Helper.getPropByString(window, 'innerHeight');
         },
         getVisit() {
+            const spa = this.getObjectMetricaConf()[2][1];
+            let page_load_time = !spa ? this.elastedTime(this.getObjectMetricaConf()[0][1], this.endTime) : 0;
             return {
                 visitor_token: this.getToken(),
                 user_agent: this.getUserAgent(),
@@ -137,10 +150,7 @@
                 device: this.getDevice(),
                 resolution_width: this.getResolutionWith(),
                 resolution_height: this.getResolutionHeight(),
-                page_load_time: this.elastedTime(
-                    this.getObjectMetricaConf()[0][1],
-                    this.endTime
-                ),
+                page_load_time: page_load_time,
             };
         },
         fetchWrapper(){
@@ -167,7 +177,7 @@
                 'Content-Type': 'application/json',
                 'x-visitor': 'Bearer ' + this.getToken()
             };
-            let data = JSON.stringify(this.getVisit());
+            let data = this.getVisit();
             return this.fetchWrapper().post(url, data, headers);
         },
         elastedTime(startTime, endTime) {
@@ -316,14 +326,24 @@
             return device;
         }
     };
+
     const onDomReady = () => {
         window._metricaTracking.endTime = new Date();
         window._metricaTracking.initialize();
     };
 
+    const onDomReadySPA = () => {
+        window.onpopstate = () => window._metricaTracking.initialize();
+    };
+
+    window._metricaTracking.setObjectMetricaConf();
+
+    const isSPA = window._metricaTracking.getObjectMetricaConf()[2][1];
+
+
     if (document.readyState !== 'complete') {
-        window.onload = onDomReady;
+        window.onload = isSPA ? onDomReadySPA() : onDomReady();
     } else {
-        onDomReady();
+        isSPA ? onDomReadySPA() : onDomReady();
     }
 })();

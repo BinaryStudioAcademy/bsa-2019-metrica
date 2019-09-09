@@ -24,6 +24,9 @@ import VerifyEmail from "../components/auth/VerifyEmail";
 import Dashboard from "../pages/Dashboard";
 import GeoLocation from "../pages/GeoLocationPage";
 import Team from "../pages/Team.vue";
+import ErrorReports from "../pages/speed_overview/ErrorReports";
+import Behavior from "../pages/Behavior";
+import VisitorsFlow from "../pages/VisitorsFlow";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
@@ -120,6 +123,17 @@ export default new Router({
                                     ]
                                 },
                                 {
+                                    path: 'behavior',
+                                    component: Behavior,
+                                    children: [
+                                        {
+                                            path: 'visitors-flow',
+                                            name: 'visitors-flow',
+                                            component: VisitorsFlow
+                                        }
+                                    ]
+                                },
+                                {
                                     path: 'user-settings',
                                     name: 'user-update',
                                     component: UserUpdate
@@ -147,6 +161,11 @@ export default new Router({
                                             name: 'page-timings',
                                             component: PageTimings,
                                         },
+                                        {
+                                            path: 'error-reports',
+                                            name: 'error-reports',
+                                            component: ErrorReports
+                                        }
 
                                     ]
                                 },

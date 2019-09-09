@@ -105,10 +105,10 @@ class EloquentButtonDataRepository implements ButtonDataRepository
         return $response[0]->count;
     }
 
-    public function getAverageTiming(DatePeriod $period, int $website_id, string $parameter): float
+    public function getAverageTiming(DatePeriod $period, int $website_id, string $parameter): int
     {
         $average =  Website::find($website_id)->visits()
             ->whereDateBetween($period)->avg($parameter);
-        return floatval($average);
+        return (int)$average;
     }
 }

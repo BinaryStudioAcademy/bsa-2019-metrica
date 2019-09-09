@@ -1,6 +1,5 @@
 import moment from "moment";
 import { period } from "../../services/periodService";
-import { BOUNCE_RATE } from "../../configs/visitors/buttonTypes";
 
 function transformSytems(systemsData) {
     const colors = ['#3C57DE', '#1BC3DA', '#67C208'];
@@ -30,7 +29,7 @@ function transformDevices(devicesData) {
     devicesData.forEach((item, index) => {
         devices.push({
             title: item.name,
-            percent: index === 2 ? 100 - percent : Math.round(item.percent),
+            percent: index === devicesData.length - 1 ? 100 - percent : Math.round(item.percent),
             color: colors[index]
         });
         percent += Math.round(item.percent);
@@ -58,20 +57,18 @@ function toDateStringFormat (interval) {
             return "HH:mm";
         case period.PERIOD_LAST_WEEK:
         case period.PERIOD_LAST_MONTH:
-            return "MM/DD";
+            return "DD/MM";
         default:
             return "MM/YYYY";
     }
 }
 
-const chartDataTransformer = (items, dataToFetch, selectedPeriod) => {
-    const fromDateStringFormat = "DD/MM/YYYY H:mm:ss";
-    return items.map(item => {
+const chartDataTransformer = (items, selectedPeriod) => {
+    const  sortedItems = [...items].sort((a, b) => a.date - b.date);
+    return sortedItems.map(item => {
         return {
-            'date': moment(item.date, fromDateStringFormat).format(toDateStringFormat(selectedPeriod)),
-            'value': dataToFetch !== BOUNCE_RATE
-                ? item.value
-                : `${Math.round(item.value * 100)}%`
+            'date': moment.unix(item.date).format(toDateStringFormat(selectedPeriod)),
+            'value': item.value
         };
     });
 };

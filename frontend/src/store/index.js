@@ -10,6 +10,7 @@ import page_views from './modules/page_views';
 import page_timings from './modules/page_timings';
 import geo_location from './modules/geo_location';
 import devices from './modules/devices';
+import error_report from './modules/error_report';
 import visits_density_widget from './modules/visits_density_widget';
 import team from './modules/team';
 
@@ -27,7 +28,8 @@ export default new Vuex.Store({
         geo_location,
         devices,
         visits_density_widget,
-        team
+        team,
+        error_report
     },
     plugins: [authPlugin]
 });
