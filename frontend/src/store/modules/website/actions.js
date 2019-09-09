@@ -1,19 +1,24 @@
 import {
     SAVE_NEW_WEBSITE,
     SET_WEBSITE_DATA,
-    FETCH_CURRENT_WEBSITE,
     UPDATE_WEBSITE,
-    RESET_DATA
+    RESET_DATA,
+    CHANGE_SELECTED_WEBSITE,
+    FETCH_RELATE_WEBSITES,
+    DEFAULT_SELECTED_WEBSITE,
 } from './types/actions';
 import {
     SET_CURRENT_WEBSITE,
     UPDATE_CURRENT_WEBSITE,
     SET_WEBSITE_INFO,
-    RESET_CURRENT_WEBSITE,
+    RESET_CURRENT_WEBSITES,
     SET_FETCH_TRUE,
-    RESET_WEBSITE_DATA
+    RESET_WEBSITES_DATA,
+    SET_SELECTED_WEBSITE,
+    RESET_FETCH_WEBSITES,
+    SET_RELATE_WEBSITES,
 } from "./types/mutations";
-import {addWebsite, updateWebsite, getCurrentUserWebsite} from '@/api/website';
+import {addWebsite, updateWebsite, getRelateUserWebsites} from '@/api/website';
 
 export default {
 
@@ -21,13 +26,18 @@ export default {
         context.commit(SET_WEBSITE_INFO, data);
     },
 
-    [FETCH_CURRENT_WEBSITE]: (context) => {
+    [FETCH_RELATE_WEBSITES]: (context) => {
         context.commit(SET_FETCH_TRUE);
-        const id = context.state.currentWebsite.id;
-        return getCurrentUserWebsite(id).then(response => {
-            context.commit(SET_CURRENT_WEBSITE, response.data);
-        }).catch(() => {
-            context.commit(RESET_CURRENT_WEBSITE);
+
+        return getRelateUserWebsites().then(response => {
+            context.commit(SET_RELATE_WEBSITES, response);
+            return context.dispatch(DEFAULT_SELECTED_WEBSITE);
+        })
+            .catch(() => {
+            context.commit(RESET_CURRENT_WEBSITES);
+        })
+            .finally(() => {
+            context.commit(RESET_FETCH_WEBSITES);
         });
     },
 
@@ -117,6 +127,28 @@ export default {
                 });
     },
     [RESET_DATA]: (context) => {
-        context.commit(RESET_WEBSITE_DATA);
-    }
+        context.commit(RESET_WEBSITES_DATA);
+    },
+
+    [CHANGE_SELECTED_WEBSITE]: (context, id) => {
+        if (!id) {
+            return;
+        }
+        if (context.state.selectedWebsite === id) {
+            return;
+        }
+
+        context.commit(SET_SELECTED_WEBSITE, id);
+    },
+
+    [DEFAULT_SELECTED_WEBSITE]: (context) => {
+        const website = context.state.relateUserWebsites.find(function(website) {
+                return website.role === 'owner';
+            }) || context.state.relateUserWebsites[0];
+
+        const websiteId = website ? website.id : undefined;
+
+        context.commit(SET_SELECTED_WEBSITE, websiteId);
+        context.commit(SET_CURRENT_WEBSITE);
+    },
 };

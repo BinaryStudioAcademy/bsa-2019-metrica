@@ -200,37 +200,67 @@ class ApiWebsiteTest extends TestCase
             ->assertJson($expectedData);
     }
 
-    public function test_get_current_website_as_owner()
+    public function test_get_relate_user_websites()
     {
-        $user = factory(User::class)->create();
-        $website = factory(Website::class)->create();
-        $user->websites()->attach($website->id, [
-            'role' => 'owner'
+        $user1 = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $user3 = factory(User::class)->create();
+
+        $website1 = factory(Website::class)->create([
+            'id' => 1,
+            'name' => 'name1',
+            'domain' => 'domain1.com',
+        ]);
+        $website2 = factory(Website::class)->create([
+            'id' => 2,
+            'name' => 'name2',
+            'domain' => 'domain2.com',
         ]);
 
-        $filterData = [
-            'website_id' => $website->id,
-        ];
-
-        $this->actingAs($user)
-            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
-            ->assertOk();
-    }
-
-    public function test_get_current_website_as_member()
-    {
-        $user = factory(User::class)->create();
-        $website = factory(Website::class)->create();
-        $user->websites()->attach($website->id, [
-            'role' => 'member'
+        $user1->websites()->attach($website1->id, [
+            'role' => 'owner',
+            'permitted_menu' => config('sidebar.partial_access_menu_items')
+        ]);
+        $user2->websites()->attach($website2->id, [
+            'role' => 'owner',
+            'permitted_menu' => config('sidebar.partial_access_menu_items')
+        ]);
+        $user1->websites()->attach($website2->id, [
+            'role' => 'member',
+            'permitted_menu' => "visitors, page-views, geo-location",
+        ]);
+        $user3->websites()->attach($website1->id, [
+            'role' => 'member',
+            'permitted_menu' => "visitors, page-views",
         ]);
 
-        $filterData = [
-            'website_id' => $website->id,
+        $expectedData = [
+            "data" => [
+                [
+                    'id' => $website1->id,
+                    'name' => $website1->name,
+                    'domain' => $website1->domain,
+                    'single_page' => $website1->single_page,
+                    'tracking_number' => $website1->tracking_number,
+                    'role' => 'owner',
+                    'permitted_menu' => "visitors, page-views, geo-location, behaviour, screencast",
+                ],
+                [
+                    'id' => $website2->id,
+                    'name' => $website2->name,
+                    'domain' => $website2->domain,
+                    'single_page' => $website2->single_page,
+                    'tracking_number' => $website2->tracking_number,
+                    'role' => 'member',
+                    'permitted_menu' => "visitors, page-views, geo-location",
+                ]
+            ],
+            "meta" => []
         ];
 
-        $this->actingAs($user)
-            ->call('GET', 'api/v1/websites/'.$website->id, $filterData)
-            ->assertOk();
+        $this->actingAs($user1)
+            ->call('GET', '/api/v1/websites')
+            ->assertOk()
+            ->assertJson($expectedData);
     }
 }
