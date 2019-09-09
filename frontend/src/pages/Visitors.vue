@@ -177,6 +177,16 @@
         created () {
             this.fetchPageData();
         },
+        mounted() {
+            this.$store.watch(
+                (state) => state.selectedWebsite,
+                (newValue, oldValue) => {
+                    if(newValue !== oldValue) {
+                        this.fetchPageData();
+                    }
+                }
+            );
+        },
         methods: {
             ...mapActions('visitors', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,

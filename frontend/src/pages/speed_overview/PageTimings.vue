@@ -118,6 +118,16 @@
         created () {
             this.fetchPageData();
         },
+        mounted() {
+            this.$store.watch(
+                (state) => state.selectedWebsite,
+                (newValue, oldValue) => {
+                    if(newValue !== oldValue) {
+                        this.fetchPageData();
+                    }
+                }
+            );
+        },
         methods: {
             ...mapActions('page_timings', {
                 changeGroupedParameter: CHANGE_GROUPED_PARAMETER,

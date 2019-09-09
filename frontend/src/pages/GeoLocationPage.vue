@@ -95,6 +95,16 @@
         created() {
             this.fetchGeoLocationItems();
         },
+        mounted() {
+            this.$store.watch(
+                (state) => state.selectedWebsite,
+                (newValue, oldValue) => {
+                    if(newValue !== oldValue) {
+                        this.fetchGeoLocationItems();
+                    }
+                }
+            );
+        },
         methods: {
             ...mapActions('geo_location', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
