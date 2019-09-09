@@ -48,8 +48,9 @@ final class EloquentWebsiteRepository implements WebsiteRepository
     public function setWebsiteOwner(User $user, int $websiteId): void
     {
         $user->websites()->attach($websiteId, [
-            'role' => 'owner']
-        );
+            'role' => 'owner',
+            'permitted_menu' => config('sidebar.partial_access_menu_items')
+            ]);
     }
 
     public function addTeamMemberToWebsite(User $user, int $websiteId): void
@@ -80,6 +81,18 @@ final class EloquentWebsiteRepository implements WebsiteRepository
                     $website->pivot->permitted_menu
                 );
             });
+    }
+
+    public function getRelateUserWebsite(int $userId, int $websiteId): Website
+    {
+        $website = User::find($userId)->websites()
+            ->where('website_id', $websiteId)
+            ->withPivot('role', 'permitted_menu')
+            ->first();
+        $website->role = $website->pivot->role;
+        $website->permitted_menu = $website->pivot->permitted_menu;
+
+        return $website;
     }
 
     public function getUsersWithPermittedMenu(int $websiteId): Collection

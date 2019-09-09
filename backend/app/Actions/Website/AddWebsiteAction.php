@@ -32,7 +32,9 @@ final class AddWebsiteAction
 
         $this->websiteRepository->setWebsiteOwner(auth()->user(), $website->id);
 
-        return new AddWebsiteResponse($website);
+        return new AddWebsiteResponse(
+            $this->websiteRepository->getRelateUserWebsite(auth()->id(), $website->id)
+        );
     }
 
     private function getLastTrackingNumber(): int

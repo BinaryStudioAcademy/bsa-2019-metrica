@@ -17,4 +17,5 @@ interface WebsiteRepository
     public function removeMemberFromWebsiteTeam(User $user, int $websiteId): void;
     public function getRelateUserWebsites(int $userId): Collection;
     public function getUsersWithPermittedMenu(int $websiteId): Collection;
+    public function getRelateUserWebsite(int $userId, int $websiteId): Website;
 }

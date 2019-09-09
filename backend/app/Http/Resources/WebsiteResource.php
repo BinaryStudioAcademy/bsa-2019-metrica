@@ -15,8 +15,9 @@ final class WebsiteResource extends JsonResource implements ApiResponse
             'name' => $this->name,
             'domain' => $this->domain,
             'single_page' => $this->single_page,
-            'user_id' => $this->user_id,
             'tracking_number' => $this->tracking_number,
+            'role' => $this->role,
+            'permitted_menu' => $this->permitted_menu,
         ];
     }
 }
