@@ -37,7 +37,16 @@
                 hide-default-header
                 :headers="headers"
                 :items="errorItems"
-            />
+            >
+                <template v-slot:item.details="{ item }">
+                    <VBtn
+                        class="mr-2"
+                        @click.stop="detailsItem(item)"
+                    >
+                        Details
+                    </VBtn>
+                </template>
+            </VDataTable>
         </VContainer>
     </VContainer>
 </template>
@@ -48,10 +57,6 @@
         props: {
             errorItems: {
                 type: Array,
-                required: true
-            },
-            fetching: {
-                type: Boolean,
                 required: true
             }
         },
@@ -84,6 +89,9 @@
         methods: {
             changeSelect () {
                 this.$emit('change', this.selected);
+            },
+            detailsItem (item) {
+                this.$emit('open', item);
             }
         }
     };

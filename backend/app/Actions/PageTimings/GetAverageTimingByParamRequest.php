@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\PageTimings;
 
 use App\Actions\TableDataRequest;
-use App\Http\Request\PageTimingTableHttpRequest;
+use App\Http\Requests\PageTimings\PageTimingTableHttpRequest;
 
 class GetAverageTimingByParamRequest extends TableDataRequest
 {
