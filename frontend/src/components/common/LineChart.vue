@@ -1,5 +1,5 @@
 <template>
-    <VContainer>
+    <VContainer class="chart-container">
         <Spinner
             v-if="isFetching"
         />
@@ -48,7 +48,7 @@
             return {
                 chartOptions: {
                     chartArea: {
-                        width: '95%',
+                        width: '93%',
                         height: '75%'
                     },
                     tooltip: {
@@ -139,6 +139,9 @@
     };
 </script>
 <style lang="scss" scoped>
+    .chart-container {
+        height: 224px;
+    }
     ::v-deep svg path {
         fill: none;
     }
