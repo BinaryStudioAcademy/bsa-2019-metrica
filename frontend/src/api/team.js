@@ -18,9 +18,11 @@ const getTeamMembers = websiteId => requestService.get(resourceUrl, {}, {
         )
     ));
 
-const inviteUser = (email, websiteId) => requestService.create(resourceUrl, {}, {
-    'filter[email]': email,
-    'filter[website_id]': websiteId
+const inviteUser = (email, websiteId) => requestService.create(resourceUrl, {
+    'filter': {
+        'email': email,
+        'website_id': websiteId
+    }
 });
 
 export {
