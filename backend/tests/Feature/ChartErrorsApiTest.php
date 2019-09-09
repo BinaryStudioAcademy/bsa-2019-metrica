@@ -65,8 +65,6 @@ class ChartErrorsApiTest extends TestCase
 
     public function testGetCountErrorByDateRange()
     {
-
-
         $firstDate = Carbon::create(2019, 6, 23, 12, 12, 12)->toDateTime();
         $secondDate = Carbon::create(2019, 7, 10, 12, 12, 12)->toDateTime();
         $thirdDate = Carbon::create(2019, 7, 19, 12, 12, 12)->toDateTime();

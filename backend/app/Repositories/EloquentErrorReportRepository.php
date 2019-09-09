@@ -23,8 +23,7 @@ final class EloquentErrorReportRepository implements ErrorReportRepository
         string $endData,
         string $interval,
         int $websiteId
-    ): Collection
-    {
+    ): Collection {
 
         $subQuerySecond = "SELECT errors.*, 
         ( " . $this->getPeriod('errors.created_at', $interval) . ") as period FROM errors  
