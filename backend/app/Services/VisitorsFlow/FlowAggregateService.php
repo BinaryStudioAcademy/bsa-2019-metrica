@@ -54,6 +54,23 @@ final class FlowAggregateService
         $this->visitorFlowScreenRepository = $visitorFlowScreenRepository;
     }
 
+    public function aggregate(Visit $visit): void
+    {
+        $previousVisit = $this->getLastVisit($visit);
+        $isFirstInSession = $previousVisit === null;
+        $level = $this->getLevel($visit, $isFirstInSession);
+
+        $countryAggregate = $this->getCountryAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $browserAggregate = $this->getBrowserAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $deviceAggregate = $this->getDeviceAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $screenAggregate = $this->getScreenAggregate($visit, $level, $isFirstInSession, $previousVisit);
+
+        $this->updateCountryAggregate($visit, $level, $previousVisit, $countryAggregate);
+        $this->updateBrowserAggregate($visit, $level, $previousVisit, $browserAggregate);
+        $this->updateDeviceAggregate($visit, $level, $previousVisit, $deviceAggregate);
+        $this->updateScreenAggregate($visit, $level, $previousVisit, $screenAggregate);
+    }
+
     private function getLevel(Visit $visit, bool $isFirstInSession): int
     {
         if (!$isFirstInSession) {
@@ -168,24 +185,6 @@ final class FlowAggregateService
         $screenAggregate->views++;
         $screenAggregate->exitCount++;
         $this->visitorFlowScreenRepository->update($screenAggregate);
-    }
-
-
-    public function aggregate(Visit $visit)
-    {
-        $previousVisit = $this->getLastVisit($visit);
-        $isFirstInSession = $previousVisit === null;
-        $level = $this->getLevel($visit, $isFirstInSession);
-
-        $countryAggregate = $this->getCountryAggregate($visit, $level, $isFirstInSession, $previousVisit);
-        $browserAggregate = $this->getBrowserAggregate($visit, $level, $isFirstInSession, $previousVisit);
-        $deviceAggregate = $this->getDeviceAggregate($visit, $level, $isFirstInSession, $previousVisit);
-        $screenAggregate = $this->getScreenAggregate($visit, $level, $isFirstInSession, $previousVisit);
-
-        $this->updateCountryAggregate($visit, $level, $previousVisit, $countryAggregate);
-        $this->updateBrowserAggregate($visit, $level, $previousVisit, $browserAggregate);
-        $this->updateDeviceAggregate($visit, $level, $previousVisit, $deviceAggregate);
-        $this->updateScreenAggregate($visit, $level, $previousVisit, $screenAggregate);
     }
 
     private function getLastVisit(Visit $currentVisit): ?Visit
