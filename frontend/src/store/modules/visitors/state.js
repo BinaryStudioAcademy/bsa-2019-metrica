@@ -42,7 +42,7 @@ export default {
     },
     pieChartData: {
         newVisitors: 50,
-        returnVisitors: 50,
+        returningVisitors: 50,
         isFetching: false
     },
     activeButton: TOTAL_VISITORS,
