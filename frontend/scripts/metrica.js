@@ -14,7 +14,8 @@
         host: process.env.VUE_APP_URL,
         routes: {
             create_visitor: '/visitors',
-            create_visit: '/visits'
+            create_visit: '/visits',
+            create_error: '/error-reports'
         }
     };
     window._metricaTracking = {
@@ -325,6 +326,33 @@
 
             return device;
         }
+    };
+
+    window.onerror = (errorMsg, errorUrl) => {
+        console.log(errorMsg);
+        const url = state.host_api + state.routes.create_error;
+        const tracking_number = window._metricaTracking.getTrackById();
+        const token = window._metricaTracking.getToken();
+        let headers = {
+            'Content-Type': 'application/json',
+            'x-website': tracking_number,
+        };
+        let data = {
+            message: errorUrl,
+            stack_trace: url,
+            page: window._metricaTracking.getPage(),
+            page_title: window._metricaTracking.getTitle(),
+
+        };
+
+        if (token) {
+            headers = {
+                ...headers,
+                ...{'x-visitor': 'Bearer ' + token}
+            };
+        }
+
+        return this.fetchWrapper().post(url, data, headers);
     };
 
     const onDomReady = () => {
