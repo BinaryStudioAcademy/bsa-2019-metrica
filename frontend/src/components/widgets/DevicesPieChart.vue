@@ -27,6 +27,7 @@
     import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown";
     import PieChartItem from "@/components/widgets/PieChartItem";
     import { mapGetters, mapActions } from "vuex";
+    import { echoInstance } from "../../services/echoService";
     import {
         GET_SELECTED_PERIOD,
         GET_WIDGET_DATA,
@@ -36,6 +37,7 @@
         CHANGE_SELECTED_PERIOD,
         FETCH_WIDGET_INFO
     } from "@/store/modules/devices/types/actions";
+    import {GET_CURRENT_WEBSITE} from "../../store/modules/website/types/getters";
 
     export default {
         components: {
@@ -46,12 +48,21 @@
         created() {
             this.fetchWidgetInfo();
         },
+        mounted() {
+            const channel = echoInstance.private('stats.'+ this.website.id);
+            channel.listen('StatsChangeEvent', () => {
+                this.fetchWidgetInfo(false);
+            });
+        },
         computed: {
             ...mapGetters('devices', {
                 selectedPeriod: GET_SELECTED_PERIOD,
                 data: GET_WIDGET_DATA,
                 isFetching: GET_FETCHING_STATUS
-            })
+            }),
+            ...mapGetters('website', {
+                website: GET_CURRENT_WEBSITE
+            }),
         },
         methods: {
             ...mapActions('devices', {

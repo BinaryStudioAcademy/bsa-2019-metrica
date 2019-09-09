@@ -20,6 +20,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\VisitCreated' => [
             'App\Listeners\SendVisitsNotification',
+            'App\Listeners\CalculateStats'
         ],
     ];
 

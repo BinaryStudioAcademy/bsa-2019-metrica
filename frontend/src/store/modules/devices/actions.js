@@ -21,12 +21,14 @@ export default {
         context.dispatch(FETCH_WIDGET_INFO);
     },
 
-    [FETCH_WIDGET_INFO]: (context) => {
+    [FETCH_WIDGET_INFO]: (context, withOverlay=true) => {
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const startDate = period.startDate;
         const endDate = period.endDate;
 
-        context.commit(SET_DATA_FETCHING);
+        if (withOverlay) {
+            context.commit(SET_DATA_FETCHING);
+        }
         return fetchDevicesAndSystemsData(startDate.unix(), endDate.unix())
             .then(response => {
                 context.commit(SET_WIDGET_DATA, response);
