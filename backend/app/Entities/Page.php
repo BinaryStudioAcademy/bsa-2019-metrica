@@ -41,4 +41,9 @@ final class Page extends Model
     {
         return $this->hasMany(Session::class, 'entrance_page_id');
     }
+
+    public function errors(): HasMany
+    {
+        return $this->hasMany(Error::class);
+    }
 }
