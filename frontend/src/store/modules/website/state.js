@@ -7,5 +7,5 @@ export default {
     relateUserWebsites: [],
     selectedWebsite: undefined,
     isCurrentWebsite: false,
-    isFetchedWebsites: false,
+    isFetchedWebsite: false,
 };
