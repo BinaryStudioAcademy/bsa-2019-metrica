@@ -104,7 +104,6 @@ final class FlowAggregateService
         $countryAggregate->views++;
         $countryAggregate->exitCount++;
         $this->visitorFlowCountryRepository->update($countryAggregate);
-
     }
 
     private function updateBrowserAggregate(
@@ -132,7 +131,6 @@ final class FlowAggregateService
         $browserAggregate->views++;
         $browserAggregate->exitCount++;
         $this->visitorFlowBrowserRepository->update($browserAggregate);
-
     }
 
     private function updateDeviceAggregate(
