@@ -69,7 +69,7 @@
         },
         methods: {
             createLinks () {
-                this.links = [];
+                let links = [];
                 let lastNodeId = this.nodes.slice(-1)[0].id;
 
                 for (let coef = 1, sourceInd = 0; sourceInd < lastNodeId - 5; sourceInd++) {
@@ -79,25 +79,29 @@
                         let targetId = this.nodes[targetInd + 5 * coef].id;
                         let value = Math.floor(Math.random() * Math.floor(100));
                         let link = { source: sourceId, target: targetId, value: value };
-                        this.links.push(link);
+                        links.push(link);
                     }
 
                     if (sourceId % 5 === 0) {
                         coef++;
                     }
                 }
+
+                this.links = links;
             },
 
-            createExits() {
-                this.exits = [];
+            createExits () {
                 let lastNodeId = this.nodes.slice(-1)[0].id;
+                let exits = [];
 
                 for (let sourceInd = 5; sourceInd < lastNodeId; sourceInd++) {
                     let sourceId = this.nodes[sourceInd].id;
                     let value = Math.floor(Math.random() * 50);
                     let exit = { source: sourceId, value: value, index: sourceId - 1 };
-                    this.exits.push(exit);
+                    exits.push(exit);
                 }
+
+                this.exits = exits;
             },
 
             addInteraction () {
@@ -234,12 +238,12 @@
 
                         return `M ${mx} ${my} a 25 40 0 0 1 25 40`;
                     })
-                    .attr("class", "drops")
-                    .attr("id", d => `drop-${d.index}`)
+                    .attr("class", "exits")
+                    .attr("id", d => `exit-${d.index}`)
                     .attr("stroke", "#fa514a")
                     .attr("stroke-opacity", ".5")
                     .attr("stroke-width", d => d.value)
-                    .on("mouseover", (d, i, drops) => {
+                    .on("mouseover", (d, i, exits) => {
                         tooltip.text(`${d.value} drop-offs`)
                             .style("visibility", "visible");
 
@@ -248,10 +252,10 @@
                         d3.selectAll("path")
                             .attr("stroke-opacity", ".2");
 
-                        const drop = d3.select(drops[i]);
+                        const exit = d3.select(exits[i]);
 
-                        drop.attr("stroke-opacity", "1");
-                        this.highlightLeftSide(d3.select(`#node-${drop.data()[0].index}`));
+                        exit.attr("stroke-opacity", "1");
+                        this.highlightLeftSide(d3.select(`#node-${exit.data()[0].index}`));
                     })
                     .on("mouseleave", () =>  {
                         tooltip.style("visibility", "hidden");
@@ -308,7 +312,7 @@
 
                 const nodeData = node.data()[0];
 
-                d3.select(`#drop-${nodeData.index}`)
+                d3.select(`#exit-${nodeData.index}`)
                     .attr("stroke-opacity", "1");
 
                 nodeData.sourceLinks
@@ -328,7 +332,7 @@
 
                 const nodeData = node.data()[0];
 
-                d3.select(`#drop-${nodeData.index}`)
+                d3.select(`#exit-${nodeData.index}`)
                     .attr("stroke-opacity", "1");
 
                 nodeData.targetLinks
