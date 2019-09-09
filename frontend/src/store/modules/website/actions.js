@@ -31,7 +31,7 @@ export default {
 
         return getRelateUserWebsites().then(response => {
             context.commit(SET_RELATE_WEBSITES, response);
-            context.dispatch(DEFAULT_SELECTED_WEBSITE);
+            return context.dispatch(DEFAULT_SELECTED_WEBSITE);
         })
             .catch(() => {
             context.commit(RESET_CURRENT_WEBSITES);
