@@ -15,9 +15,7 @@ class TableErrorTest extends TestCase
     const DATE_FROM = '2019-08-20 00:00:00';
     const DATE_TO = '2019-08-24 23:59:59';
     const ENDPOINT = 'api/v1/errors/table-items';
-    const PARAMETERS = [
-        'page',
-    ];
+    const PARAMETER = 'page';
     const RESPONSE_STRUCTURE = [
         'data' => [
             '*' => [
@@ -45,23 +43,21 @@ class TableErrorTest extends TestCase
     }
     public function testGetErrorsByParameterAction()
     {
-        foreach (self::PARAMETERS as $parameter) {
-            $query = [
-                'filter' => [
-                    'startDate' => (string) $this->fromTimeStamp,
-                    'endDate' => (string) $this->toTimeStamp,
-                    'parameter' => $parameter
-                ]
-            ];
+        $query = [
+            'filter' => [
+                'startDate' => (string) $this->fromTimeStamp,
+                'endDate' => (string) $this->toTimeStamp,
+                'parameter' => self::PARAMETER
+            ]
+        ];
 
-            $result = $this->actingAs($this->user)
-                ->json('GET', self::ENDPOINT, $query)
-                ->assertStatus(200)
-                ->assertJsonStructure(self::RESPONSE_STRUCTURE)
-                ->json();
+        $result = $this->actingAs($this->user)
+            ->json('GET', self::ENDPOINT, $query)
+            ->assertStatus(200)
+            ->assertJsonStructure(self::RESPONSE_STRUCTURE)
+            ->json();
 
-            $this->assertNotEmpty($result);
-        }
+        $this->assertNotEmpty($result);
     }
 
     public function testFailedGetErrorsByParameterAction()

@@ -8,15 +8,11 @@ use Illuminate\Contracts\Validation\Rule;
 
 final class ErrorTableParameter implements Rule
 {
-    private const AVAILABLE_PARAMETERS = [
-        'country',
-        'page',
-        'browser',
-    ];
+    private const AVAILABLE_PARAMETER = 'page';
 
     public function passes($attribute, $value): bool
     {
-        return in_array($value, self::AVAILABLE_PARAMETERS);
+        return $value === self::AVAILABLE_PARAMETER;
     }
 
     public function message(): string

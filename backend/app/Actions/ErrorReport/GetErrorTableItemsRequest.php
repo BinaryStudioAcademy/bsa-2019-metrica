@@ -9,7 +9,7 @@ use App\Actions\TableDataRequest;
 
 class GetErrorTableItemsRequest extends TableDataRequest
 {
-    public static function fromRequest(GetErrorTableItemsHttpRequest $request)
+    public static function fromRequest(GetErrorTableItemsHttpRequest $request): self
     {
         return new static (
             $request->startDate(),
