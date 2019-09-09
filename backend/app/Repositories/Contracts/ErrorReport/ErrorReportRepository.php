@@ -6,7 +6,6 @@ namespace App\Repositories\Contracts\ErrorReport;
 
 use Illuminate\Support\Collection;
 use App\Entities\Error;
-use Illuminate\Support\Collection;
 use App\Utils\DatePeriod;
 
 interface ErrorReportRepository

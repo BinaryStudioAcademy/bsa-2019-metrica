@@ -11,8 +11,6 @@ use App\Repositories\Contracts\ErrorReport\ErrorReportRepository;
 use Illuminate\Support\Collection;
 use App\Utils\DatePeriod;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 final class EloquentErrorReportRepository implements ErrorReportRepository
 {
