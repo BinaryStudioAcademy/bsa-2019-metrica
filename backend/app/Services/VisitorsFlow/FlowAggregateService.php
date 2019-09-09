@@ -55,15 +55,20 @@ final class FlowAggregateService
         $this->visitorFlowScreenRepository = $visitorFlowScreenRepository;
     }
 
+    private function getLevel(Visit $visit, bool $isFirstInSession): int
+    {
+        if (!$isFirstInSession) {
+            return $this->getVisitsCount($visit);
+        }
+        return 1;
+    }
+
     public function aggregate(Visit $visit)
     {
         $previousVisit = $this->getLastVisit($visit);
         $isFirstInSession = $previousVisit === null;
-        if (!$isFirstInSession) {
-            $level = $this->getVisitsCount($visit);
-        } else {
-            $level = 1;
-        }
+        $level = $this->getLevel($visit, $isFirstInSession);
+
         $countryAggregate = $this->getCountryAggregate($visit, $level, $isFirstInSession, $previousVisit);
         $browserAggregate = $this->getBrowserAggregate($visit, $level, $isFirstInSession, $previousVisit);
         $deviceAggregate = $this->getDeviceAggregate($visit, $level, $isFirstInSession, $previousVisit);
