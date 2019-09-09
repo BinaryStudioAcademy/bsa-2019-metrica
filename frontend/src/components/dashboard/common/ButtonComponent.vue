@@ -18,9 +18,10 @@
             class="card-text"
         >
             <div
-                class="character-text text-no-wrap headline"
+                class="d-flex align-baseline character-text text-no-wrap headline"
             >
                 {{ value }}
+                <slot />
             </div>
             <div
                 class="title-text text-no-wrap caption"

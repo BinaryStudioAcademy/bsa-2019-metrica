@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Repositories\Contracts\ChartPageTimingRepository;
 use App\Repositories\Contracts\ChartVisitorRepository;
 use App\Repositories\Contracts\ButtonVisitorsRepository;
+use App\Repositories\Contracts\ErrorReport\ErrorReportRepository;
 use App\Repositories\Contracts\PageViews\ButtonDataRepository;
 use App\Repositories\Contracts\ChartVisitorsRepository;
 use App\Repositories\Contracts\GeoPositionRepository;
@@ -27,6 +28,7 @@ use App\Repositories\Contracts\PageViews\ChartDataRepository;
 use App\Repositories\EloquentChartPageTimingRepository;
 use App\Repositories\EloquentChartVisitorRepository;
 use App\Repositories\EloquentButtonVisitorsRepository;
+use App\Repositories\EloquentErrorReportRepository;
 use App\Repositories\PageViews\EloquentButtonDataRepository;
 use App\Repositories\Contracts\TableNewVisitorsRepository;
 use App\Repositories\EloquentChartVisitorsRepository;
@@ -107,6 +109,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ChartPageTimingRepository::class, EloquentChartPageTimingRepository::class);
 
         $this->app->bind(TableDataRepository::class, EloquentTableDataRepository::class);
+
+        $this->app->bind(ErrorReportRepository::class, EloquentErrorReportRepository::class);
     }
 
     /**

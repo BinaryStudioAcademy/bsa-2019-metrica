@@ -1,12 +1,13 @@
 import requestService from "@/services/requestService";
 import config from "@/config";
-import {buttonTransformer, chartTransformer} from './transformers';
+import {buttonTransformerToSeconds, chartTransformerToSeconds, tableTransformerPageTiming} from '../transformers';
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
 const chartDataUrl = '/page-timing/chart/server-response';
 const btnDataUrl = '/page-timing/button/server-response';
+const tableDataUrl = '/page-timing/table/server-response';
 const errorMessage = 'Something went wrong with getting average server response time';
 
 const fetchButtonValue = (startDate, endDate, websiteId) => {
@@ -46,5 +47,6 @@ const fetchChartValues = (startDate, endDate, interval, websiteId) => {
 
 export const serverResponseService = {
     fetchChartValues,
-    fetchButtonValue
+    fetchButtonValue,
+    fetchTableValues
 };

@@ -120,6 +120,17 @@ export default new Router({
                                     ]
                                 },
                                 {
+                                    path: 'behavior',
+                                    component: Behavior,
+                                    children: [
+                                        {
+                                            path: 'visitors-flow',
+                                            name: 'visitors-flow',
+                                            component: VisitorsFlow
+                                        }
+                                    ]
+                                },
+                                {
                                     path: 'user-settings',
                                     name: 'user-update',
                                     component: UserUpdate
@@ -147,6 +158,11 @@ export default new Router({
                                             name: 'page-timings',
                                             component: PageTimings,
                                         },
+                                        {
+                                            path: 'error-reports',
+                                            name: 'error-reports',
+                                            component: ErrorReports
+                                        }
 
                                     ]
                                 },

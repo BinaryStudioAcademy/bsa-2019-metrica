@@ -49,7 +49,7 @@
                     return this.dataItems.map((item) => {
                         return {
                             country: item.country,
-                            percentage: Math.round(Number(item[this.displayedParameter])*100)
+                            percentage: item[this.displayedParameter]
                         };
                     });
                 }

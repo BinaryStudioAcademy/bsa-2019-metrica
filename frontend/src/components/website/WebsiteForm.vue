@@ -66,7 +66,10 @@
                         Copy and Paste this code as the
                         first item into the &lt;HEAD> of every Webpage you want to track
                     </p>
-                    <TrackWebsite :tracking-number="currentWebsite.tracking_number" />
+                    <TrackWebsite
+                        :tracking-number="currentWebsite.tracking_number"
+                        :spa="currentWebsite.single_page"
+                    />
                 </div>
             </div>
         </VFlex>

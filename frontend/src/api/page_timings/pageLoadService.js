@@ -1,12 +1,13 @@
 import requestService from "@/services/requestService";
 import config from "@/config";
-import {chartTransformer, buttonTransformer} from './transformers';
+import {chartTransformerToSeconds, buttonTransformerToSeconds, tableTransformerPageTiming} from '../transformers';
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
 const chartDataUrl = '/page-timing/chart/page-loading';
 const btnDataUrl = '/page-timing/button/page-loading';
+const tableDataUrl = '/page-timing/table/page-loading';
 const errorMessage = 'Something went wrong with getting average page loading time';
 
 
@@ -47,5 +48,6 @@ const fetchChartValues = (startDate, endDate, interval, websiteId) => {
 
 export const pageLoadService = {
     fetchChartValues,
-    fetchButtonValue
+    fetchButtonValue,
+    fetchTableValues
 };

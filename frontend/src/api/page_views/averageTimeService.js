@@ -1,6 +1,6 @@
 import config from "@/config";
 import requestService from "../../services/requestService";
-import {buttonTransformerToTime,chartTransformer} from "./transformers";
+import {buttonTransformerToTime, chartTransformerToInt} from "../transformers";
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
@@ -26,9 +26,8 @@ const fetchChartValues = (startDate, endDate, interval, websiteId) => {
     return requestService.get(resourceUrl + '/chart-page-views/avg-time', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[period]': interval,
-        'filter[website_id]': websiteId,
-    }).then(response => response.data.map(chartTransformer))
+        'filter[period]': interval
+    }).then(response => response.data.map(chartTransformerToInt))
         .catch(error => Promise.reject(
             new Error(
                 _.get(

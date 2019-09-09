@@ -1,12 +1,13 @@
 import requestService from "@/services/requestService";
 import config from "@/config";
-import {buttonTransformer, chartTransformer} from './transformers';
+import {buttonTransformerToSeconds, chartTransformerToSeconds, tableTransformerPageTiming} from '../transformers';
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
 
 const chartDataUrl = '/page-timing/chart/domain-lookup';
 const btnDataUrl = '/page-timing/button/domain-lookup';
+const tableDataUrl = '/page-timing/table/domain-lookup';
 const errorMessage = 'Something went wrong with getting average domain lookup time';
 
 
@@ -47,5 +48,6 @@ const fetchChartValues = (startDate, endDate, interval, websiteId) => {
 
 export const domainLookupService = {
     fetchChartValues,
-    fetchButtonValue
+    fetchButtonValue,
+    fetchTableValues
 };
