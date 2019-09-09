@@ -134,7 +134,6 @@
             changePeriod (data) {
                 this.changeSelectedPeriod(data);
             },
-            },
             openModal(item) {
                 this.dialog = true;
                 this.modalItem = {
