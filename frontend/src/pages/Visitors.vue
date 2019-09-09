@@ -59,6 +59,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import moment from 'moment';
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
@@ -99,6 +100,7 @@
             PeriodDropdown,
             ContentLayout
         },
+        mixins: [isChangeSelectedWebsite],
         data() {
             return {
                 title: "Visitors",
@@ -177,16 +179,6 @@
         created () {
             this.fetchPageData();
         },
-        mounted() {
-            this.$store.watch(
-                (state) => state.selectedWebsite,
-                (newValue, oldValue) => {
-                    if(newValue !== oldValue) {
-                        this.fetchPageData();
-                    }
-                }
-            );
-        },
         methods: {
             ...mapActions('visitors', {
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
@@ -215,6 +207,9 @@
                     return Math.round(Number(this.buttonsData[type].value)) + '%';
                 }
                 return this.buttonsData[type].value;
+            },
+            onWebsiteChange () {
+                this.fetchPageData();
             }
         },
     };

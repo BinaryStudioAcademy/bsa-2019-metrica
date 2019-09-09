@@ -26,6 +26,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import VueApexCharts from 'vue-apexcharts';
     import VisitsDensityPeriodDropdown from "@/components/dashboard/common/VisitsDensityPeriodDropdown";
     import {mapGetters, mapActions} from 'vuex';
@@ -47,6 +48,7 @@
             VisitsDensityPeriodDropdown,
             Spinner
         },
+        mixins: [isChangeSelectedWebsite],
         data() {
             return {
                 days: {
@@ -180,7 +182,10 @@
             ...mapActions('visits_density_widget', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchWidgetData: FETCH_WIDGET_DATA
-            })
+            }),
+            onWebsiteChange () {
+                this.fetchWidgetData();
+            }
         }
     };
 </script>

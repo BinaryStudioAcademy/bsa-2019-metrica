@@ -55,6 +55,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import Spinner from '../../utilites/Spinner';
     import {mapGetters, mapActions} from 'vuex';
     import {
@@ -64,7 +65,7 @@
     } from "@/store/modules/dashboard/types/getters";
     import _ from "lodash";
     import {echoInstance} from '../../../services/echoService';
-    import {GET_CURRENT_WEBSITE} from '@/store/modules/website/types/getters';
+    import {GET_SELECTED_WEBSITE} from '@/store/modules/website/types/getters';
     import {
         FETCHING_ACTIVITY_DATA_ITEMS,
         RELOAD_ACTIVITY_DATA_ITEMS,
@@ -78,6 +79,7 @@
             TopActivePage,
             Spinner
         },
+        mixins: [isChangeSelectedWebsite],
         data: () => ({
             lineWidth: 4,
             radius: 16,
@@ -88,7 +90,7 @@
             fetch: null,
         }),
         mounted() {
-            const channel = echoInstance.private('active-users.'+ this.website.id);
+            const channel = echoInstance.private('active-users.'+ this.website);
             channel.listen('ActiveUserEvent', (data) => this.refreshActivityDataItems(data));
         },
         computed: {
@@ -98,7 +100,7 @@
                 activityChartData: GET_ACTIVITY_CHART_DATA,
             }),
             ...mapGetters('website', {
-                website: GET_CURRENT_WEBSITE
+                website: GET_SELECTED_WEBSITE
             }),
             activeUsersCount() {
                 return _.uniqBy(this.activityDataItems, 'visitor').length;
@@ -143,6 +145,10 @@
                     this.fetchingActiveUsersChartData();
                 }, 60000);
             },
+            onWebsiteChange () {
+                this.fetchingActiveUsersNumbers();
+                this.fetchingActiveUsersChartData();
+            }
         }
     };
 </script>
