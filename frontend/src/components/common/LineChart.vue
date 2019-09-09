@@ -3,16 +3,13 @@
         <Spinner
             v-if="isFetching"
         />
-        <VFlex
+        <VCardTitle
             v-if="!this.data.length"
+            primary-title
+            class="grey--text"
         >
-            <VCardTitle
-                primary-title
-                class="justify-center grey--text"
-            >
-                There is no data to display!
-            </VCardTitle>
-        </VFlex>
+            There is no data to display!
+        </VCardTitle>
         <GChart
             type="LineChart"
             v-else
@@ -141,6 +138,15 @@
 <style lang="scss" scoped>
     .chart-container {
         height: 224px;
+    }
+    .v-card__title {
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        align-content: center;
+    }
+    ::v-deep .v-card-title {
+        color: crimson;
     }
     ::v-deep svg path {
         fill: none;
