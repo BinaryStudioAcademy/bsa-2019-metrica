@@ -54,7 +54,7 @@
 
 <script>
     import {mapGetters} from 'vuex';
-    import {GET_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
+    import {GET_WEBSITE_DATA} from "@/store/modules/website/types/getters";
 
     export default {
         name: 'StepTrackingInfo',
@@ -65,7 +65,7 @@
         },
         computed: {
             ...mapGetters('website', {
-                currentWebsite: GET_CURRENT_WEBSITE
+                currentWebsite: GET_WEBSITE_DATA
             }),
             messageText() {
                 return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_number);

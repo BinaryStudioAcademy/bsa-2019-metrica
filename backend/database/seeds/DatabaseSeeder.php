@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             GeoPositionTableSeeder::class,
             InitVisitorsSeeder::class,
             ErrorsTableSeeder::class,
+            UserAndWebsitesWithDifferentRolesSeeder::class
         ]);
     }
 }

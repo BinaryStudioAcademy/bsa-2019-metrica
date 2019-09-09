@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\DataTransformer\Websites\WebsitesRelateToUser;
 use App\Entities\User;
 use App\Entities\Website;
 use App\Repositories\Contracts\WebsiteRepository;
@@ -44,42 +45,6 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         }
     }
 
-    public function getCurrentWebsite(int $websiteId): Website
-    {
-        $userWebsitesIds = $this->userRepository
-                                ->getAllUserWebsites(auth()->id())
-                                ->pluck('id');
-
-        if ($userWebsitesIds->contains($websiteId)) {
-            return $this->getById($websiteId);
-        }
-
-        throw new WebsiteNotFoundException;
-    }
-
-    public function getFirstExistingUserWebsite(): Website
-    {
-        $userWebsites = $this->userRepository->getAllUserWebsites(auth()->id());
-
-        $firstOwnWebsite = $userWebsites->filter(function($website) {
-            return $website->pivot->role === 'owner';
-        })->first();
-
-        if ($firstOwnWebsite) {
-            return $firstOwnWebsite;
-        }
-
-        $firstTeamMemberWebsite = $userWebsites->filter(function($website) {
-            return $website->pivot->role === 'member';
-        })->first();
-
-        if ($firstTeamMemberWebsite) {
-            return $firstTeamMemberWebsite;
-        }
-
-        throw new WebsiteNotFoundException;
-    }
-
     public function setWebsiteOwner(User $user, int $websiteId): void
     {
         $user->websites()->attach($websiteId, [
@@ -97,6 +62,24 @@ final class EloquentWebsiteRepository implements WebsiteRepository
     public function removeMemberFromWebsiteTeam(User $user, int $websiteId): void
     {
         $user->websites()->detach($websiteId);
+    }
+
+    public function getRelateUserWebsites(int $userId): Collection
+    {
+        return User::find($userId)->websites()
+            ->withPivot('role', 'permitted_menu')
+            ->get()
+            ->map(function($website) {
+                return new WebsitesRelateToUser(
+                    $website->id,
+                    $website->name,
+                    $website->domain,
+                    $website->single_page,
+                    $website->tracking_number,
+                    $website->pivot->role,
+                    $website->pivot->permitted_menu
+                );
+            });
     }
 
     public function getUsersWithPermittedMenu(int $websiteId): Collection

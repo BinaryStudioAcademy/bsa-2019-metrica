@@ -5,6 +5,11 @@
         row
         class="pr-2"
     >
+        <WebsitesDropdown
+            :items="items"
+            :value="value"
+            @change="changeWebsite"
+        />
         <VBtn
             icon
             class="notifications mr-4"
@@ -56,10 +61,18 @@
 <script>
     import {mapActions, mapGetters} from "vuex";
     import {GET_AUTHENTICATED_USER} from "@/store/modules/auth/types/getters";
+    import {GET_SELECTED_WEBSITE, GET_RELATE_WEBSITES} from "@/store/modules/website/types/getters";
     import {LOGOUT} from "@/store/modules/auth/types/actions";
-    import {RESET_DATA} from "@/store/modules/website/types/actions";
+    import {
+        RESET_DATA,
+        CHANGE_SELECTED_WEBSITE,
+    } from "@/store/modules/website/types/actions";
+    import WebsitesDropdown from "../header/WebsitesDropdown.vue";
 
     export default {
+        components: {
+            WebsitesDropdown
+        },
         data: () => ({
             links: [
                 {
@@ -76,49 +89,68 @@
                 logout: LOGOUT
             }),
             ...mapActions('website', {
-                resetData: RESET_DATA
+                resetData: RESET_DATA,
+                changeSelectedWebsite: CHANGE_SELECTED_WEBSITE,
             }),
             endSession() {
                 this.logout();
                 this.resetData();
                 this.$router.push({ name: 'home' });
-            }
+            },
+            changeWebsite(data) {
+                this.changeSelectedWebsite(Number(data.value));
+            },
         },
         computed: {
-            ...mapGetters('auth', {
-                user: GET_AUTHENTICATED_USER
-            })
+            ...mapGetters('auth',  {
+                user: GET_AUTHENTICATED_USER,
+            }),
+            ...mapGetters('website', {
+                websites: GET_RELATE_WEBSITES,
+                selectedValue: GET_SELECTED_WEBSITE
+            }),
+            items() {
+                return this.websites.map((item) => {
+                    return {
+                        title: item.name + ' - ' + item.role,
+                        value: item.id.toString()
+                    };
+                });
+            },
+            value() {
+                return this.selectedValue ? this.selectedValue.toString() : '';
+            }
         }
     };
 </script>
 
 <style scoped lang="scss">
-$grey: rgba(18, 39, 55, 0.5);
-svg {
-    width: 25px;
-    height: 25px;
-}
+    $grey: rgba(18, 39, 55, 0.5);
+    svg {
+        width: 25px;
+        height: 25px;
+    }
 
-svg path {
-    fill: inherit;
-    fill-opacity: inherit;
-}
-.v-icon.drop-down {
-    color: #3C57DE;
-}
+    svg path {
+        fill: inherit;
+        fill-opacity: inherit;
+    }
+    .v-icon.drop-down {
+        color: #3C57DE;
+    }
 
-.v-list-item.v-list-item--link,
-.v-list-item a
-{
-        font-family: 'Gilroy';
-        font-size: 12px;
-        color: inherit;
-        &:hover {
-            
-        }
-}
+    .v-list-item.v-list-item--link,
+    .v-list-item a
+    {
+            font-family: 'Gilroy';
+            font-size: 12px;
+            color: inherit;
+            &:hover {
 
-a:hover{
-    text-decoration: none;
-}
+            }
+    }
+
+    a:hover{
+        text-decoration: none;
+    }
 </style>
