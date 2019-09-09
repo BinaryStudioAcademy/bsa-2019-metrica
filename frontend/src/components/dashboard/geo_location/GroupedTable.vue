@@ -74,7 +74,7 @@
         computed: {
             geoLocationItems() {
                 return this.items.map((item) => {
-                    const duration = moment.duration(parseInt(this.buttonsData[type].value), 's');
+                    const duration = moment.duration(item.avg_session_time, 's');
                     const hours = Math.floor(duration.asHours());
                     const minutes = moment.utc(duration.asMilliseconds()).format("mm:ss");
 
