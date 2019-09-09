@@ -10,7 +10,7 @@ use App\Actions\PageTimings\GetPageLoadingChartAction;
 use App\Actions\PageTimings\GetChartRequest;
 use App\Actions\PageTimings\GetServerResponseChartAction;
 use App\Http\Controllers\Controller;
-use App\Http\Request\PageTimingTableHttpRequest;
+use App\Http\Requests\PageTimings\PageTimingTableHttpRequest;
 use App\Http\Requests\PageTimings\PageTimingChartHttpRequest;
 use App\Http\Resources\ChartResource;
 use App\Http\Resources\SpeedOverviewTableResource;

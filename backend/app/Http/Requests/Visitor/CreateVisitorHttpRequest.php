@@ -8,6 +8,8 @@ use App\Http\Request\ApiFormRequest;
 
 final class CreateVisitorHttpRequest extends ApiFormRequest
 {
+    const HEADER_X_WEBSITE = 'X-Website';
+
     public function rules(): array
     {
         return [];
@@ -15,6 +17,6 @@ final class CreateVisitorHttpRequest extends ApiFormRequest
 
     public function trackNumber(): string
     {
-        return $this->header('X-Website');
+        return $this->header(self::HEADER_X_WEBSITE);
     }
 }
