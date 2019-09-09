@@ -46,10 +46,11 @@
         },
         data() {
             return {
-                chartArea: {
-                    width: '90%'
-                },
                 chartOptions: {
+                    chartArea: {
+                        width: '95%',
+                        height: '75%'
+                    },
                     tooltip: {
                         isHtml: true,
                         ignoreBounds: true,
@@ -101,6 +102,9 @@
                             fontSize: 12,
                             lineHeight: 14,
                             letterSpacing: 0.533333,
+                        },
+                        gridlines: {
+                            color: '#edf2fa'
                         }
                     }
                 },
