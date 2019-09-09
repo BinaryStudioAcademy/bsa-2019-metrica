@@ -74,10 +74,12 @@
         computed: {
             geoLocationItems() {
                 return this.items.map((item) => {
+                    const duration = moment.duration(parseInt(this.buttonsData[type].value), 's');
+                    const hours = Math.floor(duration.asHours());
+                    const minutes = moment.utc(duration.asMilliseconds()).format("mm:ss");
+
                     let newItemData = {
-                        avg_session_time: moment.utc(
-                            moment.duration(item.avg_session_time, 's').asMilliseconds()
-                        ).format("HH:mm:ss"),
+                        avg_session_time: `${hours}:${minutes}`,
                         bounce_rate: Math.round(Number(item.bounce_rate) * 100)
                     };
                     return { ...item, ...newItemData};
