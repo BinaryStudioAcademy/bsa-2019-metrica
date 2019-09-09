@@ -154,6 +154,7 @@ Route::prefix('v1')->group(function () {
         Route::group([
             'prefix' => 'errors'
         ], function () {
+            Route::get('/count', 'ErrorReportController@getErrorsCountByDateRange');
             Route::get('/table-items', 'ErrorReportController@getErrorItemsByParameter');
         });
     });
