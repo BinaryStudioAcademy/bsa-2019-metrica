@@ -32,7 +32,9 @@ final class BounceRateAction
         $collection = new Collection();
         do {
             $all = $allVisitorsByTimeFrameValues[$start]??0;
-            if ($all === 0) continue;
+            if ($all === 0) {
+                continue;
+            }
             $bounced = $bounceVisitorsByTimeFrameValues[$start]??0;
             $rate = $bounced / $all;
             $collection->add(new ChartValue((string) $start, (string) $rate));
