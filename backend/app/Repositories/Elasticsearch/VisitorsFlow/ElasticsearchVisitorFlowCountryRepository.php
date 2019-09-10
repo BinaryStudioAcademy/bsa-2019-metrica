@@ -33,19 +33,6 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
         return $countryAggregate;
     }
 
-    public function update(Aggregate $countryAggregate): Aggregate
-    {
-        $this->client->index([
-            'index' => self::INDEX_NAME,
-            'id' => $countryAggregate->getId(),
-            'type' => '_doc',
-            'body' => $countryAggregate->toArray()
-        ]);
-
-        return $countryAggregate;
-    }
-
-
     public function getByCriteria(Criteria $criteria): ?CountryAggregate
     {
         $params = [

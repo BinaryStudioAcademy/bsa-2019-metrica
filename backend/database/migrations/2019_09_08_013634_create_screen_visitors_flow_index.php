@@ -5,11 +5,15 @@ use Illuminate\Database\Migrations\Migration;
 class CreateScreenVisitorsFlowIndex extends Migration
 {
     private const INDEX_NAME = 'screen-visitors-flow-index';
+    private $client;
 
+    public function __construct()
+    {
+        $this->client =  app('elasticsearch');
+    }
     public function up()
     {
         $this->down();
-        $client = app('elasticsearch');
         $params = [
             'index' => self::INDEX_NAME,
             'body' => [
@@ -25,15 +29,14 @@ class CreateScreenVisitorsFlowIndex extends Migration
                 ]
             ]
         ];
-        $client->indices()->create($params);
+        $this->client->indices()->create($params);
     }
 
     public function down()
     {
-        $client = app('elasticsearch');
         $params = ['index' => self::INDEX_NAME];
-        if ($client->indices()->exists($params)) {
-            $client->indices()->delete($params);
+        if ($this->client->indices()->exists($params)) {
+            $this->client->indices()->delete($params);
         }
     }
 }

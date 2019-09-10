@@ -12,8 +12,6 @@ interface VisitorFlowScreenRepository extends VisitorFlowRepository
 {
     public function save(Aggregate $browserAggregate): Aggregate;
 
-    public function update(Aggregate $browserAggregate): Aggregate;
-
     public function getByCriteria(Criteria $criteria): ?ScreenAggregate;
 
     public function getFlow(int $websiteId, int $level): ParameterFlowCollection;

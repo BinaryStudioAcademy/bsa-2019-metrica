@@ -33,6 +33,7 @@ final class FlowAggregateService
     private $visitorFlowBrowserRepository;
     private $visitorFlowDeviceRepository;
     private $visitorFlowScreenRepository;
+    private const FIRST_LEVEL = 1;
 
     public function __construct(
         PageRepository $pageRepository,
@@ -76,13 +77,13 @@ final class FlowAggregateService
         if (!$isFirstInSession) {
             return $this->getVisitsCount($visit);
         }
-        return 1;
+        return self::FIRST_LEVEL;
     }
 
     private function updateCountryAggregate(
         Visit $visit,
         int $level,
-        Visit $previousVisit,
+        ?Visit $previousVisit,
         ?CountryAggregate $countryAggregate): void
     {
         if (!$countryAggregate) {
@@ -90,7 +91,7 @@ final class FlowAggregateService
             $this->visitorFlowCountryRepository->save($countryAggregate);
             return;
         }
-        if ($level > 1) {
+        if ($level > self::FIRST_LEVEL) {
             $previousAggregate = CountryAggregate::getPreviousAggregate(
                 $this->visitorFlowCountryRepository,
                 $previousVisit,
@@ -99,25 +100,25 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowCountryRepository->update($previousAggregate);
+            $this->visitorFlowCountryRepository->save($previousAggregate);
         }
         $countryAggregate->views++;
         $countryAggregate->exitCount++;
-        $this->visitorFlowCountryRepository->update($countryAggregate);
+        $this->visitorFlowCountryRepository->save($countryAggregate);
     }
 
     private function updateBrowserAggregate(
         Visit $visit,
         int $level,
-        Visit $previousVisit,
-        ?BrowserAggregate $browserAggregate): void
-    {
+        ?Visit $previousVisit,
+        ?BrowserAggregate $browserAggregate
+    ): void {
         if (!$browserAggregate) {
             $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
             $this->visitorFlowBrowserRepository->save($browserAggregate);
             return;
         }
-        if ($level > 1) {
+        if ($level > self::FIRST_LEVEL) {
             $previousAggregate = BrowserAggregate::getPreviousAggregate(
                 $this->visitorFlowBrowserRepository,
                 $previousVisit,
@@ -126,25 +127,25 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowBrowserRepository->update($previousAggregate);
+            $this->visitorFlowBrowserRepository->save($previousAggregate);
         }
         $browserAggregate->views++;
         $browserAggregate->exitCount++;
-        $this->visitorFlowBrowserRepository->update($browserAggregate);
+        $this->visitorFlowBrowserRepository->save($browserAggregate);
     }
 
     private function updateDeviceAggregate(
         Visit $visit,
         int $level,
-        Visit $previousVisit,
-        ?DeviceAggregate $deviceAggregate): void
-    {
+        ?Visit $previousVisit,
+        ?DeviceAggregate $deviceAggregate
+    ): void {
         if (!$deviceAggregate) {
             $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
             $this->visitorFlowDeviceRepository->save($deviceAggregate);
             return;
         }
-        if ($level > 1) {
+        if ($level > self::FIRST_LEVEL) {
             $previousAggregate = DeviceAggregate::getPreviousAggregate(
                 $this->visitorFlowDeviceRepository,
                 $previousVisit,
@@ -153,25 +154,25 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowDeviceRepository->update($previousAggregate);
+            $this->visitorFlowDeviceRepository->save($previousAggregate);
         }
         $deviceAggregate->views++;
         $deviceAggregate->exitCount++;
-        $this->visitorFlowDeviceRepository->update($deviceAggregate);
+        $this->visitorFlowDeviceRepository->save($deviceAggregate);
     }
 
     private function updateScreenAggregate(
         Visit $visit,
         int $level,
-        Visit $previousVisit,
-        ?ScreenAggregate $screenAggregate): void
-    {
+        ?Visit $previousVisit,
+        ?ScreenAggregate $screenAggregate
+    ): void {
         if (!$screenAggregate) {
             $screenAggregate = $this->createScreenAggregate($visit, $level, $previousVisit);
             $this->visitorFlowScreenRepository->save($screenAggregate);
             return;
         }
-        if ($level > 1) {
+        if ($level > self::FIRST_LEVEL) {
             $previousAggregate = ScreenAggregate::getPreviousAggregate(
                 $this->visitorFlowScreenRepository,
                 $previousVisit,
@@ -180,11 +181,11 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowScreenRepository->update($previousAggregate);
+            $this->visitorFlowScreenRepository->save($previousAggregate);
         }
         $screenAggregate->views++;
         $screenAggregate->exitCount++;
-        $this->visitorFlowScreenRepository->update($screenAggregate);
+        $this->visitorFlowScreenRepository->save($screenAggregate);
     }
 
     private function getLastVisit(Visit $currentVisit): ?Visit
@@ -221,7 +222,7 @@ final class FlowAggregateService
         $website = $this->websiteRepository->getById($page->website_id);
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
         $prevPage = new PageValue();
-        if ($level !== 1) {
+        if ($level !== self::FIRST_LEVEL) {
             $previousAggregate = CountryAggregate::getPreviousAggregate(
                 $this->visitorFlowCountryRepository,
                 $previousVisit,
@@ -230,7 +231,7 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowCountryRepository->update($previousAggregate);
+            $this->visitorFlowCountryRepository->save($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
 
@@ -256,7 +257,7 @@ final class FlowAggregateService
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
-        if ($level !== 1) {
+        if ($level !== self::FIRST_LEVEL) {
             $previousAggregate = BrowserAggregate::getPreviousAggregate(
                 $this->visitorFlowBrowserRepository,
                 $previousVisit,
@@ -265,7 +266,7 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowBrowserRepository->update($previousAggregate);
+            $this->visitorFlowBrowserRepository->save($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
@@ -290,7 +291,7 @@ final class FlowAggregateService
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
-        if ($level !== 1) {
+        if ($level !== self::FIRST_LEVEL) {
             $previousAggregate = DeviceAggregate::getPreviousAggregate(
                 $this->visitorFlowDeviceRepository,
                 $previousVisit,
@@ -299,7 +300,7 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowDeviceRepository->update($previousAggregate);
+            $this->visitorFlowDeviceRepository->save($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
@@ -324,7 +325,7 @@ final class FlowAggregateService
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
-        if ($level !== 1) {
+        if ($level !== self::FIRST_LEVEL) {
             $previousAggregate = ScreenAggregate::getPreviousAggregate(
                 $this->visitorFlowScreenRepository,
                 $previousVisit,
@@ -333,7 +334,7 @@ final class FlowAggregateService
             );
             $previousAggregate->isLastPage = false;
             $previousAggregate->exitCount--;
-            $this->visitorFlowScreenRepository->update($previousAggregate);
+            $this->visitorFlowScreenRepository->save($previousAggregate);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
@@ -354,7 +355,7 @@ final class FlowAggregateService
         );
     }
 
-    private function getBrowserAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): BrowserAggregate
+    private function getBrowserAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?BrowserAggregate
     {
         return $this->visitorFlowBrowserRepository->getByCriteria(
             BrowserCriteria::getCriteria(
@@ -367,7 +368,7 @@ final class FlowAggregateService
         );
     }
 
-    private function getCountryAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): CountryAggregate
+    private function getCountryAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?CountryAggregate
     {
         return $this->visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
@@ -380,7 +381,7 @@ final class FlowAggregateService
         );
     }
 
-    private function getDeviceAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): DeviceAggregate
+    private function getDeviceAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?DeviceAggregate
     {
         return $this->visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(
@@ -393,7 +394,7 @@ final class FlowAggregateService
         );
     }
 
-    private function getScreenAggregate(Visit $visit, int $level, bool $isFirstInSession, Visit $previousVisit): ScreenAggregate
+    private function getScreenAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?ScreenAggregate
     {
         return $this->visitorFlowScreenRepository->getByCriteria(
             ScreenCriteria::getCriteria(

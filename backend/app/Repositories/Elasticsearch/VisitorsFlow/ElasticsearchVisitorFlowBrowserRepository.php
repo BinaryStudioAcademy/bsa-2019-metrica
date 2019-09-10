@@ -33,19 +33,6 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
         return $browserAggregate;
     }
 
-    public function update(Aggregate $browserAggregate): Aggregate
-    {
-        $this->client->index([
-            'index' => self::INDEX_NAME,
-            'id' => $browserAggregate->getId(),
-            'type' => '_doc',
-            'body' => $browserAggregate->toArray()
-        ]);
-
-        return $browserAggregate;
-    }
-
-
     public function getByCriteria(Criteria $criteria): ?BrowserAggregate
     {
         $params = [

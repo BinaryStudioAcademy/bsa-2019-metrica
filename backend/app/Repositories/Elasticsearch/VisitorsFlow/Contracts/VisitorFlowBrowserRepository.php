@@ -12,8 +12,6 @@ interface VisitorFlowBrowserRepository extends VisitorFlowRepository
 {
     public function save(Aggregate $browserAggregate): Aggregate;
 
-    public function update(Aggregate $browserAggregate): Aggregate;
-
     public function getByCriteria(Criteria $criteria): ?BrowserAggregate;
 
     public function getViewsByEachBrowser(string $type, int $websiteId): ParametersCollection;

@@ -34,19 +34,6 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
         return $screenAggregate;
     }
 
-    public function update(Aggregate $screenAggregate): Aggregate
-    {
-        $this->client->index([
-            'index' => self::INDEX_NAME,
-            'id' => $screenAggregate->getId(),
-            'type' => '_doc',
-            'body' => $screenAggregate->toArray()
-        ]);
-
-        return $screenAggregate;
-    }
-
-
     public function getByCriteria(Criteria $criteria): ?ScreenAggregate
     {
         $params = [

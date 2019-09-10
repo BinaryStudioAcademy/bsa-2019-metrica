@@ -33,19 +33,6 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
         return $deviceAggregate;
     }
 
-    public function update(Aggregate $deviceAggregate): Aggregate
-    {
-        $this->client->index([
-            'index' => self::INDEX_NAME,
-            'id' => $deviceAggregate->getId(),
-            'type' => '_doc',
-            'body' => $deviceAggregate->toArray()
-        ]);
-
-        return $deviceAggregate;
-    }
-
-
     public function getByCriteria(Criteria $criteria): ?DeviceAggregate
     {
         $params = [

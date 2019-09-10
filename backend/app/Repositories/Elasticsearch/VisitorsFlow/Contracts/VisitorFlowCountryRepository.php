@@ -12,8 +12,6 @@ interface VisitorFlowCountryRepository extends VisitorFlowRepository
 {
     public function save(Aggregate $tableAggregate): Aggregate;
 
-    public function update(Aggregate $tableAggregate): Aggregate;
-
     public function getByCriteria(Criteria $criteria): ?CountryAggregate;
 
     public function getFlow(int $websiteId, int $level): ParameterFlowCollection;

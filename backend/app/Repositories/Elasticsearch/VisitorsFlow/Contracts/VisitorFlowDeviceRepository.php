@@ -12,8 +12,6 @@ interface VisitorFlowDeviceRepository extends VisitorFlowRepository
 {
     public function save(Aggregate $deviceAggregate): Aggregate;
 
-    public function update(Aggregate $deviceAggregate): Aggregate;
-
     public function getByCriteria(Criteria $criteria): ?DeviceAggregate;
 
     public function getFlow(int $websiteId, int $level): ParameterFlowCollection;
