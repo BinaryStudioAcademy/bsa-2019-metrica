@@ -9,12 +9,14 @@ final class TeamMember
     private $id;
     private $name;
     private $email;
+    private $menu;
 
-    public function __construct(int $id, string $name, string $email)
+    public function __construct(int $id, string $name, string $email, $menu)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
+        $this->menu = $menu;
     }
 
     public function id(): int
@@ -31,4 +33,10 @@ final class TeamMember
     {
         return $this->email;
     }
+
+    public function menu(): string
+    {
+        return $this->menu;
+    }
+
 }

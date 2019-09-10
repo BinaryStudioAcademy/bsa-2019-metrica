@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Teams;
 
 use App\Repositories\Contracts\Teams\TeamRepository;
+use App\DataTransformer\Teams\TeamMember;
 
 final class UpdatePermittedMenuItemsAction
 {
@@ -17,9 +18,19 @@ final class UpdatePermittedMenuItemsAction
 
     public function execute(UpdatePermittedMenuItemsRequest $request): UpdatePermittedMenuItemsResponse
     {
-        $usersWithPermittedMenuItems = $this->teamRepository->updatePermittedMenu(
+        $this->teamRepository->updatePermittedMenu(
             $request->websiteId(), $request->updateMenuList()
         );
-        return new UpdatePermittedMenuItemsResponse($usersWithPermittedMenuItems);
+
+        $members = $this->teamRepository->getTeamMembers($request->websiteId());
+
+        return new UpdatePermittedMenuItemsResponse($members->map(function ($item) {
+            return new TeamMember(
+                $item->id,
+                $item->name,
+                $item->email,
+                $item->pivot->permitted_menu
+            );
+        }));
     }
 }

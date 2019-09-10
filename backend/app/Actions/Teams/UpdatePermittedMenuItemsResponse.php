@@ -8,15 +8,15 @@ use Illuminate\Support\Collection;
 
 final class UpdatePermittedMenuItemsResponse
 {
-    private $updatedMenuList;
+    private $teamMembers;
 
-    public function __construct(Collection $updatedMenuList)
+    public function __construct(Collection $teamMembers)
     {
-        $this->updatedMenuList = $updatedMenuList;
+        $this->teamMembers = $teamMembers;
     }
 
-    public function updatedMenuList(): Collection
+    public function teamsData(): Collection
     {
-        return $this->updatedMenuList;
+        return $this->teamMembers;
     }
 }

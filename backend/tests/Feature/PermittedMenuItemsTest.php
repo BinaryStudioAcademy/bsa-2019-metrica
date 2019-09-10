@@ -102,20 +102,16 @@ class PermittedMenuItemsTest extends TestCase
         $expected = [
                     "data" => [
                         [
-                            "user_id" => $this->firstTeamMember->id,
-                            "website_id" => $this->website->id,
-                            "permitted_menu" => [
-                                "geo-location",
-                                "behaviour"
-                            ]
+                            "id" => $this->firstTeamMember->id,
+                            "name" => $this->firstTeamMember->name,
+                            "email" => $this->firstTeamMember->email,
+                            "permitted_menu" => "geo-location, behaviour"
                         ],
                         [
-                            "user_id" => $this->secondTeamMember->id,
-                            "website_id" => $this->website->id,
-                            "permitted_menu" => [
-                                "visitors",
-                                "page-views"
-                            ]
+                            "id" => $this->secondTeamMember->id,
+                            "name" => $this->secondTeamMember->name,
+                            "email" => $this->secondTeamMember->email,
+                            "permitted_menu" => "visitors, page-views"
                         ],
                     ],
                     "meta" => []

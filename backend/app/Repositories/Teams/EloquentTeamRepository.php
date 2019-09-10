@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Teams;
 
 use App\Entities\Website;
-use app\Repositories\Contracts\Teams\TeamRepository;
+use App\Repositories\Contracts\Teams\TeamRepository;
 use Illuminate\Support\Collection;
 use App\DataTransformer\Teams\MemberWithMenuItems;
 

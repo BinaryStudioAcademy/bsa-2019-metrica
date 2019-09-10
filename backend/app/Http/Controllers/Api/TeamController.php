@@ -86,7 +86,7 @@ final class TeamController extends Controller
             UpdatePermittedMenuItemsRequest::fromRequest($request)
         );
         return ApiResponse::success(
-            new PermittedMenuResource($response->updatedMenuList())
+            new TeamResource($response->teamsData())
         );
     }
 }

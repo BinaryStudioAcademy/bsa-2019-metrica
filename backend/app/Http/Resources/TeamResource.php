@@ -21,6 +21,7 @@ final class TeamResource extends ResourceCollection implements ApiResponse
             'id' => $item->id(),
             'name' => $item->name(),
             'email' => $item->email(),
+            'permitted_menu' => $item->menu()
         ];
     }
     public function presentCollection(Collection $collection): array
