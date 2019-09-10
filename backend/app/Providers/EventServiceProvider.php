@@ -20,8 +20,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\VisitCreated' => [
             'App\Listeners\SendVisitsNotification',
-            'App\Listeners\CalculateStats'
         ],
+        'App\Events\SessionCreated' => [
+            'App\Listeners\SendSessionNotification'
+        ]
     ];
 
     /**
