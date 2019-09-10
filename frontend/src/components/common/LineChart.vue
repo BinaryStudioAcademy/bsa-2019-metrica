@@ -145,9 +145,6 @@
         justify-content: center;
         align-content: center;
     }
-    ::v-deep .v-card-title {
-        color: crimson;
-    }
     ::v-deep svg path {
         fill: none;
     }
