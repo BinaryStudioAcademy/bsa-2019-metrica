@@ -27,19 +27,29 @@ final class BounceRateAction
         $allVisitorsByTimeFrameValues = $this->repository->getVisitorsCountByTimeFrame($filterData);
         $bounceVisitorsByTimeFrameValues = $this->repository->getBouncedVisitorsCountByTimeFrame($filterData);
 
-        $start = $from->getTimestamp() - ($from->getTimestamp()%$timeFrame);
-        $end = $to->getTimestamp() - ($to->getTimestamp()%$timeFrame);
-        $collection = new Collection();
+        $start = $from->getTimestamp() - ($from->getTimestamp() % $timeFrame);
+        $end = $to->getTimestamp() - ($to->getTimestamp() % $timeFrame);
+        $hasFirst = false;
+        $length = 0;
+        $lastLength = 0;
+        $items = [];
         do {
             $all = $allVisitorsByTimeFrameValues[$start]??0;
-            if ($all === 0) {
+            $bounced = $bounceVisitorsByTimeFrameValues[$start]??0;
+            $rate = ($all === 0) ? 0 : ($bounced / $all);
+
+            if (!$hasFirst && $rate === 0) {
                 continue;
             }
-            $bounced = $bounceVisitorsByTimeFrameValues[$start]??0;
-            $rate = $bounced / $all;
-            $collection->add(new ChartValue((string) $start, (string) $rate));
-        } while (($start+=$timeFrame)<=$end);
+            $length++;
+            $hasFirst = true;
+            if ($rate !== 0){
+                $lastLength = $length;
+            }
+            $items[] = new ChartValue((string)$start, (string)$rate);
+        } while (($start += $timeFrame) <= $end);
 
+        $collection = new Collection(array_slice($items, 0, $lastLength));
         return new BounceRateResponse($collection);
     }
 }
