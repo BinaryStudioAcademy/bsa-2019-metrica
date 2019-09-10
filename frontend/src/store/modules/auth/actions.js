@@ -64,7 +64,8 @@ export default {
 
     [RESET_PASSWORD]: (context, payload) => {
         return resetPassword(payload).then(() => {
-                return `Your reset password link was created. Check your email ${payload.email}, please.`;
+                return ` Check your inbox. We just sent a link to reset your password via email to ${payload.email}.
+                Back to <a href="/login">sign in</a> `;
             }
         ).catch((error) => {
             switch (error.response.status) {

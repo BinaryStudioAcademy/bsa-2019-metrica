@@ -44,7 +44,7 @@
                     class="success-response"
                     type="success"
                 >
-                    {{ successMsg }}
+                    <span v-html="successMsg" />
                 </VAlert>
             </VContainer>
         </VFlex>
