@@ -1,19 +1,10 @@
-import store from "../store";
+import {mapState} from 'vuex';
 
 export const isChangeSelectedWebsite = {
-    mounted() {
-        store.watch(
-            (state) => state.selectedWebsite,
-            (newValue, oldValue) => {
-                if(newValue !== oldValue) {
-                    this.onWebsiteChange();
-                }
-            }
-        );
-    },
-    methods: {
-        onWebsiteChange: function () {
-
+    computed: mapState(['selectedWebsite']),
+    watch: {
+        selectedWebsite() {
+            this.onWebsiteChange();
         }
     }
 };
