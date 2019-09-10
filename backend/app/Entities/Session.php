@@ -107,7 +107,7 @@ final class Session extends Model
     {
         return $query->select(
             DB::raw(
-                'round(extract(epoch from (avg(sessions.updated_at - sessions.start_session)))) as avg_session_time'
+                'round(extract(epoch from (avg(sessions.end_session - sessions.start_session)))) as avg_session_time'
             )
         );
     }

@@ -129,7 +129,7 @@ export default {
                     .then(response => {
                         totalVisitors = response.value || 0;
                        if (totalVisitors > 0) {
-                            newVisitorsValue = newVisitors/totalVisitors*100;
+                            newVisitorsValue = Math.round(newVisitors/totalVisitors*100);
                             returningVisitorsValue = 100 - newVisitorsValue;
                         }
                         let payload = {
