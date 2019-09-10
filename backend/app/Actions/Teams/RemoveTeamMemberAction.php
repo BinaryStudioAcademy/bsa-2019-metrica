@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Teams;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use App\Notifications\TeamMemberRemoved;
 use App\Repositories\Contracts\WebsiteRepository;
 use App\Repositories\Contracts\UserRepository;
@@ -23,13 +21,11 @@ final class RemoveTeamMemberAction
         $this->websiteRepository = $websiteRepository;
     }
 
-    public function execute(RemoveTeamMemberRequest $request): void
+    public function execute($userId): void
     {
-        $website = $this->websiteRepository->getById($request->websiteId());
+        $teamMember = $this->userRepository->getById($userId);
 
-        $teamMember = $this->userRepository->getById($request->memberId());
-
-        $this->websiteRepository->removeMemberFromWebsiteTeam($teamMember, $website->id);
+        $website = $this->websiteRepository->removeMemberFromWebsiteTeam($teamMember);
 
         $teamMember->notify(new TeamMemberRemoved($website));
     }

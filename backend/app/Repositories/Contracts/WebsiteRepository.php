@@ -14,7 +14,7 @@ interface WebsiteRepository
     public function getByTrackNumber(int $id): ?Website;
     public function setWebsiteOwner(User $user, int $websiteId): void;
     public function addTeamMemberToWebsite(User $user, int $websiteId): void;
-    public function removeMemberFromWebsiteTeam(User $user, int $websiteId): void;
+    public function removeMemberFromWebsiteTeam(User $user): Website;
     public function getRelateUserWebsites(int $userId): Collection;
     public function getUsersWithPermittedMenu(int $websiteId): Collection;
     public function getRelateUserWebsite(int $userId, int $websiteId): Website;

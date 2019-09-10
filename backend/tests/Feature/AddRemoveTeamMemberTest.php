@@ -55,7 +55,7 @@ class AddRemoveTeamMemberTest extends TestCase
 
     public function test_remove_team_member()
     {
-        $requestData = ['website_id' => $this->website->id];
+//        $requestData = ['website_id' => $this->website->id];
 
         $memberId = $this->user->id + 2;
 
@@ -75,7 +75,7 @@ class AddRemoveTeamMemberTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->delete(self::ENDPOINT.'member/'.$memberId, $requestData)
+            ->delete(self::ENDPOINT.'member/'.$memberId)
             ->assertStatus(204);
 
         $this->assertDatabaseMissing('user_website', [
