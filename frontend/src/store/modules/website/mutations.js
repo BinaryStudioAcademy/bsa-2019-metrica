@@ -22,8 +22,17 @@ export default {
         state.isCurrentWebsite = true;
     },
     [UPDATE_CURRENT_WEBSITE]: (state, data) => {
-        const index = state.relateUserWebsites.findIndex(website => website.id === data.id);
-        state.relateUserWebsites[index] = data;
+        state.relateUserWebsites = state.relateUserWebsites.map(website => {
+            if (website.id === data.id) {
+                return {
+                    ...data,
+                };
+            }
+
+            return {
+                ...website,
+            };
+        });
     },
     [RESET_CURRENT_WEBSITES]: (state) => {
         state.relateUserWebsites = [];
