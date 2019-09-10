@@ -31,4 +31,10 @@ final class EloquentVisitRepository implements VisitRepository
             })
             ->get();
     }
+
+
+    public function findBySessionId(int $sessionId): Collection
+    {
+        return Visit::where('session_id', $sessionId)->get();
+    }
 }

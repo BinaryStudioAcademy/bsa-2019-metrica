@@ -5,10 +5,15 @@
         </div>
         <div class="pa-6 white pie-container position-relative d-flex flex-column justify-space-between">
             <Spinner v-if="isFetching" />
-            <VContainer v-if="!data.length">
-                no data to display
+            <VContainer
+                v-if="noData"
+                fill-height
+                class="d-flex align-center justify-content-center grey--text"
+            >
+                There is no data to display.
             </VContainer>
             <PieChartItem
+                v-else
                 v-for="(item, key) in data"
                 :data-type="item.type"
                 :data="item.data"
@@ -63,6 +68,11 @@
             ...mapGetters('website', {
                 website: GET_CURRENT_WEBSITE
             }),
+            noData() {
+                return this.data.some(function(element) {
+                    return element.data.length === 0;
+                });
+            }
         },
         methods: {
             ...mapActions('devices', {
