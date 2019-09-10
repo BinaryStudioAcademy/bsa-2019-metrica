@@ -26,7 +26,8 @@ const fetchChartValues = (startDate, endDate, interval, websiteId) => {
     return requestService.get(resourceUrl + '/chart-page-views/avg-time', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[period]': interval
+        'filter[period]': interval,
+        'filter[website_id]': websiteId,
     }).then(response => response.data.map(chartTransformerToInt))
         .catch(error => Promise.reject(
             new Error(

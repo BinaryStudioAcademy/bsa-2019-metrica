@@ -30,10 +30,13 @@ class ApiWebsiteTest extends TestCase
     {
         $expectedData = [
             "data" => [
+                'id' => 1,
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
                 'tracking_number' => '00000001',
+                'role' => 'owner',
+                'permitted_menu' => "visitors, page-views, geo-location, behaviour, screencast",
             ],
             "meta" => [],
 
@@ -43,11 +46,9 @@ class ApiWebsiteTest extends TestCase
             'domain' => $expectedData['data']['domain'],
             'single_page' => true,
         ];
-        $token = JWTAuth::fromUser($this->user);
-        $headers = ['Authorization' => "Bearer $token"];
 
         $this->actingAs($this->user)
-            ->post('/api/v1/websites', $websiteData, $headers)
+            ->post('/api/v1/websites', $websiteData)
             ->assertStatus(200)
             ->assertJson($expectedData);
     }
@@ -56,11 +57,13 @@ class ApiWebsiteTest extends TestCase
     {
         $expectedData = [
             "data" => [
-                'id' => 4,
+                'id' => 2,
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
                 'tracking_number' => '00000001',
+                'role' => 'owner',
+                'permitted_menu' => "visitors, page-views, geo-location, behaviour, screencast",
             ],
             "meta" => [],
 

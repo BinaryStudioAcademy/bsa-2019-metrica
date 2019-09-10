@@ -28,6 +28,7 @@ export default new Vuex.Store({
         geo_location,
         devices,
         visits_density_widget,
+        team,
         error_report
     },
     plugins: [authPlugin]

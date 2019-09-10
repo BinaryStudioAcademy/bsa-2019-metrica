@@ -27,8 +27,12 @@ class ActivityVisitorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = factory(User::class)->create([
-            'id'=>1
+        $this->user = factory(User::class)->create();
+        $this->website = factory(Website::class)->create([
+            'id' => 1
+        ]);
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
         ]);
         $firstDate = Carbon::now('UTC')->subMinutes(15);
         $secondDate = Carbon::now('UTC')->subMinutes(1);

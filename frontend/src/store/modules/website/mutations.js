@@ -8,6 +8,7 @@ import {
     SET_SELECTED_WEBSITE,
     RESET_FETCH_WEBSITES,
     SET_RELATE_WEBSITES,
+    ADD_NEW_WEBSITE
 } from "./types/mutations";
 
 export default {
@@ -20,11 +21,18 @@ export default {
     [SET_CURRENT_WEBSITE]: (state) => {
         state.isCurrentWebsite = true;
     },
-    [UPDATE_CURRENT_WEBSITE]: (state, website) => {
-        state.currentWebsite = {
-            ...state.currentWebsite,
-            ...website
-        };
+    [UPDATE_CURRENT_WEBSITE]: (state, data) => {
+        state.relateUserWebsites = state.relateUserWebsites.map(website => {
+            if (website.id === data.id) {
+                return {
+                    ...data,
+                };
+            }
+
+            return {
+                ...website,
+            };
+        });
     },
     [RESET_CURRENT_WEBSITES]: (state) => {
         state.relateUserWebsites = [];
@@ -54,4 +62,7 @@ export default {
     [SET_RELATE_WEBSITES]: (state, data) => {
         state.relateUserWebsites = data;
     },
+    [ADD_NEW_WEBSITE]: (state, website) => {
+        state.relateUserWebsites.push(website);
+    }
 };

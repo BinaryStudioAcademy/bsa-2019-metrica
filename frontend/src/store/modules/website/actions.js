@@ -17,6 +17,7 @@ import {
     SET_SELECTED_WEBSITE,
     RESET_FETCH_WEBSITES,
     SET_RELATE_WEBSITES,
+    ADD_NEW_WEBSITE
 } from "./types/mutations";
 import {addWebsite, updateWebsite, getRelateUserWebsites} from '@/api/website';
 
@@ -69,7 +70,7 @@ export default {
         }
 
         return addWebsite(newDataSite)
-            .then( response => context.commit(SET_CURRENT_WEBSITE, response.data))
+            .then( response => context.commit(ADD_NEW_WEBSITE, response.data))
             .catch( error => {
                 const errorBag = error.response.data.errors;
 
@@ -108,12 +109,11 @@ export default {
     },
 
     [UPDATE_WEBSITE]: (context, update) => {
-
         if (!update.name) {
             throw { message: "Name can not be empty." };
         }
 
-        let id = context.state.currentWebsite.id;
+        let id = context.state.selectedWebsite;
         if (!id) {
             throw { message: "Current website is undefined." };
         }

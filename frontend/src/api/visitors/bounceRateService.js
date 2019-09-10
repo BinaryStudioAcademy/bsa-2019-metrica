@@ -28,7 +28,7 @@ const fetchChartValues = (startDate, endDate, interval, websiteId) => {
         'filter[endDate]': endDate,
         'filter[period]': interval,
         'filter[website_id]': websiteId,
-    }).then(response => response.data.map(chartTransformer))
+    }).then(response => response.data.map(chartTransformerToPercent))
         .catch(error => Promise.reject(
             new Error(
                 _.get(
