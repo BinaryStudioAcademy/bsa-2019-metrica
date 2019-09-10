@@ -58,6 +58,7 @@
                     >
                         Sign in
                     </RouterLink>
+                    {{ tok }}
                 </div>
             </div>
         </VForm>
@@ -80,6 +81,7 @@
                     password: '',
                     confirmPassword: '',
                 },
+                tok:'',
                 valid: false,
                 passwordRules: [
                     v => !!v || 'Password is required',
@@ -95,6 +97,9 @@
             if (jwtService.checkExpireToken(this.$route.query.token)) {
                 this.showErrorMessage('Sorry, your token was expired. Please, enter your email again.');
                 this.$router.push({name: 'reset-password'});
+            }else {
+                const jwt = jwtService.parse(this.$route.query.token);
+                this.tok = jwt;
             }
         },
         methods: {
