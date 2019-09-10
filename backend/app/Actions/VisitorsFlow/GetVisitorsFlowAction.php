@@ -79,7 +79,7 @@ class GetVisitorsFlowAction
     private function filter(Collection $collection): Collection
     {
         $result = collect();
-        $collection->each(function (ParameterFlowItem $item, $key) use (&$result) {
+        $collection->each(function (ParameterFlowItem $item) use (&$result) {
             $found = false;
             foreach ($result as $resItem) {
                 if ($resItem->getTargetUrl() === $item->getTargetUrl() && $resItem->getLevel() === $item->getLevel()
