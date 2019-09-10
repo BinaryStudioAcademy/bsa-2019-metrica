@@ -17,9 +17,8 @@ export default {
         const id = context.rootState.website.selectedWebsite;
 
         return getTeamMembers(id)
-            .then(response => context.commit(SET_TEAM_MEMBERS, response.data))
+            .then(response => context.commit(SET_TEAM_MEMBERS, response))
             .finally(() => context.commit(RESET_IS_FETCHING));
-
     }
 };
 
