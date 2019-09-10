@@ -71,6 +71,7 @@
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
     import jwtService from "@/services/jwtService";
     import {updatePassword} from "../../api/users";
+    import _ from 'lodash';
 
     export default {
         name: "ChangePasswordForm",
@@ -108,7 +109,13 @@
                         token: this.$route.query.token,
                         password: this.password
                     }
-                );
+                ).then((response) => {
+                    this.showSuccessMessage(response.data.message);
+                    this.$router.push({name: 'login'});
+                }).catch(error => {
+                    this.showErrorMessage(_.get(error, 'response.data.error.message'));
+                    this.$router.push({name: 'login'});
+                });
             }
         },
     };

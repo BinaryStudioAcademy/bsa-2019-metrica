@@ -24,5 +24,4 @@ class UpdatePasswordHttpRequest extends ApiFormRequest
     {
         return $this->get('token');
     }
-
 }
