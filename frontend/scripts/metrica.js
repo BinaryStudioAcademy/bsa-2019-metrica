@@ -29,7 +29,7 @@
         if (token) {
             headers = {
                 ...headers,
-                ...{'x-visitor': 'Bearer ' + token}
+                'x-visitor': 'Bearer ' + token
             };
         }
 
