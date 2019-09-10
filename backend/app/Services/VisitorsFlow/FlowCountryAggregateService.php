@@ -61,7 +61,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
             return;
         }
         if ($level > self::FIRST_LEVEL) {
-            $this->updatePreviousAggregate($previousVisit,$level);
+            $this->updatePreviousAggregate($previousVisit, $level);
         }
         $countryAggregate->views++;
         $countryAggregate->exitCount++;
@@ -75,7 +75,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
         $prevPage = new PageValue();
         if ($level !== self::FIRST_LEVEL) {
-            $previousAggregate = $this->updatePreviousAggregate($previousVisit,$level);
+            $previousAggregate = $this->updatePreviousAggregate($previousVisit, $level);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
 

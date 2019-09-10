@@ -59,7 +59,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
             return;
         }
         if ($level > self::FIRST_LEVEL) {
-            $this->updatePreviousAggregate($previousVisit,$level);
+            $this->updatePreviousAggregate($previousVisit, $level);
         }
         $browserAggregate->views++;
         $browserAggregate->exitCount++;
@@ -72,7 +72,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
         if ($level !== self::FIRST_LEVEL) {
-            $previousAggregate = $this->updatePreviousAggregate($previousVisit,$level);
+            $previousAggregate = $this->updatePreviousAggregate($previousVisit, $level);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
@@ -92,7 +92,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
         );
     }
 
-    private function updatePreviousAggregate(Visit $previousVisit,int $level):Aggregate
+    private function updatePreviousAggregate(Visit $previousVisit, int $level):Aggregate
     {
         $previousAggregate = $this->getPreviousAggregate(
             $this->visitorFlowBrowserRepository,
