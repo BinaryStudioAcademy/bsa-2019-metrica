@@ -1,7 +1,7 @@
 <template>
     <div class="social-container">
         <div class="justify-content-center">
-            <div class="middle-line">
+            <div class="middle-line grey--text">
                 Or sign in with
             </div>
         </div>
@@ -61,7 +61,6 @@
     }
 
     .social-container {
-        max-width: 80%;
         padding-right: .5rem;
         background: inherit;
     }
@@ -69,10 +68,9 @@
     .middle-line {
         overflow: hidden;
         text-align: center;
-        color: gray;
         &:before,
         &:after {
-            background-color: gray;
+            background-color: #abb4c0;
             content: "";
             display: inline-block;
             height: 1px;

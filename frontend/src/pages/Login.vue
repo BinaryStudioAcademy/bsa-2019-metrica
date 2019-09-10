@@ -3,6 +3,7 @@
         <VContainer
             fluid
             fill-height
+            class="white"
         >
             <VLayout
                 content
@@ -11,9 +12,9 @@
                 justify-center
             >
                 <VFlex
-                    form-wrapper
+                    class="background pt-10"
+                    fill-height
                     xs12
-                    sm8
                     md6
                 >
                     <VLayout
@@ -29,6 +30,7 @@
                     image
                     sm12
                     md6
+                    class="d-sm-none d-md-flex"
                 >
                     <VImg
                         src="/assets/images/home.png"
@@ -70,24 +72,11 @@
 </script>
 
 <style lang="scss" scoped>
-
-    main{
-        background: #FFFFFF;
-
-    }
-
     .image{
         padding-top: 40px;
     }
 
     .container{
         padding: 0px
-
-    }
-
-    .form-wrapper{
-        padding-top: 40px;
-        height: 100%;
-        background: #F2F2F2;
     }
 </style>
