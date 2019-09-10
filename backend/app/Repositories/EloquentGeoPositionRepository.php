@@ -22,4 +22,9 @@ final class EloquentGeoPositionRepository implements GeoPositionRepository
         $geoPosition->save();
         return $geoPosition;
     }
+
+    public function getById(int $id): GeoPosition
+    {
+        return GeoPosition::findOrFail($id);
+    }
 }
