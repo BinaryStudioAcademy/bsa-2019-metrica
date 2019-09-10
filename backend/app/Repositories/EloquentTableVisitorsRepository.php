@@ -169,7 +169,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             return new TableValue(
                 $parameter,
                 $item->parameter_value,
-                strval($item->count_visitors),
+                (string)($item->count_visitors),
                 $item->count_visitors / $item->total_count * 100
             );
         });
@@ -180,7 +180,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return Visitor::forUserWebsite()
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select(DB::raw('count(visitors.id) as visitors_count, geo_positions.city as city'))
+            ->select(DB::raw('count(distinct(visitors.id)) as visitors_count, geo_positions.city as city'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('geo_positions.city')
             ->get();
@@ -197,7 +197,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->forUserWebsite()
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
-            ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.city as city'))
+            ->select(DB::raw('count(distinct(visitors.id)) as bounced_visitors_count, geo_positions.city as city'))
             ->groupBy('geo_positions.city')
             ->get();
     }
@@ -207,7 +207,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return Visitor::forUserWebsite()
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select(DB::raw('count(visitors.id) as visitors_count, geo_positions.country as country'))
+            ->select(DB::raw('count(distinct(visitors.id)) as visitors_count, geo_positions.country as country'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('geo_positions.country')
             ->get();
@@ -224,7 +224,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->forUserWebsite()
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'visits.geo_position_id', '=', 'geo_positions.id')
-            ->select(DB::raw('count(visitors.id) as bounced_visitors_count, geo_positions.country as country'))
+            ->select(DB::raw('count(distinct(visitors.id)) as bounced_visitors_count, geo_positions.country as country'))
             ->groupBy('geo_positions.country')
             ->get();
     }
@@ -234,7 +234,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
         return Visitor::has('visits')
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
-            ->select(DB::raw('count(visitors.id) as visitors_count, sessions.language as language'))
+            ->select(DB::raw('count(distinct(visitors.id)) as visitors_count, sessions.language as language'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('sessions.language')
             ->where('sessions.website_id', '=', $website_id)
@@ -252,7 +252,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             })
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
-            ->select(DB::raw('count(visitors.id) as bounced_visitors_count, sessions.language as language'))
+            ->select(DB::raw('count(distinct(visitors.id)) as bounced_visitors_count, sessions.language as language'))
             ->groupBy('sessions.language')
             ->where('sessions.website_id', '=', $website_id)
             ->get();
@@ -264,7 +264,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('count(visitors.id) as visitors_count, systems.browser as browser'))
+            ->select(DB::raw('count(distinct(visitors.id)) as visitors_count, systems.browser as browser'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('systems.browser')
             ->where('sessions.website_id', '=', $website_id)
@@ -282,7 +282,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('count(visitors.id) as bounced_visitors_count, systems.browser as browser'))
+            ->select(DB::raw('count(distinct(visitors.id)) as bounced_visitors_count, systems.browser as browser'))
             ->groupBy('systems.browser')
             ->where('sessions.website_id', '=', $website_id)
             ->get();
@@ -294,7 +294,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('count(visitors.id) as visitors_count, systems.os as operating_system'))
+            ->select(DB::raw('count(distinct(visitors.id)) as visitors_count, systems.os as operating_system'))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy('systems.os')
             ->where('sessions.website_id', '=', $website_id)
@@ -312,7 +312,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('count(visitors.id) as bounced_visitors_count, systems.os as operating_system'))
+            ->select(DB::raw('count(distinct(visitors.id)) as bounced_visitors_count, systems.os as operating_system'))
             ->groupBy('systems.os')
             ->where('sessions.website_id', '=', $website_id)
             ->get();
@@ -324,7 +324,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('count(visitors.id) as visitors_count'), DB::raw("CONCAT(systems.resolution_height, 'x', systems.resolution_width) as screen_resolution"))
+            ->select(DB::raw('count(distinct(visitors.id)) as visitors_count'), DB::raw("CONCAT(systems.resolution_height, 'x', systems.resolution_width) as screen_resolution"))
             ->whereBetween('visits.visit_time', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy(['systems.resolution_width','systems.resolution_height'])
             ->where('sessions.website_id', '=', $website_id)
@@ -342,7 +342,7 @@ final class EloquentTableVisitorsRepository implements TableVisitorsRepository
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('sessions', 'sessions.id', '=', 'visits.session_id')
             ->join('systems', 'systems.id', '=', 'sessions.system_id')
-            ->select(DB::raw('COUNT(visitors.id) as bounced_visitors_count'), DB::raw("CONCAT(systems.resolution_height, 'x', systems.resolution_width) as screen_resolution"))
+            ->select(DB::raw('count(distinct(visitors.id)) as bounced_visitors_count'), DB::raw("CONCAT(systems.resolution_height, 'x', systems.resolution_width) as screen_resolution"))
             ->groupBy(['systems.resolution_width','systems.resolution_height'])
             ->where('sessions.website_id', '=', $website_id)
             ->get();
