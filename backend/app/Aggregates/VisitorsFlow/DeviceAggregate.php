@@ -51,21 +51,4 @@ class DeviceAggregate extends Aggregate
             )
         );
     }
-
-    public static function getPreviousAggregate(
-        VisitorFlowRepository $visitorFlowDeviceRepository,
-        Visit $visit,
-        string $previousVisitUrl,
-        int $level
-    ): Aggregate {
-        return $visitorFlowDeviceRepository->getByCriteria(
-            DeviceCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level - 1,
-                $previousVisitUrl,
-                $visit->session->system->device
-            )
-        );
-    }
 }

@@ -51,21 +51,4 @@ class CountryAggregate extends Aggregate
             )
         );
     }
-
-    public static function getPreviousAggregate(
-        VisitorFlowRepository $visitorFlowCountryRepository,
-        Visit $visit,
-        string $previousVisitUrl,
-        int $level
-    ): Aggregate {
-        return $visitorFlowCountryRepository->getByCriteria(
-            CountryCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level - 1,
-                $previousVisitUrl,
-                $visit->geo_position->country
-            )
-        );
-    }
 }

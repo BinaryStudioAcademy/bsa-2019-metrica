@@ -58,22 +58,4 @@ class ScreenAggregate extends Aggregate
             )
         );
     }
-
-    public static function getPreviousAggregate(
-        VisitorFlowRepository $visitorFlowScreenRepository,
-        Visit $visit,
-        string $previousVisitUrl,
-        int $level
-    ): Aggregate {
-        return $visitorFlowScreenRepository->getByCriteria(
-            ScreenCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level - 1,
-                $previousVisitUrl,
-                $visit->session->system->resolution_width,
-                $visit->session->system->resolution_height
-            )
-        );
-    }
 }

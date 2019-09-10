@@ -65,11 +65,4 @@ abstract class Aggregate
     }
 
     abstract public static function fromResult(array $result): self;
-
-    abstract public static function getPreviousAggregate(
-        VisitorFlowRepository $visitorFlowBrowserRepository,
-        Visit $visit,
-        string $previousVisitUrl,
-        int $level
-    ): Aggregate;
 }

@@ -51,21 +51,4 @@ class BrowserAggregate extends Aggregate
             )
         );
     }
-
-    public static function getPreviousAggregate(
-        VisitorFlowRepository $visitorFlowBrowserRepository,
-        Visit $visit,
-        string $previousVisitUrl,
-        int $level
-    ): Aggregate {
-        return $visitorFlowBrowserRepository->getByCriteria(
-            BrowserCriteria::getCriteria(
-                $visit->session->website_id,
-                $visit->page->url,
-                $level - 1,
-                $previousVisitUrl,
-                $visit->session->system->browser
-            )
-        );
-    }
 }

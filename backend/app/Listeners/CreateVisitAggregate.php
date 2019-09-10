@@ -4,19 +4,36 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\VisitCreated;
-use App\Services\VisitorsFlow\FlowAggregateService;
+use App\Services\VisitorsFlow\FlowBrowserAggregateService;
+use App\Services\VisitorsFlow\FlowCountryAggregateService;
+use App\Services\VisitorsFlow\FlowDeviceAggregateService;
+use App\Services\VisitorsFlow\FlowScreenAggregateService;
 
 class CreateVisitAggregate
 {
-    private $flowAggregateService;
+    private $flowCountryAggregateService;
+    private $flowBrowserAggregateService;
+    private $flowDeviceAggregateService;
+    private $flowScreenAggregateService;
 
-    public function __construct(FlowAggregateService $flowAggregateService)
-    {
-        $this->flowAggregateService = $flowAggregateService;
+
+    public function __construct(
+        FlowCountryAggregateService $flowCountryAggregateService,
+        FlowBrowserAggregateService $flowBrowserAggregateService,
+        FlowDeviceAggregateService $flowDeviceAggregateService,
+        FlowScreenAggregateService $flowScreenAggregateService
+    ) {
+        $this->flowCountryAggregateService = $flowCountryAggregateService;
+        $this->flowBrowserAggregateService = $flowBrowserAggregateService;
+        $this->flowDeviceAggregateService = $flowDeviceAggregateService;
+        $this->flowScreenAggregateService = $flowScreenAggregateService;
     }
 
     public function handle(VisitCreated $event)
     {
-        $this->flowAggregateService->aggregate($event->visit);
+        $this->flowCountryAggregateService->aggregate($event->visit);
+        $this->flowBrowserAggregateService->aggregate($event->visit);
+        $this->flowDeviceAggregateService->aggregate($event->visit);
+        $this->flowScreenAggregateService->aggregate($event->visit);
     }
 }
