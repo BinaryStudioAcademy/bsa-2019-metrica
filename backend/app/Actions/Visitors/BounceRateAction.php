@@ -43,7 +43,7 @@ final class BounceRateAction
             }
             $length++;
             $hasFirst = true;
-            if ($rate !== 0){
+            if ($rate !== 0) {
                 $lastLength = $length;
             }
             $items[] = new ChartValue((string)$start, (string)$rate);
