@@ -6,4 +6,8 @@ export default {
         items: [],
         isFetching: false
     },
+    tableData: {
+        items: [],
+        isFetching: false,
+    },
 };
