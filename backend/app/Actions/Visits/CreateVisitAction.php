@@ -55,7 +55,6 @@ final class CreateVisitAction
     {
         JWTAuth::setToken(Str::after($request->token(), 'Bearer '));
         $visitorId = JWTAuth::getPayload()->get('visitor_id');
-
         $visitor = $this->visitorRepository->getById($visitorId);
         $this->visitorRepository->updateLastActivity($visitor);
 
