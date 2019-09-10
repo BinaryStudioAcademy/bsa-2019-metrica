@@ -33,18 +33,16 @@
             wrap
         >
             <VCol
-                lg6
-                md-8
-                sm12
+                lg="7"
+                md="12"
                 height="100%"
                 class="img-card"
             >
                 <VisitorsTable />
             </VCol>
             <VCol
-                lg6
-                md5
-                sm12
+                lg="5"
+                md="12"
                 height="100%"
                 class="img-card"
             >
