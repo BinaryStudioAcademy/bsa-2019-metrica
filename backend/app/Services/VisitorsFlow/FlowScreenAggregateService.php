@@ -60,7 +60,7 @@ class FlowScreenAggregateService extends FlowAggregateService
             return;
         }
         if ($level > self::FIRST_LEVEL) {
-          $this->updatePrevious($previousVisit, $level);
+            $this->updatePrevious($previousVisit, $level);
         }
         $screenAggregate->views++;
         $screenAggregate->exitCount++;
