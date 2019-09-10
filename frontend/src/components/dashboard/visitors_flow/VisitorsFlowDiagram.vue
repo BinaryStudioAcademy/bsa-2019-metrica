@@ -26,6 +26,12 @@
 
     export default {
         name: "VisitorsFlowDiagram",
+        props: {
+            visitorsFlowData: {
+                type: Array,
+                required: true
+            }
+        },
         data () {
             return {
                 titles: [

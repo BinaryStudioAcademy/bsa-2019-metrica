@@ -23,10 +23,10 @@
         data () {
             return {
                 items: [
-                    {title: 'Country', value: 'Country'},
-                    {title: 'Browser', value: 'Browser'},
-                    {title: 'Device', value: 'Device'},
-                    {title: 'Screen', value: 'Screen'}
+                    {title: 'Country', value: 'country'},
+                    {title: 'Browser', value: 'browser'},
+                    {title: 'Device', value: 'device'},
+                    {title: 'Screen', value: 'screen'}
                 ]
             };
         },

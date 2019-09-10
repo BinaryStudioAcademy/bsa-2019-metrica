@@ -4,9 +4,9 @@ import _ from "lodash";
 
 const resourceUrl = config.getApiUrl() + '/visitors-flow';
 
-const getVisitorsFlow = (filter, parameter) => requestService.get(resourceUrl, {}, {
+const getVisitorsFlow = (filter, level) => requestService.get(resourceUrl, {}, {
     'filter': filter,
-    'parameter': parameter
+    'level': level
 })
     .then(response => response.data)
     .catch(error => Promise.reject(
