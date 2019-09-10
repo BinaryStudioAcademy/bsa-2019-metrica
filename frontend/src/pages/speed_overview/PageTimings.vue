@@ -45,6 +45,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import ContentLayout from '../../components/layout/ContentLayout.vue';
     import PageTimingsTable from "../../components/dashboard/page_timings/PageTimingsTable";
     import LineChart from "../../components/common/LineChart";
@@ -81,6 +82,7 @@
             ContentLayout,
             PageTimingsTable
         },
+        mixins: [isChangeSelectedWebsite],
         data() {
             return {
                 title: "Page Timings",
@@ -131,6 +133,9 @@
             getButtonValue (type) {
                 return this.buttonsData[type].value;
             },
+            onWebsiteChange () {
+                this.fetchPageData();
+            }
         },
     };
 </script>

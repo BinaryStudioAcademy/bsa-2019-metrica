@@ -45,6 +45,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import ContentLayout from '../components/layout/ContentLayout.vue';
     import LineChart from "../components/common/LineChart";
     import GroupedTable from "../components/dashboard/page_views/GroupedTable";
@@ -79,6 +80,7 @@
             PeriodDropdown,
             ContentLayout
         },
+        mixins: [isChangeSelectedWebsite],
         data() {
             return {
                 data: [],
@@ -140,6 +142,9 @@
             },
             isButtonActive(type) {
                 return this.currentActiveButton === type;
+            },
+            onWebsiteChange () {
+                this.fetchPageData();
             }
         }
     };

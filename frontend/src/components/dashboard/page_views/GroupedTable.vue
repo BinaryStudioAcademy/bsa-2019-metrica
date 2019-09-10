@@ -44,6 +44,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import Spinner from "@/components/utilites/Spinner";
     import {IS_FETCHING} from "@/store/modules/page_views/types/getters";
     import {FETCH_PAGE_VIEWS_TABLE_DATA} from "@/store/modules/page_views/types/actions";
@@ -58,6 +59,7 @@
                 required: true
             }
         },
+        mixins: [isChangeSelectedWebsite],
         data () {
             return {
                 headers: [
@@ -81,6 +83,9 @@
             ...mapActions('page_views', {
                 fetchTableData: FETCH_PAGE_VIEWS_TABLE_DATA
             }),
+            onWebsiteChange () {
+                this.fetchTableData();
+            }
         }
     };
 </script>

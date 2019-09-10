@@ -29,6 +29,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import ContentLayout from '../../components/layout/ContentLayout.vue';
     import LineChart from "../../components/common/LineChart";
     import ErrorsTable from '../../components/dashboard/errors/ErrorsTable.vue';
@@ -59,7 +60,7 @@
             PeriodDropdown
 
         },
-        mixins: [isWebsite],
+        mixins: [isWebsite, isChangeSelectedWebsite],
         data() {
             return {
                 dialog:false,
@@ -140,6 +141,9 @@
                     ...this.modalItem,
                     ...item
                 };
+            },
+            onWebsiteChange () {
+                this.fetchPageData();
             }
         }
     };

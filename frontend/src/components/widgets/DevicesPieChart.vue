@@ -23,6 +23,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import Spinner from '@/components/utilites/Spinner';
     import PeriodDropdown from "@/components/dashboard/common/PeriodDropdown";
     import PieChartItem from "@/components/widgets/PieChartItem";
@@ -43,6 +44,7 @@
             PeriodDropdown,
             PieChartItem
         },
+        mixins: [isChangeSelectedWebsite],
         created() {
             this.fetchWidgetInfo();
         },
@@ -57,7 +59,10 @@
             ...mapActions('devices', {
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchWidgetInfo: FETCH_WIDGET_INFO
-            })
+            }),
+            onWebsiteChange () {
+                this.fetchWidgetInfo();
+            }
         }
     };
 </script>

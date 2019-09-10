@@ -18,6 +18,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import { mapGetters, mapActions } from 'vuex';
     import PeriodDropdown from "../common/PeriodDropdown";
     import LineChart from "../../common/LineChart";
@@ -36,6 +37,7 @@
     export default {
         name: "Overview",
         components: { WidgetButtons, LineChart, PeriodDropdown },
+        mixins: [isChangeSelectedWebsite],
         created() {
             this.fetchChartData();
         },
@@ -55,6 +57,9 @@
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchChartData: FETCH_LINE_CHART_DATA
             }),
+            onWebsiteChange () {
+                this.fetchChartData();
+            }
         }
     };
 </script>
