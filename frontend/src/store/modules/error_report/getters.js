@@ -5,7 +5,6 @@ import {
     GET_TABLE_DATA,
     GET_TABLE_DATA_FETCHING,
     GET_LINE_CHART_FETCHING,
-    FETCH_TABLE_DATA,
 } from "./types/getters";
 
 import { chartDataTransformer } from "@/api/widgets/transformers";
@@ -19,5 +18,4 @@ export default {
     [GET_TABLE_DATA]: (state) => state.tableData,
     [GET_TABLE_DATA_FETCHING]: (state) => state.tableData.isFetching,
     [GET_LINE_CHART_FETCHING]: (state) => state.chartData.isFetching,
-    [FETCH_TABLE_DATA]: (state) => state.tableData,
 };
