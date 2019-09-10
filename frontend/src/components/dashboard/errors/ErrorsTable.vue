@@ -8,16 +8,6 @@
             fluid
         >
             <VCol>
-                <VSelect
-                    class="option-select"
-                    prefix="Show"
-                    :items="options"
-                    flat
-                    v-model="selected"
-                    @change="changeSelect"
-                />
-            </VCol>
-            <VCol>
                 Page
             </VCol>
             <VCol>
@@ -79,7 +69,6 @@
                 ],
                 headers: [
                     { text: '', align: 'center', value: 'parameter_value' },
-                    { text: '', align: 'center', value: 'page' },
                     { text: '', align: 'center', value: 'message' },
                     { text: '', align: 'center', value: 'page_views' },
                     { text: '', align: 'center', value: 'details' },
@@ -87,9 +76,6 @@
             };
         },
         methods: {
-            changeSelect () {
-                this.$emit('change', this.selected);
-            },
             detailsItem (item) {
                 this.$emit('open', item);
             }

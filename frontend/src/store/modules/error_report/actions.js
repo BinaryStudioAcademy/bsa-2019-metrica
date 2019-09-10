@@ -2,13 +2,16 @@ import {
     CHANGE_SELECTED_PERIOD,
     FETCH_PAGE_DATA,
     FETCH_CHART_DATA,
+    FETCH_TABLE_DATA,
 } from "./types/actions";
 
 import {
     SET_SELECTED_PERIOD,
     SET_CHART_VALUES,
     RESET_CHART_FETCHING,
-    SET_CHART_FETCHING
+    SET_CHART_FETCHING,
+    RESET_TABLE_FETCHING,
+    SET_TABLE_FETCHING,
 } from "./types/mutations";
 
 export default {
@@ -18,6 +21,7 @@ export default {
     },
     [FETCH_PAGE_DATA]: (context) => {
         context.dispatch(FETCH_CHART_DATA);
+        context.dispatch(FETCH_TABLE_DATA);
     },
 
     [FETCH_CHART_DATA]: (context) => {
@@ -43,5 +47,9 @@ export default {
             context.commit(RESET_CHART_FETCHING);
 
         }).finally(() => context.commit(RESET_CHART_FETCHING));
+    },
+    [FETCH_TABLE_DATA]: (context) => {
+        context.commit(SET_TABLE_FETCHING);
+        context.commit(RESET_TABLE_FETCHING);
     },
 };
