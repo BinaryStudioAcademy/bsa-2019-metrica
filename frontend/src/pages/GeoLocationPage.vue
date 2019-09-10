@@ -52,6 +52,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import MapButtons from "../components/dashboard/geo_location/MapButtons";
     import MapList from "../components/dashboard/geo_location/MapList";
     import ContentLayout from '../components/layout/ContentLayout.vue';
@@ -79,6 +80,7 @@
             MapList,
             Spinner
         },
+        mixins: [isChangeSelectedWebsite],
         data() {
             return {
                 title: "Geo Location",
@@ -100,6 +102,9 @@
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchGeoLocationItems: FETCH_GEO_LOCATION_ITEMS
             }),
+            onWebsiteChange () {
+                this.fetchGeoLocationItems();
+            }
         }
     };
 </script>

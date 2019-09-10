@@ -50,6 +50,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import ContentLayout from '../layout/ContentLayout.vue';
     import { mapGetters, mapActions } from 'vuex';
     import {GET_CURRENT_TEAM} from "../../store/modules/team/types/getters";
@@ -60,6 +61,7 @@
     export default {
         name: 'InviteMemberForm',
         components: {ContentLayout},
+        mixins: [isChangeSelectedWebsite],
         data () {
             return {
                 invitedUserEmail: '',
@@ -101,8 +103,11 @@
                     .then(() => {
                         this.showSuccessMessage('Member is deleted.');
                     }).catch((err) => {
-                        this.showErrorMessage = err;
-                    });
+                    this.showErrorMessage = err;
+                });
+            },
+            onWebsiteChange() {
+                this.fetchTeam();
             }
         },
     };

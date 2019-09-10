@@ -55,6 +55,7 @@
 </template>
 
 <script>
+    import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
     import Spinner from '../../utilites/Spinner';
     import {mapGetters, mapActions} from 'vuex';
     import {
@@ -78,6 +79,7 @@
             TopActivePage,
             Spinner
         },
+        mixins: [isChangeSelectedWebsite],
         data: () => ({
             lineWidth: 4,
             radius: 16,
@@ -143,6 +145,10 @@
                     this.fetchingActiveUsersChartData();
                 }, 60000);
             },
+            onWebsiteChange () {
+                this.fetchingActiveUsersNumbers();
+                this.fetchingActiveUsersChartData();
+            }
         }
     };
 </script>
