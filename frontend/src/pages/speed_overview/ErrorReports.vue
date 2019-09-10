@@ -17,7 +17,6 @@
             <ErrorsTable
                 @open="openModal"
                 :error-items="tableData.items"
-                @change="changeGroupedParameter"
             />
         </VRow>
         <ErrorsDetailsModal
@@ -67,13 +66,11 @@
                     message: 'message'
                 },
                 title: "Error Reports",
-                current_paremeter: 'page',
                 tableData: {
                     isFetching: false,
                     items: [
                         {
                             parameter_value: '/contacts',
-                            page: '/contacts',
                             message: 'SyntaxError',
                             stack_trasce: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
                                 'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
@@ -82,7 +79,6 @@
                         },
                         {
                             parameter_value: '/home',
-                            page: '/home',
                             message: 'ReferenceError',
                             stack_trace: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
                                 'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
@@ -91,7 +87,6 @@
                         },
                         {
                             parameter_value: '/products',
-                            page: '/products',
                             message: 'TypeError',
                             stack_trace: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
                                 'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
@@ -100,7 +95,6 @@
                         },
                         {
                             parameter_value: '/user',
-                            page: '/user',
                             message: 'InternalError',
                             stack_trace: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
                                 'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
@@ -126,11 +120,6 @@
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA
             }),
-            changeGroupedParameter (parameter) {
-                if (this.currentParameter !== parameter) {
-                    this.currentParameter = parameter;
-                }
-            },
             changePeriod (data) {
                 this.changeSelectedPeriod(data);
             },

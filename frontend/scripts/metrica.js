@@ -10,7 +10,7 @@
         }
     }
 
-    window.onerror = (errorMsg, errorUrl) => {
+    window.onerror = (message, source, lineno, colno, error) => {
         const url = state.host_api + state.routes.create_error;
         const tracking_number = window._metricaTracking.getObjectMetricaConf()[1][1];
         const token = window._metricaTracking.getToken();
@@ -19,8 +19,8 @@
             'x-website': tracking_number,
         };
         let data = {
-            message: errorMsg,
-            stack_trace: errorUrl,
+            message: error.message,
+            stack_trace: error.stack,
             page: window._metricaTracking.getPage(),
             page_title: window._metricaTracking.getTitle(),
 
@@ -29,7 +29,7 @@
         if (token) {
             headers = {
                 ...headers,
-                ...{'x-visitor': 'Bearer ' + token}
+                'x-visitor': 'Bearer ' + token
             };
         }
 

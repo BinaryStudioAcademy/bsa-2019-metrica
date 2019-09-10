@@ -5,6 +5,7 @@
                 left-col-wrapper
                 sm12
                 md6
+                :class="{'mt-12': $vuetify.breakpoint.smAndDown}"
             >
                 <VLayout
                     column
@@ -38,6 +39,8 @@
                 image
                 sm12
                 md6
+                :class="{'mt-12': $vuetify.breakpoint.smAndDown}"
+                class="d-flex align-center"
             >
                 <VImg
                     src="/assets/images/home.png"
@@ -60,7 +63,6 @@
 
 main {
     background: #FFFFFF;
-    margin-top: 40px;
 }
 
 .v-btn {
@@ -84,10 +86,6 @@ main {
     }
 }
 
-.left-col-wrapper {
-    padding-left: 10%;
-}
-
 
 h1{
     font-family: Gilroy;
@@ -98,6 +96,8 @@ h1{
 
 .left-col {
     height: 100%;
+    width: 80%;
+    margin: 0 auto;
     background: #FFFFFF;
 }
 
