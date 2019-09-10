@@ -1,6 +1,6 @@
-import {INVITE_USER, FETCH_TEAM_MEMBERS} from './types/actions';
+import {INVITE_USER, FETCH_TEAM_MEMBERS, UPDATE_MENU_ACCESS} from './types/actions';
 import {SET_IS_FETCHING, RESET_IS_FETCHING, SET_TEAM_MEMBERS} from "./types/mutations";
-import {inviteUser, getTeamMembers} from '@/api/team';
+import {inviteUser, getTeamMembers, updateMenuAccess} from '@/api/team';
 
 export default {
     [INVITE_USER]: (context, email) => {
@@ -19,6 +19,15 @@ export default {
         return getTeamMembers(id)
             .then(response => context.commit(SET_TEAM_MEMBERS, response))
             .finally(() => context.commit(RESET_IS_FETCHING));
+
+    },
+
+    [UPDATE_MENU_ACCESS]: (context, data) => {
+        const id = context.rootState.website.selectedWebsite;
+
+        return updateMenuAccess(id, data)
+            .then(response => {
+                context.commit(SET_TEAM_MEMBERS, response);
+            });
     }
 };
-

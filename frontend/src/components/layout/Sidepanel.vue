@@ -14,7 +14,7 @@
                 append-icon=""
                 class="my-4"
             >
-                <template 
+                <template
                     v-if="!link.sublinks"
                     v-slot:activator
                 >
@@ -27,7 +27,7 @@
                         />
                     </RouterLink>
                 </template>
-                <template 
+                <template
                     v-else
                     v-slot:activator
                 >
@@ -57,94 +57,117 @@
 
 <script>
     import MenuItem from './MenuItem.vue';
+    import {mapGetters} from 'vuex';
+    import {GET_WEBSITE_DATA} from "@/store/modules/website/types/getters";
     export default {
         components: { MenuItem },
-        data: () => ({
-            links: [
-                {
-                    icon: '/assets/icons/home.svg',
-                    text: 'Home',
-                    route: 'dashboard'
-                },
-                {
-                    icon: '/assets/icons/person.svg',
-                    text: 'Audience',
-                    route: 'visitors',
-                    sublinks: [
-                        {
+        computed: {
+            ...mapGetters('website', {
+                getCurrentWebsite: GET_WEBSITE_DATA,
+            }),
+            links () {
+                let menu = {
+                    Audience: [],
+                    Behaviour: [],
+                    Overview: [],
+                };
+                this.getCurrentWebsite.permitted_menu.split(', ').map(function (item) {
+                    switch(item) {
+                    case 'visitors':
+                        menu.Audience.push({
                             text: 'Visitors',
                             route: 'visitors',
-                        },
-                        {
+                        });
+                        break;
+                    case 'page-views':
+                        menu.Audience.push({
                             text: 'Page Views',
                             route: 'page-views',
-                        },
-                        {
+                        });
+                        break;
+                    case 'geo-location':
+                        menu.Audience.push({
                             text: 'Geo Location',
                             route: 'geo-location',
-                        },
-                    ]
-                },
-                {
-                    icon: '/assets/icons/settings.svg',
-                    text: 'Behaviour',
-                    route: 'behaviour',
-                    sublinks: [
-                        {
+                        });
+                        break;
+                    case 'behaviour':
+                        menu.Behaviour.push({
                             text: 'Visitors flow',
                             route: 'visitors-flow',
-                        }
-                    ]
-                },
-                {
-                    icon: '/assets/icons/speed.svg',
-                    text: 'Speed Overview',
-                    sublinks: [
-                        {
+                        });
+                        break;
+                    case 'page-timings':
+                        menu.Overview.push({
                             text: 'Page Timings',
                             route: 'page-timings',
-                        },
-                        {
+                        });
+                        break;
+                    case 'error-reports':
+                        menu.Overview.push({
                             text: 'Error Reports',
                             route: 'error-reports',
-                        },
-                    ]
-                },
-                {
-                    icon: '/assets/icons/settings.svg',
-                    text: 'Settings',
-                    route: 'settings',
-                    sublinks: [
-                        {
-                            text: 'User',
-                            route: 'user-update',
-                        },
-                        {
-                            text: 'Team',
-                            route: 'team',
-                        },
-                        {
-                            text: 'Website',
-                            route: 'websiteinfo',
-                        },
-                    ]
-                },
-            ]
-        })
+                        });
+                        break;
+                    }
+                });
+                return [
+                    {
+                        icon: '/assets/icons/home.svg',
+                        text: 'Home',
+                        route: 'dashboard'
+                    },
+                    {
+                        icon: '/assets/icons/person.svg',
+                        text: 'Audience',
+                        route: 'visitors',
+                        sublinks: menu.Audience,
+                    },
+                    {
+                        icon: '/assets/icons/settings.svg',
+                        text: 'Behaviour',
+                        route: 'behaviour',
+                        sublinks: menu.Behaviour,
+                    },
+                    {
+                        icon: '/assets/icons/speed.svg',
+                        text: 'Speed Overview',
+                        sublinks: menu.Overview,
+                    },
+                    {
+                        icon: '/assets/icons/settings.svg',
+                        text: 'Settings',
+                        route: 'settings',
+                        sublinks: [
+                            {
+                                text: 'User',
+                                route: 'user-update',
+                            },
+                            {
+                                text: 'Team',
+                                route: 'team',
+                            },
+                            {
+                                text: 'Website',
+                                route: 'websiteinfo',
+                            },
+                        ]
+                    },
+                ];
+            },
+        },
     };
 </script>
 
 <style scoped lang="scss">
 $blue: #3C57DE;
 $grey: rgba(18, 39, 55, 0.5);
-
 a {
     width: 100%;
     &:hover{
         text-decoration: none;
     }
 }
-
 ::v-deep .v-list-group {
     .v-list-group__header {
         min-height: 34px;

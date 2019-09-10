@@ -25,7 +25,16 @@ const inviteUser = (email, websiteId) => requestService.create(resourceUrl, {
     }
 });
 
+const updateMenuAccess = (websiteId, data) => requestService.update(resourceUrl + '/menu-access', {
+    'filter': {
+        'user_ids': data.ids,
+        'permitted_menu': data.permitted_menu,
+        'website_id': websiteId
+    }
+});
+
 export {
     getTeamMembers,
     inviteUser,
+    updateMenuAccess
 };

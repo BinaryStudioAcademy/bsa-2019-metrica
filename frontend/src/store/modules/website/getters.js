@@ -3,7 +3,7 @@ import {
     IS_CURRENT_WEBSITE,
     GET_SELECTED_WEBSITE,
     GET_RELATE_WEBSITES,
-    GET_WEBSITE_DATA
+    GET_WEBSITE_DATA,
 } from "./types/getters";
 
 export default {
