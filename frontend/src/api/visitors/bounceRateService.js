@@ -39,7 +39,7 @@ const fetchChartValues = (startDate, endDate, interval) => {
 };
 
 const fetchTableValues = (startDate, endDate, groupBy) => {
-    return requestService.get(resourceUrl + '/table-visitors/count-total', {}, {
+    return requestService.get(resourceUrl + '/table-visitors/bounce-rate', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[parameter]': groupBy

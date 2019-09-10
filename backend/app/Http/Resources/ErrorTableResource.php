@@ -5,23 +5,25 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\ApiResponse;
+use App\DataTransformer\ErrorReport\TableErrorReport;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
-use App\DataTransformer\Visitors\BounceRateVisitors;
 
-final class VisitorsBounceRateResource extends ResourceCollection implements ApiResponse
+final class ErrorTableResource extends ResourceCollection implements ApiResponse
 {
     public function toArray($request): array
     {
         return $this->presentCollection($this->collection);
     }
 
-    public function present(BounceRateVisitors $table): array
+    public function present(TableErrorReport $table): array
     {
         return [
             'parameter' => $table->parameter(),
             'parameter_value' => $table->parameterValue(),
-            'bounce_rate' => $table->bounceRate(),
+            'count' => $table->total(),
+            'message' => $table->message(),
+            'stack_trace' => $table->stackTrace(),
         ];
     }
 
@@ -29,7 +31,7 @@ final class VisitorsBounceRateResource extends ResourceCollection implements Api
     {
         return $collection
             ->map(
-                function (BounceRateVisitors $table) {
+                function (TableErrorReport $table) {
                     return $this->present($table);
                 }
             )
