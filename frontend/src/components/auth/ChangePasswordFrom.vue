@@ -21,7 +21,7 @@
                     solo
                     name="password"
                     autocomplete="new-password"
-                    v-model="newUser.password"
+                    v-model="password"
                     :append-icon="show1 ? 'visibility' : 'visibility_off'"
                     :rules="passwordRules"
                     :type="show1 ? 'text' : 'password'"
@@ -37,7 +37,7 @@
                     solo
                     name="confirmPassword"
                     autocomplete="new-password"
-                    v-model="newUser.confirmPassword"
+                    v-model="confirmPassword"
                     :append-icon="show2 ? 'visibility' : 'visibility_off'"
                     :rules="confirmPasswordRules"
                     :type="show2 ? 'text' : 'password'"
@@ -49,6 +49,7 @@
                         min-width="140px"
                         color="primary"
                         :disabled="!valid"
+                        @click="changePassword"
                     >
                         CHANGE PASSWORD
                     </VBtn>
@@ -58,7 +59,6 @@
                     >
                         Sign in
                     </RouterLink>
-                    {{ tok }}
                 </div>
             </div>
         </VForm>
@@ -70,6 +70,7 @@
     import {validatePassword} from '@/services/validation';
     import { SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE } from "@/store/modules/notification/types/actions";
     import jwtService from "@/services/jwtService";
+    import {updatePassword} from "../../api/users";
 
     export default {
         name: "ChangePasswordForm",
@@ -77,11 +78,8 @@
             return {
                 show1: false,
                 show2: false,
-                newUser: {
-                    password: '',
-                    confirmPassword: '',
-                },
-                tok:'',
+                password: '',
+                confirmPassword: '',
                 valid: false,
                 passwordRules: [
                     v => !!v || 'Password is required',
@@ -89,7 +87,7 @@
                 ],
                 confirmPasswordRules: [
                     v => !!v || 'Password is required',
-                    v => v === this.newUser.password || 'Password should match'
+                    v => v === this.password || 'Password should match'
                 ]
             };
         },
@@ -97,19 +95,21 @@
             if (jwtService.checkExpireToken(this.$route.query.token)) {
                 this.showErrorMessage('Sorry, your token was expired. Please, enter your email again.');
                 this.$router.push({name: 'reset-password'});
-            }else {
-                const jwt = jwtService.parse(this.$route.query.token);
-                this.tok = jwt;
             }
         },
         methods: {
-            ...mapActions('auth', {
-
-            }),
             ...mapActions('notification', {
                 showSuccessMessage: SHOW_SUCCESS_MESSAGE,
                 showErrorMessage: SHOW_ERROR_MESSAGE
             }),
+            changePassword(){
+                updatePassword(
+                    {
+                        token: this.$route.query.token,
+                        password: this.password
+                    }
+                );
+            }
         },
     };
 </script>

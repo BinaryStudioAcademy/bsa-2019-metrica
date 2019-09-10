@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'users'
         ], function () {
             Route::put('/me', 'UserController@update');
+            Route::put('/update-password','UserController@updatePassword');
         });
 
         Route::group([
