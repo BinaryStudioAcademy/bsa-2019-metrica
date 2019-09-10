@@ -170,7 +170,6 @@
         }
         .card-button {
             height: 32px;
-            width: 126px;
             background: #3C57DE;
             color:#ffffff;
             font-size: 12px;

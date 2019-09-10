@@ -54,9 +54,9 @@ export default {
     [RESET_TABLE_FETCHING]: (state) => {
         state.tableData.isFetching = false;
     },
-    [SET_CHART_PIE_DATA]: (state, {newVisitors, returnVisitors}) => {
+    [SET_CHART_PIE_DATA]: (state, {newVisitors, returningVisitors}) => {
         state.pieChartData.newVisitors = newVisitors;
-        state.pieChartData.returnVisitors = returnVisitors;
+        state.pieChartData.returningVisitors = returningVisitors;
     },
     [SET_CHART_DATA_FETCHING]: (state) => {
         state.pieChartData.isFetching = true;
