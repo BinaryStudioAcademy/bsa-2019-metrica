@@ -38,5 +38,4 @@ final class TeamMember
     {
         return $this->menu;
     }
-
 }
