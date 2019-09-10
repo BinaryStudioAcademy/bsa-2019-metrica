@@ -2,8 +2,6 @@ import {
     CHANGE_SELECTED_PERIOD,
     FETCH_PAGE_DATA,
     FETCH_CHART_DATA,
-    CHANGE_FETCHED_LINE_CHART_STATE,
-    CHANGE_FETCHED_TABLE_STATE,
     FETCH_TABLE_DATA,
 } from "./types/actions";
 
@@ -49,14 +47,6 @@ export default {
             context.commit(RESET_CHART_FETCHING);
 
         }).finally(() => context.commit(RESET_CHART_FETCHING));
-    },
-    [CHANGE_FETCHED_TABLE_STATE]: (context, value) => {
-
-        if (value) {
-            context.commit(SET_TABLE_FETCHING);
-        } else {
-            context.commit(RESET_TABLE_FETCHING);
-        }
     },
     [FETCH_TABLE_DATA]: (context) => {
         context.commit(SET_TABLE_FETCHING);
