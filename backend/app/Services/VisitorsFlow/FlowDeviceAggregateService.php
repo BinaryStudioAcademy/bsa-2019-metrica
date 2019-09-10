@@ -108,8 +108,12 @@ class FlowDeviceAggregateService extends FlowAggregateService
         );
     }
 
-    private function getDeviceAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?DeviceAggregate
-    {
+    private function getDeviceAggregate(
+        Visit $visit,
+        int $level,
+        bool $isFirstInSession,
+        ?Visit $previousVisit
+    ): ?DeviceAggregate {
         return $this->visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(
                 $visit->session->website_id,

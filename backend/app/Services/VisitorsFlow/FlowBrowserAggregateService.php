@@ -109,8 +109,12 @@ class FlowBrowserAggregateService extends FlowAggregateService
         );
     }
 
-    private function getBrowserAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?BrowserAggregate
-    {
+    private function getBrowserAggregate(
+        Visit $visit,
+        int $level,
+        bool $isFirstInSession,
+        ?Visit $previousVisit
+    ): ?BrowserAggregate {
         return $this->visitorFlowBrowserRepository->getByCriteria(
             BrowserCriteria::getCriteria(
                 $visit->session->website_id,
@@ -122,7 +126,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
         );
     }
 
-    private  function getPreviousBrowserAggregate(
+    private function getPreviousBrowserAggregate(
         VisitorFlowRepository $visitorFlowBrowserRepository,
         Visit $visit,
         string $previousVisitUrl,

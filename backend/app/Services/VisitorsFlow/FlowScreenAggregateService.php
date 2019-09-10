@@ -110,8 +110,12 @@ class FlowScreenAggregateService extends FlowAggregateService
         );
     }
 
-    private function getScreenAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?ScreenAggregate
-    {
+    private function getScreenAggregate(
+        Visit $visit,
+        int $level,
+        bool $isFirstInSession,
+        ?Visit $previousVisit
+    ): ?ScreenAggregate {
         return $this->visitorFlowScreenRepository->getByCriteria(
             ScreenCriteria::getCriteria(
                 $visit->session->website_id,
@@ -124,7 +128,7 @@ class FlowScreenAggregateService extends FlowAggregateService
         );
     }
 
-    private  function getPreviousScreenAggregate(
+    private function getPreviousScreenAggregate(
         VisitorFlowRepository $visitorFlowScreenRepository,
         Visit $visit,
         string $previousVisitUrl,

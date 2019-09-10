@@ -53,8 +53,8 @@ final class FlowCountryAggregateService extends FlowAggregateService
         Visit $visit,
         int $level,
         ?Visit $previousVisit,
-        ?CountryAggregate $countryAggregate): void
-    {
+        ?CountryAggregate $countryAggregate
+    ): void {
         if (!$countryAggregate) {
             $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
             $this->visitorFlowCountryRepository->save($countryAggregate);
@@ -112,8 +112,12 @@ final class FlowCountryAggregateService extends FlowAggregateService
         );
     }
 
-    private function getCountryAggregate(Visit $visit, int $level, bool $isFirstInSession, ?Visit $previousVisit): ?CountryAggregate
-    {
+    private function getCountryAggregate(
+        Visit $visit,
+        int $level,
+        bool $isFirstInSession,
+        ?Visit $previousVisit
+    ): ?CountryAggregate {
         return $this->visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,
@@ -125,7 +129,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         );
     }
 
-    private  function getPreviousCountryAggregate(
+    private function getPreviousCountryAggregate(
         VisitorFlowRepository $visitorFlowCountryRepository,
         Visit $visit,
         string $previousVisitUrl,
