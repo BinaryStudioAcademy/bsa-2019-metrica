@@ -44,54 +44,38 @@ final class FlowCountryAggregateService extends FlowAggregateService
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);
 
-        $countryAggregate = $this->getCountryAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $countryAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
-        $this->updateCountryAggregate($visit, $level, $previousVisit, $countryAggregate);
+        $this->updateAggregate($visit, $level, $previousVisit, $countryAggregate);
     }
 
-    private function updateCountryAggregate(
+    private function updateAggregate(
         Visit $visit,
         int $level,
         ?Visit $previousVisit,
         ?CountryAggregate $countryAggregate
     ): void {
         if (!$countryAggregate) {
-            $countryAggregate = $this->createCountryAggregate($visit, $level, $previousVisit);
+            $countryAggregate = $this->createAggregate($visit, $level, $previousVisit);
             $this->visitorFlowCountryRepository->save($countryAggregate);
             return;
         }
         if ($level > self::FIRST_LEVEL) {
-            $previousAggregate = $this->getPreviousCountryAggregate(
-                $this->visitorFlowCountryRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowCountryRepository->save($previousAggregate);
+            $this->updatePreviousAggregate($previousVisit,$level);
         }
         $countryAggregate->views++;
         $countryAggregate->exitCount++;
         $this->visitorFlowCountryRepository->save($countryAggregate);
     }
 
-    private function createCountryAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): CountryAggregate
+    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): CountryAggregate
     {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
         $prevPage = new PageValue();
         if ($level !== self::FIRST_LEVEL) {
-            $previousAggregate = $this->getPreviousCountryAggregate(
-                $this->visitorFlowCountryRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowCountryRepository->save($previousAggregate);
+            $previousAggregate = $this->updatePreviousAggregate($previousVisit,$level);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
 
@@ -112,7 +96,21 @@ final class FlowCountryAggregateService extends FlowAggregateService
         );
     }
 
-    private function getCountryAggregate(
+    private function updatePreviousAggregate(Visit $previousVisit, int $level):Aggregate
+    {
+        $previousAggregate = $this->getPreviousAggregate(
+            $this->visitorFlowCountryRepository,
+            $previousVisit,
+            $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+            $level
+        );
+        $previousAggregate->isLastPage = false;
+        $previousAggregate->exitCount--;
+        $this->visitorFlowCountryRepository->save($previousAggregate);
+        return  $previousAggregate;
+    }
+
+    private function getAggregate(
         Visit $visit,
         int $level,
         bool $isFirstInSession,
@@ -129,7 +127,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         );
     }
 
-    private function getPreviousCountryAggregate(
+    private function getPreviousAggregate(
         VisitorFlowRepository $visitorFlowCountryRepository,
         Visit $visit,
         string $previousVisitUrl,

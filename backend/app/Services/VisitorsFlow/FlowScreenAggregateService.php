@@ -43,53 +43,37 @@ class FlowScreenAggregateService extends FlowAggregateService
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);
 
-        $screenAggregate = $this->getScreenAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $screenAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
-        $this->updateScreenAggregate($visit, $level, $previousVisit, $screenAggregate);
+        $this->updateAggregate($visit, $level, $previousVisit, $screenAggregate);
     }
 
-    private function updateScreenAggregate(
+    private function updateAggregate(
         Visit $visit,
         int $level,
         ?Visit $previousVisit,
         ?ScreenAggregate $screenAggregate
     ): void {
         if (!$screenAggregate) {
-            $screenAggregate = $this->createScreenAggregate($visit, $level, $previousVisit);
+            $screenAggregate = $this->createAggregate($visit, $level, $previousVisit);
             $this->visitorFlowScreenRepository->save($screenAggregate);
             return;
         }
         if ($level > self::FIRST_LEVEL) {
-            $previousAggregate = $this->getPreviousScreenAggregate(
-                $this->visitorFlowScreenRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowScreenRepository->save($previousAggregate);
+          $this->updatePrevious($previousVisit,$level);
         }
         $screenAggregate->views++;
         $screenAggregate->exitCount++;
         $this->visitorFlowScreenRepository->save($screenAggregate);
     }
 
-    private function createScreenAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): ScreenAggregate
+    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): ScreenAggregate
     {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
         if ($level !== self::FIRST_LEVEL) {
-            $previousAggregate = $this->getPreviousScreenAggregate(
-                $this->visitorFlowScreenRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowScreenRepository->save($previousAggregate);
+            $previousAggregate = $this->updatePrevious($previousVisit,$level);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
@@ -110,7 +94,21 @@ class FlowScreenAggregateService extends FlowAggregateService
         );
     }
 
-    private function getScreenAggregate(
+    private function updatePrevious(Visit $previousVisit,int $level):Aggregate
+    {
+        $previousAggregate = $this->getPreviousAggregate(
+            $this->visitorFlowScreenRepository,
+            $previousVisit,
+            $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+            $level
+        );
+        $previousAggregate->isLastPage = false;
+        $previousAggregate->exitCount--;
+        $this->visitorFlowScreenRepository->save($previousAggregate);
+        return  $previousAggregate;
+    }
+
+    private function getAggregate(
         Visit $visit,
         int $level,
         bool $isFirstInSession,
@@ -128,7 +126,7 @@ class FlowScreenAggregateService extends FlowAggregateService
         );
     }
 
-    private function getPreviousScreenAggregate(
+    private function getPreviousAggregate(
         VisitorFlowRepository $visitorFlowScreenRepository,
         Visit $visit,
         string $previousVisitUrl,

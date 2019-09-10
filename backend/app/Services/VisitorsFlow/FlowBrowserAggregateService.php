@@ -42,54 +42,37 @@ class FlowBrowserAggregateService extends FlowAggregateService
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);
 
-        $browserAggregate = $this->getBrowserAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $browserAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
-        $this->updateBrowserAggregate($visit, $level, $previousVisit, $browserAggregate);
+        $this->updateAggregate($visit, $level, $previousVisit, $browserAggregate);
     }
 
-
-    private function updateBrowserAggregate(
+    private function updateAggregate(
         Visit $visit,
         int $level,
         ?Visit $previousVisit,
         ?BrowserAggregate $browserAggregate
     ): void {
         if (!$browserAggregate) {
-            $browserAggregate = $this->createBrowserAggregate($visit, $level, $previousVisit);
+            $browserAggregate = $this->createAggregate($visit, $level, $previousVisit);
             $this->visitorFlowBrowserRepository->save($browserAggregate);
             return;
         }
         if ($level > self::FIRST_LEVEL) {
-            $previousAggregate = $this->getPreviousBrowserAggregate(
-                $this->visitorFlowBrowserRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowBrowserRepository->save($previousAggregate);
+            $this->updatePreviousAggregate($previousVisit,$level);
         }
         $browserAggregate->views++;
         $browserAggregate->exitCount++;
         $this->visitorFlowBrowserRepository->save($browserAggregate);
     }
 
-    private function createBrowserAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): BrowserAggregate
+    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): BrowserAggregate
     {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
         if ($level !== self::FIRST_LEVEL) {
-            $previousAggregate =$this->getPreviousBrowserAggregate(
-                $this->visitorFlowBrowserRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowBrowserRepository->save($previousAggregate);
+            $previousAggregate = $this->updatePreviousAggregate($previousVisit,$level);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
@@ -109,7 +92,21 @@ class FlowBrowserAggregateService extends FlowAggregateService
         );
     }
 
-    private function getBrowserAggregate(
+    private function updatePreviousAggregate(Visit $previousVisit,int $level):Aggregate
+    {
+        $previousAggregate = $this->getPreviousAggregate(
+            $this->visitorFlowBrowserRepository,
+            $previousVisit,
+            $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+            $level
+        );
+        $previousAggregate->isLastPage = false;
+        $previousAggregate->exitCount--;
+        $this->visitorFlowBrowserRepository->save($previousAggregate);
+        return $previousAggregate;
+    }
+
+    private function getAggregate(
         Visit $visit,
         int $level,
         bool $isFirstInSession,
@@ -126,7 +123,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
         );
     }
 
-    private function getPreviousBrowserAggregate(
+    private function getPreviousAggregate(
         VisitorFlowRepository $visitorFlowBrowserRepository,
         Visit $visit,
         string $previousVisitUrl,

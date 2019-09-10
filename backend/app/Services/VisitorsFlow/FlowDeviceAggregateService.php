@@ -42,53 +42,37 @@ class FlowDeviceAggregateService extends FlowAggregateService
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);
 
-        $deviceAggregate = $this->getDeviceAggregate($visit, $level, $isFirstInSession, $previousVisit);
+        $deviceAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
-        $this->updateDeviceAggregate($visit, $level, $previousVisit, $deviceAggregate);
+        $this->updateAggregate($visit, $level, $previousVisit, $deviceAggregate);
     }
 
-    private function updateDeviceAggregate(
+    private function updateAggregate(
         Visit $visit,
         int $level,
         ?Visit $previousVisit,
         ?DeviceAggregate $deviceAggregate
     ): void {
         if (!$deviceAggregate) {
-            $deviceAggregate = $this->createDeviceAggregate($visit, $level, $previousVisit);
+            $deviceAggregate = $this->createAggregate($visit, $level, $previousVisit);
             $this->visitorFlowDeviceRepository->save($deviceAggregate);
             return;
         }
         if ($level > self::FIRST_LEVEL) {
-            $previousAggregate = $this->getPreviousDeviceAggregate(
-                $this->visitorFlowDeviceRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowDeviceRepository->save($previousAggregate);
+            $this->updatePrevious($previousVisit,$level);
         }
         $deviceAggregate->views++;
         $deviceAggregate->exitCount++;
         $this->visitorFlowDeviceRepository->save($deviceAggregate);
     }
 
-    private function createDeviceAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): DeviceAggregate
+    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): DeviceAggregate
     {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
         if ($level !== self::FIRST_LEVEL) {
-            $previousAggregate =$this->getPreviousDeviceAggregate(
-                $this->visitorFlowDeviceRepository,
-                $previousVisit,
-                $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
-                $level
-            );
-            $previousAggregate->isLastPage = false;
-            $previousAggregate->exitCount--;
-            $this->visitorFlowDeviceRepository->save($previousAggregate);
+            $previousAggregate = $this->updatePrevious($previousVisit,$level);
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
         $exitCount = 1;
@@ -108,7 +92,21 @@ class FlowDeviceAggregateService extends FlowAggregateService
         );
     }
 
-    private function getDeviceAggregate(
+    private function updatePrevious(Visit $previousVisit, int $level):Aggregate
+    {
+        $previousAggregate = $this->getPreviousAggregate(
+            $this->visitorFlowDeviceRepository,
+            $previousVisit,
+            $level > 2 ? ($this->getPreviousVisit($previousVisit))->page->url : 'null',
+            $level
+        );
+        $previousAggregate->isLastPage = false;
+        $previousAggregate->exitCount--;
+        $this->visitorFlowDeviceRepository->save($previousAggregate);
+        return  $previousAggregate;
+    }
+
+    private function getAggregate(
         Visit $visit,
         int $level,
         bool $isFirstInSession,
@@ -125,7 +123,7 @@ class FlowDeviceAggregateService extends FlowAggregateService
         );
     }
 
-    private function getPreviousDeviceAggregate(
+    private function getPreviousAggregate(
         VisitorFlowRepository $visitorFlowDeviceRepository,
         Visit $visit,
         string $previousVisitUrl,
