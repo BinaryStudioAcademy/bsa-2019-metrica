@@ -9,6 +9,33 @@
             });
         }
     }
+
+    window.onerror = (errorMsg, errorUrl) => {
+        const url = state.host_api + state.routes.create_error;
+        const tracking_number = window._metricaTracking.getObjectMetricaConf()[1][1];
+        const token = window._metricaTracking.getToken();
+        let headers = {
+            'Content-Type': 'application/json',
+            'x-website': tracking_number,
+        };
+        let data = {
+            message: errorMsg,
+            stack_trace: errorUrl,
+            page: window._metricaTracking.getPage(),
+            page_title: window._metricaTracking.getTitle(),
+
+        };
+
+        if (token) {
+            headers = {
+                ...headers,
+                ...{'x-visitor': 'Bearer ' + token}
+            };
+        }
+
+        return new requestService().post(url, data, headers);
+    };
+
     const state = {
         host_api: process.env.VUE_APP_API_URL,
         host: process.env.VUE_APP_URL,
@@ -77,16 +104,7 @@
             return this.configMetrica;
         },
         storage() {
-            return window[this.isStorage()];
-        },
-        isStorage() {
-            try {
-                localStorage.setItem('test-local-storage', 1);
-                localStorage.removeItem('test-local-storage');
-                return 'localStorage';
-            } catch (e) {
-                return 'sessionStorage';
-            }
+            return window[Helper.isStorage()];
         },
         getTrackById() {
             let trackingId = this.getObjectMetricaConf()[1][1];
@@ -216,6 +234,15 @@
             }
             return obj[props[i]];
         },
+        isStorage() {
+            try {
+                localStorage.setItem('test-local-storage', 1);
+                localStorage.removeItem('test-local-storage');
+                return 'localStorage';
+            } catch (e) {
+                return 'sessionStorage';
+            }
+        },
         getUserDevice() {
             let device,
                 find,
@@ -326,33 +353,6 @@
 
             return device;
         }
-    };
-
-    window.onerror = (errorMsg, errorUrl) => {
-        console.log(errorMsg);
-        const url = state.host_api + state.routes.create_error;
-        const tracking_number = window._metricaTracking.getTrackById();
-        const token = window._metricaTracking.getToken();
-        let headers = {
-            'Content-Type': 'application/json',
-            'x-website': tracking_number,
-        };
-        let data = {
-            message: errorUrl,
-            stack_trace: url,
-            page: window._metricaTracking.getPage(),
-            page_title: window._metricaTracking.getTitle(),
-
-        };
-
-        if (token) {
-            headers = {
-                ...headers,
-                ...{'x-visitor': 'Bearer ' + token}
-            };
-        }
-
-        return this.fetchWrapper().post(url, data, headers);
     };
 
     const onDomReady = () => {
