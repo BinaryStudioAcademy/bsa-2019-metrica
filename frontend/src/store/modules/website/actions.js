@@ -120,7 +120,7 @@ export default {
 
         return updateWebsite(update, id)
                 .then((response) => {
-                    context.commit(UPDATE_CURRENT_WEBSITE, response.data.name);
+                    context.commit(UPDATE_CURRENT_WEBSITE, response.data);
                 })
                 .catch(error => {
                     throw { message: error.response.data.errors.name };

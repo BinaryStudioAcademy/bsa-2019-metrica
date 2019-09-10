@@ -21,12 +21,9 @@ export default {
     [SET_CURRENT_WEBSITE]: (state) => {
         state.isCurrentWebsite = true;
     },
-    [UPDATE_CURRENT_WEBSITE]: (state, name) => {
-        state.relateUserWebsites.map(website => {
-            if(website.id === state.selectedWebsite) {
-                website.name = name;
-            }
-        });
+    [UPDATE_CURRENT_WEBSITE]: (state, data) => {
+        const index = state.relateUserWebsites.findIndex(website => website.id === data.id);
+        state.relateUserWebsites[index] = data;
     },
     [RESET_CURRENT_WEBSITES]: (state) => {
         state.relateUserWebsites = [];
