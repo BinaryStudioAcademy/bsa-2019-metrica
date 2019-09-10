@@ -47,7 +47,7 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
                             ['term' => ['level' => $criteria->level]],
                             ['match_phrase' => ['target_url' => $criteria->targetUrl]],
                             ['match_phrase' => ['device' => $criteria->device]],
-                            ['match_phrase'=>['prev_page.source_url'=>$criteria->prevPageUrl]]
+                            ['match_phrase' => ['prev_page.source_url' => $criteria->prevPageUrl]]
                         ],
                     ]
                 ]

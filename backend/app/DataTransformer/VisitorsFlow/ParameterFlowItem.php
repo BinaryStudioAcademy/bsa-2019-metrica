@@ -45,4 +45,14 @@ class ParameterFlowItem
     {
         return $this->sourceUrl;
     }
+
+    public function setViews(int $views): void
+    {
+        $this->views += $views;
+    }
+
+    public function setExitCount(int $exitCount): void
+    {
+        $this->exitCount += $exitCount;
+    }
 }
