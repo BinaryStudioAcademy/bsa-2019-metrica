@@ -20,7 +20,7 @@ class CreateCountryVisitorsFlowIndex extends Migration
             'body' => [
                 'mappings' => [
                     "properties" => [
-                        "parameter" => [
+                        "country" => [
                             "type" => "keyword"
                         ]
                     ]

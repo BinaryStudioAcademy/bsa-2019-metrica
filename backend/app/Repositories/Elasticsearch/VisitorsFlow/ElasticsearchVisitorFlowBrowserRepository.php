@@ -5,6 +5,7 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
+use App\DataTransformer\VisitorsFlow\BrowserFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
@@ -46,7 +47,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                         'filter' => [
                             ['term' => ['level' => $criteria->level]],
                             ['match_phrase' => ['target_url' => $criteria->targetUrl]],
-                            ['match_phrase' => ['parameter' => $criteria->parameter]],
+                            ['match_phrase' => ['browser' => $criteria->browser]],
                             ['match_phrase' => ['prev_page.source_url' => $criteria->prevPageUrl]]
                         ],
                     ]
@@ -79,7 +80,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                 'aggregations' => [
                     'browsers' => [
                         'terms' => [
-                            'field' => 'parameter'
+                            'field' => $type
                         ],
                         'aggregations' => [
                             'views' => [
@@ -126,7 +127,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
             ]
         ];
         $result = $this->client->search($params);
-        return new ParameterFlowCollection($result['hits']['hits']);
+        return new BrowserFlowCollection($result['hits']['hits']);
     }
 }
 

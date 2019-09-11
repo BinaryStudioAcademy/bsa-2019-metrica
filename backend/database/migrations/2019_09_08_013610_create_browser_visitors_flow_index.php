@@ -20,7 +20,7 @@ class CreateBrowserVisitorsFlowIndex extends Migration
             'body' => [
                 'mappings' => [
                     "properties" => [
-                        "parameter" => [
+                        "browser" => [
                             "type" => "keyword"
                         ],
 

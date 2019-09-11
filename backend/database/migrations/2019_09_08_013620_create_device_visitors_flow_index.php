@@ -19,7 +19,7 @@ class CreateDeviceVisitorsFlowIndex extends Migration
             'body' => [
                 'mappings' => [
                     "properties" => [
-                        "parameter" => [
+                        "device" => [
                             "type" => "keyword"
                         ]
                     ]

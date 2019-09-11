@@ -10,7 +10,7 @@ use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowRepository;
 
 class BrowserAggregate extends Aggregate
 {
-    public $parameter;
+    public $browser;
 
     public function __construct(
         int $id,
@@ -21,16 +21,16 @@ class BrowserAggregate extends Aggregate
         int $level,
         bool $isLastPage,
         int $exitCount,
-        string $parameter,
+        string $browser,
         PageValue $prevPage
     ) {
         parent::__construct($id, $websiteId, $targetUrl, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
-        $this->parameter = $parameter;
+        $this->browser = $browser;
     }
 
     public function toArray(): array
     {
-        return array_merge(parent::toArray(), ['parameter' => $this->parameter]);
+        return array_merge(parent::toArray(), ['browser' => $this->browser]);
     }
 
     public static function fromResult(array $result): Aggregate
@@ -44,7 +44,7 @@ class BrowserAggregate extends Aggregate
             (int)$result['level'],
             (bool)$result['is_last_page'],
             (int)$result['exit_count'],
-            (string)$result['parameter'],
+            (string)$result['browser'],
             new PageValue(
                 (int)$result['prev_page']['id'],
                 (string)$result['prev_page']['source_url']
