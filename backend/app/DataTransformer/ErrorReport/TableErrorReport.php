@@ -15,19 +15,22 @@ final class TableErrorReport
     private $total;
     private $message;
     private $stackTrace;
+    private $maxCreated;
 
     public function __construct(
         string $parameter,
         string $parameterValue,
         string $total,
         string $message,
-        string $stackTrace
+        string $stackTrace,
+        string $maxCreated
     ) {
         $this->parameter = $parameter;
         $this->parameterValue = $parameterValue;
         $this->total = $total;
         $this->message = $message;
         $this->stackTrace = $stackTrace;
+        $this->maxCreated = $maxCreated;
     }
 
     public function message(): string
@@ -38,5 +41,10 @@ final class TableErrorReport
     public function stackTrace(): string
     {
         return $this->stackTrace;
+    }
+
+    public function maxCreated(): string
+    {
+        return $this->maxCreated;
     }
 }
