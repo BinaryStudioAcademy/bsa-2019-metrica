@@ -49,7 +49,6 @@
                     >
                         {{ signInText }}
                     </VBtn>
-
                     <VBtn
                         class="start"
                         min-width="100px"
@@ -60,7 +59,7 @@
                         SIGN UP
                     </VBtn>
                 </div>
-                <div class="btn-group">
+                <div>
                     <RouterLink
                         class="forgot-password-link"
                         :to="{name: 'reset-password'}"

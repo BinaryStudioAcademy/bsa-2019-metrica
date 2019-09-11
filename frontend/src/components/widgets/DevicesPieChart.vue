@@ -88,7 +88,7 @@
     box-shadow: 0 0 28px rgba(0, 0, 0, 0.11) !important;
     border-radius: 6px;
     width: 352px;
-    height: 480px;
+    height: 580px;
 }
 .header {
     font-size: 16px;

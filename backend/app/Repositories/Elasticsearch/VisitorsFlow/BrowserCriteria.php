@@ -18,8 +18,8 @@ class BrowserCriteria implements Criteria
         $this->websiteId = $websiteId;
         $this->targetUrl = $targetUrl;
         $this->level = $level;
-        $this->browser = $browser;
         $this->prevPageUrl = $prevPageUrl;
+        $this->browser = $browser;
     }
 
     public static function getCriteria(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, ...$params)

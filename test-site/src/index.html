@@ -18,6 +18,8 @@
             <li><a href="about.html">about</a></li>
             <li><a href="contact.html">contact us</a></li>
             <li><a href="portfolio.html">portfolio</a></li>
+            <li><button onclick="generateError(0)">Stable error</button></li>
+            <li><button onclick="generateError(1)">New error</button></li>
         </ul>
     </header>
     <div class="container">
@@ -26,5 +28,15 @@
         </div>
     </div>
 </div>
+<script>
+    const generateError = (num) => someFunction(num);
+    const someFunction = (num) => {
+        if (num > 0) {
+            throw new Error('Random error ' + Math.floor(Math.random() * Math.floor(100)) +'.I was created using a function call!');
+        } else {
+            throw new Error('New error.I was created using a function call!');
+        }
+    };
+</script>
 </body>
 </html>

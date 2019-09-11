@@ -9,8 +9,9 @@ class CreateBrowserVisitorsFlowIndex extends Migration
 
     public function __construct()
     {
-        $this->client =  app('elasticsearch');
+        $this->client = app('elasticsearch');
     }
+
     public function up()
     {
         $this->down();
@@ -21,10 +22,12 @@ class CreateBrowserVisitorsFlowIndex extends Migration
                     "properties" => [
                         "browser" => [
                             "type" => "keyword"
-                        ]
+                        ],
+
                     ]
                 ]
             ]
+
         ];
         $this->client->indices()->create($params);
     }

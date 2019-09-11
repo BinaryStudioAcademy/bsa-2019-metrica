@@ -3,8 +3,6 @@ import {
     GET_LINE_CHART_DATA,
     GET_FORMAT_LINE_CHART_DATA,
     GET_TABLE_DATA,
-    GET_TABLE_DATA_FETCHING,
-    GET_LINE_CHART_FETCHING,
 } from "./types/getters";
 
 import { chartDataTransformer } from "@/api/widgets/transformers";
@@ -16,6 +14,4 @@ export default {
         return chartDataTransformer(state.chartData.items, state.selectedPeriod);
     },
     [GET_TABLE_DATA]: (state) => state.tableData,
-    [GET_TABLE_DATA_FETCHING]: (state) => state.tableData.isFetching,
-    [GET_LINE_CHART_FETCHING]: (state) => state.chartData.isFetching,
 };
