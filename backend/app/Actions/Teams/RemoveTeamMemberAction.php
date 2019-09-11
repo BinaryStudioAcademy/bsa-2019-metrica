@@ -21,7 +21,7 @@ final class RemoveTeamMemberAction
         $this->websiteRepository = $websiteRepository;
     }
 
-    public function execute($userId): void
+    public function execute(int $userId): void
     {
         $teamMember = $this->userRepository->getById($userId);
 
