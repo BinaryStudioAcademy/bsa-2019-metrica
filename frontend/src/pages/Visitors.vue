@@ -28,25 +28,16 @@
                 @change="changeButton"
             />
         </VRow>
-        <VRow
-            flex
-            wrap
-        >
+        <VRow>
             <VCol
                 lg="7"
-                md="12"
                 sm="12"
-                height="100%"
-                class="img-card"
             >
                 <VisitorsTable />
             </VCol>
             <VCol
                 lg="5"
-                md="12"
                 sm="12"
-                height="100%"
-                class="img-card"
             >
                 <PieChart
                     :chart-data="pieData"
@@ -217,5 +208,10 @@
     }
     .buttons-row {
         margin-top: 50px;
+    }
+    @media (max-width: 1263px) {
+        .piechart {
+            margin: 0;
+        }
     }
 </style>

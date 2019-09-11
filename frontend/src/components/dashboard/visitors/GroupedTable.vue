@@ -98,7 +98,7 @@ $gray: rgba(18, 39, 55, 0.5);
 
 .users-table {
     max-width: 1032px;
-    font-family: 'Gilroy';
+    font-family: 'GilroySemiBold';
 }
 
 .header {
@@ -180,12 +180,7 @@ $gray: rgba(18, 39, 55, 0.5);
 }
 
 ::v-deep .v-list-item {
-    font-family: 'Gilroy';
+    font-family: 'GilroySemiBold';
     text-transform: capitalize;
 }
-    @media (max-width: 870px) {
-        ::v-deep .v-text-field__prefix {
-            display: none;
-        }
-    }
 </style>
