@@ -13,6 +13,7 @@ const socialLogin = params => {
 };
 const confirmEmail = params => requestService.update(resourceUrl + '/confirm-email', params);
 
+
 export {
     authorize,
     getAuthUser,
