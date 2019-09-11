@@ -157,7 +157,7 @@ final class Session extends Model
     {
         return $query->addSelect(
             DB::raw(
-                'round(extract(epoch from (max(sessions.end_session) - min(sessions.start_session)))) as max_time_difference'
+                'round(extract(epoch from (max(sessions.updated_at) - min(sessions.start_session)))) as max_time_difference'
             )
         );
     }
