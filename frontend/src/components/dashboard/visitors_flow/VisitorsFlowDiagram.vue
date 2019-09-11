@@ -4,6 +4,7 @@
         <svg id="visitors-flow-diagram" />
         <div class="step">
             <button
+                :disabled="addInteractionDisabled"
                 class="step-button"
                 @click="addInteraction"
             >
@@ -30,10 +31,16 @@
             visitorsFlowData: {
                 type: Array,
                 required: true
+            },
+            currentLevel: {
+                type: Number,
+                required: true
             }
         },
         watch: {
             visitorsFlowData: function () {
+                this.addInteractionDisabled = this.lastLevel === this.currentLevel;
+                this.lastLevel = this.currentLevel;
                 this.parseVisitorsFlowData();
                 this.drawDiagram();
             }
@@ -48,9 +55,11 @@
                 ],
                 height: 600,
                 tooltip: {},
+                lastLevel: 0,
                 nodes: [],
                 links: [],
-                exits: []
+                exits: [],
+                addInteractionDisabled: false
             };
         },
         computed: {
@@ -79,6 +88,8 @@
                     this.findOrCreateLink(visitorFlowItem, links, sourceId, targetId);
                     this.findOrCreateExit(visitorFlowItem, exits, sourceId);
                 }
+
+                this.lastLevel = nodes[nodes.length - 1].level;
 
                 this.nodes = nodes;
                 this.links = links;
@@ -184,19 +195,7 @@
             },
 
             addInteraction () {
-                let lastNodeId = this.nodes.slice(-1)[0].id;
-
-                for (let i = lastNodeId + 1; i < lastNodeId + 6; i++) {
-                    this.nodes.push({ id: i, name: `/link${i}`});
-                }
-
-                this.drawDiagram();
-
-                d3.transition()
-                    .select('#visitors-flow-container')
-                    .tween("scroll", function () {
-                        this.scrollLeft += this.scrollWidth;
-                    });
+                this.$emit("add-interaction", this.lastLevel);
             },
 
             drawDiagram () {
@@ -519,6 +518,12 @@
 
                     &:active {
                         color: #4061de;
+                    }
+                }
+
+                &:disabled {
+                    .step-arrow {
+                        color: #afafaf;
                     }
                 }
             }

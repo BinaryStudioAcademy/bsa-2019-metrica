@@ -12,6 +12,8 @@
             />
             <VisitorsFlowDiagram
                 :visitors-flow-data="getVisitorsFlow"
+                :current-level="getCurrentLevel"
+                @add-interaction="addInteraction"
             />
         </template>
         <NoData v-else />
@@ -33,7 +35,9 @@
     } from "@/store/modules/visitors_flow/types/getters";
     import {
         CHANGE_SELECTED_PARAMETER,
-        FETCH_VISITORS_FLOW
+        CHANGE_CURRENT_LEVEL,
+        FETCH_AND_SET_VISITORS_FLOW,
+        FETCH_AND_PUSH_VISITORS_FLOW
     } from "@/store/modules/visitors_flow/types/actions";
 
     export default {
@@ -59,13 +63,19 @@
             })
         },
         created() {
-            this.fetchVisitorsFlow();
+            this.fetchAndSetVisitorsFlow();
         },
         methods: {
             ...mapActions('visitors_flow', {
                 changeSelectedParameter: CHANGE_SELECTED_PARAMETER,
-                fetchVisitorsFlow: FETCH_VISITORS_FLOW
+                changeCurrentLevel: CHANGE_CURRENT_LEVEL,
+                fetchAndSetVisitorsFlow: FETCH_AND_SET_VISITORS_FLOW,
+                fetchAndPushVisitorsFlow: FETCH_AND_PUSH_VISITORS_FLOW
             }),
+            addInteraction (level) {
+                this.changeCurrentLevel(level);
+                this.fetchAndPushVisitorsFlow();
+            }
         }
     };
 </script>
