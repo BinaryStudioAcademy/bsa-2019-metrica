@@ -91,8 +91,6 @@
 
                 this.lastLevel = nodes[nodes.length - 1].level;
 
-                nodes = nodes.sort((a, b) => a.level - b.level);
-
                 this.nodes = nodes;
                 this.links = links;
                 this.exits = exits;
@@ -176,9 +174,7 @@
 
             findOrCreateLink (visitorsFlowItem, links, sourceId, targetId) {
                 let linkIndex = links.findIndex(link => {
-                    return link.level === visitorsFlowItem.level && // level condition is redundant?
-                        link.source === sourceId &&
-                        link.target === targetId;
+                    return link.source === sourceId && link.target === targetId;
                 });
 
                 if (linkIndex !== -1) {
@@ -335,7 +331,7 @@
 
                         return `M ${mx} ${my} a 25 40 0 0 1 25 40`;
                     })
-                    .attr("class", "exits")
+                    .attr("class", "exit")
                     .attr("id", d => `exit-${d.index}`)
                     .attr("stroke", "#fa514a")
                     .attr("stroke-opacity", ".5")
@@ -388,8 +384,9 @@
 
                 svg.append("g")
                     .selectAll("rect")
-                    .data(nodes.filter((node, i, nodes) => {
-                        return nodes[i - 1] && node.level !== 1 && node.level !== nodes[i - 1].level;
+                    .data(nodes.filter((node, index, nodes) => {
+                        return node.level !== 1 &&
+                            nodes.map(anotherNode => anotherNode.level).indexOf(node.level) === index;
                     }))
                     .join("text")
                     .attr("x", d => d.x1 - 80)
@@ -457,16 +454,16 @@
         margin-top: 1rem;
 
         &::-webkit-scrollbar {
-            background-color:#fff;
+            background-color:#f5f8fd;
             width:16px
         }
 
         &::-webkit-scrollbar-track {
-             background-color:#fff
+             background-color:#f5f8fd
         }
 
         &::-webkit-scrollbar-track:hover {
-            background-color:#f4f4f4
+            background-color:#f5f8fd
         }
 
         &::-webkit-scrollbar-thumb {
@@ -485,18 +482,13 @@
         }
 
         #visitors-flow-diagram {
-            .link {
+            .link, .exit, .node {
                 transition: all .4s;
                 cursor: pointer;
             }
 
             .title{
                 font-size: 1rem;
-            }
-
-            .node {
-                transition: all .4s;
-                cursor: pointer;
             }
 
             .node-text {
