@@ -103,8 +103,8 @@
                     .then(() => {
                         this.showSuccessMessage('Member is deleted.');
                     }).catch((err) => {
-                    this.showErrorMessage = err;
-                });
+                        this.showErrorMessage = err;
+                    });
             },
             onWebsiteChange() {
                 this.fetchTeam();

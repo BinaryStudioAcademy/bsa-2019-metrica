@@ -25,8 +25,7 @@ export default {
         const id = context.rootState.website.selectedWebsite;
 
         return updateMenuAccess(id, data)
-            .then(response => {
-                context.commit(SET_TEAM_MEMBERS, response);
+            .then(response => context.commit(SET_TEAM_MEMBERS, response));
     },
 
     [DELETE_TEAM_MEMBER]: (context, userId) => {
