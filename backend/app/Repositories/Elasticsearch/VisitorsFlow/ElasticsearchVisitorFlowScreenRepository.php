@@ -8,6 +8,7 @@ use App\Aggregates\VisitorsFlow\BrowserAggregate;
 use App\Aggregates\VisitorsFlow\ScreenAggregate;
 use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParametersCollection;
+use App\DataTransformer\VisitorsFlow\ScreenFlowCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowScreenRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
@@ -81,7 +82,7 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
                 'aggregations' => [
                     'resolutions' => [
                         'terms' => [
-                            'script' => "doc['resolution_width'].value + ' ' + doc['resolution_height'].value"
+                            'script' => "doc['resolution_width'].value + 'х' + doc['resolution_height'].value"
                         ],
                         'aggregations' => [
                             'views' => [
@@ -127,6 +128,6 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
             ]
         ];
         $result = $this->client->search($params);
-        return new ParameterFlowCollection($result['hits']['hits']);
+        return new ScreenFlowCollection($result['hits']['hits']);
     }
 }
