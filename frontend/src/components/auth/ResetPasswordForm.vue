@@ -44,7 +44,13 @@
                     class="success-response"
                     type="success"
                 >
-                    <span v-html="successMsg" />
+                    Check your inbox. We just sent a link to reset your password via email {{ email }}. Back to
+                    <RouterLink
+                        class="forgot-password-link"
+                        :to="{name: 'login'}"
+                    >
+                        sign in
+                    </RouterLink>
                 </VAlert>
             </VContainer>
         </VFlex>
@@ -83,9 +89,8 @@
                     this.sending = true;
                     this.resetPassword({
                         email: this.email,
-                    }).then((response) => {
+                    }).then(() => {
                         this.showEmail = false;
-                        this.successMsg = response;
                     }).catch(err => {
                         this.hasError = true;
                         this.errorMsg = err;

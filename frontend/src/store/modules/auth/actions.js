@@ -63,11 +63,7 @@ export default {
     },
 
     [RESET_PASSWORD]: (context, payload) => {
-        return resetPassword(payload).then(() => {
-                return ` Check your inbox. We just sent a link to reset your password via email to ${payload.email}.
-                Back to <a href="/login">sign in</a> `;
-            }
-        ).catch((error) => {
+        return resetPassword(payload).catch((error) => {
             switch (error.response.status) {
                 case 404:
                     throw `It looks like there is no account associated with this email address.
