@@ -86,7 +86,7 @@
                     let targetId = this.findOrCreateTarget(visitorFlowItem, nodes);
 
                     this.findOrCreateLink(visitorFlowItem, links, sourceId, targetId);
-                    this.findOrCreateExit(visitorFlowItem, exits, sourceId);
+                    this.findOrCreateExit(visitorFlowItem, exits, targetId);
                 }
 
                 this.lastLevel = nodes[nodes.length - 1].level;
@@ -190,8 +190,8 @@
                 return links.length - 1;
             },
 
-            findOrCreateExit (visitorsFlowItem, exits, sourceId) {
-                let exitIndex = exits.findIndex(exit => exit.source === sourceId);
+            findOrCreateExit (visitorsFlowItem, exits, targetId) {
+                let exitIndex = exits.findIndex(exit => exit.source === targetId);
 
                 if (exitIndex !== -1) {
                     exits[exitIndex].value += visitorsFlowItem.exit_count;
@@ -199,9 +199,9 @@
                 }
 
                 exits.push({
-                    source: sourceId,
+                    source: targetId,
                     value: visitorsFlowItem.exit_count,
-                    index: sourceId - 1
+                    index: targetId - 1
                 });
 
                 return exits.length - 1;
