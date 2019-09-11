@@ -89,7 +89,6 @@ final class GetAverageSessionByIntervalAction
                 $lastLength = $length;
             }
             $items[] = new ChartValue((string)$intervalEndDate, (string)$avgSessionTime);
-
         }
 
         return new Collection(array_slice($items, 0, $lastLength));
