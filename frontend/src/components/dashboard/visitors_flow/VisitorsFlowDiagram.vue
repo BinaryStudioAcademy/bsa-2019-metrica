@@ -31,18 +31,17 @@
             visitorsFlowData: {
                 type: Array,
                 required: true
-            },
-            currentLevel: {
-                type: Number,
-                required: true
             }
         },
         watch: {
             visitorsFlowData: function () {
-                this.addInteractionDisabled = this.lastLevel === this.currentLevel;
-                this.lastLevel = this.currentLevel;
                 this.parseVisitorsFlowData();
                 this.drawDiagram();
+                d3.transition()
+                    .select('#visitors-flow-container')
+                    .tween("scroll", function () {
+                        this.scrollLeft += this.scrollWidth;
+                    });
             }
         },
         data () {
@@ -54,7 +53,6 @@
                     '3rd Interaction'
                 ],
                 height: 600,
-                tooltip: {},
                 lastLevel: 0,
                 nodes: [],
                 links: [],
@@ -64,7 +62,7 @@
         },
         computed: {
             width () {
-                return Math.max(this.nodes.length / 5 * 400, 1200);
+                return this.lastLevel * 370;
             }
         },
         mounted() {
