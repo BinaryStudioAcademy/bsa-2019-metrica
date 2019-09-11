@@ -320,6 +320,8 @@
                             .style("top", (d3.event.pageY - 40) + "px");
                     });
 
+                const widthCoef = links[0].width / links[0].value / 10;
+
                 svg.append("g")
                     .attr("fill", "none")
                     .selectAll("rect")
@@ -329,7 +331,7 @@
                         let node = nodes.find((node) => node.id === d.source);
 
                         let mx = node.x1;
-                        let my = node.y1 - d.value / 2 - 2;
+                        let my = node.y1 - d.value * widthCoef / 2 - 2;
 
                         return `M ${mx} ${my} a 25 40 0 0 1 25 40`;
                     })
@@ -337,7 +339,7 @@
                     .attr("id", d => `exit-${d.index}`)
                     .attr("stroke", "#fa514a")
                     .attr("stroke-opacity", ".5")
-                    .attr("stroke-width", d => d.value)
+                    .attr("stroke-width", d => d.value * widthCoef)
                     .on("mouseover", (d, i, exits) => {
                         tooltip.text(`${d.value} drop-offs`)
                             .style("visibility", "visible");
