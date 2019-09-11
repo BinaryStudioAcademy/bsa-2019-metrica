@@ -26,15 +26,14 @@
 
     export default {
         name: "VisitorsFlowDiagram",
-        /*props: {
+        props: {
             visitorsFlowData: {
-                type: Object,
-                required: false
+                type: Array,
+                required: true
             }
-        },*/
+        },
         data () {
             return {
-                visitorsFlowData: {},
                 titles: [
                     'Starting pages',
                     '1st Interaction',
@@ -53,92 +52,17 @@
                 return Math.max(this.nodes.length / 5 * 400, 1200);
             }
         },
-        created() {
-            this.seed();
-            this.parseVisitorsFlowData();
-        },
         mounted() {
+            this.parseVisitorsFlowData();
             this.drawDiagram();
         },
         methods: {
-            seed () {
-                this.visitorsFlowData = {
-                    "parameter_views": [
-                        {
-                            "title": "Safari",
-                            "count": 3
-                        },
-                        {
-                            "title": "IE",
-                            "count": 2
-                        }
-                    ],
-                    "visitors_flow": [
-                        {
-                            "parameter": "Safari",
-                            "target_url": "https://localhost/a",
-                            "level": 1,
-                            "views": 1,
-                            "exit_count": 0,
-                            "source_url": "null"
-                        },
-                        {
-                            "parameter": "IE",
-                            "target_url": "https://localhost/a",
-                            "level": 1,
-                            "views": 1,
-                            "exit_count": 0,
-                            "source_url": "null"
-                        },
-                        {
-                            "parameter": "Opera",
-                            "target_url": "https://localhost/e",
-                            "level": 1,
-                            "views": 1,
-                            "exit_count": 0,
-                            "source_url": "null"
-                        },
-                        {
-                            "parameter": "Chrome",
-                            "target_url": "https://localhost/c",
-                            "level": 1,
-                            "views": 1,
-                            "exit_count": 0,
-                            "source_url": "null"
-                        },
-                        {
-                            "parameter": "Other",
-                            "target_url": "https://localhost/d",
-                            "level": 1,
-                            "views": 1,
-                            "exit_count": 0,
-                            "source_url": "null"
-                        },
-                        {
-                            "parameter": "Safari",
-                            "target_url": "https://localhost/b",
-                            "level": 2,
-                            "views": 1,
-                            "exit_count": 0,
-                            "source_url": "https://localhost/a"
-                        },
-                        {
-                            "parameter": "IE",
-                            "target_url": "https://localhost/b",
-                            "level": 2,
-                            "views": 1,
-                            "exit_count": 1,
-                            "source_url": "https://localhost/a"
-                        }
-                    ]
-                };
-            },
             parseVisitorsFlowData () {
                 let nodes = [];
                 let links = [];
                 let exits = [];
 
-                let visitorsFlow = this.visitorsFlowData.visitors_flow;
+                let visitorsFlow = this.visitorsFlowData;
 
                 for (let key in visitorsFlow) {
                     let visitorFlowItem = visitorsFlow[key];

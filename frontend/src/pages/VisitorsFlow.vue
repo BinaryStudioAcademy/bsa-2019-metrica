@@ -5,10 +5,15 @@
         <Spinner
             v-if="isFetching"
         />
-        <VisitorsFlowDropdown
-            :value="getSelectedParameter"
-        />
-        <VisitorsFlowDiagram />
+        <template v-if="getVisitorsFlow.length !== 0">
+            <VisitorsFlowDropdown
+                :value="getSelectedParameter"
+            />
+            <VisitorsFlowDiagram
+                :visitors-flow-data="getVisitorsFlow"
+            />
+        </template>
+        <NoData v-else />
     </ContentLayout>
 </template>
 
@@ -16,6 +21,7 @@
     import ContentLayout from '@/components/layout/ContentLayout.vue';
     import VisitorsFlowDiagram from "@/components/dashboard/visitors_flow/VisitorsFlowDiagram";
     import VisitorsFlowDropdown from "@/components/dashboard/visitors_flow/VisitorsFlowDropdown";
+    import NoData from "@/components/dashboard/visitors_flow/NoData";
     import Spinner from "@/components/utilites/Spinner";
     import { mapGetters, mapActions } from 'vuex';
     import {
@@ -35,6 +41,7 @@
             ContentLayout,
             VisitorsFlowDiagram,
             VisitorsFlowDropdown,
+            NoData,
             Spinner
         },
         data () {

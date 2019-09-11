@@ -8,7 +8,7 @@ const getVisitorsFlow = (filter, level) => requestService.get(resourceUrl, {}, {
     'filter': filter,
     'level': level
 })
-    .then(response => response.data)
+    .then(response => response.data.visitors_flow)
     .catch(error => Promise.reject(
         new Error(
             _.get(
