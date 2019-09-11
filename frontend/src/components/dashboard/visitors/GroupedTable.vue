@@ -1,6 +1,5 @@
 <template>
     <VContainer
-        p-0
         class="users-table"
     >
         <VRow

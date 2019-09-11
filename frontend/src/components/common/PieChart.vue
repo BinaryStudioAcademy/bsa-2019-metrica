@@ -1,11 +1,15 @@
 <template>
     <VContainer>
-        <VSubheader
-            class="header my-3 text-dark"
-            fluid
-        >
-            Summary
-        </VSubheader>
+        <VRow>
+            <VCol>
+                <VSubheader
+                    class="my-3 header text-dark"
+                    fluid
+                >
+                    Summary
+                </VSubheader>
+            </VCol>
+        </VRow>
         <VLayout
             class="pie-container position-relative"
             wrap
@@ -120,6 +124,8 @@
 <style scoped lang="scss">
 .pie-container {
     background-color: white;
+    border-radius: 6px;
+    box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
 
     .chart-card {
         min-width: 165px;
@@ -130,7 +136,6 @@
     text-align: center;
     text-transform: capitalize;
     font-family: 'Gilroy';
-    padding-bottom: 10px;
     font-size: 16px;
     line-height: 19px;
 }
