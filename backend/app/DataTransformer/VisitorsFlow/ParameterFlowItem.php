@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\DataTransformer\VisitorsFlow;
 
-class ParameterFlowItem
+abstract class ParameterFlowItem
 {
     private $targetUrl;
     private $views;
@@ -19,7 +19,6 @@ class ParameterFlowItem
         $this->exitCount = $item['exit_count'];
         $this->sourceUrl = $item['prev_page']['source_url'];
     }
-
 
     public function getTargetUrl(): string
     {
@@ -44,15 +43,5 @@ class ParameterFlowItem
     public function getSourceUrl(): string
     {
         return $this->sourceUrl;
-    }
-
-    public function setViews(int $views): void
-    {
-        $this->views += $views;
-    }
-
-    public function setExitCount(int $exitCount): void
-    {
-        $this->exitCount += $exitCount;
     }
 }

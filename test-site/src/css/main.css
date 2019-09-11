@@ -145,3 +145,13 @@ body {
     display: none;
 }
 
+button {
+    background-color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+button:hover {
+    color: red;
+}
+
+

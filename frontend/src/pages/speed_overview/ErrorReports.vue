@@ -1,6 +1,6 @@
 <template>
     <ContentLayout :title="title">
-        <VRow>
+        <VRow class="mb-5">
             <VContainer class="white card px-7 py-6">
                 <LineChart
                     :data="formatLineChartData"
@@ -16,7 +16,7 @@
             <Spinner v-if="tableData.isFetching" />
             <ErrorsTable
                 @open="openModal"
-                :error-items="tableData.items"
+                :error-items="getTableDataItems()"
             />
         </VRow>
         <ErrorsDetailsModal
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+    import moment from 'moment';
     import ContentLayout from '../../components/layout/ContentLayout.vue';
     import LineChart from "../../components/common/LineChart";
     import ErrorsTable from '../../components/dashboard/errors/ErrorsTable.vue';
@@ -40,7 +41,8 @@
     import {
         GET_SELECTED_PERIOD,
         GET_LINE_CHART_DATA,
-        GET_FORMAT_LINE_CHART_DATA
+        GET_FORMAT_LINE_CHART_DATA,
+        GET_TABLE_DATA
     } from "@/store/modules/error_report/types/getters";
     import {
         CHANGE_SELECTED_PERIOD,
@@ -56,7 +58,6 @@
             Spinner,
             LineChart,
             PeriodDropdown
-
         },
         mixins: [isWebsite],
         data() {
@@ -66,49 +67,13 @@
                     message: 'message'
                 },
                 title: "Error Reports",
-                tableData: {
-                    isFetching: false,
-                    items: [
-                        {
-                            parameter_value: '/contacts',
-                            message: 'SyntaxError',
-                            stack_trasce: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
-                                'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
-                                'at Object.getDevice (metrica.js?tracking_id=00000186:130)',
-                            page_views: 45
-                        },
-                        {
-                            parameter_value: '/home',
-                            message: 'ReferenceError',
-                            stack_trace: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
-                                'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
-                                'at Object.getDevice (metrica.js?tracking_id=00000186:130)',
-                            page_views: 34
-                        },
-                        {
-                            parameter_value: '/products',
-                            message: 'TypeError',
-                            stack_trace: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
-                                'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
-                                'at Object.getDevice (metrica.js?tracking_id=00000186:130)',
-                            page_views: 12
-                        },
-                        {
-                            parameter_value: '/user',
-                            message: 'InternalError',
-                            stack_trace: 'at Object.device.tablet (metrica.js?tracking_id=00000186:317)\n' +
-                                'at Object.device.desktop (metrica.js?tracking_id=00000186:325)\n' +
-                                'at Object.getDevice (metrica.js?tracking_id=00000186:130)',
-                            page_views: 3
-                        }
-                    ]
-                }
             };
         },
         computed: {
             ...mapGetters('error_report', {
                 getSelectedPeriod: GET_SELECTED_PERIOD,
                 chartData: GET_LINE_CHART_DATA,
+                tableData: GET_TABLE_DATA,
                 formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
             }),
         },
@@ -120,6 +85,11 @@
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA
             }),
+            getTableDataItems () {
+                return this.tableData.items.map((item) => {
+                    return {...item, max_created: moment.utc(item.max_created).format('llll')};
+                });
+            },
             changePeriod (data) {
                 this.changeSelectedPeriod(data);
             },

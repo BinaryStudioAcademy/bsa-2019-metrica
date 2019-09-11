@@ -5,6 +5,7 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\DeviceAggregate;
+use App\DataTransformer\VisitorsFlow\DeviceFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
@@ -120,12 +121,12 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
                     ]
                 ],
                 'sort' => [
-                    'level' => 'asc',
-                    'views' => 'desc'
+                    [ 'level' => ['order' => 'asc', "unmapped_type" => "integer"]],
+                    [ 'views' => ['order' => 'desc',  "unmapped_type" => "integer"]]
                 ]
             ]
         ];
         $result = $this->client->search($params);
-        return new ParameterFlowCollection($result['hits']['hits']);
+        return new DeviceFlowCollection($result['hits']['hits']);
     }
 }
