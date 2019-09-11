@@ -92,7 +92,7 @@ final class GetAverageSessionByIntervalAction
 
         }
 
-        return new Collection(array_slice($items, 0, $lastLength));;
+        return new Collection(array_slice($items, 0, $lastLength));
     }
 
     private function getInterval(string $interval): int
