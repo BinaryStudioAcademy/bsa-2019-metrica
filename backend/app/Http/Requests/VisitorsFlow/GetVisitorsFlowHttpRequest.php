@@ -22,6 +22,6 @@ final class GetVisitorsFlowHttpRequest extends ApiFormRequest
 
     public function getLevel(): int
     {
-        return (int)$this->get('level');
+        return (int) $this->get('level');
     }
 }
