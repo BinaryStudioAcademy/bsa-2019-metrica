@@ -98,6 +98,9 @@ $gray: rgba(18, 39, 55, 0.5);
 
 .users-table {
     max-width: 1032px;
+}
+
+.v-data-table {
     font-family: 'GilroySemiBold';
 }
 

@@ -74,8 +74,8 @@
     $blue: #3C57DE;
     $gray: rgba(18, 39, 55, 0.5);
 
-    .users-table {
-        font-family: 'Gilroy';
+    .v-data-table {
+        font-family: 'GilroySemiBold';
     }
 
     .header {
@@ -158,14 +158,5 @@
         .v-text-field__details {
             display: none;
         }
-    }
-
-    ::v-deep .v-list-item {
-        font-family: 'Gilroy';
-        text-transform: capitalize;
-    }
-
-    .units {
-        text-transform: none;
     }
 </style>

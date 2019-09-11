@@ -1,7 +1,6 @@
 <template>
     <VContainer
         p-0
-        class="users-table"
     >
         <VRow
             class="header my-3"
@@ -96,8 +95,8 @@
     $blue: #3C57DE;
     $gray: rgba(18, 39, 55, 0.5);
 
-    .users-table {
-        font-family: 'Gilroy';
+    .v-data-table {
+        font-family: 'GilroySemiBold';
     }
 
     .header {
@@ -183,7 +182,7 @@
     }
 
     ::v-deep .v-list-item {
-        font-family: 'Gilroy';
+        font-family: 'GilroySemiBold';
         text-transform: capitalize;
     }
 
