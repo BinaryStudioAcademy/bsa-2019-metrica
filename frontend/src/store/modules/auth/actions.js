@@ -34,8 +34,6 @@ export default {
             }).catch((response) => {
                 return Promise.reject(response.response.data.error.message);
             });
-
-
     },
 
     [LOGOUT]: (context) => {
