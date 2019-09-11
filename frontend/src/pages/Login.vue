@@ -30,7 +30,7 @@
                     image
                     sm12
                     md6
-                    class="d-sm-none d-md-flex"
+                    class="d-none d-md-flex"
                 >
                     <VImg
                         src="/assets/images/home.png"

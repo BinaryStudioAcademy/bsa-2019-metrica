@@ -19,7 +19,7 @@
             'x-website': tracking_number,
         };
         let data = {
-            message: error.message,
+            message: message,
             stack_trace: error.stack,
             page: window._metricaTracking.getPage(),
             page_title: window._metricaTracking.getTitle(),

@@ -69,6 +69,17 @@ const tableTransformerPageTiming = (item) => {
         'value': item.average_time / 1000
     };
 };
+
+const tableTransformerErrors = (item) => {
+    return {
+        'parameter': item.parameter,
+        'parameter_value': item.parameter_value,
+        'count': item.count,
+        'message': item.message,
+        'stack_trace': item.stack_trace,
+    };
+};
+
 export {
     buttonTransformer,
     buttonTransformerToPercent,
@@ -81,4 +92,5 @@ export {
     tableTransformer,
     tableTransformerPageTiming,
     tableTransformerPageViews,
+    tableTransformerErrors
 };

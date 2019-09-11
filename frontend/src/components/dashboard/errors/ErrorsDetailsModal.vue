@@ -3,10 +3,13 @@
         <VDialog
             persistent
             v-model="dialog"
-            max-width="400"
+            max-width="500"
         >
             <VCard>
-                <VCardTitle>Error on page {{ errorItem.page }}</VCardTitle>
+                <VCardTitle>
+                    Error on page
+                    <span class="page-url">{{ errorItem.parameter_value }}</span>
+                </VCardTitle>
                 <VCardText>
                     <div class="mb-2">
                         Message
@@ -73,11 +76,6 @@
                 required: true
             }
         },
-        data () {
-            return {
-                toggleMore: false
-            };
-        },
         methods: {
             changeSelect () {
                 this.$emit('change', this.selected);
@@ -90,6 +88,11 @@
 </script>
 
 <style scoped lang="scss">
+    .page-url {
+        color: #3c57de;
+        font-size: 18px;
+        padding-left: 20px;
+    }
     .message-block {
         border-radius: 6px;
         padding: 10px;
