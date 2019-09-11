@@ -35,6 +35,7 @@
                     '3rd Interaction'
                 ],
                 height: 600,
+                tooltip: {},
                 nodes: [
                     { id: 1, name: 'United States' },
                     { id: 2, name: 'United Kingdom' },
@@ -54,7 +55,8 @@
                     { id: 14, name: '/sales' },
                     { id: 15, name: '(> 100 more pages)'},
                 ],
-                links: []
+                links: [],
+                exits: []
             };
         },
         computed: {
@@ -67,7 +69,7 @@
         },
         methods: {
             createLinks () {
-                this.links = [];
+                let links = [];
                 let lastNodeId = this.nodes.slice(-1)[0].id;
 
                 for (let coef = 1, sourceInd = 0; sourceInd < lastNodeId - 5; sourceInd++) {
@@ -77,29 +79,44 @@
                         let targetId = this.nodes[targetInd + 5 * coef].id;
                         let value = Math.floor(Math.random() * Math.floor(100));
                         let link = { source: sourceId, target: targetId, value: value };
-                        this.links.push(link);
+                        links.push(link);
                     }
 
                     if (sourceId % 5 === 0) {
                         coef++;
                     }
                 }
+
+                this.links = links;
+            },
+
+            createExits () {
+                let lastNodeId = this.nodes.slice(-1)[0].id;
+                let exits = [];
+
+                for (let sourceInd = 5; sourceInd < lastNodeId; sourceInd++) {
+                    let sourceId = this.nodes[sourceInd].id;
+                    let value = Math.floor(Math.random() * 50);
+                    let exit = { source: sourceId, value: value, index: sourceId - 1 };
+                    exits.push(exit);
+                }
+
+                this.exits = exits;
             },
 
             addInteraction () {
                 let lastNodeId = this.nodes.slice(-1)[0].id;
+
                 for (let i = lastNodeId + 1; i < lastNodeId + 6; i++) {
                     this.nodes.push({ id: i, name: `/link${i}`});
                 }
+
                 this.drawDiagram();
 
                 d3.transition()
                     .select('#visitors-flow-container')
-                    .duration(1000)
                     .tween("scroll", function () {
-                        return (t) => {
-                            this.scrollLeft += this.scrollWidth * t;
-                        };
+                        this.scrollLeft += this.scrollWidth;
                     });
             },
 
@@ -108,7 +125,9 @@
                     .remove();
                 d3.select('.diagram-tooltip')
                     .remove();
+
                 this.createLinks();
+                this.createExits();
 
                 const _sankey = sankey()
                     .nodeSort(null)
@@ -123,7 +142,7 @@
                 const svg = d3.select('#visitors-flow-container')
                     .insert('svg', ':first-child')
                     .attr('id', 'visitors-flow-diagram')
-                    .attr("viewBox", `0 -40 ${this.width} ${this.height + 40}`)
+                    .attr("viewBox", `0 -40 ${this.width + 60} ${this.height + 80}`)
                     .style("width", "100%")
                     .style("min-width", this.width / 1.5)
                     .style("height", "auto");
@@ -139,38 +158,115 @@
                     .join("rect")
                     .attr("x", d => d.x0)
                     .attr("y", d => d.y0)
-                    .attr("rx", "5")
-                    .attr("ry", "5")
+                    .attr("rx", "4")
+                    .attr("ry", "4")
                     .attr("height", d => d.y1 - d.y0)
                     .attr("width", d => d.x1 - d.x0)
-                    .attr("fill", () => '#526ede');
+                    .attr("fill", '#526ede')
+                    .attr("class", "node")
+                    .attr("id", d => `node-${d.index}`)
+                    .on("mouseover", (node, i, nodes) => {
+                        d3.selectAll("rect")
+                            .style("opacity", "0.2");
+                        d3.selectAll("path")
+                            .attr("stroke-opacity", ".2");
 
-                const link = svg.append("g")
-                    .attr("fill", "none")
-                    .attr("stroke-opacity", 0.5)
-                    .selectAll("g")
-                    .data(links)
-                    .join("g")
-                    .style("mix-blend-mode", "multiply");
+                        this.highlightLeftSide(d3.select(nodes[i]));
+                        this.highlightRightSide(d3.select(nodes[i]));
+                    })
+                    .on("mouseleave", () => {
+                        d3.selectAll("rect")
+                            .style("opacity", "1");
 
-                link.append("path")
-                    .attr("d", sankeyLinkHorizontal())
-                    .attr("class", "link")
-                    .attr("stroke", () => '#829afa')
-                    .attr("stroke-width", d => Math.max(1, d.width));
+                        d3.selectAll("path")
+                            .attr("stroke-opacity", ".5");
+                    });
 
                 const tooltip = d3.select("#visitors-flow-container")
                     .append("div")
                     .attr("class", "diagram-tooltip");
 
-                link.on("mouseover", (d) => {
-                    tooltip.text(`${d.source.name} → ${d.target.name}, ${d.value}`)
-                        .style("visibility", "visible");
-                })
-                    .on("mouseleave", () => tooltip.style("visibility", "hidden"))
-                    .on("mousemove", function () {
-                        tooltip
-                            .style("left", (d3.event.pageX + 20) + "px")
+                svg.append("g")
+                    .attr("fill", "none")
+                    .selectAll("g")
+                    .data(links)
+                    .join("path")
+                    .attr("d", sankeyLinkHorizontal())
+                    .attr("class", "link")
+                    .attr("id", d => `link-${d.index}`)
+                    .attr("stroke", '#829afa')
+                    .attr("stroke-opacity", ".5")
+                    .attr("stroke-width", d => Math.max(1, d.width))
+                    .on("mouseover", (d, i, links) => {
+                        tooltip.text(`${d.source.name} → ${d.target.name}, ${d.value}`)
+                            .style("visibility", "visible");
+
+                        d3.selectAll("rect")
+                            .style("opacity", ".2");
+                        d3.selectAll("path")
+                            .attr("stroke-opacity", ".2");
+
+                        const link = d3.select(links[i]);
+
+                        link.attr("stroke-opacity", "1");
+                        this.highlightRightSide(d3.select(`#node-${link.data()[0].target.index}`));
+                        this.highlightLeftSide(d3.select(`#node-${link.data()[0].source.index}`));
+                    })
+                    .on("mouseleave", function () {
+                        tooltip.style("visibility", "hidden");
+
+                        d3.selectAll("rect")
+                            .style("opacity", "1");
+                        d3.selectAll("path")
+                            .attr("stroke-opacity", ".5");
+                    })
+                    .on("mousemove", () => {
+                        tooltip.style("left", (d3.event.pageX + 20) + "px")
+                            .style("top", (d3.event.pageY - 40) + "px");
+                    });
+
+                svg.append("g")
+                    .attr("fill", "none")
+                    .selectAll("rect")
+                    .data(this.exits)
+                    .join("path")
+                    .attr("d", d => {
+                        let node = nodes.find((node) => node.id === d.source);
+
+                        let mx = node.x1;
+                        let my = node.y1 - d.value / 2 - 2;
+
+                        return `M ${mx} ${my} a 25 40 0 0 1 25 40`;
+                    })
+                    .attr("class", "exits")
+                    .attr("id", d => `exit-${d.index}`)
+                    .attr("stroke", "#fa514a")
+                    .attr("stroke-opacity", ".5")
+                    .attr("stroke-width", d => d.value)
+                    .on("mouseover", (d, i, exits) => {
+                        tooltip.text(`${d.value} drop-offs`)
+                            .style("visibility", "visible");
+
+                        d3.selectAll("rect")
+                            .style("opacity", ".2");
+                        d3.selectAll("path")
+                            .attr("stroke-opacity", ".2");
+
+                        const exit = d3.select(exits[i]);
+
+                        exit.attr("stroke-opacity", "1");
+                        this.highlightLeftSide(d3.select(`#node-${exit.data()[0].index}`));
+                    })
+                    .on("mouseleave", () =>  {
+                        tooltip.style("visibility", "hidden");
+
+                        d3.selectAll("rect")
+                            .style("opacity", "1");
+                        d3.selectAll("path")
+                            .attr("stroke-opacity", ".5");
+                    })
+                    .on("mousemove", () => {
+                        tooltip.style("left", (d3.event.pageX + 20) + "px")
                             .style("top", (d3.event.pageY - 40) + "px");
                     });
 
@@ -184,7 +280,14 @@
                     .attr("y", d => (d.y1 + d.y0) / 2)
                     .attr("dy", "0.35em")
                     .attr("text-anchor", "middle")
-                    .text(d => `${d.name}, ${d.value}`);
+                    .attr("class", "node-text")
+                    .attr("id", d => `node-text-${d.index}`)
+                    .text(d => `${d.name}, ${d.value}`)
+                    .on("mouseover", (text, i, texts) => {
+                        const index = d3.select(texts[i]).data()[0].index;
+                        d3.select(`#node-${index}`)
+                            .dispatch("mouseover");
+                    });
 
                 svg.append("g")
                     .selectAll("rect")
@@ -202,8 +305,48 @@
                         }
                         return `${[d.depth]}th Interaction`;
                     });
+            },
+
+            highlightRightSide (node) {
+                node.style("opacity", "1");
+
+                const nodeData = node.data()[0];
+
+                d3.select(`#exit-${nodeData.index}`)
+                    .attr("stroke-opacity", "1");
+
+                nodeData.sourceLinks
+                    .forEach((link) => {
+                        d3.select(`#link-${link.index}`)
+                            .attr("stroke-opacity", ".9");
+
+                        let next = d3.select(`#node-${link.target.index}`);
+                        if (next) {
+                            this.highlightRightSide(next);
+                        }
+                    });
+            },
+
+            highlightLeftSide (node) {
+                node.style("opacity", "1");
+
+                const nodeData = node.data()[0];
+
+                d3.select(`#exit-${nodeData.index}`)
+                    .attr("stroke-opacity", "1");
+
+                nodeData.targetLinks
+                    .forEach((link) => {
+                        d3.select(`#link-${link.index}`)
+                            .attr("stroke-opacity", ".9");
+
+                        let next = d3.select(`#node-${link.source.index}`);
+                        if (next) {
+                            this.highlightLeftSide(next);
+                        }
+                    });
             }
-        }
+        },
     };
 </script>
 
@@ -245,14 +388,22 @@
         }
 
         #visitors-flow-diagram {
-
-            .link:hover {
-                stroke-opacity: 1;
+            .link {
+                transition: all .4s;
                 cursor: pointer;
             }
 
             .title{
                 font-size: 1rem;
+            }
+
+            .node {
+                transition: all .4s;
+                cursor: pointer;
+            }
+
+            .node-text {
+                cursor: pointer;
             }
         }
 

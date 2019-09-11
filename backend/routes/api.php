@@ -159,6 +159,15 @@ Route::prefix('v1')->group(function () {
             Route::get('/menu-access/{memberId}', 'TeamController@getPermittedMenuItems');
             Route::put('/menu-access', 'TeamController@updatePermittedMenuItems');
         });
+
+        Route::group([
+            'prefix' => 'errors'
+        ], function () {
+            Route::get('/count', 'ErrorReportController@getErrorsCountByDateRange');
+            Route::get('/table-items', 'ErrorReportController@getErrorItemsByParameter');
+        });
+
+        Route::get('/visitors-flow', 'VisitorsFlowController@getVisitorsFlow');
     });
 
     Route::put('/websites/{id}', [

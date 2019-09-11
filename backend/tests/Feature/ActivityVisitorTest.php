@@ -52,7 +52,7 @@ class ActivityVisitorTest extends TestCase
         $expectedData = [
             "data" => [
                 [
-                    'url' => "http://page_1.test",
+                    'url' => "http://page_2.test",
                     'visitor' => 1,
                     'date' => $this->thirdDate->format('Y-m-d H:i:s')
                 ],

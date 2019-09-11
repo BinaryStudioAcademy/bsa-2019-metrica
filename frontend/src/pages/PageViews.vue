@@ -122,7 +122,14 @@
                 getTableData: GET_PAGE_VIEWS_TABLE_DATA
             }),
             units() {
-                return this.currentActiveButton === BOUNCE_RATE ? '%' : '';
+                switch (this.currentActiveButton) {
+                case BOUNCE_RATE:
+                    return '%';
+                case AVERAGE_TIME:
+                    return 's';
+                default:
+                    return '';
+                }
             },
         },
         created() {

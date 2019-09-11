@@ -124,7 +124,7 @@ export default {
         let newVisitors = 0;
         let totalVisitors = 0;
         let newVisitorsValue = 0;
-        let returnVisitorsValue = 0;
+        let returningVisitorsValue = 0;
 
         return newVisitorsService.fetchButtonValue(startDate.unix(), endDate.unix(), id)
             .then(response => {
@@ -133,12 +133,12 @@ export default {
                     .then(response => {
                         totalVisitors = response.value || 0;
                        if (totalVisitors > 0) {
-                            newVisitorsValue = newVisitors/totalVisitors*100;
-                            returnVisitorsValue = 100 - newVisitorsValue;
+                            newVisitorsValue = Math.round(newVisitors/totalVisitors*100);
+                            returningVisitorsValue = 100 - newVisitorsValue;
                         }
                         let payload = {
                             newVisitors: newVisitorsValue,
-                            returnVisitors: returnVisitorsValue
+                            returningVisitors: returningVisitorsValue
                         };
                         context.commit(SET_CHART_PIE_DATA, payload);
                         context.commit(RESET_CHART_DATA_FETCHING);

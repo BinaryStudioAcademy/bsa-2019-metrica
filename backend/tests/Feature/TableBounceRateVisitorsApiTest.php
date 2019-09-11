@@ -18,7 +18,8 @@ class TableBounceRateVisitorsApiTest extends TestCase
             '*' => [
                 'parameter',
                 'parameter_value',
-                'bounce_rate',
+                'total',
+                'percentage',
             ]
         ],
         'meta' => []

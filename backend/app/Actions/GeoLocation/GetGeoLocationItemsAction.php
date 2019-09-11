@@ -81,7 +81,10 @@ final class GetGeoLocationItemsAction
         $response = $collection->map(function ($item) {
             $bounce_rate = 0;
 
-            if (isset($item['bounced_visitors_count']) && isset($item['all_visitors_count']) && $item['all_visitors_count'] > 0) {
+            if (
+                isset($item['bounced_visitors_count'], $item['all_visitors_count']) &&
+                $item['all_visitors_count'] > 0
+            ) {
                 $bounce_rate = $item['bounced_visitors_count'] / $item['all_visitors_count'];
             }
 

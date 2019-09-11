@@ -32,7 +32,6 @@ use App\Actions\Visitors\GetVisitorsCountByParameterAction;
 use App\Actions\Visitors\GetVisitorsCountByParameterRequest;
 use App\Http\Requests\Visitor\GetTableVisitorsByParameterHttpRequest;
 use App\Http\Resources\VisitorResourceCollection;
-use App\Http\Resources\VisitorsBounceRateResource;
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ChartNewVisitorResourceCollection;
@@ -175,6 +174,6 @@ final class VisitorController extends Controller
             GetVisitorsBounceRateByParameterRequest::fromRequest($request)
         );
 
-        return ApiResponse::success(new VisitorsBounceRateResource($response->getVisitorsBounceRateCollection()));
+        return ApiResponse::success(new TableResource($response->getVisitorsBounceRateCollection()));
     }
 }

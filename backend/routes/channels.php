@@ -11,6 +11,7 @@
 |
 */
 
+use App\Entities\Website;
 use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.User.{id}', function ($user, $id) {
@@ -21,4 +22,8 @@ Broadcast::channel('active-users.{website_id}', function ($user, $website_id) {
     $userWebsitesIds = $user->websites->pluck('id');
 
     return $userWebsitesIds->contains((int)$website_id);
+});
+
+Broadcast::channel('stats.{website_id}', function ($user, $website_id) {
+    return (int) $user->id === (int) Website::find($website_id)->user->id;
 });

@@ -37,7 +37,11 @@ final class EloquentChartVisitorsRepository implements ChartVisitorsRepository
         $to = $filterData->getEndDate();
         $timeFrame = $filterData->getTimeFrame();
         $websiteId = $filterData->websiteId();
-        $allVisitorsByTimeFrame = Visitor::whereCreatedAtBetween($from, $to)
+
+        $allVisitorsByTimeFrame = Visitor::query()
+            ->whereHas('sessions', function (Builder $query) use ($from, $to) {
+                $query->whereBetween('start_session', [$from, $to]);
+            })
             ->whereWebsiteId($websiteId)
             ->selectRaw('COUNT (*)')
             ->selectRaw(' (extract(epoch FROM created_at) - MOD( (CAST (extract(epoch FROM created_at) AS INTEGER)), ? )) AS period', [$timeFrame])
@@ -53,11 +57,12 @@ final class EloquentChartVisitorsRepository implements ChartVisitorsRepository
         $to = $filterData->getEndDate();
         $timeFrame = $filterData->getTimeFrame();
         $websiteId = $filterData->websiteId();
-        $bounceVisitorsByTimeFrame =  Visitor::whereCreatedAtBetween($from, $to)
+
+        $bounceVisitorsByTimeFrame =  Visitor::query()
             ->whereWebsiteId($websiteId)
             ->has('sessions', '=', '1')
             ->whereHas('sessions', function (Builder $query) use ($from, $to) {
-                $query->where('start_session', '<', $to)
+                $query->whereBetween('start_session', [$from, $to])
                     ->has('visits', '=', '1');
             })
             ->selectRaw('COUNT (*)')

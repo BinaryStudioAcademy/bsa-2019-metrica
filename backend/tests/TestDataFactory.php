@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Entities\Error;
 use App\Entities\User;
 use App\Entities\Visit;
 use App\Entities\Website;
@@ -29,6 +30,12 @@ class TestDataFactory
             'Dallas',
             'Seattle'
         ]
+    ];
+
+    const PAGES = [
+        '/home',
+        '/contacts',
+        '/about'
     ];
 
     public static function createUser(): User
@@ -138,5 +145,63 @@ class TestDataFactory
                 'os' => 'X11; Linux i686'
             ]
         ];
+    }
+
+    public static function createErrorsBetweenDates(User $user, String $from, String $to): void
+    {
+        $website = factory(Website::class)->create(['user_id' => $user->id]);
+        foreach (self::PAGES as $page_url) {
+            factory(Page::class)->create(
+                [
+                    'website_id' => $website->id,
+                    'url' => $page_url
+                ]
+            );
+        }
+        factory(Visitor::class, 15)->create();
+
+        foreach (self::GEO_POSITIONS as $country_name => $cities) {
+            foreach ($cities as $city_name) {
+                $geo_positions[] = factory(GeoPosition::class)->create(
+                    [
+                        'country' => $country_name,
+                        'city' => $city_name
+                    ]
+                );
+            }
+        }
+        foreach (self::systemsData() as $systemsDatum) {
+            $systems[] = factory(System::class)->create(
+                $systemsDatum
+            );
+        }
+
+
+        foreach ($systems as $system) {
+            $sessions[] = factory(Session::class)->create(
+                [
+                    'system_id' => $system->id,
+                    'start_session' => new \DateTime('@' . rand($from, $to))
+                ]
+            );
+        }
+        foreach ($geo_positions as $geo_position) {
+            foreach ($sessions as $session) {
+                factory(Visit::class)->create(
+                    [
+                        'geo_position_id' => $geo_position->id,
+                        'session_id' => $session->id,
+                        'visit_time' => new \DateTime('@' . rand($from, $to))
+                    ]
+                );
+            }
+        }
+        for ($i = 0; $i < 5; $i++) {
+            $visit = $user->website->visits->random();
+            factory(Error::class, 5)->create([
+                'visitor_id' => $visit->visitor->id,
+                'page_id' => $visit->page->id
+            ]);
+        }
     }
 }

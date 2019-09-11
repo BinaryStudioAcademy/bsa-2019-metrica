@@ -33,18 +33,18 @@
             wrap
         >
             <VCol
-                lg6
-                md-8
-                sm12
+                lg="7"
+                md="12"
+                sm="12"
                 height="100%"
                 class="img-card"
             >
                 <VisitorsTable />
             </VCol>
             <VCol
-                lg6
-                md5
-                sm12
+                lg="5"
+                md="12"
+                sm="12"
                 height="100%"
                 class="img-card"
             >
@@ -155,7 +155,7 @@
                 return [
                     ['Type', 'Value'],
                     ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors',this.pieChartData.returnVisitors]
+                    ['Returning Visitors',this.pieChartData.returningVisitors]
                 ];
             },
             legend () {
@@ -167,9 +167,9 @@
                             percentageDiff: Number(this.pieChartData.newVisitors),
                             color: '#3C57DE',
                         },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: Number(this.pieChartData.returnVisitors),
+                        returningVisitors: {
+                            title: 'Returning Visitors',
+                            percentageDiff: Number(this.pieChartData.returningVisitors),
                             color: '#1BC3DA',
                         },
                     }

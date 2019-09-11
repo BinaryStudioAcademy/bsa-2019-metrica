@@ -9,12 +9,40 @@
             });
         }
     }
+
+    window.onerror = (message, source, lineno, colno, error) => {
+        const url = state.host_api + state.routes.create_error;
+        const tracking_number = window._metricaTracking.getObjectMetricaConf()[1][1];
+        const token = window._metricaTracking.getToken();
+        let headers = {
+            'Content-Type': 'application/json',
+            'x-website': tracking_number,
+        };
+        let data = {
+            message: message,
+            stack_trace: error.stack,
+            page: window._metricaTracking.getPage(),
+            page_title: window._metricaTracking.getTitle(),
+
+        };
+
+        if (token) {
+            headers = {
+                ...headers,
+                'x-visitor': 'Bearer ' + token
+            };
+        }
+
+        return new requestService().post(url, data, headers);
+    };
+
     const state = {
         host_api: process.env.VUE_APP_API_URL,
         host: process.env.VUE_APP_URL,
         routes: {
             create_visitor: '/visitors',
-            create_visit: '/visits'
+            create_visit: '/visits',
+            create_error: '/error-reports'
         }
     };
     window._metricaTracking = {
@@ -76,16 +104,7 @@
             return this.configMetrica;
         },
         storage() {
-            return window[this.isStorage()];
-        },
-        isStorage() {
-            try {
-                localStorage.setItem('test-local-storage', 1);
-                localStorage.removeItem('test-local-storage');
-                return 'localStorage';
-            } catch (e) {
-                return 'sessionStorage';
-            }
+            return window[Helper.isStorage()];
         },
         getTrackById() {
             let trackingId = this.getObjectMetricaConf()[1][1];
@@ -214,6 +233,15 @@
                 }
             }
             return obj[props[i]];
+        },
+        isStorage() {
+            try {
+                localStorage.setItem('test-local-storage', 1);
+                localStorage.removeItem('test-local-storage');
+                return 'localStorage';
+            } catch (e) {
+                return 'sessionStorage';
+            }
         },
         getUserDevice() {
             let device,

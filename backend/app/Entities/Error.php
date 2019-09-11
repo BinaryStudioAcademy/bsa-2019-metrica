@@ -6,6 +6,8 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
+use App\Utils\DatePeriod;
 
 final class Error extends Model
 {
@@ -24,5 +26,12 @@ final class Error extends Model
     public function page(): BelongsTo
     {
         return $this->belongsTo(Page::class, 'page_id');
+    }
+
+    public function scopeForWebsite(Builder $query, int $websiteId): Builder
+    {
+        return $query->whereHas('page', function(Builder $query) use ($websiteId) {
+            $query->where('website_id', $websiteId);
+        });
     }
 }
