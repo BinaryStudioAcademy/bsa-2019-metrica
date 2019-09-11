@@ -4,7 +4,7 @@
     >
         <li class="card-title">
             <p>Top active pages</p>
-            <p>Users</p>
+            <p>Visitors</p>
         </li>
         <li
             v-for="page in topPages"
@@ -15,6 +15,7 @@
                 class="link-item"
                 :href="page.url"
                 target="_blank"
+                :title="page.url"
             >
                 {{ page.url }}
             </a>
@@ -43,6 +44,10 @@
         .link-item {
             text-decoration:none;
             color: rgba(18, 39, 55, 0.5);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 10px;
         }
     }
 </style>

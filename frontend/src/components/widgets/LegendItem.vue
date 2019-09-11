@@ -44,11 +44,11 @@
 <style scoped lang="scss">
 .v-list-item {
     text-align: end;
-    height: 32px;
+    height: 40px;
     min-height: 20px;
-    min-width: 120px;
     .v-list-item__title,
     .v-list-item__subtitle {
+        white-space: normal !important;
         font-size: 12px;
         font-family: 'GilroySemiBold';
     }

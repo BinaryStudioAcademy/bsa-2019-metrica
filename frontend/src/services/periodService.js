@@ -5,7 +5,7 @@ export const period = {
     PERIOD_YESTERDAY: 'yesterday',
     PERIOD_LAST_WEEK: 'last_week',
     PERIOD_LAST_MONTH: 'last_month',
-    PERIOD_LAST_QUARTAL: 'last_quartal',
+    PERIOD_LAST_QUARTER: 'last_quarter',
     PERIOD_ALL: 'all_period',
 };
 
@@ -62,7 +62,7 @@ export const getTimeByPeriod = (value) => {
             startDate = getSubtractStartMonth(1);
             endDate = currentDate();
             break;
-        case period.PERIOD_LAST_QUARTAL:
+        case period.PERIOD_LAST_QUARTER:
             interval = getDayInterval(30);
             startDate = getSubtractStartMonth(3);
             endDate = currentDate();

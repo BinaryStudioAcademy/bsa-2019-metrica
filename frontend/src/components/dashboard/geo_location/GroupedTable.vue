@@ -74,9 +74,13 @@
         computed: {
             geoLocationItems() {
                 return this.items.map((item) => {
+                    const duration = moment.duration(item.avg_session_time, 's');
+                    const hours = Math.floor(duration.asHours());
+                    const minutes = moment.utc(duration.asMilliseconds()).format("mm:ss");
+
                     let newItemData = {
-                        avg_session_time: moment.unix(item.avg_session_time).format("HH:mm:ss"),
-                        bounce_rate: Math.round(Number(item.bounce_rate)*100)
+                        avg_session_time: `${hours}:${minutes}`,
+                        bounce_rate: Math.round(Number(item.bounce_rate) * 100)
                     };
                     return { ...item, ...newItemData};
                 });
@@ -90,8 +94,8 @@
     $blue: #3C57DE;
     $gray: rgba(18, 39, 55, 0.5);
 
-    .geo-location-table {
-        font-family: 'Gilroy';
+    .v-data-table {
+        font-family: 'GilroySemiBold';
     }
 
     .header {
@@ -126,16 +130,10 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    max-width: calc(100% / 3);
                     word-break: break-all;
                     padding: 8px;
                 }
             }
         }
-    }
-
-    ::v-deep .v-list-item {
-        font-family: 'Gilroy';
-        text-transform: capitalize;
     }
 </style>

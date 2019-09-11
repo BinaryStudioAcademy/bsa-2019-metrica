@@ -5,6 +5,7 @@
                 <LineChart
                     :data="formatLineChartData"
                     :is-fetching="chartData.isFetching"
+                    :units="units"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -31,7 +32,6 @@
             <VFlex
                 lg12
                 md12
-                hidden-sm-and-down
                 height="100%"
                 class="img-card"
             >
@@ -118,6 +118,16 @@
                 formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
                 getTableData: GET_PAGE_VIEWS_TABLE_DATA
             }),
+            units() {
+                switch (this.currentActiveButton) {
+                case BOUNCE_RATE:
+                    return '%';
+                case AVERAGE_TIME:
+                    return 's';
+                default:
+                    return '';
+                }
+            },
         },
         created() {
             this.fetchPageData();

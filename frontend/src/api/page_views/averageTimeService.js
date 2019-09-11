@@ -1,6 +1,6 @@
 import config from "@/config";
 import requestService from "../../services/requestService";
-import {buttonTransformerToTime,chartTransformer} from "../transformers";
+import {buttonTransformerToTime, chartTransformerToMinutes} from "../transformers";
 import _ from "lodash";
 
 const resourceUrl = config.getApiUrl();
@@ -26,7 +26,7 @@ const fetchChartValues = (startDate, endDate, interval) => {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
         'filter[period]': interval
-    }).then(response => response.data.map(chartTransformer))
+    }).then(response => response.data.map(chartTransformerToMinutes))
         .catch(error => Promise.reject(
             new Error(
                 _.get(

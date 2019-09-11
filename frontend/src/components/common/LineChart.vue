@@ -1,23 +1,21 @@
 <template>
-    <VContainer>
+    <VContainer class="chart-container">
         <Spinner
             v-if="isFetching"
         />
-        <VFlex
+        <VCardTitle
             v-if="!this.data.length"
+            primary-title
+            class="grey--text"
         >
-            <VCardTitle
-                primary-title
-                class="justify-center grey--text"
-            >
-                There is no data to display!
-            </VCardTitle>
-        </VFlex>
+            There is no data to display!
+        </VCardTitle>
         <GChart
             type="LineChart"
             v-else
             :data="chartData"
             :options="chartOptions"
+            :units="units"
         />
     </VContainer>
 </template>
@@ -38,13 +36,18 @@
                 type: Boolean,
                 required: true,
             },
+            units: {
+                type: String,
+                default: ''
+            }
         },
         data() {
             return {
-                chartArea: {
-                    width: '90%'
-                },
                 chartOptions: {
+                    chartArea: {
+                        width: '93%',
+                        height: '75%'
+                    },
                     tooltip: {
                         isHtml: true,
                         ignoreBounds: true,
@@ -96,6 +99,9 @@
                             fontSize: 12,
                             lineHeight: 14,
                             letterSpacing: 0.533333,
+                        },
+                        gridlines: {
+                            color: '#edf2fa'
                         }
                     }
                 },
@@ -119,7 +125,7 @@
             tooltip(element) {
                 return `<div class='custom-google-line-chart-tooltip white--text'>
                     <div class='tooltip-first primary lighten-1'>
-                        ${element.value}
+                        ${element.value}${this.units}
                     </div>
                     <div class='tooltip-second'>
                         ${element.date}
@@ -130,6 +136,15 @@
     };
 </script>
 <style lang="scss" scoped>
+    .chart-container {
+        height: 224px;
+    }
+    .v-card__title {
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        align-content: center;
+    }
     ::v-deep svg path {
         fill: none;
     }

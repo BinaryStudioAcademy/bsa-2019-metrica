@@ -5,6 +5,7 @@
                 <LineChart
                     :data="formatLineChartData"
                     :is-fetching="chartData.isFetching"
+                    :units="units"
                 />
                 <PeriodDropdown
                     :value="getSelectedPeriod"
@@ -27,25 +28,16 @@
                 @change="changeButton"
             />
         </VRow>
-        <VRow
-            flex
-            wrap
-        >
+        <VRow>
             <VCol
-                lg6
-                md-8
-                sm12
-                height="100%"
-                class="img-card"
+                lg="7"
+                sm="12"
             >
                 <VisitorsTable />
             </VCol>
             <VCol
-                lg6
-                md5
-                sm12
-                height="100%"
-                class="img-card"
+                lg="5"
+                sm="12"
             >
                 <PieChart
                     :chart-data="pieData"
@@ -145,11 +137,21 @@
                 chartData: GET_LINE_CHART_DATA,
                 formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
             }),
+            units() {
+                switch (this.currentActiveButton) {
+                case BOUNCE_RATE:
+                    return '%';
+                case AVG_SESSION:
+                    return 's';
+                default:
+                    return '';
+                }
+            },
             pieData () {
                 return [
                     ['Type', 'Value'],
                     ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors',this.pieChartData.returnVisitors]
+                    ['Returning Visitors',this.pieChartData.returningVisitors]
                 ];
             },
             legend () {
@@ -161,9 +163,9 @@
                             percentageDiff: Number(this.pieChartData.newVisitors),
                             color: '#3C57DE',
                         },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: Number(this.pieChartData.returnVisitors),
+                        returningVisitors: {
+                            title: 'Returning Visitors',
+                            percentageDiff: Number(this.pieChartData.returningVisitors),
                             color: '#1BC3DA',
                         },
                     }
@@ -213,5 +215,10 @@
     }
     .buttons-row {
         margin-top: 50px;
+    }
+    @media (max-width: 1263px) {
+        .piechart {
+            margin: 0;
+        }
     }
 </style>

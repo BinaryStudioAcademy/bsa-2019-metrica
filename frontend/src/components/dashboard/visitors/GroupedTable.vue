@@ -1,6 +1,5 @@
 <template>
     <VContainer
-        p-0
         class="users-table"
     >
         <VRow
@@ -99,13 +98,17 @@ $gray: rgba(18, 39, 55, 0.5);
 
 .users-table {
     max-width: 1032px;
-    font-family: 'Gilroy';
+}
+
+.v-data-table {
+    font-family: 'GilroySemiBold';
 }
 
 .header {
     align-items: center;
     text-align: center;
     text-transform: capitalize;
+    white-space: nowrap;
 }
 
 .container {
@@ -180,7 +183,7 @@ $gray: rgba(18, 39, 55, 0.5);
 }
 
 ::v-deep .v-list-item {
-    font-family: 'Gilroy';
+    font-family: 'GilroySemiBold';
     text-transform: capitalize;
 }
 </style>

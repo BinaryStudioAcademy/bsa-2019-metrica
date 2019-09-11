@@ -39,7 +39,7 @@
             />
 
             <div class="password-group">
-                <div class="btn-group">
+                <div class="btn-group mt-8 mb-3">
                     <VBtn
                         class="login-btn"
                         min-width="100px"
@@ -49,7 +49,6 @@
                     >
                         {{ signInText }}
                     </VBtn>
-
                     <VBtn
                         class="start"
                         min-width="100px"
@@ -60,7 +59,7 @@
                         SIGN UP
                     </VBtn>
                 </div>
-                <div class="btn-group">
+                <div>
                     <RouterLink
                         class="forgot-password-link"
                         :to="{name: 'reset-password'}"
@@ -71,7 +70,9 @@
             </div>
         </VForm>
 
-        <SocialAuth />
+        <SocialAuth
+            class="mt-4"
+        />
     </div>
 </template>
 
@@ -163,9 +164,11 @@
         }
 
         .btn-group {
-            margin-bottom: 20px;
             display: flex;
             justify-content: flex-start;
+            .v-btn:last-child {
+                background-color: transparent;
+            }
         }
     }
 </style>

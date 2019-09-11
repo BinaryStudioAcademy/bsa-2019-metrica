@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 class GetSessionsByParameterTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     const ENDPOINT = 'api/v1/sessions/param';
 
     private $user;

@@ -34,8 +34,6 @@ export default {
             }).catch((response) => {
                 return Promise.reject(response.response.data.error.message);
             });
-
-
     },
 
     [LOGOUT]: (context) => {
@@ -63,10 +61,7 @@ export default {
     },
 
     [RESET_PASSWORD]: (context, payload) => {
-        return resetPassword(payload).then(() => {
-                return `Your reset password link was created. Check your email ${payload.email}, please.`;
-            }
-        ).catch((error) => {
+        return resetPassword(payload).catch((error) => {
             switch (error.response.status) {
                 case 404:
                     throw `It looks like there is no account associated with this email address.

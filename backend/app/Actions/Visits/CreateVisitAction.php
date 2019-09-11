@@ -9,6 +9,7 @@ use App\Entities\Page;
 use App\Entities\Session;
 use App\Entities\System;
 use App\Entities\Visit;
+use App\Events\SessionCreated;
 use App\Events\VisitCreated;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
@@ -55,7 +56,6 @@ final class CreateVisitAction
     {
         JWTAuth::setToken(Str::after($request->token(), 'Bearer '));
         $visitorId = JWTAuth::getPayload()->get('visitor_id');
-
         $visitor = $this->visitorRepository->getById($visitorId);
         $this->visitorRepository->updateLastActivity($visitor);
 
@@ -191,6 +191,8 @@ final class CreateVisitAction
         $session->system_id = $systemId;
         $session->website_id = $websiteId;
 
-        return $this->sessionRepository->save($session);
+        $session = $this->sessionRepository->save($session);
+        SessionCreated::dispatch($session);
+        return $session;
     }
 }

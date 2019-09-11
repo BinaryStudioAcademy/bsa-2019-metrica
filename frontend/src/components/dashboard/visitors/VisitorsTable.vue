@@ -1,6 +1,6 @@
 <template>
     <VContainer
-        clas="position-relative"
+        class="position-relative pa-0"
     >
         <Spinner v-if="isFetching" />
         <GroupedTable
@@ -77,3 +77,14 @@
         }
     };
 </script>
+
+<style scoped lang="scss">
+    @media (max-width: 1500px) {
+        ::v-deep .v-text-field__prefix {
+            display: none;
+        }
+        ::v-deep .v-select__selections {
+            padding-left: 16px;
+        }
+    }
+</style>

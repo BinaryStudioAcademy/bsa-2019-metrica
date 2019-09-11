@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\CreateVisitAggregate;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -20,7 +21,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\VisitCreated' => [
             'App\Listeners\SendVisitsNotification',
+            CreateVisitAggregate::class,
         ],
+        'App\Events\SessionCreated' => [
+            'App\Listeners\SendSessionNotification'
+        ]
     ];
 
     /**

@@ -23,10 +23,10 @@ const chartTransformer = (item) => {
     };
 };
 
-const chartTransformerToInt = (item) => {
+const chartTransformerToMinutes = (item) => {
     return {
         date: item.date,
-        value: parseInt(item.value)
+        value: parseFloat(moment.utc(item.value*1000).format('mm.ss'))
     };
 };
 
@@ -59,7 +59,7 @@ const tableTransformerPageViews = (item) => {
         'page_title': item.page_title,
         'count_page_views': item.count_page_views,
         'bounce_rate': Math.round(item.bounce_rate*100)+'%',
-        'exit_rate': item.exit_rate
+        'exit_rate':  Math.round(item.exit_rate*100)+'%',
     };
 };
 
@@ -69,16 +69,28 @@ const tableTransformerPageTiming = (item) => {
         'value': item.average_time / 1000
     };
 };
+
+const tableTransformerErrors = (item) => {
+    return {
+        'parameter': item.parameter,
+        'parameter_value': item.parameter_value,
+        'count': item.count,
+        'message': item.message,
+        'stack_trace': item.stack_trace,
+    };
+};
+
 export {
     buttonTransformer,
     buttonTransformerToPercent,
     buttonTransformerToTime,
     buttonTransformerToSeconds,
     chartTransformer,
-    chartTransformerToInt,
+    chartTransformerToMinutes,
     chartTransformerToPercent,
     chartTransformerToSeconds,
     tableTransformer,
     tableTransformerPageTiming,
     tableTransformerPageViews,
+    tableTransformerErrors
 };

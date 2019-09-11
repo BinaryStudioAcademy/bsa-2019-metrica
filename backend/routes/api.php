@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'users'
         ], function () {
             Route::put('/me', 'UserController@update');
+            Route::put('/update-password', 'UserController@updatePassword');
         });
 
         Route::group([
@@ -144,12 +145,20 @@ Route::prefix('v1')->group(function () {
         });
 
 
-
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');
 
         Route::get('/geo-location-items', 'GeoLocationController');
 
         Route::get('/table-page-views', 'VisitController@getPageViewsItems');
+
+        Route::group([
+            'prefix' => 'errors'
+        ], function () {
+            Route::get('/count', 'ErrorReportController@getErrorsCountByDateRange');
+            Route::get('/table-items', 'ErrorReportController@getErrorItemsByParameter');
+        });
+
+        Route::get('/visitors-flow', 'VisitorsFlowController@getVisitorsFlow');
     });
 
     Route::group([
@@ -165,6 +174,12 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'visitors'
         ], function () {
             Route::post('/', 'VisitorController@createVisitor')->middleware('x-website');
+        });
+
+        Route::group([
+            'prefix' => 'error-reports'
+        ], function () {
+            Route::post('/', 'ErrorReportController@addErrorReport')->middleware('x-website');
         });
     });
 });

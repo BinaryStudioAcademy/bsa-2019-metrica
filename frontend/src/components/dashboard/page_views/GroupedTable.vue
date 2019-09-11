@@ -90,8 +90,8 @@
     $blue: #3C57DE;
     $gray: rgba(18, 39, 55, 0.5);
 
-    .page-views-table {
-        font-family: 'Gilroy';
+    ::v-deep .v-data-table {
+        font-family: 'GilroySemiBold';
     }
 
     .header {
@@ -126,16 +126,10 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    max-width: calc(100% / 3);
                     word-break: break-all;
                     padding: 8px;
                 }
             }
         }
-    }
-
-    ::v-deep .v-list-item {
-        font-family: 'Gilroy';
-        text-transform: capitalize;
     }
 </style>
