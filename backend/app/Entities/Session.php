@@ -164,6 +164,6 @@ final class Session extends Model
 
     public function getAvgSessionTimePercentageAttribute()
     {
-        return $this->avg_session_time / $this->max_time_difference * 100;
+        return $this->max_time_difference > 0 ? $this->avg_session_time / $this->max_time_difference * 100 : 0;
     }
 }
