@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from '../store/index';
 import Login from '../pages/Login.vue';
 import LoginGuard from '@/components/auth/LoginGuard.vue';
 import ResetPassword from "../pages/ResetPassword";
@@ -107,11 +108,21 @@ export default new Router({
                                             path: 'visitors',
                                             name: 'visitors',
                                             component: Visitors,
+                                            beforeEnter: (to, from, next) => {
+                                                const links = store.getters["website/getWebsiteData"]
+                                                    .permitted_menu.split(', ');
+                                                links.includes('visitors') ? next() : next(false);
+                                            }
                                         },
                                         {
                                             path: 'page-views',
                                             name: 'page-views',
                                             component: PageViews,
+                                            beforeEnter: (to, from, next) => {
+                                                const links = store.getters["website/getWebsiteData"]
+                                                    .permitted_menu.split(', ');
+                                                links.includes('page-views') ? next() : next(false);
+                                            },
                                             meta: {
                                                 title: 'Page views'
                                             },
@@ -120,6 +131,11 @@ export default new Router({
                                             path: 'geo-location',
                                             name: 'geo-location',
                                             component: GeoLocation,
+                                            beforeEnter: (to, from, next) => {
+                                                const links = store.getters["website/getWebsiteData"]
+                                                    .permitted_menu.split(', ');
+                                                links.includes('geo-location') ? next() : next(false);
+                                            },
                                         },
                                     ]
                                 },
@@ -130,7 +146,12 @@ export default new Router({
                                         {
                                             path: 'visitors-flow',
                                             name: 'visitors-flow',
-                                            component: VisitorsFlow
+                                            component: VisitorsFlow,
+                                            beforeEnter: (to, from, next) => {
+                                                const links = store.getters["website/getWebsiteData"]
+                                                    .permitted_menu.split(', ');
+                                                links.includes('behavior') ? next() : next(false);
+                                            },
                                         }
                                     ]
                                 },
@@ -161,11 +182,21 @@ export default new Router({
                                             path: 'page-timings',
                                             name: 'page-timings',
                                             component: PageTimings,
+                                            beforeEnter: (to, from, next) => {
+                                                const links = store.getters["website/getWebsiteData"]
+                                                    .permitted_menu.split(', ');
+                                                links.includes('page-timings') ? next() : next(false);
+                                            },
                                         },
                                         {
                                             path: 'error-reports',
                                             name: 'error-reports',
-                                            component: ErrorReports
+                                            component: ErrorReports,
+                                            beforeEnter: (to, from, next) => {
+                                                const links = store.getters["website/getWebsiteData"]
+                                                    .permitted_menu.split(', ');
+                                                links.includes('error-reports') ? next() : next(false);
+                                            },
                                         }
 
                                     ]
