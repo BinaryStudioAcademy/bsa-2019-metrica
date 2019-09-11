@@ -23,16 +23,18 @@
         data () {
             return {
                 items: [
-                    {title: 'Country', value: 'country'},
-                    {title: 'Browser', value: 'browser'},
-                    {title: 'Device', value: 'device'},
-                    {title: 'Screen', value: 'screen'}
+                    { title: 'Country', value: 'country' },
+                    { title: 'Browser', value: 'browser' },
+                    { title: 'Device', value: 'device' },
+                    { title: 'Screen', value: 'screen' }
                 ]
             };
         },
         methods: {
             change(selectedItem) {
-                this.$emit("change", selectedItem);
+                if (this.value !== selectedItem.value) {
+                    this.$emit("change", selectedItem.value);
+                }
             }
         }
     };

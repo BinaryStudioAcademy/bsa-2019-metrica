@@ -8,6 +8,7 @@
         <template v-if="getVisitorsFlow.length !== 0">
             <VisitorsFlowDropdown
                 :value="getSelectedParameter"
+                @change="changeSelectedParameter"
             />
             <VisitorsFlowDiagram
                 :visitors-flow-data="getVisitorsFlow"

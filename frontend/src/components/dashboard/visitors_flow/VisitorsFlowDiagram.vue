@@ -32,6 +32,12 @@
                 required: true
             }
         },
+        watch: {
+            visitorsFlowData: function () {
+                this.parseVisitorsFlowData();
+                this.drawDiagram();
+            }
+        },
         data () {
             return {
                 titles: [
@@ -74,9 +80,9 @@
                     this.findOrCreateExit(visitorFlowItem, exits, sourceId);
                 }
 
-                this.nodes = [...this.nodes, ...nodes];
-                this.links = [...this.links, ...links];
-                this.exits = [...this.exits, ...exits];
+                this.nodes = nodes;
+                this.links = links;
+                this.exits = exits;
             },
 
             findOrCreateSource (visitorsFlowItem, nodes ) {
