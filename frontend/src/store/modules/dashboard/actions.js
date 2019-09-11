@@ -61,8 +61,14 @@ export default {
         context.commit(SET_BUTTON_FETCHING);
 
         return getActivityDataItems().then(response => {
+
             response.sort( (a, b) => {
-                return  a.date - b.date || a.visitor - b.visitor;
+                if (moment(a.date).unix() < moment(b.date).unix()) return 1;
+                if (moment(a.date).unix() > moment(b.date).unix()) return -1;
+                if (a.visitor < b.visitor) return 1;
+                if (a.visitor > b.visitor) return -1;
+                return 0;
+
             });
 
             const result = [];
@@ -71,7 +77,8 @@ export default {
                     result.push(element);
                 }
             });
-            context.commit(SET_ACTIVITY_DATA_ITEMS, result);
+
+            context.commit(SET_ACTIVITY_DATA_ITEMS, _.uniqBy(result, 'visitor'));
             context.commit(RESET_BUTTON_FETCHING);
         }).catch(() => {
             context.commit(RESET_BUTTON_FETCHING);
@@ -79,21 +86,21 @@ export default {
     },
     [FETCHING_ACTIVITY_CHART_DATA]: (context) => {
 
-        const startDay = moment().subtract(1, 'minute');
+        const startDay = moment().subtract(5, 'minute');
         const endDay = moment();
 
         pageViewsService.fetchChartValues(
             startDay.unix(),
             endDay.unix(),
-            1
+            60
         ).then(response => {
             const range = moment().range(startDay, endDay);
             const arrayOfDates = Array.from(range.by('seconds'));
             const result = [];
-
             let value = undefined;
             arrayOfDates.map((item) => {
                 value = _.find(response,  (i) => {
+
                     return parseInt(i.date, 10) === item.unix();
                 });
                 if(value) {
@@ -103,10 +110,12 @@ export default {
                     result.push(0);
                 }
             });
+
             const chunk = (arr, size) =>
                 arr.reduce((acc, _, i) => (i % size)
                     ? acc : [...acc, (arr.slice(i, i + size)).reduce((a, b) => a + b, 0)], []);
-            context.commit(SET_ACTIVITY_CHART_DATA, chunk(result, 6));
+
+            context.commit(SET_ACTIVITY_CHART_DATA, chunk(result, 61));
         });
     },
 
@@ -127,6 +136,15 @@ export default {
                 }),
             data,
         ];
-        context.commit(SET_ACTIVITY_DATA_ITEMS, items);
+
+        items.sort( (a, b) => {
+            if (moment(a.date).unix() < moment(b.date).unix()) return 1;
+            if (moment(a.date).unix() > moment(b.date).unix()) return -1;
+            if (a.visitor < b.visitor) return 1;
+            if (a.visitor > b.visitor) return -1;
+            return 0;
+
+        });
+        context.commit(SET_ACTIVITY_DATA_ITEMS,  _.uniqBy(items, 'visitor'));
     },
 };

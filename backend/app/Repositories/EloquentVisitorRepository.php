@@ -120,7 +120,8 @@ final class EloquentVisitorRepository implements VisitorRepository
         $subQueryFirst = "SELECT DISTINCT ON (v.id) visitor_id, v.last_activity as max_date, v.website_id, p.url 
                           from visitors v
                           LEFT JOIN  visits vs on vs.visitor_id = v.id left join pages p on vs.page_id = p.id
-                          where v.last_activity > NOW() - interval '5 minutes' and v.website_id = ".$websiteId;
+                          where v.last_activity > NOW() - interval '5 minutes' and v.website_id = ".$websiteId."
+                          order by v.id, vs.id desc";
         $query = DB::raw($subQueryFirst);
         $result = DB::select((string)$query);
 

@@ -26,15 +26,13 @@
                 </p>
             </div>
             <VContainer>
-                <VSparkline
-                    v-if="activityChartData.length > 0"
-                    :value="activityChartData"
-                    :gradient="gradient"
-                    :smooth="radius"
-                    :padding="padding"
-                    :line-width="lineWidth"
-                    :gradient-direction="gradientDirection"
-                    auto-draw
+                <VueApexCharts
+                    type="bar"
+                    height="200px"
+                    width="100%"
+                    :options="options"
+                    :series="series"
+                    class="visits-heatmap"
                 />
             </VContainer>
             <TopActivePage
@@ -56,6 +54,8 @@
 
 <script>
     import Spinner from '../../utilites/Spinner';
+    import moment from 'moment';
+    import VueApexCharts from 'vue-apexcharts';
     import {mapGetters, mapActions} from 'vuex';
     import {
         GET_ACTIVITY_DATA_ITEMS,
@@ -76,7 +76,8 @@
         name: 'ActiveVisitorsCard',
         components: {
             TopActivePage,
-            Spinner
+            Spinner,
+            VueApexCharts
         },
         data: () => ({
             lineWidth: 4,
@@ -86,10 +87,22 @@
             gradientDirection: 'left',
             polling: null,
             fetch: null,
+            options: {
+                chart: {
+                    id: 'vuechart',
+                    toolbar: {
+                        show: false
+                    },
+                    fontFamily: 'Gilroy'
+                },
+            }
         }),
         mounted() {
             const channel = echoInstance.private('active-users.'+ this.website.id);
-            channel.listen('ActiveUserEvent', (data) => this.refreshActivityDataItems(data));
+            channel.listen('ActiveUserEvent', (data) => {
+                this.refreshActivityDataItems(data);
+                this.fetchingActiveUsersChartData();
+            });
         },
         computed: {
             ...mapGetters('dashboard', {
@@ -110,14 +123,32 @@
                 const result = _(this.activityDataItems)
                     .groupBy('url')
                     .map((items, url) => {
+
                         return { url: url, count: items.length };
                     }).value();
+
                 const sort = _.sortBy(result, ['count']).reverse();
                 if(sort.length > 3) {
                     return sort.slice(0, 3);
                 }
                 return sort;
-            }
+            },
+            series() {
+                let data = [];
+                let i = this.activityChartData.length - 1;
+                this.activityChartData.forEach((item) => {
+                    data.push({
+                        x: moment().subtract(i, 'minute').format('HH:mm'),
+                        y: item
+                    });
+                    i--;
+                });
+                return  [{
+                    name: 'count pages',
+                    data: data
+                }];
+            },
+
         },
         created() {
             this.fetchingActiveUsersNumbers();
@@ -138,16 +169,17 @@
             setIntervalDataActivity () {
                 this.polling = setInterval(() => {
                     this.reloadActivityDataItems();
-                }, 300000);
-                this.fetch = setInterval(() => {
                     this.fetchingActiveUsersChartData();
-                }, 60000);
+                }, 300000);
             },
         }
     };
 </script>
 
 <style lang="scss" scoped>
+    .visits-heatmap {
+        margin: 0 -22px 0 -32px;
+    }
     .visitors-card {
         border: none;
         box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
@@ -155,7 +187,7 @@
         font-family: Gilroy;
         width: 352px;
         font-size: 12px;
-        height: 480px;
+        height: 580px;
 
         .card-top-row {
             height: 53px;
@@ -170,7 +202,6 @@
         }
         .card-button {
             height: 32px;
-            width: 126px;
             background: #3C57DE;
             color:#ffffff;
             font-size: 12px;

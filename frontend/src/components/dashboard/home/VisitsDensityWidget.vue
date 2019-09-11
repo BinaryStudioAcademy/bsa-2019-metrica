@@ -192,7 +192,7 @@
         border-radius: 6px;
         padding: 1.5rem;
         width: 352px;
-        height: 480px;
+        height: 580px;
     }
 
     .visits-heatmap {
