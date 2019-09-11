@@ -1,6 +1,6 @@
-import {INVITE_USER, FETCH_TEAM_MEMBERS} from './types/actions';
+import {INVITE_USER, FETCH_TEAM_MEMBERS, DELETE_TEAM_MEMBER} from './types/actions';
 import {SET_IS_FETCHING, RESET_IS_FETCHING, SET_TEAM_MEMBERS} from "./types/mutations";
-import {inviteUser, getTeamMembers} from '@/api/team';
+import {inviteUser, getTeamMembers, deleteTeamMember} from '@/api/team';
 
 export default {
     [INVITE_USER]: (context, email) => {
@@ -19,6 +19,14 @@ export default {
         return getTeamMembers(id)
             .then(response => context.commit(SET_TEAM_MEMBERS, response))
             .finally(() => context.commit(RESET_IS_FETCHING));
+    },
+
+    [DELETE_TEAM_MEMBER]: (context, userId) => {
+
+        return deleteTeamMember(userId)
+            .catch(error => {
+                throw error.message;
+            });
     }
 };
 

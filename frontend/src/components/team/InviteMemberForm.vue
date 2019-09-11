@@ -14,8 +14,6 @@
                     <VTextField
                         name="invite_user"
                         v-model="invitedUserEmail"
-                        :success-messages="showSuccessMessage"
-                        :error-messages="showErrorMessage"
                         placeholder="user email"
                         single-line
                         solo
@@ -39,6 +37,12 @@
                 >
                     <span>{{ member.name }} </span>
                     <span>{{ member.email }}</span>
+                    <span
+                        class="red--text"
+                        @click="deleteMember(member.id)"
+                    >
+                        x
+                    </span>
                 </p>
             </VForm>
         </VFlex>
@@ -50,8 +54,9 @@
     import ContentLayout from '../layout/ContentLayout.vue';
     import { mapGetters, mapActions } from 'vuex';
     import {GET_CURRENT_TEAM} from "../../store/modules/team/types/getters";
-    import {INVITE_USER, FETCH_TEAM_MEMBERS} from "../../store/modules/team/types/actions";
+    import {INVITE_USER, FETCH_TEAM_MEMBERS, DELETE_TEAM_MEMBER} from "../../store/modules/team/types/actions";
     import {validateEmail} from '@/services/validation';
+    import {SHOW_SUCCESS_MESSAGE, SHOW_ERROR_MESSAGE} from "@/store/modules/notification/types/actions";
 
     export default {
         name: 'InviteMemberForm',
@@ -60,8 +65,6 @@
         data () {
             return {
                 invitedUserEmail: '',
-                showErrorMessage: '',
-                showSuccessMessage: '',
                 emailRules: [
                     v => validateEmail(v) || 'E-mail must be valid',
                 ],
@@ -79,18 +82,31 @@
             ...mapActions('team', {
                 inviting: INVITE_USER,
                 fetchTeam: FETCH_TEAM_MEMBERS,
+                deleteTeamMember: DELETE_TEAM_MEMBER,
+            }),
+            ...mapActions('notification', {
+                showSuccessMessage: SHOW_SUCCESS_MESSAGE,
+                showErrorMessage: SHOW_ERROR_MESSAGE
             }),
             invite() {
                 if(this.$refs.form.validate()) {
                     this.inviting(this.invitedUserEmail)
                         .then(() => {
-                            this.showSuccessMessage = 'Member is invited.';
+                            this.showSuccessMessage('Member is invited.');
                         }).catch((err) => {
                             this.showErrorMessage = err;
                         });
                 }
             },
-            onWebsiteChange () {
+            deleteMember(userId) {
+                this.deleteTeamMember(userId)
+                    .then(() => {
+                        this.showSuccessMessage('Member is deleted.');
+                    }).catch((err) => {
+                    this.showErrorMessage = err;
+                });
+            },
+            onWebsiteChange() {
                 this.fetchTeam();
             }
         },
@@ -107,5 +123,9 @@
                 grid-template-columns: 100%;
             }
         }
+    }
+    .red--text {
+        cursor: pointer;
+        font-size: 20px;
     }
 </style>

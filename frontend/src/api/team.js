@@ -25,7 +25,10 @@ const inviteUser = (email, websiteId) => requestService.create(resourceUrl, {
     }
 });
 
+const deleteTeamMember = userId => requestService.destroy(resourceUrl + '/member/' + userId);
+
 export {
     getTeamMembers,
     inviteUser,
+    deleteTeamMember,
 };
