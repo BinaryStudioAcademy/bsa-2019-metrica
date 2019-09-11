@@ -93,8 +93,17 @@
             };
         },
         created() {
-            if (jwtService.checkExpireToken(this.$route.query.token)) {
-                this.showErrorMessage('Sorry, your token was expired. Please, enter your email again.');
+            try {
+                if (!this.$route.query.token) {
+                    this.showErrorMessage('Sorry, your token is absent');
+                    this.$router.push({name: 'reset-password'});
+                }
+                if (jwtService.checkExpireToken(this.$route.query.token)) {
+                    this.showErrorMessage('Sorry, your token was expired. Please, enter your email again.');
+                    this.$router.push({name: 'reset-password'});
+                }
+            }catch (e) {
+                this.showErrorMessage('Sorry, your token is invalid.');
                 this.$router.push({name: 'reset-password'});
             }
         },
@@ -114,7 +123,6 @@
                     this.$router.push({name: 'login'});
                 }).catch(error => {
                     this.showErrorMessage(_.get(error, 'response.data.error.message'));
-                    this.$router.push({name: 'login'});
                 });
             }
         },
