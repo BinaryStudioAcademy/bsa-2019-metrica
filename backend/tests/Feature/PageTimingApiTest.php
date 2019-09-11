@@ -61,10 +61,6 @@ class PageTimingApiTest extends TestCase
                 [
                     'date' => (string)($startDate->getTimestamp() + $anHour),
                     'value' => 350,
-                ],
-                [
-                    'date' => (string)($startDate->getTimestamp() + $anHour*2),
-                    'value' => 0,
                 ]
             ],
             'meta' => [],
@@ -103,10 +99,6 @@ class PageTimingApiTest extends TestCase
                 [
                     'date' => (string)($startDate->getTimestamp() + $anHour),
                     'value' => 77,
-                ],
-                [
-                    'date' => (string)($startDate->getTimestamp() + $anHour*2),
-                    'value' => 0,
                 ]
             ],
             'meta' => [],
@@ -145,10 +137,6 @@ class PageTimingApiTest extends TestCase
                 [
                     'date' => (string)($startDate->getTimestamp() + $anHour),
                     'value' => 300,
-                ],
-                [
-                    'date' => (string)($startDate->getTimestamp() + $anHour*2),
-                    'value' => 0,
                 ]
             ],
             'meta' => [],
