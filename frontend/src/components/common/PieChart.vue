@@ -10,62 +10,53 @@
                 </VSubheader>
             </VCol>
         </VRow>
-        <VLayout
+        <VContainer
             class="pie-container position-relative"
             wrap
         >
-            <VFlex
-                lg4
-                md10
-                sm4
-                height="100%"
-                class="img-card chart-card"
-            >
-                <Spinner v-if="isFetching" />
-                <GChart
-                    type="PieChart"
-                    :data="chartData"
-                    :options="chartOptions"
-                />
-            </VFlex>
-            <VFlex
-                lg6
-                md10
-                sm6
-                height="100%"
-                class="img-card"
-            >
+            <VRow>
                 <VSubheader
                     v-text="legend.title"
-                    class="legend-title text-dark justify-content-center"
+                    class="legend-title grey--text text--darken-1 col-7 offset-5"
                 />
-                <VList>
-                    <VListItem
-                        v-for="visitor in legend.data"
-                        :key="visitor.title"
-                    >
-                        <VRow class="align-center justify-content-between">
+            </VRow>
+            <Spinner v-if="isFetching" />
+            <VRow>
+                <VCol class="col-5">
+                    <GChart
+                        type="PieChart"
+                        :data="chartData"
+                        :options="chartOptions"
+                    />
+                </VCol>
+                <VCol class="d-flex flex-column flex-grow-1 pl-4 justify-center">
+                    <VList>
+                        <VListItem
+                            class="justify-space-between align-center pa-0"
+                            v-for="visitor in legend.data"
+                            :key="visitor.title"
+                        >
                             <VIcon
                                 :color="visitor.color"
-                                small
+                                size="12"
                             >
                                 mdi-circle
                             </VIcon>
-                            <VLabel>{{ visitor.title }}</VLabel>
-                            <VLabel>
-                                <VIcon
-                                    :color="visitor.color"
-                                    small
-                                >
-                                    mdi-arrow-up
-                                </VIcon>
+                            <div
+                                class="title pl-2 grey--text flex-grow-1"
+                            >
+                                {{ visitor.title }}
+                            </div>
+                            <div
+                                class="percent grey--text"
+                            >
                                 {{ visitor.percentageDiff }}%
-                            </VLabel>
-                        </VRow>
-                    </VListItem>
-                </VList>
-            </VFlex>
-        </VLayout>
+                            </div>
+                        </VListItem>
+                    </VList>
+                </VCol>
+            </VRow>
+        </VContainer>
     </VContainer>
 </template>
 
@@ -98,8 +89,12 @@
         data() {
             return {
                 chartOptions: {
-                    width: 200,
-                    height: 200,
+                    chartArea: {
+                        width: '80%',
+                        height: '80%'
+                    },
+                    height: 150,
+                    width: 150,
                     pieHole: this.pieHole,
                     legend: 'none',
                     pieSliceText: 'none',
@@ -126,14 +121,13 @@
     background-color: white;
     border-radius: 6px;
     box-shadow: 0px 0px 28px rgba(194, 205, 223, 0.7);
+    max-width: 500px;
 
     .chart-card {
         min-width: 165px;
     }
 }
 .header {
-    align-items: center;
-    text-align: center;
     text-transform: capitalize;
     font-family: 'Gilroy';
     font-size: 16px;
@@ -144,15 +138,11 @@
     font-size: 14px;
     line-height: 16px;
 }
-.radio {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+.title, .percent {
+    font-size: 16px !important;
+    font-family: 'GilroySemiBold' !important;
 }
-.dot {
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    display: inline-block;
+.v-subheader {
+    text-align: start;
 }
 </style>
