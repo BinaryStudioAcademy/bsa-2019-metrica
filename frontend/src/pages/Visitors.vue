@@ -138,12 +138,9 @@
                 formatLineChartData:GET_FORMAT_LINE_CHART_DATA,
             }),
             units() {
-                switch (this.currentActiveButton) {
-                case BOUNCE_RATE:
+                if (this.currentActiveButton === BOUNCE_RATE) {
                     return '%';
-                case AVG_SESSION:
-                    return 's';
-                default:
+                } else {
                     return '';
                 }
             },
