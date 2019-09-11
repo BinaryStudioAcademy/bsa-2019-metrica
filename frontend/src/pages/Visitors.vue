@@ -153,7 +153,7 @@
                 return [
                     ['Type', 'Value'],
                     ['New Visitors', this.pieChartData.newVisitors],
-                    ['Return Visitors',this.pieChartData.returnVisitors]
+                    ['Returning Visitors',this.pieChartData.returningVisitors]
                 ];
             },
             legend () {
@@ -165,9 +165,9 @@
                             percentageDiff: Number(this.pieChartData.newVisitors),
                             color: '#3C57DE',
                         },
-                        returnVisitors: {
-                            title: 'Return Visitors',
-                            percentageDiff: Number(this.pieChartData.returnVisitors),
+                        returningVisitors: {
+                            title: 'Returning Visitors',
+                            percentageDiff: Number(this.pieChartData.returningVisitors),
                             color: '#1BC3DA',
                         },
                     }

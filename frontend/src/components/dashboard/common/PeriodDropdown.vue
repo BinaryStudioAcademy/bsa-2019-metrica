@@ -28,7 +28,7 @@
                         {title: 'Yesterday', value: period.PERIOD_YESTERDAY},
                         {title: 'Last 7 days', value: period.PERIOD_LAST_WEEK},
                         {title: 'Last month', value: period.PERIOD_LAST_MONTH},
-                        {title: 'Last quartal', value: period.PERIOD_LAST_QUARTAL},
+                        {title: 'Last quarter', value: period.PERIOD_LAST_QUARTER},
                         {title: 'All period', value: period.PERIOD_ALL}
                     ];
                 }
