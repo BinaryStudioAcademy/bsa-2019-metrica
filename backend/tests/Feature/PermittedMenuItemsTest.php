@@ -45,7 +45,9 @@ class PermittedMenuItemsTest extends TestCase
                                 "page-views",
                                 "geo-location",
                                 "behaviour",
-                                "screencast"
+                                "screencast",
+                                "page-timings",
+                                "geo-location"
                             ]
                         ],
                         [
@@ -56,7 +58,9 @@ class PermittedMenuItemsTest extends TestCase
                                 "page-views",
                                 "geo-location",
                                 "behaviour",
-                                "screencast"
+                                "screencast",
+                                "page-timings",
+                                "geo-location"
                             ]
                         ],
                     ],

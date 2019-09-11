@@ -11,6 +11,7 @@ use App\Exceptions\WebsiteNotFoundException;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Support\Collection;
 use App\DataTransformer\Teams\MemberWithMenuItems;
+use Illuminate\Support\Facades\Auth;
 
 final class EloquentWebsiteRepository implements WebsiteRepository
 {
@@ -60,9 +61,13 @@ final class EloquentWebsiteRepository implements WebsiteRepository
         ]);
     }
 
-    public function removeMemberFromWebsiteTeam(User $user, int $websiteId): void
+    public function removeMemberFromWebsiteTeam(User $user): Website
     {
-        $user->websites()->detach($websiteId);
+        $website = Auth::user()->websites()
+            ->wherePivot('role', 'owner')->first();
+        $user->websites()->detach($website->id);
+
+        return $website;
     }
 
     public function getRelateUserWebsites(int $userId): Collection

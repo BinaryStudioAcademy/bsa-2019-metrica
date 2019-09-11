@@ -11,11 +11,9 @@ use App\Http\Resources\TeamResource;
 use App\Http\Controllers\Controller;
 use App\Http\Response\ApiResponse;
 use App\Http\Requests\Team\InviteTeamMemberHttpRequest;
-use App\Http\Requests\Team\RemoveTeamMemberHttpRequest;
 use App\Http\Requests\Team\GetPermittedMenuItemsHttpRequest;
 use App\Http\Requests\Team\UpdatePermittedMenuItemsHttpRequest;
 use App\Actions\Teams\InviteTeamMemberRequest;
-use App\Actions\Teams\RemoveTeamMemberRequest;
 use App\Actions\Teams\UpdatePermittedMenuItemsRequest;
 use App\Actions\Teams\GetPermittedMenuItemsRequest;
 use App\Actions\Teams\InviteTeamMemberAction;
@@ -61,11 +59,9 @@ final class TeamController extends Controller
         return ApiResponse::emptySuccess()->setStatusCode(201);
     }
 
-    public function removeTeamMember(int $id, RemoveTeamMemberHttpRequest $request): ApiResponse
+    public function removeTeamMember(int $id): ApiResponse
     {
-        $this->removeTeamMemberAction->execute(
-            RemoveTeamMemberRequest::fromRequest($request, $id)
-        );
+        $this->removeTeamMemberAction->execute($id);
         return ApiResponse::emptySuccess()->setStatusCode(204);
     }
 

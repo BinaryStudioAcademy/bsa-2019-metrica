@@ -39,6 +39,7 @@
                 <VListItem
                     v-for="sublink in link.sublinks"
                     :key="sublink.text"
+                    :disabled="sublink.disable"
                 >
                     <RouterLink
                         :to="{ name: sublink.route }"
@@ -67,50 +68,61 @@
             }),
             links () {
                 let menu = {
-                    Audience: [],
-                    Behaviour: [],
-                    Overview: [],
+                    visitors: {
+                        text: 'Visitors',
+                        route: 'visitors',
+                        disable: true,
+                    },
+                    page_views: {
+                        text: 'Page Views',
+                        route: 'page-views',
+                        disable: true,
+                    },
+                    geo_location: {
+                        text: 'Geo Location',
+                        route: 'geo-location',
+                        disable: true,
+                    },
+                    visitors_flow: {
+                        text: 'Visitors flow',
+                        route: 'visitors-flow',
+                        disable: true,
+                    },
+                    page_timings: {
+                        text: 'Page Timings',
+                        route: 'page-timings',
+                        disable: true,
+                    },
+                    error_reports: {
+                        text: 'Error Reports',
+                        route: 'error-reports',
+                        disable: true,
+                    }
                 };
+
                 this.getCurrentWebsite.permitted_menu.split(', ').map(function (item) {
                     switch(item) {
                     case 'visitors':
-                        menu.Audience.push({
-                            text: 'Visitors',
-                            route: 'visitors',
-                        });
+                        menu.visitors.disable = false;
                         break;
                     case 'page-views':
-                        menu.Audience.push({
-                            text: 'Page Views',
-                            route: 'page-views',
-                        });
+                        menu.page_views.disable = false;
                         break;
                     case 'geo-location':
-                        menu.Audience.push({
-                            text: 'Geo Location',
-                            route: 'geo-location',
-                        });
+                        menu.geo_location.disable = false;
                         break;
                     case 'behaviour':
-                        menu.Behaviour.push({
-                            text: 'Visitors flow',
-                            route: 'visitors-flow',
-                        });
+                        menu.visitors_flow.disable = false;
                         break;
                     case 'page-timings':
-                        menu.Overview.push({
-                            text: 'Page Timings',
-                            route: 'page-timings',
-                        });
+                        menu.page_timings.disable = false;
                         break;
                     case 'error-reports':
-                        menu.Overview.push({
-                            text: 'Error Reports',
-                            route: 'error-reports',
-                        });
+                        menu.error_reports.disable = false;
                         break;
                     }
                 });
+
                 return [
                     {
                         icon: '/assets/icons/home.svg',
@@ -121,18 +133,27 @@
                         icon: '/assets/icons/person.svg',
                         text: 'Audience',
                         route: 'visitors',
-                        sublinks: menu.Audience,
+                        sublinks: [
+                            menu.visitors,
+                            menu.page_views,
+                            menu.geo_location,
+                        ]
                     },
                     {
                         icon: '/assets/icons/settings.svg',
                         text: 'Behaviour',
                         route: 'behaviour',
-                        sublinks: menu.Behaviour,
+                        sublinks: [
+                            menu.visitors_flow,
+                        ]
                     },
                     {
                         icon: '/assets/icons/speed.svg',
                         text: 'Speed Overview',
-                        sublinks: menu.Overview,
+                        sublinks: [
+                            menu.page_timings,
+                            menu.error_reports,
+                        ]
                     },
                     {
                         icon: '/assets/icons/settings.svg',

@@ -25,6 +25,7 @@ const inviteUser = (email, websiteId) => requestService.create(resourceUrl, {
     }
 });
 
+
 const updateMenuAccess = (websiteId, data) => requestService.update(resourceUrl + '/menu-access', {
     'filter': {
         'user_ids': data.ids,
@@ -33,8 +34,13 @@ const updateMenuAccess = (websiteId, data) => requestService.update(resourceUrl 
     }
 });
 
+const deleteTeamMember = userId => requestService.destroy(resourceUrl + '/member/' + userId);
+
+
 export {
     getTeamMembers,
     inviteUser,
-    updateMenuAccess
+    updateMenuAccess,
+    deleteTeamMember,
+
 };
