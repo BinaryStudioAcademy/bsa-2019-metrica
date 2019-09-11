@@ -106,6 +106,7 @@ $gray: rgba(18, 39, 55, 0.5);
     align-items: center;
     text-align: center;
     text-transform: capitalize;
+    white-space: nowrap;
 }
 
 .container {
@@ -183,4 +184,9 @@ $gray: rgba(18, 39, 55, 0.5);
     font-family: 'Gilroy';
     text-transform: capitalize;
 }
+    @media (max-width: 870px) {
+        ::v-deep .v-text-field__prefix {
+            display: none;
+        }
+    }
 </style>

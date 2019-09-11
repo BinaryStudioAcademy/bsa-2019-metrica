@@ -35,6 +35,7 @@
             <VCol
                 lg="7"
                 md="12"
+                sm="12"
                 height="100%"
                 class="img-card"
             >
@@ -43,6 +44,7 @@
             <VCol
                 lg="5"
                 md="12"
+                sm="12"
                 height="100%"
                 class="img-card"
             >
