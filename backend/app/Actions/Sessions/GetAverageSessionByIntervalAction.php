@@ -49,6 +49,8 @@ final class GetAverageSessionByIntervalAction
     private function getAvgSessionsTimeInPeriod(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
         $startDate = $filterData->getStartDate()->getTimestamp();
+        $minStarDate = (new Carbon('01/01/2018'))->getTimestamp();
+        $startDate = ($startDate < $minStarDate)? $minStarDate : $startDate;
         $endDate = $filterData->getEndDate()->getTimestamp();
 
         $arrayAllSessions = $this->repository->findByFilter(
@@ -56,8 +58,11 @@ final class GetAverageSessionByIntervalAction
             $websiteId
         );
 
-        $collection = new Collection();
 
+        $hasFirst = false;
+        $length = 0;
+        $lastLength = 0;
+        $items = [];
         for ($date = $startDate; $date < $endDate; $date += $interval) {
             $intervalEndDate = $date + $interval;
 
@@ -69,21 +74,25 @@ final class GetAverageSessionByIntervalAction
                 }
             );
 
-            if ($currentIntervalSessions->count() === 0) {
-                $collection->add(new ChartValue((string)$intervalEndDate, '0'));
-                continue;
-            }
-
             $currentIntervalSessionsTime = $currentIntervalSessions->reduce(
                 function ($carry, ChartSessionValue $session) use ($date, $intervalEndDate) {
                     return $this->calculateSessionTimeByInterval($session, $carry, $date, $intervalEndDate);
                 }, 0);
-            $avgSessionTime = $currentIntervalSessionsTime / $currentIntervalSessions->count();
+            $avgSessionTime = ($currentIntervalSessions->count() === 0) ? 0 : $currentIntervalSessionsTime / $currentIntervalSessions->count();
 
-            $collection->add(new ChartValue((string)$intervalEndDate, (string)$avgSessionTime));
+            if (!$hasFirst && $avgSessionTime === 0) {
+                continue;
+            }
+            $length++;
+            $hasFirst = true;
+            if ($avgSessionTime !== 0) {
+                $lastLength = $length;
+            }
+            $items[] = new ChartValue((string)$intervalEndDate, (string)$avgSessionTime);
+
         }
 
-        return $collection;
+        return new Collection(array_slice($items, 0, $lastLength));;
     }
 
     private function getInterval(string $interval): int
