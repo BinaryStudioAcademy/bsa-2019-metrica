@@ -8,12 +8,12 @@
                 color="primary"
                 @click="toggleOutput"
             >
-                {{ isMemberList ? 'Change menu access' : 'back' }}
+                {{ label }}
             </VBtn>
         </VRow>
         <VRow>
             <InviteMemberForm v-if="isMemberList" />
-            <MenuAccessTable v-if="!isMemberList" />
+            <MenuAccessTable v-else />
         </VRow>
     </div>
 </template>
@@ -31,6 +31,11 @@
             return {
                 isMemberList: true
             };
+        },
+        computed: {
+            label() {
+                return this.isMemberList ? 'Change menu access' : 'back';
+            }
         },
         methods: {
             toggleOutput() {
