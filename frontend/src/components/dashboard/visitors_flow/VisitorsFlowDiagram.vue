@@ -91,6 +91,8 @@
 
                 this.lastLevel = nodes[nodes.length - 1].level;
 
+                nodes = nodes.sort((a, b) => a.level - b.level);
+
                 this.nodes = nodes;
                 this.links = links;
                 this.exits = exits;
@@ -382,8 +384,8 @@
 
                 svg.append("g")
                     .selectAll("rect")
-                    .data(nodes.filter((node) => {
-                        return node.id !== 5 && node.id % 5 === 0;
+                    .data(nodes.filter((node, i, nodes) => {
+                        return nodes[i - 1] && node.level !== 1 && node.level !== nodes[i - 1].level;
                     }))
                     .join("text")
                     .attr("x", d => d.x1 - 80)
@@ -391,8 +393,8 @@
                     .attr("class", "title")
                     .attr("text-anchor", "middle")
                     .text((d) => {
-                        if (this.titles[d.depth]) {
-                            return this.titles[d.depth];
+                        if (this.titles[d.depth - 1]) {
+                            return this.titles[d.depth - 1];
                         }
                         return `${[d.depth]}th Interaction`;
                     });
