@@ -55,8 +55,6 @@ class AddRemoveTeamMemberTest extends TestCase
 
     public function test_remove_team_member()
     {
-//        $requestData = ['website_id' => $this->website->id];
-
         $memberId = $this->user->id + 2;
 
         $member = factory(User::class)->create([

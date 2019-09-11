@@ -63,13 +63,11 @@ final class EloquentWebsiteRepository implements WebsiteRepository
 
     public function removeMemberFromWebsiteTeam(User $user): Website
     {
-        $websiteId = Auth::user()->websites()
+        $website = Auth::user()->websites()
             ->wherePivot('role', 'owner')->first();
-        $user->websites()->detach($websiteId);
+        $user->websites()->detach($website->id);
 
-        return Auth::user()->websites()
-            ->wherePivot('role', 'owner')
-            ->first();
+        return $website;
     }
 
     public function getRelateUserWebsites(int $userId): Collection
