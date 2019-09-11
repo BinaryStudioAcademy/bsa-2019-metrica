@@ -104,7 +104,7 @@
                     if (visitorsFlowItem.level === 1) {
                         source = visitorsFlowItem.parameter === node.name;
                     } else {
-                        source = visitorsFlowItem.source_url === node.name;
+                        source = new URL(visitorsFlowItem.source_url).pathname === node.name;
                     }
                     return source && node.level === visitorsFlowItem.level;
                 });
@@ -144,7 +144,7 @@
                 } else {
                     nodes.push({
                         id: sourceId,
-                        name: visitorsFlowItem.source_url,
+                        name: new URL(visitorsFlowItem.source_url).pathname,
                         level: visitorsFlowItem.level
                     });
                 }
@@ -153,8 +153,10 @@
             },
 
             findOrCreateTarget (visitorsFlowItem, nodes) {
+                const urlPath = new URL(visitorsFlowItem.target_url).pathname;
+
                 let target = nodes.find(node => {
-                    return visitorsFlowItem.target_url === node.name && node.level === visitorsFlowItem.level + 1;
+                    return urlPath === node.name && node.level === visitorsFlowItem.level + 1;
                 });
 
                 if (target) {
@@ -165,7 +167,7 @@
 
                 nodes.push({
                     id: targetId,
-                    name: visitorsFlowItem.target_url,
+                    name: urlPath,
                     level: visitorsFlowItem.level + 1
                 });
 
