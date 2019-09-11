@@ -47,7 +47,7 @@ final class EloquentSessionRepository implements SessionRepository
     public function lastActiveByVisitorId(int $visitorId): ?Session
     {
         return Session::whereVisitorId($visitorId)
-            ->whereTime('end_session', '>', (Carbon::now())->subMinutes(30)->toDateTimeString())->first();
+            ->where('end_session', '>', (Carbon::now())->subMinutes(30))->first();
     }
 
     public function updateEndSession(Session $session): void
