@@ -63,10 +63,18 @@ export default {
         return getActivityDataItems().then(response => {
 
             response.sort( (a, b) => {
-                if (moment(a.date).unix() < moment(b.date).unix()) return 1;
-                if (moment(a.date).unix() > moment(b.date).unix()) return -1;
-                if (a.visitor < b.visitor) return 1;
-                if (a.visitor > b.visitor) return -1;
+                if (moment(a.date).unix() < moment(b.date).unix()) {
+                    return 1;
+                }
+                if (moment(a.date).unix() > moment(b.date).unix()) {
+                    return -1;
+                }
+                if (a.visitor < b.visitor) {
+                    return 1;
+                }
+                if (a.visitor > b.visitor) {
+                    return -1;
+                }
                 return 0;
 
             });
@@ -138,10 +146,18 @@ export default {
         ];
 
         items.sort( (a, b) => {
-            if (moment(a.date).unix() < moment(b.date).unix()) return 1;
-            if (moment(a.date).unix() > moment(b.date).unix()) return -1;
-            if (a.visitor < b.visitor) return 1;
-            if (a.visitor > b.visitor) return -1;
+            if (moment(a.date).unix() < moment(b.date).unix()) {
+                return 1;
+            }
+            if (moment(a.date).unix() > moment(b.date).unix()) {
+                return -1;
+            }
+            if (a.visitor < b.visitor) {
+                return 1;
+            }
+            if (a.visitor > b.visitor) {
+                return -1;
+            }
             return 0;
 
         });
