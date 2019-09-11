@@ -68,7 +68,7 @@ final class EloquentErrorReportRepository implements ErrorReportRepository
             ->select(DB::raw('pages.url as parameter_value, errors.message, errors.stack_trace, count(errors.id) as count_errors, max(errors.created_at) as max_created'))
             ->whereBetween('errors.created_at', [$datePeriod->getStartDate(), $datePeriod->getEndDate()])
             ->groupBy(['pages.id', 'errors.message', 'errors.stack_trace'])
-            ->orderBy('max_created','desc')
+            ->orderBy('max_created', 'desc')
             ->get();
 
         return $this->mapToTableValues($errors, 'page');
