@@ -5,6 +5,7 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
+use App\DataTransformer\VisitorsFlow\CountryFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
@@ -124,6 +125,6 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
             ]
         ];
         $result = $this->client->search($params);
-        return new ParameterFlowCollection($result['hits']['hits']);
+        return new CountryFlowCollection($result['hits']['hits']);
     }
 }
