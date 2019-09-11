@@ -46,7 +46,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                         'filter' => [
                             ['term' => ['level' => $criteria->level]],
                             ['match_phrase' => ['target_url' => $criteria->targetUrl]],
-                            ['match_phrase' => ['browser' => $criteria->browser]],
+                            ['match_phrase' => ['parameter' => $criteria->parameter]],
                             ['match_phrase' => ['prev_page.source_url' => $criteria->prevPageUrl]]
                         ],
                     ]
@@ -79,7 +79,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                 'aggregations' => [
                     'browsers' => [
                         'terms' => [
-                            'field' => $type
+                            'field' => 'parameter'
                         ],
                         'aggregations' => [
                             'views' => [
@@ -120,8 +120,8 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                     ]
                 ],
                 'sort' => [
-                    'level' => 'asc',
-                    'views' => 'desc'
+                   [ 'level' => ['order' => 'asc', "unmapped_type" => "integer"]],
+                   [ 'views' => ['order' => 'desc',  "unmapped_type" => "integer"]]
                 ]
             ]
         ];

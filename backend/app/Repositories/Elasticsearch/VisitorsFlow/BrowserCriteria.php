@@ -10,16 +10,16 @@ class BrowserCriteria implements Criteria
     public $websiteId;
     public $targetUrl;
     public $level;
-    public $browser;
+    public $parameter;
     public $prevPageUrl;
 
-    private function __construct(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, string $browser)
+    private function __construct(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, string $parameter)
     {
         $this->websiteId = $websiteId;
         $this->targetUrl = $targetUrl;
         $this->level = $level;
-        $this->browser = $browser;
         $this->prevPageUrl = $prevPageUrl;
+        $this->parameter = $parameter;
     }
 
     public static function getCriteria(int $websiteId, string $targetUrl, int $level, ?string $prevPageUrl, ...$params)

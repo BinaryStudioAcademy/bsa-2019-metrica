@@ -120,8 +120,8 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
                     ]
                 ],
                 'sort' => [
-                    'level' => 'asc',
-                    'views' => 'desc'
+                    [ 'level' => ['order' => 'asc', "unmapped_type" => "integer"]],
+                    [ 'views' => ['order' => 'desc',  "unmapped_type" => "integer"]]
                 ]
             ]
         ];
