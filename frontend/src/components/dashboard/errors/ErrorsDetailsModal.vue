@@ -12,6 +12,12 @@
                 </VCardTitle>
                 <VCardText>
                     <div class="mb-2">
+                        Last date
+                    </div>
+                    <div class="text--primary message-block">
+                        {{ errorItem.max_created }}
+                    </div>
+                    <div class="mb-2 mt-5">
                         Message
                     </div>
                     <div class="text--primary message-block">

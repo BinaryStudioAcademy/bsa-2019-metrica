@@ -24,6 +24,7 @@ final class ErrorTableResource extends ResourceCollection implements ApiResponse
             'count' => $table->total(),
             'message' => $table->message(),
             'stack_trace' => $table->stackTrace(),
+            'max_created' => $table->maxCreated(),
         ];
     }
 
