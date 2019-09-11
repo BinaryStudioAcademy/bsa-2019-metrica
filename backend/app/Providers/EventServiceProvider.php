@@ -22,8 +22,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\VisitCreated' => [
             'App\Listeners\SendVisitsNotification',
             CreateVisitAggregate::class,
-            'App\Listeners\CalculateStats'
         ],
+        'App\Events\SessionCreated' => [
+            'App\Listeners\SendSessionNotification'
+        ]
     ];
 
     /**
