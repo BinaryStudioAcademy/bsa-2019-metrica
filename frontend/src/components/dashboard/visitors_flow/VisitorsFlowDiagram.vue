@@ -118,6 +118,21 @@
                     sourceId = nodes[nodes.length - 1].id + 1;
                 }
 
+                let column = nodes.filter(node => node.level === visitorsFlowItem.level);
+
+                if (column.length === 4) {
+                    nodes.push({
+                        id: sourceId,
+                        name: '...',
+                        level: visitorsFlowItem.level
+                    });
+                    return sourceId;
+                }
+
+                if (column.length > 4) {
+                    return column[column.length - 1].id;
+                }
+
                 if (visitorsFlowItem.level === 1) {
                     nodes.push({
                         id: sourceId,
@@ -272,7 +287,7 @@
                     .attr("id", d => `link-${d.index}`)
                     .attr("stroke", '#829afa')
                     .attr("stroke-opacity", ".5")
-                    .attr("stroke-width", d => Math.max(1, d.width))
+                    .attr("stroke-width", d => Math.max(1, d.width / 1.5))
                     .on("mouseover", (d, i, links) => {
                         tooltip.text(`${d.source.name} → ${d.target.name}, ${d.value}`)
                             .style("visibility", "visible");
