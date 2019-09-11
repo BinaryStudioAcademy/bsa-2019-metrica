@@ -14,7 +14,7 @@
                 Message
             </VCol>
             <VCol>
-                Page views
+                Count
             </VCol>
             <VCol>
                 Details
@@ -52,25 +52,10 @@
         },
         data () {
             return {
-                selected: 'page',
-                options: [
-                    {
-                        text: 'Page',
-                        value: 'page'
-                    },
-                    {
-                        text: 'Browser',
-                        value: 'browser'
-                    },
-                    {
-                        text: 'Country',
-                        value: 'country'
-                    },
-                ],
                 headers: [
                     { text: '', align: 'center', value: 'parameter_value' },
                     { text: '', align: 'center', value: 'message' },
-                    { text: '', align: 'center', value: 'page_views' },
+                    { text: '', align: 'center', value: 'count' },
                     { text: '', align: 'center', value: 'details' },
                 ],
             };

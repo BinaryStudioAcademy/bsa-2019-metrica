@@ -12,7 +12,10 @@ import {
     SET_CHART_FETCHING,
     RESET_TABLE_FETCHING,
     SET_TABLE_FETCHING,
+    SET_TABLE_DATA,
 } from "./types/mutations";
+import {getErrorTableItems, getChartValues} from '@/api/error_report/errorsService';
+import {getTimeByPeriod} from '@/services/periodService';
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -27,29 +30,20 @@ export default {
     [FETCH_CHART_DATA]: (context) => {
         context.commit(SET_CHART_FETCHING);
 
-        const items = [
-            {
-                date:'1565700000',
-                value:2,
-            },
-            {
-                date:'1565820000',
-                value:2,
-            },
-        ];
-        new Promise((resolve) => {
+        const period = getTimeByPeriod(context.state.selectedPeriod);
 
-            resolve(items);
-
-        }).then(response => {
-
-            context.commit(SET_CHART_VALUES, response);
-            context.commit(RESET_CHART_FETCHING);
-
-        }).finally(() => context.commit(RESET_CHART_FETCHING));
+        return getChartValues(period.startDate.unix(), period.endDate.unix(), period.interval)
+            .then(data => context.commit(SET_CHART_VALUES, data))
+            .finally(() => context.commit(RESET_CHART_FETCHING));
     },
     [FETCH_TABLE_DATA]: (context) => {
         context.commit(SET_TABLE_FETCHING);
-        context.commit(RESET_TABLE_FETCHING);
+
+        const period = getTimeByPeriod(context.state.selectedPeriod);
+        const parameter = 'page';
+
+        return getErrorTableItems(period.startDate.unix(), period.endDate.unix(), parameter)
+            .then(getErrorTableItems => context.commit(SET_TABLE_DATA, getErrorTableItems))
+            .finally(() => context.commit(RESET_TABLE_FETCHING));
     },
 };
