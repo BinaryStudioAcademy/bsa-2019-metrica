@@ -1,23 +1,25 @@
 <template>
     <VContent>
         <VFlex
-            lg6
             md6
-            sm12
             xs12
-            :class="{'mx-5': $vuetify.breakpoint.smAndUp}"
+            class="mt-10 mx-10"
         >
             <VContainer v-if="showEmail">
-                <VSubheader class="body-1 grey--text text--darken-1 pa-0 mb-4">
-                    Forgot your password? Please enter your email address and we'll send you a link to reset your password
+                <VSubheader class="body-1 grey--text text--darken-1 pa-0 mb-5">
+                    Forgot your password?
+                </VSubheader>
+                <VSubheader class="instruction body-2 px-0 grey--text mb-5">
+                    Please enter your email address and we'll send you a link to reset your password
                 </VSubheader>
                 <VForm ref="form">
-                    <label class="caption grey--text">
+                    <label class="caption grey--text text--darken-1">
                         Email
                     </label>
                     <VTextField
                         name="email"
                         class="no-underline mt-5"
+                        solo
                         v-model="email"
                         type="text"
                         :rules="emailRules"
@@ -25,7 +27,7 @@
                     />
                 </VForm>
                 <VBtn
-                    class="mt-9"
+                    class="mt-4"
                     color="primary"
                     :disabled="sending"
                     @click="onResetPassword"
@@ -105,6 +107,11 @@
 </script>
 
 <style lang="scss" scoped>
+    .v-subheader.instruction,
+    .v-text-field {
+        max-width: 400px;
+        font-family: GilroySemiBold;
+    }
     .success-response{
         margin-top: 100px;
         min-width: 245px;
