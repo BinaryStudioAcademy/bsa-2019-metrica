@@ -1,7 +1,6 @@
 <template>
     <VContent>
         <VContainer
-            p-o
             fluid
             fill-height
         >
@@ -12,9 +11,9 @@
                 justify-center
             >
                 <VFlex
-                    form-wrapper
+                    class="background pt-10"
+                    fill-height
                     xs12
-                    sm8
                     md6
                 >
                     <VLayout
@@ -28,6 +27,7 @@
                     image
                     sm12
                     md6
+                    class="d-sm-none d-md-flex"
                 >
                     <VImg
                         src="/assets/images/home.png"
@@ -63,11 +63,6 @@ main{
 
 .container{
     padding: 0px
-}
-
-.form-wrapper{
-    height: 100%;
-    background: #f5f8fd;
 }
 
 </style>

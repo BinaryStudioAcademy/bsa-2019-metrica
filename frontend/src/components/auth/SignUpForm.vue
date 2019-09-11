@@ -43,7 +43,7 @@
                     Password
                 </label>
                 <VTextField
-                    class="no-underline my-1"
+                    class="no-underline my-1 password"
                     solo
                     name="password"
                     autocomplete="new-password"
@@ -59,7 +59,7 @@
                     Confirm password
                 </label>
                 <VTextField
-                    class="no-underline my-1"
+                    class="no-underline my-1 password"
                     solo
                     name="confirmPassword"
                     autocomplete="new-password"
@@ -80,19 +80,25 @@
                         SIGN UP
                     </VBtn>
                 </div>
-                <div class="btn-group mt-5">
-                    Already have an account? Please
-                    <RouterLink
-                        class="forgot-password-link"
-                        :to="{name: 'login'}"
-                    >
-                        sign in
-                    </RouterLink>
+                <div class="mt-3">
+                    <span>
+                        Already have an account?
+                        <span class="nowrap">
+                            Please
+                            <RouterLink
+                                class="forgot-password-link"
+                                :to="{name: 'login'}"
+                            >
+                                sign in
+                            </RouterLink>
+                        </span>
+                    </span>
                 </div>
             </div>
         </VForm>
-
-        <SocialAuth />
+        <SocialAuth
+            class="mt-4"
+        />
     </div>
 </template>
 
@@ -169,6 +175,9 @@
 </script>
 
 <style lang="scss" scoped>
+.nowrap {
+    white-space: nowrap;
+}
 
 .v-btn {
     font-family: Gilroy;
@@ -187,26 +196,15 @@
         color: #3C57DE;
     }
 }
-
+.password {
+    max-width: 80%;
+}
 .password-group {
     display: flex;
     flex-direction: column;
-    max-width: 80%;
 }
 
-.btn-group{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 80%;
-    margin-bottom: 20px;
-}
-
-.choice{
-    margin: 0 15px;
-}
-
-.form{
+.form {
     width: 50%;
 }
 
