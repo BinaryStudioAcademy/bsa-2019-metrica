@@ -8,9 +8,7 @@
         <VisitorsFlowDropdown
             :value="getSelectedParameter"
         />
-        <VisitorsFlowDiagram
-            :visitors-flow-data="getVisitorsFlow"
-        />
+        <VisitorsFlowDiagram />
     </ContentLayout>
 </template>
 

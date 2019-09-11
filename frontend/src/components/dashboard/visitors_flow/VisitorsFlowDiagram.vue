@@ -22,18 +22,19 @@
 
 <script>
     import * as d3 from "d3";
-    import { sankey, sankeyLinkHorizontal } from "d3-sankey";
+    import { sankey, sankeyLinkHorizontal, sankeyLeft } from "d3-sankey";
 
     export default {
         name: "VisitorsFlowDiagram",
-        props: {
+        /*props: {
             visitorsFlowData: {
-                type: Array,
-                required: true
+                type: Object,
+                required: false
             }
-        },
+        },*/
         data () {
             return {
+                visitorsFlowData: {},
                 titles: [
                     'Starting pages',
                     '1st Interaction',
@@ -42,72 +43,214 @@
                 ],
                 height: 600,
                 tooltip: {},
-                nodes: [
-                    { id: 1, name: 'United States' },
-                    { id: 2, name: 'United Kingdom' },
-                    { id: 3, name: 'Japan' },
-                    { id: 4, name: 'Canada'},
-                    { id: 5, name: '...'},
-
-                    { id: 6, name: '/home' },
-                    { id: 7, name: '/market' },
-                    { id: 8, name: '/about' },
-                    { id: 9, name: '/contacts' },
-                    { id: 10, name: '(> 100 more pages)'},
-
-                    { id: 11, name: '/sign-in' },
-                    { id: 12, name: '/basket' },
-                    { id: 13, name: '/profile' },
-                    { id: 14, name: '/sales' },
-                    { id: 15, name: '(> 100 more pages)'},
-                ],
+                nodes: [],
                 links: [],
                 exits: []
             };
         },
         computed: {
             width () {
-                return this.nodes.length / 5 * 400;
+                return Math.max(this.nodes.length / 5 * 400, 1200);
             }
+        },
+        created() {
+            this.seed();
+            this.parseVisitorsFlowData();
         },
         mounted() {
             this.drawDiagram();
         },
         methods: {
-            createLinks () {
-                let links = [];
-                let lastNodeId = this.nodes.slice(-1)[0].id;
-
-                for (let coef = 1, sourceInd = 0; sourceInd < lastNodeId - 5; sourceInd++) {
-                    let sourceId = this.nodes[sourceInd].id;
-
-                    for (let targetInd = 0; targetInd < 5; targetInd++) {
-                        let targetId = this.nodes[targetInd + 5 * coef].id;
-                        let value = Math.floor(Math.random() * Math.floor(100));
-                        let link = { source: sourceId, target: targetId, value: value };
-                        links.push(link);
-                    }
-
-                    if (sourceId % 5 === 0) {
-                        coef++;
-                    }
-                }
-
-                this.links = links;
+            seed () {
+                this.visitorsFlowData = {
+                    "parameter_views": [
+                        {
+                            "title": "Safari",
+                            "count": 3
+                        },
+                        {
+                            "title": "IE",
+                            "count": 2
+                        }
+                    ],
+                    "visitors_flow": [
+                        {
+                            "parameter": "Safari",
+                            "target_url": "https://localhost/a",
+                            "level": 1,
+                            "views": 1,
+                            "exit_count": 0,
+                            "source_url": "null"
+                        },
+                        {
+                            "parameter": "IE",
+                            "target_url": "https://localhost/a",
+                            "level": 1,
+                            "views": 1,
+                            "exit_count": 0,
+                            "source_url": "null"
+                        },
+                        {
+                            "parameter": "Opera",
+                            "target_url": "https://localhost/e",
+                            "level": 1,
+                            "views": 1,
+                            "exit_count": 0,
+                            "source_url": "null"
+                        },
+                        {
+                            "parameter": "Chrome",
+                            "target_url": "https://localhost/c",
+                            "level": 1,
+                            "views": 1,
+                            "exit_count": 0,
+                            "source_url": "null"
+                        },
+                        {
+                            "parameter": "Other",
+                            "target_url": "https://localhost/d",
+                            "level": 1,
+                            "views": 1,
+                            "exit_count": 0,
+                            "source_url": "null"
+                        },
+                        {
+                            "parameter": "Safari",
+                            "target_url": "https://localhost/b",
+                            "level": 2,
+                            "views": 1,
+                            "exit_count": 0,
+                            "source_url": "https://localhost/a"
+                        },
+                        {
+                            "parameter": "IE",
+                            "target_url": "https://localhost/b",
+                            "level": 2,
+                            "views": 1,
+                            "exit_count": 1,
+                            "source_url": "https://localhost/a"
+                        }
+                    ]
+                };
             },
-
-            createExits () {
-                let lastNodeId = this.nodes.slice(-1)[0].id;
+            parseVisitorsFlowData () {
+                let nodes = [];
+                let links = [];
                 let exits = [];
 
-                for (let sourceInd = 5; sourceInd < lastNodeId; sourceInd++) {
-                    let sourceId = this.nodes[sourceInd].id;
-                    let value = Math.floor(Math.random() * 50);
-                    let exit = { source: sourceId, value: value, index: sourceId - 1 };
-                    exits.push(exit);
+                let visitorsFlow = this.visitorsFlowData.visitors_flow;
+
+                for (let key in visitorsFlow) {
+                    let visitorFlowItem = visitorsFlow[key];
+
+                    let sourceId = this.findOrCreateSource(visitorFlowItem, nodes);
+                    let targetId = this.findOrCreateTarget(visitorFlowItem, nodes);
+
+                    this.findOrCreateLink(visitorFlowItem, links, sourceId, targetId);
+                    this.findOrCreateExit(visitorFlowItem, exits, sourceId);
                 }
 
-                this.exits = exits;
+                this.nodes = [...this.nodes, ...nodes];
+                this.links = [...this.links, ...links];
+                this.exits = [...this.exits, ...exits];
+            },
+
+            findOrCreateSource (visitorsFlowItem, nodes ) {
+                let source = nodes.find(node => {
+                    let source;
+                    if (visitorsFlowItem.level === 1) {
+                        source = visitorsFlowItem.parameter === node.name;
+                    } else {
+                        source = visitorsFlowItem.source_url === node.name;
+                    }
+                    return source && node.level === visitorsFlowItem.level;
+                });
+
+                if (source) {
+                    return source.id;
+                }
+
+                let sourceId;
+                if (nodes.length === 0) {
+                    sourceId = 1;
+                } else {
+                    sourceId = nodes[nodes.length - 1].id + 1;
+                }
+
+                if (visitorsFlowItem.level === 1) {
+                    nodes.push({
+                        id: sourceId,
+                        name: visitorsFlowItem.parameter,
+                        level: visitorsFlowItem.level
+                    });
+                } else {
+                    nodes.push({
+                        id: sourceId,
+                        name: visitorsFlowItem.source_url,
+                        level: visitorsFlowItem.level
+                    });
+                }
+
+                return sourceId;
+            },
+
+            findOrCreateTarget (visitorsFlowItem, nodes) {
+                let target = nodes.find(node => {
+                    return visitorsFlowItem.target_url === node.name && node.level === visitorsFlowItem.level + 1;
+                });
+
+                if (target) {
+                    return target.id;
+                }
+
+                let targetId = nodes[nodes.length - 1].id + 1;
+
+                nodes.push({
+                    id: targetId,
+                    name: visitorsFlowItem.target_url,
+                    level: visitorsFlowItem.level + 1
+                });
+
+                return targetId;
+            },
+
+            findOrCreateLink (visitorsFlowItem, links, sourceId, targetId) {
+                let linkIndex = links.findIndex(link => {
+                    return link.level === visitorsFlowItem.level && // level condition is redundant?
+                        link.source === sourceId &&
+                        link.target === targetId;
+                });
+
+                if (linkIndex !== -1) {
+                    links[linkIndex].value += visitorsFlowItem.views;
+                    return links[linkIndex].id;
+                }
+
+                links.push({
+                    source: sourceId,
+                    target: targetId,
+                    value: visitorsFlowItem.views,
+                    level: visitorsFlowItem.level
+                });
+
+                return links.length - 1;
+            },
+
+            findOrCreateExit (visitorsFlowItem, exits, sourceId) {
+                let exitIndex = exits.findIndex(exit => exit.source === sourceId);
+
+                if (exitIndex !== -1) {
+                    exits[exitIndex].value += visitorsFlowItem.exit_count;
+                    return exits[exitIndex].id;
+                }
+
+                exits.push({
+                    source: sourceId,
+                    value: visitorsFlowItem.exit_count,
+                    index: sourceId - 1
+                });
+
+                return exits.length - 1;
             },
 
             addInteraction () {
@@ -132,14 +275,12 @@
                 d3.select('.diagram-tooltip')
                     .remove();
 
-                this.createLinks();
-                this.createExits();
-
                 const _sankey = sankey()
                     .nodeSort(null)
                     .nodeWidth(160)
                     .nodeId(d => d.id)
                     .nodePadding(10)
+                    .nodeAlign(sankeyLeft)
                     .extent([
                         [1, 1],
                         [this.width - 1, this.height - 5]
