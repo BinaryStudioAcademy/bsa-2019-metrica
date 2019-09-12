@@ -24,21 +24,17 @@ class CreateVisitAggregate implements ShouldQueue
         FlowScreenAggregateService $flowScreenAggregateService
     ) {
         $this->flowCountryAggregateService = $flowCountryAggregateService;
-        $this->flowBrowserAggregateService = $flowBrowserAggregateService;
-        $this->flowDeviceAggregateService = $flowDeviceAggregateService;
-        $this->flowScreenAggregateService = $flowScreenAggregateService;
+//        $this->flowBrowserAggregateService = $flowBrowserAggregateService;
+//        $this->flowDeviceAggregateService = $flowDeviceAggregateService;
+//        $this->flowScreenAggregateService = $flowScreenAggregateService;
     }
 
     public function handle(VisitCreated $event)
     {
-        try {
             $this->flowCountryAggregateService->aggregate($event->visit);
             $this->flowBrowserAggregateService->aggregate($event->visit);
             $this->flowDeviceAggregateService->aggregate($event->visit);
             $this->flowScreenAggregateService->aggregate($event->visit);
-        } catch (\Exception $e) {
-            event(new VisitCreated($event->visit));
-        }
     }
 
 }

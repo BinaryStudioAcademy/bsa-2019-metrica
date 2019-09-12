@@ -22,7 +22,6 @@ class FlowBrowserAggregateService extends FlowAggregateService
     private $websiteRepository;
     private $geoPositionRepository;
     private $visitorFlowBrowserRepository;
-    private $visit;
 
     public function __construct(
         PageRepository $pageRepository,
@@ -40,7 +39,6 @@ class FlowBrowserAggregateService extends FlowAggregateService
 
     public function aggregate(Visit $visit): void
     {
-        $this->visit = $visit;
         $previousVisit = $this->getLastVisit($visit);
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);

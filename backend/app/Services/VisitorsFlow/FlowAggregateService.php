@@ -36,11 +36,24 @@ abstract class FlowAggregateService
             });
     }
 
-    protected function getPreviousVisit(Visit $currentVisit): ?Visit
+    protected function getNextVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
             ->filter(function (Visit $visit) use ($currentVisit) {
                 return (new Carbon($currentVisit->visit_time))->greaterThan(new Carbon($visit->visit_time));
+            })
+            ->sortBy(function (Visit $visit) {
+                return (new Carbon($visit->visit_time))->getTimestamp();
+            })
+            ->first();
+    }
+
+
+    protected function getPreviousVisit(Visit $currentVisit): ?Visit
+    {
+        return $this->visitRepository->findBySessionId($currentVisit->session_id)
+            ->filter(function (Visit $visit) use ($currentVisit) {
+                return (new Carbon($currentVisit->visit_time))->lessThan(new Carbon($visit->visit_time));
             })
             ->sortBy(function (Visit $visit) {
                 return (new Carbon($visit->visit_time))->getTimestamp();
