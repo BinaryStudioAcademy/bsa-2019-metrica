@@ -12,7 +12,6 @@
             />
             <VisitorsFlowDiagram
                 :visitors-flow-data="getVisitorsFlow"
-                :current-level="getCurrentLevel"
                 @add-interaction="addInteraction"
             />
         </template>
