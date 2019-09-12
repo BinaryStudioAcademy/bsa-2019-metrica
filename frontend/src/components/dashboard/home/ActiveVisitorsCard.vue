@@ -95,6 +95,18 @@
                     },
                     fontFamily: 'Gilroy'
                 },
+                yaxis: {
+                    labels: {
+                        formatter: (value) => {
+                            return Math.round(value);
+                        },
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "40%"
+                    }
+                },
             }
         }),
         mounted() {
