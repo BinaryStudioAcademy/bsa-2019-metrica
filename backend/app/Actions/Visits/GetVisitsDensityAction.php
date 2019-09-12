@@ -23,7 +23,8 @@ final class GetVisitsDensityAction
         $response = $this->repository->getVisitsCountByHourAndDay(
             $request->startDate(),
             $request->endDate(),
-            $websiteId
+            $websiteId,
+            $request->getTimeZone()
         );
 
         $response = $response->map(function ($item) {

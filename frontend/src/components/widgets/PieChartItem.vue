@@ -51,12 +51,12 @@
                 return {
                     chartArea: {
                         backgroundColor: 'transparent',
-                        width: '85%',
-                        height: '85%'
+                        width: '80%',
+                        height: '80%'
                     },
-                    width: 110,
-                    height: 110,
-                    pieHole: 0.87,
+                    width: 128,
+                    height: 128,
+                    pieHole: 0.9,
                     pieSliceBorderColor: 'none',
                     legend: 'none',
                     pieSliceText: 'none',

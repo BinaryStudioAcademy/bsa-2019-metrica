@@ -88,7 +88,7 @@
                         viewWindow: {min: 0},
                         format: 'short',
                         count: 3,
-                        minValue: 1,
+                        minValue: 0,
                         baselineColor: 'none',
                         minorGridlines: {
                             count: 0
