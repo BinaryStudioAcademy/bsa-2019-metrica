@@ -50,9 +50,9 @@ class InitVisitorsSeeder extends Seeder
                 'visitor_id' => $visitor->id,
                 'visit_time' => $session->start_session->addMinutes($delta*$i),
                 'page_id' => Page::inRandomOrder()->where('website_id', '=', $this->user->website->id)->first()->id,
-                'page_load_time' => $faker->numberBetween(1,150),
-                'domain_lookup_time' => $faker->numberBetween(1,10),
-                'server_response_time' => $faker->numberBetween(1,300),
+                'page_load_time' => $faker->numberBetween(1, 150),
+                'domain_lookup_time' => $faker->numberBetween(1, 10),
+                'server_response_time' => $faker->numberBetween(1, 300),
             ]);
         }
 
