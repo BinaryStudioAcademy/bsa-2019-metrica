@@ -11,6 +11,7 @@ use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowDeviceRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
+use Illuminate\Support\Facades\Log;
 
 class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepository
 {
@@ -24,13 +25,14 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
 
     public function save(Aggregate $deviceAggregate): Aggregate
     {
-        $this->client->index([
+        $params = [
             'index' => self::INDEX_NAME,
             'id' => $deviceAggregate->getId(),
             'type' => '_doc',
             'body' => $deviceAggregate->toArray()
-        ]);
-
+        ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
+        $this->client->index($params);
         return $deviceAggregate;
     }
 
@@ -54,6 +56,7 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         try {
             $result = $this->client->search($params);
         } catch (\Exception $exception) {
@@ -92,8 +95,8 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
                     ]
                 ]
             ]
-
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new ParametersCollection($result['aggregations']['devices']['buckets']);
     }
@@ -121,11 +124,12 @@ class ElasticsearchVisitorFlowDeviceRepository implements VisitorFlowDeviceRepos
                     ]
                 ],
                 'sort' => [
-                    [ 'level' => ['order' => 'asc', "unmapped_type" => "integer"]],
-                    [ 'views' => ['order' => 'desc',  "unmapped_type" => "integer"]]
+                    ['level' => ['order' => 'asc', "unmapped_type" => "integer"]],
+                    ['views' => ['order' => 'desc', "unmapped_type" => "integer"]]
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new DeviceFlowCollection($result['hits']['hits']);
     }

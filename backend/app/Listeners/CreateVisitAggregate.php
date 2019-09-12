@@ -8,14 +8,14 @@ use App\Services\VisitorsFlow\FlowBrowserAggregateService;
 use App\Services\VisitorsFlow\FlowCountryAggregateService;
 use App\Services\VisitorsFlow\FlowDeviceAggregateService;
 use App\Services\VisitorsFlow\FlowScreenAggregateService;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateVisitAggregate
+class CreateVisitAggregate implements ShouldQueue
 {
     private $flowCountryAggregateService;
     private $flowBrowserAggregateService;
     private $flowDeviceAggregateService;
     private $flowScreenAggregateService;
-
 
     public function __construct(
         FlowCountryAggregateService $flowCountryAggregateService,
@@ -31,9 +31,14 @@ class CreateVisitAggregate
 
     public function handle(VisitCreated $event)
     {
-        $this->flowCountryAggregateService->aggregate($event->visit);
-        $this->flowBrowserAggregateService->aggregate($event->visit);
-        $this->flowDeviceAggregateService->aggregate($event->visit);
-        $this->flowScreenAggregateService->aggregate($event->visit);
+        try {
+            $this->flowCountryAggregateService->aggregate($event->visit);
+            $this->flowBrowserAggregateService->aggregate($event->visit);
+            $this->flowDeviceAggregateService->aggregate($event->visit);
+            $this->flowScreenAggregateService->aggregate($event->visit);
+        } catch (\Exception $e) {
+            event(new VisitCreated($event->visit));
+        }
     }
+
 }

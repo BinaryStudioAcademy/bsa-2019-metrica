@@ -7,6 +7,7 @@ use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
+use App\Events\VisitCreated;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\VisitRepository;
@@ -21,6 +22,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
     private $websiteRepository;
     private $geoPositionRepository;
     private $visitorFlowBrowserRepository;
+    private $visit;
 
     public function __construct(
         PageRepository $pageRepository,
@@ -38,6 +40,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
 
     public function aggregate(Visit $visit): void
     {
+        $this->visit = $visit;
         $previousVisit = $this->getLastVisit($visit);
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);

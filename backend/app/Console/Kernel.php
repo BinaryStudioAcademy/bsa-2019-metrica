@@ -27,9 +27,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             DB::table('users')->where('is_activate', 0)
-                ->where('created_at', '<', Carbon::now()->subHours(12)->toDateTimeString())
+                ->where('created_at', '<', Carbon::now()->subSeconds(20)->toDateTimeString())
                 ->delete();
-        })->hourly();
+        })->everyMinute();
 
         if (env('APP_ENV') !== 'production') {
             $schedule->command('telescope:prune')->daily();
