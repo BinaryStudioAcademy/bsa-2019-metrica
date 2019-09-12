@@ -32,7 +32,6 @@
             <VFlex
                 lg12
                 md12
-                hidden-sm-and-down
                 height="100%"
                 class="img-card"
             >

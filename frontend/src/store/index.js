@@ -13,6 +13,7 @@ import devices from './modules/devices';
 import error_report from './modules/error_report';
 import visits_density_widget from './modules/visits_density_widget';
 import team from './modules/team';
+import visitors_flow from './modules/visitors_flow';
 
 Vue.use(Vuex);
 
@@ -29,7 +30,8 @@ export default new Vuex.Store({
         devices,
         visits_density_widget,
         team,
-        error_report
+        error_report,
+        visitors_flow
     },
     plugins: [authPlugin]
 });

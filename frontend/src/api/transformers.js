@@ -23,10 +23,10 @@ const chartTransformer = (item) => {
     };
 };
 
-const chartTransformerToInt = (item) => {
+const chartTransformerToMinutes = (item) => {
     return {
         date: item.date,
-        value: parseInt(item.value)
+        value: parseFloat(moment.utc(item.value*1000).format('mm.ss'))
     };
 };
 
@@ -86,7 +86,7 @@ export {
     buttonTransformerToTime,
     buttonTransformerToSeconds,
     chartTransformer,
-    chartTransformerToInt,
+    chartTransformerToMinutes,
     chartTransformerToPercent,
     chartTransformerToSeconds,
     tableTransformer,

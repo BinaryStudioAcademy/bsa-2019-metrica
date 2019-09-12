@@ -77,7 +77,7 @@
                         :disabled="!valid"
                         @click="onSignUp"
                     >
-                        SIGN UP
+                        {{ signUpText }}
                     </VBtn>
                 </div>
                 <div class="mt-3">
@@ -116,6 +116,7 @@
         },
         data () {
             return {
+                isLoading: false,
                 show1: false,
                 show2: false,
                 newUser: {
@@ -154,6 +155,7 @@
             }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
+                    this.isLoading = true;
                     this.signUp({
                         name: this.newUser.name,
                         email: this.newUser.email,
@@ -164,12 +166,19 @@
                         this.$router.push({name: 'login'});
                     }).catch((error) => {
                         this.showErrorMessage(error);
+                    }).finally(() => {
+                        this.isLoading = false;
                     });
                 }
             },
             onSignIn () {
                 return this.$router.push({name: 'login'});
             },
+        },
+        computed: {
+            signUpText() {
+                return this.isLoading ? 'Processing...' : 'SIGN UP';
+            }
         },
     };
 </script>

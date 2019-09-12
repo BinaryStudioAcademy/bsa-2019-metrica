@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
             'prefix' => 'users'
         ], function () {
             Route::put('/me', 'UserController@update');
+            Route::put('/update-password', 'UserController@updatePassword');
         });
 
         Route::group([
@@ -141,7 +142,6 @@ Route::prefix('v1')->group(function () {
         ], function () {
             Route::get('/avg-time', 'VisitController@getPageViewsChartAvgTimeForFilterData');
         });
-
 
 
         Route::get('/button-visitors', 'VisitorController@getVisitorsCount');

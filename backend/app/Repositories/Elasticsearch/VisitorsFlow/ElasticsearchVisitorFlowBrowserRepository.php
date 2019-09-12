@@ -5,6 +5,7 @@ namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
+use App\DataTransformer\VisitorsFlow\BrowserFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
@@ -120,13 +121,13 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                     ]
                 ],
                 'sort' => [
-                    'level' => 'asc',
-                    'views' => 'desc'
+                   [ 'level' => ['order' => 'asc', "unmapped_type" => "integer"]],
+                   [ 'views' => ['order' => 'desc',  "unmapped_type" => "integer"]]
                 ]
             ]
         ];
         $result = $this->client->search($params);
-        return new ParameterFlowCollection($result['hits']['hits']);
+        return new BrowserFlowCollection($result['hits']['hits']);
     }
 }
 

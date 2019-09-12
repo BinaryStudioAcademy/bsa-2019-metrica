@@ -16,7 +16,7 @@
             <Spinner v-if="tableData.isFetching" />
             <ErrorsTable
                 @open="openModal"
-                :error-items="tableData.items"
+                :error-items="getTableDataItems()"
             />
         </VRow>
         <ErrorsDetailsModal
@@ -29,6 +29,7 @@
 
 <script>
     import { isChangeSelectedWebsite } from "@/mixins/isChangeSelectedWebsite";
+    import moment from 'moment';
     import ContentLayout from '../../components/layout/ContentLayout.vue';
     import LineChart from "../../components/common/LineChart";
     import ErrorsTable from '../../components/dashboard/errors/ErrorsTable.vue';
@@ -85,6 +86,11 @@
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA
             }),
+            getTableDataItems () {
+                return this.tableData.items.map((item) => {
+                    return {...item, max_created: moment.utc(item.max_created).format('llll')};
+                });
+            },
             changePeriod (data) {
                 this.changeSelectedPeriod(data);
             },

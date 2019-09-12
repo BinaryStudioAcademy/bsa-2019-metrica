@@ -1,71 +1,55 @@
 <template>
-    <VContainer>
+    <VContainer class="piechart">
         <VRow>
             <VCol>
-                <VSubheader
-                    class="my-3 header text-dark"
+                <div
+                    class="my-5 header text-dark"
                     fluid
                 >
                     Summary
-                </VSubheader>
+                </div>
             </VCol>
         </VRow>
-        <VLayout
-            class="pie-container position-relative"
-            wrap
+        <VContainer
+            class="pie-container position-relative d-flex pr-6"
         >
-            <VFlex
-                lg4
-                md10
-                sm4
-                height="100%"
-                class="img-card chart-card"
-            >
-                <Spinner v-if="isFetching" />
-                <GChart
-                    type="PieChart"
-                    :data="chartData"
-                    :options="chartOptions"
-                />
-            </VFlex>
-            <VFlex
-                lg6
-                md10
-                sm6
-                height="100%"
-                class="img-card"
-            >
-                <VSubheader
-                    v-text="legend.title"
-                    class="legend-title text-dark justify-content-center"
-                />
-                <VList>
-                    <VListItem
-                        v-for="visitor in legend.data"
-                        :key="visitor.title"
+            <Spinner v-if="isFetching" />
+            <GChart
+                class="align-self-end"
+                type="PieChart"
+                :data="chartData"
+                :options="chartOptions"
+            />
+            <VList class="flex-grow-1 ml-3">
+                <div
+                    class="grey--text text--darken-1 pb-3"
+                >
+                    {{ legend.title }}
+                </div>
+                <VListItem
+                    class="justify-space-between align-center pa-0"
+                    v-for="visitor in legend.data"
+                    :key="visitor.title"
+                >
+                    <VIcon
+                        :color="visitor.color"
+                        size="12"
                     >
-                        <VRow class="align-center justify-content-between">
-                            <VIcon
-                                :color="visitor.color"
-                                small
-                            >
-                                mdi-circle
-                            </VIcon>
-                            <VLabel>{{ visitor.title }}</VLabel>
-                            <VLabel>
-                                <VIcon
-                                    :color="visitor.color"
-                                    small
-                                >
-                                    mdi-arrow-up
-                                </VIcon>
-                                {{ visitor.percentageDiff }}%
-                            </VLabel>
-                        </VRow>
-                    </VListItem>
-                </VList>
-            </VFlex>
-        </VLayout>
+                        mdi-circle
+                    </VIcon>
+                    <div
+                        class="title pl-2 grey--text flex-grow-1"
+                    >
+                        {{ visitor.title }}
+                    </div>
+                    <div
+                        class="percent grey--text"
+                    >
+                        {{ visitor.percentageDiff }}%
+                    </div>
+                </VListItem>
+            </VList>
+        </VContainer>
     </VContainer>
 </template>
 
@@ -98,8 +82,12 @@
         data() {
             return {
                 chartOptions: {
-                    width: 200,
-                    height: 200,
+                    chartArea: {
+                        width: '80%',
+                        height: '80%'
+                    },
+                    height: 128,
+                    width: 128,
                     pieHole: this.pieHole,
                     legend: 'none',
                     pieSliceText: 'none',
@@ -112,7 +100,6 @@
                         },
                         1: {
                             color: '#1BC3DA',
-                            offset: 0.04,
                         },
                     }
                 }
@@ -122,6 +109,9 @@
 </script>
 
 <style scoped lang="scss">
+.piechart {
+    max-width: 500px;
+}
 .pie-container {
     background-color: white;
     border-radius: 6px;
@@ -132,27 +122,18 @@
     }
 }
 .header {
-    align-items: center;
-    text-align: center;
     text-transform: capitalize;
     font-family: 'Gilroy';
     font-size: 16px;
     line-height: 19px;
 }
-.legend-title {
-    font-family: Gilroy;
-    font-size: 14px;
-    line-height: 16px;
+.legend-title,
+.title,
+.percent {
+    font-size: 14px !important;
+    font-family: 'GilroySemiBold' !important;
 }
-.radio {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-}
-.dot {
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    display: inline-block;
+.v-subheader {
+    text-align: start;
 }
 </style>

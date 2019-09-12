@@ -27,6 +27,7 @@ import Team from "../pages/Team.vue";
 import ErrorReports from "../pages/speed_overview/ErrorReports";
 import Behavior from "../pages/Behavior";
 import VisitorsFlow from "../pages/VisitorsFlow";
+import ChangePassword from "../pages/ChangePassword";
 
 
 const originalPush = Router.prototype.push;
@@ -77,6 +78,11 @@ export default new Router({
                     path: 'reset-password',
                     name: 'reset-password',
                     component: ResetPassword,
+                },
+                {
+                    path: 'change-password/',
+                    name: 'change-password',
+                    component: ChangePassword,
                 },
                 {
                     path: '/auth/social/:provider',

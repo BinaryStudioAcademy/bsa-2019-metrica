@@ -5,19 +5,14 @@ namespace App\DataTransformer\VisitorsFlow;
 
 use Illuminate\Support\Collection;
 
-class ParameterFlowCollection
+abstract class ParameterFlowCollection
 {
-    private $collection;
+    protected $collection;
 
     public function __construct(array $collection)
     {
         $this->collection = $collection;
     }
 
-    public function getCollection():Collection
-    {
-        return collect($this->collection)->map(function ($item) {
-            return new ParameterFlowItem($item['_source']);
-        });
-    }
+    abstract public function getCollection():Collection;
 }
