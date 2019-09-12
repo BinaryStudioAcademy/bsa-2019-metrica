@@ -31,18 +31,17 @@
             visitorsFlowData: {
                 type: Array,
                 required: true
-            },
-            currentLevel: {
-                type: Number,
-                required: true
             }
         },
         watch: {
             visitorsFlowData: function () {
-                this.addInteractionDisabled = this.lastLevel === this.currentLevel;
-                this.lastLevel = this.currentLevel;
                 this.parseVisitorsFlowData();
                 this.drawDiagram();
+                d3.transition()
+                    .select('#visitors-flow-container')
+                    .tween("scroll", function () {
+                        this.scrollLeft += this.scrollWidth;
+                    });
             }
         },
         data () {
@@ -54,7 +53,6 @@
                     '3rd Interaction'
                 ],
                 height: 600,
-                tooltip: {},
                 lastLevel: 0,
                 nodes: [],
                 links: [],
@@ -64,7 +62,7 @@
         },
         computed: {
             width () {
-                return Math.max(this.nodes.length / 5 * 400, 1200);
+                return this.lastLevel * 370;
             }
         },
         mounted() {
@@ -86,7 +84,7 @@
                     let targetId = this.findOrCreateTarget(visitorFlowItem, nodes);
 
                     this.findOrCreateLink(visitorFlowItem, links, sourceId, targetId);
-                    this.findOrCreateExit(visitorFlowItem, exits, sourceId);
+                    this.findOrCreateExit(visitorFlowItem, exits, targetId);
                 }
 
                 this.lastLevel = nodes[nodes.length - 1].level;
@@ -190,8 +188,8 @@
                 return links.length - 1;
             },
 
-            findOrCreateExit (visitorsFlowItem, exits, sourceId) {
-                let exitIndex = exits.findIndex(exit => exit.source === sourceId);
+            findOrCreateExit (visitorsFlowItem, exits, targetId) {
+                let exitIndex = exits.findIndex(exit => exit.source === targetId);
 
                 if (exitIndex !== -1) {
                     exits[exitIndex].value += visitorsFlowItem.exit_count;
@@ -199,9 +197,9 @@
                 }
 
                 exits.push({
-                    source: sourceId,
+                    source: targetId,
                     value: visitorsFlowItem.exit_count,
-                    index: sourceId - 1
+                    index: targetId - 1
                 });
 
                 return exits.length - 1;
