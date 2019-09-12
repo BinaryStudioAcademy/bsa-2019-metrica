@@ -1,62 +1,57 @@
 <template>
-    <VContent>
-        <VFlex
-            md6
-            xs12
-            class="mt-10 mx-10"
+    <div
+        v-if="showEmail"
+        class="form"
+    >
+        <h3 class="title grey--text text--darken-1 mb-8 mt-6">
+            Forgot your password?
+        </h3>
+        <VSubheader class="instruction body-2 px-0 grey--text text--darken-1 mb-5">
+            Please enter your email address and we'll send you a link to reset your password.
+        </VSubheader>
+        <VForm ref="form">
+            <label class="caption grey--text">
+                Email
+            </label>
+            <VTextField
+                name="email"
+                class="no-underline mt-1"
+                solo
+                v-model="email"
+                type="text"
+                :rules="emailRules"
+                required
+            />
+        </VForm>
+        <VBtn
+            class="mt-4"
+            color="primary"
+            :disabled="sending"
+            @click="onResetPassword"
         >
-            <VContainer v-if="showEmail">
-                <VSubheader class="body-1 grey--text text--darken-1 pa-0 mb-5">
-                    Forgot your password?
-                </VSubheader>
-                <VSubheader class="instruction body-2 px-0 grey--text mb-5">
-                    Please enter your email address and we'll send you a link to reset your password
-                </VSubheader>
-                <VForm ref="form">
-                    <label class="caption grey--text text--darken-1">
-                        Email
-                    </label>
-                    <VTextField
-                        name="email"
-                        class="no-underline mt-5"
-                        solo
-                        v-model="email"
-                        type="text"
-                        :rules="emailRules"
-                        required
-                    />
-                </VForm>
-                <VBtn
-                    class="mt-4"
-                    color="primary"
-                    :disabled="sending"
-                    @click="onResetPassword"
-                >
-                    Reset password
-                </VBtn>
-                <VAlert
-                    class="error-response"
-                    v-if="hasError"
-                    type="error"
-                    v-html="errorMsg"
-                />
-            </VContainer>
-            <VContainer v-else>
-                <VAlert
-                    class="success-response"
-                    type="success"
-                >
-                    Check your inbox. We just sent a link to reset your password via email {{ email }}. Back to
-                    <RouterLink
-                        class="forgot-password-link"
-                        :to="{name: 'login'}"
-                    >
-                        sign in
-                    </RouterLink>
-                </VAlert>
-            </VContainer>
-        </VFlex>
-    </VContent>
+            Reset password
+        </VBtn>
+        <VAlert
+            class="error-response"
+            v-if="hasError"
+            type="error"
+            v-html="errorMsg"
+        />
+    </div>
+    <VContainer v-else>
+        <VAlert
+            class="success-response"
+            type="success"
+        >
+            Check your inbox. We just sent a link to reset your password via email {{ email }}. Back to
+            <RouterLink
+                class="forgot-password-link"
+                :to="{name: 'login'}"
+            >
+                sign in
+            </RouterLink>
+        </VAlert>
+    </VContainer>
 </template>
 
 
@@ -109,16 +104,19 @@
 <style lang="scss" scoped>
     .v-subheader.instruction,
     .v-text-field {
-        max-width: 400px;
         font-family: GilroySemiBold;
     }
-    .success-response{
-        margin-top: 100px;
+    .success-response {
+        margin-left: 40px;
         min-width: 245px;
         max-width: 712px;
     }
 
     .error-response{
         margin-top: 25px;
+    }
+
+    .form {
+        width: 50%;
     }
 </style>

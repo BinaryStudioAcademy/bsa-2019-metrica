@@ -1,6 +1,8 @@
 <template>
     <div class="form">
-        <h3>Welcome to Metrica!</h3>
+        <h3 class="title mb-8 mt-6">
+            Welcome to Metrica!
+        </h3>
         <VForm
             lazy-validation
             ref="form"
@@ -12,7 +14,7 @@
                 Email
             </label>
             <VTextField
-                class="no-underline"
+                class="no-underline mt-1"
                 solo
                 type="email"
                 name="email"
@@ -26,7 +28,7 @@
                 Password
             </label>
             <VTextField
-                class="no-underline password"
+                class="no-underline password mt-1"
                 solo
                 name="password"
                 autocomplete="new-password"
@@ -151,11 +153,6 @@
                 color: #3C57DE;
                 margin-left: 50px;
             }
-        }
-
-        h3 {
-            margin-bottom: 30px;
-            font-size: 19px;
         }
 
         .password-group {

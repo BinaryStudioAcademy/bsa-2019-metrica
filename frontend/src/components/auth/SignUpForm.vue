@@ -1,10 +1,10 @@
 <template>
     <div class="form">
-        <VSubheader
-            class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
+        <h3
+            class="title grey--text text--darken-1 mb-8 mt-6"
         >
             Welcome to Metrica!
-        </VSubheader>
+        </h3>
         <VForm
             lazy-validation
             ref="form"
@@ -43,7 +43,7 @@
                     Password
                 </label>
                 <VTextField
-                    class="no-underline my-1 password"
+                    class="no-underline mt-1 password"
                     solo
                     name="password"
                     autocomplete="new-password"
@@ -59,7 +59,7 @@
                     Confirm password
                 </label>
                 <VTextField
-                    class="no-underline my-1 password"
+                    class="no-underline mt-1 password"
                     solo
                     name="confirmPassword"
                     autocomplete="new-password"
