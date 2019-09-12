@@ -51,18 +51,12 @@
 </template>
 <script>
     import TrackWebsite from '../TrackWebsite.vue';
-    import config from "@/config";
     import {mapGetters} from 'vuex';
     import {GET_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
     export default {
         name: 'StepTrackingInfo',
         components: {
             TrackWebsite
-        },
-        data () {
-            return {
-                appUrl: config.getUrl()
-            };
         },
         computed: {
             ...mapGetters('website', {
