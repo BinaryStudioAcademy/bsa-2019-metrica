@@ -16,13 +16,17 @@ class ApiWebsiteTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     private $user;
-    private $websiteController;
+    private $website;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        $this->websiteController = $this->app->make(WebsiteController::class);
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
+//        $this->websiteController = $this->app->make(WebsiteController::class);
     }
 
 
@@ -30,13 +34,14 @@ class ApiWebsiteTest extends TestCase
     {
         $expectedData = [
             "data" => [
-                'id' => 1,
+                'id' => $this->website->id+1,
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'tracking_number' => '00000001',
+                'tracking_number' => $this->website->tracking_number+1,
                 'role' => 'owner',
-                'permitted_menu' => "visitors, page-views, geo-location, behaviour, screencast",
+                'permitted_menu' =>
+                    "visitors, page-views, geo-location, behaviour, screencast, page-timings, error-reports",
             ],
             "meta" => [],
 
@@ -57,13 +62,14 @@ class ApiWebsiteTest extends TestCase
     {
         $expectedData = [
             "data" => [
-                'id' => 2,
+                'id' => $this->website->id+1,
                 'name' => $this->faker->name,
                 'domain' => $this->faker->domainName,
                 'single_page' => true,
-                'tracking_number' => '00000001',
+                'tracking_number' => $this->website->tracking_number+1,
                 'role' => 'owner',
-                'permitted_menu' => "visitors, page-views, geo-location, behaviour, screencast",
+                'permitted_menu' =>
+                    "visitors, page-views, geo-location, behaviour, screencast, page-timings, error-reports",
             ],
             "meta" => [],
 
@@ -246,7 +252,8 @@ class ApiWebsiteTest extends TestCase
                     'single_page' => $website1->single_page,
                     'tracking_number' => $website1->tracking_number,
                     'role' => 'owner',
-                    'permitted_menu' => "visitors, page-views, geo-location, behaviour, screencast",
+                    'permitted_menu' =>
+                        "visitors, page-views, geo-location, behaviour, screencast, page-timings, error-reports",
                 ],
                 [
                     'id' => $website2->id,

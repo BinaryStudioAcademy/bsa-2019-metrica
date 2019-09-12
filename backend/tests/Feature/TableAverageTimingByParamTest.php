@@ -27,8 +27,10 @@ class TableAverageTimingByParamTest extends TestCase
         $this->from = \Illuminate\Support\Carbon::now()->subDays(3);
         $this->to = Carbon::now();
         $this->user = factory('App\Entities\User')->create();
-        $this->website = $this->user->website()
-            ->save(factory('App\Entities\Website')->make());
+        $this->website = factory('App\Entities\Website')->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         factory('App\Entities\Visitor')->create();
     }
 
@@ -213,7 +215,8 @@ class TableAverageTimingByParamTest extends TestCase
             'filter' => [
                 'startDate' => strval($this->from->timestamp),
                 'endDate' => strval($this->to->timestamp),
-                'parameter' => $parameter
+                'parameter' => $parameter,
+                'website_id' => $this->website->id,
             ]
         ];
     }

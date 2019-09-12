@@ -13,7 +13,12 @@ class GetAverageTimingByParamRequest extends TableDataRequest
 
     public function __construct(PageTimingTableHttpRequest $request, string $column)
     {
-        parent::__construct($request->getStartDate(), $request->getEndDate(), $request->getParameter());
+        parent::__construct(
+            $request->getStartDate(),
+            $request->getEndDate(),
+            $request->getParameter(),
+            $request->websiteId()
+        );
         $this->column = $column;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\PageTimings;
 
+use App\Rules\IsWebsiteRelatedToUser;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 use App\Http\Request\ApiFormRequest;
@@ -24,7 +25,12 @@ final class PageTimingTableHttpRequest extends ApiFormRequest
             'filter.parameter' => [
                 'required',
                 'in:country,page,browser'
-            ]
+            ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedToUser()
+            ],
         ];
     }
 
@@ -41,5 +47,10 @@ final class PageTimingTableHttpRequest extends ApiFormRequest
     public function getParameter(): string
     {
         return $this->get('filter')['parameter'];
+    }
+
+    public function websiteId(): int
+    {
+        return (int)$this->get('filter')['website_id'];
     }
 }

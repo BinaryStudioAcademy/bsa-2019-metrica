@@ -147,9 +147,8 @@ class TestDataFactory
         ];
     }
 
-    public static function createErrorsBetweenDates(User $user, String $from, String $to): void
+    public static function createErrorsBetweenDates(Website $website, String $from, String $to): void
     {
-        $website = factory(Website::class)->create(['user_id' => $user->id]);
         foreach (self::PAGES as $page_url) {
             factory(Page::class)->create(
                 [
@@ -197,7 +196,7 @@ class TestDataFactory
             }
         }
         for ($i = 0; $i < 5; $i++) {
-            $visit = $user->website->visits->random();
+            $visit = $website->visits->random();
             factory(Error::class, 5)->create([
                 'visitor_id' => $visit->visitor->id,
                 'page_id' => $visit->page->id

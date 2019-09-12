@@ -379,7 +379,8 @@ class VisitsApiTest extends TestCase
         $query = [
             'filter' => [
                 'startDate' => (string) $startSession->timestamp,
-                'endDate' =>  (string) ($startSession->addWeek()->timestamp)
+                'endDate' =>  (string) ($startSession->addWeek()->timestamp),
+                'website_id' => $this->website->id,
             ]
         ];
 

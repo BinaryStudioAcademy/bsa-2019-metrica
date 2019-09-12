@@ -46,11 +46,12 @@ const fetchChartValues = (startDate, endDate, interval, websiteId) => {
         ));
 };
 
-const fetchTableValues = (startDate, endDate, parameter) => {
+const fetchTableValues = (startDate, endDate, parameter, websiteId) => {
     return requestService.get(resourceUrl + tableDataUrl, {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[parameter]': parameter
+        'filter[parameter]': parameter,
+        'filter[website_id]': websiteId
     }).then(response => response.data.map(tableTransformerPageTiming))
         .catch(error => Promise.reject(
             new Error(

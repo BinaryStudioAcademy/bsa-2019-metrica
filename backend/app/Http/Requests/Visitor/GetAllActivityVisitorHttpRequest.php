@@ -23,6 +23,6 @@ final class GetAllActivityVisitorHttpRequest extends ApiFormRequest
 
     public function websiteId(): int
     {
-        return $this->get('website_id');
+        return (int)$this->get('website_id');
     }
 }

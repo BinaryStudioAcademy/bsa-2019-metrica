@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Entities\Website;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,6 +31,7 @@ class TableErrorTest extends TestCase
     ];
 
     private $user;
+    private $website;
     private $fromTimeStamp;
     private $toTimeStamp;
 
@@ -37,9 +39,13 @@ class TableErrorTest extends TestCase
     {
         parent::setUp();
         $this->user = TestDataFactory::createUser();
+        $this->website = factory(Website::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         $this->fromTimeStamp = (new Carbon(self::DATE_FROM))->timestamp;
         $this->toTimeStamp = (new Carbon(self::DATE_TO))->timestamp;
-        TestDataFactory::createErrorsBetweenDates($this->user, (string) $this->fromTimeStamp, (string) $this->toTimeStamp);
+        TestDataFactory::createErrorsBetweenDates($this->website, (string) $this->fromTimeStamp, (string) $this->toTimeStamp);
     }
     public function testGetErrorsByParameterAction()
     {
@@ -47,7 +53,8 @@ class TableErrorTest extends TestCase
             'filter' => [
                 'startDate' => (string) $this->fromTimeStamp,
                 'endDate' => (string) $this->toTimeStamp,
-                'parameter' => self::PARAMETER
+                'parameter' => self::PARAMETER,
+                'website_id' => $this->website->id
             ]
         ];
 
@@ -66,7 +73,8 @@ class TableErrorTest extends TestCase
             'filter' => [
                 'startDate' => (string) $this->fromTimeStamp,
                 'endDate' => (string) $this->toTimeStamp,
-                'parameter' => 'wrong_parameter'
+                'parameter' => 'wrong_parameter',
+                'website_id' => $this->website->id
             ],
         ];
 

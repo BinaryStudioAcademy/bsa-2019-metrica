@@ -31,8 +31,9 @@ export default {
         context.commit(SET_CHART_FETCHING);
 
         const period = getTimeByPeriod(context.state.selectedPeriod);
+        const id = context.rootState.website.selectedWebsite;
 
-        return getChartValues(period.startDate.unix(), period.endDate.unix(), period.interval)
+        return getChartValues(period.startDate.unix(), period.endDate.unix(), period.interval, id)
             .then(data => context.commit(SET_CHART_VALUES, data))
             .finally(() => context.commit(RESET_CHART_FETCHING));
     },
@@ -41,8 +42,9 @@ export default {
 
         const period = getTimeByPeriod(context.state.selectedPeriod);
         const parameter = 'page';
+        const id = context.rootState.website.selectedWebsite;
 
-        return getErrorTableItems(period.startDate.unix(), period.endDate.unix(), parameter)
+        return getErrorTableItems(period.startDate.unix(), period.endDate.unix(), parameter, id)
             .then(getErrorTableItems => context.commit(SET_TABLE_DATA, getErrorTableItems))
             .finally(() => context.commit(RESET_TABLE_FETCHING));
     },

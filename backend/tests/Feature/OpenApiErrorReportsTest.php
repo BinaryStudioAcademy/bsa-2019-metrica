@@ -34,6 +34,9 @@ class openApiErrorReportsTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->website = factory(Website::class)->create();
         $this->visitor = factory(Visitor::class)->create();
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
+        ]);
         $this->page = factory(Page::class)->create([
             'url' => 'https://google.com'
         ]);

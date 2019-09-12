@@ -6,6 +6,7 @@ namespace App\Http\Requests\ErrorReport;
 
 use App\Http\Request\ApiFormRequest;
 use App\Rules\ErrorTableParameter;
+use App\Rules\IsWebsiteRelatedToUser;
 use App\Rules\Timestamp;
 use App\Rules\TimestampAfter;
 
@@ -13,6 +14,7 @@ final class GetErrorTableItemsHttpRequest extends ApiFormRequest
 {
     const START_DATE = 'startDate';
     const END_DATE = 'endDate';
+    const WEBSITE_ID = 'website_id';
     const PARAMETER = 'parameter';
     const FILTER = 'filter';
 
@@ -33,6 +35,11 @@ final class GetErrorTableItemsHttpRequest extends ApiFormRequest
                 'required',
                 new ErrorTableParameter()
             ],
+            'filter.website_id' => [
+                'required',
+                'integer',
+                new IsWebsiteRelatedToUser()
+            ]
         ];
     }
     public function startDate(): string
@@ -47,5 +54,9 @@ final class GetErrorTableItemsHttpRequest extends ApiFormRequest
     public function parameter(): string
     {
         return $this->get(self::FILTER)[self::PARAMETER];
+    }
+    public function websiteId(): int
+    {
+        return (int)$this->get(self::FILTER)[self::WEBSITE_ID];
     }
 }

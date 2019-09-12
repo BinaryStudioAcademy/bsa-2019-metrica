@@ -43,7 +43,7 @@
         CHANGE_SELECTED_PERIOD,
         FETCH_WIDGET_INFO
     } from "@/store/modules/devices/types/actions";
-    import {GET_CURRENT_WEBSITE} from "../../store/modules/website/types/getters";
+    import {GET_SELECTED_WEBSITE} from "../../store/modules/website/types/getters";
 
     export default {
         components: {
@@ -56,7 +56,7 @@
             this.fetchWidgetInfo();
         },
         mounted() {
-            const channel = echoInstance.private('stats.'+ this.website.id);
+            const channel = echoInstance.private('stats.'+ this.website);
             channel.listen('StatsChangeEvent', () => {
                 this.fetchWidgetInfo(false);
             });
@@ -68,7 +68,7 @@
                 isFetching: GET_FETCHING_STATUS
             }),
             ...mapGetters('website', {
-                website: GET_CURRENT_WEBSITE
+                website: GET_SELECTED_WEBSITE
             }),
             noData() {
                 return this.data.some(function(element) {

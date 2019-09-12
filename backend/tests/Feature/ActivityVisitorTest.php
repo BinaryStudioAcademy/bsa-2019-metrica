@@ -28,9 +28,7 @@ class ActivityVisitorTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        $this->website = factory(Website::class)->create([
-            'id' => 1
-        ]);
+        $this->website = factory(Website::class)->create();
         $this->user->websites()->attach($this->website->id, [
             'role' => 'owner'
         ]);
@@ -69,10 +67,6 @@ class ActivityVisitorTest extends TestCase
 
     public function seedDataBase()
     {
-        factory(Website::class)->create([
-            'id' => 1,
-            'user_id'=>1
-        ]);
         factory(Visitor::class)->create(
             [
                 'id' => 1,

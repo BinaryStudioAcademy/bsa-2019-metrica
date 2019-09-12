@@ -19,7 +19,7 @@ class GetErrorTableItemsAction
     public function execute(GetErrorTableItemsRequest $request): GetErrorTableItemsResponse
     {
         $period = $request->period();
-        $website_id = Auth::user()->website->id;
+        $website_id = $request->websiteId();
 
         $errors = $this->repository->getErrorItemsGroupByPage($website_id, $period);
 

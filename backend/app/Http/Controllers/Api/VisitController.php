@@ -167,7 +167,7 @@ final class VisitController extends Controller
     public function getVisitsDensityByHourAndDay(GetVisitsDensityHttpRequest $request): ApiResponse
     {
         $response = $this->getVisitsDensityAction->execute(
-            new GetVisitsDensityRequest($request->startDate(), $request->endDate())
+            new GetVisitsDensityRequest($request->startDate(), $request->endDate(), $request->websiteId())
         )->collection();
 
         return ApiResponse::success(new VisitsDensityResource($response));

@@ -14,7 +14,8 @@ final class GetChartErrorByDateRangeRequest extends ChartDataRequest
         return new static(
             $request->getStartDate(),
             $request->getEndDate(),
-            $request->getPeriod()
+            $request->getPeriod(),
+            $request->websiteId()
         );
     }
 }

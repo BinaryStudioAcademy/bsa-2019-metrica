@@ -19,7 +19,7 @@ final class GetVisitsDensityAction
 
     public function execute(GetVisitsDensityRequest $request): GetVisitsDensityResponse
     {
-        $websiteId = Auth::user()->website->id;
+        $websiteId = $request->websiteId();
         $response = $this->repository->getVisitsCountByHourAndDay(
             $request->startDate(),
             $request->endDate(),

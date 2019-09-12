@@ -5,11 +5,12 @@ import {chartTransformer, tableTransformerErrors} from "../transformers";
 
 const resourceUrl = config.getApiUrl() + '/errors';
 
-const getErrorTableItems = (startDate, endDate, parameter) => {
+const getErrorTableItems = (startDate, endDate, parameter, websiteId) => {
     return requestService.get(resourceUrl + '/table-items', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[parameter]': parameter
+        'filter[parameter]': parameter,
+        'filter[website_id]': websiteId
     }).then(response => response.data.map(tableTransformerErrors))
         .catch(error => Promise.reject(
             new Error(
@@ -22,11 +23,12 @@ const getErrorTableItems = (startDate, endDate, parameter) => {
         ));
 };
 
-const getChartValues = (startDate, endDate, interval) => {
+const getChartValues = (startDate, endDate, interval, websiteId) => {
     return requestService.get(resourceUrl + '/count', {}, {
         'filter[startDate]': startDate,
         'filter[endDate]': endDate,
-        'filter[period]': interval
+        'filter[period]': interval,
+        'filter[website_id]': websiteId
     }).then(response => response.data.map(chartTransformer))
         .catch(error => Promise.reject(
             new Error(

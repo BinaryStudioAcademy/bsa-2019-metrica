@@ -20,7 +20,7 @@ class GetAverageTimingByParamAction
     {
         $period = $request->period();
         $parameter = $request->parameter();
-        $website_id = Auth::user()->website->id;
+        $website_id = $request->websiteId();
         $value = $request->column();
 
         $result = null;

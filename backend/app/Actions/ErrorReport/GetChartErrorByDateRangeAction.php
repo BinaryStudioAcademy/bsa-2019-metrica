@@ -31,7 +31,7 @@ final class GetChartErrorByDateRangeAction
             $startData,
             $endData,
             $request->interval(),
-            Auth::user()->website->id
+            $request->websiteId()
         );
         return new GetChartErrorByDateRangeResponse($response);
     }

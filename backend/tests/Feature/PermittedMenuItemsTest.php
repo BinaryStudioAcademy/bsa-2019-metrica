@@ -47,7 +47,7 @@ class PermittedMenuItemsTest extends TestCase
                                 "behaviour",
                                 "screencast",
                                 "page-timings",
-                                "geo-location"
+                                "error-reports",
                             ]
                         ],
                         [
@@ -60,7 +60,7 @@ class PermittedMenuItemsTest extends TestCase
                                 "behaviour",
                                 "screencast",
                                 "page-timings",
-                                "geo-location"
+                                "error-reports"
                             ]
                         ],
                     ],

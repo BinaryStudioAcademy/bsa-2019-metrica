@@ -58,19 +58,21 @@ export default {
     },
 
     [FETCH_BUTTON_DATA]: (context, button) => {
+        const period = getTimeByPeriod(context.state.selectedPeriod);
         const id = context.rootState.website.selectedWebsite;
-        context.commit(SET_BUTTON_FETCHING, button.type);
-        factoryPageViewsService.create(button.type).fetchButtonValue(
-            button.time.startDate.unix(),
-            button.time.endDate.unix(),
+
+        context.commit(SET_BUTTON_FETCHING, button);
+        factoryPageViewsService.create(button).fetchButtonValue(
+            period.startDate.unix(),
+            period.endDate.unix(),
             id
         ).then(response => {
             let payload = {
-                buttonType: button.type,
+                buttonType: button,
                 value: response.value
             };
             context.commit(SET_BUTTON_VALUE, payload);
-        }).finally(() => context.commit(RESET_BUTTON_FETCHING, button.type));
+        }).finally(() => context.commit(RESET_BUTTON_FETCHING, button));
     },
 
     [FETCH_CHART_DATA]: (context) => {

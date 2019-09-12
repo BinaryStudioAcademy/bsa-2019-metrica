@@ -22,14 +22,18 @@ class ChartErrorsApiTest extends TestCase
     use RefreshDatabase;
 
     private $user;
+    private $website;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
 
-        factory(Website::class)->create([
+        $this->website = factory(Website::class)->create([
             'id' => 1
+        ]);
+        $this->user->websites()->attach($this->website->id, [
+            'role' => 'owner'
         ]);
         factory(Website::class)->create([
             'id' => 2
@@ -97,7 +101,8 @@ class ChartErrorsApiTest extends TestCase
             'filter' => [
                 'startDate' => (string)$firstDate->getTimestamp(),
                 'endDate' => (string)$fifthDate->getTimestamp(),
-                'period' => '86400'
+                'period' => '86400',
+                'website_id' => $this->website->id,
             ]
         ];
 
