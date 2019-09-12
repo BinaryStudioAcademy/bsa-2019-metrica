@@ -49,8 +49,6 @@ final class GetAverageSessionByIntervalAction
     private function getAvgSessionsTimeInPeriod(DatePeriod $filterData, int $interval, int $websiteId): Collection
     {
         $startDate = $filterData->getStartDate()->getTimestamp();
-        $minStarDate = (new Carbon('01/01/2018'))->getTimestamp();
-        $startDate = ($startDate < $minStarDate)? $minStarDate : $startDate;
         $endDate = $filterData->getEndDate()->getTimestamp();
 
         $arrayAllSessions = $this->repository->findByFilter(

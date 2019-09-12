@@ -21,8 +21,6 @@ abstract class GetAbstractPageTimingChartAction
     public function execute(GetChartRequest $request): GetChartResponse
     {
         $from = $request->period()->getStartDate();
-        $minStarDate = new Carbon('01/01/2018');
-        $from = ($from < $minStarDate)? $minStarDate : $from;
         $to = $request->period()->getEndDate();
         $timeFrame = (int) $request->interval();
 

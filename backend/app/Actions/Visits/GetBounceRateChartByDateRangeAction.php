@@ -23,8 +23,6 @@ final class GetBounceRateChartByDateRangeAction
     public function execute(GetBounceRateChartByDateRangeRequest $request): GetBounceRateChartByDateRangeResponse
     {
         $from = $request->period()->getStartDate();
-        $minStarDate = new Carbon('01/01/2018');
-        $from = ($from < $minStarDate)? $minStarDate : $from;
         $to = $request->period()->getEndDate();
         $interval = $request->interval();
         $website = Website::select('id')->where('user_id', Auth::id())->first();
