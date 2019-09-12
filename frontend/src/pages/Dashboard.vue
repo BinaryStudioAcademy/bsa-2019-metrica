@@ -37,7 +37,7 @@
                 currentWebsite: GET_CURRENT_WEBSITE,
             }),
             title () {
-                return (this.$route.meta.title === 'Dashboard') ? this.currentWebsite.name : this.$route.meta.title;
+                return this.currentWebsite.name;
             },
         },
         data () {
