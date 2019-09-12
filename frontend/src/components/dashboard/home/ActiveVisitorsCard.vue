@@ -44,6 +44,7 @@
                 <RouterLink
                     :to="{ name: 'page-views'}"
                     class="btn card-button font-weight-light rounded"
+                    @click.native="setPeriod"
                 >
                     Page views overview
                 </RouterLink>
@@ -171,6 +172,9 @@
                     this.reloadActivityDataItems();
                     this.fetchingActiveUsersChartData();
                 }, 300000);
+            },
+            setPeriod() {
+                this.$store.state.page_views.selectedPeriod = 'today';
             },
         }
     };
