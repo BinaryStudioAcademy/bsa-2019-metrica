@@ -82,7 +82,7 @@ final class EloquentVisitorRepository implements VisitorRepository
         return Visitor::forUserWebsite()
                 ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
                 ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-                ->select(DB::raw('count(visitors.id) as all_visitors_count, geo_positions.country as country'))
+                ->select(DB::raw('COUNT(DISTINCT visitors.id) as all_visitors_count, geo_positions.country as country'))
                 ->whereBetween('visits.visit_time', [$startDate, $endDate])
                 ->groupBy('geo_positions.country')
                 ->get();
@@ -94,7 +94,7 @@ final class EloquentVisitorRepository implements VisitorRepository
             ->where('visitors.created_at', '>', $startDate)
             ->join('visits', 'visitors.id', '=', 'visits.visitor_id')
             ->join('geo_positions', 'geo_positions.id', '=', 'visits.geo_position_id')
-            ->select(DB::raw('count(visitors.id) as new_visitors_count, geo_positions.country as country'))
+            ->select(DB::raw('COUNT(DISTINCT visitors.id) as new_visitors_count, geo_positions.country as country'))
             ->whereBetween('visits.visit_time', [$startDate, $endDate])
             ->groupBy('geo_positions.country')
             ->get();
