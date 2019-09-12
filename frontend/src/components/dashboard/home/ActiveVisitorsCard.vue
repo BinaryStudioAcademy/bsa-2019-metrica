@@ -73,6 +73,8 @@
     } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     import {FETCHING_ACTIVITY_CHART_DATA} from "../../../store/modules/dashboard/types/actions";
+    import {CHANGE_DEFAULT_PERIOD} from "@/store/modules/page_views/types/actions";
+
     export default {
         name: 'ActiveVisitorsCard',
         components: {
@@ -167,6 +169,9 @@
                 fetchingActiveUsersChartData: FETCHING_ACTIVITY_CHART_DATA,
                 refreshActivityDataItems: REFRESH_ACTIVITY_DATA_ITEMS,
             }),
+            ...mapActions('page_views', {
+                changeDefaultPeriod: CHANGE_DEFAULT_PERIOD,
+            }),
             setIntervalDataActivity () {
                 this.polling = setInterval(() => {
                     this.reloadActivityDataItems();
@@ -174,7 +179,7 @@
                 }, 300000);
             },
             setPeriod() {
-                this.$store.state.page_views.selectedPeriod = 'today';
+                this.changeDefaultPeriod('today');
             },
         }
     };
