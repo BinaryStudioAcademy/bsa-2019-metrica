@@ -23,6 +23,9 @@ final class GetVisitsDensityHttpRequest extends ApiFormRequest
                 new Timestamp(),
                 new TimestampAfter($this->get('filter')['startDate'])
             ],
+            'filter.timeZone' => [
+                'string'
+            ],
         ];
     }
 
@@ -34,5 +37,11 @@ final class GetVisitsDensityHttpRequest extends ApiFormRequest
     public function endDate(): string
     {
         return (string) $this->get('filter')['endDate'];
+    }
+
+    public function getTimeZone(): string
+    {
+        $timeZone = $this->get('filter')['timeZone']??'+00:00';
+        return (string) $timeZone;
     }
 }
