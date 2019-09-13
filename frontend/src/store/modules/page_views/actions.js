@@ -6,7 +6,8 @@ import {
     FETCH_BUTTONS_DATA,
     FETCH_CHART_DATA,
     FETCH_BUTTON_DATA,
-    FETCH_PAGE_VIEWS_TABLE_DATA
+    FETCH_PAGE_VIEWS_TABLE_DATA,
+    CHANGE_DEFAULT_PERIOD
 } from "./types/actions";
 
 import {getTimeByPeriod} from "@/services/periodService";
@@ -96,5 +97,9 @@ export default {
         return fetchTableValues(period.startDate.unix(), period.endDate.unix())
             .then(response => context.commit(SET_PAGE_VIEWS_TABLE_DATA, response))
             .finally(() => context.commit(RESET_IS_FETCHING));
+    },
+
+    [CHANGE_DEFAULT_PERIOD]: (context, period) => {
+        context.commit(SET_SELECTED_PERIOD, period);
     }
 };
