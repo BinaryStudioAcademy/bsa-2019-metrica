@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<%= metricaScript %>
+</head>
+<body>
+
+<div class="main-container">
+		<header class="header">
+				<div class="header__logo">
+					<a href="index.html"><h1>W</h1></a>
+				</div>
+			<ul class="main-menu">
+				<div class="menu-wrap">
+					<li><a href="index.html">home</a></li>
+					<li><a href="about.html">about</a></li>
+					<li><a href="contact.html">contact us</a></li>
+					<li><a href="portfolio.html">portfolio</a></li>
+				</div>
+				<div class="error-wrap">
+					<li><button onclick="generateError(0)">Stable error</button></li>
+					<li><button onclick="generateError(1)">New error</button></li>
+				</div>
+			</ul>
+			</header>
+    <div class="container">
+        <div class="main-portfolio">
+            <img src="https://images.unsplash.com/photo-1497113447191-fcd50aa6f9fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1497033411770-9ad15db5bb72?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1484021557137-d2a32d8186e4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1474148109724-7021851a3f17?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1483653085484-eb63c9f02547?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1470792961295-2d2ac78e6bcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1475254614609-c3478f2adaf3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1485775052893-590a66f665ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1474418896785-34ab6d4b026f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+			<img src="https://images.unsplash.com/photo-1483102717009-4d971f9add95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="">
+		</div>
+    </div>
+</div>
+<script>
+    const generateError = (num) => someFunction(num);
+    const someFunction = (num) => {
+        if (num > 0) {
+            throw new Error('Random error ' + Math.floor(Math.random() * Math.floor(100)) +'.I was created using a function call!');
+        } else {
+            throw new Error('New error.I was created using a function call!');
+        }
+    };
+</script>
+</body>
+</html>

@@ -17,7 +17,7 @@ const script = (appUrl, trackingNumber, hash = '') => `
 
 const createPage = (name, title, hash) => new HtmlWebpackPlugin({
 	filename: name + '.html',
-	template: './src/index.html',
+	template: `./src/${name}.html`,
 	templateParameters: {
 		metricaScript: script(
 			process.env.APP_URL,
