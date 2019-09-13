@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<%= metricaScript %>
+</head>
+<body>
+
+<div class="main-container">
+	<header class="header">
+			<div class="header__logo">
+				<a href="index.html"><h1>W</h1></a>
+			</div>
+		<ul class="main-menu">
+			<div class="menu-wrap">
+				<li><a href="index.html">home</a></li>
+				<li><a href="about.html">about</a></li>
+				<li><a href="contact.html">contact us</a></li>
+				<li><a href="portfolio.html">portfolio</a></li>
+			</div>
+			<div class="error-wrap">
+				<li><button onclick="generateError(0)">Stable error</button></li>
+				<li><button onclick="generateError(1)">New error</button></li>
+			</div>
+		</ul>
+		</header>
+    <div class="container">
+        <div class="main-about">
+			<img class="about-image" src="https://images.unsplash.com/photo-1460132011327-1bcd44f7ae20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="">
+			<div class="about-title">Photo World, founded in 1947, is internationally renowned as one of the world's leading independent picture agencies.
+				We take pride in our long history and our ongoing association with some of the greatest names in photography; names that include Yousuf Karsh, Sorci and Cecil Beaton.
+				<br>We are also a home for top contemporary photographers such as Andy Gotts, Jason Bell, John Swannell, Perou and Jillian Edelstein.
+				We produce news, quality celebrity studio shoots, and top travel and reportage features on a daily basis. As well as our rich archive of royal and historical pictures, our remit also covers entertainment, stock and portraiture, and a specialist lifestyle department, focusing on interiors, beauty, food, fitness and fashion.</div>
+
+        </div>
+    </div>
+</div>
+<script>
+    const generateError = (num) => someFunction(num);
+    const someFunction = (num) => {
+        if (num > 0) {
+            throw new Error('Random error ' + Math.floor(Math.random() * Math.floor(100)) +'.I was created using a function call!');
+        } else {
+            throw new Error('New error.I was created using a function call!');
+        }
+	};
+</script>
+</body>
+</html>
