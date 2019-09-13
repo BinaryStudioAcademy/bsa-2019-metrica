@@ -6,6 +6,8 @@ namespace App\Services\VisitorsFlow;
 use App\Entities\Visit;
 use App\Repositories\Contracts\VisitRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 
 abstract class FlowAggregateService
 {
@@ -19,15 +21,25 @@ abstract class FlowAggregateService
 
     protected function getLevel(Visit $visit, bool $isFirstInSession): int
     {
-        if (!$isFirstInSession) {
-            return  $this->visitRepository->findPreviousVisitsCount($visit->session_id, $visit->id);
+        if ($isFirstInSession) {
+            return self::FIRST_LEVEL;
         }
-        return self::FIRST_LEVEL;
+
+        $level = $this->getVisits($visit)->count();
+
+        return $level;
+    }
+    public function getVisits(Visit $visit): Collection
+    {
+        $visits = $this->visitRepository->findBySessionId($visit->session_id);
+        $withoutDuplicates = $this->filterVisitDuplicates($visits);
+
+        return $withoutDuplicates;
     }
 
     protected function getNextVisit(Visit $currentVisit): ?Visit
     {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)
+        return $this->getVisits($currentVisit)
             ->filter(function (Visit $visit) use ($currentVisit) {
                 return $visit->id > $currentVisit->id;
             })
@@ -39,7 +51,7 @@ abstract class FlowAggregateService
 
     protected function getPreviousVisit(Visit $currentVisit): ?Visit
     {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)
+        return $this->getVisits($currentVisit)
             ->filter(function (Visit $visit) use ($currentVisit) {
                 return $visit->id < $currentVisit->id;
             })
@@ -47,5 +59,26 @@ abstract class FlowAggregateService
                 return $visit->id;
             })
             ->last();
+    }
+
+    protected function filterVisitDuplicates(Collection $visits): Collection
+    {
+        return $visits->reduce(function (Collection $result, Visit $visit) {
+            $last = $result->last();
+
+            if (!$last) {
+                $result->push($visit);
+
+                return $result;
+            }
+
+            if ($visit->page->url === $last->page->url) {
+                $result->pop();
+            }
+
+            $result->push($visit);
+
+            return $result;
+        }, new Collection());
     }
 }
