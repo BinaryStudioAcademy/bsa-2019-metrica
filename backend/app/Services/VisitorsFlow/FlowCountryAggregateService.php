@@ -7,7 +7,6 @@ use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
-use App\Events\UpdatePrevious;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\VisitRepository;
@@ -49,7 +48,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         $countryAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
         $this->updateAggregate($visit, $level, $previousVisit, $countryAggregate, $nextVisit);
-
+        sleep(2);
     }
 
     private function updateAggregate(
@@ -62,7 +61,6 @@ final class FlowCountryAggregateService extends FlowAggregateService
     {
         if (!$countryAggregate) {
             $countryAggregate = $this->createAggregate($visit, $level, $previousVisit, $nextVisit);
-
             $this->visitorFlowCountryRepository->save($countryAggregate);
             return;
         }
@@ -148,7 +146,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         }
         $previousAggregate->isLastPage = false;
         $previousAggregate->exitCount--;
-        event(new UpdatePrevious($this->visitorFlowCountryRepository,$previousAggregate));
+        $this->visitorFlowCountryRepository->save($previousAggregate);
         return $previousAggregate;
     }
 
