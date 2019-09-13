@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Repositories\Elasticsearch\VisitorsFlow;
 
 use App\Aggregates\VisitorsFlow\Aggregate;
-use App\Aggregates\VisitorsFlow\BrowserAggregate;
 use App\Aggregates\VisitorsFlow\ScreenAggregate;
 use App\DataTransformer\VisitorsFlow\ParameterFlowCollection;
 use App\DataTransformer\VisitorsFlow\ParametersCollection;
@@ -12,6 +11,7 @@ use App\DataTransformer\VisitorsFlow\ScreenFlowCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowScreenRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
+use Illuminate\Support\Facades\Log;
 
 class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepository
 {
@@ -25,12 +25,14 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
 
     public function save(Aggregate $screenAggregate): Aggregate
     {
-        $this->client->index([
+        $params = [
             'index' => self::INDEX_NAME,
             'id' => $screenAggregate->getId(),
             'type' => '_doc',
             'body' => $screenAggregate->toArray()
-        ]);
+        ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
+        $this->client->index($params);
 
         return $screenAggregate;
     }
@@ -56,6 +58,7 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         try {
             $result = $this->client->search($params);
         } catch (\Exception $exception) {
@@ -95,6 +98,7 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new ParametersCollection($result['aggregations']['resolutions']['buckets']);
     }
@@ -127,6 +131,7 @@ class ElasticsearchVisitorFlowScreenRepository implements VisitorFlowScreenRepos
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new ScreenFlowCollection($result['hits']['hits']);
     }

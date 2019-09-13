@@ -61,7 +61,7 @@
     import {
         CHANGE_ACTIVE_BUTTON,
         CHANGE_SELECTED_PERIOD,
-        FETCH_PAGE_DATA
+        FETCH_PAGE_DATA,
     } from "@/store/modules/page_views/types/actions";
     import {
         PAGE_VIEWS,
@@ -146,7 +146,7 @@
             },
             isButtonActive(type) {
                 return this.currentActiveButton === type;
-            }
+            },
         }
     };
 </script>

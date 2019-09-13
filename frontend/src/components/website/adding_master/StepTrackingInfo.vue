@@ -27,15 +27,13 @@
                             Website tracking
                         </div>
                         <div class="caption mb-3">
-                            This is Global Site Tag tracking code for your website.
+                            This is Global Site tag tracking code for you website.
+                            Copy and Paste this code as the
+                            first item into the &lt;HEAD> of every Webpage you want to track
                         </div>
-                        <VTextarea
-                            solo
-                            auto-grow
-                            readonly
-                            height="130"
-                            rows="6"
-                            :value="messageText"
+                        <TrackWebsite
+                            :tracking-number="currentWebsite.tracking_number"
+                            :spa="currentWebsite.single_page"
                         />
                     </VCardText>
                 </VForm>
@@ -51,25 +49,19 @@
         </VCard>
     </VContainer>
 </template>
-
 <script>
+    import TrackWebsite from '../TrackWebsite.vue';
     import {mapGetters} from 'vuex';
     import {GET_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
-
     export default {
         name: 'StepTrackingInfo',
-        data () {
-            return {
-                directionText: "Here will be directions with TRACKING_INFO_ID "
-            };
+        components: {
+            TrackWebsite
         },
         computed: {
             ...mapGetters('website', {
                 currentWebsite: GET_CURRENT_WEBSITE
             }),
-            messageText() {
-                return this.directionText.replace('TRACKING_INFO_ID', this.currentWebsite.tracking_number);
-            }
         },
         methods: {
             onToDashboard (){
@@ -78,4 +70,9 @@
         }
     };
 </script>
-
+<style lang="scss" scoped>
+    code {
+        color: black !important;
+        padding: 0 10px !important;
+    }
+</style>

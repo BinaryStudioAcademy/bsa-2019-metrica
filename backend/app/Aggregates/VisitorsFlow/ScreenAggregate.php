@@ -58,4 +58,9 @@ class ScreenAggregate extends Aggregate
             )
         );
     }
+
+    public function setPrevPage(PageValue $pageValue): void
+    {
+        $this->prevPage = $pageValue;
+    }
 }

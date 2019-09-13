@@ -87,7 +87,7 @@
             }),
             getTableDataItems () {
                 return this.tableData.items.map((item) => {
-                    return {...item, max_created: moment.utc(item.max_created).format('llll')};
+                    return {...item, max_created: moment.unix(item.max_created).format('llll')};
                 });
             },
             changePeriod (data) {

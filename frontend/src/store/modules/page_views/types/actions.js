@@ -6,3 +6,4 @@ export const FETCH_PAGE_DATA = 'fetchPageData';
 export const FETCH_BUTTONS_DATA = 'fetchButtonsData';
 export const FETCH_CHART_DATA = 'fetchChartData';
 export const FETCH_BUTTON_DATA = 'fetchButtonData';
+export const CHANGE_DEFAULT_PERIOD = 'changeDefaultPeriod';
