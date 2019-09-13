@@ -55,5 +55,4 @@ class BrowserAggregate extends Aggregate
     {
         $this->prevPage = $pageValue;
     }
-
 }

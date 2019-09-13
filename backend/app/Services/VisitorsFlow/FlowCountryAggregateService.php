@@ -129,7 +129,6 @@ final class FlowCountryAggregateService extends FlowAggregateService
             $geoPosition->country,
             $prevPage
         );
-
     }
 
     private function updatePreviousAggregate(Visit $previousVisit, int $level): ?Aggregate

@@ -181,8 +181,7 @@ class FlowDeviceAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ):?Aggregate
-    {
+    ):?Aggregate {
         return $visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(
                 $visit->session->website_id,

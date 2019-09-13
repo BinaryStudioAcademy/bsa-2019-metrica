@@ -56,7 +56,7 @@ class FlowScreenAggregateService extends FlowAggregateService
         ?Visit $nextVisit
     ): void {
         if (!$screenAggregate) {
-            $screenAggregate = $this->createAggregate($visit, $level, $previousVisit,$nextVisit);
+            $screenAggregate = $this->createAggregate($visit, $level, $previousVisit, $nextVisit);
 
             $this->visitorFlowScreenRepository->save($screenAggregate);
             return;

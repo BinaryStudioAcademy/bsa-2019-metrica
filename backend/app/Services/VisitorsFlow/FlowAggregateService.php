@@ -25,7 +25,6 @@ abstract class FlowAggregateService
         return self::FIRST_LEVEL;
     }
 
-
     protected function getNextVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
@@ -38,7 +37,6 @@ abstract class FlowAggregateService
             ->first();
     }
 
-
     protected function getPreviousVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
@@ -50,6 +48,4 @@ abstract class FlowAggregateService
             })
             ->last();
     }
-
-
 }
