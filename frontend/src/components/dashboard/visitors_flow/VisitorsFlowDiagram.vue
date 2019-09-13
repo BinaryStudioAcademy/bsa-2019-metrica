@@ -62,7 +62,7 @@
         },
         computed: {
             width () {
-                return this.lastLevel * 370;
+                return this.lastLevel * 360;
             }
         },
         mounted() {
@@ -390,10 +390,10 @@
                     .attr("class", "title")
                     .attr("text-anchor", "middle")
                     .text((d) => {
-                        if (this.titles[d.depth - 1]) {
-                            return this.titles[d.depth - 1];
+                        if (this.titles[d.level - 2]) {
+                            return this.titles[d.level - 2];
                         }
-                        return `${[d.depth]}th Interaction`;
+                        return `${[d.level - 2]}th Interaction`;
                     });
             },
 
