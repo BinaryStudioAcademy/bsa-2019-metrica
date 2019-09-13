@@ -16,7 +16,6 @@ class CreateVisitAggregate implements ShouldQueue
     private $flowBrowserAggregateService;
     private $flowDeviceAggregateService;
     private $flowScreenAggregateService;
-
     public $delay = 2;
 
     public function __construct(
@@ -35,8 +34,8 @@ class CreateVisitAggregate implements ShouldQueue
     public function handle(VisitCreated $event)
     {
         $this->flowCountryAggregateService->aggregate($event->visit);
-//            $this->flowBrowserAggregateService->aggregate($event->visit);
-//            $this->flowDeviceAggregateService->aggregate($event->visit);
+        $this->flowBrowserAggregateService->aggregate($event->visit);
+        $this->flowDeviceAggregateService->aggregate($event->visit);
 //            $this->flowScreenAggregateService->aggregate($event->visit);
     }
 

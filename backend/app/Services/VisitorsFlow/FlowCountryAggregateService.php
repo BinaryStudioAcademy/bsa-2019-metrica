@@ -48,7 +48,6 @@ final class FlowCountryAggregateService extends FlowAggregateService
         $countryAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
         $this->updateAggregate($visit, $level, $previousVisit, $countryAggregate, $nextVisit);
-        sleep(2);
     }
 
     private function updateAggregate(
