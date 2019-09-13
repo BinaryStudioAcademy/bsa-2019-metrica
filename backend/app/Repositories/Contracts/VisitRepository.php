@@ -12,4 +12,6 @@ interface VisitRepository
     public function getVisitsCountByHourAndDay(string $startDate, string $endDate, int $websiteId, string $timeZone): Collection;
 
     public function findBySessionId(int $sessionId): Collection;
+
+    public function findPreviousVisitsCount(int $sessionId, int $id): int;
 }

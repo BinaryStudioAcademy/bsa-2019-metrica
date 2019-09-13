@@ -41,16 +41,16 @@ final class FlowCountryAggregateService extends FlowAggregateService
 
     public function aggregate(Visit $visit): void
     {
-        $previousVisit = $this->getLastVisit($visit);
+        $previousVisit = $this->getPreviousVisit($visit);
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);
-//        if ($level < $this->getVisitsCount($visit)) {
-//            $nextVisit = $this->getNextVisit($visit);
-//        }
+        $nextVisit = null;
+        if ($this->getNextVisit($visit)) {
+            $nextVisit = $this->getNextVisit($visit);
+        }
         $countryAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
-//        $this->updateAggregate($visit, $level, $previousVisit, $countryAggregate, $nextVisit);
-        $this->updateAggregate($visit, $level, $previousVisit, $countryAggregate);
+        $this->updateAggregate($visit, $level, $previousVisit, $countryAggregate, $nextVisit);
 
     }
 
@@ -58,13 +58,12 @@ final class FlowCountryAggregateService extends FlowAggregateService
         Visit $visit,
         int $level,
         ?Visit $previousVisit,
-        ?CountryAggregate $countryAggregate
-//        ?Visit $nextVisit
+        ?CountryAggregate $countryAggregate,
+        ?Visit $nextVisit
     ): void
     {
         if (!$countryAggregate) {
-//            $countryAggregate = $this->createAggregate($visit, $level, $previousVisit, $nextVisit);
-            $countryAggregate = $this->createAggregate($visit, $level, $previousVisit);
+            $countryAggregate = $this->createAggregate($visit, $level, $previousVisit, $nextVisit);
 
             $this->visitorFlowCountryRepository->save($countryAggregate);
             return;
@@ -77,29 +76,34 @@ final class FlowCountryAggregateService extends FlowAggregateService
         $this->visitorFlowCountryRepository->save($countryAggregate);
     }
 
-    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit
-//                                     ?Visit $nextVisit
+    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit,
+                                     ?Visit $nextVisit
     ): CountryAggregate
     {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
         $prevPage = new PageValue();
-        $isLatPage = true;
+        $isLastPage = true;
         $exitCount = 1;
         $views = 1;
 
-//        if ($nextVisit) {
-//            $nextAggregate = $this->getNextAggregate($nextVisit, $level + 1);
-//            $prevPage = new PageValue($currentVisit->id, $page->url);
-//            $nextAggregate->setPrevPage($prevPage);
-//            $this->visitorFlowCountryRepository->save($nextAggregate);
-//
-//            $exitCount = 0;
-//            $isLatPage = false;
-//
-//
-//        }
+        if ($nextVisit) {
+            $nextAggregate = $this->getNextAggregate(
+                $this->visitorFlowCountryRepository,
+                $nextVisit,
+                'null',
+                $level + 1
+            );
+            if ($nextAggregate) {
+                $prevPage = new PageValue($currentVisit->id, $page->url);
+                $nextAggregate->setPrevPage($prevPage);
+                $this->visitorFlowCountryRepository->save($nextAggregate);
+
+                $exitCount = 0;
+                $isLastPage = false;
+            }
+        }
         if ($level !== self::FIRST_LEVEL) {
             $previousAggregate = $this->updatePreviousAggregate($previousVisit, $level);
             if ($previousAggregate === null) {
@@ -109,8 +113,8 @@ final class FlowCountryAggregateService extends FlowAggregateService
                     $page->url,
                     $page->name,
                     $views,
-                    $level,
-                    $isLatPage,
+                    $level + 1,
+                    $isLastPage,
                     $exitCount,
                     $geoPosition->country,
                     $prevPage
@@ -125,7 +129,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
             $page->name,
             $views,
             $level,
-            $isLatPage,
+            $isLastPage,
             $exitCount,
             $geoPosition->country,
             $prevPage
@@ -157,12 +161,17 @@ final class FlowCountryAggregateService extends FlowAggregateService
         ?Visit $previousVisit
     ): ?CountryAggregate
     {
+        if ($isFirstInSession || $previousVisit === null) {
+            $prevPageUrl = 'null';
+        } else {
+            $prevPageUrl = $previousVisit->page->url;
+        }
         return $this->visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,
                 $visit->page->url,
                 $level,
-                $isFirstInSession ? 'null' : $previousVisit->page->url,
+                $prevPageUrl,
                 $visit->geo_position->country
             )
         );
@@ -173,13 +182,31 @@ final class FlowCountryAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ): Aggregate
+    )
     {
         return $visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,
                 $visit->page->url,
                 $level - 1,
+                $previousVisitUrl,
+                $visit->geo_position->country
+            )
+        );
+    }
+
+    private function getNextAggregate(
+        VisitorFlowRepository $visitorFlowCountryRepository,
+        Visit $visit,
+        string $previousVisitUrl,
+        int $level
+    )
+    {
+        return $visitorFlowCountryRepository->getByCriteria(
+            CountryCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
                 $previousVisitUrl,
                 $visit->geo_position->country
             )

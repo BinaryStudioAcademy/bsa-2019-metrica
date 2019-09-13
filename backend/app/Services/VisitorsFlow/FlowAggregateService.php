@@ -20,30 +20,20 @@ abstract class FlowAggregateService
     protected function getLevel(Visit $visit, bool $isFirstInSession): int
     {
         if (!$isFirstInSession) {
-            return $this->getVisitsCount($visit);
+            return  $this->visitRepository->findPreviousVisitsCount($visit->session_id,$visit->id);
         }
         return self::FIRST_LEVEL;
     }
 
-    protected function getLastVisit(Visit $currentVisit): ?Visit
-    {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)
-            ->sortBy(function (Visit $visit) {
-                return (new Carbon($visit->visit_time))->getTimestamp();
-            })
-            ->last(function (Visit $visit) use ($currentVisit) {
-                return $currentVisit->id !== $visit->id;
-            });
-    }
 
     protected function getNextVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
             ->filter(function (Visit $visit) use ($currentVisit) {
-                return (new Carbon($currentVisit->visit_time))->greaterThan(new Carbon($visit->visit_time));
+                return $visit->id > $currentVisit->id;
             })
             ->sortBy(function (Visit $visit) {
-                return (new Carbon($visit->visit_time))->getTimestamp();
+                return $visit->id;
             })
             ->first();
     }
@@ -53,16 +43,13 @@ abstract class FlowAggregateService
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
             ->filter(function (Visit $visit) use ($currentVisit) {
-                return (new Carbon($currentVisit->visit_time))->lessThan(new Carbon($visit->visit_time));
+                return $visit->id < $currentVisit->id;
             })
             ->sortBy(function (Visit $visit) {
-                return (new Carbon($visit->visit_time))->getTimestamp();
+                return $visit->id;
             })
             ->last();
     }
 
-    protected function getVisitsCount(Visit $currentVisit): int
-    {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)->count();
-    }
+
 }
