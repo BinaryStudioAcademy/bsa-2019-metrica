@@ -7,6 +7,7 @@ use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\CountryAggregate;
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
+use App\Events\UpdatePrevious;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\VisitRepository;
@@ -44,10 +45,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         $previousVisit = $this->getPreviousVisit($visit);
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);
-        $nextVisit = null;
-        if ($this->getNextVisit($visit)) {
-            $nextVisit = $this->getNextVisit($visit);
-        }
+        $nextVisit = $this->getNextVisit($visit);
         $countryAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
         $this->updateAggregate($visit, $level, $previousVisit, $countryAggregate, $nextVisit);
@@ -113,7 +111,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
                     $page->url,
                     $page->name,
                     $views,
-                    $level + 1,
+                    $level,
                     $isLastPage,
                     $exitCount,
                     $geoPosition->country,
@@ -150,7 +148,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         }
         $previousAggregate->isLastPage = false;
         $previousAggregate->exitCount--;
-        $this->visitorFlowCountryRepository->save($previousAggregate);
+        event(new UpdatePrevious($this->visitorFlowCountryRepository,$previousAggregate));
         return $previousAggregate;
     }
 
@@ -161,17 +159,12 @@ final class FlowCountryAggregateService extends FlowAggregateService
         ?Visit $previousVisit
     ): ?CountryAggregate
     {
-        if ($isFirstInSession || $previousVisit === null) {
-            $prevPageUrl = 'null';
-        } else {
-            $prevPageUrl = $previousVisit->page->url;
-        }
         return $this->visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,
                 $visit->page->url,
                 $level,
-                $prevPageUrl,
+                $isFirstInSession ? 'null' : $previousVisit->page->url,
                 $visit->geo_position->country
             )
         );

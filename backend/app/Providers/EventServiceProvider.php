@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\UpdatePrevious;
 use App\Listeners\CreateVisitAggregate;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
@@ -25,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\SessionCreated' => [
             'App\Listeners\SendSessionNotification'
+        ],
+        UpdatePrevious::class=>[
+            \App\Listeners\UpdatePrevious::class
         ]
     ];
 
