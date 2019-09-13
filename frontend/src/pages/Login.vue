@@ -3,7 +3,7 @@
         <VContainer
             fluid
             fill-height
-            class="white"
+            class="white pa-0"
         >
             <VLayout
                 content
@@ -30,11 +30,12 @@
                     image
                     sm12
                     md6
-                    class="d-none d-md-flex"
+                    class="d-none d-md-flex pt-10"
                 >
                     <VImg
                         src="/assets/images/home.png"
                         alt="Man"
+                        contain
                     />
                 </VFlex>
             </VLayout>
@@ -70,13 +71,3 @@
         },
     };
 </script>
-
-<style lang="scss" scoped>
-    .image{
-        padding-top: 40px;
-    }
-
-    .container{
-        padding: 0px
-    }
-</style>

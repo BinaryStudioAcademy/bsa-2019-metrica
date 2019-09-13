@@ -19,6 +19,8 @@
     import ContentLayout from "@/components/layout/ContentLayout";
     import Overview from "@/components/dashboard/dashboard/Overview";
     import VisitsDensityWidget from '@/components/dashboard/home/VisitsDensityWidget';
+    import {mapGetters} from 'vuex';
+    import {GET_CURRENT_WEBSITE} from "@/store/modules/website/types/getters";
 
     export default {
         name: 'Dashboard',
@@ -31,8 +33,11 @@
         },
         mixins: [isWebsite],
         computed: {
+            ...mapGetters('website', {
+                currentWebsite: GET_CURRENT_WEBSITE,
+            }),
             title () {
-                return this.$route.meta.title;
+                return this.currentWebsite.name;
             },
         },
         data () {

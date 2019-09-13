@@ -23,10 +23,10 @@ const chartTransformer = (item) => {
     };
 };
 
-const chartTransformerToMinutes = (item) => {
+const chartTransformerToInt = (item) => {
     return {
         date: item.date,
-        value: parseFloat(moment.utc(item.value*1000).format('mm.ss'))
+        value: parseInt(item.value)
     };
 };
 
@@ -77,6 +77,7 @@ const tableTransformerErrors = (item) => {
         'count': item.count,
         'message': item.message,
         'stack_trace': item.stack_trace,
+        'max_created': item.max_created,
     };
 };
 
@@ -86,7 +87,7 @@ export {
     buttonTransformerToTime,
     buttonTransformerToSeconds,
     chartTransformer,
-    chartTransformerToMinutes,
+    chartTransformerToInt,
     chartTransformerToPercent,
     chartTransformerToSeconds,
     tableTransformer,

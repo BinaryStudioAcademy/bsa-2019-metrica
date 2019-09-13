@@ -1,10 +1,10 @@
 <template>
     <div class="form">
-        <VSubheader
-            class="body-1 grey--text text--darken-1 pa-0 mb-3 mt-6"
+        <h3
+            class="title grey--text text--darken-1 mb-8 mt-6"
         >
             Welcome to Metrica!
-        </VSubheader>
+        </h3>
         <VForm
             lazy-validation
             ref="form"
@@ -43,7 +43,7 @@
                     Password
                 </label>
                 <VTextField
-                    class="no-underline my-1 password"
+                    class="no-underline mt-1 password"
                     solo
                     name="password"
                     autocomplete="new-password"
@@ -59,7 +59,7 @@
                     Confirm password
                 </label>
                 <VTextField
-                    class="no-underline my-1 password"
+                    class="no-underline mt-1 password"
                     solo
                     name="confirmPassword"
                     autocomplete="new-password"
@@ -77,7 +77,7 @@
                         :disabled="!valid"
                         @click="onSignUp"
                     >
-                        SIGN UP
+                        {{ signUpText }}
                     </VBtn>
                 </div>
                 <div class="mt-3">
@@ -116,6 +116,7 @@
         },
         data () {
             return {
+                isLoading: false,
                 show1: false,
                 show2: false,
                 newUser: {
@@ -154,6 +155,7 @@
             }),
             onSignUp () {
                 if (this.$refs.form.validate()) {
+                    this.isLoading = true;
                     this.signUp({
                         name: this.newUser.name,
                         email: this.newUser.email,
@@ -164,12 +166,19 @@
                         this.$router.push({name: 'login'});
                     }).catch((error) => {
                         this.showErrorMessage(error);
+                    }).finally(() => {
+                        this.isLoading = false;
                     });
                 }
             },
             onSignIn () {
                 return this.$router.push({name: 'login'});
             },
+        },
+        computed: {
+            signUpText() {
+                return this.isLoading ? 'Processing...' : 'SIGN UP';
+            }
         },
     };
 </script>

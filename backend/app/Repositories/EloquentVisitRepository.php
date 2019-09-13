@@ -17,11 +17,11 @@ final class EloquentVisitRepository implements VisitRepository
         return $visit;
     }
 
-    public function getVisitsCountByHourAndDay(string $startDate, string $endDate, int $websiteId): Collection
+    public function getVisitsCountByHourAndDay(string $startDate, string $endDate, int $websiteId, string $timeZone): Collection
     {
         return Visit::select(DB::raw(
-            "extract('hour' FROM visit_time) as hour,
-               extract('dow' FROM visit_time) as day,
+            "extract('hour' FROM visit_time at time zone '$timeZone') as hour,
+               extract('dow' FROM visit_time at time zone '$timeZone') as day,
                count(*) as visits"
             ))
             ->whereBetween('visit_time', [$startDate, $endDate])

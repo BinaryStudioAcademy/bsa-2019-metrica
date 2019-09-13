@@ -6,6 +6,7 @@ namespace App\Actions\PageTimings;
 use App\DataTransformer\ChartValue;
 use App\Repositories\Contracts\ChartPageTimingRepository;
 use App\Utils\DatePeriod;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 abstract class GetAbstractPageTimingChartAction
@@ -26,11 +27,26 @@ abstract class GetAbstractPageTimingChartAction
         $avgPageLoadingByTimeFrameValues = $this->getData($request->period(), $request->interval());
         $start = $from->getTimestamp() - ($from->getTimestamp() % $timeFrame);
         $end = $to->getTimestamp() - ($to->getTimestamp() % $timeFrame);
-        $collection = new Collection();
+
+        $hasFirst = false;
+        $length = 0;
+        $lastLength = 0;
+        $items = [];
         do {
             $value = $avgPageLoadingByTimeFrameValues[$start]??0;
-            $collection->add(new ChartValue((string) $start, (string) $value));
+
+            if (!$hasFirst && $value === 0) {
+                continue;
+            }
+            $length++;
+            $hasFirst = true;
+            if ($value !== 0) {
+                $lastLength = $length;
+            }
+            $items[] = new ChartValue((string) $start, (string) $value);
         } while (($start += $timeFrame) <= $end);
+
+        $collection = new Collection(array_slice($items, 0, $lastLength));
 
         return new GetChartResponse($collection);
     }

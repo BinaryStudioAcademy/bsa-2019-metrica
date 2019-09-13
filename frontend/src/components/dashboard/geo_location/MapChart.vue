@@ -60,16 +60,24 @@
         computed: {
             chartData () {
                 const tooltipRow = this.tooltipRow;
-                const tableRows = this.dataItems.map((item) => [
-                    item.country,
-                    Number(item[this.parameter]) || 0,
-                    `<span class='tooltip-value'>${item[this.parameter]}</span>`
-                ]);
+                const tableRows = this.dataItems.map((item) => {
+                    let value = Number(item[this.parameter]) || 0;
+                    let tooltipValue = value;
+                    if (this.parameter === 'bounce_rate') {
+                        value = Math.round(value * 100);
+                        tooltipValue = value+'%';
+                    }
+                    return [
+                        item.country,
+                        value,
+                        `<span class='tooltip-value'>${tooltipValue}</span>`
+                    ];
+                });
 
                 return [
                     tooltipRow
                 ].concat(tableRows);
-            }
+            },
         },
     };
 

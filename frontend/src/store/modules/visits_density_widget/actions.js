@@ -11,6 +11,7 @@ import {
 
 import {getVisitsDensity} from '@/api/visits';
 import {getTimeByPeriod} from '@/services/periodService';
+import moment from "moment";
 
 export default {
     [CHANGE_SELECTED_PERIOD]: (context, payload) => {
@@ -24,8 +25,9 @@ export default {
         context.commit(SET_IS_FETCHING);
 
         const period = getTimeByPeriod(context.state.selectedPeriod);
+        const timeZone = moment().format('Z');
 
-        return getVisitsDensity(period.startDate.unix(), period.endDate.unix())
+        return getVisitsDensity(period.startDate.unix(), period.endDate.unix(), timeZone)
             .then(getVisitsData => context.commit(SET_VISITS_DATA, getVisitsData))
             .finally(() => context.commit(RESET_IS_FETCHING));
     }

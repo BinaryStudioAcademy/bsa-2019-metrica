@@ -4,9 +4,10 @@ import _ from "lodash";
 
 const resourceUrl = config.getApiUrl() + '/visits';
 
-const getVisitsDensity = (startDate, endDate) => requestService.get(resourceUrl + '/density', {}, {
+const getVisitsDensity = (startDate, endDate, timeZone) => requestService.get(resourceUrl + '/density', {}, {
     'filter[startDate]': startDate,
-    'filter[endDate]': endDate
+    'filter[endDate]': endDate,
+    'filter[timeZone]': timeZone
 })
     .then(response => response.data)
     .catch(error => Promise.reject(

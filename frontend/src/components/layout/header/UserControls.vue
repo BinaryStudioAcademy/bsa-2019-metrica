@@ -5,14 +5,6 @@
         row
         class="pr-2"
     >
-        <VBtn
-            icon
-            class="notifications mr-4"
-        >
-            <svg>
-                <use href="/assets/icons/bell.svg#root" />
-            </svg>
-        </VBtn>
         <VToolbarTitle class="hidden-sm-and-down username mr-6">
             Hello, <span>{{ user.name }}</span>
         </VToolbarTitle>
