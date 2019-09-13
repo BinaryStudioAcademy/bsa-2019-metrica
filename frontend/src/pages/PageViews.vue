@@ -62,7 +62,6 @@
         CHANGE_ACTIVE_BUTTON,
         CHANGE_SELECTED_PERIOD,
         FETCH_PAGE_DATA,
-        CHANGE_DEFAULT_PERIOD
     } from "@/store/modules/page_views/types/actions";
     import {
         PAGE_VIEWS,
@@ -131,7 +130,6 @@
             },
         },
         created() {
-            this.changeDefaultPeriod('last_week');
             this.fetchPageData();
         },
         methods: {
@@ -139,7 +137,6 @@
                 changeActiveButton: CHANGE_ACTIVE_BUTTON,
                 changeSelectedPeriod: CHANGE_SELECTED_PERIOD,
                 fetchPageData: FETCH_PAGE_DATA,
-                changeDefaultPeriod: CHANGE_DEFAULT_PERIOD
             }),
             changeButton(data) {
                 this.changeActiveButton(data);
