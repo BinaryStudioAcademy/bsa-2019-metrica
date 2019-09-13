@@ -29,8 +29,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         VisitorFlowCountryRepository $visitorFlowCountryRepository,
         WebsiteRepository $websiteRepository,
         GeoPositionRepository $geoPositionRepository
-    )
-    {
+    ) {
         parent::__construct($visitRepository);
         $this->pageRepository = $pageRepository;
         $this->visitRepository = $visitRepository;
@@ -56,8 +55,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         ?Visit $previousVisit,
         ?CountryAggregate $countryAggregate,
         ?Visit $nextVisit
-    ): void
-    {
+    ): void {
         if (!$countryAggregate) {
             $countryAggregate = $this->createAggregate($visit, $level, $previousVisit, $nextVisit);
             $this->visitorFlowCountryRepository->save($countryAggregate);
@@ -71,10 +69,12 @@ final class FlowCountryAggregateService extends FlowAggregateService
         $this->visitorFlowCountryRepository->save($countryAggregate);
     }
 
-    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit,
-                                     ?Visit $nextVisit
-    ): CountryAggregate
-    {
+    private function createAggregate(
+        Visit $currentVisit,
+        int $level,
+        ?Visit $previousVisit,
+        ?Visit $nextVisit
+    ): CountryAggregate {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $geoPosition = $this->geoPositionRepository->getById($currentVisit->geo_position_id);
@@ -172,8 +172,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    )
-    {
+    ):?Aggregate {
         return $visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,
@@ -190,8 +189,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    )
-    {
+    ):?Aggregate {
         return $visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,

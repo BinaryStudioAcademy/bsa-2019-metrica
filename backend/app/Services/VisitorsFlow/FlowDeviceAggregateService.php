@@ -67,8 +67,12 @@ class FlowDeviceAggregateService extends FlowAggregateService
         $this->visitorFlowDeviceRepository->save($deviceAggregate);
     }
 
-    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit, ?Visit $nextVisit): DeviceAggregate
-    {
+    private function createAggregate(
+        Visit $currentVisit,
+        int $level,
+        ?Visit $previousVisit,
+        ?Visit $nextVisit
+    ): DeviceAggregate {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
@@ -160,7 +164,7 @@ class FlowDeviceAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ) {
+    ):?Aggregate {
         return $visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(
                 $visit->session->website_id,
@@ -177,7 +181,7 @@ class FlowDeviceAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    )
+    ):?Aggregate
     {
         return $visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(

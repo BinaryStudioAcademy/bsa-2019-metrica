@@ -23,8 +23,7 @@ class CreateVisitAggregate implements ShouldQueue
         FlowBrowserAggregateService $flowBrowserAggregateService,
         FlowDeviceAggregateService $flowDeviceAggregateService,
         FlowScreenAggregateService $flowScreenAggregateService
-    )
-    {
+    ) {
         $this->flowCountryAggregateService = $flowCountryAggregateService;
         $this->flowBrowserAggregateService = $flowBrowserAggregateService;
         $this->flowDeviceAggregateService = $flowDeviceAggregateService;
@@ -36,7 +35,7 @@ class CreateVisitAggregate implements ShouldQueue
         $this->flowCountryAggregateService->aggregate($event->visit);
         $this->flowBrowserAggregateService->aggregate($event->visit);
         $this->flowDeviceAggregateService->aggregate($event->visit);
-//            $this->flowScreenAggregateService->aggregate($event->visit);
+        $this->flowScreenAggregateService->aggregate($event->visit);
     }
 
 }

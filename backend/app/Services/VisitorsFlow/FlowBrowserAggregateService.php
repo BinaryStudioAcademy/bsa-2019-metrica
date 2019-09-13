@@ -68,8 +68,12 @@ class FlowBrowserAggregateService extends FlowAggregateService
         $this->visitorFlowBrowserRepository->save($browserAggregate);
     }
 
-    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit, ?Visit $nextVisit): BrowserAggregate
-    {
+    private function createAggregate(
+        Visit $currentVisit,
+        int $level,
+        ?Visit $previousVisit,
+        ?Visit $nextVisit
+    ): BrowserAggregate {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
@@ -162,7 +166,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ){
+    ):?Aggregate {
         return $visitorFlowBrowserRepository->getByCriteria(
             BrowserCriteria::getCriteria(
                 $visit->session->website_id,
@@ -179,8 +183,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    )
-    {
+    ):?Aggregate {
         return $visitorFlowBrowserRepository->getByCriteria(
             BrowserCriteria::getCriteria(
                 $visit->session->website_id,
