@@ -20,7 +20,7 @@ abstract class FlowAggregateService
     protected function getLevel(Visit $visit, bool $isFirstInSession): int
     {
         if (!$isFirstInSession) {
-            return  $this->visitRepository->findPreviousVisitsCount($visit->session_id,$visit->id);
+            return  $this->visitRepository->findPreviousVisitsCount($visit->session_id, $visit->id);
         }
         return self::FIRST_LEVEL;
     }

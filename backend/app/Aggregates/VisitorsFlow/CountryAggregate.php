@@ -23,8 +23,7 @@ class CountryAggregate extends Aggregate
         int $exitCount,
         string $country,
         PageValue $prevPage
-    )
-    {
+    ) {
         parent::__construct($id, $websiteId, $targetUrl, $title, $views, $level, $isLastPage, $exitCount, $prevPage);
         $this->country = $country;
     }

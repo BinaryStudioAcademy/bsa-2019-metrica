@@ -154,8 +154,7 @@ final class FlowCountryAggregateService extends FlowAggregateService
         int $level,
         bool $isFirstInSession,
         ?Visit $previousVisit
-    ): ?CountryAggregate
-    {
+    ): ?CountryAggregate {
         return $this->visitorFlowCountryRepository->getByCriteria(
             CountryCriteria::getCriteria(
                 $visit->session->website_id,

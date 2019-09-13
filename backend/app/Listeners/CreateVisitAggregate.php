@@ -37,5 +37,4 @@ class CreateVisitAggregate implements ShouldQueue
         $this->flowDeviceAggregateService->aggregate($event->visit);
         $this->flowScreenAggregateService->aggregate($event->visit);
     }
-
 }

@@ -55,7 +55,7 @@ class FlowDeviceAggregateService extends FlowAggregateService
         ?Visit $nextVisit
     ): void {
         if (!$deviceAggregate) {
-            $deviceAggregate = $this->createAggregate($visit, $level, $previousVisit,$nextVisit);
+            $deviceAggregate = $this->createAggregate($visit, $level, $previousVisit, $nextVisit);
             $this->visitorFlowDeviceRepository->save($deviceAggregate);
             return;
         }
@@ -147,7 +147,7 @@ class FlowDeviceAggregateService extends FlowAggregateService
         int $level,
         bool $isFirstInSession,
         ?Visit $previousVisit
-    ): ?DeviceAggregate {
+    ):?DeviceAggregate {
         return $this->visitorFlowDeviceRepository->getByCriteria(
             DeviceCriteria::getCriteria(
                 $visit->session->website_id,
