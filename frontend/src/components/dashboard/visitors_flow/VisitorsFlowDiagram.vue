@@ -62,7 +62,7 @@
         },
         computed: {
             width () {
-                return this.lastLevel * 370;
+                return this.lastLevel * 360;
             }
         },
         mounted() {
