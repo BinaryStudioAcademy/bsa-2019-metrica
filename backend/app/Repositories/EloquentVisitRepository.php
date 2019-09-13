@@ -23,7 +23,7 @@ final class EloquentVisitRepository implements VisitRepository
             "extract('hour' FROM visit_time at time zone '$timeZone') as hour,
                extract('dow' FROM visit_time at time zone '$timeZone') as day,
                count(*) as visits"
-            ))
+        ))
             ->whereBetween('visit_time', [$startDate, $endDate])
             ->groupBy('day', 'hour')
             ->whereHas('session', function ($query) use ($websiteId) {
@@ -36,5 +36,10 @@ final class EloquentVisitRepository implements VisitRepository
     public function findBySessionId(int $sessionId): Collection
     {
         return Visit::where('session_id', $sessionId)->get();
+    }
+
+    public function findPreviousVisitsCount(int $sessionId, int $id): int
+    {
+        return Visit::where('session_id', $sessionId)->where('id', '<=', $id)->count();
     }
 }

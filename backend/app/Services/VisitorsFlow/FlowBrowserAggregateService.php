@@ -7,6 +7,7 @@ use App\Aggregates\VisitorsFlow\Aggregate;
 use App\Aggregates\VisitorsFlow\BrowserAggregate;
 use App\Aggregates\VisitorsFlow\Values\PageValue;
 use App\Entities\Visit;
+use App\Events\VisitCreated;
 use App\Repositories\Contracts\GeoPositionRepository;
 use App\Repositories\Contracts\PageRepository;
 use App\Repositories\Contracts\VisitRepository;
@@ -38,23 +39,24 @@ class FlowBrowserAggregateService extends FlowAggregateService
 
     public function aggregate(Visit $visit): void
     {
-        $previousVisit = $this->getLastVisit($visit);
+        $previousVisit = $this->getPreviousVisit($visit);
         $isFirstInSession = $previousVisit === null;
         $level = $this->getLevel($visit, $isFirstInSession);
-
+        $nextVisit = $this->getNextVisit($visit);
         $browserAggregate = $this->getAggregate($visit, $level, $isFirstInSession, $previousVisit);
 
-        $this->updateAggregate($visit, $level, $previousVisit, $browserAggregate);
+        $this->updateAggregate($visit, $level, $previousVisit, $browserAggregate, $nextVisit);
     }
 
     private function updateAggregate(
         Visit $visit,
         int $level,
         ?Visit $previousVisit,
-        ?BrowserAggregate $browserAggregate
+        ?BrowserAggregate $browserAggregate,
+        ?Visit $nextVisit
     ): void {
         if (!$browserAggregate) {
-            $browserAggregate = $this->createAggregate($visit, $level, $previousVisit);
+            $browserAggregate = $this->createAggregate($visit, $level, $previousVisit, $nextVisit);
             $this->visitorFlowBrowserRepository->save($browserAggregate);
             return;
         }
@@ -66,18 +68,54 @@ class FlowBrowserAggregateService extends FlowAggregateService
         $this->visitorFlowBrowserRepository->save($browserAggregate);
     }
 
-    private function createAggregate(Visit $currentVisit, int $level, ?Visit $previousVisit): BrowserAggregate
-    {
+    private function createAggregate(
+        Visit $currentVisit,
+        int $level,
+        ?Visit $previousVisit,
+        ?Visit $nextVisit
+    ): BrowserAggregate {
         $page = $this->pageRepository->getById($currentVisit->page_id);
         $website = $this->websiteRepository->getById($page->website_id);
         $prevPage = new PageValue();
+        $isLastPage = true;
+        $exitCount = 1;
+        $views = 1;
+        if ($nextVisit) {
+            $nextAggregate = $this->getNextAggregate(
+                $this->visitorFlowBrowserRepository,
+                $nextVisit,
+                'null',
+                $level + 1
+            );
+            if ($nextAggregate) {
+                $prevPage = new PageValue($currentVisit->id, $page->url);
+                $nextAggregate->setPrevPage($prevPage);
+                $this->visitorFlowBrowserRepository->save($nextAggregate);
+
+                $exitCount = 0;
+                $isLastPage = false;
+            }
+        }
+
         if ($level !== self::FIRST_LEVEL) {
             $previousAggregate = $this->updatePreviousAggregate($previousVisit, $level);
+            if ($previousAggregate === null) {
+                return new BrowserAggregate(
+                    $currentVisit->id,
+                    $website->id,
+                    $page->url,
+                    $page->name,
+                    $views,
+                    $level,
+                    $isLastPage,
+                    $exitCount,
+                    $currentVisit->session->system->browser,
+                    $prevPage
+                );
+            }
             $prevPage = new PageValue($previousVisit->id, $previousAggregate->targetUrl);
         }
-        $exitCount = 1;
-        $isLatPage = true;
-        $views = 1;
+
         return new BrowserAggregate(
             $currentVisit->id,
             $website->id,
@@ -85,14 +123,14 @@ class FlowBrowserAggregateService extends FlowAggregateService
             $page->name,
             $views,
             $level,
-            $isLatPage,
+            $isLastPage,
             $exitCount,
             $currentVisit->session->system->browser,
             $prevPage
         );
     }
 
-    private function updatePreviousAggregate(Visit $previousVisit, int $level):Aggregate
+    private function updatePreviousAggregate(Visit $previousVisit, int $level):?Aggregate
     {
         $previousAggregate = $this->getPreviousAggregate(
             $this->visitorFlowBrowserRepository,
@@ -128,7 +166,7 @@ class FlowBrowserAggregateService extends FlowAggregateService
         Visit $visit,
         string $previousVisitUrl,
         int $level
-    ): Aggregate {
+    ):?Aggregate {
         return $visitorFlowBrowserRepository->getByCriteria(
             BrowserCriteria::getCriteria(
                 $visit->session->website_id,
@@ -136,6 +174,23 @@ class FlowBrowserAggregateService extends FlowAggregateService
                 $level - 1,
                 $previousVisitUrl,
                 $visit->session->system->browser
+            )
+        );
+    }
+
+    private function getNextAggregate(
+        VisitorFlowRepository $visitorFlowBrowserRepository,
+        Visit $visit,
+        string $previousVisitUrl,
+        int $level
+    ):?Aggregate {
+        return $visitorFlowBrowserRepository->getByCriteria(
+            BrowserCriteria::getCriteria(
+                $visit->session->website_id,
+                $visit->page->url,
+                $level,
+                $previousVisitUrl,
+                $visit->geo_position->country
             )
         );
     }

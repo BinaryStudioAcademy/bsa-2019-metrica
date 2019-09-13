@@ -20,36 +20,32 @@ abstract class FlowAggregateService
     protected function getLevel(Visit $visit, bool $isFirstInSession): int
     {
         if (!$isFirstInSession) {
-            return $this->getVisitsCount($visit);
+            return  $this->visitRepository->findPreviousVisitsCount($visit->session_id, $visit->id);
         }
         return self::FIRST_LEVEL;
     }
 
-    protected function getLastVisit(Visit $currentVisit): ?Visit
+    protected function getNextVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
-            ->sortBy(function (Visit $visit) {
-                return (new Carbon($visit->visit_time))->getTimestamp();
+            ->filter(function (Visit $visit) use ($currentVisit) {
+                return $visit->id > $currentVisit->id;
             })
-            ->last(function (Visit $visit) use ($currentVisit) {
-                return $currentVisit->id !== $visit->id;
-            });
+            ->sortBy(function (Visit $visit) {
+                return $visit->id;
+            })
+            ->first();
     }
 
     protected function getPreviousVisit(Visit $currentVisit): ?Visit
     {
         return $this->visitRepository->findBySessionId($currentVisit->session_id)
             ->filter(function (Visit $visit) use ($currentVisit) {
-                return (new Carbon($currentVisit->visit_time))->greaterThan(new Carbon($visit->visit_time));
+                return $visit->id < $currentVisit->id;
             })
             ->sortBy(function (Visit $visit) {
-                return (new Carbon($visit->visit_time))->getTimestamp();
+                return $visit->id;
             })
             ->last();
-    }
-
-    protected function getVisitsCount(Visit $currentVisit): int
-    {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)->count();
     }
 }

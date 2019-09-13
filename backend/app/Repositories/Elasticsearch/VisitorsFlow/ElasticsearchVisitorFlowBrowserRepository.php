@@ -11,6 +11,7 @@ use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowBrowserRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
+use Illuminate\Support\Facades\Log;
 
 class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRepository
 {
@@ -24,13 +25,14 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
 
     public function save(Aggregate $browserAggregate): Aggregate
     {
-        $this->client->index([
+        $params = [
             'index' => self::INDEX_NAME,
             'id' => $browserAggregate->getId(),
             'type' => '_doc',
             'body' => $browserAggregate->toArray()
-        ]);
-
+        ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
+        $this->client->index($params);
         return $browserAggregate;
     }
 
@@ -54,6 +56,7 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         try {
             $result = $this->client->search($params);
         } catch (\Exception $exception) {
@@ -92,8 +95,8 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                     ]
                 ]
             ]
-
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new ParametersCollection($result['aggregations']['browsers']['buckets']);
     }
@@ -121,11 +124,12 @@ class ElasticsearchVisitorFlowBrowserRepository implements VisitorFlowBrowserRep
                     ]
                 ],
                 'sort' => [
-                   [ 'level' => ['order' => 'asc', "unmapped_type" => "integer"]],
-                   [ 'views' => ['order' => 'desc',  "unmapped_type" => "integer"]]
+                    ['level' => ['order' => 'asc', "unmapped_type" => "integer"]],
+                    ['views' => ['order' => 'desc', "unmapped_type" => "integer"]]
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new BrowserFlowCollection($result['hits']['hits']);
     }
