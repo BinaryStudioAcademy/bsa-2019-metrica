@@ -77,6 +77,7 @@ const tableTransformerErrors = (item) => {
         'count': item.count,
         'message': item.message,
         'stack_trace': item.stack_trace,
+        'max_created': item.max_created,
     };
 };
 
