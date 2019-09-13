@@ -35,7 +35,7 @@ final class EloquentVisitRepository implements VisitRepository
 
     public function findBySessionId(int $sessionId): Collection
     {
-        return Visit::where('session_id', $sessionId)->get();
+        return Visit::with(['page'])->where('session_id', $sessionId)->get();
     }
 
     public function findPreviousVisitsCount(int $sessionId, int $id): int
