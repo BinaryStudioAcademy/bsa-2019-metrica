@@ -8,14 +8,15 @@ use App\Services\VisitorsFlow\FlowBrowserAggregateService;
 use App\Services\VisitorsFlow\FlowCountryAggregateService;
 use App\Services\VisitorsFlow\FlowDeviceAggregateService;
 use App\Services\VisitorsFlow\FlowScreenAggregateService;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateVisitAggregate
+class CreateVisitAggregate implements ShouldQueue
 {
     private $flowCountryAggregateService;
     private $flowBrowserAggregateService;
     private $flowDeviceAggregateService;
     private $flowScreenAggregateService;
-
+    public $delay = 2;
 
     public function __construct(
         FlowCountryAggregateService $flowCountryAggregateService,
