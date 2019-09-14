@@ -1,5 +1,5 @@
 export default {
-    selectedParameter: 'country',
+    selectedParameter: 'screen',
     currentLevel: 0,
     visitorsFlow: {
         items: [],
