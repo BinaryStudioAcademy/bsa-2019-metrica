@@ -11,6 +11,7 @@ use App\DataTransformer\VisitorsFlow\ParametersCollection;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\Criteria;
 use App\Repositories\Elasticsearch\VisitorsFlow\Contracts\VisitorFlowCountryRepository;
 use Cviebrock\LaravelElasticsearch\Manager as ElasticsearchManager;
+use Illuminate\Support\Facades\Log;
 
 final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCountryRepository
 {
@@ -24,12 +25,14 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
 
     public function save(Aggregate $countryAggregate): Aggregate
     {
-        $this->client->index([
+        $params = [
             'index' => self::INDEX_NAME,
             'id' => $countryAggregate->getId(),
             'type' => '_doc',
             'body' => $countryAggregate->toArray()
-        ]);
+        ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
+        $this->client->index($params);
 
         return $countryAggregate;
     }
@@ -48,12 +51,13 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
                             ['term' => ['level' => $criteria->level]],
                             ['match_phrase' => ['target_url' => $criteria->targetUrl]],
                             ['match_phrase' => ['country' => $criteria->country]],
-                            ['match_phrase'=>['prev_page.source_url'=>$criteria->prevPageUrl]]
+                            ['match_phrase' => ['prev_page.source_url' => $criteria->prevPageUrl]]
                         ],
                     ]
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         try {
             $result = $this->client->search($params);
         } catch (\Exception $exception) {
@@ -64,6 +68,7 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
         }
         return CountryAggregate::fromResult($result['hits']['hits'][0]['_source']);
     }
+
     public function getViewsByEachCountry(string $type, int $websiteId): ParametersCollection
     {
         $params = [
@@ -91,11 +96,12 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
                     ]
                 ]
             ]
-
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new ParametersCollection($result['aggregations']['countries']['buckets']);
     }
+
     public function getFlow(int $websiteId, int $level): ParameterFlowCollection
     {
         $params = [
@@ -119,11 +125,12 @@ final class ElasticsearchVisitorFlowCountryRepository implements VisitorFlowCoun
                     ]
                 ],
                 'sort' => [
-                    [ 'level' => ['order' => 'asc', "unmapped_type" => "integer"]],
-                    [ 'views' => ['order' => 'desc',  "unmapped_type" => "integer"]]
+                    ['level' => ['order' => 'asc', "unmapped_type" => "integer"]],
+                    ['views' => ['order' => 'desc', "unmapped_type" => "integer"]]
                 ]
             ]
         ];
+        Log::info(json_encode($params, JSON_PRETTY_PRINT));
         $result = $this->client->search($params);
         return new CountryFlowCollection($result['hits']['hits']);
     }

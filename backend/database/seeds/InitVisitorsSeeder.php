@@ -49,6 +49,7 @@ class InitVisitorsSeeder extends Seeder
                 'session_id' => $session->id,
                 'visitor_id' => $visitor->id,
                 'visit_time' => $session->start_session->addMinutes($delta*$i),
+                'created_at' => $session->start_session->addMinutes($delta*$i),
                 'page_id' => Page::inRandomOrder()->where('website_id', '=', $this->user->website->id)->first()->id,
                 'page_load_time' => $faker->numberBetween(1, 150),
                 'domain_lookup_time' => $faker->numberBetween(1, 10),

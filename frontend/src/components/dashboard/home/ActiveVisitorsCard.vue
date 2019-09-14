@@ -44,6 +44,7 @@
                 <RouterLink
                     :to="{ name: 'page-views'}"
                     class="btn card-button font-weight-light rounded"
+                    @click.native="setPeriod"
                 >
                     Page views overview
                 </RouterLink>
@@ -72,6 +73,8 @@
     } from "@/store/modules/dashboard/types/actions";
     import TopActivePage from "@/components/dashboard/home/TopActivePage";
     import {FETCHING_ACTIVITY_CHART_DATA} from "../../../store/modules/dashboard/types/actions";
+    import {CHANGE_DEFAULT_PERIOD} from "@/store/modules/page_views/types/actions";
+
     export default {
         name: 'ActiveVisitorsCard',
         components: {
@@ -94,6 +97,18 @@
                         show: false
                     },
                     fontFamily: 'Gilroy'
+                },
+                yaxis: {
+                    labels: {
+                        formatter: (value) => {
+                            return Math.round(value);
+                        },
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "40%"
+                    }
                 },
             }
         }),
@@ -166,11 +181,17 @@
                 fetchingActiveUsersChartData: FETCHING_ACTIVITY_CHART_DATA,
                 refreshActivityDataItems: REFRESH_ACTIVITY_DATA_ITEMS,
             }),
+            ...mapActions('page_views', {
+                changeDefaultPeriod: CHANGE_DEFAULT_PERIOD,
+            }),
             setIntervalDataActivity () {
                 this.polling = setInterval(() => {
                     this.reloadActivityDataItems();
                     this.fetchingActiveUsersChartData();
                 }, 300000);
+            },
+            setPeriod() {
+                this.changeDefaultPeriod('today');
             },
         }
     };

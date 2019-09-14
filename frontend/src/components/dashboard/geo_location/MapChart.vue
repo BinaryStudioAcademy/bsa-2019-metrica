@@ -62,13 +62,15 @@
                 const tooltipRow = this.tooltipRow;
                 const tableRows = this.dataItems.map((item) => {
                     let value = Number(item[this.parameter]) || 0;
+                    let tooltipValue = value;
                     if (this.parameter === 'bounce_rate') {
                         value = Math.round(value * 100);
+                        tooltipValue = value+'%';
                     }
                     return [
                         item.country,
                         value,
-                        `<span class='tooltip-value'>${value}</span>`
+                        `<span class='tooltip-value'>${tooltipValue}</span>`
                     ];
                 });
 

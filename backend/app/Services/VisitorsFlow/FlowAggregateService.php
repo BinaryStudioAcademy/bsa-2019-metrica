@@ -6,6 +6,8 @@ namespace App\Services\VisitorsFlow;
 use App\Entities\Visit;
 use App\Repositories\Contracts\VisitRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 
 abstract class FlowAggregateService
 {
@@ -19,37 +21,64 @@ abstract class FlowAggregateService
 
     protected function getLevel(Visit $visit, bool $isFirstInSession): int
     {
-        if (!$isFirstInSession) {
-            return $this->getVisitsCount($visit);
+        if ($isFirstInSession) {
+            return self::FIRST_LEVEL;
         }
-        return self::FIRST_LEVEL;
+
+        $level = $this->getVisits($visit)->count();
+
+        return $level;
+    }
+    public function getVisits(Visit $visit): Collection
+    {
+        $visits = $this->visitRepository->findBySessionId($visit->session_id);
+        $withoutDuplicates = $this->filterVisitDuplicates($visits);
+
+        return $withoutDuplicates;
     }
 
-    protected function getLastVisit(Visit $currentVisit): ?Visit
+    protected function getNextVisit(Visit $currentVisit): ?Visit
     {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)
-            ->sortBy(function (Visit $visit) {
-                return (new Carbon($visit->visit_time))->getTimestamp();
+        return $this->getVisits($currentVisit)
+            ->filter(function (Visit $visit) use ($currentVisit) {
+                return $visit->id > $currentVisit->id;
             })
-            ->last(function (Visit $visit) use ($currentVisit) {
-                return $currentVisit->id !== $visit->id;
-            });
+            ->sortBy(function (Visit $visit) {
+                return $visit->id;
+            })
+            ->first();
     }
 
     protected function getPreviousVisit(Visit $currentVisit): ?Visit
     {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)
+        return $this->getVisits($currentVisit)
             ->filter(function (Visit $visit) use ($currentVisit) {
-                return (new Carbon($currentVisit->visit_time))->greaterThan(new Carbon($visit->visit_time));
+                return $visit->id < $currentVisit->id;
             })
             ->sortBy(function (Visit $visit) {
-                return (new Carbon($visit->visit_time))->getTimestamp();
+                return $visit->id;
             })
             ->last();
     }
 
-    protected function getVisitsCount(Visit $currentVisit): int
+    protected function filterVisitDuplicates(Collection $visits): Collection
     {
-        return $this->visitRepository->findBySessionId($currentVisit->session_id)->count();
+        return $visits->reduce(function (Collection $result, Visit $visit) {
+            $last = $result->last();
+
+            if (!$last) {
+                $result->push($visit);
+
+                return $result;
+            }
+
+            if ($visit->page->url === $last->page->url) {
+                $result->pop();
+            }
+
+            $result->push($visit);
+
+            return $result;
+        }, new Collection());
     }
 }
